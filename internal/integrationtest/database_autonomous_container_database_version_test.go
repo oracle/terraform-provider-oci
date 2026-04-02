@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
@@ -80,24 +81,35 @@ func TestDatabaseExaccAutonomousContainerDatabaseVersionResource_basic(t *testin
 
 	acctest.SaveConfigContent("", "", "", t)
 
-	acctest.ResourceTest(t, nil, []resource.TestStep{
-		// verify datasource
-		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_versions", "test_autonomous_container_database_versions", acctest.Required, acctest.Create, DatabaseExaccAutonomousContainerDatabaseVersionDataSourceRepresentation) +
-				compartmentIdVariableStr + DatabaseAutonomousContainerDatabaseVersionResourceConfig,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "service_component", "EXACC"),
+	t.Run("list-exacc-autonomous-container-database-versions", func(t *testing.T) {
+		acctest.ResourceTest(t, nil, []resource.TestStep{
+			// verify datasource
+			{
+				Config: config +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_versions", "test_autonomous_container_database_versions", acctest.Required, acctest.Create, DatabaseExaccAutonomousContainerDatabaseVersionDataSourceRepresentation) +
+					compartmentIdVariableStr + DatabaseAutonomousContainerDatabaseVersionResourceConfig,
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "service_component", "EXACC"),
 
-				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_versions.#"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_database_versions.0.supported_apps.#", "1"),
-				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_versions.0.supported_apps.0.release_date"),
-				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_versions.0.supported_apps.0.end_of_support"),
-				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_versions.0.supported_apps.0.is_certified"),
-				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_versions.0.supported_apps.0.supported_app_name"),
-				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_versions.0.version"),
-			),
-		},
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_versions.#"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_database_versions.0.supported_apps.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_versions.0.supported_apps.0.release_date"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_versions.0.supported_apps.0.end_of_support"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_versions.0.supported_apps.0.is_certified"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_versions.0.supported_apps.0.supported_app_name"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_database_versions.0.version"),
+					func(s *terraform.State) error {
+						attrs := s.RootModule().Resources[datasourceName].Primary.Attributes
+						t.Logf("[DATA_SOURCE_STATE] action=list Exacc autonomous container database versions | service_component=%s | result_count=%s | first_version=%s",
+							attrs["service_component"],
+							attrs["autonomous_container_database_versions.#"],
+							attrs["autonomous_container_database_versions.0.version"],
+						)
+						return nil
+					},
+				),
+			},
+		})
 	})
 }

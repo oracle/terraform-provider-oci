@@ -215,10 +215,6 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_add_standby", "test_autonomous_container_database_add_standby", acctest.Optional, acctest.Create,
 			acctest.RepresentationCopyWithRemovedProperties(DatabaseAdbdAutonomousContainerDatabaseAddStandbyRepresentation, []string{"is_automatic_failover_enabled", "fast_start_fail_over_lag_limit_in_seconds"}))
 
-	DatabaseAdbccAutonomousContainerDatabaseWithDGConfig = AdbccDgSetupDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_add_standby", "test_autonomous_container_database_add_standby", acctest.Optional, acctest.Create,
-			acctest.RepresentationCopyWithRemovedProperties(DatabaseAdbccAutonomousContainerDatabaseAddStandbyRepresentation, []string{"is_automatic_failover_enabled", "fast_start_fail_over_lag_limit_in_seconds"}))
-
 	//multi standby dg
 	DatabaseAdbdAutonomousContainerDatabaseWithDGFsfoConfig = DatabaseAutonomousContainerDatabaseDataguardAssociationResourceConfig +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_add_standby", "test_autonomous_container_database_add_standby", acctest.Optional, acctest.Create,
@@ -259,16 +255,6 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_add_standby", "test_autonomous_container_database_add_standby", acctest.Optional, acctest.Create,
 			acctest.RepresentationCopyWithRemovedProperties(DatabaseAdbdAutonomousContainerDatabaseAddStandbyRepresentation, []string{"is_automatic_failover_enabled", "fast_start_fail_over_lag_limit_in_seconds"}))
 
-	DatabaseAdbccAutonomousContainerDatabaseWithDGConfigSwitchover = AdbccDgDependencies + acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create,
-		acctest.RepresentationCopyWithNewProperties(acctest.GetUpdatedRepresentationCopy("maintenance_window_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, ACDatabaseRepresentation), map[string]interface{}{
-			"service_level_agreement_type": acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
-			"protection_mode":              acctest.Representation{RepType: acctest.Optional, Create: `MAXIMUM_AVAILABILITY`},
-			"lifecycle":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDataguardChangesRep},
-			"switchover_trigger":           acctest.Representation{RepType: acctest.Optional, Create: `1`},
-		})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database_add_standby", "test_autonomous_container_database_add_standby", acctest.Optional, acctest.Create,
-			acctest.RepresentationCopyWithRemovedProperties(DatabaseAdbccAutonomousContainerDatabaseAddStandbyRepresentation, []string{"is_automatic_failover_enabled", "fast_start_fail_over_lag_limit_in_seconds"}))
-
 	AdbdStandbyACDRepresentation = map[string]interface{}{
 		"depends_on":                     []string{"oci_database_autonomous_container_database.test_autonomous_container_database"},
 		"compartment_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
@@ -290,14 +276,8 @@ var (
 	}
 
 	AdbdStandbyAcdResourceConfig         = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "standby_acd", acctest.Optional, acctest.Create, AdbdStandbyACDRepresentation)
-	AdbccStandbyAcdResourceConfig        = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "standby_acd", acctest.Optional, acctest.Create, AdbccStandbyACDRepresentation)
 	AdbdStandbyAcdWithDgSwitchoverConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "standby_acd", acctest.Optional, acctest.Create,
 		acctest.RepresentationCopyWithNewProperties(AdbdStandbyACDRepresentation, map[string]interface{}{
-			"lifecycle":          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDataguardChangesRep},
-			"switchover_trigger": acctest.Representation{RepType: acctest.Required, Create: `1`},
-		}))
-	AdbccStandbyAcdWithDgSwitchoverConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "standby_acd", acctest.Optional, acctest.Create,
-		acctest.RepresentationCopyWithNewProperties(AdbccStandbyACDRepresentation, map[string]interface{}{
 			"lifecycle":          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDataguardChangesRep},
 			"switchover_trigger": acctest.Representation{RepType: acctest.Required, Create: `1`},
 		}))
@@ -372,71 +352,6 @@ func TestDatabaseAdbdAutonomousContainerDatabaseResource_switchover(t *testing.T
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "containerDatabase2"),
-			),
-		},
-	})
-}
-
-func TestDatabaseAdbccAutonomousContainerDatabaseResource_switchover(t *testing.T) {
-	httpreplay.SetScenario("TestDatabaseAdbccAutonomousContainerDatabaseResource_switchover")
-	defer httpreplay.SaveScenario()
-
-	config := acctest.ProviderTestConfig()
-
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-
-	resourceName := "oci_database_autonomous_container_database.test_autonomous_container_database"
-	standbyResourceName := "oci_database_autonomous_container_database.standby_acd"
-	acctest.ResourceTest(t, nil, []resource.TestStep{
-		// verify Create DG
-		{
-			Config: config + compartmentIdVariableStr + DatabaseAdbccAutonomousContainerDatabaseWithDGConfig,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
-				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
-			),
-		},
-		// NEW STEP: Refresh state
-		{
-			RefreshState: true, // reload state
-		},
-		{
-			Config:             config + compartmentIdVariableStr + DatabaseAdbccAutonomousContainerDatabaseWithDGConfig + AdbccStandbyAcdResourceConfig,
-			ImportState:        true,
-			ImportStateIdFunc:  getStandbyAcdOcid(resourceName),
-			ImportStatePersist: true,
-			ResourceName:       standbyResourceName,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
-				resource.TestCheckResourceAttr(standbyResourceName, "role", "STANDBY"),
-			),
-		},
-		//switchover
-		{
-			Config: config + compartmentIdVariableStr + DatabaseAdbccAutonomousContainerDatabaseWithDGConfig + AdbccStandbyAcdWithDgSwitchoverConfig,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(standbyResourceName, "id"),
-				resource.TestCheckResourceAttr(standbyResourceName, "display_name", "FirstStandby"),
-				resource.TestCheckResourceAttr(standbyResourceName, "role", "PRIMARY"),
-			),
-		},
-		//switchover again
-		{
-			Config: config + compartmentIdVariableStr + DatabaseAdbccAutonomousContainerDatabaseWithDGConfigSwitchover + AdbccStandbyAcdWithDgSwitchoverConfig,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
-			),
-		},
-		//Delete standby
-		{
-			Config: config + compartmentIdVariableStr + DatabaseAdbccAutonomousContainerDatabaseWithDGConfigSwitchover,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
 			),
 		},
 	})

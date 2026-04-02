@@ -114,166 +114,219 @@ func TestDatabaseExaccAutonomousDatabaseSoftwareImageResource_basic(t *testing.T
 	resourceName := "oci_database_autonomous_database_software_image.test_autonomous_database_software_image"
 	datasourceName := "data.oci_database_autonomous_database_software_images.test_autonomous_database_software_images"
 	singularDatasourceName := "data.oci_database_autonomous_database_software_image.test_autonomous_database_software_image"
+	simulateDb, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("simulate_db", "false"))
+
+	dependencyConfig := ExaccDatabaseAutonomousDatabaseSoftwareImageResourceDependencies
+	representation := ExaccDatabaseAutonomousDatabaseSoftwareImageRepresentation
+	requiredOnlyConfig := config + compartmentIdVariableStr + ExaccDatabaseAutonomousDatabaseSoftwareImageRequiredOnlyResource
+
+	if simulateDb {
+		acctest.PreCheck(t)
+
+		sharedSourceCdbID := utils.GetEnvSettingWithBlankDefault("source_cdb_id")
+		sharedDependencyAddresses := []string{
+			"oci_database_autonomous_container_database.test_autonomous_container_database",
+		}
+		sharedDependencyIDs, cleanup := ResolveOrCreateSharedDependenciesFromConfig(
+			t,
+			map[string]string{
+				"oci_database_autonomous_container_database.test_autonomous_container_database": sharedSourceCdbID,
+			},
+			config+compartmentIdVariableStr+ExaccACDResourceConfig,
+			sharedDependencyAddresses,
+		)
+		sharedSourceCdbID = sharedDependencyIDs["oci_database_autonomous_container_database.test_autonomous_container_database"]
+		if cleanup != nil {
+			t.Cleanup(cleanup)
+		}
+		t.Logf("[SHARED_DEP_SETUP] source_cdb_id=%s", sharedSourceCdbID)
+
+		dependencyConfig = exaccAutonomousDatabaseSoftwareImageSharedDependencyVariables(sharedSourceCdbID)
+		representation = exaccAutonomousDatabaseSoftwareImageRepresentationWithSharedSourceCDB(sharedSourceCdbID)
+		requiredOnlyConfig = config + compartmentIdVariableStr + dependencyConfig +
+			acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Required, acctest.Create, representation)
+	}
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+ExaccDatabaseAutonomousDatabaseSoftwareImageResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Optional, acctest.Create, ExaccDatabaseAutonomousDatabaseSoftwareImageRepresentation), "database", "autonomousDatabaseSoftwareImage", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+dependencyConfig+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Optional, acctest.Create, representation), "database", "autonomousDatabaseSoftwareImage", t)
 
-	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseSoftwareImageDestroy, []resource.TestStep{
-		// verify Create
-		{
-			Config: config + compartmentIdVariableStr + ExaccDatabaseAutonomousDatabaseSoftwareImageResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Required, acctest.Create, ExaccDatabaseAutonomousDatabaseSoftwareImageRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"+randString),
-				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXACC_SHAPE"),
-				resource.TestCheckResourceAttrSet(resourceName, "source_cdb_id"),
-				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+	t.Run("create-recreate-move-update-tag-exacc-adsi", func(t *testing.T) {
+		acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseSoftwareImageDestroy, []resource.TestStep{
+			// verify Create
+			{
+				Config: config + compartmentIdVariableStr + dependencyConfig + getExaccTagDependency() +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Required, acctest.Create, representation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "image1"+randString),
+					resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXACC_SHAPE"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_cdb_id"),
+					resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+					exaccMainResourceLog(t, "create Exacc autonomous database software image", resourceName, nil, &resId,
+						"display_name", "compartment_id", "image_shape_family", "source_cdb_id"),
 
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					return err
-				},
-			),
-		},
-
-		// delete before next Create
-		{
-			Config: config + compartmentIdVariableStr + ExaccDatabaseAutonomousDatabaseSoftwareImageResourceDependencies,
-		},
-		// verify Create with optionals
-		{
-			Config: config + compartmentIdVariableStr + ExaccDatabaseAutonomousDatabaseSoftwareImageResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Optional, acctest.Create, ExaccDatabaseAutonomousDatabaseSoftwareImageRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttrSet(resourceName, "database_version"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"+randString),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXACC_SHAPE"),
-				resource.TestCheckResourceAttrSet(resourceName, "release_update"),
-				resource.TestCheckResourceAttrSet(resourceName, "source_cdb_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
-					return err
-				},
-			),
-		},
-
-		// verify Update to the compartment (the compartment will be switched back in the next step)
-		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + ExaccDatabaseAutonomousDatabaseSoftwareImageResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(ExaccDatabaseAutonomousDatabaseSoftwareImageRepresentation, map[string]interface{}{
-						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
-					})),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttrSet(resourceName, "database_version"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"+randString),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXACC_SHAPE"),
-				resource.TestCheckResourceAttrSet(resourceName, "release_update"),
-				resource.TestCheckResourceAttrSet(resourceName, "source_cdb_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("resource recreated when it was supposed to be updated")
-					}
-					return err
-				},
-			),
-		},
-
-		// verify updates to updatable parameters
-		{
-			Config: config + compartmentIdVariableStr + ExaccDatabaseAutonomousDatabaseSoftwareImageResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Optional, acctest.Update, ExaccDatabaseAutonomousDatabaseSoftwareImageRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttrSet(resourceName, "database_version"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"+randString),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXACC_SHAPE"),
-				resource.TestCheckResourceAttrSet(resourceName, "release_update"),
-				resource.TestCheckResourceAttrSet(resourceName, "source_cdb_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-
-				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-					}
-					return err
-				},
-			),
-		},
-		// verify datasource
-		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_software_images", "test_autonomous_database_software_images", acctest.Optional, acctest.Update, ExaccDatabaseAutonomousDatabaseSoftwareImageDataSourceRepresentation) +
-				compartmentIdVariableStr + ExaccDatabaseAutonomousDatabaseSoftwareImageResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Optional, acctest.Update, ExaccDatabaseAutonomousDatabaseSoftwareImageRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "image1"+randString),
-				resource.TestCheckResourceAttr(datasourceName, "image_shape_family", "EXACC_SHAPE"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
-
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_database_software_image_collection.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_database_software_image_collection.0.items.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_database_software_image_collection.0.system_tags.%", "0"),
-			),
-		},
-		// verify singular datasource
-		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Required, acctest.Create, ExaccDatabaseAutonomousDatabaseSoftwareImageSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ExaccDatabaseAutonomousDatabaseSoftwareImageResourceConfig,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_software_image_id"),
-
-				resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_dsi_one_off_patches.#", "0"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_version"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "image1"+randString),
-				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "image_shape_family", "EXACC_SHAPE"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "release_update"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "system_tags.%", "0"),
-			),
-		},
-		// verify resource import
-		{
-			Config:            config + compartmentIdVariableStr + ExaccDatabaseAutonomousDatabaseSoftwareImageRequiredOnlyResource,
-			ImportState:       true,
-			ImportStateVerify: true,
-			ImportStateVerifyIgnore: []string{
-				"source_cdb_id",
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
 			},
-			ResourceName: resourceName,
-		},
+
+			// delete before next Create
+			{
+				Config: config + compartmentIdVariableStr + dependencyConfig + getExaccTagDependency(),
+			},
+			// verify Create with optionals
+			{
+				Config: config + compartmentIdVariableStr + dependencyConfig + getExaccTagDependency() +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Optional, acctest.Create, representation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "database_version"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "image1"+randString),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXACC_SHAPE"),
+					resource.TestCheckResourceAttrSet(resourceName, "release_update"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_cdb_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+					exaccMainResourceLog(t, "recreate Exacc autonomous database software image with optionals", resourceName, nil, &resId,
+						"display_name", "compartment_id", "image_shape_family", "source_cdb_id", "freeform_tags.%"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
+				),
+			},
+
+			// verify Update to the compartment (the compartment will be switched back in the next step)
+			{
+				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + dependencyConfig + getExaccTagDependency() +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Optional, acctest.Create,
+						acctest.RepresentationCopyWithNewProperties(representation, map[string]interface{}{
+							"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+						})),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+					resource.TestCheckResourceAttrSet(resourceName, "database_version"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "image1"+randString),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXACC_SHAPE"),
+					resource.TestCheckResourceAttrSet(resourceName, "release_update"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_cdb_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					exaccMainResourceLog(t, "move Exacc autonomous database software image compartment", resourceName, &resId, &resId2,
+						"display_name", "compartment_id", "image_shape_family", "source_cdb_id", "freeform_tags.%"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("resource recreated when it was supposed to be updated")
+						}
+						return err
+					},
+				),
+			},
+
+			// verify updates to updatable parameters
+			{
+				Config: config + compartmentIdVariableStr + dependencyConfig + getExaccTagDependency() +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Optional, acctest.Update, representation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(resourceName, "database_version"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "image1"+randString),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXACC_SHAPE"),
+					resource.TestCheckResourceAttrSet(resourceName, "release_update"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_cdb_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+					exaccMainResourceLog(t, "update Exacc autonomous database software image tags", resourceName, &resId, &resId2,
+						"display_name", "compartment_id", "image_shape_family", "source_cdb_id", "freeform_tags.%"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			// verify datasource
+			{
+				Config: config +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_software_images", "test_autonomous_database_software_images", acctest.Optional, acctest.Update, ExaccDatabaseAutonomousDatabaseSoftwareImageDataSourceRepresentation) +
+					compartmentIdVariableStr + dependencyConfig + getExaccTagDependency() +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Optional, acctest.Update, representation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "display_name", "image1"+randString),
+					resource.TestCheckResourceAttr(datasourceName, "image_shape_family", "EXACC_SHAPE"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_database_software_image_collection.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_database_software_image_collection.0.items.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_database_software_image_collection.0.system_tags.%", "0"),
+				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Required, acctest.Create, ExaccDatabaseAutonomousDatabaseSoftwareImageSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + dependencyConfig + getExaccTagDependency() +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Optional, acctest.Update, representation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_software_image_id"),
+
+					resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_dsi_one_off_patches.#", "0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_version"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "image1"+randString),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "image_shape_family", "EXACC_SHAPE"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "release_update"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "system_tags.%", "0"),
+				),
+			},
+			// verify resource import
+			{
+				Config:            requiredOnlyConfig,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"source_cdb_id",
+				},
+				ResourceName: resourceName,
+			},
+		})
+	})
+}
+
+func exaccAutonomousDatabaseSoftwareImageSharedDependencyVariables(sourceCdbID string) string {
+	return fmt.Sprintf("variable \"source_cdb_id\" { default = \"%s\" }\n", sourceCdbID)
+}
+
+func exaccAutonomousDatabaseSoftwareImageRepresentationWithSharedSourceCDB(sourceCdbID string) map[string]interface{} {
+	return acctest.RepresentationCopyWithNewProperties(ExaccDatabaseAutonomousDatabaseSoftwareImageRepresentation, map[string]interface{}{
+		"source_cdb_id": acctest.Representation{RepType: acctest.Required, Create: sourceCdbID},
 	})
 }
 
