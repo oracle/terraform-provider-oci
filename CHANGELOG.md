@@ -1,3 +1,8 @@
+## 8.8.1 (April 2, 2026)
+
+### Bug Fix
+- Registered missing resource/datasource oci_gdp_* (Hotfix)
+
 ## 8.8.0 (April 1, 2026)
 
 ### Added
