@@ -20,6 +20,9 @@ type ListMulticloudPoliciesRequest struct {
 	// Refresh the policies.
 	IsForceRefresh *bool `mandatory:"false" contributesTo:"query" name:"isForceRefresh"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud subscription in which to list resources.
+	SubscriptionId *string `mandatory:"false" contributesTo:"query" name:"subscriptionId"`
+
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	// The only valid characters for request IDs are letters, numbers,

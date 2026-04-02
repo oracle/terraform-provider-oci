@@ -103,9 +103,6 @@ type BootVolumeBackup struct {
 
 	// The percentage complete of the operation to create the boot volume backup, based on the boot volume backup size.
 	BackupProgress *int `mandatory:"false" json:"backupProgress"`
-
-	// isRotateEncryptionKeys is an optional boolean field which when set to true, updates the KMS keys of the resource to its latest version.
-	IsRotateEncryptionKeys *bool `mandatory:"false" json:"isRotateEncryptionKeys"`
 }
 
 func (m BootVolumeBackup) String() string {

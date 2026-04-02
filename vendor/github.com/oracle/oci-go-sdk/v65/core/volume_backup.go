@@ -111,9 +111,6 @@ type VolumeBackup struct {
 
 	// The OCID of the volume.
 	VolumeId *string `mandatory:"false" json:"volumeId"`
-
-	// isRotateEncryptionKeys is an optional boolean field which when set to true, updates the KMS keys of the resource to its latest version.
-	IsRotateEncryptionKeys *bool `mandatory:"false" json:"isRotateEncryptionKeys"`
 }
 
 func (m VolumeBackup) String() string {

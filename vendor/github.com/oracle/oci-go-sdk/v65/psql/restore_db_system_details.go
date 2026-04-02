@@ -20,11 +20,16 @@ import (
 type RestoreDbSystemDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database system backup.
-	BackupId *string `mandatory:"true" json:"backupId"`
+	BackupId *string `mandatory:"false" json:"backupId"`
 
 	// The desired AD for regions with three ADs. This parameter is optional.
 	// If not set, the AD is chosen based on the database system's current AD.
 	Ad *string `mandatory:"false" json:"ad"`
+
+	// The target point-in-time that the database system restore can get started from, expressed in
+	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
+	// Example: `2016-08-25T21:10:29.600Z`
+	TimeToRestore *common.SDKTime `mandatory:"false" json:"timeToRestore"`
 }
 
 func (m RestoreDbSystemDetails) String() string {

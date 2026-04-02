@@ -55,6 +55,9 @@ type OracleAssessmentSummary struct {
 
 	// The current state of the Assessment resource.
 	LifecycleState AssessmentLifecycleStatesEnum `mandatory:"true" json:"lifecycleState"`
+
+	// Assessment migration scope.
+	MigrationScope MigrationScopeOracleEnum `mandatory:"true" json:"migrationScope"`
 }
 
 // GetId returns Id
@@ -119,6 +122,9 @@ func (m OracleAssessmentSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingAssessmentLifecycleStatesEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAssessmentLifecycleStatesEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingMigrationScopeOracleEnum(string(m.MigrationScope)); !ok && m.MigrationScope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MigrationScope: %s. Supported values are: %s.", m.MigrationScope, strings.Join(GetMigrationScopeOracleEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

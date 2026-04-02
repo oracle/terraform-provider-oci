@@ -78,6 +78,9 @@ type MySqlAssessment struct {
 
 	// The migration type of the migration to be performed.
 	AssessmentMigrationType AssessmentMigrationTypesEnum `mandatory:"false" json:"assessmentMigrationType,omitempty"`
+
+	// Assessment migration scope.
+	MigrationScope MigrationScopeMySqlEnum `mandatory:"true" json:"migrationScope"`
 }
 
 // GetId returns Id
@@ -205,6 +208,9 @@ func (m MySqlAssessment) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingAssessmentMigrationTypesEnum(string(m.AssessmentMigrationType)); !ok && m.AssessmentMigrationType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AssessmentMigrationType: %s. Supported values are: %s.", m.AssessmentMigrationType, strings.Join(GetAssessmentMigrationTypesEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingMigrationScopeMySqlEnum(string(m.MigrationScope)); !ok && m.MigrationScope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MigrationScope: %s. Supported values are: %s.", m.MigrationScope, strings.Join(GetMigrationScopeMySqlEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

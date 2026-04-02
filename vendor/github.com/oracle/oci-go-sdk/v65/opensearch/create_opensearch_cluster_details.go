@@ -156,6 +156,10 @@ type CreateOpensearchClusterDetails struct {
 
 	CertificateConfig *CertificateConfig `mandatory:"false" json:"certificateConfig"`
 
+	// The OCID of the KMS key to use for encrypting block volumes and backup data (BYOK).
+	// Null or omitted for Oracle-managed keys.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

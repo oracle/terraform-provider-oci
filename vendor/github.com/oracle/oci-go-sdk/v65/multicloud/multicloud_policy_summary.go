@@ -21,14 +21,14 @@ type MulticloudPolicySummary struct {
 	// Oracle Cloud Infrastructure Subscription Type.
 	SubscriptionType SubscriptionTypeEnum `mandatory:"true" json:"subscriptionType"`
 
-	// Total number of missing policy gaps for this subscription.
-	Count *int `mandatory:"true" json:"count"`
-
-	// List of missing IAM policy gaps.
-	MulticloudPolicies []MulticloudPolicy `mandatory:"true" json:"multicloudPolicies"`
+	// Compartment The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Subscription
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 
 	// groups required for the particular subscriptionType IAM policy statements required.
 	Groups []string `mandatory:"false" json:"groups"`
+
+	// Missing policy definitions.
+	Policies []MulticloudPolicy `mandatory:"false" json:"policies"`
 
 	// The current state of the Multicloud Network Alert.
 	LifecycleState MulticloudPolicyLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`

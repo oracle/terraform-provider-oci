@@ -16,19 +16,8 @@ import (
 	"strings"
 )
 
-// UpdateFunctionDetails Note: Deprecated. Use the new resource model APIs instead.
-// Updates attributes of a function.
+// UpdateFunctionDetails Updates attributes of a function.
 type UpdateFunctionDetails struct {
-
-	// The qualified name of the Docker image to use in the function, including the image tag.
-	// The image should be in the OCI Registry that is in the same region as the function itself.
-	// If an image is specified but no value for imageDigest is provided, the digest currently associated with the image tag in the OCI Registry will be used.
-	// Example: `phx.ocir.io/ten/functions/function:0.0.1`
-	Image *string `mandatory:"false" json:"image"`
-
-	// The image digest for the version of the image that will be pulled when invoking this function.
-	// Example: `sha256:ca0eeb6fb05351dfc8759c20733c91def84cb8007aa89a5bf606bc8b315b9fc7`
-	ImageDigest *string `mandatory:"false" json:"imageDigest"`
 
 	// Maximum usable memory for the function (MiB).
 	MemoryInMBs *int64 `mandatory:"false" json:"memoryInMBs"`
@@ -52,6 +41,8 @@ type UpdateFunctionDetails struct {
 	SuccessDestination SuccessDestinationDetails `mandatory:"false" json:"successDestination"`
 
 	TraceConfig *FunctionTraceConfig `mandatory:"false" json:"traceConfig"`
+
+	SourceDetails UpdateFunctionSourceDetails `mandatory:"false" json:"sourceDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -82,8 +73,6 @@ func (m UpdateFunctionDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateFunctionDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Image                        *string                              `json:"image"`
-		ImageDigest                  *string                              `json:"imageDigest"`
 		MemoryInMBs                  *int64                               `json:"memoryInMBs"`
 		Config                       map[string]string                    `json:"config"`
 		TimeoutInSeconds             *int                                 `json:"timeoutInSeconds"`
@@ -92,6 +81,7 @@ func (m *UpdateFunctionDetails) UnmarshalJSON(data []byte) (e error) {
 		FailureDestination           failuredestinationdetails            `json:"failureDestination"`
 		SuccessDestination           successdestinationdetails            `json:"successDestination"`
 		TraceConfig                  *FunctionTraceConfig                 `json:"traceConfig"`
+		SourceDetails                updatefunctionsourcedetails          `json:"sourceDetails"`
 		FreeformTags                 map[string]string                    `json:"freeformTags"`
 		DefinedTags                  map[string]map[string]interface{}    `json:"definedTags"`
 	}{}
@@ -101,10 +91,6 @@ func (m *UpdateFunctionDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
-	m.Image = model.Image
-
-	m.ImageDigest = model.ImageDigest
-
 	m.MemoryInMBs = model.MemoryInMBs
 
 	m.Config = model.Config
@@ -144,6 +130,16 @@ func (m *UpdateFunctionDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.TraceConfig = model.TraceConfig
+
+	nn, e = model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SourceDetails = nn.(UpdateFunctionSourceDetails)
+	} else {
+		m.SourceDetails = nil
+	}
 
 	m.FreeformTags = model.FreeformTags
 

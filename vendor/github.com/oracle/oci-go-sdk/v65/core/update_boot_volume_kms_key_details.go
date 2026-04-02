@@ -28,9 +28,6 @@ type UpdateBootVolumeKmsKeyDetails struct {
 	// This key has to be a valid Vault service key, and policies must exist to allow the user and the Block Volume service to access this key.
 	// If you specify the same OCID as the previous key's OCID, the Block Volume service will use it to regenerate a volume encryption key.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
-
-	// isRotateEncryptionKeys is an optional boolean field which when set to true, updates the KMS keys of the resource to its latest version.
-	IsRotateEncryptionKeys *bool `mandatory:"false" json:"isRotateEncryptionKeys"`
 }
 
 func (m UpdateBootVolumeKmsKeyDetails) String() string {

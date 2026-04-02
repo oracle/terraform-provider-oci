@@ -18,9 +18,6 @@ import (
 // MulticloudPolicy A missing IAM policy required for multicloud operation.
 type MulticloudPolicy struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the policy.
-	Id *string `mandatory:"true" json:"id"`
-
 	// Compartment The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) where the policy is configured.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -31,7 +28,10 @@ type MulticloudPolicy struct {
 	Statements []string `mandatory:"true" json:"statements"`
 
 	// Description of the compartment e.g. Base Compartment, Root Compartment
-	CompartmentDescription *string `mandatory:"false" json:"compartmentDescription"`
+	CompartmentName *string `mandatory:"false" json:"compartmentName"`
+
+	// Description of the policy purpose.
+	Description *string `mandatory:"false" json:"description"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -46,9 +46,6 @@ type MulticloudPolicy struct {
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-
-	// Description of the policy purpose.
-	Description *string `mandatory:"false" json:"description"`
 
 	// The current state of the Multicloud Policy.
 	LifecycleState MulticloudPolicyLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`

@@ -54,6 +54,10 @@ func (m *keystoretypedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		mm := KeyStoreTypeFromOracleKeyVaultDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "THALES":
+		mm := KeyStoreTypeFromThalesDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for KeyStoreTypeDetails: %s.", m.Type)
 		return *m, nil
@@ -82,14 +86,17 @@ type KeyStoreTypeDetailsTypeEnum string
 // Set of constants representing the allowable values for KeyStoreTypeDetailsTypeEnum
 const (
 	KeyStoreTypeDetailsTypeOracleKeyVault KeyStoreTypeDetailsTypeEnum = "ORACLE_KEY_VAULT"
+	KeyStoreTypeDetailsTypeThales         KeyStoreTypeDetailsTypeEnum = "THALES"
 )
 
 var mappingKeyStoreTypeDetailsTypeEnum = map[string]KeyStoreTypeDetailsTypeEnum{
 	"ORACLE_KEY_VAULT": KeyStoreTypeDetailsTypeOracleKeyVault,
+	"THALES":           KeyStoreTypeDetailsTypeThales,
 }
 
 var mappingKeyStoreTypeDetailsTypeEnumLowerCase = map[string]KeyStoreTypeDetailsTypeEnum{
 	"oracle_key_vault": KeyStoreTypeDetailsTypeOracleKeyVault,
+	"thales":           KeyStoreTypeDetailsTypeThales,
 }
 
 // GetKeyStoreTypeDetailsTypeEnumValues Enumerates the set of values for KeyStoreTypeDetailsTypeEnum
@@ -105,6 +112,7 @@ func GetKeyStoreTypeDetailsTypeEnumValues() []KeyStoreTypeDetailsTypeEnum {
 func GetKeyStoreTypeDetailsTypeEnumStringValues() []string {
 	return []string{
 		"ORACLE_KEY_VAULT",
+		"THALES",
 	}
 }
 

@@ -30,6 +30,9 @@ type NodePoolPlacementConfigDetails struct {
 	// The OCID of the compute capacity reservation in which to place the compute instance.
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
 
+	// The OCID of the Host Group to be associated with the worker node instance.
+	HostGroupId *string `mandatory:"false" json:"hostGroupId"`
+
 	PreemptibleNodeConfig *PreemptibleNodeConfigDetails `mandatory:"false" json:"preemptibleNodeConfig"`
 
 	// A list of fault domains in which to place nodes.

@@ -45,6 +45,7 @@ type RequestSummarizedUsagesDetails struct {
 	// Credit - Query the credit adjustments data.
 	// ExpiredCredit - Query the expired credits data.
 	// AllCredit - Query the credit adjustments and expired credit.
+	// Usage_Only - Query the only usage data without cost or currency.
 	QueryType RequestSummarizedUsagesDetailsQueryTypeEnum `mandatory:"false" json:"queryType,omitempty"`
 
 	// Aggregate the result by.
@@ -147,6 +148,7 @@ const (
 	RequestSummarizedUsagesDetailsQueryTypeCredit        RequestSummarizedUsagesDetailsQueryTypeEnum = "CREDIT"
 	RequestSummarizedUsagesDetailsQueryTypeExpiredcredit RequestSummarizedUsagesDetailsQueryTypeEnum = "EXPIREDCREDIT"
 	RequestSummarizedUsagesDetailsQueryTypeAllcredit     RequestSummarizedUsagesDetailsQueryTypeEnum = "ALLCREDIT"
+	RequestSummarizedUsagesDetailsQueryTypeUsageOnly     RequestSummarizedUsagesDetailsQueryTypeEnum = "USAGE_ONLY"
 )
 
 var mappingRequestSummarizedUsagesDetailsQueryTypeEnum = map[string]RequestSummarizedUsagesDetailsQueryTypeEnum{
@@ -155,6 +157,7 @@ var mappingRequestSummarizedUsagesDetailsQueryTypeEnum = map[string]RequestSumma
 	"CREDIT":        RequestSummarizedUsagesDetailsQueryTypeCredit,
 	"EXPIREDCREDIT": RequestSummarizedUsagesDetailsQueryTypeExpiredcredit,
 	"ALLCREDIT":     RequestSummarizedUsagesDetailsQueryTypeAllcredit,
+	"USAGE_ONLY":    RequestSummarizedUsagesDetailsQueryTypeUsageOnly,
 }
 
 var mappingRequestSummarizedUsagesDetailsQueryTypeEnumLowerCase = map[string]RequestSummarizedUsagesDetailsQueryTypeEnum{
@@ -163,6 +166,7 @@ var mappingRequestSummarizedUsagesDetailsQueryTypeEnumLowerCase = map[string]Req
 	"credit":        RequestSummarizedUsagesDetailsQueryTypeCredit,
 	"expiredcredit": RequestSummarizedUsagesDetailsQueryTypeExpiredcredit,
 	"allcredit":     RequestSummarizedUsagesDetailsQueryTypeAllcredit,
+	"usage_only":    RequestSummarizedUsagesDetailsQueryTypeUsageOnly,
 }
 
 // GetRequestSummarizedUsagesDetailsQueryTypeEnumValues Enumerates the set of values for RequestSummarizedUsagesDetailsQueryTypeEnum
@@ -182,6 +186,7 @@ func GetRequestSummarizedUsagesDetailsQueryTypeEnumStringValues() []string {
 		"CREDIT",
 		"EXPIREDCREDIT",
 		"ALLCREDIT",
+		"USAGE_ONLY",
 	}
 }
 

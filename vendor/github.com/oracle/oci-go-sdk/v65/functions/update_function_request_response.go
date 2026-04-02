@@ -92,17 +92,13 @@ type UpdateFunctionResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The Function instance
-	Function `presentIn:"body"`
-
-	// For optimistic concurrency control. Add this value to the `if-match` parameter
-	// in a PUT or DELETE operation. The resource will be updated only if the value you
-	// provide matches the `etag` on the resource.
-	Etag *string `presentIn:"header" name:"etag"`
-
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
 	// a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
+	// Use GetWorkRequest with this ID to track the status of the request.
+	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 
 func (response UpdateFunctionResponse) String() string {

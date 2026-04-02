@@ -18,8 +18,11 @@ import (
 // MulticloudPolicyCollection Multicloud Policy information.
 type MulticloudPolicyCollection struct {
 
+	// Tenancy OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) used for the query.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
 	// List of MulticloudPolicySummary.
-	Items []MulticloudPolicySummary `mandatory:"true" json:"items"`
+	Items []MulticloudPolicySummary `mandatory:"false" json:"items"`
 }
 
 func (m MulticloudPolicyCollection) String() string {

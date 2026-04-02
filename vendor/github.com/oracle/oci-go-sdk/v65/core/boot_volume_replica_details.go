@@ -37,9 +37,6 @@ type BootVolumeReplicaDetails struct {
 	// Overview of Vault service (https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and
 	// Using Keys (https://docs.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm).
 	XrrKmsKeyId *string `mandatory:"false" json:"xrrKmsKeyId"`
-
-	// isRotateEncryptionKeys is an optional boolean field which when set to true, updates the KMS keys of the resource to its latest version.
-	IsRotateEncryptionKeys *bool `mandatory:"false" json:"isRotateEncryptionKeys"`
 }
 
 func (m BootVolumeReplicaDetails) String() string {

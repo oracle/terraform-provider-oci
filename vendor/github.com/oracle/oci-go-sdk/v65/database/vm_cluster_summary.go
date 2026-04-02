@@ -207,6 +207,7 @@ const (
 	VmClusterSummaryLifecycleStateTerminated            VmClusterSummaryLifecycleStateEnum = "TERMINATED"
 	VmClusterSummaryLifecycleStateFailed                VmClusterSummaryLifecycleStateEnum = "FAILED"
 	VmClusterSummaryLifecycleStateMaintenanceInProgress VmClusterSummaryLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
+	VmClusterSummaryLifecycleStateNeedsAttention        VmClusterSummaryLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
 var mappingVmClusterSummaryLifecycleStateEnum = map[string]VmClusterSummaryLifecycleStateEnum{
@@ -217,6 +218,7 @@ var mappingVmClusterSummaryLifecycleStateEnum = map[string]VmClusterSummaryLifec
 	"TERMINATED":              VmClusterSummaryLifecycleStateTerminated,
 	"FAILED":                  VmClusterSummaryLifecycleStateFailed,
 	"MAINTENANCE_IN_PROGRESS": VmClusterSummaryLifecycleStateMaintenanceInProgress,
+	"NEEDS_ATTENTION":         VmClusterSummaryLifecycleStateNeedsAttention,
 }
 
 var mappingVmClusterSummaryLifecycleStateEnumLowerCase = map[string]VmClusterSummaryLifecycleStateEnum{
@@ -227,6 +229,7 @@ var mappingVmClusterSummaryLifecycleStateEnumLowerCase = map[string]VmClusterSum
 	"terminated":              VmClusterSummaryLifecycleStateTerminated,
 	"failed":                  VmClusterSummaryLifecycleStateFailed,
 	"maintenance_in_progress": VmClusterSummaryLifecycleStateMaintenanceInProgress,
+	"needs_attention":         VmClusterSummaryLifecycleStateNeedsAttention,
 }
 
 // GetVmClusterSummaryLifecycleStateEnumValues Enumerates the set of values for VmClusterSummaryLifecycleStateEnum
@@ -248,6 +251,7 @@ func GetVmClusterSummaryLifecycleStateEnumStringValues() []string {
 		"TERMINATED",
 		"FAILED",
 		"MAINTENANCE_IN_PROGRESS",
+		"NEEDS_ATTENTION",
 	}
 }
 

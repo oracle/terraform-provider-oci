@@ -58,7 +58,7 @@ func newFunctionsInvokeClientFromBaseClient(baseClient common.BaseClient, config
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
 	client = FunctionsInvokeClient{BaseClient: baseClient}
-	client.BasePath = "20181201"
+	client.BasePath = "20260325"
 	client.Host = endpoint
 	err = client.setConfigurationProvider(configProvider)
 	return
@@ -79,8 +79,7 @@ func (client *FunctionsInvokeClient) ConfigurationProvider() *common.Configurati
 	return client.config
 }
 
-// InvokeFunction Note: Deprecated. Use the new operation instead.
-// "Invokes a function"
+// InvokeFunction Invokes a function
 func (client FunctionsInvokeClient) InvokeFunction(ctx context.Context, request InvokeFunctionRequest) (response InvokeFunctionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -123,7 +122,7 @@ func (client FunctionsInvokeClient) invokeFunction(ctx context.Context, request 
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "functionsInvoke", "InvokeFunction")
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/Function/InvokeFunction"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20260325/Function/InvokeFunction"
 		err = common.PostProcessServiceError(err, "FunctionsInvoke", "InvokeFunction", apiReferenceLink)
 		return response, err
 	}

@@ -18,7 +18,6 @@ import (
 // ManagedInstanceUsage Managed instance usage during a specified time period.
 // An entity that emits usage events to Java Management Service (JMS) is represented as a managed instance.
 // A managed instance has a unique identity which is used by JMS to distinguish it from other managed instances.
-// Currently, JMS supports only one kind of managed instance, a Management Agent.
 type ManagedInstanceUsage struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related managed instance.

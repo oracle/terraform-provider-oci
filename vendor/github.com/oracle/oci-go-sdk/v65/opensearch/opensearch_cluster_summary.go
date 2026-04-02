@@ -75,6 +75,10 @@ type OpensearchClusterSummary struct {
 	OutboundClusterConfig *OutboundClusterConfig `mandatory:"false" json:"outboundClusterConfig"`
 
 	LoadBalancerConfig *LoadBalancerConfig `mandatory:"false" json:"loadBalancerConfig"`
+
+	// The OCID of the KMS key to use for encrypting block volumes and backup data (BYOK).
+	// Null or omitted for Oracle-managed keys.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 }
 
 func (m OpensearchClusterSummary) String() string {

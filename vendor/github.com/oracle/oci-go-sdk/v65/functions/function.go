@@ -16,12 +16,13 @@ import (
 	"strings"
 )
 
-// Function Note: Deprecated. Use the new resource model APIs instead.
-// A function resource defines the code (Docker image) and configuration for a specific function. Functions are defined in applications. Avoid entering confidential information.
+// Function A function resource defines the code (Docker image) and configuration for a specific function. Functions are defined in applications. Avoid entering confidential information.
 type Function struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the function.
 	Id *string `mandatory:"true" json:"id"`
+
+	SourceDetails FunctionSourceDetails `mandatory:"true" json:"sourceDetails"`
 
 	// The display name of the function. The display name is unique within the application containing the function.
 	DisplayName *string `mandatory:"false" json:"displayName"`
@@ -34,18 +35,6 @@ type Function struct {
 
 	// The OCID of the compartment that contains the function.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
-
-	// The qualified name of the Docker image to use in the function, including the image tag.
-	// The image should be in the OCI Registry that is in the same region as the function itself.
-	// Example: `phx.ocir.io/ten/functions/function:0.0.1`
-	Image *string `mandatory:"false" json:"image"`
-
-	// The image digest for the version of the image that will be pulled when invoking this function.
-	// If no value is specified, the digest currently associated with the image in the OCI Registry will be used.
-	// Example: `sha256:ca0eeb6fb05351dfc8759c20733c91def84cb8007aa89a5bf606bc8b315b9fc7`
-	ImageDigest *string `mandatory:"false" json:"imageDigest"`
-
-	SourceDetails FunctionSourceDetails `mandatory:"false" json:"sourceDetails"`
 
 	// The processor shape (`GENERIC_X86`/`GENERIC_ARM`) on which to run functions in the application, extracted from the image manifest.
 	Shape FunctionShapeEnum `mandatory:"false" json:"shape,omitempty"`
@@ -129,9 +118,6 @@ func (m *Function) UnmarshalJSON(data []byte) (e error) {
 		LifecycleState               FunctionLifecycleStateEnum           `json:"lifecycleState"`
 		ApplicationId                *string                              `json:"applicationId"`
 		CompartmentId                *string                              `json:"compartmentId"`
-		Image                        *string                              `json:"image"`
-		ImageDigest                  *string                              `json:"imageDigest"`
-		SourceDetails                functionsourcedetails                `json:"sourceDetails"`
 		Shape                        FunctionShapeEnum                    `json:"shape"`
 		MemoryInMBs                  *int64                               `json:"memoryInMBs"`
 		Config                       map[string]string                    `json:"config"`
@@ -148,6 +134,7 @@ func (m *Function) UnmarshalJSON(data []byte) (e error) {
 		TimeCreated                  *common.SDKTime                      `json:"timeCreated"`
 		TimeUpdated                  *common.SDKTime                      `json:"timeUpdated"`
 		Id                           *string                              `json:"id"`
+		SourceDetails                functionsourcedetails                `json:"sourceDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -162,20 +149,6 @@ func (m *Function) UnmarshalJSON(data []byte) (e error) {
 	m.ApplicationId = model.ApplicationId
 
 	m.CompartmentId = model.CompartmentId
-
-	m.Image = model.Image
-
-	m.ImageDigest = model.ImageDigest
-
-	nn, e = model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.SourceDetails = nn.(FunctionSourceDetails)
-	} else {
-		m.SourceDetails = nil
-	}
 
 	m.Shape = model.Shape
 
@@ -232,6 +205,16 @@ func (m *Function) UnmarshalJSON(data []byte) (e error) {
 	m.TimeUpdated = model.TimeUpdated
 
 	m.Id = model.Id
+
+	nn, e = model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SourceDetails = nn.(FunctionSourceDetails)
+	} else {
+		m.SourceDetails = nil
+	}
 
 	return
 }

@@ -26,6 +26,9 @@ type ListKeyStoresRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// A filter to return only resources that match the key store type given. The match is not case sensitive.
+	KeyStoreType ListKeyStoresKeyStoreTypeEnum `mandatory:"false" contributesTo:"query" name:"keyStoreType" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -62,6 +65,9 @@ func (request ListKeyStoresRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListKeyStoresRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListKeyStoresKeyStoreTypeEnum(string(request.KeyStoreType)); !ok && request.KeyStoreType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for KeyStoreType: %s. Supported values are: %s.", request.KeyStoreType, strings.Join(GetListKeyStoresKeyStoreTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -95,4 +101,46 @@ func (response ListKeyStoresResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListKeyStoresResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListKeyStoresKeyStoreTypeEnum Enum with underlying type: string
+type ListKeyStoresKeyStoreTypeEnum string
+
+// Set of constants representing the allowable values for ListKeyStoresKeyStoreTypeEnum
+const (
+	ListKeyStoresKeyStoreTypeOracleKeyVault ListKeyStoresKeyStoreTypeEnum = "ORACLE_KEY_VAULT"
+	ListKeyStoresKeyStoreTypeThales         ListKeyStoresKeyStoreTypeEnum = "THALES"
+)
+
+var mappingListKeyStoresKeyStoreTypeEnum = map[string]ListKeyStoresKeyStoreTypeEnum{
+	"ORACLE_KEY_VAULT": ListKeyStoresKeyStoreTypeOracleKeyVault,
+	"THALES":           ListKeyStoresKeyStoreTypeThales,
+}
+
+var mappingListKeyStoresKeyStoreTypeEnumLowerCase = map[string]ListKeyStoresKeyStoreTypeEnum{
+	"oracle_key_vault": ListKeyStoresKeyStoreTypeOracleKeyVault,
+	"thales":           ListKeyStoresKeyStoreTypeThales,
+}
+
+// GetListKeyStoresKeyStoreTypeEnumValues Enumerates the set of values for ListKeyStoresKeyStoreTypeEnum
+func GetListKeyStoresKeyStoreTypeEnumValues() []ListKeyStoresKeyStoreTypeEnum {
+	values := make([]ListKeyStoresKeyStoreTypeEnum, 0)
+	for _, v := range mappingListKeyStoresKeyStoreTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListKeyStoresKeyStoreTypeEnumStringValues Enumerates the set of values in String for ListKeyStoresKeyStoreTypeEnum
+func GetListKeyStoresKeyStoreTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_KEY_VAULT",
+		"THALES",
+	}
+}
+
+// GetMappingListKeyStoresKeyStoreTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListKeyStoresKeyStoreTypeEnum(val string) (ListKeyStoresKeyStoreTypeEnum, bool) {
+	enum, ok := mappingListKeyStoresKeyStoreTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

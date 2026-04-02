@@ -48,6 +48,12 @@ type KeyStore struct {
 	// Indicates the number of long term backups of Autonomous AI Databases associated with this backup destination.
 	AssociatedLongTermBackupCount *int `mandatory:"false" json:"associatedLongTermBackupCount"`
 
+	// List of Autonomous VM Clusters associated with the key store.
+	AssociatedAutonomousVmClusters []KeyStoreAssociatedAutonomousVmClusterDetails `mandatory:"false" json:"associatedAutonomousVmClusters"`
+
+	// List of Cloud Autonomous VM Clusters associated with the key store.
+	AssociatedCloudAutonomousVmClusters []KeyStoreAssociatedCloudAutonomousVmClusterDetails `mandatory:"false" json:"associatedCloudAutonomousVmClusters"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -84,19 +90,21 @@ func (m KeyStore) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *KeyStore) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		TimeCreated                   *common.SDKTime                     `json:"timeCreated"`
-		LifecycleDetails              *string                             `json:"lifecycleDetails"`
-		AssociatedDatabases           []KeyStoreAssociatedDatabaseDetails `json:"associatedDatabases"`
-		AssociatedLongTermBackups     []AssociatedLongTermBackup          `json:"associatedLongTermBackups"`
-		AssociatedLongTermBackupCount *int                                `json:"associatedLongTermBackupCount"`
-		FreeformTags                  map[string]string                   `json:"freeformTags"`
-		DefinedTags                   map[string]map[string]interface{}   `json:"definedTags"`
-		SystemTags                    map[string]map[string]interface{}   `json:"systemTags"`
-		Id                            *string                             `json:"id"`
-		CompartmentId                 *string                             `json:"compartmentId"`
-		DisplayName                   *string                             `json:"displayName"`
-		LifecycleState                KeyStoreLifecycleStateEnum          `json:"lifecycleState"`
-		TypeDetails                   keystoretypedetails                 `json:"typeDetails"`
+		TimeCreated                         *common.SDKTime                                     `json:"timeCreated"`
+		LifecycleDetails                    *string                                             `json:"lifecycleDetails"`
+		AssociatedDatabases                 []KeyStoreAssociatedDatabaseDetails                 `json:"associatedDatabases"`
+		AssociatedLongTermBackups           []AssociatedLongTermBackup                          `json:"associatedLongTermBackups"`
+		AssociatedLongTermBackupCount       *int                                                `json:"associatedLongTermBackupCount"`
+		AssociatedAutonomousVmClusters      []KeyStoreAssociatedAutonomousVmClusterDetails      `json:"associatedAutonomousVmClusters"`
+		AssociatedCloudAutonomousVmClusters []KeyStoreAssociatedCloudAutonomousVmClusterDetails `json:"associatedCloudAutonomousVmClusters"`
+		FreeformTags                        map[string]string                                   `json:"freeformTags"`
+		DefinedTags                         map[string]map[string]interface{}                   `json:"definedTags"`
+		SystemTags                          map[string]map[string]interface{}                   `json:"systemTags"`
+		Id                                  *string                                             `json:"id"`
+		CompartmentId                       *string                                             `json:"compartmentId"`
+		DisplayName                         *string                                             `json:"displayName"`
+		LifecycleState                      KeyStoreLifecycleStateEnum                          `json:"lifecycleState"`
+		TypeDetails                         keystoretypedetails                                 `json:"typeDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -114,6 +122,10 @@ func (m *KeyStore) UnmarshalJSON(data []byte) (e error) {
 	copy(m.AssociatedLongTermBackups, model.AssociatedLongTermBackups)
 	m.AssociatedLongTermBackupCount = model.AssociatedLongTermBackupCount
 
+	m.AssociatedAutonomousVmClusters = make([]KeyStoreAssociatedAutonomousVmClusterDetails, len(model.AssociatedAutonomousVmClusters))
+	copy(m.AssociatedAutonomousVmClusters, model.AssociatedAutonomousVmClusters)
+	m.AssociatedCloudAutonomousVmClusters = make([]KeyStoreAssociatedCloudAutonomousVmClusterDetails, len(model.AssociatedCloudAutonomousVmClusters))
+	copy(m.AssociatedCloudAutonomousVmClusters, model.AssociatedCloudAutonomousVmClusters)
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

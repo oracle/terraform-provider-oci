@@ -15,8 +15,7 @@ import (
 	"strings"
 )
 
-// ChangeApplicationCompartmentDetails Note: Deprecated. Use the new resource model APIs instead.
-// Properties to change the compartment of an application.
+// ChangeApplicationCompartmentDetails Properties to change the compartment of an application.
 type ChangeApplicationCompartmentDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment

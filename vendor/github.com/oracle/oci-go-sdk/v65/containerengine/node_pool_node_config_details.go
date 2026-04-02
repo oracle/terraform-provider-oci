@@ -30,6 +30,9 @@ type NodePoolNodeConfigDetails struct {
 	// The OCID of the Key Management Service key assigned to the boot volume.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
+	// The OCID of the Compute Cluster to be associated with the worker node instance.
+	ComputeClusterId *string `mandatory:"false" json:"computeClusterId"`
+
 	// Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
 	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
 
@@ -76,6 +79,7 @@ func (m *NodePoolNodeConfigDetails) UnmarshalJSON(data []byte) (e error) {
 		Size                            *int                              `json:"size"`
 		NsgIds                          []string                          `json:"nsgIds"`
 		KmsKeyId                        *string                           `json:"kmsKeyId"`
+		ComputeClusterId                *string                           `json:"computeClusterId"`
 		IsPvEncryptionInTransitEnabled  *bool                             `json:"isPvEncryptionInTransitEnabled"`
 		FreeformTags                    map[string]string                 `json:"freeformTags"`
 		DefinedTags                     map[string]map[string]interface{} `json:"definedTags"`
@@ -93,6 +97,8 @@ func (m *NodePoolNodeConfigDetails) UnmarshalJSON(data []byte) (e error) {
 	m.NsgIds = make([]string, len(model.NsgIds))
 	copy(m.NsgIds, model.NsgIds)
 	m.KmsKeyId = model.KmsKeyId
+
+	m.ComputeClusterId = model.ComputeClusterId
 
 	m.IsPvEncryptionInTransitEnabled = model.IsPvEncryptionInTransitEnabled
 

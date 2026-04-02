@@ -15,8 +15,7 @@ import (
 	"strings"
 )
 
-// PbfListingVersionSummary Note: Deprecated. Use the new resource model APIs instead.
-// Summary of the PbfListingVersion.
+// PbfListingVersionSummary Summary of the PbfListingVersion.
 type PbfListingVersionSummary struct {
 
 	// Unique identifier that is immutable on creation

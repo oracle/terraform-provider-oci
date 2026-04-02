@@ -30,6 +30,7 @@ const (
 	AssessorCheckStatesStarted           AssessorCheckStatesEnum = "STARTED"
 	AssessorCheckStatesCompleted         AssessorCheckStatesEnum = "COMPLETED"
 	AssessorCheckStatesFailed            AssessorCheckStatesEnum = "FAILED"
+	AssessorCheckStatesSkipped           AssessorCheckStatesEnum = "SKIPPED"
 )
 
 var mappingAssessorCheckStatesEnum = map[string]AssessorCheckStatesEnum{
@@ -45,6 +46,7 @@ var mappingAssessorCheckStatesEnum = map[string]AssessorCheckStatesEnum{
 	"STARTED":            AssessorCheckStatesStarted,
 	"COMPLETED":          AssessorCheckStatesCompleted,
 	"FAILED":             AssessorCheckStatesFailed,
+	"SKIPPED":            AssessorCheckStatesSkipped,
 }
 
 var mappingAssessorCheckStatesEnumLowerCase = map[string]AssessorCheckStatesEnum{
@@ -60,6 +62,7 @@ var mappingAssessorCheckStatesEnumLowerCase = map[string]AssessorCheckStatesEnum
 	"started":            AssessorCheckStatesStarted,
 	"completed":          AssessorCheckStatesCompleted,
 	"failed":             AssessorCheckStatesFailed,
+	"skipped":            AssessorCheckStatesSkipped,
 }
 
 // GetAssessorCheckStatesEnumValues Enumerates the set of values for AssessorCheckStatesEnum
@@ -86,6 +89,7 @@ func GetAssessorCheckStatesEnumStringValues() []string {
 		"STARTED",
 		"COMPLETED",
 		"FAILED",
+		"SKIPPED",
 	}
 }
 

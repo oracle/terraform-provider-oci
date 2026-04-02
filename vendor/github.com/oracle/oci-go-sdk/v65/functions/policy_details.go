@@ -15,8 +15,7 @@ import (
 	"strings"
 )
 
-// PolicyDetails Note: Deprecated. Use the new resource model APIs instead.
-// "A policy required for this PBF execution."
+// PolicyDetails A policy required for this PBF execution.
 type PolicyDetails struct {
 
 	// Policy required for PBF execution

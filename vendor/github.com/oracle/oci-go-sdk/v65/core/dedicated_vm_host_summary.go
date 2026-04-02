@@ -70,6 +70,12 @@ type DedicatedVmHostSummary struct {
 
 	// The current available memory of the dedicated VM host, in GBs.
 	RemainingMemoryInGBs *float32 `mandatory:"false" json:"remainingMemoryInGBs"`
+
+	// The current total local volume of the dedicated VM host, in GBs.
+	TotalLocalVolumeInGBs *float32 `mandatory:"false" json:"totalLocalVolumeInGBs"`
+
+	// The current available local volume of the dedicated VM host, in GBs.
+	RemainingLocalVolumeInGBs *float32 `mandatory:"false" json:"remainingLocalVolumeInGBs"`
 }
 
 func (m DedicatedVmHostSummary) String() string {

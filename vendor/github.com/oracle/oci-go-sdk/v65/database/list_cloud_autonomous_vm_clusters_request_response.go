@@ -35,6 +35,9 @@ type ListCloudAutonomousVmClustersRequest struct {
 	// A filter to return only resources that match the given lifecycle state exactly.
 	LifecycleState CloudAutonomousVmClusterSummaryLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// A filter to return only resources that match the given kms exactly.
+	KmsType ListCloudAutonomousVmClustersKmsTypeEnum `mandatory:"false" contributesTo:"query" name:"kmsType" omitEmpty:"true"`
+
 	// A filter to return only resources that match the given availability domain exactly.
 	AvailabilityDomain *string `mandatory:"false" contributesTo:"query" name:"availabilityDomain"`
 
@@ -88,6 +91,9 @@ func (request ListCloudAutonomousVmClustersRequest) ValidateEnumValue() (bool, e
 	}
 	if _, ok := GetMappingCloudAutonomousVmClusterSummaryLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetCloudAutonomousVmClusterSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListCloudAutonomousVmClustersKmsTypeEnum(string(request.KmsType)); !ok && request.KmsType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for KmsType: %s. Supported values are: %s.", request.KmsType, strings.Join(GetListCloudAutonomousVmClustersKmsTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -205,5 +211,51 @@ func GetListCloudAutonomousVmClustersSortOrderEnumStringValues() []string {
 // GetMappingListCloudAutonomousVmClustersSortOrderEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListCloudAutonomousVmClustersSortOrderEnum(val string) (ListCloudAutonomousVmClustersSortOrderEnum, bool) {
 	enum, ok := mappingListCloudAutonomousVmClustersSortOrderEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListCloudAutonomousVmClustersKmsTypeEnum Enum with underlying type: string
+type ListCloudAutonomousVmClustersKmsTypeEnum string
+
+// Set of constants representing the allowable values for ListCloudAutonomousVmClustersKmsTypeEnum
+const (
+	ListCloudAutonomousVmClustersKmsTypeOracleKeyVault ListCloudAutonomousVmClustersKmsTypeEnum = "ORACLE_KEY_VAULT"
+	ListCloudAutonomousVmClustersKmsTypeThales         ListCloudAutonomousVmClustersKmsTypeEnum = "THALES"
+	ListCloudAutonomousVmClustersKmsTypeOciVault       ListCloudAutonomousVmClustersKmsTypeEnum = "OCI_VAULT"
+)
+
+var mappingListCloudAutonomousVmClustersKmsTypeEnum = map[string]ListCloudAutonomousVmClustersKmsTypeEnum{
+	"ORACLE_KEY_VAULT": ListCloudAutonomousVmClustersKmsTypeOracleKeyVault,
+	"THALES":           ListCloudAutonomousVmClustersKmsTypeThales,
+	"OCI_VAULT":        ListCloudAutonomousVmClustersKmsTypeOciVault,
+}
+
+var mappingListCloudAutonomousVmClustersKmsTypeEnumLowerCase = map[string]ListCloudAutonomousVmClustersKmsTypeEnum{
+	"oracle_key_vault": ListCloudAutonomousVmClustersKmsTypeOracleKeyVault,
+	"thales":           ListCloudAutonomousVmClustersKmsTypeThales,
+	"oci_vault":        ListCloudAutonomousVmClustersKmsTypeOciVault,
+}
+
+// GetListCloudAutonomousVmClustersKmsTypeEnumValues Enumerates the set of values for ListCloudAutonomousVmClustersKmsTypeEnum
+func GetListCloudAutonomousVmClustersKmsTypeEnumValues() []ListCloudAutonomousVmClustersKmsTypeEnum {
+	values := make([]ListCloudAutonomousVmClustersKmsTypeEnum, 0)
+	for _, v := range mappingListCloudAutonomousVmClustersKmsTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListCloudAutonomousVmClustersKmsTypeEnumStringValues Enumerates the set of values in String for ListCloudAutonomousVmClustersKmsTypeEnum
+func GetListCloudAutonomousVmClustersKmsTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_KEY_VAULT",
+		"THALES",
+		"OCI_VAULT",
+	}
+}
+
+// GetMappingListCloudAutonomousVmClustersKmsTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListCloudAutonomousVmClustersKmsTypeEnum(val string) (ListCloudAutonomousVmClustersKmsTypeEnum, bool) {
+	enum, ok := mappingListCloudAutonomousVmClustersKmsTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

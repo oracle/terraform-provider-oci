@@ -15,8 +15,7 @@ import (
 	"strings"
 )
 
-// Application Note: Deprecated. Use the new resource model APIs instead.
-// An application contains functions and defined attributes shared between those functions, such as network configuration and configuration. Avoid entering confidential information.
+// Application An application contains functions and defined attributes shared between those functions, such as network configuration and configuration. Avoid entering confidential information.
 type Application struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the application.

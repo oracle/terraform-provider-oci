@@ -1137,6 +1137,64 @@ func (client DatabaseClient) changeAutonomousVmClusterCompartment(ctx context.Co
 	return response, err
 }
 
+// ChangeAvmKeyManagementSystem Update the Autonomous VM Cluster's key management system details where TDE keys of this cluster's ACDs will be stored.
+func (client DatabaseClient) ChangeAvmKeyManagementSystem(ctx context.Context, request ChangeAvmKeyManagementSystemRequest) (response ChangeAvmKeyManagementSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeAvmKeyManagementSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeAvmKeyManagementSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeAvmKeyManagementSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeAvmKeyManagementSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeAvmKeyManagementSystemResponse")
+	}
+	return
+}
+
+// changeAvmKeyManagementSystem implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) changeAvmKeyManagementSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousVmClusters/{autonomousVmClusterId}/actions/changeKeyManagementSystem", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeAvmKeyManagementSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "ChangeAvmKeyManagementSystem")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousVmCluster/ChangeAvmKeyManagementSystem"
+		err = common.PostProcessServiceError(err, "Database", "ChangeAvmKeyManagementSystem", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeBackupDestinationCompartment Move the backup destination and its dependent resources to the specified compartment.
 // For more information, see
 // Moving Database Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm#moveRes).
@@ -1248,6 +1306,64 @@ func (client DatabaseClient) changeBaseccVmClusterCompartment(ctx context.Contex
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/BaseccVmCluster/ChangeBaseccVmClusterCompartment"
 		err = common.PostProcessServiceError(err, "Database", "ChangeBaseccVmClusterCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeCavmKeyManagementSystem Update the Cloud Autonomous VM Cluster's key management system details where TDE keys of this cluster's ACDs will be stored.
+func (client DatabaseClient) ChangeCavmKeyManagementSystem(ctx context.Context, request ChangeCavmKeyManagementSystemRequest) (response ChangeCavmKeyManagementSystemResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeCavmKeyManagementSystem, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeCavmKeyManagementSystemResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeCavmKeyManagementSystemResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeCavmKeyManagementSystemResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeCavmKeyManagementSystemResponse")
+	}
+	return
+}
+
+// changeCavmKeyManagementSystem implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) changeCavmKeyManagementSystem(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudAutonomousVmClusters/{cloudAutonomousVmClusterId}/actions/changeKeyManagementSystem", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeCavmKeyManagementSystemResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "ChangeCavmKeyManagementSystem")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudAutonomousVmCluster/ChangeCavmKeyManagementSystem"
+		err = common.PostProcessServiceError(err, "Database", "ChangeCavmKeyManagementSystem", apiReferenceLink)
 		return response, err
 	}
 

@@ -16,8 +16,7 @@ import (
 	"strings"
 )
 
-// QueueSuccessDestinationDetails Note: Deprecated. Use the new resource model APIs instead.
-// The destination queue or channel in the Queue service to which to send the response of the successful detached function invocation.
+// QueueSuccessDestinationDetails The destination queue or channel in the Queue service to which to send the response of the successful detached function invocation.
 // Example: `{"kind": "QUEUE", "queueId": "queue_OCID", "channelId": "channel_Id"}`
 type QueueSuccessDestinationDetails struct {
 
