@@ -307,129 +307,6 @@ var (
 	DatabaseAutonomousContainerDatabaseResourceFromAdsiDependencies = DatabaseAutonomousDatabaseSoftwareImageResourceConfig
 )
 
-// issue-routing-tag: database/dbaas-atp-d
-func TestDatabaseExaccAutonomousContainerDatabaseFromAdsi_basic(t *testing.T) {
-
-	httpreplay.SetScenario("TestDatabaseExaccAutonomousContainerDatabaseFromAdsi_basic")
-	defer httpreplay.SaveScenario()
-
-	config := acctest.ProviderTestConfig()
-
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-
-	resourceName := "oci_database_autonomous_container_database.test_autonomous_container_database_from_adsi"
-
-	var resId, resId2 string
-
-	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousContainerDatabaseDestroy, []resource.TestStep{
-		// verify Create with optionals
-		{
-			Config: config + compartmentIdVariableStr + ExaccDatabaseAutonomousContainerDatabaseFromAdsiDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database_from_adsi", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("maintenance_window_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, ExaccACDFromAdsiRepresentation)),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "10"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "backup_config.0.backup_destination_details.0.id"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "db_unique_name", acbDBName2),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases3"),
-				resource.TestCheckResourceAttrSet(resourceName, "memory_per_oracle_compute_unit_in_gbs"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "0"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "0"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "0"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "0"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.patching_mode", "ROLLING"),
-				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
-				resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttr(resourceName, "version_preference", "LATEST_RELEASE_UPDATE"),
-				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-				resource.TestCheckResourceAttrSet(resourceName, "database_software_image_id"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", "DBNAME2"),
-				resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
-					return err
-				},
-			),
-		},
-
-		// verify updates to updatable parameters
-		{
-			Config: config + compartmentIdVariableStr + ExaccDatabaseAutonomousContainerDatabaseFromAdsiDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database_from_adsi", acctest.Optional, acctest.Update, ExaccACDFromAdsiRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "11"),
-				resource.TestCheckResourceAttrSet(resourceName, "backup_config.0.backup_destination_details.0.id"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "db_unique_name", acbDBName2),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases3"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "FEBRUARY"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.patching_mode", "NONROLLING"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.skip_ru.#", "4"),
-				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
-				resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttr(resourceName, "version_preference", "NEXT_RELEASE_UPDATE"),
-				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-				resource.TestCheckResourceAttrSet(resourceName, "database_software_image_id"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", "DBNAME2"),
-				resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
-
-				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-					}
-					return err
-				},
-			),
-		},
-
-		// verify resource import
-		{
-			Config:            config + getExaccACDFromADSIRequiredOnlyResource() + compartmentIdVariableStr,
-			ImportState:       true,
-			ImportStateVerify: true,
-			ImportStateVerifyIgnore: []string{
-				"database_software_image_id",
-				"maintenance_window_details",
-				"backup_config.0.backup_destination_details.0.vpc_password",
-			},
-			ResourceName: resourceName,
-		},
-	})
-}
-
 func TestDatabaseAutonomousContainerDatabaseFromAdsi_basic(t *testing.T) {
 
 	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabaseFromAdsi_basic")
@@ -633,8 +510,8 @@ func TestDatabaseAutonomousContainerDatabaseFromAdsi_basic(t *testing.T) {
 //	})
 //}
 
-func TestDatabaseExaccAutonomousContainerDatabaseBackupDestinationUpdateWithoutDG(t *testing.T) {
-	httpreplay.SetScenario("TestDatabaseExaccAutonomousContainerDatabaseBackupDestinationUpdateWithoutDG")
+func TestDatabaseExaccAutonomousContainerDatabaseBackupDestinationUpdates(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseExaccAutonomousContainerDatabaseBackupDestinationUpdates")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
@@ -643,130 +520,179 @@ func TestDatabaseExaccAutonomousContainerDatabaseBackupDestinationUpdateWithoutD
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_database_autonomous_container_database.test_autonomous_container_database"
+	simulateDb, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("simulate_db", "false"))
+	var sharedDependencyIDs map[string]string
 
-	var resId, resId2 string
+	if simulateDb {
+		acctest.PreCheck(t)
+		sharedDependencyAddresses := []string{
+			"oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster",
+			"oci_database_backup_destination.test_backup_destination",
+			"oci_database_key_store.test_key_store",
+		}
+		var cleanup func()
+		sharedDependencyIDs, cleanup = ResolveOrCreateSharedDependenciesFromConfig(t, map[string]string{
+			"oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster": utils.GetEnvSettingWithBlankDefault("autonomous_vm_cluster_id"),
+			"oci_database_backup_destination.test_backup_destination":       utils.GetEnvSettingWithBlankDefault("backup_destination_id"),
+			"oci_database_key_store.test_key_store":                         utils.GetEnvSettingWithBlankDefault("key_store_id"),
+		}, config+compartmentIdVariableStr+DatabaseAVMClusterWithSingleNetworkResourceDependencies+
+			acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", acctest.Required, acctest.Create, DatabaseECPUAutonomousVmClusterRepresentation)+
+			acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create, backupDestinationNFSRepresentation)+
+			acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Create, DatabaseKeyStoreRepresentationWithIgnoreTagsChanges)+
+			KmsVaultIdVariableStr+OkvSecretVariableStr, sharedDependencyAddresses)
+		if cleanup != nil {
+			t.Cleanup(cleanup)
+		}
+		t.Logf("[SHARED_DEP_SETUP] autonomous_vm_cluster_id=%s | backup_destination_id=%s | key_store_id=%s",
+			sharedDependencyIDs["oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster"],
+			sharedDependencyIDs["oci_database_backup_destination.test_backup_destination"],
+			sharedDependencyIDs["oci_database_key_store.test_key_store"],
+		)
+	}
 
-	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousContainerDatabaseDestroy, []resource.TestStep{
-		// verify Create with optionals
-		{
-			Config: config + compartmentIdVariableStr + ExaccDatabaseAutonomousContainerDatabaseResourceDependency +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("maintenance_window_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, getExaccACDWithUpdateBackupDestRepresentation())),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "10"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "backup_config.0.backup_destination_details.0.id"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "db_split_threshold", "8"),
-				resource.TestCheckResourceAttr(resourceName, "db_unique_name", acbDBName),
-				resource.TestCheckResourceAttr(resourceName, "distribution_affinity", "MINIMUM_DISTRIBUTION"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
-				resource.TestCheckResourceAttrSet(resourceName, "memory_per_oracle_compute_unit_in_gbs"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttrSet(resourceName, "key_store_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "key_store_wallet_name"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "0"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "0"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "0"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "0"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.patching_mode", "ROLLING"),
-				resource.TestCheckResourceAttr(resourceName, "net_services_architecture", "DEDICATED"),
-				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
-				resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttr(resourceName, "version_preference", "LATEST_RELEASE_UPDATE"),
-				resource.TestCheckResourceAttr(resourceName, "vm_failover_reservation", "25"),
-				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", "DBNAME"),
-				resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+	t.Run("Update-Backup-Destination", func(t *testing.T) {
+		dependencyConfig, representation := getExaccAutonomousContainerDatabaseBackupDestinationUpdateWithoutDGTestInputs(t, config, compartmentIdVariableStr, simulateDb, sharedDependencyIDs)
+		var resId, resId2, resId3 string
 
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
+		acctest.ResourceTest(t, testAccCheckDatabaseAutonomousContainerDatabaseDestroy, []resource.TestStep{
+			// verify Create with optionals
+			{
+				Config: config + compartmentIdVariableStr + dependencyConfig +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create,
+						acctest.GetUpdatedRepresentationCopy("maintenance_window_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, representation)),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "10"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "backup_config.0.backup_destination_details.0.id"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "db_split_threshold", "8"),
+					resource.TestCheckResourceAttr(resourceName, "db_unique_name", acbDBName),
+					resource.TestCheckResourceAttr(resourceName, "distribution_affinity", "MINIMUM_DISTRIBUTION"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
+					resource.TestCheckResourceAttrSet(resourceName, "memory_per_oracle_compute_unit_in_gbs"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "key_store_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "key_store_wallet_name"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.patching_mode", "ROLLING"),
+					resource.TestCheckResourceAttr(resourceName, "net_services_architecture", "DEDICATED"),
+					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
+					resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "version_preference", "LATEST_RELEASE_UPDATE"),
+					resource.TestCheckResourceAttr(resourceName, "vm_failover_reservation", "25"),
+					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", "DBNAME"),
+					resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+					exaccMainResourceLog(t, "create Exacc ACD with NFS backup destination", resourceName, nil, &resId,
+						"display_name", "db_name", "compartment_id", "db_unique_name", "patch_model", "version_preference",
+						"backup_config.0.backup_destination_details.0.type", "backup_config.0.recovery_window_in_days"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
 						}
-					}
-					return err
-				},
-			),
-		},
+						return err
+					},
+				),
+			},
 
-		// verify updates to updatable parameters along
-		// BackupDestination NFS to RA
-		{
-			Config: config + compartmentIdVariableStr + ExaccDatabaseAutonomousContainerDatabaseResourceDependency +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, getExaccACDWithUpdateBackupDestRepresentation()),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "backup_config.0.backup_destination_details.0.id"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.internet_proxy", "internetProxy"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.type", "RECOVERY_APPLIANCE"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.vpc_user", "bkupUser1"),
-				resource.TestCheckResourceAttr(resourceName, "associated_backup_configuration_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "associated_backup_configuration_details.0.type", "NFS"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "db_split_threshold", "8"),
-				resource.TestCheckResourceAttr(resourceName, "db_unique_name", acbDBName),
-				resource.TestCheckResourceAttr(resourceName, "distribution_affinity", "MINIMUM_DISTRIBUTION"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttrSet(resourceName, "key_store_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "key_store_wallet_name"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "FEBRUARY"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.patching_mode", "NONROLLING"),
-				resource.TestCheckResourceAttr(resourceName, "net_services_architecture", "DEDICATED"),
-				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
-				resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttr(resourceName, "version_preference", "NEXT_RELEASE_UPDATE"),
-				resource.TestCheckResourceAttr(resourceName, "vm_failover_reservation", "25"),
-				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", "DBNAME"),
-				resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+			// verify updates to updatable parameters along
+			// BackupDestination NFS to RA
+			{
+				Config: config + compartmentIdVariableStr + dependencyConfig +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, representation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "backup_config.0.backup_destination_details.0.id"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.internet_proxy", "internetProxy"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.type", "RECOVERY_APPLIANCE"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.vpc_user", "bkupUser1"),
+					resource.TestCheckResourceAttr(resourceName, "associated_backup_configuration_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "associated_backup_configuration_details.0.type", "NFS"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "db_split_threshold", "8"),
+					resource.TestCheckResourceAttr(resourceName, "db_unique_name", acbDBName),
+					resource.TestCheckResourceAttr(resourceName, "distribution_affinity", "MINIMUM_DISTRIBUTION"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttrSet(resourceName, "key_store_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "key_store_wallet_name"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "FEBRUARY"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.patching_mode", "NONROLLING"),
+					resource.TestCheckResourceAttr(resourceName, "net_services_architecture", "DEDICATED"),
+					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
+					resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "version_preference", "NEXT_RELEASE_UPDATE"),
+					resource.TestCheckResourceAttr(resourceName, "vm_failover_reservation", "25"),
+					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", "DBNAME"),
+					resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+					exaccMainResourceLog(t, "update Exacc ACD backup destination to recovery appliance", resourceName, &resId, &resId2,
+						"display_name", "db_name", "patch_model", "version_preference", "is_dst_file_update_enabled",
+						"backup_config.0.backup_destination_details.0.type", "associated_backup_configuration_details.0.type"),
 
-				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-					}
-					return err
-				},
-			),
-		},
-		{ // BackupDestination RA to NFS
-			Config: config + compartmentIdVariableStr + ExaccDatabaseAutonomousContainerDatabaseResourceDependency +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("maintenance_window_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, getExaccACDWithUpdateBackupDestRepresentation())),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "10"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "backup_config.0.backup_destination_details.0.id"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.internet_proxy", "internetProxy"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.vpc_user", "bkupUser1"),
-			),
-		},
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			{ // BackupDestination RA to NFS
+				Config: config + compartmentIdVariableStr + dependencyConfig +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create,
+						acctest.GetUpdatedRepresentationCopy("maintenance_window_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, representation)),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "10"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "backup_config.0.backup_destination_details.0.id"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.internet_proxy", "internetProxy"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.vpc_user", "bkupUser1"),
+					exaccMainResourceLog(t, "revert Exacc ACD backup destination to NFS", resourceName, &resId2, &resId3,
+						"display_name", "db_name", "patch_model", "version_preference",
+						"backup_config.0.backup_destination_details.0.type", "backup_config.0.recovery_window_in_days"),
+
+					func(s *terraform.State) (err error) {
+						resId3, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId2 != resId3 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+		})
 	})
 }
 
@@ -784,208 +710,561 @@ func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 	datasourceName := "data.oci_database_autonomous_container_databases.test_autonomous_container_databases"
 	singularDatasourceName := "data.oci_database_autonomous_container_database.test_autonomous_container_database"
 	avmAcdResourceUsageDatasourceName := "data.oci_database_autonomous_vm_cluster_acd_resource_usages.test_autonomous_vm_cluster_acd_resource_usages"
+	simulateDb, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("simulate_db", "false"))
+	var sharedDependencyIDs map[string]string
+	if simulateDb {
+		acctest.PreCheck(t)
+		sharedDependencyAddresses := []string{
+			"oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster",
+			"oci_database_backup_destination.test_backup_destination",
+			"oci_database_key_store.test_key_store",
+		}
+		var cleanup func()
+		sharedDependencyIDs, cleanup = ResolveOrCreateSharedDependenciesFromConfig(t, map[string]string{
+			"oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster": utils.GetEnvSettingWithBlankDefault("autonomous_vm_cluster_id"),
+			"oci_database_backup_destination.test_backup_destination":       utils.GetEnvSettingWithBlankDefault("backup_destination_id"),
+			"oci_database_key_store.test_key_store":                         utils.GetEnvSettingWithBlankDefault("key_store_id"),
+		}, config+compartmentIdVariableStr+DatabaseAVMClusterWithSingleNetworkResourceDependencies+
+			acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", acctest.Required, acctest.Create, DatabaseECPUAutonomousVmClusterRepresentation)+
+			acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create, backupDestinationNFSRepresentation)+
+			acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Create, DatabaseKeyStoreRepresentationWithIgnoreTagsChanges)+
+			KmsVaultIdVariableStr+OkvSecretVariableStr, sharedDependencyAddresses)
+		if cleanup != nil {
+			t.Cleanup(cleanup)
+		}
+		t.Logf("[SHARED_DEP_SETUP] autonomous_vm_cluster_id=%s | backup_destination_id=%s | key_store_id=%s",
+			sharedDependencyIDs["oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster"],
+			sharedDependencyIDs["oci_database_backup_destination.test_backup_destination"],
+			sharedDependencyIDs["oci_database_key_store.test_key_store"],
+		)
+	}
 
-	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousContainerDatabaseDestroy, []resource.TestStep{
-		// verify Create with optionals
-		{
-			Config: config + compartmentIdVariableStr + ExaccDatabaseAutonomousContainerDatabaseResourceDependency +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create,
-					acctest.GetUpdatedRepresentationCopy("maintenance_window_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, ExaccAutonomousContainerDatabaseRepresentation)),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "10"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "backup_config.0.backup_destination_details.0.id"),
-				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test1@oracle.com"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.is_retention_lock_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.backup_retention_policy_on_terminate", "RETAIN_FOR_72_HOURS"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "db_unique_name", acbDBName),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
-				resource.TestCheckResourceAttrSet(resourceName, "memory_per_oracle_compute_unit_in_gbs"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "0"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "0"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "0"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "0"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.patching_mode", "ROLLING"),
-				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
-				resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttr(resourceName, "version_preference", "LATEST_RELEASE_UPDATE"),
-				resource.TestCheckResourceAttr(resourceName, "vm_failover_reservation", "25"),
-				resource.TestCheckResourceAttr(resourceName, "distribution_affinity", "MINIMUM_DISTRIBUTION"),
-				resource.TestCheckResourceAttr(resourceName, "net_services_architecture", "DEDICATED"),
-				resource.TestCheckResourceAttr(resourceName, "db_split_threshold", "8"),
-				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", "DBNAME"),
-				resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
-			),
-		},
+	t.Run("Create-ACD-From-Adsi-Update-MRPreference-BackupDetails-Delete", func(t *testing.T) {
+		resourceName := "oci_database_autonomous_container_database.test_autonomous_container_database_from_adsi"
 
-		// verify updates to updatable parameters
-		{
-			Config: config + compartmentIdVariableStr + ExaccDatabaseAutonomousContainerDatabaseResourceDependency +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, ExaccAutonomousContainerDatabaseRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "11"),
-				resource.TestCheckResourceAttrSet(resourceName, "backup_config.0.backup_destination_details.0.id"),
-				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test2@oracle.com"),
-				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "okv_end_point_group_name", "DUMMY_OKV_EPG_GROUP_2"),
-				resource.TestCheckResourceAttr(resourceName, "db_split_threshold", "16"),
-				resource.TestCheckResourceAttr(resourceName, "db_unique_name", acbDBName),
-				resource.TestCheckResourceAttr(resourceName, "distribution_affinity", "MAXIMUM_DISTRIBUTION"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "FEBRUARY"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.patching_mode", "NONROLLING"),
-				resource.TestCheckResourceAttr(resourceName, "net_services_architecture", "SHARED"),
-				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
-				resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttr(resourceName, "version_preference", "NEXT_RELEASE_UPDATE"),
-				resource.TestCheckResourceAttr(resourceName, "vm_failover_reservation", "75"),
-				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", "DBNAME"),
-				resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
-			),
-		},
-		// verify datasource
-		{
-			Config: config + compartmentIdVariableStr + ExaccDatabaseAutonomousContainerDatabaseResourceDependency +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, ExaccAutonomousContainerDatabaseRepresentation) +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_vm_cluster_acd_resource_usages", "test_autonomous_vm_cluster_acd_resource_usages", acctest.Required, acctest.Create, getExaccDatabaseAutonomousVmClusterAcdResourceUsageDataSourceRepresentation()),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(avmAcdResourceUsageDatasourceName, "autonomous_vm_cluster_id"),
-				resource.TestCheckResourceAttrSet(avmAcdResourceUsageDatasourceName, "autonomous_container_database_resource_usages.#"),
-				resource.TestCheckResourceAttrSet(avmAcdResourceUsageDatasourceName, "autonomous_container_database_resource_usages.0.available_cpus"),
-				resource.TestCheckResourceAttrSet(avmAcdResourceUsageDatasourceName, "autonomous_container_database_resource_usages.0.display_name"),
-				resource.TestCheckResourceAttrSet(avmAcdResourceUsageDatasourceName, "autonomous_container_database_resource_usages.0.id"),
-				resource.TestCheckResourceAttrSet(avmAcdResourceUsageDatasourceName, "autonomous_container_database_resource_usages.0.largest_provisionable_autonomous_database_in_cpus"),
-				resource.TestCheckResourceAttrSet(avmAcdResourceUsageDatasourceName, "autonomous_container_database_resource_usages.0.provisioned_cpus"),
-				resource.TestCheckResourceAttrSet(avmAcdResourceUsageDatasourceName, "autonomous_container_database_resource_usages.0.reclaimable_cpus"),
-				resource.TestCheckResourceAttrSet(avmAcdResourceUsageDatasourceName, "autonomous_container_database_resource_usages.0.reserved_cpus"),
-				resource.TestCheckResourceAttrSet(avmAcdResourceUsageDatasourceName, "autonomous_container_database_resource_usages.0.used_cpus"),
-			),
-		},
-		// verify datasource
-		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_databases", "test_autonomous_container_databases", acctest.Optional, acctest.Create, ExaccAutonomousContainerDatabaseDataSourceRepresentation) +
-				compartmentIdVariableStr + ExaccDatabaseAutonomousContainerDatabaseResourceDependency +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, ExaccAutonomousContainerDatabaseRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_cluster_id"),
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "containerdatabases2"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+		dependencyConfig, representation, requiredOnlyConfig := getExaccAutonomousContainerDatabaseFromAdsiTestInputs(t, config, compartmentIdVariableStr, simulateDb, sharedDependencyIDs)
+		var resId, resId2 string
 
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.#", "1"),
-				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.autonomous_vm_cluster_id"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.backup_config.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.backup_config.0.recovery_window_in_days", "11"),
-				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.backup_config.0.backup_destination_details.0.id"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.backup_config.0.backup_destination_details.0.type", "NFS"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.db_split_threshold", "16"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.display_name", "containerdatabases2"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.distribution_affinity", "MAXIMUM_DISTRIBUTION"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "key_store_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "key_store_wallet_name"),
-				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.id"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.is_dst_file_update_enabled", "true"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.days_of_week.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.days_of_week.0.name", "TUESDAY"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.hours_of_day.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.months.#", "4"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.months.0.name", "FEBRUARY"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.weeks_of_month.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.net_services_architecture", "SHARED"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.patch_model", "RELEASE_UPDATE_REVISIONS"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.service_level_agreement_type", "STANDARD"),
-				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.state"),
-				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.time_created"),
-				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.memory_per_oracle_compute_unit_in_gbs"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.version_preference", "NEXT_RELEASE_UPDATE"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.vm_failover_reservation", "75"),
-				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.db_version"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.patching_mode", "NONROLLING"),
-				resource.TestCheckResourceAttr(resourceName, "autonomous_container_databases.0.system_tags.%", "0"),
-			),
-		},
-		// verify singular datasource
-		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Required, acctest.Create, DatabaseDatabaseAutonomousContainerDatabaseSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + ExaccDatabaseAutonomousContainerDatabaseResourceDependency + acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, ExaccAutonomousContainerDatabaseRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_container_database_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.0.recovery_window_in_days", "11"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_config.0.backup_destination_details.0.id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "db_split_threshold", "16"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "containerdatabases2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "distribution_affinity", "MAXIMUM_DISTRIBUTION"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_dst_file_update_enabled", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.days_of_week.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.hours_of_day.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.#", "4"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.0.name", "FEBRUARY"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.weeks_of_month.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "net_services_architecture", "SHARED"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "service_level_agreement_type", "STANDARD"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "memory_per_oracle_compute_unit_in_gbs"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "version_preference", "NEXT_RELEASE_UPDATE"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "vm_failover_reservation", "75"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_version"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.patching_mode", "NONROLLING"),
-			),
-		},
-		// verify resource import
-		{
-			Config:            config + getExaccDatabaseAutonomousContainerDatabaseRequiredOnlyResource() + compartmentIdVariableStr,
-			ImportState:       true,
-			ImportStateVerify: true,
-			ImportStateVerifyIgnore: []string{
-				"maintenance_window_details",
-				"backup_config.0.backup_destination_details.0.vpc_password",
+		acctest.ResourceTest(t, testAccCheckDatabaseAutonomousContainerDatabaseDestroy, []resource.TestStep{
+			// verify Create with optionals
+			{
+				Config: config + compartmentIdVariableStr + dependencyConfig + getExaccTagDependency() +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database_from_adsi", acctest.Optional, acctest.Create,
+						acctest.GetUpdatedRepresentationCopy("maintenance_window_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, representation)),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "10"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "backup_config.0.backup_destination_details.0.id"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "db_unique_name", acbDBName2),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases3"),
+					resource.TestCheckResourceAttrSet(resourceName, "memory_per_oracle_compute_unit_in_gbs"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.patching_mode", "ROLLING"),
+					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
+					resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "version_preference", "LATEST_RELEASE_UPDATE"),
+					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+					resource.TestCheckResourceAttrSet(resourceName, "database_software_image_id"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", "DBNAME2"),
+					resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+					exaccMainResourceLog(t, "create Exacc ACD from ADSI", resourceName, nil, &resId,
+						"display_name", "db_name", "compartment_id", "patch_model", "version_preference",
+						"backup_config.0.recovery_window_in_days", "maintenance_window.0.preference", "database_software_image_id"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
+				),
 			},
-			ResourceName: resourceName,
-		},
+
+			// verify updates to updatable parameters
+			{
+				Config: config + compartmentIdVariableStr + dependencyConfig + getExaccTagDependency() +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database_from_adsi", acctest.Optional, acctest.Update, representation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "11"),
+					resource.TestCheckResourceAttrSet(resourceName, "backup_config.0.backup_destination_details.0.id"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "db_unique_name", acbDBName2),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases3"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "FEBRUARY"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.patching_mode", "NONROLLING"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.skip_ru.#", "4"),
+					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
+					resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "version_preference", "NEXT_RELEASE_UPDATE"),
+					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+					resource.TestCheckResourceAttrSet(resourceName, "database_software_image_id"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", "DBNAME2"),
+					resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+					exaccMainResourceLog(t, "update Exacc ACD from ADSI backup and maintenance settings", resourceName, &resId, &resId2,
+						"display_name", "db_name", "patch_model", "version_preference",
+						"backup_config.0.recovery_window_in_days", "maintenance_window.0.days_of_week.0.name",
+						"maintenance_window.0.patching_mode", "is_dst_file_update_enabled", "database_software_image_id"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+
+			// verify resource import
+			{
+				Config:            requiredOnlyConfig,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"database_software_image_id",
+					"maintenance_window_details",
+					"backup_config.0.backup_destination_details.0.vpc_password",
+				},
+				ResourceName: resourceName,
+			},
+		})
+	})
+
+	t.Run("Create-ACD-From-Version-Update-GetResourceStats-Delete", func(t *testing.T) {
+		dependencyConfig := ExaccDatabaseAutonomousContainerDatabaseResourceDependency
+		representation := ExaccAutonomousContainerDatabaseRepresentation
+		datasourceRepresentation := ExaccAutonomousContainerDatabaseDataSourceRepresentation
+		resourceUsageDatasourceRepresentation := getExaccDatabaseAutonomousVmClusterAcdResourceUsageDataSourceRepresentation()
+		requiredOnlyConfig := config + getExaccDatabaseAutonomousContainerDatabaseRequiredOnlyResource() + compartmentIdVariableStr
+
+		if simulateDb {
+			dependencyConfig = exaccAutonomousContainerDatabaseBasicSharedDependencyVariables(
+				sharedDependencyIDs["oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster"],
+				sharedDependencyIDs["oci_database_backup_destination.test_backup_destination"],
+				sharedDependencyIDs["oci_database_key_store.test_key_store"],
+			)
+			representation = exaccAutonomousContainerDatabaseBasicRepresentationWithSharedDependencies(
+				sharedDependencyIDs["oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster"],
+				sharedDependencyIDs["oci_database_backup_destination.test_backup_destination"],
+				sharedDependencyIDs["oci_database_key_store.test_key_store"],
+			)
+			datasourceRepresentation = exaccAutonomousContainerDatabaseBasicDataSourceRepresentationWithSharedDependencies(
+				sharedDependencyIDs["oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster"],
+			)
+			resourceUsageDatasourceRepresentation = exaccAutonomousVmClusterAcdResourceUsageDataSourceRepresentationWithSharedDependencies(
+				sharedDependencyIDs["oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster"],
+			)
+			requiredOnlyConfig = config + compartmentIdVariableStr + dependencyConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Required, acctest.Create, representation)
+		}
+
+		var resId, resId2 string
+
+		acctest.ResourceTest(t, testAccCheckDatabaseAutonomousContainerDatabaseDestroy, []resource.TestStep{
+			// verify Create with optionals
+			{
+				Config: config + compartmentIdVariableStr + dependencyConfig + getExaccTagDependency() +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create,
+						acctest.GetUpdatedRepresentationCopy("maintenance_window_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsNoPreferenceRepresentation}, representation)),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "10"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "backup_config.0.backup_destination_details.0.id"),
+					resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test1@oracle.com"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.is_retention_lock_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.backup_retention_policy_on_terminate", "RETAIN_FOR_72_HOURS"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "db_unique_name", acbDBName),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
+					resource.TestCheckResourceAttrSet(resourceName, "memory_per_oracle_compute_unit_in_gbs"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.patching_mode", "ROLLING"),
+					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
+					resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "version_preference", "LATEST_RELEASE_UPDATE"),
+					resource.TestCheckResourceAttr(resourceName, "vm_failover_reservation", "25"),
+					resource.TestCheckResourceAttr(resourceName, "distribution_affinity", "MINIMUM_DISTRIBUTION"),
+					resource.TestCheckResourceAttr(resourceName, "net_services_architecture", "DEDICATED"),
+					resource.TestCheckResourceAttr(resourceName, "db_split_threshold", "8"),
+					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", "DBNAME"),
+					resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+					exaccMainResourceLog(t, "create Exacc ACD with optionals", resourceName, nil, &resId,
+						"display_name", "db_name", "compartment_id", "db_unique_name", "patch_model", "version_preference"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
+				),
+			},
+
+			// verify updates to updatable parameters
+			{
+				Config: config + compartmentIdVariableStr + dependencyConfig + getExaccTagDependency() +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, representation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
+					resource.TestCheckResourceAttrSet(resourceName, "autonomous_vm_cluster_id"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "11"),
+					resource.TestCheckResourceAttrSet(resourceName, "backup_config.0.backup_destination_details.0.id"),
+					resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test2@oracle.com"),
+					resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "db_split_threshold", "16"),
+					resource.TestCheckResourceAttr(resourceName, "db_unique_name", acbDBName),
+					resource.TestCheckResourceAttr(resourceName, "distribution_affinity", "MAXIMUM_DISTRIBUTION"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.hours_of_day.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.#", "4"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.months.0.name", "FEBRUARY"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.patching_mode", "NONROLLING"),
+					resource.TestCheckResourceAttr(resourceName, "net_services_architecture", "SHARED"),
+					resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
+					resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
+					resource.TestCheckResourceAttrSet(resourceName, "state"),
+					resource.TestCheckResourceAttr(resourceName, "version_preference", "NEXT_RELEASE_UPDATE"),
+					resource.TestCheckResourceAttr(resourceName, "vm_failover_reservation", "75"),
+					resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", "DBNAME"),
+					resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+					exaccMainResourceLog(t, "update Exacc ACD backup, contacts, and maintenance window", resourceName, &resId, &resId2,
+						"display_name", "db_name", "patch_model", "version_preference", "is_dst_file_update_enabled", "backup_config.0.recovery_window_in_days", "customer_contacts.0.email"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			// verify datasource
+			{
+				Config: config + compartmentIdVariableStr + dependencyConfig + getExaccTagDependency() +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, representation) +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_vm_cluster_acd_resource_usages", "test_autonomous_vm_cluster_acd_resource_usages", acctest.Required, acctest.Create, resourceUsageDatasourceRepresentation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(avmAcdResourceUsageDatasourceName, "autonomous_vm_cluster_id"),
+					resource.TestCheckResourceAttrSet(avmAcdResourceUsageDatasourceName, "autonomous_container_database_resource_usages.#"),
+					resource.TestCheckResourceAttrSet(avmAcdResourceUsageDatasourceName, "autonomous_container_database_resource_usages.0.available_cpus"),
+					resource.TestCheckResourceAttrSet(avmAcdResourceUsageDatasourceName, "autonomous_container_database_resource_usages.0.display_name"),
+					resource.TestCheckResourceAttrSet(avmAcdResourceUsageDatasourceName, "autonomous_container_database_resource_usages.0.id"),
+					resource.TestCheckResourceAttrSet(avmAcdResourceUsageDatasourceName, "autonomous_container_database_resource_usages.0.largest_provisionable_autonomous_database_in_cpus"),
+					resource.TestCheckResourceAttrSet(avmAcdResourceUsageDatasourceName, "autonomous_container_database_resource_usages.0.provisioned_cpus"),
+					resource.TestCheckResourceAttrSet(avmAcdResourceUsageDatasourceName, "autonomous_container_database_resource_usages.0.reclaimable_cpus"),
+					resource.TestCheckResourceAttrSet(avmAcdResourceUsageDatasourceName, "autonomous_container_database_resource_usages.0.reserved_cpus"),
+					resource.TestCheckResourceAttrSet(avmAcdResourceUsageDatasourceName, "autonomous_container_database_resource_usages.0.used_cpus"),
+				),
+			},
+			// verify datasource
+			{
+				Config: config +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_databases", "test_autonomous_container_databases", acctest.Optional, acctest.Create, datasourceRepresentation) +
+					compartmentIdVariableStr + dependencyConfig + getExaccTagDependency() +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, representation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_vm_cluster_id"),
+					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "display_name", "containerdatabases2"),
+					resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.autonomous_vm_cluster_id"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.backup_config.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.backup_config.0.recovery_window_in_days", "11"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.backup_config.0.backup_destination_details.0.id"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.backup_config.0.backup_destination_details.0.type", "NFS"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.db_split_threshold", "16"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.display_name", "containerdatabases2"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.distribution_affinity", "MAXIMUM_DISTRIBUTION"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.id"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.is_dst_file_update_enabled", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.days_of_week.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.days_of_week.0.name", "TUESDAY"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.hours_of_day.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.months.#", "4"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.months.0.name", "FEBRUARY"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.weeks_of_month.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.net_services_architecture", "SHARED"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.patch_model", "RELEASE_UPDATE_REVISIONS"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.service_level_agreement_type", "STANDARD"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.state"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.time_created"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.memory_per_oracle_compute_unit_in_gbs"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.version_preference", "NEXT_RELEASE_UPDATE"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.vm_failover_reservation", "75"),
+					resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.db_version"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.patching_mode", "NONROLLING"),
+					resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.system_tags.%", "0"),
+				),
+			},
+			// verify singular datasource
+			{
+				Config: config +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Required, acctest.Create, DatabaseDatabaseAutonomousContainerDatabaseSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + dependencyConfig + getExaccTagDependency() + acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, representation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_container_database_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.0.recovery_window_in_days", "11"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_config.0.backup_destination_details.0.id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "db_split_threshold", "16"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "containerdatabases2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "distribution_affinity", "MAXIMUM_DISTRIBUTION"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_dst_file_update_enabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.days_of_week.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.days_of_week.0.name", "TUESDAY"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.hours_of_day.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.#", "4"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.0.name", "FEBRUARY"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.weeks_of_month.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "net_services_architecture", "SHARED"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "service_level_agreement_type", "STANDARD"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "memory_per_oracle_compute_unit_in_gbs"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "version_preference", "NEXT_RELEASE_UPDATE"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "vm_failover_reservation", "75"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_version"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.patching_mode", "NONROLLING"),
+				),
+			},
+			// verify resource import
+			{
+				Config:            requiredOnlyConfig,
+				ImportState:       true,
+				ImportStateVerify: true,
+				ImportStateVerifyIgnore: []string{
+					"maintenance_window_details",
+					"backup_config.0.backup_destination_details.0.vpc_password",
+				},
+				ResourceName: resourceName,
+			},
+		})
+	})
+}
+
+func getExaccAutonomousContainerDatabaseFromAdsiTestInputs(t *testing.T, config string, compartmentIdVariableStr string, simulateDb bool, sharedDependencyIDs map[string]string) (string, map[string]interface{}, string) {
+	dependencyConfig := ExaccDatabaseAutonomousContainerDatabaseFromAdsiDependencies
+	representation := getExaccACDFromAdsiRepresentation()
+	requiredOnlyConfig := config + getExaccTagDependency() + getExaccACDFromADSIRequiredOnlyResource() + compartmentIdVariableStr
+
+	if !simulateDb {
+		return dependencyConfig, representation, requiredOnlyConfig
+	}
+
+	sharedDependencyAddresses := []string{
+		"oci_database_autonomous_database_software_image.test_autonomous_database_software_image",
+	}
+	additionalSharedDependencyIDs, cleanup := ResolveOrCreateSharedDependenciesFromConfig(t, map[string]string{
+		"oci_database_autonomous_database_software_image.test_autonomous_database_software_image": utils.GetEnvSettingWithBlankDefault("database_software_image_id"),
+	}, config+compartmentIdVariableStr+getExaccTagDependency()+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Create,
+			exaccAutonomousContainerDatabaseBasicRepresentationWithSharedDependencies(
+				sharedDependencyIDs["oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster"],
+				sharedDependencyIDs["oci_database_backup_destination.test_backup_destination"],
+				sharedDependencyIDs["oci_database_key_store.test_key_store"],
+			))+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Optional, acctest.Update,
+			exaccAutonomousDatabaseSoftwareImageRepresentationWithSharedSourceCDB(`${oci_database_autonomous_container_database.test_autonomous_container_database.id}`)),
+		sharedDependencyAddresses)
+	if cleanup != nil {
+		t.Cleanup(cleanup)
+	}
+	t.Logf("[SHARED_DEP_SETUP] autonomous_vm_cluster_id=%s | backup_destination_id=%s | key_store_id=%s | database_software_image_id=%s",
+		sharedDependencyIDs["oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster"],
+		sharedDependencyIDs["oci_database_backup_destination.test_backup_destination"],
+		sharedDependencyIDs["oci_database_key_store.test_key_store"],
+		additionalSharedDependencyIDs["oci_database_autonomous_database_software_image.test_autonomous_database_software_image"],
+	)
+
+	dependencyConfig = exaccAutonomousContainerDatabaseFromAdsiSharedDependencyVariables(
+		sharedDependencyIDs["oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster"],
+		sharedDependencyIDs["oci_database_backup_destination.test_backup_destination"],
+		additionalSharedDependencyIDs["oci_database_autonomous_database_software_image.test_autonomous_database_software_image"],
+	)
+	representation = exaccAutonomousContainerDatabaseFromAdsiRepresentationWithSharedDependencies(
+		sharedDependencyIDs["oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster"],
+		sharedDependencyIDs["oci_database_backup_destination.test_backup_destination"],
+		additionalSharedDependencyIDs["oci_database_autonomous_database_software_image.test_autonomous_database_software_image"],
+	)
+	requiredOnlyConfig = config + compartmentIdVariableStr + dependencyConfig + getExaccTagDependency() +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database_from_adsi", acctest.Required, acctest.Create, representation)
+
+	return dependencyConfig, representation, requiredOnlyConfig
+}
+
+func getExaccAutonomousContainerDatabaseBackupDestinationUpdateWithoutDGTestInputs(t *testing.T, config string, compartmentIdVariableStr string, simulateDb bool, sharedDependencyIDs map[string]string) (string, map[string]interface{}) {
+	dependencyConfig := ExaccDatabaseAutonomousContainerDatabaseResourceDependency
+	representation := getExaccACDWithUpdateBackupDestRepresentation()
+
+	if !simulateDb {
+		return dependencyConfig, representation
+	}
+
+	sharedDependencyAddresses := []string{
+		"oci_database_backup_destination.ra_backup_destination",
+	}
+	additionalSharedDependencyIDs, cleanup := ResolveOrCreateSharedDependenciesFromConfig(t, map[string]string{
+		"oci_database_backup_destination.ra_backup_destination": utils.GetEnvSettingWithBlankDefault("ra_backup_destination_id"),
+	}, config+compartmentIdVariableStr+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "ra_backup_destination", acctest.Optional, acctest.Create,
+			acctest.RepresentationCopyWithRemovedProperties(DatabaseBackupDestinationRepresentation, []string{"defined_tags"})),
+		sharedDependencyAddresses)
+	if cleanup != nil {
+		t.Cleanup(cleanup)
+	}
+	t.Logf("[SHARED_DEP_SETUP] autonomous_vm_cluster_id=%s | backup_destination_id=%s | key_store_id=%s | ra_backup_destination_id=%s",
+		sharedDependencyIDs["oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster"],
+		sharedDependencyIDs["oci_database_backup_destination.test_backup_destination"],
+		sharedDependencyIDs["oci_database_key_store.test_key_store"],
+		additionalSharedDependencyIDs["oci_database_backup_destination.ra_backup_destination"],
+	)
+
+	dependencyConfig = exaccAutonomousContainerDatabaseBackupDestinationUpdateWithoutDGSharedDependencyVariables(
+		sharedDependencyIDs["oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster"],
+		sharedDependencyIDs["oci_database_backup_destination.test_backup_destination"],
+		sharedDependencyIDs["oci_database_key_store.test_key_store"],
+		additionalSharedDependencyIDs["oci_database_backup_destination.ra_backup_destination"],
+	)
+	representation = exaccAutonomousContainerDatabaseBackupDestinationUpdateWithoutDGRepresentationWithSharedDependencies(
+		sharedDependencyIDs["oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster"],
+		sharedDependencyIDs["oci_database_backup_destination.test_backup_destination"],
+		sharedDependencyIDs["oci_database_key_store.test_key_store"],
+		additionalSharedDependencyIDs["oci_database_backup_destination.ra_backup_destination"],
+	)
+
+	return dependencyConfig, representation
+}
+
+func exaccAutonomousContainerDatabaseBasicSharedDependencyVariables(autonomousVmClusterID string, backupDestinationID string, keyStoreID string) string {
+	return fmt.Sprintf("variable \"autonomous_vm_cluster_id\" { default = \"%s\" }\n", autonomousVmClusterID) +
+		fmt.Sprintf("variable \"backup_destination_id\" { default = \"%s\" }\n", backupDestinationID) +
+		fmt.Sprintf("variable \"key_store_id\" { default = \"%s\" }\n", keyStoreID)
+}
+
+func exaccAutonomousContainerDatabaseBackupDestinationUpdateWithoutDGSharedDependencyVariables(autonomousVmClusterID string, backupDestinationID string, keyStoreID string, raBackupDestinationID string) string {
+	return exaccAutonomousContainerDatabaseBasicSharedDependencyVariables(autonomousVmClusterID, backupDestinationID, keyStoreID) +
+		fmt.Sprintf("variable \"ra_backup_destination_id\" { default = \"%s\" }\n", raBackupDestinationID)
+}
+
+func exaccAutonomousContainerDatabaseBasicRepresentationWithSharedDependencies(autonomousVmClusterID string, backupDestinationID string, keyStoreID string) map[string]interface{} {
+	return acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(ACDatabaseRepresentation, []string{"defined_tags"}), map[string]interface{}{
+		"autonomous_vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: autonomousVmClusterID},
+		"backup_config":            acctest.RepresentationGroup{RepType: acctest.Required, Group: exaccAutonomousContainerDatabaseBackupConfigWithSharedDependencies(backupDestinationID)},
+		"key_store_id":             acctest.Representation{RepType: acctest.Optional, Create: keyStoreID},
+	})
+}
+
+func exaccAutonomousContainerDatabaseBackupConfigWithSharedDependencies(backupDestinationID string) map[string]interface{} {
+	return acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousContainerDatabaseBackupConfigRepresentation, map[string]interface{}{
+		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: exaccAutonomousContainerDatabaseBackupDestinationDetailsWithSharedDependencies(backupDestinationID)},
+	})
+}
+
+func exaccAutonomousContainerDatabaseBackupDestinationDetailsWithSharedDependencies(backupDestinationID string) map[string]interface{} {
+	return acctest.RepresentationCopyWithNewProperties(autonomousContainerDatabaseBackupConfigBackupDestinationDetailsRepresentation, map[string]interface{}{
+		"id": acctest.Representation{RepType: acctest.Optional, Create: backupDestinationID},
+	})
+}
+
+func exaccAutonomousContainerDatabaseBackupDestinationUpdateWithoutDGRepresentationWithSharedDependencies(autonomousVmClusterID string, backupDestinationID string, keyStoreID string, raBackupDestinationID string) map[string]interface{} {
+	return acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(ACDatabaseWithRABkpDesRepresentation, []string{"defined_tags"}), map[string]interface{}{
+		"autonomous_vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: autonomousVmClusterID},
+		"backup_config":            acctest.RepresentationGroup{RepType: acctest.Required, Group: exaccAutonomousContainerDatabaseBackupConfigWithRAUpdateSharedDependencies(backupDestinationID, raBackupDestinationID)},
+		"key_store_id":             acctest.Representation{RepType: acctest.Optional, Create: keyStoreID},
+	})
+}
+
+func exaccAutonomousContainerDatabaseBackupConfigWithRAUpdateSharedDependencies(backupDestinationID string, raBackupDestinationID string) map[string]interface{} {
+	return acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousContainerDatabaseBackupConfigWithRAUpdateRepresentation, map[string]interface{}{
+		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: exaccAutonomousContainerDatabaseBackupDestinationDetailsWithRAUpdateSharedDependencies(backupDestinationID, raBackupDestinationID)},
+	})
+}
+
+func exaccAutonomousContainerDatabaseBackupDestinationDetailsWithRAUpdateSharedDependencies(backupDestinationID string, raBackupDestinationID string) map[string]interface{} {
+	return acctest.RepresentationCopyWithNewProperties(autonomousContainerDatabaseBackupConfigBackupDestinationDetailsWithRAUpdateRepresentation, map[string]interface{}{
+		"id": acctest.Representation{RepType: acctest.Optional, Create: backupDestinationID, Update: raBackupDestinationID},
+	})
+}
+
+func exaccAutonomousContainerDatabaseBasicDataSourceRepresentationWithSharedDependencies(autonomousVmClusterID string) map[string]interface{} {
+	return acctest.RepresentationCopyWithNewProperties(ACDatabaseDataSourceRepresentation, map[string]interface{}{
+		"autonomous_vm_cluster_id": acctest.Representation{RepType: acctest.Optional, Create: autonomousVmClusterID},
+	})
+}
+
+func exaccAutonomousVmClusterAcdResourceUsageDataSourceRepresentationWithSharedDependencies(autonomousVmClusterID string) map[string]interface{} {
+	return acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousVmClusterAcdResourceUsageDataSourceRepresentation, map[string]interface{}{
+		"autonomous_vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: autonomousVmClusterID},
 	})
 }
 
@@ -1363,6 +1642,23 @@ func getExaccACDFromAdsiRepresentation() map[string]interface{} {
 				"backup_config":            acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousContainerDatabaseBackupConfigRealRepresentation},
 			})
 	}
+}
+
+func exaccAutonomousContainerDatabaseFromAdsiSharedDependencyVariables(autonomousVmClusterID string, backupDestinationID string, databaseSoftwareImageID string) string {
+	return fmt.Sprintf("variable \"autonomous_vm_cluster_id\" { default = \"%s\" }\n", autonomousVmClusterID) +
+		fmt.Sprintf("variable \"backup_destination_id\" { default = \"%s\" }\n", backupDestinationID) +
+		fmt.Sprintf("variable \"database_software_image_id\" { default = \"%s\" }\n", databaseSoftwareImageID)
+}
+
+func exaccAutonomousContainerDatabaseFromAdsiRepresentationWithSharedDependencies(autonomousVmClusterID string, backupDestinationID string, databaseSoftwareImageID string) map[string]interface{} {
+	return acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(ExaccACDatabaseFromAdsiRepresentation, []string{"defined_tags", "key_store_id", "okv_end_point_group_name"}),
+		map[string]interface{}{
+			"autonomous_vm_cluster_id":   acctest.Representation{RepType: acctest.Optional, Create: autonomousVmClusterID},
+			"backup_config":              acctest.RepresentationGroup{RepType: acctest.Required, Group: exaccAutonomousContainerDatabaseBackupConfigWithSharedDependencies(backupDestinationID)},
+			"database_software_image_id": acctest.Representation{RepType: acctest.Required, Create: databaseSoftwareImageID},
+		},
+	)
 }
 
 func getExaccACDFromADSIRequiredOnlyResource() string {
