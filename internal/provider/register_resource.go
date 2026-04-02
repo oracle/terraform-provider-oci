@@ -66,6 +66,7 @@ import (
 	tf_fleet_software_update "github.com/oracle/terraform-provider-oci/internal/service/fleet_software_update"
 	tf_functions "github.com/oracle/terraform-provider-oci/internal/service/functions"
 	tf_fusion_apps "github.com/oracle/terraform-provider-oci/internal/service/fusion_apps"
+	tf_gdp "github.com/oracle/terraform-provider-oci/internal/service/gdp"
 	tf_generative_ai "github.com/oracle/terraform-provider-oci/internal/service/generative_ai"
 	tf_generative_ai_agent "github.com/oracle/terraform-provider-oci/internal/service/generative_ai_agent"
 	tf_generic_artifacts_content "github.com/oracle/terraform-provider-oci/internal/service/generic_artifacts_content"
@@ -331,6 +332,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("fusionapps") {
 		tf_fusion_apps.RegisterResource()
+	}
+	if common.CheckForEnabledServices("gdp") {
+		tf_gdp.RegisterResource()
 	}
 	if common.CheckForEnabledServices("generativeai") {
 		tf_generative_ai.RegisterResource()

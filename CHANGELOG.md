@@ -1,27 +1,496 @@
-## 7.10.0 (Unreleased)
+## 8.8.1 (April 2, 2026)
 
+### Bug Fix
+- Registered missing resource/datasource oci_gdp_* (Hotfix)
+
+## 8.8.0 (April 1, 2026)
+
+### Added
+- Support for Subscription Model/Tiered pricing for SaaS Listings [SELF]
+- support for zero data enable flag
+- Support for Minor changes to existing OIC CP Public API to support approved existing DR design
+- File Storage Service IPv6 mount target support, support for Custom CA certificates for LDAP Feature on Mount Targets
+- Adding support for additional ADB types in Ops Insights
+- Support for NLBCP - Reserved Private IP Support
+- Support for Oracle Cloud Migration (OCM) - Bring Your Own Subnet (BYOS)
+- Support for Custom CA certificates for LDAP Feature on Mount Targets
+- Support for Data Science: Support Public Internet Access for Model Deployment
+
+### Bug Fix
+- correct oci_artifacts_container_repository import docs
+
+## 8.7.0 (March 24, 2026)
+
+### Bug Fix
+- Inconsistency between VCN IPv6 CIDR config and Terraform States
+
+## 8.6.0 (March 17, 2026)
+
+### Added
+- Support for ExaDB-C@C Custom TLS Scan Listener Port
+- Support to Globally Distributed Database on Autonomous and Exascale Infrastructure and UI redwood migration
+- Support for ML nodes
+
+### Bug Fix
+- getLifecycleStateReflect() fails to get to struct when the object is a pointer to an interface
+- deploy_pipeline_parameters update fix
+
+## 8.5.0 (March 10, 2026)
+
+### Added
+- Support for OCI IAM Identity Verification
+- Support for Guarded Data Pipelines - GDP
+- Support for IP Pool self serve API enhancements
+- Support for CCCP - API changes to support VCNIP IP Lifetime feature
+
+### Deprecation
+- variables and init_variables fields in resource oci_mysql_mysql_configuration
+
+### Bug Fix
+- added support for real resource for ADBCC
+- AIDP resource should wait for work request to succeed with proper entitytype
+- for mising Image field in desktops collection list
+- Support for IdentityDomains tags ordering and Group Members issue fix
+
+## 8.4.0 (March 4, 2026)
+
+### Added
+- support for preserving state file on 404 for CRUD operations when ENV Var is set
+- Support for User Managed Maintenance Schedules.
+- 03/04 -  Support for OCI Cache with Valkey 8.1
+- Support for Create Multiple Standby Databases in DG environment. | BaseDB
+- Support for OS Patching Support Base DB
+- Support for Data Safe - Accept TargetDatabase user credentials while running Data Masking
+- Support for Ops Insights: Exadata Cost Management (Chargeback)
+
+### Deprecation
+- Removed password
+
+### Bug Fix
+- Removing unused service_configurations parameter from Cloud Guard Configuration documentation
+- inference_key fix
+
+## 8.3.0 (February 24, 2026)
+
+### Added
+- Support for OCI Private DNS - Zone Transparency and bug fixes
+- Support for Exadata Fleet Update single patching support for Oracle assisted Patching on ExaDB-XS
+- Support for MySQL HeatWave Service: Telemetry configuration
+- Support for OCI Generative AI Agent - Model Selection Support at Agent and Tool level
+- Support for SQLEndpoint Logging integration with OCI Logging
+
+### Bug Fix
+- allow send recoveryWindowInDays as 0 in ACD creation
+
+## 8.2.0 (February 18, 2026)
+
+### Added
+- Support for Database Management : ExaDB-D/ExaDB-C@C Storage Monitoring
+- Ip Pool Terraform
+- Support for Customer-controlled publicIP decommission
+- Support for MySQL HeatWave Service: Deferred Scheduled Maintenance
+- Support for Compute: Declarative GPU Memory Cluster API
+
+
+## 8.1.0 (February 10, 2026)
+
+### Added
+- Support for CP: Work on assessment TERSI ticket TERSI-4354 Workflow Style UI for Migrations
+- Support for GenAI Image Generation
+- Support for Exadata Fleet Update GI/DB fleet patching support for ExaDB-XS
+- Support for FC Guardrails Create CrossConnect API
+- Support for Compute Control Plane: Support Burstable Shapes in Capacity Report
+- Support for MySQL HeatWave Service: Flexible Configuration Support (API ONLY)
+- new listVulnerabilities endpoint plus extended response models for some of the existing endpoints
+
+### Bug Fix
+- Issue with updating shapes on the configuration and DB system resources
+- Fix DisplayName null error for DevopsDeployEnvironments DataSource
+- database encryption key location
+
+## 8.0.0 (February 4, 2026)
+
+### Added
+- Support Exascale for VM Storage
+- Support for Desktop as a Service: Video Input
+- Support for Compute API IPV6 Support
+- Support for Host API change - Adding a new field in listComputeHosts
+- Support for Exascale Phase 2 Exascale for VM Storage | ExaDB-C@C
+- Support for Desktop as a Service: Boot Volume Sizing
+- Support for Pool Image Update
+- Support for Desktop as a Service: Connection History and Status
+- Desktop as a Service: Ephemeral Desktops
+- Support for NGFW - Support for smaller Firewall (1Gbps) API ONLY Release
+- Support for Log Analytics JuniperBerry Release
+
+### Deprecation
+- Removed GlobabllyDistributedDatabase
+
+### Bug Fix
+- Ignore changes to system_tags for Resource Analytics resources
+- oci_dns_rrset behaviour changes
+- OCI Terraform blocks customers from adding more than 2 IPv6 prefixes to a subnet
+
+## 7.32.0 (January 27, 2026)
+
+### Added
+- Support for KMS on AWS
+- Support for message fanout with filtering using Consumer Groups in Queue Service
+- Support for Enable more processor families in cluster selection - Managed Kafka
+- Support for IPA - Add Compute Cluster support to Instance Pools
+- Support for BYOCA and CA Issuance Rules in OCI Certificates
+- Support for OCVS Customer Operation Improvements
+- Support for DIF - Addition of OCI Services
+- Support for OCI OpenSearch Service LBaaS to NLB migration
+
+### Bug Fix
+- refactor computeHost to computeHosts
+- Bugfix for UpdateLog in Logging provider
+
+## 7.31.0 (January 21, 2026)
+
+### Added
+- Support for OCI IoT service: Flexible Domain Group Resourcing
+- Support for SDK/CLI ExaDB-C@C Granular Scheduling & Infra Patching Improvements/Fixes
+- Support for Allow skipDatapatch, skipClosedPDBs and applyDatapatch options in console UI | ExaCS&ExaCC
+- Support for [DBaaS] DbConnectionBundle and Service-Owned Certificates DB Cloud Databases
+- Support for ADB-S: Support Transportable Tablespaces
+- Support for ADBS: Extend Wallet Rotation Grace Period to 72 hours
+- fix for stateful resource for context aware resources (SIGINT propagation)
+- Support to use retry-after header for 409 errors in retries
+
+
+## 7.30.0 (January 14, 2026)
+
+### Added
+- Support for Log Analytics Associations
+- junits - Follow up for Vanity URL support using API Gateway
+- Support for OpenAI OSS 120B/20B Terraform DUE 1/14 OCI Generative AI - Project Starlight OSS 120B and 20B
+- Support for Support out-of-place restore (iRestore), (ExaDB-D/C@C/XS/Base DB)
+- support for Fleet Application Management Service 2.0.4
+- Support for Exadata Fleet Update - Add Search criteria for Exadata Releases 25.1 and 25.2
+- Support for Customer Cost Anomaly Detection
+- Support for [Elastic Pools with Colocated Members] Terraform Support in Prod Region ADB-S
+- Enable Forwarding of ZPR Security Attributes for Private Endpoint Creation
+- Support for HeatWave Service: MyDAS (MySQL Data Analysis System)
+
+### Bug Fix
+- Set CapacityReservationId on UpdateInstance for correct reservation binding
+- Giversion support for 26ai versions
+
+## 7.29.0 (December 16, 2025)
+
+### Added
+- Support for New CP Public APIs to Support Additional Features in Oracle Integration Cloud (OIC) - REDWOOD MIGRATION
+- Support for OCI Compute Farm (OCF) Service – Initial Release
+- Support for OCI Data Science - Model Explorer
+- Support for Configure backend NSG at OKE cluster level
+- Support for IDCS MappedAttributes API to OCI SDK, CLI and Terraform provider
+- Support for Ability to Create ACLs for Oracle Integration Cloud (OIC) Design Time
+- Support for Firmware Pinning using Host Groups
+- OIC member support for Full Stack Disaster Recovery
+
+
+## 7.28.0 (December 10, 2025)
+
+### Added
+- max_attempts configuration option in retry configuration
+- Log Analytics Entity Associations CRUD operations support
+- Support for Project Flash
+- ListMulticloudsubscriptions and ListMulticloudResources APIs for Multicloud service
+- Support for ADB-S: Display Elastic Pool Cost Savings in OCI Console
+- Changes to Resource Discovery flow for context aware SIGINT
+
+
+### Bug Fix
+- oci_ocvp_sddc system_tag fix
+- Support for Resource Analytics with OBO tokens
+- terraform bugfix for adbs switchover doc
+- Added data source support for ML Application Implementation Version resource
+
+## 7.27.0 (November 20, 2025)
+
+### Added
+- Support for Marketplace Service Catalog Access Control feature
+- Support for Compute: GPU Memory Fabric API - Firmware Pinning
+- Support for Refresh Exa Dataguard Health
+- Support for AWS integration for DB@AWS - DBMCI
+- Support for Private Service Access
+- Support for GGS Zero ETL Usability Improvements
+- Support for Zero-Trust Packet Routing (ZPR) Security Attribute Onboarding for bastion service
+- Support for IPv6 and Reserved IPs in API Gateway
+- Support for IoT actions APIs and spec bug fixes
+- Support for [Terraform] Support AWS KMS integration for DB@AWS
+- Support for Data Catalog - ZPR Intercom
+- Revert SIGINT changes for ODSC
+- config for retries
+
+### Bug Fix
+- added support for real resource for Autonomous CC
+
+## 7.26.1 (November 13, 2025)
+- Reverted Support for Passing TF CLI context to Go SDK
+
+## 7.26.0 (November 12, 2025)
+
+### Added
+- Deprecation message
+- Support for Passing TF CLI context to Go SDK
+- support for Fleet Application Management Service 2.0.3
+- Support for Multi-Shape Family Virtual Machine Instances on Dedicated Virtual Machine Hosts
+- Support for [Multi Cloud Limits] - Add support for allocating limits by partner cloud
+- Support for OKE: Kubernetes Versions Format API update
+- lookup image by URI
+
+## 7.25.0 (November 4, 2025)
+
+### Added
+- Support for new service Data Intelligence Foundation
+- Support for VM Instance - Snapshot/Restore Read only
+- ZPR and PSA support
+- Support for IPA-Graceful Termination of Instance in Instance Pool
+
+### Bug Fix
+- make test compile failure
+
+## 7.24.0 (October 29, 2025)
+
+### Added
+- Support for HeatWave MySQL Service: Configurable Version Upgrade Policies
+- Support for ADBS: Autonomous Name Change
+- Support for Oracle Cloud AI Services Language - Enhancement-Rel4.2
+- Support for LBaaS Support for online conversion of IPv4 LB to dual stack IPv4 and IPv6
+- Support for ADB-S: Vanity URL support using API Gateway
+- Support for Lustre File Service: LFS Object Storage Bi-Directional Sync
+- support for Database Tools Identity
+- Support for Support for Apple as a Social IDP
+- Support for Zero-Trust Packet Routing (ZPR) Security Attribute Onboarding for File Storage Service
+- FSDR support for database events integration
+- Support for Zero-Trust Packet Routing (ZPR) Security Attribute Onboarding for Streaming Service
+- Support for JMS common variables
+- Support for Host API - Add computeHostInSubtree query param to existing ListComputeHosts api.
+- Support for (ORM-174501 GA-2) IPv4-Prefix-for-Subnet & Flexible CIDR support for secondary IPs on VNIC
+- support for Dual Stack Endpoint
+- entry in ChangeLog
+
+### Bug Fix
+- secret id fix and other test case fixes
+
+## 7.23.0 (October 22, 2025)
+
+### Added
+- Support for OCI FSS support for additional LDAP schema RFC2307bis.
+- Support for Fleet Software Update to support 26ai version
+- Support for FAaaS IPv6 Support
+- Support for [SIGINT] Passing context to GO SDK
+- Unit shape exposure in SDK and Terraform for genai
+- Support for Standalone Plane - Subscription Ack not being updateable
+- Support for JMS Fleet Agent Configuration resource
+- Support for JMS common variables
+- Fix devops deploy helm stage set_values and set_string bug
+- API Doc link and example link to resource doc
+- Support for OCI Data Science - ML Pipelines - Parameterized pipelines
+
+### Bug Fix
+- for resourcemanager in provider version 7.22
+- Increase time out limit for Vm Cluster resource
+
+## 7.22.0 (October 7, 2025)
+
+### Added
+- Support for sigint context to go sdk for GoldenGate
+- Support for AI Data Platform
+- Support for Data Guard support to convert Physical Standby to Snapshot Standby and vice versa|ExaCS|ExaCC
+- Support for Dynamic Resource VM
+- Support for Oracle Cloud Infrastructure (OCI) Internet of Things (IoT) Service
+- Support for RMS - ZPR security attribute support for PE
+- Support for ZPR Security Attributes
+- Support for ZPR security attribute for Functions
+- Support for OIC: ZPR security attribute support for private endpoint
+- Support for HeatWave Service: Zerotrust Packet Routing (ZPR)
+- Support for Opensearch - ZPR security attribute support
+- Support for [OCI Cache] - ZPR Security Attributes
+- OKE Add-ons option list API update, add should_show_all_versions flag
+- Support for GGS Release 9 Connections
+- Support for GGS ZPR security attribute support
+- Support for GGS API for Multi-cloud
+
+
+## 7.21.0 (October 1, 2025)
+
+### Added
+- Support for Immutable Backup and Undelete DB | ADB-D and ADB on ExaC@C
+- Support for sigint context to go sdk for GoldenGate
+- support for distinct instance_shape_config in capacity reservations
+- Support for Generative AI - Private Endpoint support for DAC
+- Support for Vertical Stack Update for Guest OS and GI using generic scheduling mechanism or point operations
+- Support for ADB-S: ADB@GCP (Oasis) Google Key Management Support (GCP CMEK) R3
+- Support for Datastore Management for Standard Shapes
+- Support for Reselling NVAIE License from NVidia
+- Support for Long Running Functions With Guaranteed Response Delivery
+- Support for Resource Analytics service
+- Support for Multicloud service
+
+### Bug Fix
+- for MongoDB API support | ADB-D & ADB-C@C
+- Issue updating management policies with type set to None.
+
+## 7.20.0 (September 23, 2025)
+
+### Added
+- Support for Java Management Service 10.0 - Standalone Plane Component (SDKs & TERSI ONLY)
+- Support for Java Management Service 10.0
+- Support for ExaDB-D Exascale Integration
+- Support for OCI Cache Discovery Endpoint for Sharded Clusters
+- Support for Marketplace Metadata for Attribution and Attestation
+- Support for Data Safe - Confidence Level support in Data Discovery
+
+
+## 7.19.0 (September 17, 2025)
+
+### Added
+- Support for BaseDB@Partner Clouds- DBAAS Support
+- Ensure that WR does not error out if there are no work request errors
+- Support for ADB-S: Refreshable Metadata Clones
+
+### Deprecation
+- Support for IPv6 for OCI FSS
+
+### Bug Fix
+- Fixing tunnel inspection and nat rules names for herds reset export resources failure.
+- display name causing update issue
+
+## 7.18.0 (September 10, 2025)
+
+### Added
+- Support for Support resource locking for Email Delivery
+- Support for OCI FSS IPv6 Support
+
+### Bug Fix
+- TERSI-7599: 08/11-NewDev - UDX fixes only to allow ENTERPRISE_EDITION_EXTREME_PERFORMANCE
+
+## 7.17.0 (September 4, 2025)
+
+### Added
+- Support for AutoScale-DB-Vault | ExaDB-XS
+- Support for Backup Validation (V2)- Terraform HeatWave Service: Backup Validation
+- Support for ADB-S: Provide Available Capacity When Joining an Elastic Pool
+- Support for Container Governance Service
+- Support for dbmulticloud GCP and azure fixes
+- Prod Endpoint for AI Vision Service Stream Video Processing
+- Support for AI Vision Service Stream Video Processing
+
+## 7.16.0 (August 27, 2025)
+
+### Added
+- Support for Compute: GPU Memory Fabric API Update - availableHostCount
+- Support for Mixed License, Recovery Point Time, filter deployments by type
+- Support for E6 - Standard x86 shape for BaseDB on DRCC Butterfly | BaseDB
+- Support for OCI Generative AI Agent - CY25 Q2 Release
+- Support for New managed service leveraging full capabilities and performance potential of raw Apache Kafka
+- Support for Oracle 19C Database in Exadata Database Service on Exascale Infrastructure (ExaDB-XS)
+- MySQL database support for FSDR
+- Data Safe Support for Target Database Group
+
+
+## 7.15.0 (August 20, 2025)
+
+### Added
+- Support for APIGW Resource Locking
+- Support for IPv6-Prefix-for-Subnet & Flexible CIDR support for secondary IPs on VNIC Multi-Prefix-for-Subnet & Flexible CIDR support for secondary IP addresses on VNIC
+- Support for PDB Snapshots on ExaDB-XS
+
+
+## 7.14.0 (August 13, 2025)
+
+### Added
+- Support for scimQuery field for findingAnalytics API in data safe
+- Support for ODSC - Distributed Training V2 (DTv2)
+- Support for OCI Cache - Customer Managed Config Sets
+- Support for AI Vision Service Stream Video Processing
+- Support for GoldenGate Connections Release 8
+- Support for OL8 migration for Devops Build runner
+- Support for fields computeClusterId and placementConstraintDetails in Instance Configuration Launch Details
+- Max Parallel Chunks configurable via env
+- Formatting changes in files
+
+### Bug Fix
+- Fix using security_attributes in UpdateInstance and add tests
+- remove usages of freeformTags and definedTags from ApplianceImageSummary
+- EXACC update fix to send destionationDetails
+- Resolved errors with VCN update requests for IPv6 CIDRs
+
+## 7.13.0 (August 6, 2025)
+
+### Added
+- Max Parallel Chunks configurable via env
+- Formatting changes in files
+
+### Bug Fix
+- for Create route table when route rule contains route_type.
+- Api Gateway terraform correction to align with public sdk resource locking changes
+- Adbs switchover logic and secret Id bug
+
+## 7.12.0 (July 30, 2025)
+
+### Added
+- Support for ODSC - Enable Burstable for Data Science Notebooks, ML Jobs, and ML Pipeline
+- Support for APM - Scheduled Backend Queries - UI & API
+- Support for Ops Insights support for ADB@ExaCC
+- oprional parameters to import
+- Support for API Platform Cloud Service
+- Support for OCI Data Science Multi Model Deployment Experience
+- Support for Design/Implement CPU architecture agnostic configurations
+- Support for Secrets in Vault - Cross Region Replication Feature
+- Support for APM - Agent & Configurations Updates
+
+### Bug Fix
+- Update domain override logic to get realm domain from oci-go-sdk instead of using regex to extract realmn domain
+- Fix for VCN is_ipv6enabled plan drift on apply.
+- ed - Pagination for resource discovery of private zones
+
+## 7.11.0 (July 23, 2025)
+
+### Added
+- Support for Customer Contact for Operational Notifications Phase 2 | ADB-D & ADB-C@C
+- Support for Rel 2.0 Enhancement: Oracle Cloud AI Services Document Understanding
+- Support for Ability to specify tags when adding a standby database or creating a database from backup | ExaDB-D, ExaDB-XS, ExaDB-CC
+- Support for Management Agent: Centralized management of Named Credentials from Management Agent Cloud Service
+- Support for ADB-S: Scheduled Upgrade to 23ai
+- Support for Autoscaling to support Custom Metrics feature
+- Support for ACD - OKV Endpoint group| ADB-D and ADB-C@C
+- Support monitoring of Cloud DB System for Database Management Service
+
+### Deprecation
+- Deprecated Anomaly Detection service
+
+### Bug Fix
+- upgradted go pkg cloudflare/circl@v1.6.0
+
+## 7.10.0 (July 16, 2025)
+
+### Added
+- Support for GenAI Agents Tools API
+- Support for BDS - Automatic Replacement of failed Master (MN0/MN1) and Utility nodes (UN0/UN1)
+- Support for OSP OCI integration service: Fraud changes
 ### Bug Fix
 Fix unpinning of addon version
 - Check OIDC is enabled in state to prevent drift
 - fixed backup type issue
+- OS Management Hub: unregister managed instance on resource deletion
+ed - To support TF import of KMS vault replica.
 
-### Bug fix
-- dns_rrset: On create, return HTTP 409 (Conflict) if the RRSet already contains records; update and delete behavior unchanged.
-- dns_rrset: Removed deprecated arguments `compartment_id` and `scope` from the resource schema and docs.
-- dns_rrset data sources: Removed `compartment_id` and `scope`; clarified that `view_id` is required when accessing a private zone by name.
-- Examples: Updated private DNS RRSet examples to omit `scope` and rely on `view_id` only.
-
-## 7.9.0 (Unreleased)
+## 7.9.0 (July 09, 2025)
 
 ### Added
-- Added - Support for OSP OCI integration service: Fraud changes
-- Support for GenAI Agents Tools API
-- Support for BDS - Automatic Replacement of failed Master (MN0/MN1) and Utility nodes (UN0/UN1)
+Added - Support for OSP OCI integration service: Fraud changes
+Support for GenAI Agents Tools API
+Support for BDS - Automatic Replacement of failed Master (MN0/MN1) and Utility nodes (UN0/UN1)
 ### Bug Fix
-- OS Management Hub: unregister managed instance on resource deletion
-- To support TF import of KMS vault replica.
+OS Management Hub: unregister managed instance on resource deletion
+To support TF import of KMS vault replica.
 
-## 7.8.0 (Unreleased)
+## 7.8.0 (July 5, 2025)
 
 ### Added
 - Support for [Elastic Pool Support for Child Tenancies] Terraform Support in Prod Region ADB-S: Elastic Pool Support for Child Tenancies
@@ -33,12 +502,12 @@ Fix unpinning of addon version
 - Support for MultiCloud Data Plane Integration for Database services dbmulticloud changes
 ### Bug Fix
 - Corrected Cloud Database Management Integration Test and added Example Test
-## 7.7.0 (Unreleased)
+## 7.7.0 (June 24, 2025)
 
 ### Added
 - Support for BYoIPv6 support on LBaaS (API ONLY Release)
 - Log Analytics EntityTypes CRUD operations support
-Demand Signal and Internal Demand signal tests - DEXREQ-7202
+- Demand Signal and Internal Demand signal tests - DEXREQ-7202
 - Support for AWS_S3 in database provision
 - Support for Exadata Fleet Update 23ai upgrade fleet support (GI/DB for ExaCS and ExaCC)
 - Support for CMEK for Oracle NoSQL Hosted Environments
@@ -47,7 +516,7 @@ Demand Signal and Internal Demand signal tests - DEXREQ-7202
 - Updated Schema to include vpc password
 - Fix the nsgIds not working in create DataFlow SQLEndpoint request
 
-## 7.6.0 (Unreleased)
+## 7.6.0 (June 18, 2025)
 
 ### Added
 - Support for OCI Cache - RBAC/ACL Support
@@ -55,16 +524,22 @@ Demand Signal and Internal Demand signal tests - DEXREQ-7202
 - Support for Privileged API Access Control for Oracle Database Services
 - Support for WebLogic Management Service
 
-## 7.5.0 (Unreleased)
+## 7.5.0 (June 11, 2025)
 
 ### Bug Fix
 - Updating the Type of should_include_oidc_config_file to Bool
 , Check if the IP address in Nil before dereferencing it to avoid Nil pointer causing terraform to crash
 - Fixing broken Integration & Example tests for DbSystem Patch Resource
 
-## 7.4.0 (Unreleased)
+## 7.4.0 (June 04, 2025)
 
 ### Added
+- Support for Release 7 Connections
+- Support for HostGroups - Compute Control Plane
+- Support for Fleet Application Management Service 2.0
+- Support for Release 7 Connections
+- Support for HostGroups - Compute Control Plane
+- Support for Fleet Application Management Service 2.0
 - Support for Standby: DMS online migration using snapshot standby
 - Support for Release 7 Connections
 - Support for Terraform integration for HeatWave Service: Soft delete backup HeatWave Service: Soft delete backup
@@ -72,14 +547,28 @@ Demand Signal and Internal Demand signal tests - DEXREQ-7202
 - Support for Fleet Application Management Service 2.0
 - Support for Cross Region Backup Copy Support | ADB-D and ADB-C@C
 Support for MySQL MEM APIs
+- Release for v7.3.0
 - Increasing parallel writes for Resource Discovery
+- Commented out unused enum states
+- increase devops deployment default timeouts to two hours
+- Support for NewDev_BaseDB
+- Support for BDS 3.0.30 Release - Feature Enhancements
+- Support for Carbon Emissions Analysis:Power based Calculation
+removed patch files
+- Support for Predictable OIDC Discovery
+- Targeted Launch support to Launch Instance API
+- Support for HeatWave Service: REST
+- Support for Nat Rules for Network Firewall
+- Support for ADM vulnerability-audit warnings
+- Support for APM - Synthetics - content type Playwright scripts
 ### Bug Fix
 Updatable addon list
+- Bootstrap Execution triggering during all updates
 
-## 7.3.0 (Unreleased)
+## 7.3.0 (May 28, 2025)
 
 ### Added
-- increase devops deployment default timeouts to two hours
+- Increase devops deployment default timeouts to two hours
 - Support for NewDev_BaseDB
 - Support for BDS 3.0.30 Release - Feature Enhancements
 - Support for Carbon Emissions Analysis:Power based Calculation
@@ -93,26 +582,39 @@ removed patch files
 ### Bug Fix
 - Bootstrap Execution triggering during all updates
 
-## 7.2.0 (Unreleased)
+## 7.2.0 (May 20, 2025)
 
 ### Added
+- Support for Autonomous Recovery Service - Long Term Archive Feature
 - MySQL HeatWave Service: Network Security Group (NSG)
+- README.md of service examples with magic button
+- README.md of service examples with magic button
+- Release for v7.1.0
+- Support for OpenSearch OBO metering for external customers
+- Support for bulk PDB enablement and monitoring in Database Management Service
 ### Bug Fix
 - fixed oci_adm_knowledge_bases data source docs to reflect the implementation
 - Remove computed parameter from target_ids UA/SA unset Baseline APIs in Data Safe
+- Format
+- fix infinite loop for OSMH resource discovery
 
-## 7.2.0 (Unreleased)
+## 7.2.0 (May 20, 2025)
 
 ### Added
+- Support for Autonomous Recovery Service - Long Term Archive Feature
 - MySQL HeatWave Service: Network Security Group (NSG)
+- README.md of service examples with magic button
+- README.md of service examples with magic button
+- Release for v7.1.0
+- Support for OpenSearch OBO metering for external customers
+- Support for bulk PDB enablement and monitoring in Database Management Service
 ### Bug Fix
 - fixed oci_adm_knowledge_bases data source docs to reflect the implementation
 - Remove computed parameter from target_ids UA/SA unset Baseline APIs in Data Safe
+- Format
+- fix infinite loop for OSMH resource discovery
 
-## 7.1.0 (Unreleased)
-
-
-## 7.1.0 (Unreleased)
+## 7.1.0 (May 14, 2025)
 
 ### Added
 - Support for OpenSearch OBO metering for external customers
@@ -120,7 +622,7 @@ removed patch files
 ### Bug Fix
 - fix infinite loop for OSMH resource discovery
 
-## 7.0.0 (Unreleased)
+## 7.0.0 (May 06, 2025)
 
 ### Added
 - deprecated service mesh
@@ -129,34 +631,28 @@ removed patch files
 - Support for Logging Analytics Ironwood Release
 - Support for new migration phase to current list
 
-## 6.37.0 (Unreleased)
+## 6.37.0 (April 30, 2025)
 
 ### Added
 - Support for adding custom pre check step in DR Plans
 - Support for OKE: Node Cycling Improvements
 - Support for HeatWave Service: Change DB System Deletion Policy AutomaticBackupRetention default to RETAIN.
-provider support for Resource Scheduler enhancement feature
-- Support for iSCSI-3 Persistant Reservation for Block Volume
+- provider support for Resource Scheduler enhancement feature
 ### Bug Fix
 - move capacity_reservation_id update to the same request as shape update
 - TERRAFORM_ISSUE:NOSQL: Change on compartmentId of child table should be ignored
 
-## 6.36.0 (Unreleased)
+## 6.36.0 (April 23, 2025)
 
 ### Added
 - Support for iSCSI-3 Persistant Reservation for Block Volume
-
-## 6.36.0 (Unreleased)
-
-### Added
 - Support for public network access control.
 - Support for DBM: Database Life Cycle Management (Externally Registered Database Patching)
 ### Bug Fix
 - core instance resource security_attributes documentation
 - Exacs dbHome, pdb, cvm bug fixes
-- zpr provider updates
 
-## 6.35.0 (Unreleased)
+## 6.35.0 (April 16, 2025)
 
 ### Added
 - Support for Add Cross-AD DR for GGS deployment in a multi-AD region
@@ -166,19 +662,15 @@ provider support for Resource Scheduler enhancement feature
 - Fix for privateenpointip and displayName params in update
 - For for zpr provider updates
 
-## 6.34.0 (Unreleased)
+## 6.34.0 (April 09, 2025)
 
 ### Added
 - Support for New API header property to support Dry Run of Function Invocation
 - Support for Phase 2 - Add ZeroETL as a resource in Golden Gate Cloud Service
 - Support for Ekm-Xrr
 - Support for Connector Source/Targets with Private Endpoints
-
-## 6.33.0 (Unreleased)
-
-### Added
+- Support for VCNIP - IP Lifetime support and related feature
 - Support for ML Application Service
-- Support for Provision for additional checksums apart from MD5
 - Support for Stack Monitoring:Telegraf and Collectd Resources Import
 - Support for New OCI Native Service - Lustre File Service (LFS)
 - ECPU Support for OPSI Warehouses
@@ -187,7 +679,36 @@ provider support for Resource Scheduler enhancement feature
 Issue with Creating Autonomous Database Disaster Recovery Peer from Resource Manager.
 - Fix assignPublicIp mapping in core_instance_configuration_resource
 
-## 6.32.0 (Unreleased)
+## 6.34.0 (April 09, 2025)
+
+### Added
+- Support for New API header property to support Dry Run of Function Invocation
+- Support for Phase 2 - Add ZeroETL as a resource in Golden Gate Cloud Service
+- Support for Ekm-Xrr
+- Support for Connector Source/Targets with Private Endpoints
+- Support for VCNIP - IP Lifetime support and related feature
+- Support for ML Application Service
+- Support for Stack Monitoring:Telegraf and Collectd Resources Import
+- Support for New OCI Native Service - Lustre File Service (LFS)
+- ECPU Support for OPSI Warehouses
+### Bug Fix
+- BDS Bug Fixes
+Issue with Creating Autonomous Database Disaster Recovery Peer from Resource Manager.
+- Fix assignPublicIp mapping in core_instance_configuration_resource
+
+## 6.33.0 (April 02, 2025)
+
+### Added
+- Support for ML Application Service
+- Support for Stack Monitoring:Telegraf and Collectd Resources Import
+- Support for New OCI Native Service - Lustre File Service (LFS)
+- ECPU Support for OPSI Warehouses
+### Bug Fix
+- BDS Bug Fixes
+- Issue with Creating Autonomous Database Disaster Recovery Peer from Resource Manager.
+- Fix assignPublicIp mapping in core_instance_configuration_resource
+
+## 6.32.0 (March 26, 2025)
 
 ### Added
 - Support for Stack Monitoring to detect OCI compute launch and auto-enable host monitoring
@@ -199,18 +720,20 @@ Issue with Creating Autonomous Database Disaster Recovery Peer from Resource Man
 - Database vmcluster update to include cloudautomationupdate only when changed
 - IdentityDomains fixes for App resource; Doc update for User, Group
 
-## 6.31.0 (Unreleased)
+## 6.31.0 (March 18,2025)
 
 ### Added
 - Support for Compute GPU Memory Cluster and Fabric in GPU Control Plane
 - Support for Add second Standby to AuDG deployments | ADB-D and ADB-C@C
 - Support for Add schedules to customer-initiated backups.
 - Add support for private and 3rd party software repositories and rebooting of instances to OS Management Hub
+- README.md of service examples with magic button
+
 ### Bug Fix
 - OKE terraform provider bug fix: add data source for oidc discovery endpoint, fix update issue for oidc auth and update docs
-Database resource changes to support external keystore for add standby and update database admin password
+- Database resource changes to support external keystore for add standby and update database admin password
 
-## 6.30.0 (Unreleased)
+## 6.30.0 (March 11, 2025)
 
 ### Added
 - Support for ExaDB-C@C Exascale Integration
@@ -225,7 +748,7 @@ tests for datasafe security assessment
 
 - database_database_resource.go update handling
 
-## 6.29.0 (Unreleased)
+## 6.29.0 (March 06, 2025)
 
 ### Added
 - Support for Long-term backup retention Phase 1
@@ -235,31 +758,29 @@ tests for datasafe security assessment
 - Support for Cross Region Replication
 - Container Instance : Remoed unsupported COMMAND
 
-## 6.28.0 (Unreleased)
+## 6.28.0 (February 28, 2025)
 
 ### Added
-- Support for DBLM: Database Life Cycle Management (Externally Registered Database Vulnerability and Patching)
-- Support for Dataflow Integration and Storage Mounts with Pipelines
-- Support for EXADB-D- X11M
-- Support for X11 M | Exadata Infrastructure Support on ExaDB-C@C
-- Support for VCNIP - IP Lifetime support and related feature
-- Support for BYODKIM
-- Support for HeatWave MySQL Service: Extra Configuration Parameters, System Tags
-- Support for OCI Cache - Valkey Support and valkey migration
 - Support for OIDC multi issuer support
-### Deprecation
-- Removed Linting from ocibuild.conf
+- Support for OCI Cache - Valkey Support and valkey migration
+- Support for HeatWave MySQL Service: Extra Configuration Parameters, System Tags
+- Support for BYODKIM
+- Support for X11 M | Exadata Infrastructure Support on ExaDB-C@C
+- Support for EXADB-D- X11M
+- Support for Dataflow Integration and Storage Mounts with Pipelines
+- Support for DBLM: Database Life Cycle Management (Externally Registered Database Vulnerability and Patching)
+
 ### Bug Fix
 - Make secret version optional and computed for cross connects
 
-## 6.27.0 (Unreleased)
+## 6.27.0 (February 19, 2025)
 
 ### Added
 - Support for ADB-S: Maintenance Window Enhancements
 - Support for Java Management Service 9.1
 - Provider changes to support Terraform Plugin Framework and migrating vault_secret_version_data_source to use framework
 
-## 6.26.0 (Unreleased)
+## 6.26.0 (February 12, 2025)
 
 ### Added
 - Support for Organizations
@@ -270,13 +791,11 @@ tests for datasafe security assessment
 - Support for File Storage: Onboard to System Tags.
 - Support for IPv6 on OKE
 - Support for secret generation in SiV
-enhacnement for RAG
-### Deprecation
-- Removed linting from ocibuild.conf
 ### Bug Fix
 - Fix update call for password change and apply config type while moving from fixed to flex database
+to use the correct Id for updating options config resource
 
-## 6.25.0 (Unreleased)
+## 6.25.0 (February 05, 2025)
 
 ### Added
 - Support for MHS - DB system database mode and access mode
@@ -286,54 +805,61 @@ enhacnement for RAG
 - Support for OCI Data Science List Service Managed Container Endpoint
 - Support for ExaDB-C@C Granular Maintenance Scheduling support for Exadata Infrastructure Components Phase 2 InfraPatching
 
-## 6.24.0 (Unreleased)
+## 6.24.0 (January 29, 2025)
 
 ### Added
 - Support for External HSM Support ExaDB-C@C
 - Support for Ops Insights : Support External MySQL Databases
-- Support for Autonomous Recovery Service - Long Term Archive Feature
 - Support for DBM : Support External MySQL Databases
 - Support for OPSI News Reports - Actionable Insights
 - Support DR for cloud native applications running on OKE
 ### Bug Fix
 to use the correct Id for updating options config resource
 
-## 6.23.0 (Unreleased)
+## 6.23.0 (January 29, 2025)
 
 ### Added
 - Support for VCNIP - BYOASN (Bring Your Own ASN)
 - Create Multiple Standby Databases in DG environment
 - Support for ADB-S: Disconnecting ADG Standby and Backup-Based Peer
 - Support for NLB Active/Standby Purist Mode
-Go upgrade to 1.21.13
+- Go upgrade to 1.21.13
 
-## 6.22.0 (Unreleased)
+## 6.22.0 (January 16, 2025)
 
 ### Added
 - Source based routing support
 - Support for Windows BYOL for VMs
 - Support for ADB-S: Allow Changing Patch Level Provisioning
 - Support for OpenSearch Cross Cluster Search V2
+- Support for ADB-S: Backup Retention Lock
+- Support for StackMonitoring: Metric Extensions : Advanced Support and Integration
+- Support for Extend OBP cloud service to include new SKUs for Digital Assets editions
+- Support for Data Science: Support Private Endpoint Access for Model Deployment
+- Support for Add ZeroETL as a resource in GoldenGate Cloud Service
+- Support Llama 3.2 unit shape in Generative AI service
+- Support for BDS 3.0.29 Release - Feature Enhancements
 ### Bug Fix
 - BaseDB CP - Fixing Integration Tests: Database Upgrade & Database Upgrade from Database Software Image
 - ExaDB-XS VM Cluster Getting Replaced due to HostName Case Mismatch
 
-## 6.21.0 (Unreleased)
+
+## 6.21.0 (December 19, 2024)
 
 ### Added
-- Support for BDS - Kerb to IAM Automation
-- Support for BDS 3.0.29 Release - Feature Enhancements
-- Support Llama 3.2 unit shape in Generative AI service
-- Support for Add ZeroETL as a resource in GoldenGate Cloud Service
-- Support for Data Science: Support Private Endpoint Access for Model Deployment
-- Support for Extend OBP cloud service to include new SKUs for Digital Assets editions
-- Support for StackMonitoring: Metric Extensions : Advanced Support and Integration
 - Support for ADB-S: Backup Retention Lock
+- Support for StackMonitoring: Metric Extensions : Advanced Support and Integration
+- Support for Extend OBP cloud service to include new SKUs for Digital Assets editions
+- Support for Data Science: Support Private Endpoint Access for Model Deployment
+- Support for Add ZeroETL as a resource in GoldenGate Cloud Service
+- Support Llama 3.2 unit shape in Generative AI service
+- Support for BDS 3.0.29 Release - Feature Enhancements
+- Support for BDS - Kerb to IAM Automation
 ### Bug Fix
+
 - Fix terraform documentation for oci_database_exadb_vm_cluster resource
 
-
-## 6.20.0 (Unreleased)
+## 6.20.0 (December 11, 2024)
 
 ### Added
 - Support for Fleet Application Management Service v1.2
@@ -342,69 +868,108 @@ Go upgrade to 1.21.13
 - Support for Data Flow CascadeDeleteApplication API
 - Support for refresh DR Plans
 - Support for Private Access to a VB service instance
-retry for Network errors containing i/o timeout
 ### Bug Fix
-for the vm network update in place issue
+- Fix for the vm network update in place issue
 - Fix Instance Configuration Config Mapping
-for MySQL Cross Region Copy Backup Destroy
+- Fix for MySQL Cross Region Copy Backup Destroy
 - Incorporated more workrequest status for createSchedule and updateSchedule workflow
 - Support for Wwether the volumes are preserved when a desktop pool is deleted
-- Integration Tests and Long Term backup BaseDB (Revert)
 
-## 6.19.0 (Unreleased)
+## 6.19.0 (November 21, 2024)
 
 ### Added
-- Support for SDK/CLI/Terraform only - Allow selection of N-3 GI minor version during the VM cluster provisioning
-- Support Single Read Only (RO) endpoint for the Read Replica
-- Support for BDS Kafka bugs in public provider v6.13.0
-- Support for Long-term backup retention Phase 1 | ExaDB-D
-### Bug Fix
-- sync terraform test resource repo
-- sync terraform test resource repo
-- sync terraform test resource repo
+- README.md of service examples with magic button
+- Release for v6.18.0
+- Support for Add secretIds for sensitive connection attributes
+- Support for Oracle Cloud AI Service Generative AI Agent Service
 
-## 6.18.0 (Unreleased)
+## 6.18.0 (November 13, 2024)
 
 ### Added
 - Support for Add secretIds for sensitive connection attributes
 - Support for Oracle Cloud AI Service Generative AI Agent Service
+### Bug Fix
+- Update `security_attributes` example values for Instance resources
+- updating instance_reservation_configs field in oci_core_compute_capacity_reservation to typeSet
+- Added - Support for Documentation Update of BSS Direct API
 
-## 6.17.0 (Unreleased)
+## 6.17.0 (November 06, 2024)
 
 ### Added
+- Support to start/stop/update Data Flow SQL Endpoint
 - Support for ZPR (DBaaS)
 - Support for ZPR (DBaaS)
 - Support for MFA Enablement v2 - Prevent customers from opting out of MFA Policy
 - Support for TLS & ORDS BYO Certificates (Phase 2) | ADB-D
 
-## 6.15.0 (Unreleased)
+## 6.16.0 (October 30, 2024)
+
+### Added
+- Support for ESP & ICMP traffic support in NLB
+- override_existing flag for container_engine.addon resource
+- Support for Extending LBaaS to send traffic to gRPC backends
+- Support to return the generated secret in response
+- Support for 	Model Version Set - DataScience BugFix
+- pdated resource scheduler public documentation
+### Bug Fix
+- Updated oci_core_instance_pool resource to allow unordered attach/detach operationsupdating tests to generate reports for Acceptance and Backward compatibility
+- Fix Audit and SQL Firewall bugs - DataSafe
+
+## 6.15.0 (October 23, 2024)
 
 ### Added
 - Support for FSS Resource Locking
-- Support for Cloud Migrations service support for AWS EC2 instances migration
 - Support for ADB-S: Customer Managed Keys via Azure Key Vault and AWS KMS
 - Compute support for ZPR
-nlb-cp zpr support
+- nlb-cp zpr support
 - Support for Add DB 23ai support to Globally Distributed Autonomous Database
-Support for OCI Data Science Model Store Backup and Retention
+- Support for OCI Data Science Model Store Backup and Retention
 - Support for FC Redundancy Project
-### Bug Fix
-for the ACD Version selection using env variable and vmNetwork should not consider state for calculating hash
 
-## 6.12.0 (Unreleased)
+### Bug Fix
+- For the ACD Version selection using env variable and vmNetwork should not consider state for calculating hash
+- Fixed the timestamp issue to corrected form
+
+## 6.14.0 (October 16, 2024)
+
+### Added
+- Support for OIDC Discovery in OKE
+- Support for Support Cross region Backup copy & Replication for volumes encrypted with Customer KMS Keys
+- Support for GenerateOnPremConnectorConfiguration resource in Data Safe
+- Support for OIDC Auth Terraform
+- Support for GoldenGate new deployment creation page and extended connectivity test results
+- Support for DNSSEC
+- Direct API support for OCI BSS
+- Support for Desktop as a Service: Desktop Session Lifecycle Management
+### Bug Fix
+Fixed the timestamp issue to corrected form
+
+## 6.13.0 (October 09, 2024)
+
+### Added
+- Desktop as a Service: Shape Flexibility
+- Support for Operations Insights : Autonomous Database IAM based connections
+- Support for Customer Facing Scalable agent upgrade | ExaCC and ExaCS
+- 9/24- Support for ZPR v1
+- Support for PV Support for Launch w/Multiple Attachments Support for VMs
+- Support for Stack Monitoring Maintenance Windows
+- To Support for Depracate old apps admin user creation with password
+- Support for Desktop as a Service: Private Access
+- Support for Proxy Protocol on OCI LBaaS
+
+## 6.12.0 (October 02, 2024)
 
 ### Added
 - Support for OIC Gen3 Disaster Recovery
 - Support for ZPR v1 - Oracle Cloud World Scope - OC1 ONLY
 - Support for Security Attributes
 - Support for change hostname label to be updatable
-- LBCP ppv2 support
 - Support for Zero Trust Packet Routing
 ### Bug Fix
 - add support for tunnel configurations in create private ipsec over fastconnect
 - add publish_artifact branch in ocibuild.conf file
 
-## 6.11.0 (Unreleased)
+## 6.11.0 (September 24, 2024)
 
 ### Added
 - Support for ADB-S: Undelete an ADB instance - ECPUs only
@@ -417,16 +982,29 @@ for the ACD Version selection using env variable and vmNetwork should not consid
 - Support for Recurring Alarm suppressions to Telemetry alarms
 - Support for Operations Insights Cloud Support for ExaCC
 - Support for DB firewall support in Data Safe Phase 2
+- Support for Llama 3.1 Model Refresh
+- Tests cases for FSU support for DB and GI new 23ai version
+- Capacity Management release 3.1 support
+- Onboard to pipeline for patches
+- Handle disassociate trigger for DR Protection Group
+- Support for BDS - Resource Principal Support in BDS
 ### Bug Fix
 - Fix handling of backend max connections in load balancer provider.
-- update ocibuild with lint script
 
 - Addnode failing for dense shapes
 - unset path route set name/routing policy
 - Made secret access key sensitive and prevent 0 values in numeric parameters.
 - Handling 404 while Deleting Storage Bucket Resource
+- OKE terraform provider bug fix: add missing cluster data source
+- [Terraform Provider] Virtual circuit should not pass vlan if not changed in core_virtual_circuit resource
+- checkforHydration logic and single stage fix
+- Database Migration changed WF Retry logic
+- Resource documentation for OS_PATCH
+- Autonomous Database change DbTools from list to set.
+- adding entries for fleet_software_update and globally_distributed_database
 
-## 6.10.0 (Unreleased)
+## 6.10.0 (September 17, 2024)
+
 
 ### Added
 - Support for Llama 3.1 Model Refresh
@@ -442,9 +1020,10 @@ for the ACD Version selection using env variable and vmNetwork should not consid
 - Database Migration changed WF Retry logic
 - Resource documentation for OS_PATCH
 - Autonomous Database change DbTools from list to set.
+- adding entries for fleet_software_update and globally_distributed_database
 - Handling 404 while Deleting Storage Bucket Resource
 
-## 6.9.0 (Unreleased)
+## 6.9.0 (August 23, 2024)
 
 ### Added
 - Support for Delegated Access Control for Exadata Cloud Services
@@ -470,7 +1049,8 @@ trigger for dev branches
 - Reverted back the changes in Preview SDK
 - BDS instance create
 
-## 6.8.0 (Unreleased)
+
+## 6.8.0 (August 21, 2024)
 
 ### Added
 - Support for autonomous database-dedicated
@@ -482,7 +1062,7 @@ trigger for dev branches
 - Support for Support for running OCI OSS operation
 - Support for Extend Data Retention Period for OIC Instance
 
-## 6.7.0 (Unreleased)
+## 6.7.0 (August 13, 2024)
 
 ### Added
 - Support for OIC Instance Creation for Healthcare Feature
@@ -494,7 +1074,7 @@ support for subscription level limits
 ### Bug Fix
 
 
-## 6.6.0 (Unreleased)
+## 6.6.0 (August 07, 2024)
 
 ### Added
 - Support for BDS - Implement ODH Patching in Staged manner
@@ -507,7 +1087,7 @@ support for subscription level limits
 - Support for BDS - Autoscale with Memory Utilization
 - Support for [DMS] to fix the initial load settings issue
 
-## 6.5.0 (Unreleased)
+## 6.5.0 (July 30, 2024)
 
 ### Added
 - Support for Instance maintenance events api
@@ -525,7 +1105,7 @@ support for subscription level limits
 - Take shape as input for add node
 - Excluding basemodels in the stack in resource discovery
 
-## 6.3.1 (Unreleased)
+## 6.4.0 (July 24, 2024)
 
 ### Added
 - Support for APM - Synthetics - SQL Monitor Type Support
@@ -542,14 +1122,16 @@ the cleanup files
 - Added env.ENABLE_LINT_FOR_BACKWARD_COMPATIBILITY_FOR_ALL_RESOURCES
 - Terraform bug fixes - Data safe Audit (Provider-Only)
 
-## 6.3.0 (Unreleased)
+## 6.3.0 (July 16, 2024)
 
 ### Deprecation
 em_warehouse service
 ### Bug Fix
 Autostart and autostop along with other updates.
 
-## 6.2.0 (Unreleased)
+
+## 6.2.0 (July 10, 2024)
+
 
 ### Added
 - Support for Support Dynamic list of ZDM parameters for Oracle<>Oracle migrations
@@ -557,7 +1139,8 @@ Autostart and autostop along with other updates.
 ### Bug Fix
 Update current_version_number on secret_content update
 
-## 6.1.0 (Unreleased)
+
+## 6.1.0 (July 02, 2024)
 
 ### Added
 - Support for Generative AI Service - Lora Fine-Tuning Method
@@ -567,7 +1150,8 @@ Update current_version_number on secret_content update
 ### Bug Fix
 - tagging in management_agent
 
-## 5.48.0 (Unreleased)
+
+## 6.0.0 (June 26, 2024)
 
 ### Added
 - Support for JMS Implement management resource for advancedFeatureConfiguration
@@ -575,7 +1159,8 @@ Update current_version_number on secret_content update
 ### Bug Fix
 Fixed DB unique name parameter not getting honoured for new base DB system resource
 
-## 5.47.0 (Unreleased)
+
+## 5.47.0 (June 18, 2024)
 
 ### Added
 - Support for ADB-S: Allow Public Access to Databases on Private Endpoint
@@ -587,14 +1172,15 @@ Fixed DB unique name parameter not getting honoured for new base DB system resou
 - Need to Set db_node_id int Set db_node function
 - allow update native pod networking, only update placement config when there is a change
 
-## 5.46.0 (Unreleased)
+## 5.46.0 (June 11, 2024)
 
 ### Added
 - Support for Dynamic Notification for Alarms
 ### Bug Fix
 - oci_log_analytics_namespace source doc fix
 
-## 5.45.0 (Unreleased)
+
+## 5.45.0 (June 04, 2024)
 
 ### Added
 - Support for ADB-S: Cross-Tenancy Autonomous Data Guard standby
@@ -605,7 +1191,8 @@ examples and tests
 - Fix function batching terraform bug
 - Capacity Management Breaking change fix
 
-## 5.44.0 (Unreleased)
+
+## 5.44.0 (May 29, 2024)
 
 ### Added
 - Support for OS Patching in Batch API Design
@@ -614,7 +1201,7 @@ examples and tests
 ### Bug Fix
 fix dbHome deletion and CEI polling workrequest.
 
-## 5.43.0 (Unreleased)
+## 5.43.0 (May 23, 2024)
 
 ### Added
 - Support for Fix missing TLSv1.3 protocol documentation from Load Balancer provider
@@ -628,7 +1215,7 @@ fix dbHome deletion and CEI polling workrequest.
 - purge_trigger and purge_queue bugs in Queue provider
 - revert Devops Deploy Deployment Execution Progress
 
-## 5.42.0 (Unreleased)
+## 5.42.0 (May 14, 2024)
 
 ### Added
 - VCNIP Provide IP Inventory view and IP Utilization alerts
@@ -642,7 +1229,7 @@ session resumption support for LB
 ### Bug Fix
 - fix oci_log_analytics_namespace import issue
 
-## 5.41.0 (Unreleased)
+## 5.41.0 (May 07, 2024)
 
 ### Added
 - Support for ExaDB-D@D Resize of Local Files Systems (non /u02)
@@ -650,7 +1237,7 @@ session resumption support for LB
 - Support for Load Balancer LSE Prevention: Delete Protection, backend Max Connections, and Listener Max Connections
 - Support for [DMS] Fixing AWS_S3 issue in the example file
 
-## 5.40.0 (Unreleased)
+## 5.40.0 (May 01, 2024)
 
 ### Added
 - Support for Database Management : Support ExaCC databases Fixed merge conflicts
@@ -660,7 +1247,7 @@ session resumption support for LB
 - Fixed AWS_S3 migrations bug, update resource issue with the optional atributes and documentation added
 OKE Workload Identity Auth support
 
-## 5.39.0 (Unreleased)
+## 5.39.0 (April 23, 2024)
 
 ### Added
 - Support for Cluster Placement Group- Service
@@ -670,7 +1257,7 @@ OKE Workload Identity Auth support
 ### Bug Fix
 logSourceIdentifer updates for logging Analytics connectors
 
-## 5.38.0 (Unreleased)
+## 5.38.0 (April 17, 2024)
 
 ### Added
 - Support for Oracle Process Automation (OPA) : Support for Start/Stop operation in Public API
@@ -681,7 +1268,7 @@ logSourceIdentifer updates for logging Analytics connectors
 ### Bug Fix
 - Update psql Documentaiton for TF Provider
 
-## 5.37.0 (Unreleased)
+## 5.37.0 (April 09, 2024)
 
 ### Added
 - DataFlow Composite Resource Principal Support Optional Param Example
@@ -696,12 +1283,8 @@ logSourceIdentifer updates for logging Analytics connectors
 - Devops Deploy Deployment Execution Progress
 Remove computed: true from the SecretContent.Name field. Manually add the logic to set both the name and content to null if nothing is provided.
 
-## 5.36.0 (Unreleased)
 
-### Bug Fix
-Remove computed: true from the SecretContent.Name field. Manually add the logic to set both the name and content to null if nothing is provided.
-
-## 5.36.0 (Unreleased)
+## 5.36.0 (April 03, 2024)
 
 ### Added
 - Support for Management Agent wait_for_host_id and prevent destroy resource
@@ -712,10 +1295,8 @@ Remove computed: true from the SecretContent.Name field. Manually add the logic 
 ### Bug Fix
 - Handle empty members in DR Protection Group
 
-## 5.35.0 (Unreleased)
 
-
-## 5.35.0 (Unreleased)
+## 5.35.0 (March 27, 2024)
 
 ### Added
 - Support for ADB-S: Refreshable Clones (Phase 2 with Automatic Refresh)
@@ -726,7 +1307,7 @@ support for Devops Deploy Helm Uninstall/Open Cli
 - Support for Alarms enhancements
 - Support for create_task API for Rest task
 
-## 5.34.0 (Unreleased)
+## 5.34.0 (March 19, 2024)
 
 ### Added
 - Support for APM - Attribute Management - Synthetic Spans
@@ -736,7 +1317,7 @@ support for Devops Deploy Helm Uninstall/Open Cli
 - [Docs] Other Terraform Feedback
 - remove log statement
 
-## 5.33.0 (Unreleased)
+## 5.33.0 (March 12, 2024)
 
 ### Added
 - Support for OCI Control Center (OCC) 2.0 Feature Release
@@ -748,7 +1329,8 @@ support for Devops Deploy Helm Uninstall/Open Cli
 - remove hardcoded values
 - remove space from url
 
-## 5.32.0 (Unreleased)
+
+## 5.32.0 (March 06, 2024)
 
 ### Added
 - Support for Container Instance Service: Configure Linux Capabilities
@@ -757,7 +1339,7 @@ support for Devops Deploy Helm Uninstall/Open Cli
 ### Bug Fix
 - Terraform Improvements
 
-## 5.31.0 (Unreleased)
+## 5.31.0 (February 28, 2024)
 
 ### Added
 - Support for Database Management: Platform Bar - Tagging
@@ -767,14 +1349,16 @@ support for Devops Deploy Helm Uninstall/Open Cli
 - Support for Add Standby ACDs / Enable AuDG | ADB-C@C
 - Support for Support for Project Indigo and Cluster Placement Groups- phase II
 
-## 5.30.0 (Unreleased)
+
+## 5.30.0 (February 21, 2024)
 
 ### Added
 - Support for ODSC - Bring Your Own Container for ML Jobs
 - Support for Disabling Simultaneous Multithreading (SMT) on VMs
 - Support for Adding schedule API
 
-## 5.29.0 (Unreleased)
+
+## 5.29.0 (February 13, 2024)
 
 ### Added
 - Support for ADB-S: Replicating backups across regions for Cross-Region DR
@@ -783,7 +1367,8 @@ support for Devops Deploy Helm Uninstall/Open Cli
 ### Bug Fix
 - Fix Addon Configuration Update
 
-## 5.28.0 (Unreleased)
+
+## 5.28.0 (February 06, 2024)
 
 ### Added
 Missing DatabaseManualConnectionSubTypes to oci_database_migration_connection_resource
@@ -795,7 +1380,8 @@ Missing DatabaseManualConnectionSubTypes to oci_database_migration_connection_re
 ### Bug Fix
 - Fix the document for how to update volumes in oci_core_volume_group
 
-## 5.27.0 (Unreleased)
+
+## 5.27.0 (January 30, 2024)
 
 ### Added
 - Support for Database Management: Database Named Credentials
@@ -806,7 +1392,8 @@ Missing DatabaseManualConnectionSubTypes to oci_database_migration_connection_re
 - Validate VM Cluster tag addition failing in VALIDATED state
 - Consecutive Shrink action api calls fails.
 
-## 5.26.0 (Unreleased)
+
+## 5.26.0 (January 24, 2024)
 
 ### Added
 - Support for Stack Monitoring: Monitoring Custom Apps using Process Monitoring
@@ -815,7 +1402,8 @@ Missing DatabaseManualConnectionSubTypes to oci_database_migration_connection_re
 ### Bug Fix
 - Fix update drg attachment when vcn_route_type provided
 
-## 5.25.0 (Unreleased)
+
+## 5.25.0 (January 16, 2024)
 
 ### Added
 Support for Configure Acceptable Risks for Security Assessment Findings
@@ -827,7 +1415,8 @@ Support for OL8/OL7 DomU provisioning on OL8 Infra
 ### Bug Fix
 Fix missing discover private IPs associated with VLAN using terraform
 
-## 5.24.0 (Unreleased)
+
+## 5.24.0 (January 10, 2024)
 
 ### Added
 - Support for GoldenGate : Stream Analytics
@@ -839,7 +1428,7 @@ support to update config id for a psql dbSystem
 - database_management_status and operations_insights_status both not enabled together.
 - Support for New Compute Shapes (VM.DenseIO.E4.Flex)
 
-## 5.23.0 (Unreleased)
+## 5.23.0 (December 12, 2023)
 
 ### Added
 Support for Dedicated VM Hosts Reboot Migration
@@ -857,7 +1446,7 @@ Support for Load Balancer - Enable Resource Discovery for SSL Cipher Suites add 
 Double base64 encoding of container config file content
 Added implementation for long term backup retention.
 
-## 5.22.0 (Unreleased)
+## 5.22.0 (December 06, 2023)
 
 ### Added
 - Support for VM Cluster Vertical scaling | ADB-D + ADB-C@C
@@ -875,12 +1464,8 @@ support for Database Tools service connections without runtime support
 - Support adding managed instances to a group
 - Support for BM Capacity API for customers with dedicated capacity
 
-## 5.21.0 (Unreleased)
 
-### Added
-- Support for BM Capacity API for customers with dedicated capacity
-
-## 5.21.0 (Unreleased)
+## 5.21.0 (November 14, 2023)
 
 ### Added
 test improvements for postgresql service
@@ -891,7 +1476,8 @@ test improvements for postgresql service
 - Analytics - fix for AOAC-60112 change on network_security_group_ids attribute for oci_analytics_analytics_instance resource forces replacement
 - Removed repeat code in SetData()
 
-## 5.20.0 (Unreleased)
+
+## 5.20.0 (November 07, 2023)
 
 ### Added
 - Support for Java Management Service 8.0 - Java Download Component
@@ -903,7 +1489,8 @@ test improvements for postgresql service
 ### Bug Fix
 Update startCredentialRotation and completeCredentialRotation resource for failed scenario to get error msg from workflow
 
-## 5.19.0 (Unreleased)
+
+## 5.19.0 (November 01, 2023)
 
 ### Added
 - Support for Full Stack Disaster Recovery Service: Test standby
@@ -917,7 +1504,8 @@ Update startCredentialRotation and completeCredentialRotation resource for faile
 - Support for Extend the OS Management service to manage systems in OCI Compute, in customer data centers, and in 3rd party clouds.
 - Support for DB firewall support in Data Safe
 
-## 5.18.0 (Unreleased)
+
+## 5.18.0 (October 24, 2023)
 
 ### Added
 - Support for Add MR table feature into Oracle NoSQL Database Cloud
@@ -927,7 +1515,8 @@ Update startCredentialRotation and completeCredentialRotation resource for faile
 ### Bug Fix
 - adding static drgrouterule using core_drg_route_table_route_rule_resource makes calls to list dynamic route rules
 
-## 5.17.0 (Unreleased)
+
+## 5.17.0 (October 18, 2023)
 
 ### Added
 - Support for OCI Caching Service with Redis
@@ -938,7 +1527,7 @@ Update startCredentialRotation and completeCredentialRotation resource for faile
 - Support for PDB Mgmt v2
 - Support for VCN Flow Logs for Telesis - Network command center
 
-## 5.16.0 (Unreleased)
+## 5.16.0 (October 11, 2023)
 
 ### Added
 - Support for Resource Usage Tracking Enhancement | ADB-C@C
@@ -951,7 +1540,8 @@ Update startCredentialRotation and completeCredentialRotation resource for faile
 ### Bug Fix
 - Only trigger recreation while change subnet_id for endpoint config on native vcn cluster
 
-## 5.15.0 (Unreleased)
+
+## 5.15.0 (October 04, 2023)
 
 ### Added
 - Support for [ADB-S] Elastic Resource Pools
@@ -965,7 +1555,8 @@ Update startCredentialRotation and completeCredentialRotation resource for faile
 ### Bug Fix
 - Unset policy field from filesystem changes
 
-## 5.14.0 (Unreleased)
+
+## 5.14.0 (September 26, 2023)
 
 ### Added
 - Support for OIC: FAaas Self Service with Henosis
@@ -975,7 +1566,8 @@ support to fetch UserAgent from env var
 - Fix APM Synthetic service update the number of vantagepoints supported in monitor as per spec to 100
 - Fix Resource Manager Create/Get Private Endpoint examples
 
-## 5.13.0 (Unreleased)
+
+## 5.13.0 (September 12, 2023)
 
 ### Added
 - Support for DBM Service: Database Management SQL Tuning Sets
@@ -983,13 +1575,15 @@ support to fetch UserAgent from env var
 - Support for Stack Monitoring: Auto-Promotion of Hosts
 - Support for LifecycleDetails in Data catalog Data assets resources
 
-## 5.12.0 (Unreleased)
+
+## 5.12.0 (September 06, 2023)
 
 ### Added
 - Support for Terraform for Serial Console Phase 1 ExaDB-C@C (EXACC) Serial Console Access to VM
 - Support for refreshing security token auth
 
-## 5.11.0 (Unreleased)
+
+## 5.11.0 (August 29, 2023)
 
 ### Added
 Support for alloy support (PLC)
@@ -1004,7 +1598,8 @@ Support for alloy support (PLC)
 - Support for Enabling Single Sign-on support for GGS Deployments
 Support for BDS - Automated Patching for OS/Kernel, Node Maintenance, Add Master/Utility
 
-## 5.10.0 (Unreleased)
+
+## 5.10.0 (August 22, 2023)
 
 ### Added
 Support for Database In-Memory support for Autonomous Database | ADB-D and ADB on ExaC@C
@@ -1012,7 +1607,7 @@ Support for BDS - Cluster Profiles for Kafka
 ### Bug Fix
 Fix reference hashicorp/oci to oracle/oci in some documents
 
-## 5.9.0 (Unreleased)
+## 5.9.0 (August 15, 2024)
 
 ### Added
 - Support for Topology aware placement for cluster networks
@@ -1020,7 +1615,8 @@ Fix reference hashicorp/oci to oracle/oci in some documents
 - Support for GoldenGate Maintenance R2
 upport for DIS Application APIs and fix bugs.
 
-## 5.8.0 (Unreleased)
+
+## 5.8.0 (August 08, 2023)
 
 ### Added
 - Support for Oracle Cloud AI Services Language V2.3 - Enhancement
@@ -1033,14 +1629,16 @@ upport for DIS Application APIs and fix bugs.
 ### Bug Fix
 - Null pointer exception in CVM resource
 
-## 5.7.0 (Unreleased)
+
+## 5.7.0 (August 01, 2023)
 
 ### Added
 Support for TLS & ORDS BYO Certificates (Phase 2) | ADB-C@C
 startCredentialRotation, completeCredentialRotation, getCredentialRotationStatus terraform implementation tests and examples
 Support for OPSI News Reports
 
-## 5.6.0 (Unreleased)
+
+## 5.6.0 (July 26, 2023)
 
 ### Added
 - Support for Custom hostname Terraform Instance Pools - Custom hostname support
@@ -1048,7 +1646,8 @@ Support for OPSI News Reports
 - Model Compose and Model Alias features to custom Models in document service
 - Support for Tersi for Test Connectivity feature GoldenGate Test Connectivity for Connections associated with Deployments
 
-## 5.5.0 (Unreleased)
+
+## 5.5.0 (July 19, 2023)
 
 ### Added
 - Support for Remove internal-only additionalCapabilities parameter from Container Instances Public SDK/CLI and Terraform
@@ -1059,7 +1658,8 @@ Support for OPSI News Reports
 - updated document for content field of vault oci_vault_secret
 - Adding checks for ocpu_count and storage_size_in_gbs
 
-## 5.4.0 (Unreleased)
+
+## 5.4.0 (July 12, 2023)
 
 ### Added
 - Support for Multitenant support for Workload Identity (WRIS)
@@ -1074,7 +1674,8 @@ Support for OPSI News Reports
 - Adding rack_serial_number in database_exadata_infrastructure_resource.go
 - Resolved Resource Discovery issue for Terraform Version Greater than 1.3
 
-## 5.3.0 (Unreleased)
+
+## 5.3.0 (June 28, 2023)
 
 ### Added
 - Support for DBCS | Support A1 (Ampere) for VM DB
