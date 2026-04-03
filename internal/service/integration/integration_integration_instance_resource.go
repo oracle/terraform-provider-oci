@@ -1117,6 +1117,26 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Update() error {
 			}
 		}
 	}
+
+	if networkEndpointDetails, ok := s.D.GetOkExists("network_endpoint_details"); ok {
+
+		if tmpList := networkEndpointDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "network_endpoint_details", 0)
+			tmp, err := s.mapToNetworkEndpointDetails(fieldKeyFormat)
+			if err == nil {
+				err := s.changeNetworkEndpoint(tmp)
+
+				if err != nil {
+					return err
+				}
+			} else {
+				return err
+			}
+
+		}
+
+	}
+
 	request := oci_integration.UpdateIntegrationInstanceRequest{}
 
 	if alternateCustomEndpoints, ok := s.D.GetOkExists("alternate_custom_endpoints"); ok {
@@ -2026,6 +2046,28 @@ func (s *IntegrationIntegrationInstanceResourceCrud) updateCompartment(compartme
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "integration")
 
 	response, err := s.Client.ChangeIntegrationInstanceCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	return s.getIntegrationInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "integration"), oci_integration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *IntegrationIntegrationInstanceResourceCrud) changeNetworkEndpoint(networkEndpointDetails oci_integration.NetworkEndpointDetails) error {
+	request := oci_integration.ChangeIntegrationInstanceNetworkEndpointRequest{}
+
+	//	compartmentTmp := compartment.(string)
+	//	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	request.IntegrationInstanceId = &idTmp
+	request.NetworkEndpointDetails = networkEndpointDetails
+	// request.ChangeIntegrationInstanceNetworkEndpointDetails = networkEndpointDetails.(oci_integration.ChangeIntegrationInstanceNetworkEndpointDetails)
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "integration")
+
+	response, err := s.Client.ChangeIntegrationInstanceNetworkEndpoint(context.Background(), request)
 	if err != nil {
 		return err
 	}
