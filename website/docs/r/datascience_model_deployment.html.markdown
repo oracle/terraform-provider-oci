@@ -299,7 +299,7 @@ The following arguments are supported:
 							----- 
 						* `scaling_configuration_type` - (Required when metric_expression_rule_type=CUSTOM_EXPRESSION | PREDEFINED_EXPRESSION) (Updatable) The type of scaling configuration. 
 						* `threshold` - (Required when metric_expression_rule_type=PREDEFINED_EXPRESSION) (Updatable) A metric value at which the scaling operation will be triggered. 
-			* `cool_down_in_seconds` - (Applicable when policy_type=AUTOSCALING) (Updatable) For threshold-based autoscaling policies, this value is the minimum period of time to wait between scaling actions. The cooldown period gives the system time to stabilize before rescaling. The minimum value is 600 seconds, which is also the default. The cooldown period starts when the model deployment becomes ACTIVE after the scaling operation. 
+			* `cool_down_in_seconds` - (Applicable when policy_type=AUTOSCALING) (Updatable) For threshold-based autoscaling policies, this value is the minimum period of time to wait between scaling actions. The cooldown period gives the system time to stabilize before rescaling. The minimum value is 300 seconds, which is also the default. The cooldown period starts when the model deployment becomes ACTIVE after the scaling operation. 
 			* `instance_count` - (Required when policy_type=FIXED_SIZE) (Updatable) The number of instances for the model deployment.
 			* `is_enabled` - (Applicable when policy_type=AUTOSCALING) (Updatable) Whether the autoscaling policy is enabled.
 			* `policy_type` - (Required) (Updatable) The type of scaling policy.
@@ -361,7 +361,7 @@ The following arguments are supported:
 							----- 
 						* `scaling_configuration_type` - (Required when metric_expression_rule_type=CUSTOM_EXPRESSION | PREDEFINED_EXPRESSION) (Updatable) The type of scaling configuration. 
 						* `threshold` - (Required when metric_expression_rule_type=PREDEFINED_EXPRESSION) (Updatable) A metric value at which the scaling operation will be triggered. 
-			* `cool_down_in_seconds` - (Applicable when policy_type=AUTOSCALING) (Updatable) For threshold-based autoscaling policies, this value is the minimum period of time to wait between scaling actions. The cooldown period gives the system time to stabilize before rescaling. The minimum value is 600 seconds, which is also the default. The cooldown period starts when the model deployment becomes ACTIVE after the scaling operation. 
+			* `cool_down_in_seconds` - (Applicable when policy_type=AUTOSCALING) (Updatable) For threshold-based autoscaling policies, this value is the minimum period of time to wait between scaling actions. The cooldown period gives the system time to stabilize before rescaling. The minimum value is 300 seconds, which is also the default. The cooldown period starts when the model deployment becomes ACTIVE after the scaling operation. 
 			* `instance_count` - (Required when policy_type=FIXED_SIZE) (Updatable) The number of instances for the model deployment.
 			* `is_enabled` - (Applicable when policy_type=AUTOSCALING) (Updatable) Whether the autoscaling policy is enabled.
 			* `policy_type` - (Required) (Updatable) The type of scaling policy.
@@ -465,7 +465,7 @@ The following attributes are exported:
 							----- 
 						* `scaling_configuration_type` - The type of scaling configuration. 
 						* `threshold` - A metric value at which the scaling operation will be triggered. 
-			* `cool_down_in_seconds` - For threshold-based autoscaling policies, this value is the minimum period of time to wait between scaling actions. The cooldown period gives the system time to stabilize before rescaling. The minimum value is 600 seconds, which is also the default. The cooldown period starts when the model deployment becomes ACTIVE after the scaling operation. 
+			* `cool_down_in_seconds` - For threshold-based autoscaling policies, this value is the minimum period of time to wait between scaling actions. The cooldown period gives the system time to stabilize before rescaling. The minimum value is 300 seconds, which is also the default. The cooldown period starts when the model deployment becomes ACTIVE after the scaling operation. 
 			* `instance_count` - The number of instances for the model deployment.
 			* `is_enabled` - Whether the autoscaling policy is enabled.
 			* `policy_type` - The type of scaling policy.
@@ -528,7 +528,7 @@ The following attributes are exported:
 							----- 
 						* `scaling_configuration_type` - The type of scaling configuration. 
 						* `threshold` - A metric value at which the scaling operation will be triggered. 
-			* `cool_down_in_seconds` - For threshold-based autoscaling policies, this value is the minimum period of time to wait between scaling actions. The cooldown period gives the system time to stabilize before rescaling. The minimum value is 600 seconds, which is also the default. The cooldown period starts when the model deployment becomes ACTIVE after the scaling operation. 
+			* `cool_down_in_seconds` - For threshold-based autoscaling policies, this value is the minimum period of time to wait between scaling actions. The cooldown period gives the system time to stabilize before rescaling. The minimum value is 300 seconds, which is also the default. The cooldown period starts when the model deployment becomes ACTIVE after the scaling operation. 
 			* `instance_count` - The number of instances for the model deployment.
 			* `is_enabled` - Whether the autoscaling policy is enabled.
 			* `policy_type` - The type of scaling policy.
