@@ -426,6 +426,205 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 					ExpectNonEmptyPlan: false,
 					PlanOnly:           true,
 				},
+
+				// Step to replace range id with a random range id and validate that the plan does not show any diff
+				{
+					ExpectNonEmptyPlan: false,
+					PlanOnly:           true,
+					Config: s.Config + fmt.Sprintf(`
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						is_ipv6enabled = true
+  						is_oracle_gua_allocation_enabled = false
+						byoipv6cidr_details {
+          					byoipv6range_id = %q
+          					ipv6cidr_block  = "2607:f590:0000:0200::/64"
+                        }
+						byoipv6cidr_details {
+          					byoipv6range_id = "(known_after_apply)"
+          					ipv6cidr_block  = "2607:f590:0000:2000::/64"
+                        }
+					}`, byoipv6RangeId),
+					Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+						resource.TestCheckResourceAttr(s.ResourceName, "byoipv6cidr_blocks.#", "2"),
+					),
+				},
+				// Test - Drift created when byoipv6 cidr removed from resource
+				// Step 1 - validate force removal of cidr creates a drift
+				{
+					PreConfig: func() {
+						err := removeIpv6CidrFromVcn(acctest.GetTestClients(&schema.ResourceData{}), resId, "2607:f590:0000:2000::/64", 1)
+						if err != nil {
+							return
+						}
+					},
+					RefreshState:       true,
+					ExpectNonEmptyPlan: true,
+					PlanOnly:           true,
+					Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+						resource.TestCheckResourceAttr(s.ResourceName, "byoipv6cidr_blocks.#", "1"),
+						resource.TestCheckResourceAttr(s.ResourceName, "byoipv6cidr_details.#", "1"),
+					),
+				},
+				// Step 2 - Validate that Intact / unchanged config should lead to application of the missing cidr to the VCN
+				{
+					Config: s.Config + fmt.Sprintf(`
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						is_ipv6enabled = true
+  						is_oracle_gua_allocation_enabled = false
+						byoipv6cidr_details {
+          					byoipv6range_id = %q
+          					ipv6cidr_block  = "2607:f590:0000:0200::/64"
+                        }
+						byoipv6cidr_details {
+          					byoipv6range_id = %q
+          					ipv6cidr_block  = "2607:f590:0000:2000::/64"
+                        }
+					}`, byoipv6RangeId, byoipv6RangeId),
+					Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+						resource.TestCheckResourceAttr(s.ResourceName, "byoipv6cidr_blocks.#", "2"),
+						resource.TestCheckResourceAttr(s.ResourceName, "byoipv6cidr_details.#", "2"),
+					),
+				},
+				// Step 3 - Post application of the new cidr, terraform should show an empty plan
+				{
+					RefreshState:       true,
+					ExpectNonEmptyPlan: false,
+					PlanOnly:           true,
+					Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+						resource.TestCheckResourceAttr(s.ResourceName, "byoipv6cidr_blocks.#", "2"),
+						resource.TestCheckResourceAttr(s.ResourceName, "byoipv6cidr_details.#", "2"),
+					),
+				},
+				// Test - Drift created with one change when byoipv6 cidr removed from the middle of the list
+				// Step 1 - Add one more cidr at the end
+				{
+					Config: s.Config + fmt.Sprintf(`
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						is_ipv6enabled = true
+  						is_oracle_gua_allocation_enabled = false
+						byoipv6cidr_details {
+          					byoipv6range_id = %q
+          					ipv6cidr_block  = "2607:f590:0000:0200::/64"
+                        }
+						byoipv6cidr_details {
+          					byoipv6range_id = %q
+          					ipv6cidr_block  = "2607:f590:0000:2000::/64"
+                        }
+						byoipv6cidr_details {
+          					byoipv6range_id = %q
+          					ipv6cidr_block  = "2607:f590:0000:4000::/64"
+                        }
+					}`, byoipv6RangeId, byoipv6RangeId, byoipv6RangeId),
+					Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+						resource.TestCheckResourceAttr(s.ResourceName, "byoipv6cidr_blocks.#", "3"),
+						resource.TestCheckResourceAttr(s.ResourceName, "byoipv6cidr_details.#", "3"),
+					),
+				},
+				// Step 2 - Out of band Remove cidr in the middle from the list
+				{
+					PreConfig: func() {
+						err := removeIpv6CidrFromVcn(acctest.GetTestClients(&schema.ResourceData{}), resId, "2607:f590:0000:2000::/64", 1)
+						if err != nil {
+							return
+						}
+					},
+					RefreshState:       true,
+					ExpectNonEmptyPlan: true,
+					PlanOnly:           true,
+					Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+						resource.TestCheckResourceAttr(s.ResourceName, "byoipv6cidr_blocks.#", "2"),
+						resource.TestCheckResourceAttr(s.ResourceName, "byoipv6cidr_details.#", "2"),
+					),
+				},
+				// Step 3 - Post removal of the new cidr from config, terraform should show an empty plan
+				{
+					ExpectNonEmptyPlan: false,
+					PlanOnly:           true,
+					Config: s.Config + fmt.Sprintf(`
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						is_ipv6enabled = true
+  						is_oracle_gua_allocation_enabled = false
+						byoipv6cidr_details {
+          					byoipv6range_id = %q
+          					ipv6cidr_block  = "2607:f590:0000:0200::/64"
+                        }
+						byoipv6cidr_details {
+          					byoipv6range_id = %q
+          					ipv6cidr_block  = "2607:f590:0000:4000::/64"
+                        }
+					}`, byoipv6RangeId, byoipv6RangeId),
+					Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+						resource.TestCheckResourceAttr(s.ResourceName, "byoipv6cidr_blocks.#", "2"),
+						resource.TestCheckResourceAttr(s.ResourceName, "byoipv6cidr_details.#", "2"),
+					),
+				},
+				// Step 4 - Post removal the stale cidr from config, terraform apply should succeed
+				{
+					Config: s.Config + fmt.Sprintf(`
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						is_ipv6enabled = true
+  						is_oracle_gua_allocation_enabled = false
+						byoipv6cidr_details {
+          					byoipv6range_id = %q
+          					ipv6cidr_block  = "2607:f590:0000:0200::/64"
+                        }
+						byoipv6cidr_details {
+          					byoipv6range_id = %q
+          					ipv6cidr_block  = "2607:f590:0000:4000::/64"
+                        }
+					}`, byoipv6RangeId, byoipv6RangeId),
+					Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+						resource.TestCheckResourceAttr(s.ResourceName, "byoipv6cidr_blocks.#", "2"),
+						resource.TestCheckResourceAttr(s.ResourceName, "byoipv6cidr_details.#", "2"),
+					),
+				},
+				// Test - Drift created when byoipv6 cidr removed from resource
+				// Step 1 - validate force removal of cidr creates a drift
+				{
+					PreConfig: func() {
+						err := removeIpv6CidrFromVcn(acctest.GetTestClients(&schema.ResourceData{}), resId, "2607:f590:0000:4000::/64", 1)
+						if err != nil {
+							return
+						}
+					},
+					RefreshState:       true,
+					ExpectNonEmptyPlan: true,
+					PlanOnly:           true,
+					Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+						resource.TestCheckResourceAttr(s.ResourceName, "byoipv6cidr_blocks.#", "1"),
+						resource.TestCheckResourceAttr(s.ResourceName, "byoipv6cidr_details.#", "1"),
+					),
+				},
+				// Step 2 - Post removal of the new cidr from config, terraform should show an empty plan
+				{
+					ExpectNonEmptyPlan: false,
+					PlanOnly:           true,
+					Config: s.Config + fmt.Sprintf(`
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						is_ipv6enabled = true
+  						is_oracle_gua_allocation_enabled = false
+						byoipv6cidr_details {
+          					byoipv6range_id = %q
+          					ipv6cidr_block  = "2607:f590:0000:0200::/64"
+                        }
+					}`, byoipv6RangeId),
+					Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+						resource.TestCheckResourceAttr(s.ResourceName, "byoipv6cidr_blocks.#", "1"),
+						resource.TestCheckResourceAttr(s.ResourceName, "byoipv6cidr_details.#", "1"),
+					),
+				},
 			},
 		})
 	}
