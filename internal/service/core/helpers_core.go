@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"net"
+	"reflect"
 	"strings"
 
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
@@ -218,6 +219,120 @@ func computeIPv6BlocksFromBYOIPv6Details(byoIpV6CidrDetails interface{}) []strin
 		}
 	}
 	return byoipv6Cidrs
+}
+
+// normalizeByoipv6CidrDetailsForDiff reorders and replaces new detail entries
+// so Terraform plans against stable state ordering rather than raw config
+// ordering. Existing BYO IPv6 blocks keep their prior state entries and order;
+// only genuinely new blocks are appended.
+func normalizeByoipv6CidrDetailsForDiff(oldValue interface{}, newValue interface{}) ([]interface{}, bool) {
+	oldItems, ok := oldValue.([]interface{})
+	if !ok || len(oldItems) == 0 {
+		return nil, false
+	}
+
+	newItems, ok := newValue.([]interface{})
+	if !ok || len(newItems) == 0 {
+		return nil, false
+	}
+
+	oldDetailsByBlock := make(map[string]map[string]interface{}, len(oldItems))
+	oldOrder := make([]string, 0, len(oldItems))
+
+	// Index the existing state entries by canonical IPv6 block for fast lookups.
+	for _, item := range oldItems {
+		data, block, ok := byoipv6DetailMapWithBlock(item)
+		if !ok {
+			continue
+		}
+
+		canonicalBlock := convertToCanonical(block)
+		if _, exists := oldDetailsByBlock[canonicalBlock]; !exists {
+			oldOrder = append(oldOrder, canonicalBlock)
+		}
+		oldDetailsByBlock[canonicalBlock] = data
+	}
+
+	if len(oldDetailsByBlock) == 0 {
+		return nil, false
+	}
+
+	newDetailsByBlock := make(map[string]map[string]interface{}, len(newItems))
+
+	for _, item := range newItems {
+		data, block, ok := byoipv6DetailMapWithBlock(item)
+		if !ok {
+			continue
+		}
+		newDetailsByBlock[convertToCanonical(block)] = data
+	}
+
+	normalized := make([]interface{}, 0, len(newItems))
+	matchedBlocks := make(map[string]struct{}, len(newItems))
+
+	// Preserve the prior state order for blocks that still exist in config.
+	for _, canonicalBlock := range oldOrder {
+		if existing, ok := oldDetailsByBlock[canonicalBlock]; ok {
+			if _, existsInConfig := newDetailsByBlock[canonicalBlock]; existsInConfig {
+				normalized = append(normalized, existing)
+				matchedBlocks[canonicalBlock] = struct{}{}
+			}
+		}
+	}
+
+	// Append only the genuinely new config entries in their declared order.
+	for _, item := range newItems {
+		_, block, ok := byoipv6DetailMapWithBlock(item)
+		if !ok {
+			normalized = append(normalized, item)
+			continue
+		}
+
+		canonicalBlock := convertToCanonical(block)
+		if _, alreadyPresent := matchedBlocks[canonicalBlock]; alreadyPresent {
+			continue
+		}
+
+		normalized = append(normalized, item)
+		matchedBlocks[canonicalBlock] = struct{}{}
+	}
+
+	if reflect.DeepEqual(normalized, newItems) {
+		return nil, false
+	}
+
+	return normalized, true
+}
+
+// equalByoipv6DetailMaps reports whether two BYOIPv6 detail maps contain the
+// same keys and values.
+func equalByoipv6DetailMaps(left map[string]interface{}, right map[string]interface{}) bool {
+	if len(left) != len(right) {
+		return false
+	}
+
+	for key, leftValue := range left {
+		rightValue, ok := right[key]
+		if !ok || leftValue != rightValue {
+			return false
+		}
+	}
+
+	return true
+}
+
+func byoipv6DetailMapWithBlock(item interface{}) (map[string]interface{}, string, bool) {
+	data, ok := item.(map[string]interface{})
+	if !ok {
+		return nil, "", false
+	}
+
+	block, ok := data["ipv6cidr_block"].(string)
+	if !ok || block == "" {
+		return nil, "", false
+	}
+
+	return data, block, true
 }
 
 func isIPv6CidrIdentical(elementToFind string) func(currentElement string) bool {

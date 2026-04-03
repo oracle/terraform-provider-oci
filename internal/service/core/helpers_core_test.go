@@ -102,6 +102,131 @@ func Test_computeIPv6BlocksFromBYOIPv6Details(t *testing.T) {
 	}
 }
 
+func Test_normalizeByoipv6CidrDetailsForDiff(t *testing.T) {
+	tests := []struct {
+		name     string
+		oldValue interface{}
+		newValue interface{}
+		want     []interface{}
+		changed  bool
+	}{
+		{
+			name: "suppresses matching block with different range id",
+			oldValue: []interface{}{
+				map[string]interface{}{
+					"ipv6cidr_block":  "2607:f590:0000:2000::/64",
+					"byoipv6range_id": "(known_after_apply)",
+				},
+			},
+			newValue: []interface{}{
+				map[string]interface{}{
+					"ipv6cidr_block":  "2607:f590:0000:2000::/64",
+					"byoipv6range_id": "ocid1.byoipv6range.oc1..example",
+				},
+			},
+			want: []interface{}{
+				map[string]interface{}{
+					"ipv6cidr_block":  "2607:f590:0000:2000::/64",
+					"byoipv6range_id": "(known_after_apply)",
+				},
+			},
+			changed: true,
+		},
+		{
+			name: "matches canonically equivalent blocks",
+			oldValue: []interface{}{
+				map[string]interface{}{
+					"ipv6cidr_block":  "2001:db8:1:2::/80",
+					"byoipv6range_id": "(known_after_apply)",
+				},
+			},
+			newValue: []interface{}{
+				map[string]interface{}{
+					"ipv6cidr_block":  "2001:0db8:0001:0002:0000:0000:0000:0000/80",
+					"byoipv6range_id": "ocid1.byoipv6range.oc1..example",
+				},
+			},
+			want: []interface{}{
+				map[string]interface{}{
+					"ipv6cidr_block":  "2001:db8:1:2::/80",
+					"byoipv6range_id": "(known_after_apply)",
+				},
+			},
+			changed: true,
+		},
+		{
+			name: "keeps new details when block is not already present",
+			oldValue: []interface{}{
+				map[string]interface{}{
+					"ipv6cidr_block":  "2607:f590:0000:0200::/64",
+					"byoipv6range_id": "(known_after_apply)",
+				},
+			},
+			newValue: []interface{}{
+				map[string]interface{}{
+					"ipv6cidr_block":  "2607:f590:0000:2000::/64",
+					"byoipv6range_id": "ocid1.byoipv6range.oc1..example",
+				},
+			},
+			changed: false,
+		},
+		{
+			name: "preserves state order for surviving entries and appends missing middle config entry",
+			oldValue: []interface{}{
+				map[string]interface{}{
+					"ipv6cidr_block":  "2607:f590:0000:0200::/64",
+					"byoipv6range_id": "range-a",
+				},
+				map[string]interface{}{
+					"ipv6cidr_block":  "2607:f590:0000:2200::/64",
+					"byoipv6range_id": "range-c",
+				},
+			},
+			newValue: []interface{}{
+				map[string]interface{}{
+					"ipv6cidr_block":  "2607:f590:0000:0200::/64",
+					"byoipv6range_id": "range-a",
+				},
+				map[string]interface{}{
+					"ipv6cidr_block":  "2607:f590:0000:2000::/64",
+					"byoipv6range_id": "range-b",
+				},
+				map[string]interface{}{
+					"ipv6cidr_block":  "2607:f590:0000:2200::/64",
+					"byoipv6range_id": "range-c",
+				},
+			},
+			want: []interface{}{
+				map[string]interface{}{
+					"ipv6cidr_block":  "2607:f590:0000:0200::/64",
+					"byoipv6range_id": "range-a",
+				},
+				map[string]interface{}{
+					"ipv6cidr_block":  "2607:f590:0000:2200::/64",
+					"byoipv6range_id": "range-c",
+				},
+				map[string]interface{}{
+					"ipv6cidr_block":  "2607:f590:0000:2000::/64",
+					"byoipv6range_id": "range-b",
+				},
+			},
+			changed: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, changed := normalizeByoipv6CidrDetailsForDiff(tt.oldValue, tt.newValue)
+			if changed != tt.changed {
+				t.Fatalf("normalizeByoipv6CidrDetailsForDiff() changed = %v, want %v", changed, tt.changed)
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Fatalf("normalizeByoipv6CidrDetailsForDiff() = %#v, want %#v", got, tt.want)
+			}
+		})
+	}
+}
+
 func Test_convertToCanonical(t *testing.T) {
 	type args struct {
 		block string
