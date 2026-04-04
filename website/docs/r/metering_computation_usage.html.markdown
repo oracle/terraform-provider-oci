@@ -67,7 +67,7 @@ The following arguments are supported:
 	* `namespace` - (Optional) The tag namespace.
 	* `value` - (Optional) The tag value.
 * `is_aggregate_by_time` - (Optional) Specifies whether aggregated by time. If isAggregateByTime is true, all usage or cost over the query time period will be added up.
-* `query_type` - (Optional) The query usage type. COST by default if it is missing. Usage - Query the usage data. Cost - Query the cost/billing data. Credit - Query the credit adjustments data. ExpiredCredit - Query the expired credits data. AllCredit - Query the credit adjustments and expired credit. 
+* `query_type` - (Optional) The query usage type. COST by default if it is missing. Usage - Query the usage data. Cost - Query the cost/billing data. Credit - Query the credit adjustments data. ExpiredCredit - Query the expired credits data. AllCredit - Query the credit adjustments and expired credit. Usage_Only - Query the only usage data without cost or currency. 
 * `tenant_id` - (Required) Tenant ID.
 * `time_usage_ended` - (Required) The usage end time.
 * `time_usage_started` - (Required) The usage start time.
