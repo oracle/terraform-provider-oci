@@ -101,13 +101,13 @@ func (s *FunctionsFunctionDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	if s.Res.Image != nil {
-		s.D.Set("image", *s.Res.Image)
-	}
+	//if s.Res.Image != nil {
+	//	s.D.Set("image", *s.Res.Image)
+	//}
 
-	if s.Res.ImageDigest != nil {
-		s.D.Set("image_digest", *s.Res.ImageDigest)
-	}
+	//if s.Res.ImageDigest != nil {
+	//	s.D.Set("image_digest", *s.Res.ImageDigest)
+	//}
 
 	if s.Res.InvokeEndpoint != nil {
 		s.D.Set("invoke_endpoint", *s.Res.InvokeEndpoint)

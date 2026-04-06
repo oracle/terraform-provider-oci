@@ -152,13 +152,13 @@ func (s *FunctionsFunctionsDataSourceCrud) SetData() error {
 			function["id"] = *r.Id
 		}
 
-		if r.Image != nil {
-			function["image"] = *r.Image
-		}
+		//if r.Image != nil {
+		//	function["image"] = *r.Image
+		//}
 
-		if r.ImageDigest != nil {
-			function["image_digest"] = *r.ImageDigest
-		}
+		//if r.ImageDigest != nil {
+		//	function["image_digest"] = *r.ImageDigest
+		//}
 
 		if r.InvokeEndpoint != nil {
 			function["invoke_endpoint"] = *r.InvokeEndpoint

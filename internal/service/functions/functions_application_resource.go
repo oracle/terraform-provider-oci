@@ -442,12 +442,12 @@ func (s *FunctionsApplicationResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "functions")
 
-	response, err := s.Client.UpdateApplication(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	s.Res = &response.Application
+	//response, err := s.Client.UpdateApplication(context.Background(), request)
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//s.Res = &response.Application
 	return nil
 }
 

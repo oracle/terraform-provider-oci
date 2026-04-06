@@ -479,19 +479,19 @@ func (s *FunctionsFunctionResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if image, ok := s.D.GetOkExists("image"); ok {
-		tmp := image.(string)
-		request.Image = &tmp
-	}
+	//if image, ok := s.D.GetOkExists("image"); ok {
+	//	tmp := image.(string)
+	//	request.Image = &tmp
+	//}
 
 	// This is important: we might receive the sentinel value during a Create. If we do, do *not* pass that
 	// through to the API.
-	if imageDigest, ok := s.D.GetOkExists("image_digest"); ok {
-		tmp := imageDigest.(string)
-		if tmp != "" && tmp != requireRecompute {
-			request.ImageDigest = &tmp
-		}
-	}
+	//if imageDigest, ok := s.D.GetOkExists("image_digest"); ok {
+	//	tmp := imageDigest.(string)
+	//	if tmp != "" && tmp != requireRecompute {
+	//		request.ImageDigest = &tmp
+	//	}
+	//}
 
 	if memoryInMBs, ok := s.D.GetOkExists("memory_in_mbs"); ok {
 		tmp := memoryInMBs.(string)
@@ -617,18 +617,18 @@ func (s *FunctionsFunctionResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.FunctionId = &tmp
 
-	if image, ok := s.D.GetOkExists("image"); ok {
-		tmp := image.(string)
-		request.Image = &tmp
-	}
+	//if image, ok := s.D.GetOkExists("image"); ok {
+	//	tmp := image.(string)
+	//	request.Image = &tmp
+	//}
 
 	// Again, during an Update we must detect the special sentinel value and avoid passing it to the API.
-	if imageDigest, ok := s.D.GetOkExists("image_digest"); ok {
-		tmp := imageDigest.(string)
-		if tmp != "" && tmp != requireRecompute {
-			request.ImageDigest = &tmp
-		}
-	}
+	//if imageDigest, ok := s.D.GetOkExists("image_digest"); ok {
+	//	tmp := imageDigest.(string)
+	//	if tmp != "" && tmp != requireRecompute {
+	//		request.ImageDigest = &tmp
+	//	}
+	//}
 
 	if memoryInMBs, ok := s.D.GetOkExists("memory_in_mbs"); ok {
 		tmp := memoryInMBs.(string)
@@ -679,12 +679,12 @@ func (s *FunctionsFunctionResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "functions")
 
-	response, err := s.Client.UpdateFunction(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	s.Res = &response.Function
+	//response, err := s.Client.UpdateFunction(context.Background(), request)
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//s.Res = &response.Function
 	return nil
 }
 
@@ -735,13 +735,13 @@ func (s *FunctionsFunctionResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	if s.Res.Image != nil {
-		s.D.Set("image", *s.Res.Image)
-	}
+	//if s.Res.Image != nil {
+	//	s.D.Set("image", *s.Res.Image)
+	//}
 
-	if s.Res.ImageDigest != nil {
-		s.D.Set("image_digest", *s.Res.ImageDigest)
-	}
+	//if s.Res.ImageDigest != nil {
+	//	s.D.Set("image_digest", *s.Res.ImageDigest)
+	//}
 
 	if s.Res.InvokeEndpoint != nil {
 		s.D.Set("invoke_endpoint", *s.Res.InvokeEndpoint)

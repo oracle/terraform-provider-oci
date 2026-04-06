@@ -714,12 +714,12 @@ func (s *DatascienceMlApplicationInstanceResourceCrud) mapToCreateAuthConfigurat
 		details := oci_datascience.CreateIamAuthConfigurationCreateDetails{}
 		baseObject = details
 	case strings.ToLower("IDCS"):
-		details := oci_datascience.CreateIdcsAuthConfigurationDetails{}
-		if domainId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "domain_id")); ok {
-			tmp := domainId.(string)
-			details.DomainId = &tmp
-		}
-		baseObject = details
+		//details := oci_datascience.CreateIdcsAuthConfigurationDetails{}
+		//if domainId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "domain_id")); ok {
+		//	tmp := domainId.(string)
+		//	details.DomainId = &tmp
+		//}
+		//baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
 	}
@@ -728,18 +728,19 @@ func (s *DatascienceMlApplicationInstanceResourceCrud) mapToCreateAuthConfigurat
 
 func AuthConfigurationToMap(obj *oci_datascience.AuthConfiguration) map[string]interface{} {
 	result := map[string]interface{}{}
-	switch v := (*obj).(type) {
+	//switch v := (*obj).(type) {
+	switch (*obj).(type) {
 	case oci_datascience.IamAuthConfiguration:
 		result["type"] = "IAM"
-	case oci_datascience.IdcsAuthConfiguration:
-		result["type"] = "IDCS"
-
-		if v.DomainId != nil {
-			result["domain_id"] = string(*v.DomainId)
-		}
-		if v.ApplicationName != nil {
-			result["application_name"] = string(*v.ApplicationName)
-		}
+	// case oci_datascience.IdcsAuthConfiguration:
+	//	result["type"] = "IDCS"
+	//
+	//	if v.DomainId != nil {
+	//		result["domain_id"] = string(*v.DomainId)
+	//	}
+	//	if v.ApplicationName != nil {
+	//		result["application_name"] = string(*v.ApplicationName)
+	//	}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
 		return nil
