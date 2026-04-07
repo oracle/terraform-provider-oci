@@ -21,4 +21,5 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_bds_bds_instance_software_update_action", BdsBdsInstanceSoftwareUpdateResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_node_backup", BdsBdsInstanceNodeBackupResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_replace_node_action", BdsBdsInstanceReplaceNodeActionResource())
+	tfresource.RegisterResource("oci_bds_bds_instance_execute_bootstrap_script_action", BdsBdsInstanceExecuteBootstrapScriptActionResource())
 }
