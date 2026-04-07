@@ -136,7 +136,7 @@ func (client MulticloudsubscriptionsClient) listMulticloudSubscriptions(ctx cont
 
 	var response ListMulticloudSubscriptionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "multicloudsubscriptions", "ListMulticloudSubscriptions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

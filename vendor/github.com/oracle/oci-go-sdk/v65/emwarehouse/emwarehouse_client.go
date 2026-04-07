@@ -135,7 +135,7 @@ func (client EmWarehouseClient) cancelWorkRequest(ctx context.Context, request c
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "emWarehouse", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -197,7 +197,7 @@ func (client EmWarehouseClient) changeEmWarehouseCompartment(ctx context.Context
 
 	var response ChangeEmWarehouseCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "emWarehouse", "ChangeEmWarehouseCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -259,7 +259,7 @@ func (client EmWarehouseClient) createEmWarehouse(ctx context.Context, request c
 
 	var response CreateEmWarehouseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "emWarehouse", "CreateEmWarehouse")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -316,7 +316,7 @@ func (client EmWarehouseClient) deleteEmWarehouse(ctx context.Context, request c
 
 	var response DeleteEmWarehouseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "emWarehouse", "DeleteEmWarehouse")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -373,7 +373,7 @@ func (client EmWarehouseClient) getEmWarehouse(ctx context.Context, request comm
 
 	var response GetEmWarehouseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "emWarehouse", "GetEmWarehouse")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -430,7 +430,7 @@ func (client EmWarehouseClient) getEmWarehouseResourceUsage(ctx context.Context,
 
 	var response GetEmWarehouseResourceUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "emWarehouse", "GetEmWarehouseResourceUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -487,7 +487,7 @@ func (client EmWarehouseClient) getWorkRequest(ctx context.Context, request comm
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "emWarehouse", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -544,7 +544,7 @@ func (client EmWarehouseClient) listEmWarehouses(ctx context.Context, request co
 
 	var response ListEmWarehousesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "emWarehouse", "ListEmWarehouses")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -601,7 +601,7 @@ func (client EmWarehouseClient) listEtlRuns(ctx context.Context, request common.
 
 	var response ListEtlRunsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "emWarehouse", "ListEtlRuns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -658,7 +658,7 @@ func (client EmWarehouseClient) listWorkRequestErrors(ctx context.Context, reque
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "emWarehouse", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -715,7 +715,7 @@ func (client EmWarehouseClient) listWorkRequestLogs(ctx context.Context, request
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "emWarehouse", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -772,7 +772,7 @@ func (client EmWarehouseClient) listWorkRequests(ctx context.Context, request co
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "emWarehouse", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -829,7 +829,7 @@ func (client EmWarehouseClient) updateEmWarehouse(ctx context.Context, request c
 
 	var response UpdateEmWarehouseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "emWarehouse", "UpdateEmWarehouse")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

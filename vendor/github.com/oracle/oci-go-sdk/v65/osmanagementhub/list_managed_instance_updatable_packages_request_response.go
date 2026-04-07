@@ -34,6 +34,9 @@ type ListManagedInstanceUpdatablePackagesRequest struct {
 	// Example: `ELSA-2020-5804`
 	AdvisoryName []string `contributesTo:"query" name:"advisoryName" collectionFormat:"multi"`
 
+	// The advisory severity.
+	AdvisorySeverity []AdvisorySeverityEnum `contributesTo:"query" name:"advisorySeverity" omitEmpty:"true" collectionFormat:"multi"`
+
 	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
@@ -95,6 +98,12 @@ func (request ListManagedInstanceUpdatablePackagesRequest) ValidateEnumValue() (
 	for _, val := range request.ClassificationType {
 		if _, ok := GetMappingClassificationTypesEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ClassificationType: %s. Supported values are: %s.", val, strings.Join(GetClassificationTypesEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.AdvisorySeverity {
+		if _, ok := GetMappingAdvisorySeverityEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AdvisorySeverity: %s. Supported values are: %s.", val, strings.Join(GetAdvisorySeverityEnumStringValues(), ",")))
 		}
 	}
 

@@ -137,7 +137,7 @@ func (client ResourcesClient) listResourceQuota(ctx context.Context, request com
 
 	var response ListResourceQuotaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resources", "ListResourceQuota")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -196,7 +196,7 @@ func (client ResourcesClient) listResources(ctx context.Context, request common.
 
 	var response ListResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resources", "ListResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

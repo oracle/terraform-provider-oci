@@ -142,7 +142,7 @@ func (client ManagedInstanceGroupClient) attachManagedInstancesToManagedInstance
 
 	var response AttachManagedInstancesToManagedInstanceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "AttachManagedInstancesToManagedInstanceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -205,7 +205,7 @@ func (client ManagedInstanceGroupClient) attachSoftwareSourcesToManagedInstanceG
 
 	var response AttachSoftwareSourcesToManagedInstanceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "AttachSoftwareSourcesToManagedInstanceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -268,7 +268,7 @@ func (client ManagedInstanceGroupClient) changeManagedInstanceGroupCompartment(c
 
 	var response ChangeManagedInstanceGroupCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "ChangeManagedInstanceGroupCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -331,7 +331,7 @@ func (client ManagedInstanceGroupClient) createManagedInstanceGroup(ctx context.
 
 	var response CreateManagedInstanceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "CreateManagedInstanceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -389,7 +389,7 @@ func (client ManagedInstanceGroupClient) deleteManagedInstanceGroup(ctx context.
 
 	var response DeleteManagedInstanceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "DeleteManagedInstanceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -452,7 +452,7 @@ func (client ManagedInstanceGroupClient) detachManagedInstancesFromManagedInstan
 
 	var response DetachManagedInstancesFromManagedInstanceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "DetachManagedInstancesFromManagedInstanceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -515,7 +515,7 @@ func (client ManagedInstanceGroupClient) detachSoftwareSourcesFromManagedInstanc
 
 	var response DetachSoftwareSourcesFromManagedInstanceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "DetachSoftwareSourcesFromManagedInstanceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -578,7 +578,7 @@ func (client ManagedInstanceGroupClient) disableModuleStreamOnManagedInstanceGro
 
 	var response DisableModuleStreamOnManagedInstanceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "DisableModuleStreamOnManagedInstanceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -641,7 +641,7 @@ func (client ManagedInstanceGroupClient) enableModuleStreamOnManagedInstanceGrou
 
 	var response EnableModuleStreamOnManagedInstanceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "EnableModuleStreamOnManagedInstanceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -699,7 +699,7 @@ func (client ManagedInstanceGroupClient) getManagedInstanceGroup(ctx context.Con
 
 	var response GetManagedInstanceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "GetManagedInstanceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -762,7 +762,7 @@ func (client ManagedInstanceGroupClient) installModuleStreamProfileOnManagedInst
 
 	var response InstallModuleStreamProfileOnManagedInstanceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "InstallModuleStreamProfileOnManagedInstanceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -825,7 +825,7 @@ func (client ManagedInstanceGroupClient) installPackagesOnManagedInstanceGroup(c
 
 	var response InstallPackagesOnManagedInstanceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "InstallPackagesOnManagedInstanceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -888,7 +888,7 @@ func (client ManagedInstanceGroupClient) installWindowsUpdatesOnManagedInstanceG
 
 	var response InstallWindowsUpdatesOnManagedInstanceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "InstallWindowsUpdatesOnManagedInstanceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -946,7 +946,7 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupAvailableModule
 
 	var response ListManagedInstanceGroupAvailableModulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "ListManagedInstanceGroupAvailableModules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1005,7 +1005,7 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupAvailablePackag
 
 	var response ListManagedInstanceGroupAvailablePackagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "ListManagedInstanceGroupAvailablePackages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1063,7 +1063,7 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupAvailableSoftwa
 
 	var response ListManagedInstanceGroupAvailableSoftwareSourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "ListManagedInstanceGroupAvailableSoftwareSources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1122,12 +1122,70 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupInstalledPackag
 
 	var response ListManagedInstanceGroupInstalledPackagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "ListManagedInstanceGroupInstalledPackages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/ListManagedInstanceGroupInstalledPackages"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "ListManagedInstanceGroupInstalledPackages", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListManagedInstanceGroupManagedInstances Lists all managed instances for a specified managed instance group. Filter the list against a variety of criteria including but not limited to the managed instance name. The results list all managed instances that have already been added to the group.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroupManagedInstances.go.html to see an example of how to use ListManagedInstanceGroupManagedInstances API.
+// A default retry strategy applies to this operation ListManagedInstanceGroupManagedInstances()
+func (client ManagedInstanceGroupClient) ListManagedInstanceGroupManagedInstances(ctx context.Context, request ListManagedInstanceGroupManagedInstancesRequest) (response ListManagedInstanceGroupManagedInstancesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listManagedInstanceGroupManagedInstances, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListManagedInstanceGroupManagedInstancesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListManagedInstanceGroupManagedInstancesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListManagedInstanceGroupManagedInstancesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListManagedInstanceGroupManagedInstancesResponse")
+	}
+	return
+}
+
+// listManagedInstanceGroupManagedInstances implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceGroupClient) listManagedInstanceGroupManagedInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstanceGroups/{managedInstanceGroupId}/managedInstances", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListManagedInstanceGroupManagedInstancesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "ListManagedInstanceGroupManagedInstances")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/ListManagedInstanceGroupManagedInstances"
+		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "ListManagedInstanceGroupManagedInstances", apiReferenceLink)
 		return response, err
 	}
 
@@ -1197,7 +1255,7 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupModules(ctx con
 
 	var response ListManagedInstanceGroupModulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "ListManagedInstanceGroupModules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1255,7 +1313,7 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroups(ctx context.C
 
 	var response ListManagedInstanceGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "ListManagedInstanceGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1319,7 +1377,7 @@ func (client ManagedInstanceGroupClient) manageModuleStreamsOnManagedInstanceGro
 
 	var response ManageModuleStreamsOnManagedInstanceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "ManageModuleStreamsOnManagedInstanceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1382,12 +1440,75 @@ func (client ManagedInstanceGroupClient) rebootManagedInstanceGroup(ctx context.
 
 	var response RebootManagedInstanceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "RebootManagedInstanceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/RebootManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "RebootManagedInstanceGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RefreshSoftwareOnManagedInstanceGroup Refreshes the package, Windows update or Snap information on a managed instance with the latest data from the software source. This does not update packages on the instance. It provides the service with the latest package data.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/RefreshSoftwareOnManagedInstanceGroup.go.html to see an example of how to use RefreshSoftwareOnManagedInstanceGroup API.
+// A default retry strategy applies to this operation RefreshSoftwareOnManagedInstanceGroup()
+func (client ManagedInstanceGroupClient) RefreshSoftwareOnManagedInstanceGroup(ctx context.Context, request RefreshSoftwareOnManagedInstanceGroupRequest) (response RefreshSoftwareOnManagedInstanceGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.refreshSoftwareOnManagedInstanceGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RefreshSoftwareOnManagedInstanceGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RefreshSoftwareOnManagedInstanceGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RefreshSoftwareOnManagedInstanceGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RefreshSoftwareOnManagedInstanceGroupResponse")
+	}
+	return
+}
+
+// refreshSoftwareOnManagedInstanceGroup implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceGroupClient) refreshSoftwareOnManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstanceGroups/{managedInstanceGroupId}/actions/refreshSoftware", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RefreshSoftwareOnManagedInstanceGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "RefreshSoftwareOnManagedInstanceGroup")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/RefreshSoftwareOnManagedInstanceGroup"
+		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "RefreshSoftwareOnManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1445,7 +1566,7 @@ func (client ManagedInstanceGroupClient) removeModuleStreamProfileFromManagedIns
 
 	var response RemoveModuleStreamProfileFromManagedInstanceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "RemoveModuleStreamProfileFromManagedInstanceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1508,7 +1629,7 @@ func (client ManagedInstanceGroupClient) removePackagesFromManagedInstanceGroup(
 
 	var response RemovePackagesFromManagedInstanceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "RemovePackagesFromManagedInstanceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1574,7 +1695,7 @@ func (client ManagedInstanceGroupClient) switchModuleStreamOnManagedInstanceGrou
 
 	var response SwitchModuleStreamOnManagedInstanceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "SwitchModuleStreamOnManagedInstanceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1637,7 +1758,7 @@ func (client ManagedInstanceGroupClient) updateAllPackagesOnManagedInstanceGroup
 
 	var response UpdateAllPackagesOnManagedInstanceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "UpdateAllPackagesOnManagedInstanceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1695,7 +1816,7 @@ func (client ManagedInstanceGroupClient) updateManagedInstanceGroup(ctx context.
 
 	var response UpdateManagedInstanceGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstanceGroup", "UpdateManagedInstanceGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

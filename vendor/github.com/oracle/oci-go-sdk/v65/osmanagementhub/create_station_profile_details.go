@@ -20,7 +20,7 @@ import (
 // CreateStationProfileDetails Provides the information used to create the management station profile.
 type CreateStationProfileDetails struct {
 
-	// A user-friendly name. Does not have to be unique and you can change the name later. Avoid entering
+	// A user-friendly name. Must be unique and you can change the name later. Avoid entering
 	// confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
@@ -31,7 +31,7 @@ type CreateStationProfileDetails struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	// description: The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate
-	// with an instance once registered. This is required when creating a profile for non-OCI instances.
+	// with an instance once registered. This is used when creating a profile for non-OCI instances.
 	ManagementStationId *string `mandatory:"false" json:"managementStationId"`
 
 	// Indicates if the profile is set as the default. There is exactly one default profile for a specified architecture, OS family, registration type, and vendor. When registering an instance with the corresonding characteristics, the default profile is used, unless another profile is specified.

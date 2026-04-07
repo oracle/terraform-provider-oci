@@ -136,7 +136,7 @@ func (client AIServiceVisionClient) analyzeDocument(ctx context.Context, request
 
 	var response AnalyzeDocumentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "AnalyzeDocument")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -194,7 +194,7 @@ func (client AIServiceVisionClient) analyzeImage(ctx context.Context, request co
 
 	var response AnalyzeImageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "AnalyzeImage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -251,7 +251,7 @@ func (client AIServiceVisionClient) cancelDocumentJob(ctx context.Context, reque
 
 	var response CancelDocumentJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "CancelDocumentJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -308,7 +308,7 @@ func (client AIServiceVisionClient) cancelImageJob(ctx context.Context, request 
 
 	var response CancelImageJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "CancelImageJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -365,7 +365,7 @@ func (client AIServiceVisionClient) cancelVideoJob(ctx context.Context, request 
 
 	var response CancelVideoJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "CancelVideoJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -422,7 +422,7 @@ func (client AIServiceVisionClient) cancelWorkRequest(ctx context.Context, reque
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -479,7 +479,7 @@ func (client AIServiceVisionClient) changeModelCompartment(ctx context.Context, 
 
 	var response ChangeModelCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "ChangeModelCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -536,7 +536,7 @@ func (client AIServiceVisionClient) changeProjectCompartment(ctx context.Context
 
 	var response ChangeProjectCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "ChangeProjectCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -599,7 +599,7 @@ func (client AIServiceVisionClient) changeStreamGroupCompartment(ctx context.Con
 
 	var response ChangeStreamGroupCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "ChangeStreamGroupCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -662,7 +662,7 @@ func (client AIServiceVisionClient) changeStreamJobCompartment(ctx context.Conte
 
 	var response ChangeStreamJobCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "ChangeStreamJobCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -725,7 +725,7 @@ func (client AIServiceVisionClient) changeStreamSourceCompartment(ctx context.Co
 
 	var response ChangeStreamSourceCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "ChangeStreamSourceCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -788,7 +788,7 @@ func (client AIServiceVisionClient) changeVisionPrivateEndpointCompartment(ctx c
 
 	var response ChangeVisionPrivateEndpointCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "ChangeVisionPrivateEndpointCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -850,7 +850,7 @@ func (client AIServiceVisionClient) createDocumentJob(ctx context.Context, reque
 
 	var response CreateDocumentJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "CreateDocumentJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -912,7 +912,7 @@ func (client AIServiceVisionClient) createImageJob(ctx context.Context, request 
 
 	var response CreateImageJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "CreateImageJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -974,7 +974,7 @@ func (client AIServiceVisionClient) createModel(ctx context.Context, request com
 
 	var response CreateModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "CreateModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1036,7 +1036,7 @@ func (client AIServiceVisionClient) createProject(ctx context.Context, request c
 
 	var response CreateProjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "CreateProject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1099,7 +1099,7 @@ func (client AIServiceVisionClient) createStreamGroup(ctx context.Context, reque
 
 	var response CreateStreamGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "CreateStreamGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1162,7 +1162,7 @@ func (client AIServiceVisionClient) createStreamJob(ctx context.Context, request
 
 	var response CreateStreamJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "CreateStreamJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1225,7 +1225,7 @@ func (client AIServiceVisionClient) createStreamSource(ctx context.Context, requ
 
 	var response CreateStreamSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "CreateStreamSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1287,7 +1287,7 @@ func (client AIServiceVisionClient) createVideoJob(ctx context.Context, request 
 
 	var response CreateVideoJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "CreateVideoJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1350,7 +1350,7 @@ func (client AIServiceVisionClient) createVisionPrivateEndpoint(ctx context.Cont
 
 	var response CreateVisionPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "CreateVisionPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1407,7 +1407,7 @@ func (client AIServiceVisionClient) deleteModel(ctx context.Context, request com
 
 	var response DeleteModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "DeleteModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1464,7 +1464,7 @@ func (client AIServiceVisionClient) deleteProject(ctx context.Context, request c
 
 	var response DeleteProjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "DeleteProject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1521,7 +1521,7 @@ func (client AIServiceVisionClient) deleteStreamGroup(ctx context.Context, reque
 
 	var response DeleteStreamGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "DeleteStreamGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1578,7 +1578,7 @@ func (client AIServiceVisionClient) deleteStreamJob(ctx context.Context, request
 
 	var response DeleteStreamJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "DeleteStreamJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1635,7 +1635,7 @@ func (client AIServiceVisionClient) deleteStreamSource(ctx context.Context, requ
 
 	var response DeleteStreamSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "DeleteStreamSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1692,7 +1692,7 @@ func (client AIServiceVisionClient) deleteVisionPrivateEndpoint(ctx context.Cont
 
 	var response DeleteVisionPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "DeleteVisionPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1749,7 +1749,7 @@ func (client AIServiceVisionClient) getDocumentJob(ctx context.Context, request 
 
 	var response GetDocumentJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "GetDocumentJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1806,7 +1806,7 @@ func (client AIServiceVisionClient) getImageJob(ctx context.Context, request com
 
 	var response GetImageJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "GetImageJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1863,7 +1863,7 @@ func (client AIServiceVisionClient) getModel(ctx context.Context, request common
 
 	var response GetModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "GetModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1920,7 +1920,7 @@ func (client AIServiceVisionClient) getProject(ctx context.Context, request comm
 
 	var response GetProjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "GetProject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1978,7 +1978,7 @@ func (client AIServiceVisionClient) getStreamGroup(ctx context.Context, request 
 
 	var response GetStreamGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "GetStreamGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2036,7 +2036,7 @@ func (client AIServiceVisionClient) getStreamJob(ctx context.Context, request co
 
 	var response GetStreamJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "GetStreamJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2094,7 +2094,7 @@ func (client AIServiceVisionClient) getStreamSource(ctx context.Context, request
 
 	var response GetStreamSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "GetStreamSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2151,7 +2151,7 @@ func (client AIServiceVisionClient) getVideoJob(ctx context.Context, request com
 
 	var response GetVideoJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "GetVideoJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2209,7 +2209,7 @@ func (client AIServiceVisionClient) getVisionPrivateEndpoint(ctx context.Context
 
 	var response GetVisionPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "GetVisionPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2266,7 +2266,7 @@ func (client AIServiceVisionClient) getWorkRequest(ctx context.Context, request 
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2323,7 +2323,7 @@ func (client AIServiceVisionClient) listModels(ctx context.Context, request comm
 
 	var response ListModelsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "ListModels")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2380,7 +2380,7 @@ func (client AIServiceVisionClient) listProjects(ctx context.Context, request co
 
 	var response ListProjectsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "ListProjects")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2438,7 +2438,7 @@ func (client AIServiceVisionClient) listStreamGroups(ctx context.Context, reques
 
 	var response ListStreamGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "ListStreamGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2496,7 +2496,7 @@ func (client AIServiceVisionClient) listStreamJobs(ctx context.Context, request 
 
 	var response ListStreamJobsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "ListStreamJobs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2554,7 +2554,7 @@ func (client AIServiceVisionClient) listStreamSources(ctx context.Context, reque
 
 	var response ListStreamSourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "ListStreamSources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2612,7 +2612,7 @@ func (client AIServiceVisionClient) listVisionPrivateEndpoints(ctx context.Conte
 
 	var response ListVisionPrivateEndpointsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "ListVisionPrivateEndpoints")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2669,7 +2669,7 @@ func (client AIServiceVisionClient) listWorkRequestErrors(ctx context.Context, r
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2726,7 +2726,7 @@ func (client AIServiceVisionClient) listWorkRequestLogs(ctx context.Context, req
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2783,7 +2783,7 @@ func (client AIServiceVisionClient) listWorkRequests(ctx context.Context, reques
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2846,7 +2846,7 @@ func (client AIServiceVisionClient) startStreamJob(ctx context.Context, request 
 
 	var response StartStreamJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "StartStreamJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2909,7 +2909,7 @@ func (client AIServiceVisionClient) stopStreamJob(ctx context.Context, request c
 
 	var response StopStreamJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "StopStreamJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2966,7 +2966,7 @@ func (client AIServiceVisionClient) updateModel(ctx context.Context, request com
 
 	var response UpdateModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "UpdateModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3023,7 +3023,7 @@ func (client AIServiceVisionClient) updateProject(ctx context.Context, request c
 
 	var response UpdateProjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "UpdateProject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3080,7 +3080,7 @@ func (client AIServiceVisionClient) updateStreamGroup(ctx context.Context, reque
 
 	var response UpdateStreamGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "UpdateStreamGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3137,7 +3137,7 @@ func (client AIServiceVisionClient) updateStreamJob(ctx context.Context, request
 
 	var response UpdateStreamJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "UpdateStreamJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3194,7 +3194,7 @@ func (client AIServiceVisionClient) updateStreamSource(ctx context.Context, requ
 
 	var response UpdateStreamSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "UpdateStreamSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3251,7 +3251,7 @@ func (client AIServiceVisionClient) updateVisionPrivateEndpoint(ctx context.Cont
 
 	var response UpdateVisionPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aIServiceVision", "UpdateVisionPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

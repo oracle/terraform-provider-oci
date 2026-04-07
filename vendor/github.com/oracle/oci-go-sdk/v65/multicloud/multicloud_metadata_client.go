@@ -136,7 +136,7 @@ func (client MetadataClient) listExternalLocationDetailsMetadata(ctx context.Con
 
 	var response ListExternalLocationDetailsMetadataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "metadata", "ListExternalLocationDetailsMetadata")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -194,7 +194,7 @@ func (client MetadataClient) listExternalLocationMappingMetadata(ctx context.Con
 
 	var response ListExternalLocationMappingMetadataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "metadata", "ListExternalLocationMappingMetadata")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -252,7 +252,7 @@ func (client MetadataClient) listExternalLocationSummariesMetadata(ctx context.C
 
 	var response ListExternalLocationSummariesMetadataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "metadata", "ListExternalLocationSummariesMetadata")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

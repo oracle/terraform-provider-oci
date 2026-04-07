@@ -123,7 +123,7 @@ func (client KmsCryptoClient) decrypt(ctx context.Context, request common.OCIReq
 
 	var response DecryptResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "kmsCrypto", "Decrypt")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -181,7 +181,7 @@ func (client KmsCryptoClient) encrypt(ctx context.Context, request common.OCIReq
 
 	var response EncryptResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "kmsCrypto", "Encrypt")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -241,7 +241,7 @@ func (client KmsCryptoClient) exportKey(ctx context.Context, request common.OCIR
 
 	var response ExportKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "kmsCrypto", "ExportKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -298,7 +298,7 @@ func (client KmsCryptoClient) generateDataEncryptionKey(ctx context.Context, req
 
 	var response GenerateDataEncryptionKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "kmsCrypto", "GenerateDataEncryptionKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -358,7 +358,7 @@ func (client KmsCryptoClient) sign(ctx context.Context, request common.OCIReques
 
 	var response SignResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "kmsCrypto", "Sign")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -418,7 +418,7 @@ func (client KmsCryptoClient) verify(ctx context.Context, request common.OCIRequ
 
 	var response VerifyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "kmsCrypto", "Verify")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

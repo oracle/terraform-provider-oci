@@ -78,6 +78,7 @@ type Image struct {
 	// * `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for platform images.
 	// * `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
 	// * `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
+	// * `ACCELERATEDPV` - VM instances launch with accelerated paravirtualized networking type.
 	// * `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter.
 	LaunchMode ImageLaunchModeEnum `mandatory:"false" json:"launchMode,omitempty"`
 
@@ -131,6 +132,7 @@ const (
 	ImageLaunchModeNative          ImageLaunchModeEnum = "NATIVE"
 	ImageLaunchModeEmulated        ImageLaunchModeEnum = "EMULATED"
 	ImageLaunchModeParavirtualized ImageLaunchModeEnum = "PARAVIRTUALIZED"
+	ImageLaunchModeAcceleratedpv   ImageLaunchModeEnum = "ACCELERATEDPV"
 	ImageLaunchModeCustom          ImageLaunchModeEnum = "CUSTOM"
 )
 
@@ -138,6 +140,7 @@ var mappingImageLaunchModeEnum = map[string]ImageLaunchModeEnum{
 	"NATIVE":          ImageLaunchModeNative,
 	"EMULATED":        ImageLaunchModeEmulated,
 	"PARAVIRTUALIZED": ImageLaunchModeParavirtualized,
+	"ACCELERATEDPV":   ImageLaunchModeAcceleratedpv,
 	"CUSTOM":          ImageLaunchModeCustom,
 }
 
@@ -145,6 +148,7 @@ var mappingImageLaunchModeEnumLowerCase = map[string]ImageLaunchModeEnum{
 	"native":          ImageLaunchModeNative,
 	"emulated":        ImageLaunchModeEmulated,
 	"paravirtualized": ImageLaunchModeParavirtualized,
+	"acceleratedpv":   ImageLaunchModeAcceleratedpv,
 	"custom":          ImageLaunchModeCustom,
 }
 
@@ -163,6 +167,7 @@ func GetImageLaunchModeEnumStringValues() []string {
 		"NATIVE",
 		"EMULATED",
 		"PARAVIRTUALIZED",
+		"ACCELERATEDPV",
 		"CUSTOM",
 	}
 }

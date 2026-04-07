@@ -136,7 +136,7 @@ func (client OciCacheEngineOptionsClient) listOciCacheEngineOptions(ctx context.
 
 	var response ListOciCacheEngineOptionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ociCacheEngineOptions", "ListOciCacheEngineOptions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

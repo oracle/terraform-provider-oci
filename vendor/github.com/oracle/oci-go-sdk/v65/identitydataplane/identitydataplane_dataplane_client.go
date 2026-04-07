@@ -135,7 +135,7 @@ func (client DataplaneClient) generateScopedAccessToken(ctx context.Context, req
 
 	var response GenerateScopedAccessTokenResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataplane", "GenerateScopedAccessToken")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -194,7 +194,7 @@ func (client DataplaneClient) generateUserSecurityToken(ctx context.Context, req
 
 	var response GenerateUserSecurityTokenResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataplane", "GenerateUserSecurityToken")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

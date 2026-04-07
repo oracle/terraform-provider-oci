@@ -157,6 +157,7 @@ type Instance struct {
 	// * `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for platform images.
 	// * `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
 	// * `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
+	// * `ACCELERATEDPV` - VM instances launch with accelerated paravirtualized networking type.
 	// * `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter.
 	LaunchMode InstanceLaunchModeEnum `mandatory:"false" json:"launchMode,omitempty"`
 
@@ -419,6 +420,7 @@ const (
 	InstanceLaunchModeNative          InstanceLaunchModeEnum = "NATIVE"
 	InstanceLaunchModeEmulated        InstanceLaunchModeEnum = "EMULATED"
 	InstanceLaunchModeParavirtualized InstanceLaunchModeEnum = "PARAVIRTUALIZED"
+	InstanceLaunchModeAcceleratedpv   InstanceLaunchModeEnum = "ACCELERATEDPV"
 	InstanceLaunchModeCustom          InstanceLaunchModeEnum = "CUSTOM"
 )
 
@@ -426,6 +428,7 @@ var mappingInstanceLaunchModeEnum = map[string]InstanceLaunchModeEnum{
 	"NATIVE":          InstanceLaunchModeNative,
 	"EMULATED":        InstanceLaunchModeEmulated,
 	"PARAVIRTUALIZED": InstanceLaunchModeParavirtualized,
+	"ACCELERATEDPV":   InstanceLaunchModeAcceleratedpv,
 	"CUSTOM":          InstanceLaunchModeCustom,
 }
 
@@ -433,6 +436,7 @@ var mappingInstanceLaunchModeEnumLowerCase = map[string]InstanceLaunchModeEnum{
 	"native":          InstanceLaunchModeNative,
 	"emulated":        InstanceLaunchModeEmulated,
 	"paravirtualized": InstanceLaunchModeParavirtualized,
+	"acceleratedpv":   InstanceLaunchModeAcceleratedpv,
 	"custom":          InstanceLaunchModeCustom,
 }
 
@@ -451,6 +455,7 @@ func GetInstanceLaunchModeEnumStringValues() []string {
 		"NATIVE",
 		"EMULATED",
 		"PARAVIRTUALIZED",
+		"ACCELERATEDPV",
 		"CUSTOM",
 	}
 }

@@ -136,7 +136,7 @@ func (client OpaInstanceClient) cancelWorkRequest(ctx context.Context, request c
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opaInstance", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -194,7 +194,7 @@ func (client OpaInstanceClient) changeOpaInstanceCompartment(ctx context.Context
 
 	var response ChangeOpaInstanceCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opaInstance", "ChangeOpaInstanceCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -257,7 +257,7 @@ func (client OpaInstanceClient) createOpaInstance(ctx context.Context, request c
 
 	var response CreateOpaInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opaInstance", "CreateOpaInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -315,7 +315,7 @@ func (client OpaInstanceClient) deleteOpaInstance(ctx context.Context, request c
 
 	var response DeleteOpaInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opaInstance", "DeleteOpaInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -373,7 +373,7 @@ func (client OpaInstanceClient) getOpaInstance(ctx context.Context, request comm
 
 	var response GetOpaInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opaInstance", "GetOpaInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -431,7 +431,7 @@ func (client OpaInstanceClient) getWorkRequest(ctx context.Context, request comm
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opaInstance", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -489,7 +489,7 @@ func (client OpaInstanceClient) listOpaInstances(ctx context.Context, request co
 
 	var response ListOpaInstancesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opaInstance", "ListOpaInstances")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -547,7 +547,7 @@ func (client OpaInstanceClient) listWorkRequestErrors(ctx context.Context, reque
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opaInstance", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -605,7 +605,7 @@ func (client OpaInstanceClient) listWorkRequestLogs(ctx context.Context, request
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opaInstance", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -663,7 +663,7 @@ func (client OpaInstanceClient) listWorkRequests(ctx context.Context, request co
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opaInstance", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -721,7 +721,7 @@ func (client OpaInstanceClient) startOpaInstance(ctx context.Context, request co
 
 	var response StartOpaInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opaInstance", "StartOpaInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -779,7 +779,7 @@ func (client OpaInstanceClient) stopOpaInstance(ctx context.Context, request com
 
 	var response StopOpaInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opaInstance", "StopOpaInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -837,7 +837,7 @@ func (client OpaInstanceClient) updateOpaInstance(ctx context.Context, request c
 
 	var response UpdateOpaInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opaInstance", "UpdateOpaInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

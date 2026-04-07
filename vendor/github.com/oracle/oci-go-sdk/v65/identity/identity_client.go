@@ -147,7 +147,7 @@ func (client IdentityClient) activateDomain(ctx context.Context, request common.
 
 	var response ActivateDomainResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ActivateDomain")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -211,7 +211,7 @@ func (client IdentityClient) activateMfaTotpDevice(ctx context.Context, request 
 
 	var response ActivateMfaTotpDeviceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ActivateMfaTotpDevice")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -275,7 +275,7 @@ func (client IdentityClient) addTagDefaultLock(ctx context.Context, request comm
 
 	var response AddTagDefaultLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "AddTagDefaultLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -339,7 +339,7 @@ func (client IdentityClient) addTagNamespaceLock(ctx context.Context, request co
 
 	var response AddTagNamespaceLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "AddTagNamespaceLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -405,7 +405,7 @@ func (client IdentityClient) addUserToGroup(ctx context.Context, request common.
 
 	var response AddUserToGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "AddUserToGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -466,7 +466,7 @@ func (client IdentityClient) assembleEffectiveTagSet(ctx context.Context, reques
 
 	var response AssembleEffectiveTagSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "AssembleEffectiveTagSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -534,7 +534,7 @@ func (client IdentityClient) bulkDeleteResources(ctx context.Context, request co
 
 	var response BulkDeleteResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "BulkDeleteResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -613,7 +613,7 @@ func (client IdentityClient) bulkDeleteTags(ctx context.Context, request common.
 
 	var response BulkDeleteTagsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "BulkDeleteTags")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -688,7 +688,7 @@ func (client IdentityClient) bulkEditTags(ctx context.Context, request common.OC
 
 	var response BulkEditTagsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "BulkEditTags")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -756,7 +756,7 @@ func (client IdentityClient) bulkMoveResources(ctx context.Context, request comm
 
 	var response BulkMoveResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "BulkMoveResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -833,7 +833,7 @@ func (client IdentityClient) cascadeDeleteTagNamespace(ctx context.Context, requ
 
 	var response CascadeDeleteTagNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CascadeDeleteTagNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -899,7 +899,7 @@ func (client IdentityClient) changeDomainCompartment(ctx context.Context, reques
 
 	var response ChangeDomainCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ChangeDomainCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -969,7 +969,7 @@ func (client IdentityClient) changeDomainLicenseType(ctx context.Context, reques
 
 	var response ChangeDomainLicenseTypeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ChangeDomainLicenseType")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1036,7 +1036,7 @@ func (client IdentityClient) changeTagNamespaceCompartment(ctx context.Context, 
 
 	var response ChangeTagNamespaceCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ChangeTagNamespaceCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1107,7 +1107,7 @@ func (client IdentityClient) createAuthToken(ctx context.Context, request common
 
 	var response CreateAuthTokenResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreateAuthToken")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1183,7 +1183,7 @@ func (client IdentityClient) createCompartment(ctx context.Context, request comm
 
 	var response CreateCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreateCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1255,7 +1255,7 @@ func (client IdentityClient) createCustomerSecretKey(ctx context.Context, reques
 
 	var response CreateCustomerSecretKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreateCustomerSecretKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1319,7 +1319,7 @@ func (client IdentityClient) createDbCredential(ctx context.Context, request com
 
 	var response CreateDbCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreateDbCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1388,7 +1388,7 @@ func (client IdentityClient) createDomain(ctx context.Context, request common.OC
 
 	var response CreateDomainResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreateDomain")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1465,7 +1465,7 @@ func (client IdentityClient) createDynamicGroup(ctx context.Context, request com
 
 	var response CreateDynamicGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreateDynamicGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1544,7 +1544,7 @@ func (client IdentityClient) createGroup(ctx context.Context, request common.OCI
 
 	var response CreateGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreateGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1622,7 +1622,7 @@ func (client IdentityClient) createIdentityProvider(ctx context.Context, request
 
 	var response CreateIdentityProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreateIdentityProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1688,7 +1688,7 @@ func (client IdentityClient) createIdpGroupMapping(ctx context.Context, request 
 
 	var response CreateIdpGroupMappingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreateIdpGroupMapping")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1752,7 +1752,7 @@ func (client IdentityClient) createMfaTotpDevice(ctx context.Context, request co
 
 	var response CreateMfaTotpDeviceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreateMfaTotpDevice")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1831,7 +1831,7 @@ func (client IdentityClient) createNetworkSource(ctx context.Context, request co
 
 	var response CreateNetworkSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreateNetworkSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1895,7 +1895,7 @@ func (client IdentityClient) createOAuthClientCredential(ctx context.Context, re
 
 	var response CreateOAuthClientCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreateOAuthClientCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1970,7 +1970,7 @@ func (client IdentityClient) createOrResetUIPassword(ctx context.Context, reques
 
 	var response CreateOrResetUIPasswordResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreateOrResetUIPassword")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2045,7 +2045,7 @@ func (client IdentityClient) createPolicy(ctx context.Context, request common.OC
 
 	var response CreatePolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreatePolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2109,7 +2109,7 @@ func (client IdentityClient) createRegionSubscription(ctx context.Context, reque
 
 	var response CreateRegionSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreateRegionSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2176,7 +2176,7 @@ func (client IdentityClient) createSmtpCredential(ctx context.Context, request c
 
 	var response CreateSmtpCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreateSmtpCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2248,7 +2248,7 @@ func (client IdentityClient) createSwiftPassword(ctx context.Context, request co
 
 	var response CreateSwiftPasswordResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreateSwiftPassword")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2328,7 +2328,7 @@ func (client IdentityClient) createTag(ctx context.Context, request common.OCIRe
 
 	var response CreateTagResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreateTag")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2397,7 +2397,7 @@ func (client IdentityClient) createTagDefault(ctx context.Context, request commo
 
 	var response CreateTagDefaultResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreateTagDefault")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2471,7 +2471,7 @@ func (client IdentityClient) createTagNamespace(ctx context.Context, request com
 
 	var response CreateTagNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreateTagNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2563,7 +2563,7 @@ func (client IdentityClient) createUser(ctx context.Context, request common.OCIR
 
 	var response CreateUserResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "CreateUser")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2633,7 +2633,7 @@ func (client IdentityClient) deactivateDomain(ctx context.Context, request commo
 
 	var response DeactivateDomainResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeactivateDomain")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2695,7 +2695,7 @@ func (client IdentityClient) deleteApiKey(ctx context.Context, request common.OC
 
 	var response DeleteApiKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeleteApiKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2753,7 +2753,7 @@ func (client IdentityClient) deleteAuthToken(ctx context.Context, request common
 
 	var response DeleteAuthTokenResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeleteAuthToken")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2811,7 +2811,7 @@ func (client IdentityClient) deleteCompartment(ctx context.Context, request comm
 
 	var response DeleteCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeleteCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2869,7 +2869,7 @@ func (client IdentityClient) deleteCustomerSecretKey(ctx context.Context, reques
 
 	var response DeleteCustomerSecretKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeleteCustomerSecretKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2927,7 +2927,7 @@ func (client IdentityClient) deleteDbCredential(ctx context.Context, request com
 
 	var response DeleteDbCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeleteDbCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2991,7 +2991,7 @@ func (client IdentityClient) deleteDomain(ctx context.Context, request common.OC
 
 	var response DeleteDomainResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeleteDomain")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3049,7 +3049,7 @@ func (client IdentityClient) deleteDynamicGroup(ctx context.Context, request com
 
 	var response DeleteDynamicGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeleteDynamicGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3107,7 +3107,7 @@ func (client IdentityClient) deleteGroup(ctx context.Context, request common.OCI
 
 	var response DeleteGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeleteGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3167,7 +3167,7 @@ func (client IdentityClient) deleteIdentityProvider(ctx context.Context, request
 
 	var response DeleteIdentityProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeleteIdentityProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3226,7 +3226,7 @@ func (client IdentityClient) deleteIdpGroupMapping(ctx context.Context, request 
 
 	var response DeleteIdpGroupMappingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeleteIdpGroupMapping")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3284,7 +3284,7 @@ func (client IdentityClient) deleteMfaTotpDevice(ctx context.Context, request co
 
 	var response DeleteMfaTotpDeviceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeleteMfaTotpDevice")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3342,7 +3342,7 @@ func (client IdentityClient) deleteNetworkSource(ctx context.Context, request co
 
 	var response DeleteNetworkSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeleteNetworkSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3400,7 +3400,7 @@ func (client IdentityClient) deleteOAuthClientCredential(ctx context.Context, re
 
 	var response DeleteOAuthClientCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeleteOAuthClientCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3458,7 +3458,7 @@ func (client IdentityClient) deletePolicy(ctx context.Context, request common.OC
 
 	var response DeletePolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeletePolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3516,7 +3516,7 @@ func (client IdentityClient) deleteSmtpCredential(ctx context.Context, request c
 
 	var response DeleteSmtpCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeleteSmtpCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3575,7 +3575,7 @@ func (client IdentityClient) deleteSwiftPassword(ctx context.Context, request co
 
 	var response DeleteSwiftPasswordResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeleteSwiftPassword")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3648,7 +3648,7 @@ func (client IdentityClient) deleteTag(ctx context.Context, request common.OCIRe
 
 	var response DeleteTagResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeleteTag")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3706,7 +3706,7 @@ func (client IdentityClient) deleteTagDefault(ctx context.Context, request commo
 
 	var response DeleteTagDefaultResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeleteTagDefault")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3768,7 +3768,7 @@ func (client IdentityClient) deleteTagNamespace(ctx context.Context, request com
 
 	var response DeleteTagNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeleteTagNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3826,7 +3826,7 @@ func (client IdentityClient) deleteUser(ctx context.Context, request common.OCIR
 
 	var response DeleteUserResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "DeleteUser")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3897,7 +3897,7 @@ func (client IdentityClient) enableReplicationToRegion(ctx context.Context, requ
 
 	var response EnableReplicationToRegionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "EnableReplicationToRegion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3956,7 +3956,7 @@ func (client IdentityClient) generateTotpSeed(ctx context.Context, request commo
 
 	var response GenerateTotpSeedResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GenerateTotpSeed")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4015,7 +4015,7 @@ func (client IdentityClient) getAuthenticationPolicy(ctx context.Context, reques
 
 	var response GetAuthenticationPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetAuthenticationPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4079,7 +4079,7 @@ func (client IdentityClient) getCompartment(ctx context.Context, request common.
 
 	var response GetCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4137,7 +4137,7 @@ func (client IdentityClient) getDomain(ctx context.Context, request common.OCIRe
 
 	var response GetDomainResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetDomain")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4195,7 +4195,7 @@ func (client IdentityClient) getDynamicGroup(ctx context.Context, request common
 
 	var response GetDynamicGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetDynamicGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4256,7 +4256,7 @@ func (client IdentityClient) getGroup(ctx context.Context, request common.OCIReq
 
 	var response GetGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4314,7 +4314,7 @@ func (client IdentityClient) getIamWorkRequest(ctx context.Context, request comm
 
 	var response GetIamWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetIamWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4373,7 +4373,7 @@ func (client IdentityClient) getIdentityProvider(ctx context.Context, request co
 
 	var response GetIdentityProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetIdentityProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4432,7 +4432,7 @@ func (client IdentityClient) getIdpGroupMapping(ctx context.Context, request com
 
 	var response GetIdpGroupMappingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetIdpGroupMapping")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4490,7 +4490,7 @@ func (client IdentityClient) getMfaTotpDevice(ctx context.Context, request commo
 
 	var response GetMfaTotpDeviceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetMfaTotpDevice")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4548,7 +4548,7 @@ func (client IdentityClient) getNetworkSource(ctx context.Context, request commo
 
 	var response GetNetworkSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetNetworkSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4606,7 +4606,7 @@ func (client IdentityClient) getPolicy(ctx context.Context, request common.OCIRe
 
 	var response GetPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4664,7 +4664,7 @@ func (client IdentityClient) getStandardTagTemplate(ctx context.Context, request
 
 	var response GetStandardTagTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetStandardTagTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4722,7 +4722,7 @@ func (client IdentityClient) getTag(ctx context.Context, request common.OCIReque
 
 	var response GetTagResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetTag")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4780,7 +4780,7 @@ func (client IdentityClient) getTagDefault(ctx context.Context, request common.O
 
 	var response GetTagDefaultResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetTagDefault")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4838,7 +4838,7 @@ func (client IdentityClient) getTagNamespace(ctx context.Context, request common
 
 	var response GetTagNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetTagNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4897,7 +4897,7 @@ func (client IdentityClient) getTaggingWorkRequest(ctx context.Context, request 
 
 	var response GetTaggingWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetTaggingWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4955,7 +4955,7 @@ func (client IdentityClient) getTenancy(ctx context.Context, request common.OCIR
 
 	var response GetTenancyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetTenancy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5013,7 +5013,7 @@ func (client IdentityClient) getUser(ctx context.Context, request common.OCIRequ
 
 	var response GetUserResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetUser")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5071,7 +5071,7 @@ func (client IdentityClient) getUserGroupMembership(ctx context.Context, request
 
 	var response GetUserGroupMembershipResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetUserGroupMembership")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5130,7 +5130,7 @@ func (client IdentityClient) getUserUIPasswordInformation(ctx context.Context, r
 
 	var response GetUserUIPasswordInformationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetUserUIPasswordInformation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5189,7 +5189,7 @@ func (client IdentityClient) getWorkRequest(ctx context.Context, request common.
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5254,7 +5254,7 @@ func (client IdentityClient) importStandardTags(ctx context.Context, request com
 
 	var response ImportStandardTagsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ImportStandardTags")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5315,7 +5315,7 @@ func (client IdentityClient) listAllowedDomainLicenseTypes(ctx context.Context, 
 
 	var response ListAllowedDomainLicenseTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListAllowedDomainLicenseTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5375,7 +5375,7 @@ func (client IdentityClient) listApiKeys(ctx context.Context, request common.OCI
 
 	var response ListApiKeysResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListApiKeys")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5434,7 +5434,7 @@ func (client IdentityClient) listAuthTokens(ctx context.Context, request common.
 
 	var response ListAuthTokensResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListAuthTokens")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5496,7 +5496,7 @@ func (client IdentityClient) listAvailabilityDomains(ctx context.Context, reques
 
 	var response ListAvailabilityDomainsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListAvailabilityDomains")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5560,7 +5560,7 @@ func (client IdentityClient) listBulkActionResourceTypes(ctx context.Context, re
 
 	var response ListBulkActionResourceTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListBulkActionResourceTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5618,7 +5618,7 @@ func (client IdentityClient) listBulkEditTagsResourceTypes(ctx context.Context, 
 
 	var response ListBulkEditTagsResourceTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListBulkEditTagsResourceTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5689,7 +5689,7 @@ func (client IdentityClient) listCompartments(ctx context.Context, request commo
 
 	var response ListCompartmentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListCompartments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5748,7 +5748,7 @@ func (client IdentityClient) listCostTrackingTags(ctx context.Context, request c
 
 	var response ListCostTrackingTagsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListCostTrackingTags")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5807,7 +5807,7 @@ func (client IdentityClient) listCustomerSecretKeys(ctx context.Context, request
 
 	var response ListCustomerSecretKeysResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListCustomerSecretKeys")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5865,7 +5865,7 @@ func (client IdentityClient) listDbCredentials(ctx context.Context, request comm
 
 	var response ListDbCredentialsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListDbCredentials")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5923,7 +5923,7 @@ func (client IdentityClient) listDomains(ctx context.Context, request common.OCI
 
 	var response ListDomainsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListDomains")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5983,7 +5983,7 @@ func (client IdentityClient) listDynamicGroups(ctx context.Context, request comm
 
 	var response ListDynamicGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListDynamicGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6043,7 +6043,7 @@ func (client IdentityClient) listFaultDomains(ctx context.Context, request commo
 
 	var response ListFaultDomainsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListFaultDomains")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6103,7 +6103,7 @@ func (client IdentityClient) listGroups(ctx context.Context, request common.OCIR
 
 	var response ListGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6161,7 +6161,7 @@ func (client IdentityClient) listIamWorkRequestErrors(ctx context.Context, reque
 
 	var response ListIamWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListIamWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6219,7 +6219,7 @@ func (client IdentityClient) listIamWorkRequestLogs(ctx context.Context, request
 
 	var response ListIamWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListIamWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6277,7 +6277,7 @@ func (client IdentityClient) listIamWorkRequests(ctx context.Context, request co
 
 	var response ListIamWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListIamWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6336,7 +6336,7 @@ func (client IdentityClient) listIdentityProviderGroups(ctx context.Context, req
 
 	var response ListIdentityProviderGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListIdentityProviderGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6414,7 +6414,7 @@ func (client IdentityClient) listIdentityProviders(ctx context.Context, request 
 
 	var response ListIdentityProvidersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListIdentityProviders")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6473,7 +6473,7 @@ func (client IdentityClient) listIdpGroupMappings(ctx context.Context, request c
 
 	var response ListIdpGroupMappingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListIdpGroupMappings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6532,7 +6532,7 @@ func (client IdentityClient) listMfaTotpDevices(ctx context.Context, request com
 
 	var response ListMfaTotpDevicesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListMfaTotpDevices")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6592,7 +6592,7 @@ func (client IdentityClient) listNetworkSources(ctx context.Context, request com
 
 	var response ListNetworkSourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListNetworkSources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6650,7 +6650,7 @@ func (client IdentityClient) listOAuthClientCredentials(ctx context.Context, req
 
 	var response ListOAuthClientCredentialsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListOAuthClientCredentials")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6711,7 +6711,7 @@ func (client IdentityClient) listPolicies(ctx context.Context, request common.OC
 
 	var response ListPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6769,7 +6769,7 @@ func (client IdentityClient) listRegionSubscriptions(ctx context.Context, reques
 
 	var response ListRegionSubscriptionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListRegionSubscriptions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6818,7 +6818,7 @@ func (client IdentityClient) listRegions(ctx context.Context) (common.OCIRespons
 
 	var response ListRegionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListRegions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6877,7 +6877,7 @@ func (client IdentityClient) listSmtpCredentials(ctx context.Context, request co
 
 	var response ListSmtpCredentialsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListSmtpCredentials")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6935,7 +6935,7 @@ func (client IdentityClient) listStandardTagNamespaces(ctx context.Context, requ
 
 	var response ListStandardTagNamespacesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListStandardTagNamespaces")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6995,7 +6995,7 @@ func (client IdentityClient) listSwiftPasswords(ctx context.Context, request com
 
 	var response ListSwiftPasswordsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListSwiftPasswords")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7053,7 +7053,7 @@ func (client IdentityClient) listTagDefaults(ctx context.Context, request common
 
 	var response ListTagDefaultsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListTagDefaults")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7111,7 +7111,7 @@ func (client IdentityClient) listTagNamespaces(ctx context.Context, request comm
 
 	var response ListTagNamespacesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListTagNamespaces")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7169,7 +7169,7 @@ func (client IdentityClient) listTaggingWorkRequestErrors(ctx context.Context, r
 
 	var response ListTaggingWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListTaggingWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7227,7 +7227,7 @@ func (client IdentityClient) listTaggingWorkRequestLogs(ctx context.Context, req
 
 	var response ListTaggingWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListTaggingWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7285,7 +7285,7 @@ func (client IdentityClient) listTaggingWorkRequests(ctx context.Context, reques
 
 	var response ListTaggingWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListTaggingWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7343,7 +7343,7 @@ func (client IdentityClient) listTags(ctx context.Context, request common.OCIReq
 
 	var response ListTagsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListTags")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7409,7 +7409,7 @@ func (client IdentityClient) listUserGroupMemberships(ctx context.Context, reque
 
 	var response ListUserGroupMembershipsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListUserGroupMemberships")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7469,7 +7469,7 @@ func (client IdentityClient) listUsers(ctx context.Context, request common.OCIRe
 
 	var response ListUsersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListUsers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7527,7 +7527,7 @@ func (client IdentityClient) listWorkRequests(ctx context.Context, request commo
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7597,7 +7597,7 @@ func (client IdentityClient) moveCompartment(ctx context.Context, request common
 
 	var response MoveCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "MoveCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7656,7 +7656,7 @@ func (client IdentityClient) recoverCompartment(ctx context.Context, request com
 
 	var response RecoverCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "RecoverCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7720,7 +7720,7 @@ func (client IdentityClient) removeTagDefaultLock(ctx context.Context, request c
 
 	var response RemoveTagDefaultLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "RemoveTagDefaultLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7784,7 +7784,7 @@ func (client IdentityClient) removeTagNamespaceLock(ctx context.Context, request
 
 	var response RemoveTagNamespaceLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "RemoveTagNamespaceLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7842,7 +7842,7 @@ func (client IdentityClient) removeUserFromGroup(ctx context.Context, request co
 
 	var response RemoveUserFromGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "RemoveUserFromGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7901,7 +7901,7 @@ func (client IdentityClient) resetIdpScimClient(ctx context.Context, request com
 
 	var response ResetIdpScimClientResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "ResetIdpScimClient")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7960,7 +7960,7 @@ func (client IdentityClient) updateAuthToken(ctx context.Context, request common
 
 	var response UpdateAuthTokenResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UpdateAuthToken")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8019,7 +8019,7 @@ func (client IdentityClient) updateAuthenticationPolicy(ctx context.Context, req
 
 	var response UpdateAuthenticationPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UpdateAuthenticationPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8078,7 +8078,7 @@ func (client IdentityClient) updateCompartment(ctx context.Context, request comm
 
 	var response UpdateCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UpdateCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8137,7 +8137,7 @@ func (client IdentityClient) updateCustomerSecretKey(ctx context.Context, reques
 
 	var response UpdateCustomerSecretKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UpdateCustomerSecretKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8198,7 +8198,7 @@ func (client IdentityClient) updateDomain(ctx context.Context, request common.OC
 
 	var response UpdateDomainResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UpdateDomain")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8257,7 +8257,7 @@ func (client IdentityClient) updateDynamicGroup(ctx context.Context, request com
 
 	var response UpdateDynamicGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UpdateDynamicGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8316,7 +8316,7 @@ func (client IdentityClient) updateGroup(ctx context.Context, request common.OCI
 
 	var response UpdateGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UpdateGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8376,7 +8376,7 @@ func (client IdentityClient) updateIdentityProvider(ctx context.Context, request
 
 	var response UpdateIdentityProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UpdateIdentityProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8436,7 +8436,7 @@ func (client IdentityClient) updateIdpGroupMapping(ctx context.Context, request 
 
 	var response UpdateIdpGroupMappingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UpdateIdpGroupMapping")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8495,7 +8495,7 @@ func (client IdentityClient) updateNetworkSource(ctx context.Context, request co
 
 	var response UpdateNetworkSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UpdateNetworkSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8554,7 +8554,7 @@ func (client IdentityClient) updateOAuthClientCredential(ctx context.Context, re
 
 	var response UpdateOAuthClientCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UpdateOAuthClientCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8614,7 +8614,7 @@ func (client IdentityClient) updatePolicy(ctx context.Context, request common.OC
 
 	var response UpdatePolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UpdatePolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8673,7 +8673,7 @@ func (client IdentityClient) updateSmtpCredential(ctx context.Context, request c
 
 	var response UpdateSmtpCredentialResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UpdateSmtpCredential")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8733,7 +8733,7 @@ func (client IdentityClient) updateSwiftPassword(ctx context.Context, request co
 
 	var response UpdateSwiftPasswordResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UpdateSwiftPassword")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8799,7 +8799,7 @@ func (client IdentityClient) updateTag(ctx context.Context, request common.OCIRe
 
 	var response UpdateTagResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UpdateTag")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8862,7 +8862,7 @@ func (client IdentityClient) updateTagDefault(ctx context.Context, request commo
 
 	var response UpdateTagDefaultResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UpdateTagDefault")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8927,7 +8927,7 @@ func (client IdentityClient) updateTagNamespace(ctx context.Context, request com
 
 	var response UpdateTagNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UpdateTagNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8986,7 +8986,7 @@ func (client IdentityClient) updateUser(ctx context.Context, request common.OCIR
 
 	var response UpdateUserResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UpdateUser")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9045,7 +9045,7 @@ func (client IdentityClient) updateUserCapabilities(ctx context.Context, request
 
 	var response UpdateUserCapabilitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UpdateUserCapabilities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9104,7 +9104,7 @@ func (client IdentityClient) updateUserState(ctx context.Context, request common
 
 	var response UpdateUserStateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UpdateUserState")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -9179,7 +9179,7 @@ func (client IdentityClient) uploadApiKey(ctx context.Context, request common.OC
 
 	var response UploadApiKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "UploadApiKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

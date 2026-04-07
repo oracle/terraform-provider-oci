@@ -61,6 +61,9 @@ type ListManagementStationsRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station. A filter that returns information about the specified management station.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
+	// A filter that returns information for management stations in the specified health state.
+	HealthState ListManagementStationsHealthStateEnum `mandatory:"false" contributesTo:"query" name:"healthState" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -117,6 +120,9 @@ func (request ListManagementStationsRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListManagementStationsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListManagementStationsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListManagementStationsHealthStateEnum(string(request.HealthState)); !ok && request.HealthState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HealthState: %s. Supported values are: %s.", request.HealthState, strings.Join(GetListManagementStationsHealthStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -231,5 +237,51 @@ func GetListManagementStationsSortByEnumStringValues() []string {
 // GetMappingListManagementStationsSortByEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListManagementStationsSortByEnum(val string) (ListManagementStationsSortByEnum, bool) {
 	enum, ok := mappingListManagementStationsSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListManagementStationsHealthStateEnum Enum with underlying type: string
+type ListManagementStationsHealthStateEnum string
+
+// Set of constants representing the allowable values for ListManagementStationsHealthStateEnum
+const (
+	ListManagementStationsHealthStateHealthy     ListManagementStationsHealthStateEnum = "HEALTHY"
+	ListManagementStationsHealthStateUnhealthy   ListManagementStationsHealthStateEnum = "UNHEALTHY"
+	ListManagementStationsHealthStateUnavailable ListManagementStationsHealthStateEnum = "UNAVAILABLE"
+)
+
+var mappingListManagementStationsHealthStateEnum = map[string]ListManagementStationsHealthStateEnum{
+	"HEALTHY":     ListManagementStationsHealthStateHealthy,
+	"UNHEALTHY":   ListManagementStationsHealthStateUnhealthy,
+	"UNAVAILABLE": ListManagementStationsHealthStateUnavailable,
+}
+
+var mappingListManagementStationsHealthStateEnumLowerCase = map[string]ListManagementStationsHealthStateEnum{
+	"healthy":     ListManagementStationsHealthStateHealthy,
+	"unhealthy":   ListManagementStationsHealthStateUnhealthy,
+	"unavailable": ListManagementStationsHealthStateUnavailable,
+}
+
+// GetListManagementStationsHealthStateEnumValues Enumerates the set of values for ListManagementStationsHealthStateEnum
+func GetListManagementStationsHealthStateEnumValues() []ListManagementStationsHealthStateEnum {
+	values := make([]ListManagementStationsHealthStateEnum, 0)
+	for _, v := range mappingListManagementStationsHealthStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListManagementStationsHealthStateEnumStringValues Enumerates the set of values in String for ListManagementStationsHealthStateEnum
+func GetListManagementStationsHealthStateEnumStringValues() []string {
+	return []string{
+		"HEALTHY",
+		"UNHEALTHY",
+		"UNAVAILABLE",
+	}
+}
+
+// GetMappingListManagementStationsHealthStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListManagementStationsHealthStateEnum(val string) (ListManagementStationsHealthStateEnum, bool) {
+	enum, ok := mappingListManagementStationsHealthStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

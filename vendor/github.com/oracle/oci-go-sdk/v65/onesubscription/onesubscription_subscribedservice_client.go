@@ -135,7 +135,7 @@ func (client SubscribedServiceClient) getSubscribedService(ctx context.Context, 
 
 	var response GetSubscribedServiceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "subscribedService", "GetSubscribedService")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -192,7 +192,7 @@ func (client SubscribedServiceClient) listSubscribedServices(ctx context.Context
 
 	var response ListSubscribedServicesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "subscribedService", "ListSubscribedServices")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

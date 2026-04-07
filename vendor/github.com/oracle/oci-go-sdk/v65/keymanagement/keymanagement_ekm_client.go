@@ -140,7 +140,7 @@ func (client EkmClient) createEkmsPrivateEndpoint(ctx context.Context, request c
 
 	var response CreateEkmsPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ekm", "CreateEkmsPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -197,7 +197,7 @@ func (client EkmClient) deleteEkmsPrivateEndpoint(ctx context.Context, request c
 
 	var response DeleteEkmsPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ekm", "DeleteEkmsPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -254,7 +254,7 @@ func (client EkmClient) getEkmsPrivateEndpoint(ctx context.Context, request comm
 
 	var response GetEkmsPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ekm", "GetEkmsPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -311,7 +311,7 @@ func (client EkmClient) listEkmsPrivateEndpoints(ctx context.Context, request co
 
 	var response ListEkmsPrivateEndpointsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ekm", "ListEkmsPrivateEndpoints")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -368,7 +368,7 @@ func (client EkmClient) updateEkmsPrivateEndpoint(ctx context.Context, request c
 
 	var response UpdateEkmsPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ekm", "UpdateEkmsPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

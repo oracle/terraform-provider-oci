@@ -73,23 +73,28 @@ type ScheduledJobSummary struct {
 
 	// The managed instance OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
 	// A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with
-	// managedInstanceGroupIds, managedCompartmentIds, and lifecycleStageIds.
+	// managedInstanceGroupIds, managedCompartmentIds, lifecycleStageIds, and dynamicSetIds.
 	ManagedInstanceIds []string `mandatory:"false" json:"managedInstanceIds"`
 
 	// The managed instance group OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
 	// A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with
-	// managedInstanceIds, managedCompartmentIds, and lifecycleStageIds.
+	// managedInstanceIds, managedCompartmentIds, lifecycleStageIds, and dynamicSetIds.
 	ManagedInstanceGroupIds []string `mandatory:"false" json:"managedInstanceGroupIds"`
 
 	// The compartment OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
 	// A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with
-	// managedInstanceIds, managedInstanceGroupIds, and lifecycleStageIds.
+	// managedInstanceIds, managedInstanceGroupIds, lifecycleStageIds, and dynamicSetIds.
 	ManagedCompartmentIds []string `mandatory:"false" json:"managedCompartmentIds"`
 
 	// The lifecycle stage OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
 	// A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with
-	// managedInstanceIds, managedInstanceGroupIds, and managedCompartmentIds.
+	// managedInstanceIds, managedInstanceGroupIds, managedCompartmentIds, and dynamicSetIds.
 	LifecycleStageIds []string `mandatory:"false" json:"lifecycleStageIds"`
+
+	// The dynamic set OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
+	// A scheduled job can only operate on one type of target. therefore this parameter is mutually exclusive with
+	// managedInstanceIds, managedInstanceGroupIds, managedCompartmentIds.
+	DynamicSetIds []string `mandatory:"false" json:"dynamicSetIds"`
 
 	// Indicates whether this scheduled job is managed by the Autonomous Linux service.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`

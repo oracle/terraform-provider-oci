@@ -135,7 +135,7 @@ func (client QuotasClient) addQuotaLock(ctx context.Context, request common.OCIR
 
 	var response AddQuotaLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "quotas", "AddQuotaLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -198,7 +198,7 @@ func (client QuotasClient) createQuota(ctx context.Context, request common.OCIRe
 
 	var response CreateQuotaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "quotas", "CreateQuota")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -256,7 +256,7 @@ func (client QuotasClient) deleteQuota(ctx context.Context, request common.OCIRe
 
 	var response DeleteQuotaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "quotas", "DeleteQuota")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -314,7 +314,7 @@ func (client QuotasClient) getQuota(ctx context.Context, request common.OCIReque
 
 	var response GetQuotaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "quotas", "GetQuota")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -372,7 +372,7 @@ func (client QuotasClient) listQuotas(ctx context.Context, request common.OCIReq
 
 	var response ListQuotasResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "quotas", "ListQuotas")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -429,7 +429,7 @@ func (client QuotasClient) removeQuotaLock(ctx context.Context, request common.O
 
 	var response RemoveQuotaLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "quotas", "RemoveQuotaLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -487,7 +487,7 @@ func (client QuotasClient) updateQuota(ctx context.Context, request common.OCIRe
 
 	var response UpdateQuotaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "quotas", "UpdateQuota")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

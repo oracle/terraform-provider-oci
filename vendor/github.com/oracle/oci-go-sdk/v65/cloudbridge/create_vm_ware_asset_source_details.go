@@ -66,6 +66,9 @@ type CreateVmWareAssetSourceDetails struct {
 
 	// Flag indicating whether real-time metrics are collected for assets, originating from this asset source.
 	AreRealtimeMetricsCollected *bool `mandatory:"false" json:"areRealtimeMetricsCollected"`
+
+	// Specifies if this is the Source or Destination point for migration - different assets may be discovered depending on setting.
+	EnvironmentType EnvironmentTypeEnum `mandatory:"false" json:"environmentType,omitempty"`
 }
 
 // GetDisplayName returns DisplayName
@@ -113,6 +116,11 @@ func (m CreateVmWareAssetSourceDetails) GetSystemTags() map[string]map[string]in
 	return m.SystemTags
 }
 
+// GetEnvironmentType returns EnvironmentType
+func (m CreateVmWareAssetSourceDetails) GetEnvironmentType() EnvironmentTypeEnum {
+	return m.EnvironmentType
+}
+
 func (m CreateVmWareAssetSourceDetails) String() string {
 	return common.PointerString(m)
 }
@@ -123,6 +131,9 @@ func (m CreateVmWareAssetSourceDetails) String() string {
 func (m CreateVmWareAssetSourceDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingEnvironmentTypeEnum(string(m.EnvironmentType)); !ok && m.EnvironmentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnvironmentType: %s. Supported values are: %s.", m.EnvironmentType, strings.Join(GetEnvironmentTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

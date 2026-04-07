@@ -64,6 +64,12 @@ type ManagementStationSummary struct {
 	// The location of the instance that is acting as the management station.
 	Location ManagedInstanceLocationEnum `mandatory:"false" json:"location,omitempty"`
 
+	// The operating system family.
+	OsFamily OsFamilyEnum `mandatory:"false" json:"osFamily,omitempty"`
+
+	// The architecture type.
+	ArchType ArchTypeEnum `mandatory:"false" json:"archType,omitempty"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -100,6 +106,12 @@ func (m ManagementStationSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingManagedInstanceLocationEnum(string(m.Location)); !ok && m.Location != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Location: %s. Supported values are: %s.", m.Location, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingOsFamilyEnum(string(m.OsFamily)); !ok && m.OsFamily != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", m.OsFamily, strings.Join(GetOsFamilyEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingArchTypeEnum(string(m.ArchType)); !ok && m.ArchType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ArchType: %s. Supported values are: %s.", m.ArchType, strings.Join(GetArchTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

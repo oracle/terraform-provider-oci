@@ -136,7 +136,7 @@ func (client BatchComputingClient) cancelBatchJob(ctx context.Context, request c
 
 	var response CancelBatchJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "CancelBatchJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -194,7 +194,7 @@ func (client BatchComputingClient) changeBatchContextCompartment(ctx context.Con
 
 	var response ChangeBatchContextCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "ChangeBatchContextCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -252,7 +252,7 @@ func (client BatchComputingClient) changeBatchJobCompartment(ctx context.Context
 
 	var response ChangeBatchJobCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "ChangeBatchJobCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -310,7 +310,7 @@ func (client BatchComputingClient) changeBatchJobPoolCompartment(ctx context.Con
 
 	var response ChangeBatchJobPoolCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "ChangeBatchJobPoolCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -368,7 +368,7 @@ func (client BatchComputingClient) changeBatchTaskEnvironmentCompartment(ctx con
 
 	var response ChangeBatchTaskEnvironmentCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "ChangeBatchTaskEnvironmentCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -426,7 +426,7 @@ func (client BatchComputingClient) changeBatchTaskProfileCompartment(ctx context
 
 	var response ChangeBatchTaskProfileCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "ChangeBatchTaskProfileCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -489,7 +489,7 @@ func (client BatchComputingClient) createBatchContext(ctx context.Context, reque
 
 	var response CreateBatchContextResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "CreateBatchContext")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -552,7 +552,7 @@ func (client BatchComputingClient) createBatchJob(ctx context.Context, request c
 
 	var response CreateBatchJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "CreateBatchJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -615,7 +615,7 @@ func (client BatchComputingClient) createBatchJobPool(ctx context.Context, reque
 
 	var response CreateBatchJobPoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "CreateBatchJobPool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -678,7 +678,7 @@ func (client BatchComputingClient) createBatchTaskEnvironment(ctx context.Contex
 
 	var response CreateBatchTaskEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "CreateBatchTaskEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -741,7 +741,7 @@ func (client BatchComputingClient) createBatchTaskProfile(ctx context.Context, r
 
 	var response CreateBatchTaskProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "CreateBatchTaskProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -799,7 +799,7 @@ func (client BatchComputingClient) deleteBatchContext(ctx context.Context, reque
 
 	var response DeleteBatchContextResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "DeleteBatchContext")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -857,7 +857,7 @@ func (client BatchComputingClient) deleteBatchJobPool(ctx context.Context, reque
 
 	var response DeleteBatchJobPoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "DeleteBatchJobPool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -915,7 +915,7 @@ func (client BatchComputingClient) deleteBatchTaskEnvironment(ctx context.Contex
 
 	var response DeleteBatchTaskEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "DeleteBatchTaskEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -973,7 +973,7 @@ func (client BatchComputingClient) deleteBatchTaskProfile(ctx context.Context, r
 
 	var response DeleteBatchTaskProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "DeleteBatchTaskProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1031,7 +1031,7 @@ func (client BatchComputingClient) getBatchContext(ctx context.Context, request 
 
 	var response GetBatchContextResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "GetBatchContext")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1089,7 +1089,7 @@ func (client BatchComputingClient) getBatchJob(ctx context.Context, request comm
 
 	var response GetBatchJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "GetBatchJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1147,7 +1147,7 @@ func (client BatchComputingClient) getBatchJobPool(ctx context.Context, request 
 
 	var response GetBatchJobPoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "GetBatchJobPool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1205,7 +1205,7 @@ func (client BatchComputingClient) getBatchTask(ctx context.Context, request com
 
 	var response GetBatchTaskResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "GetBatchTask")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1263,7 +1263,7 @@ func (client BatchComputingClient) getBatchTaskEnvironment(ctx context.Context, 
 
 	var response GetBatchTaskEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "GetBatchTaskEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1321,7 +1321,7 @@ func (client BatchComputingClient) getBatchTaskProfile(ctx context.Context, requ
 
 	var response GetBatchTaskProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "GetBatchTaskProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1379,7 +1379,7 @@ func (client BatchComputingClient) getWorkRequest(ctx context.Context, request c
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1437,7 +1437,7 @@ func (client BatchComputingClient) listBatchContextShapes(ctx context.Context, r
 
 	var response ListBatchContextShapesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "ListBatchContextShapes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1495,7 +1495,7 @@ func (client BatchComputingClient) listBatchContexts(ctx context.Context, reques
 
 	var response ListBatchContextsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "ListBatchContexts")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1553,7 +1553,7 @@ func (client BatchComputingClient) listBatchJobPools(ctx context.Context, reques
 
 	var response ListBatchJobPoolsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "ListBatchJobPools")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1612,7 +1612,7 @@ func (client BatchComputingClient) listBatchJobTasks(ctx context.Context, reques
 
 	var response ListBatchJobTasksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "ListBatchJobTasks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1670,7 +1670,7 @@ func (client BatchComputingClient) listBatchJobs(ctx context.Context, request co
 
 	var response ListBatchJobsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "ListBatchJobs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1728,7 +1728,7 @@ func (client BatchComputingClient) listBatchTaskEnvironments(ctx context.Context
 
 	var response ListBatchTaskEnvironmentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "ListBatchTaskEnvironments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1786,7 +1786,7 @@ func (client BatchComputingClient) listBatchTaskProfiles(ctx context.Context, re
 
 	var response ListBatchTaskProfilesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "ListBatchTaskProfiles")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1844,7 +1844,7 @@ func (client BatchComputingClient) listBatchTasks(ctx context.Context, request c
 
 	var response ListBatchTasksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "ListBatchTasks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1902,7 +1902,7 @@ func (client BatchComputingClient) listWorkRequestErrors(ctx context.Context, re
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1960,7 +1960,7 @@ func (client BatchComputingClient) listWorkRequestLogs(ctx context.Context, requ
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2018,7 +2018,7 @@ func (client BatchComputingClient) listWorkRequests(ctx context.Context, request
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2076,7 +2076,7 @@ func (client BatchComputingClient) pauseBatchJob(ctx context.Context, request co
 
 	var response PauseBatchJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "PauseBatchJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2134,7 +2134,7 @@ func (client BatchComputingClient) startBatchContext(ctx context.Context, reques
 
 	var response StartBatchContextResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "StartBatchContext")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2192,7 +2192,7 @@ func (client BatchComputingClient) startBatchJobPool(ctx context.Context, reques
 
 	var response StartBatchJobPoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "StartBatchJobPool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2250,7 +2250,7 @@ func (client BatchComputingClient) stopBatchContext(ctx context.Context, request
 
 	var response StopBatchContextResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "StopBatchContext")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2308,7 +2308,7 @@ func (client BatchComputingClient) stopBatchJobPool(ctx context.Context, request
 
 	var response StopBatchJobPoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "StopBatchJobPool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2366,7 +2366,7 @@ func (client BatchComputingClient) unpauseBatchJob(ctx context.Context, request 
 
 	var response UnpauseBatchJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "UnpauseBatchJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2424,7 +2424,7 @@ func (client BatchComputingClient) updateBatchContext(ctx context.Context, reque
 
 	var response UpdateBatchContextResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "UpdateBatchContext")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2482,7 +2482,7 @@ func (client BatchComputingClient) updateBatchJob(ctx context.Context, request c
 
 	var response UpdateBatchJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "UpdateBatchJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2540,7 +2540,7 @@ func (client BatchComputingClient) updateBatchJobPool(ctx context.Context, reque
 
 	var response UpdateBatchJobPoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "UpdateBatchJobPool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2598,7 +2598,7 @@ func (client BatchComputingClient) updateBatchTaskEnvironment(ctx context.Contex
 
 	var response UpdateBatchTaskEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "UpdateBatchTaskEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2656,7 +2656,7 @@ func (client BatchComputingClient) updateBatchTaskProfile(ctx context.Context, r
 
 	var response UpdateBatchTaskProfileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "batchComputing", "UpdateBatchTaskProfile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

@@ -20,7 +20,7 @@ import (
 // CreateProfileDetails Provides the information used to create a new registration profile.
 type CreateProfileDetails interface {
 
-	// A user-friendly name. Does not have to be unique and you can change the name later. Avoid entering
+	// A user-friendly name. Must be unique and you can change the name later. Avoid entering
 	// confidential information.
 	GetDisplayName() *string
 
@@ -31,7 +31,7 @@ type CreateProfileDetails interface {
 	GetDescription() *string
 
 	// description: The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate
-	// with an instance once registered. This is required when creating a profile for non-OCI instances.
+	// with an instance once registered. This is used when creating a profile for non-OCI instances.
 	GetManagementStationId() *string
 
 	// The type of instance to register.
@@ -97,6 +97,10 @@ func (m *createprofiledetails) UnmarshalPolymorphicJSON(data []byte) (interface{
 
 	var err error
 	switch m.ProfileType {
+	case "UBUNTU_STANDALONE":
+		mm := CreateUbuntuStandAloneProfileDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GROUP":
 		mm := CreateGroupProfileDetails{}
 		err = json.Unmarshal(data, &mm)

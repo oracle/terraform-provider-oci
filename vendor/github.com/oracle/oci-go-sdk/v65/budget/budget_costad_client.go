@@ -141,7 +141,7 @@ func (client CostAdClient) createCostAlertSubscription(ctx context.Context, requ
 
 	var response CreateCostAlertSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "costAd", "CreateCostAlertSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -204,7 +204,7 @@ func (client CostAdClient) createCostAnomalyMonitor(ctx context.Context, request
 
 	var response CreateCostAnomalyMonitorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "costAd", "CreateCostAnomalyMonitor")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -262,7 +262,7 @@ func (client CostAdClient) deleteCostAlertSubscription(ctx context.Context, requ
 
 	var response DeleteCostAlertSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "costAd", "DeleteCostAlertSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -320,7 +320,7 @@ func (client CostAdClient) deleteCostAnomalyMonitor(ctx context.Context, request
 
 	var response DeleteCostAnomalyMonitorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "costAd", "DeleteCostAnomalyMonitor")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -383,7 +383,7 @@ func (client CostAdClient) disableCostAnomalyMonitor(ctx context.Context, reques
 
 	var response DisableCostAnomalyMonitorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "costAd", "DisableCostAnomalyMonitor")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -446,7 +446,7 @@ func (client CostAdClient) enableCostAnomalyMonitor(ctx context.Context, request
 
 	var response EnableCostAnomalyMonitorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "costAd", "EnableCostAnomalyMonitor")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -504,7 +504,7 @@ func (client CostAdClient) getCostAlertSubscription(ctx context.Context, request
 
 	var response GetCostAlertSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "costAd", "GetCostAlertSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -562,7 +562,7 @@ func (client CostAdClient) getCostAnomalyEvent(ctx context.Context, request comm
 
 	var response GetCostAnomalyEventResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "costAd", "GetCostAnomalyEvent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -620,7 +620,7 @@ func (client CostAdClient) getCostAnomalyMonitor(ctx context.Context, request co
 
 	var response GetCostAnomalyMonitorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "costAd", "GetCostAnomalyMonitor")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -678,7 +678,7 @@ func (client CostAdClient) listCostAlertSubscriptions(ctx context.Context, reque
 
 	var response ListCostAlertSubscriptionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "costAd", "ListCostAlertSubscriptions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -736,7 +736,7 @@ func (client CostAdClient) listCostAnomalyEvents(ctx context.Context, request co
 
 	var response ListCostAnomalyEventsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "costAd", "ListCostAnomalyEvents")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -794,7 +794,7 @@ func (client CostAdClient) listCostAnomalyMonitors(ctx context.Context, request 
 
 	var response ListCostAnomalyMonitorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "costAd", "ListCostAnomalyMonitors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -852,7 +852,7 @@ func (client CostAdClient) summarizeCostAnomalyEventAnalytics(ctx context.Contex
 
 	var response SummarizeCostAnomalyEventAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "costAd", "SummarizeCostAnomalyEventAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -910,7 +910,7 @@ func (client CostAdClient) updateCostAlertSubscription(ctx context.Context, requ
 
 	var response UpdateCostAlertSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "costAd", "UpdateCostAlertSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -968,7 +968,7 @@ func (client CostAdClient) updateCostAnomalyEvent(ctx context.Context, request c
 
 	var response UpdateCostAnomalyEventResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "costAd", "UpdateCostAnomalyEvent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1026,7 +1026,7 @@ func (client CostAdClient) updateCostAnomalyMonitor(ctx context.Context, request
 
 	var response UpdateCostAnomalyMonitorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "costAd", "UpdateCostAnomalyMonitor")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

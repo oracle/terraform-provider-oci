@@ -49,6 +49,9 @@ type UpdatablePackageSummary struct {
 
 	// The type of update.
 	UpdateType ClassificationTypesEnum `mandatory:"true" json:"updateType"`
+
+	// The severity level of the security update. Only applicable when updateType is SECURITY.
+	AdvisorySeverity AdvisorySeverityEnum `mandatory:"false" json:"advisorySeverity,omitempty"`
 }
 
 // GetDisplayName returns DisplayName
@@ -96,6 +99,9 @@ func (m UpdatablePackageSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingClassificationTypesEnum(string(m.UpdateType)); !ok && m.UpdateType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateType: %s. Supported values are: %s.", m.UpdateType, strings.Join(GetClassificationTypesEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAdvisorySeverityEnum(string(m.AdvisorySeverity)); !ok && m.AdvisorySeverity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AdvisorySeverity: %s. Supported values are: %s.", m.AdvisorySeverity, strings.Join(GetAdvisorySeverityEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

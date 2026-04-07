@@ -136,7 +136,7 @@ func (client OmhubResourceAnchorClient) getResourceAnchor(ctx context.Context, r
 
 	var response GetResourceAnchorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "omhubResourceAnchor", "GetResourceAnchor")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -194,7 +194,7 @@ func (client OmhubResourceAnchorClient) listResourceAnchors(ctx context.Context,
 
 	var response ListResourceAnchorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "omhubResourceAnchor", "ListResourceAnchors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

@@ -141,7 +141,7 @@ func (client MonitoredRegionClient) createMonitoredRegion(ctx context.Context, r
 
 	var response CreateMonitoredRegionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "monitoredRegion", "CreateMonitoredRegion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -199,7 +199,7 @@ func (client MonitoredRegionClient) deleteMonitoredRegion(ctx context.Context, r
 
 	var response DeleteMonitoredRegionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "monitoredRegion", "DeleteMonitoredRegion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -257,7 +257,7 @@ func (client MonitoredRegionClient) getMonitoredRegion(ctx context.Context, requ
 
 	var response GetMonitoredRegionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "monitoredRegion", "GetMonitoredRegion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -315,7 +315,7 @@ func (client MonitoredRegionClient) listMonitoredRegions(ctx context.Context, re
 
 	var response ListMonitoredRegionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "monitoredRegion", "ListMonitoredRegions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

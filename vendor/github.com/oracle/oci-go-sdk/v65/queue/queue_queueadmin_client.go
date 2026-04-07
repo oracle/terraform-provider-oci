@@ -136,7 +136,7 @@ func (client QueueAdminClient) changeQueueCompartment(ctx context.Context, reque
 
 	var response ChangeQueueCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "queueAdmin", "ChangeQueueCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -199,7 +199,7 @@ func (client QueueAdminClient) createConsumerGroup(ctx context.Context, request 
 
 	var response CreateConsumerGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "queueAdmin", "CreateConsumerGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -262,7 +262,7 @@ func (client QueueAdminClient) createQueue(ctx context.Context, request common.O
 
 	var response CreateQueueResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "queueAdmin", "CreateQueue")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -320,7 +320,7 @@ func (client QueueAdminClient) deleteConsumerGroup(ctx context.Context, request 
 
 	var response DeleteConsumerGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "queueAdmin", "DeleteConsumerGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -378,7 +378,7 @@ func (client QueueAdminClient) deleteQueue(ctx context.Context, request common.O
 
 	var response DeleteQueueResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "queueAdmin", "DeleteQueue")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -436,7 +436,7 @@ func (client QueueAdminClient) getConsumerGroup(ctx context.Context, request com
 
 	var response GetConsumerGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "queueAdmin", "GetConsumerGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -494,7 +494,7 @@ func (client QueueAdminClient) getQueue(ctx context.Context, request common.OCIR
 
 	var response GetQueueResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "queueAdmin", "GetQueue")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -552,7 +552,7 @@ func (client QueueAdminClient) getWorkRequest(ctx context.Context, request commo
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "queueAdmin", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -610,7 +610,7 @@ func (client QueueAdminClient) listConsumerGroups(ctx context.Context, request c
 
 	var response ListConsumerGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "queueAdmin", "ListConsumerGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -668,7 +668,7 @@ func (client QueueAdminClient) listQueues(ctx context.Context, request common.OC
 
 	var response ListQueuesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "queueAdmin", "ListQueues")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -726,7 +726,7 @@ func (client QueueAdminClient) listWorkRequestErrors(ctx context.Context, reques
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "queueAdmin", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -784,7 +784,7 @@ func (client QueueAdminClient) listWorkRequestLogs(ctx context.Context, request 
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "queueAdmin", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -842,7 +842,7 @@ func (client QueueAdminClient) listWorkRequests(ctx context.Context, request com
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "queueAdmin", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -905,7 +905,7 @@ func (client QueueAdminClient) purgeQueue(ctx context.Context, request common.OC
 
 	var response PurgeQueueResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "queueAdmin", "PurgeQueue")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -963,7 +963,7 @@ func (client QueueAdminClient) updateConsumerGroup(ctx context.Context, request 
 
 	var response UpdateConsumerGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "queueAdmin", "UpdateConsumerGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1021,7 +1021,7 @@ func (client QueueAdminClient) updateQueue(ctx context.Context, request common.O
 
 	var response UpdateQueueResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "queueAdmin", "UpdateQueue")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

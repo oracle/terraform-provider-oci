@@ -142,7 +142,7 @@ func (client FleetAppsManagementRunbooksClient) changeRunbookCompartment(ctx con
 
 	var response ChangeRunbookCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "ChangeRunbookCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -206,7 +206,7 @@ func (client FleetAppsManagementRunbooksClient) changeTaskRecordCompartment(ctx 
 
 	var response ChangeTaskRecordCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "ChangeTaskRecordCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -269,7 +269,7 @@ func (client FleetAppsManagementRunbooksClient) createRunbook(ctx context.Contex
 
 	var response CreateRunbookResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "CreateRunbook")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -332,7 +332,7 @@ func (client FleetAppsManagementRunbooksClient) createRunbookVersion(ctx context
 
 	var response CreateRunbookVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "CreateRunbookVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -395,7 +395,7 @@ func (client FleetAppsManagementRunbooksClient) createTaskRecord(ctx context.Con
 
 	var response CreateTaskRecordResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "CreateTaskRecord")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -453,7 +453,7 @@ func (client FleetAppsManagementRunbooksClient) deleteRunbook(ctx context.Contex
 
 	var response DeleteRunbookResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "DeleteRunbook")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -511,7 +511,7 @@ func (client FleetAppsManagementRunbooksClient) deleteRunbookVersion(ctx context
 
 	var response DeleteRunbookVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "DeleteRunbookVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -569,7 +569,7 @@ func (client FleetAppsManagementRunbooksClient) deleteTaskRecord(ctx context.Con
 
 	var response DeleteTaskRecordResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "DeleteTaskRecord")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -632,7 +632,7 @@ func (client FleetAppsManagementRunbooksClient) exportRunbook(ctx context.Contex
 
 	var response ExportRunbookResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "ExportRunbook")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -695,7 +695,7 @@ func (client FleetAppsManagementRunbooksClient) exportRunbookVersion(ctx context
 
 	var response ExportRunbookVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "ExportRunbookVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -753,7 +753,7 @@ func (client FleetAppsManagementRunbooksClient) findRunbookExportDependency(ctx 
 
 	var response FindRunbookExportDependencyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "FindRunbookExportDependency")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -811,7 +811,7 @@ func (client FleetAppsManagementRunbooksClient) findRunbookImportDependency(ctx 
 
 	var response FindRunbookImportDependencyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "FindRunbookImportDependency")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -869,7 +869,7 @@ func (client FleetAppsManagementRunbooksClient) getRunbook(ctx context.Context, 
 
 	var response GetRunbookResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "GetRunbook")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -927,7 +927,7 @@ func (client FleetAppsManagementRunbooksClient) getRunbookExport(ctx context.Con
 
 	var response GetRunbookExportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "GetRunbookExport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -985,7 +985,7 @@ func (client FleetAppsManagementRunbooksClient) getRunbookImport(ctx context.Con
 
 	var response GetRunbookImportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "GetRunbookImport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1043,7 +1043,7 @@ func (client FleetAppsManagementRunbooksClient) getRunbookVersion(ctx context.Co
 
 	var response GetRunbookVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "GetRunbookVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1101,7 +1101,7 @@ func (client FleetAppsManagementRunbooksClient) getTaskRecord(ctx context.Contex
 
 	var response GetTaskRecordResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "GetTaskRecord")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1164,7 +1164,7 @@ func (client FleetAppsManagementRunbooksClient) importRunbook(ctx context.Contex
 
 	var response ImportRunbookResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "ImportRunbook")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1227,7 +1227,7 @@ func (client FleetAppsManagementRunbooksClient) importRunbookPrecheck(ctx contex
 
 	var response ImportRunbookPrecheckResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "ImportRunbookPrecheck")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1290,7 +1290,7 @@ func (client FleetAppsManagementRunbooksClient) importRunbookVersion(ctx context
 
 	var response ImportRunbookVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "ImportRunbookVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1349,7 +1349,7 @@ func (client FleetAppsManagementRunbooksClient) listRunbookExportStatuses(ctx co
 
 	var response ListRunbookExportStatusesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "ListRunbookExportStatuses")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1408,7 +1408,7 @@ func (client FleetAppsManagementRunbooksClient) listRunbookImportStatuses(ctx co
 
 	var response ListRunbookImportStatusesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "ListRunbookImportStatuses")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1466,7 +1466,7 @@ func (client FleetAppsManagementRunbooksClient) listRunbookVersions(ctx context.
 
 	var response ListRunbookVersionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "ListRunbookVersions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1525,7 +1525,7 @@ func (client FleetAppsManagementRunbooksClient) listRunbooks(ctx context.Context
 
 	var response ListRunbooksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "ListRunbooks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1584,7 +1584,7 @@ func (client FleetAppsManagementRunbooksClient) listTaskRecords(ctx context.Cont
 
 	var response ListTaskRecordsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "ListTaskRecords")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1648,7 +1648,7 @@ func (client FleetAppsManagementRunbooksClient) publishRunbook(ctx context.Conte
 
 	var response PublishRunbookResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "PublishRunbook")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1711,7 +1711,7 @@ func (client FleetAppsManagementRunbooksClient) setDefaultRunbook(ctx context.Co
 
 	var response SetDefaultRunbookResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "SetDefaultRunbook")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1769,7 +1769,7 @@ func (client FleetAppsManagementRunbooksClient) updateRunbook(ctx context.Contex
 
 	var response UpdateRunbookResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "UpdateRunbook")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1827,7 +1827,7 @@ func (client FleetAppsManagementRunbooksClient) updateRunbookVersion(ctx context
 
 	var response UpdateRunbookVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "UpdateRunbookVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1885,7 +1885,7 @@ func (client FleetAppsManagementRunbooksClient) updateTaskRecord(ctx context.Con
 
 	var response UpdateTaskRecordResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementRunbooks", "UpdateTaskRecord")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

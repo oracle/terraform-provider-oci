@@ -143,7 +143,7 @@ func (client AccessRequestsClient) approveAccessRequest(ctx context.Context, req
 
 	var response ApproveAccessRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "accessRequests", "ApproveAccessRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -201,7 +201,7 @@ func (client AccessRequestsClient) getAccessRequest(ctx context.Context, request
 
 	var response GetAccessRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "accessRequests", "GetAccessRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -259,7 +259,7 @@ func (client AccessRequestsClient) getAuditLogReport(ctx context.Context, reques
 
 	var response GetAuditLogReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "accessRequests", "GetAuditLogReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -322,7 +322,7 @@ func (client AccessRequestsClient) interactionRequest(ctx context.Context, reque
 
 	var response InteractionRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "accessRequests", "InteractionRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -380,7 +380,7 @@ func (client AccessRequestsClient) listAccessRequestHistories(ctx context.Contex
 
 	var response ListAccessRequestHistoriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "accessRequests", "ListAccessRequestHistories")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -438,7 +438,7 @@ func (client AccessRequestsClient) listAccessRequests(ctx context.Context, reque
 
 	var response ListAccessRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "accessRequests", "ListAccessRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -496,7 +496,7 @@ func (client AccessRequestsClient) listInteractions(ctx context.Context, request
 
 	var response ListInteractionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "accessRequests", "ListInteractions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -559,7 +559,7 @@ func (client AccessRequestsClient) rejectAccessRequest(ctx context.Context, requ
 
 	var response RejectAccessRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "accessRequests", "RejectAccessRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -622,7 +622,7 @@ func (client AccessRequestsClient) reviewAccessRequest(ctx context.Context, requ
 
 	var response ReviewAccessRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "accessRequests", "ReviewAccessRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -685,7 +685,7 @@ func (client AccessRequestsClient) revokeAccessRequest(ctx context.Context, requ
 
 	var response RevokeAccessRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "accessRequests", "RevokeAccessRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

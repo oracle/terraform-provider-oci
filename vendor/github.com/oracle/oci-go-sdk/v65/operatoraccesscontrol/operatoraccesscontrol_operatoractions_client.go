@@ -138,7 +138,7 @@ func (client OperatorActionsClient) getOperatorAction(ctx context.Context, reque
 
 	var response GetOperatorActionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "operatorActions", "GetOperatorAction")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -196,7 +196,7 @@ func (client OperatorActionsClient) listOperatorActions(ctx context.Context, req
 
 	var response ListOperatorActionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "operatorActions", "ListOperatorActions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

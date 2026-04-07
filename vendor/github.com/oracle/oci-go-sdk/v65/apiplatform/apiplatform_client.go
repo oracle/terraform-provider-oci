@@ -142,7 +142,7 @@ func (client ApiPlatformClient) changeApiPlatformInstanceCompartment(ctx context
 
 	var response ChangeApiPlatformInstanceCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiPlatform", "ChangeApiPlatformInstanceCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -205,7 +205,7 @@ func (client ApiPlatformClient) createApiPlatformInstance(ctx context.Context, r
 
 	var response CreateApiPlatformInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiPlatform", "CreateApiPlatformInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -263,7 +263,7 @@ func (client ApiPlatformClient) deleteApiPlatformInstance(ctx context.Context, r
 
 	var response DeleteApiPlatformInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiPlatform", "DeleteApiPlatformInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -321,7 +321,7 @@ func (client ApiPlatformClient) getApiPlatformInstance(ctx context.Context, requ
 
 	var response GetApiPlatformInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiPlatform", "GetApiPlatformInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -379,7 +379,7 @@ func (client ApiPlatformClient) getWorkRequest(ctx context.Context, request comm
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiPlatform", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -437,7 +437,7 @@ func (client ApiPlatformClient) listApiPlatformInstances(ctx context.Context, re
 
 	var response ListApiPlatformInstancesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiPlatform", "ListApiPlatformInstances")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -495,7 +495,7 @@ func (client ApiPlatformClient) listWorkRequestErrors(ctx context.Context, reque
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiPlatform", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -553,7 +553,7 @@ func (client ApiPlatformClient) listWorkRequestLogs(ctx context.Context, request
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiPlatform", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -611,7 +611,7 @@ func (client ApiPlatformClient) listWorkRequests(ctx context.Context, request co
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiPlatform", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -669,7 +669,7 @@ func (client ApiPlatformClient) updateApiPlatformInstance(ctx context.Context, r
 
 	var response UpdateApiPlatformInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "apiPlatform", "UpdateApiPlatformInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

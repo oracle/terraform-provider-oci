@@ -158,7 +158,7 @@ func (client OracleDbAzureKeyClient) getOracleDbAzureKey(ctx context.Context, re
 
 	var response GetOracleDbAzureKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oracleDbAzureKey", "GetOracleDbAzureKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -216,7 +216,7 @@ func (client OracleDbAzureKeyClient) listOracleDbAzureKeys(ctx context.Context, 
 
 	var response ListOracleDbAzureKeysResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oracleDbAzureKey", "ListOracleDbAzureKeys")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

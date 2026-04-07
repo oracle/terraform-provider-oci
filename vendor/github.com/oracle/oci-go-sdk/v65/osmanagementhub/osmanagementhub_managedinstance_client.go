@@ -142,7 +142,7 @@ func (client ManagedInstanceClient) associateManagedInstancesWithManagementStati
 
 	var response AssociateManagedInstancesWithManagementStationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "AssociateManagedInstancesWithManagementStation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -206,7 +206,7 @@ func (client ManagedInstanceClient) attachProfileToManagedInstance(ctx context.C
 
 	var response AttachProfileToManagedInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "AttachProfileToManagedInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -270,7 +270,7 @@ func (client ManagedInstanceClient) attachSoftwareSourcesToManagedInstance(ctx c
 
 	var response AttachSoftwareSourcesToManagedInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "AttachSoftwareSourcesToManagedInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -329,7 +329,7 @@ func (client ManagedInstanceClient) deleteManagedInstance(ctx context.Context, r
 
 	var response DeleteManagedInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "DeleteManagedInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -393,7 +393,7 @@ func (client ManagedInstanceClient) detachProfileFromManagedInstance(ctx context
 
 	var response DetachProfileFromManagedInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "DetachProfileFromManagedInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -457,7 +457,7 @@ func (client ManagedInstanceClient) detachSoftwareSourcesFromManagedInstance(ctx
 
 	var response DetachSoftwareSourcesFromManagedInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "DetachSoftwareSourcesFromManagedInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -523,7 +523,7 @@ func (client ManagedInstanceClient) disableModuleStreamOnManagedInstance(ctx con
 
 	var response DisableModuleStreamOnManagedInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "DisableModuleStreamOnManagedInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -590,7 +590,7 @@ func (client ManagedInstanceClient) enableModuleStreamOnManagedInstance(ctx cont
 
 	var response EnableModuleStreamOnManagedInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "EnableModuleStreamOnManagedInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -648,7 +648,7 @@ func (client ManagedInstanceClient) getManagedInstance(ctx context.Context, requ
 
 	var response GetManagedInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "GetManagedInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -706,7 +706,7 @@ func (client ManagedInstanceClient) getWindowsUpdate(ctx context.Context, reques
 
 	var response GetWindowsUpdateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "GetWindowsUpdate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -769,7 +769,7 @@ func (client ManagedInstanceClient) installAllWindowsUpdatesOnManagedInstancesIn
 
 	var response InstallAllWindowsUpdatesOnManagedInstancesInCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "InstallAllWindowsUpdatesOnManagedInstancesInCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -834,7 +834,7 @@ func (client ManagedInstanceClient) installModuleStreamProfileOnManagedInstance(
 
 	var response InstallModuleStreamProfileOnManagedInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "InstallModuleStreamProfileOnManagedInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -897,12 +897,75 @@ func (client ManagedInstanceClient) installPackagesOnManagedInstance(ctx context
 
 	var response InstallPackagesOnManagedInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "InstallPackagesOnManagedInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/InstallPackagesOnManagedInstance"
 		err = common.PostProcessServiceError(err, "ManagedInstance", "InstallPackagesOnManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// InstallSnapsOnManagedInstance Installs specified snaps on a managed instance.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/InstallSnapsOnManagedInstance.go.html to see an example of how to use InstallSnapsOnManagedInstance API.
+// A default retry strategy applies to this operation InstallSnapsOnManagedInstance()
+func (client ManagedInstanceClient) InstallSnapsOnManagedInstance(ctx context.Context, request InstallSnapsOnManagedInstanceRequest) (response InstallSnapsOnManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.installSnapsOnManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = InstallSnapsOnManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = InstallSnapsOnManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(InstallSnapsOnManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into InstallSnapsOnManagedInstanceResponse")
+	}
+	return
+}
+
+// installSnapsOnManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) installSnapsOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/installSnaps", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response InstallSnapsOnManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "InstallSnapsOnManagedInstance")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/InstallSnapsOnManagedInstance"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "InstallSnapsOnManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -960,7 +1023,7 @@ func (client ManagedInstanceClient) installWindowsUpdatesOnManagedInstance(ctx c
 
 	var response InstallWindowsUpdatesOnManagedInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "InstallWindowsUpdatesOnManagedInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1018,7 +1081,7 @@ func (client ManagedInstanceClient) listManagedInstanceAvailablePackages(ctx con
 
 	var response ListManagedInstanceAvailablePackagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "ListManagedInstanceAvailablePackages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1076,7 +1139,7 @@ func (client ManagedInstanceClient) listManagedInstanceAvailableSoftwareSources(
 
 	var response ListManagedInstanceAvailableSoftwareSourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "ListManagedInstanceAvailableSoftwareSources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1134,7 +1197,7 @@ func (client ManagedInstanceClient) listManagedInstanceAvailableWindowsUpdates(c
 
 	var response ListManagedInstanceAvailableWindowsUpdatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "ListManagedInstanceAvailableWindowsUpdates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1192,7 +1255,7 @@ func (client ManagedInstanceClient) listManagedInstanceErrata(ctx context.Contex
 
 	var response ListManagedInstanceErrataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "ListManagedInstanceErrata")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1250,7 +1313,7 @@ func (client ManagedInstanceClient) listManagedInstanceInstalledPackages(ctx con
 
 	var response ListManagedInstanceInstalledPackagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "ListManagedInstanceInstalledPackages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1308,7 +1371,7 @@ func (client ManagedInstanceClient) listManagedInstanceInstalledWindowsUpdates(c
 
 	var response ListManagedInstanceInstalledWindowsUpdatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "ListManagedInstanceInstalledWindowsUpdates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1366,12 +1429,70 @@ func (client ManagedInstanceClient) listManagedInstanceModules(ctx context.Conte
 
 	var response ListManagedInstanceModulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "ListManagedInstanceModules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/ListManagedInstanceModules"
 		err = common.PostProcessServiceError(err, "ManagedInstance", "ListManagedInstanceModules", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListManagedInstanceSnaps Retrieves a list of snaps for a managed instance. Filters may be applied to select a subset of snaps based on the filter criteria.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceSnaps.go.html to see an example of how to use ListManagedInstanceSnaps API.
+// A default retry strategy applies to this operation ListManagedInstanceSnaps()
+func (client ManagedInstanceClient) ListManagedInstanceSnaps(ctx context.Context, request ListManagedInstanceSnapsRequest) (response ListManagedInstanceSnapsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listManagedInstanceSnaps, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListManagedInstanceSnapsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListManagedInstanceSnapsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListManagedInstanceSnapsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListManagedInstanceSnapsResponse")
+	}
+	return
+}
+
+// listManagedInstanceSnaps implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) listManagedInstanceSnaps(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/snaps", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListManagedInstanceSnapsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "ListManagedInstanceSnaps")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/ListManagedInstanceSnaps"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "ListManagedInstanceSnaps", apiReferenceLink)
 		return response, err
 	}
 
@@ -1424,7 +1545,7 @@ func (client ManagedInstanceClient) listManagedInstanceUpdatablePackages(ctx con
 
 	var response ListManagedInstanceUpdatablePackagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "ListManagedInstanceUpdatablePackages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1482,7 +1603,7 @@ func (client ManagedInstanceClient) listManagedInstances(ctx context.Context, re
 
 	var response ListManagedInstancesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "ListManagedInstances")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1540,7 +1661,7 @@ func (client ManagedInstanceClient) listWindowsUpdates(ctx context.Context, requ
 
 	var response ListWindowsUpdatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "ListWindowsUpdates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1606,7 +1727,7 @@ func (client ManagedInstanceClient) manageModuleStreamsOnManagedInstance(ctx con
 
 	var response ManageModuleStreamsOnManagedInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "ManageModuleStreamsOnManagedInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1670,7 +1791,7 @@ func (client ManagedInstanceClient) rebootManagedInstance(ctx context.Context, r
 
 	var response RebootManagedInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "RebootManagedInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1733,7 +1854,7 @@ func (client ManagedInstanceClient) refreshSoftwareOnManagedInstance(ctx context
 
 	var response RefreshSoftwareOnManagedInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "RefreshSoftwareOnManagedInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1798,7 +1919,7 @@ func (client ManagedInstanceClient) removeModuleStreamProfileFromManagedInstance
 
 	var response RemoveModuleStreamProfileFromManagedInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "RemoveModuleStreamProfileFromManagedInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1861,12 +1982,75 @@ func (client ManagedInstanceClient) removePackagesFromManagedInstance(ctx contex
 
 	var response RemovePackagesFromManagedInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "RemovePackagesFromManagedInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/RemovePackagesFromManagedInstance"
 		err = common.PostProcessServiceError(err, "ManagedInstance", "RemovePackagesFromManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveSnapsFromManagedInstance Removes specified snaps from a managed instance.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/RemoveSnapsFromManagedInstance.go.html to see an example of how to use RemoveSnapsFromManagedInstance API.
+// A default retry strategy applies to this operation RemoveSnapsFromManagedInstance()
+func (client ManagedInstanceClient) RemoveSnapsFromManagedInstance(ctx context.Context, request RemoveSnapsFromManagedInstanceRequest) (response RemoveSnapsFromManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeSnapsFromManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveSnapsFromManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveSnapsFromManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveSnapsFromManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveSnapsFromManagedInstanceResponse")
+	}
+	return
+}
+
+// removeSnapsFromManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) removeSnapsFromManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/removeSnaps", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveSnapsFromManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "RemoveSnapsFromManagedInstance")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/RemoveSnapsFromManagedInstance"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "RemoveSnapsFromManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -1927,12 +2111,75 @@ func (client ManagedInstanceClient) switchModuleStreamOnManagedInstance(ctx cont
 
 	var response SwitchModuleStreamOnManagedInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "SwitchModuleStreamOnManagedInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/SwitchModuleStreamOnManagedInstance"
 		err = common.PostProcessServiceError(err, "ManagedInstance", "SwitchModuleStreamOnManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SwitchSnapChannelOnManagedInstance Switches the snap channel on a managed instance.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SwitchSnapChannelOnManagedInstance.go.html to see an example of how to use SwitchSnapChannelOnManagedInstance API.
+// A default retry strategy applies to this operation SwitchSnapChannelOnManagedInstance()
+func (client ManagedInstanceClient) SwitchSnapChannelOnManagedInstance(ctx context.Context, request SwitchSnapChannelOnManagedInstanceRequest) (response SwitchSnapChannelOnManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.switchSnapChannelOnManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SwitchSnapChannelOnManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SwitchSnapChannelOnManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SwitchSnapChannelOnManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SwitchSnapChannelOnManagedInstanceResponse")
+	}
+	return
+}
+
+// switchSnapChannelOnManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) switchSnapChannelOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/switchSnapChannel", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SwitchSnapChannelOnManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "SwitchSnapChannelOnManagedInstance")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/SwitchSnapChannelOnManagedInstance"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "SwitchSnapChannelOnManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -1990,7 +2237,7 @@ func (client ManagedInstanceClient) updateAllPackagesOnManagedInstancesInCompart
 
 	var response UpdateAllPackagesOnManagedInstancesInCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "UpdateAllPackagesOnManagedInstancesInCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2048,7 +2295,7 @@ func (client ManagedInstanceClient) updateManagedInstance(ctx context.Context, r
 
 	var response UpdateManagedInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "UpdateManagedInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2111,7 +2358,7 @@ func (client ManagedInstanceClient) updatePackagesOnManagedInstance(ctx context.
 
 	var response UpdatePackagesOnManagedInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "managedInstance", "UpdatePackagesOnManagedInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

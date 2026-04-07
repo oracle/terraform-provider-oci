@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// RebootLifecycleStageDetails PProvides the information used for the reboot job.
+// RebootLifecycleStageDetails Provides the information used for the reboot job.
 type RebootLifecycleStageDetails struct {
 
 	// The number of minutes the service waits for the reboot to complete. If the instances in the stage don't reboot

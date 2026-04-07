@@ -73,6 +73,13 @@ type CreateBucketDetails struct {
 	// `InfrequentAccess` are transitioned automatically between the 'Standard' and 'InfrequentAccess'
 	// tiers based on the access pattern of the objects.
 	AutoTiering BucketAutoTieringEnum `mandatory:"false" json:"autoTiering,omitempty"`
+
+	// Scope in which the bucket is unique. Default value is NAMESPACE.
+	// Bucket scope as NAMESPACE means that the bucket is unique only in the owning namespace/tenancy. Other
+	// tenancies can have a bucket with same name in their namespace.
+	// Bucket scope as REGION means that the bucket is regionally unique. No other tenancy can have a bucket with
+	// same name and scope REGION.
+	BucketScope BucketBucketScopeEnum `mandatory:"false" json:"bucketScope,omitempty"`
 }
 
 func (m CreateBucketDetails) String() string {
@@ -96,6 +103,9 @@ func (m CreateBucketDetails) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingBucketAutoTieringEnum(string(m.AutoTiering)); !ok && m.AutoTiering != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoTiering: %s. Supported values are: %s.", m.AutoTiering, strings.Join(GetBucketAutoTieringEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingBucketBucketScopeEnum(string(m.BucketScope)); !ok && m.BucketScope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BucketScope: %s. Supported values are: %s.", m.BucketScope, strings.Join(GetBucketBucketScopeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

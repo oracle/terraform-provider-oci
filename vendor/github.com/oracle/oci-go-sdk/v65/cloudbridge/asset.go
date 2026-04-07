@@ -63,6 +63,9 @@ type Asset interface {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	GetSystemTags() map[string]map[string]interface{}
+
+	// Specifies if this is the Source or Destination point for migration - different assets may be discovered depending on setting.
+	GetEnvironmentType() EnvironmentTypeEnum
 }
 
 type asset struct {
@@ -72,6 +75,7 @@ type asset struct {
 	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	EnvironmentType  EnvironmentTypeEnum               `mandatory:"false" json:"environmentType,omitempty"`
 	InventoryId      *string                           `mandatory:"true" json:"inventoryId"`
 	Id               *string                           `mandatory:"true" json:"id"`
 	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
@@ -107,6 +111,7 @@ func (m *asset) UnmarshalJSON(data []byte) error {
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
+	m.EnvironmentType = s.Model.EnvironmentType
 	m.AssetType = s.Model.AssetType
 
 	return err
@@ -123,6 +128,10 @@ func (m *asset) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 	switch m.AssetType {
 	case "AWS_EC2":
 		mm := AwsEc2Asset{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "INVENTORY_ASSET":
+		mm := InventoryAsset{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "VMWARE_VM":
@@ -166,6 +175,11 @@ func (m asset) GetDefinedTags() map[string]map[string]interface{} {
 // GetSystemTags returns SystemTags
 func (m asset) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+// GetEnvironmentType returns EnvironmentType
+func (m asset) GetEnvironmentType() EnvironmentTypeEnum {
+	return m.EnvironmentType
 }
 
 // GetInventoryId returns InventoryId
@@ -221,6 +235,9 @@ func (m asset) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAssetLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingEnvironmentTypeEnum(string(m.EnvironmentType)); !ok && m.EnvironmentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnvironmentType: %s. Supported values are: %s.", m.EnvironmentType, strings.Join(GetEnvironmentTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

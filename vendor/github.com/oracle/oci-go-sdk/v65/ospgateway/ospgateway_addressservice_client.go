@@ -136,7 +136,7 @@ func (client AddressServiceClient) getAddress(ctx context.Context, request commo
 
 	var response GetAddressResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "addressService", "GetAddress")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -199,7 +199,7 @@ func (client AddressServiceClient) verifyAddress(ctx context.Context, request co
 
 	var response VerifyAddressResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "addressService", "VerifyAddress")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

@@ -138,7 +138,7 @@ func (client WafClient) changeNetworkAddressListCompartment(ctx context.Context,
 
 	var response ChangeNetworkAddressListCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "ChangeNetworkAddressListCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -197,7 +197,7 @@ func (client WafClient) changeWebAppFirewallCompartment(ctx context.Context, req
 
 	var response ChangeWebAppFirewallCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "ChangeWebAppFirewallCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -256,7 +256,7 @@ func (client WafClient) changeWebAppFirewallPolicyCompartment(ctx context.Contex
 
 	var response ChangeWebAppFirewallPolicyCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "ChangeWebAppFirewallPolicyCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -319,7 +319,7 @@ func (client WafClient) createNetworkAddressList(ctx context.Context, request co
 
 	var response CreateNetworkAddressListResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "CreateNetworkAddressList")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -382,7 +382,7 @@ func (client WafClient) createWebAppFirewall(ctx context.Context, request common
 
 	var response CreateWebAppFirewallResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "CreateWebAppFirewall")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -445,7 +445,7 @@ func (client WafClient) createWebAppFirewallPolicy(ctx context.Context, request 
 
 	var response CreateWebAppFirewallPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "CreateWebAppFirewallPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -503,7 +503,7 @@ func (client WafClient) deleteNetworkAddressList(ctx context.Context, request co
 
 	var response DeleteNetworkAddressListResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "DeleteNetworkAddressList")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -561,7 +561,7 @@ func (client WafClient) deleteWebAppFirewall(ctx context.Context, request common
 
 	var response DeleteWebAppFirewallResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "DeleteWebAppFirewall")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -619,7 +619,7 @@ func (client WafClient) deleteWebAppFirewallPolicy(ctx context.Context, request 
 
 	var response DeleteWebAppFirewallPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "DeleteWebAppFirewallPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -677,7 +677,7 @@ func (client WafClient) getNetworkAddressList(ctx context.Context, request commo
 
 	var response GetNetworkAddressListResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "GetNetworkAddressList")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -735,7 +735,7 @@ func (client WafClient) getWebAppFirewall(ctx context.Context, request common.OC
 
 	var response GetWebAppFirewallResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "GetWebAppFirewall")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -793,7 +793,7 @@ func (client WafClient) getWebAppFirewallPolicy(ctx context.Context, request com
 
 	var response GetWebAppFirewallPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "GetWebAppFirewallPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -851,7 +851,7 @@ func (client WafClient) getWorkRequest(ctx context.Context, request common.OCIRe
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -909,7 +909,7 @@ func (client WafClient) listNetworkAddressLists(ctx context.Context, request com
 
 	var response ListNetworkAddressListsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "ListNetworkAddressLists")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -967,7 +967,7 @@ func (client WafClient) listProtectionCapabilities(ctx context.Context, request 
 
 	var response ListProtectionCapabilitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "ListProtectionCapabilities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1025,7 +1025,7 @@ func (client WafClient) listProtectionCapabilityGroupTags(ctx context.Context, r
 
 	var response ListProtectionCapabilityGroupTagsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "ListProtectionCapabilityGroupTags")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1083,7 +1083,7 @@ func (client WafClient) listWebAppFirewallPolicies(ctx context.Context, request 
 
 	var response ListWebAppFirewallPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "ListWebAppFirewallPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1141,7 +1141,7 @@ func (client WafClient) listWebAppFirewalls(ctx context.Context, request common.
 
 	var response ListWebAppFirewallsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "ListWebAppFirewalls")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1199,7 +1199,7 @@ func (client WafClient) listWorkRequestErrors(ctx context.Context, request commo
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1257,7 +1257,7 @@ func (client WafClient) listWorkRequestLogs(ctx context.Context, request common.
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1315,7 +1315,7 @@ func (client WafClient) listWorkRequests(ctx context.Context, request common.OCI
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1373,7 +1373,7 @@ func (client WafClient) updateNetworkAddressList(ctx context.Context, request co
 
 	var response UpdateNetworkAddressListResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "UpdateNetworkAddressList")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1431,7 +1431,7 @@ func (client WafClient) updateWebAppFirewall(ctx context.Context, request common
 
 	var response UpdateWebAppFirewallResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "UpdateWebAppFirewall")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1489,7 +1489,7 @@ func (client WafClient) updateWebAppFirewallPolicy(ctx context.Context, request 
 
 	var response UpdateWebAppFirewallPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waf", "UpdateWebAppFirewallPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

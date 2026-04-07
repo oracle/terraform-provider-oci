@@ -41,6 +41,12 @@ type ScheduledJobOperation struct {
 	// The number of minutes the service waits for the reboot to complete. If the instance doesn't reboot within the
 	// timeout, the service marks the reboot job as failed.
 	RebootTimeoutInMins *int `mandatory:"false" json:"rebootTimeoutInMins"`
+
+	InstallSnapDetails *InstallSnapDetails `mandatory:"false" json:"installSnapDetails"`
+
+	RemoveSnapDetails *RemoveSnapDetails `mandatory:"false" json:"removeSnapDetails"`
+
+	SwitchSnapChannelDetails *SwitchSnapChannelDetails `mandatory:"false" json:"switchSnapChannelDetails"`
 }
 
 func (m ScheduledJobOperation) String() string {

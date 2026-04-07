@@ -109,6 +109,9 @@ type WorkRequest struct {
 
 	// The number of minutes the service waits for the reboot to complete. If the managed instance doesn't reboot within the timeout, the service marks the reboot job as failed.
 	RebootTimeoutInMins *int `mandatory:"false" json:"rebootTimeoutInMins"`
+
+	// The details about the snap.
+	SnapSpecs []SnapSpecDetails `mandatory:"false" json:"snapSpecs"`
 }
 
 func (m WorkRequest) String() string {

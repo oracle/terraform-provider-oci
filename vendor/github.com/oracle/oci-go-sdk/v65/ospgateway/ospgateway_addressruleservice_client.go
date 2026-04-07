@@ -136,7 +136,7 @@ func (client AddressRuleServiceClient) getAddressRule(ctx context.Context, reque
 
 	var response GetAddressRuleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "addressRuleService", "GetAddressRule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

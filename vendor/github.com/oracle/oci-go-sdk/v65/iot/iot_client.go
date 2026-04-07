@@ -143,7 +143,7 @@ func (client IotClient) changeIotDomainCompartment(ctx context.Context, request 
 
 	var response ChangeIotDomainCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "ChangeIotDomainCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -206,7 +206,7 @@ func (client IotClient) changeIotDomainDataRetentionPeriod(ctx context.Context, 
 
 	var response ChangeIotDomainDataRetentionPeriodResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "ChangeIotDomainDataRetentionPeriod")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -270,7 +270,7 @@ func (client IotClient) changeIotDomainGroupCompartment(ctx context.Context, req
 
 	var response ChangeIotDomainGroupCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "ChangeIotDomainGroupCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -333,7 +333,7 @@ func (client IotClient) configureIotDomainDataAccess(ctx context.Context, reques
 
 	var response ConfigureIotDomainDataAccessResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "ConfigureIotDomainDataAccess")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -396,7 +396,7 @@ func (client IotClient) configureIotDomainGroupDataAccess(ctx context.Context, r
 
 	var response ConfigureIotDomainGroupDataAccessResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "ConfigureIotDomainGroupDataAccess")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -459,7 +459,7 @@ func (client IotClient) createDigitalTwinAdapter(ctx context.Context, request co
 
 	var response CreateDigitalTwinAdapterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "CreateDigitalTwinAdapter")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -522,7 +522,7 @@ func (client IotClient) createDigitalTwinInstance(ctx context.Context, request c
 
 	var response CreateDigitalTwinInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "CreateDigitalTwinInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -585,7 +585,7 @@ func (client IotClient) createDigitalTwinModel(ctx context.Context, request comm
 
 	var response CreateDigitalTwinModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "CreateDigitalTwinModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -648,7 +648,7 @@ func (client IotClient) createDigitalTwinRelationship(ctx context.Context, reque
 
 	var response CreateDigitalTwinRelationshipResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "CreateDigitalTwinRelationship")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -711,7 +711,7 @@ func (client IotClient) createIotDomain(ctx context.Context, request common.OCIR
 
 	var response CreateIotDomainResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "CreateIotDomain")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -774,7 +774,7 @@ func (client IotClient) createIotDomainGroup(ctx context.Context, request common
 
 	var response CreateIotDomainGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "CreateIotDomainGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -832,7 +832,7 @@ func (client IotClient) deleteDigitalTwinAdapter(ctx context.Context, request co
 
 	var response DeleteDigitalTwinAdapterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "DeleteDigitalTwinAdapter")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -890,7 +890,7 @@ func (client IotClient) deleteDigitalTwinInstance(ctx context.Context, request c
 
 	var response DeleteDigitalTwinInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "DeleteDigitalTwinInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -948,7 +948,7 @@ func (client IotClient) deleteDigitalTwinModel(ctx context.Context, request comm
 
 	var response DeleteDigitalTwinModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "DeleteDigitalTwinModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1006,7 +1006,7 @@ func (client IotClient) deleteDigitalTwinRelationship(ctx context.Context, reque
 
 	var response DeleteDigitalTwinRelationshipResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "DeleteDigitalTwinRelationship")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1064,7 +1064,7 @@ func (client IotClient) deleteIotDomain(ctx context.Context, request common.OCIR
 
 	var response DeleteIotDomainResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "DeleteIotDomain")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1122,7 +1122,7 @@ func (client IotClient) deleteIotDomainGroup(ctx context.Context, request common
 
 	var response DeleteIotDomainGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "DeleteIotDomainGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1180,7 +1180,7 @@ func (client IotClient) getDigitalTwinAdapter(ctx context.Context, request commo
 
 	var response GetDigitalTwinAdapterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "GetDigitalTwinAdapter")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1238,7 +1238,7 @@ func (client IotClient) getDigitalTwinInstance(ctx context.Context, request comm
 
 	var response GetDigitalTwinInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "GetDigitalTwinInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1297,7 +1297,7 @@ func (client IotClient) getDigitalTwinInstanceContent(ctx context.Context, reque
 
 	var response GetDigitalTwinInstanceContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "GetDigitalTwinInstanceContent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1355,7 +1355,7 @@ func (client IotClient) getDigitalTwinModel(ctx context.Context, request common.
 
 	var response GetDigitalTwinModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "GetDigitalTwinModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1413,7 +1413,7 @@ func (client IotClient) getDigitalTwinModelSpec(ctx context.Context, request com
 
 	var response GetDigitalTwinModelSpecResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "GetDigitalTwinModelSpec")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1471,7 +1471,7 @@ func (client IotClient) getDigitalTwinRelationship(ctx context.Context, request 
 
 	var response GetDigitalTwinRelationshipResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "GetDigitalTwinRelationship")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1529,7 +1529,7 @@ func (client IotClient) getIotDomain(ctx context.Context, request common.OCIRequ
 
 	var response GetIotDomainResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "GetIotDomain")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1587,7 +1587,7 @@ func (client IotClient) getIotDomainGroup(ctx context.Context, request common.OC
 
 	var response GetIotDomainGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "GetIotDomainGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1645,7 +1645,7 @@ func (client IotClient) getWorkRequest(ctx context.Context, request common.OCIRe
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1708,7 +1708,7 @@ func (client IotClient) invokeRawCommand(ctx context.Context, request common.OCI
 
 	var response InvokeRawCommandResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "InvokeRawCommand")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1766,7 +1766,7 @@ func (client IotClient) listDigitalTwinAdapters(ctx context.Context, request com
 
 	var response ListDigitalTwinAdaptersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "ListDigitalTwinAdapters")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1824,7 +1824,7 @@ func (client IotClient) listDigitalTwinInstances(ctx context.Context, request co
 
 	var response ListDigitalTwinInstancesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "ListDigitalTwinInstances")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1882,7 +1882,7 @@ func (client IotClient) listDigitalTwinModels(ctx context.Context, request commo
 
 	var response ListDigitalTwinModelsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "ListDigitalTwinModels")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1940,7 +1940,7 @@ func (client IotClient) listDigitalTwinRelationships(ctx context.Context, reques
 
 	var response ListDigitalTwinRelationshipsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "ListDigitalTwinRelationships")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1998,7 +1998,7 @@ func (client IotClient) listIotDomainGroups(ctx context.Context, request common.
 
 	var response ListIotDomainGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "ListIotDomainGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2056,7 +2056,7 @@ func (client IotClient) listIotDomains(ctx context.Context, request common.OCIRe
 
 	var response ListIotDomainsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "ListIotDomains")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2114,7 +2114,7 @@ func (client IotClient) listWorkRequestErrors(ctx context.Context, request commo
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2172,7 +2172,7 @@ func (client IotClient) listWorkRequestLogs(ctx context.Context, request common.
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2230,7 +2230,7 @@ func (client IotClient) listWorkRequests(ctx context.Context, request common.OCI
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2288,7 +2288,7 @@ func (client IotClient) updateDigitalTwinAdapter(ctx context.Context, request co
 
 	var response UpdateDigitalTwinAdapterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "UpdateDigitalTwinAdapter")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2346,7 +2346,7 @@ func (client IotClient) updateDigitalTwinInstance(ctx context.Context, request c
 
 	var response UpdateDigitalTwinInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "UpdateDigitalTwinInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2404,7 +2404,7 @@ func (client IotClient) updateDigitalTwinModel(ctx context.Context, request comm
 
 	var response UpdateDigitalTwinModelResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "UpdateDigitalTwinModel")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2462,7 +2462,7 @@ func (client IotClient) updateDigitalTwinRelationship(ctx context.Context, reque
 
 	var response UpdateDigitalTwinRelationshipResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "UpdateDigitalTwinRelationship")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2520,7 +2520,7 @@ func (client IotClient) updateIotDomain(ctx context.Context, request common.OCIR
 
 	var response UpdateIotDomainResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "UpdateIotDomain")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2578,7 +2578,7 @@ func (client IotClient) updateIotDomainGroup(ctx context.Context, request common
 
 	var response UpdateIotDomainGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "iot", "UpdateIotDomainGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

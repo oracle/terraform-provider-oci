@@ -123,7 +123,7 @@ func (client FunctionsInvokeClient) invokeFunction(ctx context.Context, request 
 
 	var response InvokeFunctionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "functionsInvoke", "InvokeFunction")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/functions/20181201/Function/InvokeFunction"
