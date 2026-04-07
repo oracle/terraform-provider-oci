@@ -3,7 +3,7 @@
 # Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
 #
 #    NAME
-#      main.tf
+#      distributed_exascale_database.tf
 #
 #    USAGE
 #      Use the following path for the Example & Backward Compatibility tests: database/db_systems/db_vm/db_vm_std_x86

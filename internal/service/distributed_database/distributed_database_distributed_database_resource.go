@@ -9,9 +9,11 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
+	"github.com/hashicorp/go-cty/cty"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -45,6 +47,7 @@ func DistributedDatabaseDistributedDatabaseResource() *schema.Resource {
 		ReadContext:   readDistributedDatabaseDistributedDatabaseWithContext,
 		UpdateContext: updateDistributedDatabaseDistributedDatabaseWithContext,
 		DeleteContext: deleteDistributedDatabaseDistributedDatabaseWithContext,
+		CustomizeDiff: distributedDatabaseDistributedDatabaseCustomizeDiff,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"catalog_details": {
@@ -68,15 +71,55 @@ func DistributedDatabaseDistributedDatabaseResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"EXADB_XS",
+								"NEW_VAULT_AND_CLUSTER",
 							}, true),
-						},
-						"vm_cluster_id": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
 						},
 
 						// Optional
+						"availability_domain": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+						},
+						"db_storage_vault_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"additional_flash_cache_in_percent": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"high_capacity_database_storage": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+									"db_storage_vault_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"display_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"kms_key_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -97,13 +140,52 @@ func DistributedDatabaseDistributedDatabaseResource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
-									"vm_cluster_id": {
-										Type:     schema.TypeString,
-										Required: true,
-										ForceNew: true,
-									},
 
 									// Optional
+									"availability_domain": {
+										Type:             schema.TypeString,
+										Optional:         true,
+										Computed:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+									},
+									"db_storage_vault_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"additional_flash_cache_in_percent": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"high_capacity_database_storage": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+												"db_storage_vault_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"display_name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"protection_mode": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -111,6 +193,132 @@ func DistributedDatabaseDistributedDatabaseResource() *schema.Resource {
 										ForceNew: true,
 									},
 									"transport_type": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"vm_cluster_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"backup_network_nsg_ids": {
+													Type:     schema.TypeSet,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Set:      tfresource.LiteralTypeHashCodeForSets,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"backup_subnet_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"domain": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"enabled_ecpu_count": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"is_diagnostics_events_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"is_health_monitoring_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"is_incident_logs_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"license_model": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"nsg_ids": {
+													Type:     schema.TypeSet,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Set:      tfresource.LiteralTypeHashCodeForSets,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"private_zone_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"ssh_public_keys": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"subnet_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"total_ecpu_count": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"vm_file_system_storage_size": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+												"display_name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"vm_cluster_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"vm_cluster_id": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -179,6 +387,132 @@ func DistributedDatabaseDistributedDatabaseResource() *schema.Resource {
 							ForceNew: true,
 						},
 						"vault_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"vm_cluster_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"backup_network_nsg_ids": {
+										Type:     schema.TypeSet,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Set:      tfresource.LiteralTypeHashCodeForSets,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"backup_subnet_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"domain": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"enabled_ecpu_count": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"is_diagnostics_events_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"is_health_monitoring_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"is_incident_logs_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"license_model": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"nsg_ids": {
+										Type:     schema.TypeSet,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Set:      tfresource.LiteralTypeHashCodeForSets,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"private_zone_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"ssh_public_keys": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"subnet_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"total_ecpu_count": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"vm_file_system_storage_size": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+									"display_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"vm_cluster_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"vm_cluster_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -322,71 +656,244 @@ func DistributedDatabaseDistributedDatabaseResource() *schema.Resource {
 			"shard_details": {
 				Type:     schema.TypeList,
 				Required: true,
-				ForceNew: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
 						"admin_password": {
 							Type:             schema.TypeString,
 							Required:         true,
-							ForceNew:         true,
 							Sensitive:        true,
 							DiffSuppressFunc: suppressMaskedPasswordDiff,
 						},
 						"source": {
 							Type:             schema.TypeString,
 							Required:         true,
-							ForceNew:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"EXADB_XS",
+								"NEW_VAULT_AND_CLUSTER",
 							}, true),
-						},
-						"vm_cluster_id": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
 						},
 
 						// Optional
+						"availability_domain": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+						},
+						"db_storage_vault_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"additional_flash_cache_in_percent": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"high_capacity_database_storage": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+									"db_storage_vault_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"display_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"kms_key_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"kms_key_version_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"peer_details": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
-									"vm_cluster_id": {
-										Type:     schema.TypeString,
-										Required: true,
-										ForceNew: true,
-									},
 
 									// Optional
+									"availability_domain": {
+										Type:             schema.TypeString,
+										Optional:         true,
+										Computed:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+									},
+									"db_storage_vault_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"additional_flash_cache_in_percent": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+												"high_capacity_database_storage": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+												"db_storage_vault_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"display_name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"protection_mode": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 									},
 									"transport_type": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
+									},
+									"vm_cluster_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"backup_network_nsg_ids": {
+													Type:     schema.TypeSet,
+													Optional: true,
+													Computed: true,
+													Set:      tfresource.LiteralTypeHashCodeForSets,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"backup_subnet_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"domain": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"enabled_ecpu_count": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+												"is_diagnostics_events_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+												},
+												"is_health_monitoring_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+												},
+												"is_incident_logs_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+												},
+												"license_model": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"nsg_ids": {
+													Type:     schema.TypeSet,
+													Optional: true,
+													Computed: true,
+													Set:      tfresource.LiteralTypeHashCodeForSets,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"private_zone_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"ssh_public_keys": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"subnet_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"total_ecpu_count": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+												"vm_file_system_storage_size": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+												"display_name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"vm_cluster_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"vm_cluster_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
 									},
 
 									// Computed
@@ -452,7 +959,6 @@ func DistributedDatabaseDistributedDatabaseResource() *schema.Resource {
 							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -461,13 +967,121 @@ func DistributedDatabaseDistributedDatabaseResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"vault_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
+						},
+						"vm_cluster_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"backup_network_nsg_ids": {
+										Type:     schema.TypeSet,
+										Optional: true,
+										Computed: true,
+										Set:      tfresource.LiteralTypeHashCodeForSets,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"backup_subnet_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"domain": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"enabled_ecpu_count": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"is_diagnostics_events_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"is_health_monitoring_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"is_incident_logs_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"license_model": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"nsg_ids": {
+										Type:     schema.TypeSet,
+										Optional: true,
+										Computed: true,
+										Set:      tfresource.LiteralTypeHashCodeForSets,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"private_zone_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"ssh_public_keys": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"subnet_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"total_ecpu_count": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"vm_file_system_storage_size": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+									"display_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"vm_cluster_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"vm_cluster_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 
 						// Computed
@@ -749,7 +1363,7 @@ func DistributedDatabaseDistributedDatabaseResource() *schema.Resource {
 						},
 						"value": {
 							Type:             schema.TypeString,
-							Required:         true,
+							Optional:         true,
 							DiffSuppressFunc: tfresource.JsonStringDiffSuppressFunction,
 						},
 
@@ -772,6 +1386,12 @@ func DistributedDatabaseDistributedDatabaseResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"replication_unit": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"scan_listener_port": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
@@ -845,6 +1465,14 @@ func DistributedDatabaseDistributedDatabaseResource() *schema.Resource {
 			"generate_wallet_downloaded_wallet_content_length": {
 				Type:     schema.TypeInt,
 				Computed: true,
+			},
+			"move_replication_unit_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"recreate_failed_resource_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
 			},
 			"upload_signed_certificate_and_generate_wallet_trigger": {
 				Type:       schema.TypeInt,
@@ -1095,6 +1723,190 @@ func DistributedDatabaseDistributedDatabaseResource() *schema.Resource {
 // Users must run a separate `terraform apply` after creation to execute
 // action APIs.
 // TOP-9510
+
+// distributedDatabaseDistributedDatabaseCustomizeDiff validates PATCH request shape and
+// decides when shard_details mutations should stay in-place vs require replacement.
+func distributedDatabaseDistributedDatabaseCustomizeDiff(ctx context.Context, diff *schema.ResourceDiff, meta interface{}) error {
+	_ = ctx
+	_ = meta
+
+	if err := validateDistributedDatabasePatchOperations(diff); err != nil {
+		return err
+	}
+
+	return configureDistributedDatabaseShardDetailsDiff(diff)
+}
+
+func validateDistributedDatabasePatchOperations(diff *schema.ResourceDiff) error {
+	if diff.Id() == "" || !diff.HasChange("patch_operations") {
+		return nil
+	}
+
+	_, newRaw := diff.GetChange("patch_operations")
+	ops, ok := newRaw.([]interface{})
+	if !ok || len(ops) == 0 {
+		return nil
+	}
+
+	operationKinds := map[string]struct{}{}
+	for i, raw := range ops {
+		op, ok := raw.(map[string]interface{})
+		if !ok {
+			continue
+		}
+
+		operation, _ := op["operation"].(string)
+		normalizedOperation := strings.ToUpper(operation)
+		operationKinds[normalizedOperation] = struct{}{}
+
+		if normalizedOperation == "INSERT" {
+			value, ok := op["value"].(string)
+			if !ok || strings.TrimSpace(value) == "" {
+				// TF_CODE_GEN: TERSI-4920-TOP-21 PATCH REMOVE instructions omit value in the API
+				// contract and SDK, while INSERT still requires a JSON payload. Validate the
+				// operation-specific requirement here instead of forcing a dummy value for REMOVE.
+				return fmt.Errorf("patch_operations.%d.value must be set to a non-empty JSON string when operation is INSERT", i)
+			}
+		}
+	}
+
+	if len(operationKinds) > 1 {
+		return fmt.Errorf("patch_operations must contain only one operation type per request; split INSERT, MERGE, and REMOVE instructions into separate applies")
+	}
+
+	return nil
+}
+
+func configureDistributedDatabaseShardDetailsDiff(diff *schema.ResourceDiff) error {
+	if diff.Id() == "" || !diff.HasChange("shard_details") {
+		return nil
+	}
+
+	if patchOperationsTargetShardDetails(diff) {
+		return nil
+	}
+
+	// TF_CODE_GEN: TERSI-4920-TOP-22 shard_details participates in both the create payload
+	// and observed topology state. Require replacement only for direct shard_details edits that
+	// are not accompanied by a shardDetails PATCH so runtime insert/remove workflows stay in-place.
+	return diff.ForceNew("shard_details")
+}
+
+func patchOperationsListTargetShardDetails(ops []interface{}) bool {
+	if len(ops) == 0 {
+		return false
+	}
+
+	for _, raw := range ops {
+		op, ok := raw.(map[string]interface{})
+		if !ok {
+			continue
+		}
+
+		selection, _ := op["selection"].(string)
+		if strings.HasPrefix(selection, "shardDetails") {
+			return true
+		}
+	}
+
+	return false
+}
+
+func patchOperationsListHaveOperation(ops []interface{}, operation string) bool {
+	if len(ops) == 0 {
+		return false
+	}
+
+	normalizedOperation := strings.ToUpper(operation)
+	matched := false
+
+	for _, raw := range ops {
+		op, ok := raw.(map[string]interface{})
+		if !ok {
+			continue
+		}
+
+		currentOperation, _ := op["operation"].(string)
+		if strings.ToUpper(currentOperation) != normalizedOperation {
+			return false
+		}
+
+		matched = true
+	}
+
+	return matched
+}
+
+func patchOperationsTargetShardDetails(diff *schema.ResourceDiff) bool {
+	ops, ok := diff.Get("patch_operations").([]interface{})
+	if !ok || len(ops) == 0 {
+		return false
+	}
+
+	return patchOperationsListTargetShardDetails(ops)
+}
+
+func configuredPatchOperationsTargetShardDetails(d *schema.ResourceData) bool {
+	if ops, ok := d.Get("patch_operations").([]interface{}); ok && patchOperationsListTargetShardDetails(ops) {
+		return true
+	}
+
+	value, ok := getConfiguredRawFieldValue(d, "patch_operations")
+	if !ok || value.IsNull() || !value.IsKnown() || value.LengthInt() == 0 {
+		return false
+	}
+
+	for _, op := range value.AsValueSlice() {
+		if op.IsNull() || !op.IsKnown() {
+			continue
+		}
+
+		selection := op.GetAttr("selection")
+		if !selection.IsNull() && selection.IsKnown() && strings.HasPrefix(selection.AsString(), "shardDetails") {
+			return true
+		}
+	}
+
+	return false
+}
+
+// TF_CODE_GEN: TERSI-4920-TOP-25 admin_password exists only on create-time
+// request shapes; GET/read models omit it because the field is write-only.
+// Rehydrate configured passwords into flattened state to avoid perpetual drift
+// and to keep subsequent create/action request builders from losing the secret.
+func rehydrateConfiguredAdminPasswords(existingRaw interface{}, flattened []interface{}) []interface{} {
+	existing, ok := existingRaw.([]interface{})
+	if !ok || len(existing) == 0 || len(flattened) == 0 {
+		return flattened
+	}
+
+	merged := make([]interface{}, len(flattened))
+	for i, raw := range flattened {
+		currentMap, ok := raw.(map[string]interface{})
+		if !ok {
+			merged[i] = raw
+			continue
+		}
+
+		current := make(map[string]interface{}, len(currentMap)+1)
+		for key, value := range currentMap {
+			current[key] = value
+		}
+
+		if i < len(existing) {
+			if existingMap, ok := existing[i].(map[string]interface{}); ok {
+				if adminPassword, ok := existingMap["admin_password"].(string); ok && adminPassword != "" {
+					current["admin_password"] = adminPassword
+				}
+			}
+		}
+
+		merged[i] = current
+	}
+
+	return merged
+}
+
 func createDistributedDatabaseDistributedDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DistributedDatabaseDistributedDatabaseResourceCrud{}
 	sync.D = d
@@ -1246,6 +2058,22 @@ func updateDistributedDatabaseDistributedDatabaseWithContext(
 		}
 		actionInvoked = true
 		_ = d.Set("change_db_backup_config_trigger", newV)
+	}
+
+	if ok, _, newV := triggerBumped("move_replication_unit_trigger"); ok {
+		if err := sync.MoveDistributedDatabaseReplicationUnit(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
+		}
+		actionInvoked = true
+		_ = d.Set("move_replication_unit_trigger", newV)
+	}
+
+	if ok, _, newV := triggerBumped("recreate_failed_resource_trigger"); ok {
+		if err := sync.RecreateFailedDistributedDatabaseResource(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
+		}
+		actionInvoked = true
+		_ = d.Set("recreate_failed_resource_trigger", newV)
 	}
 
 	// Configure sharding
@@ -1495,12 +2323,55 @@ if _, ok := sync.D.GetOkExists("generate_wallet_trigger"); ok && sync.D.HasChang
 	}
 }
 
+<<<<<<< ours
+	if _, ok := sync.D.GetOkExists("move_replication_unit_trigger"); ok && sync.D.HasChange("move_replication_unit_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("move_replication_unit_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.MoveDistributedDatabaseReplicationUnit(ctx)
+
+			if err != nil {
+				return tfresource.HandleDiagError(m, err)
+			}
+		} else {
+			sync.D.Set("move_replication_unit_trigger", oldRaw)
+			err := fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, err)
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("recreate_failed_resource_trigger"); ok && sync.D.HasChange("recreate_failed_resource_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("recreate_failed_resource_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.RecreateFailedDistributedDatabaseResource(ctx)
+
+			if err != nil {
+				return tfresource.HandleDiagError(m, err)
+			}
+		} else {
+			sync.D.Set("recreate_failed_resource_trigger", oldRaw)
+			err := fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, err)
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("upload_signed_certificate_and_generate_wallet_trigger"); ok && sync.D.HasChange("upload_signed_certificate_and_generate_wallet_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("upload_signed_certificate_and_generate_wallet_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.UploadDistributedDatabaseSignedCertificateAndGenerateWallet(ctx)
+=======
 if _, ok := sync.D.GetOkExists("upload_signed_certificate_and_generate_wallet_trigger"); ok && sync.D.HasChange("upload_signed_certificate_and_generate_wallet_trigger") {
 	oldRaw, newRaw := sync.D.GetChange("upload_signed_certificate_and_generate_wallet_trigger")
 	oldValue := oldRaw.(int)
 	newValue := newRaw.(int)
 	if oldValue < newValue {
 		err := sync.UploadDistributedDatabaseSignedCertificateAndGenerateWallet()
+>>>>>>> theirs
 
 		if err != nil {
 			// NOTE (TOP-9389):
@@ -1773,6 +2644,11 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) CreateWithContext(c
 		request.ReplicationUnit = &tmp
 	}
 
+	if scanListenerPort, ok := s.D.GetOkExists("scan_listener_port"); ok {
+		tmp := scanListenerPort.(int)
+		request.ScanListenerPort = &tmp
+	}
+
 	if shardDetails, ok := s.D.GetOkExists("shard_details"); ok {
 		interfaces := shardDetails.([]interface{})
 		tmp := make([]oci_distributed_database.CreateDistributedDatabaseShardDetails, len(interfaces))
@@ -1922,13 +2798,42 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) Patch(ctx context.C
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDistributedDatabaseFromWorkRequest(
+	if workId == nil || *workId == "" {
+		return fmt.Errorf("missing opc-work-request-id for PatchDistributedDatabase")
+	}
+
+	// TF_CODE_GEN: TERSI-4920-TOP-19 PatchDistributedDatabase work requests can finish SUCCEEDED
+	// while resources[] reports a non-terminal actionType (for example IN_PROGRESS); rely on WR
+	// terminal status and then refresh the existing DDB instead of failing on metadata drift.
+	if err := waitForDistributedDatabaseWorkRequestCompletion(
 		ctx,
 		workId,
-		tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "distributed_database"),
+		"distributeddatabase",
 		oci_distributed_database.ActionTypeUpdated,
 		s.D.Timeout(schema.TimeoutUpdate),
-	)
+		s.DisableNotFoundRetries,
+		s.WorkRequestClient,
+	); err != nil {
+		return fmt.Errorf("PatchDistributedDatabase failed for distributed database %s (work request %s): %w", s.D.Id(), *workId, err)
+	}
+
+	// PATCH can legitimately settle back into ACTIVE/INACTIVE/NEEDS_ATTENTION depending on the
+	// previous state and any shard-level issue surfaced during reconciliation.
+	stable := func() bool {
+		if err := s.Get(); err != nil {
+			log.Printf("[WARN] post-patch Get() failed: %v", err)
+			return false
+		}
+		if s.Res == nil {
+			return false
+		}
+		st := s.Res.LifecycleState
+		return st == oci_distributed_database.DistributedDatabaseLifecycleStateActive ||
+			st == oci_distributed_database.DistributedDatabaseLifecycleStateInactive ||
+			st == oci_distributed_database.DistributedDatabaseLifecycleStateNeedsAttention
+	}
+
+	return tfresource.WaitForResourceCondition(s, stable, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DistributedDatabaseDistributedDatabaseResourceCrud) getDistributedDatabaseFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -2021,6 +2926,48 @@ func distributedDatabaseWaitForWorkRequest(ctx context.Context, wId *string, ent
 	}
 
 	return identifier, nil
+}
+
+func waitForDistributedDatabaseWorkRequestCompletion(ctx context.Context, wId *string, entityType string, action oci_distributed_database.ActionTypeEnum,
+	timeout time.Duration, disableFoundRetries bool, client *oci_distributed_database.DistributedDbWorkRequestServiceClient) error {
+	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "distributed_database")
+	retryPolicy.ShouldRetryOperation = distributedDatabaseWorkRequestShouldRetryFunc(timeout)
+
+	response := oci_distributed_database.GetWorkRequestResponse{}
+	stateConf := &retry.StateChangeConf{
+		Pending: []string{
+			string(oci_distributed_database.OperationStatusInProgress),
+			string(oci_distributed_database.OperationStatusAccepted),
+			string(oci_distributed_database.OperationStatusCanceling),
+		},
+		Target: []string{
+			string(oci_distributed_database.OperationStatusSucceeded),
+			string(oci_distributed_database.OperationStatusFailed),
+			string(oci_distributed_database.OperationStatusCanceled),
+		},
+		Refresh: func() (interface{}, string, error) {
+			var err error
+			response, err = client.GetWorkRequest(ctx,
+				oci_distributed_database.GetWorkRequestRequest{
+					WorkRequestId: wId,
+					RequestMetadata: oci_common.RequestMetadata{
+						RetryPolicy: retryPolicy,
+					},
+				})
+			wr := &response.WorkRequest
+			return wr, string(wr.Status), err
+		},
+		Timeout: timeout,
+	}
+	if _, err := stateConf.WaitForState(); err != nil {
+		return err
+	}
+
+	if response.Status == oci_distributed_database.OperationStatusFailed || response.Status == oci_distributed_database.OperationStatusCanceled {
+		return getErrorFromDistributedDatabaseDistributedDatabaseWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+	}
+
+	return nil
 }
 
 func getErrorFromDistributedDatabaseDistributedDatabaseWorkRequest(ctx context.Context, client *oci_distributed_database.DistributedDbWorkRequestServiceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_distributed_database.ActionTypeEnum) error {
@@ -2261,6 +3208,11 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) DeleteWithContext(c
 	tmp := s.D.Id()
 	request.DistributedDatabaseId = &tmp
 
+	if mustDeleteInfra, ok := s.D.GetOkExists("must_delete_infra"); ok {
+		tmp := mustDeleteInfra.(bool)
+		request.MustDeleteInfra = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "distributed_database")
 
 	response, err := s.Client.DeleteDistributedDatabase(ctx, request)
@@ -2280,6 +3232,7 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) SetData() error {
 	for _, item := range s.Res.CatalogDetails {
 		catalogDetails = append(catalogDetails, DistributedDatabaseCatalogToMap(item))
 	}
+	catalogDetails = rehydrateConfiguredAdminPasswords(s.D.Get("catalog_details"), catalogDetails)
 	s.D.Set("catalog_details", catalogDetails)
 
 	if s.Res.CharacterSet != nil {
@@ -2384,11 +3337,24 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) SetData() error {
 		s.D.Set("replication_unit", *s.Res.ReplicationUnit)
 	}
 
-	shardDetails := []interface{}{}
-	for _, item := range s.Res.ShardDetails {
-		shardDetails = append(shardDetails, DistributedDatabaseShardToMap(item))
+	if s.Res.ScanListenerPort != nil {
+		s.D.Set("scan_listener_port", *s.Res.ScanListenerPort)
 	}
-	s.D.Set("shard_details", shardDetails)
+
+	if configuredPatchOperationsTargetShardDetails(s.D) {
+		// TF_CODE_GEN: TERSI-4920-TOP-23 shard_details is both a create-time input and
+		// the service's observed topology. When shard topology is managed through configured
+		// patch_operations, keep the configured shard_details in state so refresh does not
+		// turn a successful INSERT/REMOVE PATCH into a perpetual recreate diff.
+		s.D.Set("shard_details", s.D.Get("shard_details"))
+	} else {
+		shardDetails := []interface{}{}
+		for _, item := range s.Res.ShardDetails {
+			shardDetails = append(shardDetails, DistributedDatabaseShardToMap(item))
+		}
+		shardDetails = rehydrateConfiguredAdminPasswords(s.D.Get("shard_details"), shardDetails)
+		s.D.Set("shard_details", shardDetails)
+	}
 
 	s.D.Set("sharding_method", s.Res.ShardingMethod)
 
@@ -2563,16 +3529,19 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) ConfigureDistribute
 	}
 
 	// Wait for WR completion (Updated action type is consistent for action APIs)
-	if err := s.getDistributedDatabaseFromWorkRequest(
+	// TF_CODE_GEN: TERSI-4920-TOP-17 ConfigureSharding work requests can finish SUCCEEDED without
+	// a matching distributeddatabase resource/action entry in resources[]; trust terminal WR status
+	// and refresh the existing OCID instead of treating metadata drift as a failed action.
+	if err := waitForDistributedDatabaseWorkRequestCompletion(
 		ctx,
 		workId,
-		tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "distributed_database"),
-		//oci_distributed_database.ActionTypeUpdated,
-		// [OSD-10709] - [DDB Exascale - WR for Configure Sharding Action type UPDATED VS CREATED ] - Workaround
+		"distributeddatabase",
 		oci_distributed_database.ActionTypeCreated,
 		s.D.Timeout(schema.TimeoutUpdate),
+		s.DisableNotFoundRetries,
+		s.WorkRequestClient,
 	); err != nil {
-		return err
+		return fmt.Errorf("ConfigureDistributedDatabaseSharding failed for distributed database %s (work request %s): %w", s.D.Id(), *workId, err)
 	}
 
 	// After WR is completed, refresh resource and ensure it reaches a stable state.
@@ -2872,6 +3841,87 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) GenerateDistributed
 	return nil
 }
 
+func (s *DistributedDatabaseDistributedDatabaseResourceCrud) MoveDistributedDatabaseReplicationUnit(ctx context.Context) error {
+	request := oci_distributed_database.MoveDistributedDatabaseReplicationUnitRequest{}
+
+	if destinationShardName, ok := s.D.GetOkExists("destination_shard_name"); ok {
+		tmp := destinationShardName.(string)
+		request.DestinationShardName = &tmp
+	}
+
+	idTmp := s.D.Id()
+	request.DistributedDatabaseId = &idTmp
+
+	if replicationUnits, ok := s.D.GetOkExists("replication_units"); ok {
+		interfaces := replicationUnits.([]interface{})
+		tmp := make([]int, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(int)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("replication_units") {
+			request.ReplicationUnits = tmp
+		}
+	}
+
+	if sourceShardName, ok := s.D.GetOkExists("source_shard_name"); ok {
+		tmp := sourceShardName.(string)
+		request.SourceShardName = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "distributed_database")
+
+	// TF_CODE_GEN: TERSI-4920-TOP-18 generated action helpers treat metadata-only SDK responses as if they returned a DistributedDatabase payload; refresh with Get() after waiting instead.
+	_, err := s.Client.MoveDistributedDatabaseReplicationUnit(ctx, request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("move_replication_unit_trigger")
+	s.D.Set("move_replication_unit_trigger", val)
+
+	return s.Get()
+}
+
+func (s *DistributedDatabaseDistributedDatabaseResourceCrud) RecreateFailedDistributedDatabaseResource(ctx context.Context) error {
+	request := oci_distributed_database.RecreateFailedDistributedDatabaseResourceRequest{}
+
+	idTmp := s.D.Id()
+	request.DistributedDatabaseId = &idTmp
+
+	if resourceName, ok := s.D.GetOkExists("resource_name"); ok {
+		tmp := resourceName.(string)
+		request.ResourceName = &tmp
+	}
+
+	if shardGroup, ok := s.D.GetOkExists("shard_group"); ok {
+		tmp := shardGroup.(string)
+		request.ShardGroup = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "distributed_database")
+
+	// TF_CODE_GEN: TERSI-4920-TOP-18 generated action helpers treat metadata-only SDK responses as if they returned a DistributedDatabase payload; refresh with Get() after waiting instead.
+	_, err := s.Client.RecreateFailedDistributedDatabaseResource(ctx, request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("recreate_failed_resource_trigger")
+	s.D.Set("recreate_failed_resource_trigger", val)
+
+	return s.Get()
+}
+
 func (s *DistributedDatabaseDistributedDatabaseResourceCrud) UploadDistributedDatabaseSignedCertificateAndGenerateWallet() error {
 	request := oci_distributed_database.UploadDistributedDatabaseSignedCertificateAndGenerateWalletRequest{}
 
@@ -3084,6 +4134,69 @@ func CreateCatalogPeerWithExadbXsDetailsToMap(obj oci_distributed_database.Creat
 	return result
 }
 
+func (s *DistributedDatabaseDistributedDatabaseResourceCrud) mapToCreateCatalogPeerWithExadbXsNewVaultAndClusterDetails(fieldKeyFormat string) (oci_distributed_database.CreateCatalogPeerWithExadbXsNewVaultAndClusterDetails, error) {
+	result := oci_distributed_database.CreateCatalogPeerWithExadbXsNewVaultAndClusterDetails{}
+
+	if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
+		tmp := availabilityDomain.(string)
+		result.AvailabilityDomain = &tmp
+	}
+
+	if dbStorageVaultDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_storage_vault_details")); ok {
+		if tmpList := dbStorageVaultDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_storage_vault_details"), 0)
+			tmp, err := s.mapToDbStorageVaultDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert db_storage_vault_details, encountered error: %v", err)
+			}
+			result.DbStorageVaultDetails = &tmp
+		}
+	}
+
+	if protectionMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protection_mode")); ok {
+		result.ProtectionMode = oci_distributed_database.DistributedDbProtectionModeEnum(protectionMode.(string))
+	}
+
+	if transportType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "transport_type")); ok {
+		result.TransportType = oci_distributed_database.DistributedDbTransportTypeEnum(transportType.(string))
+	}
+
+	if vmClusterDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vm_cluster_details")); ok {
+		if tmpList := vmClusterDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "vm_cluster_details"), 0)
+			tmp, err := s.mapToVmClusterDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert vm_cluster_details, encountered error: %v", err)
+			}
+			result.VmClusterDetails = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func CreateCatalogPeerWithExadbXsNewVaultAndClusterDetailsToMap(obj oci_distributed_database.CreateCatalogPeerWithExadbXsNewVaultAndClusterDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AvailabilityDomain != nil {
+		result["availability_domain"] = string(*obj.AvailabilityDomain)
+	}
+
+	if obj.DbStorageVaultDetails != nil {
+		result["db_storage_vault_details"] = []interface{}{DbStorageVaultDetailsToMap(obj.DbStorageVaultDetails)}
+	}
+
+	result["protection_mode"] = string(obj.ProtectionMode)
+
+	result["transport_type"] = string(obj.TransportType)
+
+	if obj.VmClusterDetails != nil {
+		result["vm_cluster_details"] = []interface{}{VmClusterDetailsToMap(obj.VmClusterDetails, false)}
+	}
+
+	return result
+}
+
 func (s *DistributedDatabaseDistributedDatabaseResourceCrud) mapToCreateDistributedDatabaseCatalogDetails(fieldKeyFormat string) (oci_distributed_database.CreateDistributedDatabaseCatalogDetails, error) {
 	var baseObject oci_distributed_database.CreateDistributedDatabaseCatalogDetails
 	//discriminator
@@ -3150,6 +4263,69 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) mapToCreateDistribu
 			details.VmClusterId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("NEW_VAULT_AND_CLUSTER"):
+		details := oci_distributed_database.CreateDistributedDatabaseCatalogWithExadbXsNewVaultAndClusterDetails{}
+		if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok {
+			tmp := adminPassword.(string)
+			details.AdminPassword = &tmp
+		}
+		if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
+			tmp := availabilityDomain.(string)
+			details.AvailabilityDomain = &tmp
+		}
+		if dbStorageVaultDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_storage_vault_details")); ok {
+			if tmpList := dbStorageVaultDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_storage_vault_details"), 0)
+				tmp, err := s.mapToDbStorageVaultDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert db_storage_vault_details, encountered error: %v", err)
+				}
+				details.DbStorageVaultDetails = &tmp
+			}
+		}
+		if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
+		if kmsKeyVersionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_version_id")); ok {
+			tmp := kmsKeyVersionId.(string)
+			details.KmsKeyVersionId = &tmp
+		}
+		if peerDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "peer_details")); ok {
+			interfaces := peerDetails.([]interface{})
+			tmp := make([]oci_distributed_database.CreateCatalogPeerWithExadbXsNewVaultAndClusterDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "peer_details"), stateDataIndex)
+				converted, err := s.mapToCreateCatalogPeerWithExadbXsNewVaultAndClusterDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "peer_details")) {
+				details.PeerDetails = tmp
+			}
+		}
+		if shardSpace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shard_space")); ok {
+			tmp := shardSpace.(string)
+			details.ShardSpace = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_id")); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		if vmClusterDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vm_cluster_details")); ok {
+			if tmpList := vmClusterDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "vm_cluster_details"), 0)
+				tmp, err := s.mapToVmClusterDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert vm_cluster_details, encountered error: %v", err)
+				}
+				details.VmClusterDetails = &tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown source '%v' was specified", source)
 	}
@@ -3159,34 +4335,8 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) mapToCreateDistribu
 func DistributedDatabaseCatalogToMap(obj oci_distributed_database.DistributedDatabaseCatalog) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (obj).(type) {
-	// WORKAROUND FOR GENERATED CODE ISSUE:
-	// This ToMap helper switches on the OCI Go SDK *model interface* type
-	// (e.g. distributeddatabase.DistributedDatabaseCatalogWithExadbXs).
-	// The code generator incorrectly emitted Create*Details discriminator types in the
-	// type-switch cases. Those Create* types do not implement the model interface
-	// (e.g. missing GetName()), causing an "impossible type switch case" compile error.
-	//
-	// Fix: use the corresponding SDK model/response concrete type that actually implements
-	// the interface (as provided by the vendored oci-go-sdk version).
-	// See JIRA: TOP-9402
-	//case oci_distributed_database.CreateDistributedDatabaseCatalogWithExadbXsDetails:
 	case oci_distributed_database.DistributedDatabaseCatalogWithExadbXs:
 		result["source"] = "EXADB_XS"
-		// WORKAROUND FOR GENERATED CODE ISSUE / API DESIGN:
-		//
-		// AdminPassword is an input-only field available only on
-		// DistributedDatabaseCatalogWithExadbXs.
-		// It is not returned by the service and is intentionally absent from
-		// the OCI Go SDK response model
-		// (DistributedDatabaseCatalogWithExadbXs).
-		//
-		// The generator incorrectly attempted to read AdminPassword from the
-		// response model, which is not possible and causes a compile-time error.
-		// Do not attempt to populate this field during Read/SetData.
-		// See JIRA: TOP-9403
-		/*if v.AdminPassword != nil {
-			result["admin_password"] = string(*v.AdminPassword)
-		}*/
 
 		if v.KmsKeyId != nil {
 			result["kms_key_id"] = string(*v.KmsKeyId)
@@ -3196,40 +4346,11 @@ func DistributedDatabaseCatalogToMap(obj oci_distributed_database.DistributedDat
 			result["kms_key_version_id"] = string(*v.KmsKeyVersionId)
 		}
 
-		if v.SupportingResourceId != nil {
-			result["supporting_resource_id"] = string(*v.SupportingResourceId)
-		}
-
-		if v.ContainerDatabaseId != nil {
-			result["container_database_id"] = string(*v.ContainerDatabaseId)
-		}
-
-		/*peerDetails := []interface{}{}
-		for _, item := range v.PeerDetails {
-			peerDetails = append(peerDetails, CreateCatalogPeerWithExadbXsDetailsToMap(item))
-		}
-		result["peer_details"] = peerDetails*/
-
-		//result["peer_vm_cluster_ids"] = v.PeerVmClusterIds
-
 		peerDetails := []interface{}{}
 		for _, item := range v.PeerDetails {
-
-			// WORKAROUND FOR GENERATED CODE ISSUE:
-			// Read/ToMap must operate on SDK model types, not Create*Details types.
-			// The generator incorrectly reused CreateCatalogPeerWithDedicatedInfraDetailsToMap,
-			// which expects a request-side struct.
-			// See JIRA: TOP-9405
-			//peerDetails = append(peerDetails, CreateCatalogPeerWithDedicatedInfraDetailsToMap(item))
-
 			peerDetails = append(peerDetails, CatalogPeerWithExadbXsToMap(item))
 		}
-
-		//error TOP-9405
-
-		/*if v.ShardSpace != nil {
-			result["shard_space"] = string(*v.ShardSpace)
-		}*/
+		result["peer_details"] = peerDetails
 
 		if v.ShardGroup != nil {
 			result["shard_group"] = string(*v.ShardGroup)
@@ -3247,6 +4368,14 @@ func DistributedDatabaseCatalogToMap(obj oci_distributed_database.DistributedDat
 			result["vm_cluster_id"] = string(*v.VmClusterId)
 		}
 
+		if v.SupportingResourceId != nil {
+			result["supporting_resource_id"] = string(*v.SupportingResourceId)
+		}
+
+		if v.ContainerDatabaseId != nil {
+			result["container_database_id"] = string(*v.ContainerDatabaseId)
+		}
+
 		if v.Name != nil {
 			result["name"] = string(*v.Name)
 		}
@@ -3258,17 +4387,6 @@ func DistributedDatabaseCatalogToMap(obj oci_distributed_database.DistributedDat
 		if v.TimeUpdated != nil {
 			result["time_updated"] = v.TimeUpdated.String()
 		}
-		// NOTE:
-		// Metadata is a response-side SDK model (*DistributedDbMetadata).
-		// Only map this if the Terraform schema defines a corresponding block.
-		// If not present in schema, intentionally skip.
-		// See JIRA: TOP-9406
-		/*
-			if v.Metadata != nil {
-				result["metadata"] = DistributedDbMetadataToMap(v.Metadata)
-			}
-		*/
-
 		result["status"] = string(v.Status)
 	default:
 		log.Printf("[WARN] Received 'source' of unknown type %v", obj)
@@ -3342,6 +4460,69 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) mapToCreateDistribu
 		if vmClusterId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vm_cluster_id")); ok {
 			tmp := vmClusterId.(string)
 			details.VmClusterId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("NEW_VAULT_AND_CLUSTER"):
+		details := oci_distributed_database.CreateDistributedDatabaseShardWithExadbXsNewVaultAndClusterDetails{}
+		if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok {
+			tmp := adminPassword.(string)
+			details.AdminPassword = &tmp
+		}
+		if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
+			tmp := availabilityDomain.(string)
+			details.AvailabilityDomain = &tmp
+		}
+		if dbStorageVaultDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_storage_vault_details")); ok {
+			if tmpList := dbStorageVaultDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_storage_vault_details"), 0)
+				tmp, err := s.mapToDbStorageVaultDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert db_storage_vault_details, encountered error: %v", err)
+				}
+				details.DbStorageVaultDetails = &tmp
+			}
+		}
+		if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
+		if kmsKeyVersionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_version_id")); ok {
+			tmp := kmsKeyVersionId.(string)
+			details.KmsKeyVersionId = &tmp
+		}
+		if peerDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "peer_details")); ok {
+			interfaces := peerDetails.([]interface{})
+			tmp := make([]oci_distributed_database.CreateShardPeerWithExadbXsNewVaultAndClusterDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "peer_details"), stateDataIndex)
+				converted, err := s.mapToCreateShardPeerWithExadbXsNewVaultAndClusterDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "peer_details")) {
+				details.PeerDetails = tmp
+			}
+		}
+		if shardSpace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shard_space")); ok {
+			tmp := shardSpace.(string)
+			details.ShardSpace = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_id")); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		if vmClusterDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vm_cluster_details")); ok {
+			if tmpList := vmClusterDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "vm_cluster_details"), 0)
+				tmp, err := s.mapToVmClusterDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert vm_cluster_details, encountered error: %v", err)
+				}
+				details.VmClusterDetails = &tmp
+			}
 		}
 		baseObject = details
 	default:
@@ -3442,7 +4623,6 @@ func DistributedDatabaseShardToMap(obj oci_distributed_database.DistributedDatab
 		}
 
 		result["status"] = string(v.Status)
-
 	default:
 		log.Printf("[WARN] Received 'source' of unknown type %v", obj)
 		return nil
@@ -3479,6 +4659,99 @@ func CreateShardPeerWithExadbXsDetailsToMap(obj oci_distributed_database.CreateS
 
 	if obj.VmClusterId != nil {
 		result["vm_cluster_id"] = string(*obj.VmClusterId)
+	}
+
+	return result
+}
+
+func (s *DistributedDatabaseDistributedDatabaseResourceCrud) mapToCreateShardPeerWithExadbXsNewVaultAndClusterDetails(fieldKeyFormat string) (oci_distributed_database.CreateShardPeerWithExadbXsNewVaultAndClusterDetails, error) {
+	result := oci_distributed_database.CreateShardPeerWithExadbXsNewVaultAndClusterDetails{}
+
+	if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
+		tmp := availabilityDomain.(string)
+		result.AvailabilityDomain = &tmp
+	}
+
+	if dbStorageVaultDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_storage_vault_details")); ok {
+		if tmpList := dbStorageVaultDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "db_storage_vault_details"), 0)
+			tmp, err := s.mapToDbStorageVaultDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert db_storage_vault_details, encountered error: %v", err)
+			}
+			result.DbStorageVaultDetails = &tmp
+		}
+	}
+
+	if protectionMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protection_mode")); ok {
+		result.ProtectionMode = oci_distributed_database.DistributedDbProtectionModeEnum(protectionMode.(string))
+	}
+
+	if transportType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "transport_type")); ok {
+		result.TransportType = oci_distributed_database.DistributedDbTransportTypeEnum(transportType.(string))
+	}
+
+	if vmClusterDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vm_cluster_details")); ok {
+		if tmpList := vmClusterDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "vm_cluster_details"), 0)
+			tmp, err := s.mapToVmClusterDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert vm_cluster_details, encountered error: %v", err)
+			}
+			result.VmClusterDetails = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func CreateShardPeerWithExadbXsNewVaultAndClusterDetailsToMap(obj oci_distributed_database.CreateShardPeerWithExadbXsNewVaultAndClusterDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AvailabilityDomain != nil {
+		result["availability_domain"] = string(*obj.AvailabilityDomain)
+	}
+
+	if obj.DbStorageVaultDetails != nil {
+		result["db_storage_vault_details"] = []interface{}{DbStorageVaultDetailsToMap(obj.DbStorageVaultDetails)}
+	}
+
+	result["protection_mode"] = string(obj.ProtectionMode)
+
+	result["transport_type"] = string(obj.TransportType)
+
+	if obj.VmClusterDetails != nil {
+		result["vm_cluster_details"] = []interface{}{VmClusterDetailsToMap(obj.VmClusterDetails, false)}
+	}
+
+	return result
+}
+
+func (s *DistributedDatabaseDistributedDatabaseResourceCrud) mapToDbStorageVaultDetails(fieldKeyFormat string) (oci_distributed_database.DbStorageVaultDetails, error) {
+	result := oci_distributed_database.DbStorageVaultDetails{}
+
+	if additionalFlashCacheInPercent, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "additional_flash_cache_in_percent")); ok {
+		tmp := additionalFlashCacheInPercent.(int)
+		result.AdditionalFlashCacheInPercent = &tmp
+	}
+
+	if highCapacityDatabaseStorage, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "high_capacity_database_storage")); ok {
+		tmp := highCapacityDatabaseStorage.(int)
+		result.HighCapacityDatabaseStorage = &tmp
+	}
+
+	return result, nil
+}
+
+func DbStorageVaultDetailsToMap(obj *oci_distributed_database.DbStorageVaultDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AdditionalFlashCacheInPercent != nil {
+		result["additional_flash_cache_in_percent"] = int(*obj.AdditionalFlashCacheInPercent)
+	}
+
+	if obj.HighCapacityDatabaseStorage != nil {
+		result["high_capacity_database_storage"] = int(*obj.HighCapacityDatabaseStorage)
 	}
 
 	return result
@@ -3764,6 +5037,53 @@ func DistributedDbBackupConfigToMap(obj *oci_distributed_database.DistributedDbB
 	return result
 }
 
+func fieldKeyToRawConfigPath(fieldKey string) (cty.Path, error) {
+	parts := strings.Split(fieldKey, ".")
+	path := make(cty.Path, 0, len(parts))
+	for _, part := range parts {
+		if index, err := strconv.Atoi(part); err == nil {
+			path = append(path, cty.IndexStep{Key: cty.NumberIntVal(int64(index))})
+			continue
+		}
+		path = append(path, cty.GetAttrStep{Name: part})
+	}
+	return path, nil
+}
+
+func getConfiguredRawFieldValue(d *schema.ResourceData, fieldKey string) (cty.Value, bool) {
+	path, err := fieldKeyToRawConfigPath(fieldKey)
+	if err != nil {
+		return cty.DynamicVal, false
+	}
+
+	value, diags := d.GetRawConfigAt(path)
+	if diags.HasError() || !value.IsKnown() || value.IsNull() {
+		return cty.DynamicVal, false
+	}
+
+	return value, true
+}
+
+func getConfiguredStringPointer(d *schema.ResourceData, fieldKey string) *string {
+	value, ok := getConfiguredRawFieldValue(d, fieldKey)
+	if !ok || value.Type() != cty.String || value.AsString() == "" {
+		return nil
+	}
+
+	configured := value.AsString()
+	return &configured
+}
+
+func getConfiguredBoolPointer(d *schema.ResourceData, fieldKey string) *bool {
+	value, ok := getConfiguredRawFieldValue(d, fieldKey)
+	if !ok || value.Type() != cty.Bool {
+		return nil
+	}
+
+	configured := d.Get(fieldKey).(bool)
+	return &configured
+}
+
 /*func DistributedDbBackupConfigToMap(obj *oci_distributed_database.DistributedDbBackupConfig) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -3783,48 +5103,43 @@ func DistributedDbBackupConfigToMap(obj *oci_distributed_database.DistributedDbB
 func (s *DistributedDatabaseDistributedDatabaseResourceCrud) mapToDistributedDbBackupDestination(fieldKeyFormat string) (oci_distributed_database.DistributedDbBackupDestination, error) {
 	result := oci_distributed_database.DistributedDbBackupDestination{}
 
-	if dbrsPolicyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dbrs_policy_id")); ok {
-		tmp := dbrsPolicyId.(string)
-		result.DbrsPolicyId = &tmp
+	// TF_CODE_GEN: TERSI-4920-TOP-18 backup destination fields are Optional+Computed;
+	// inspect raw config so ChangeDbBackupConfig only forwards user-supplied values
+	// instead of empty computed strings/bools echoed from state.
+	if tmp := getConfiguredStringPointer(s.D, fmt.Sprintf(fieldKeyFormat, "dbrs_policy_id")); tmp != nil {
+		result.DbrsPolicyId = tmp
 	}
 
-	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
-		tmp := id.(string)
-		result.Id = &tmp
+	if tmp := getConfiguredStringPointer(s.D, fmt.Sprintf(fieldKeyFormat, "id")); tmp != nil {
+		result.Id = tmp
 	}
 
-	if internetProxy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "internet_proxy")); ok {
-		tmp := internetProxy.(string)
-		result.InternetProxy = &tmp
+	if tmp := getConfiguredStringPointer(s.D, fmt.Sprintf(fieldKeyFormat, "internet_proxy")); tmp != nil {
+		result.InternetProxy = tmp
 	}
 
-	if isRemote, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_remote")); ok {
-		tmp := isRemote.(bool)
-		result.IsRemote = &tmp
+	if tmp := getConfiguredBoolPointer(s.D, fmt.Sprintf(fieldKeyFormat, "is_remote")); tmp != nil {
+		result.IsRemote = tmp
 	}
 
-	if isZeroDataLossEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_zero_data_loss_enabled")); ok {
-		tmp := isZeroDataLossEnabled.(bool)
-		result.IsZeroDataLossEnabled = &tmp
+	if tmp := getConfiguredBoolPointer(s.D, fmt.Sprintf(fieldKeyFormat, "is_zero_data_loss_enabled")); tmp != nil {
+		result.IsZeroDataLossEnabled = tmp
 	}
 
-	if remoteRegion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "remote_region")); ok {
-		tmp := remoteRegion.(string)
-		result.RemoteRegion = &tmp
+	if tmp := getConfiguredStringPointer(s.D, fmt.Sprintf(fieldKeyFormat, "remote_region")); tmp != nil {
+		result.RemoteRegion = tmp
 	}
 
 	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
 		result.Type = oci_distributed_database.DistributedDbBackupDestinationTypeEnum(type_.(string))
 	}
 
-	if vpcPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_password")); ok {
-		tmp := vpcPassword.(string)
-		result.VpcPassword = &tmp
+	if tmp := getConfiguredStringPointer(s.D, fmt.Sprintf(fieldKeyFormat, "vpc_password")); tmp != nil {
+		result.VpcPassword = tmp
 	}
 
-	if vpcUser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_user")); ok {
-		tmp := vpcUser.(string)
-		result.VpcUser = &tmp
+	if tmp := getConfiguredStringPointer(s.D, fmt.Sprintf(fieldKeyFormat, "vpc_user")); tmp != nil {
+		result.VpcUser = tmp
 	}
 
 	return result, nil
@@ -4038,6 +5353,177 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) updateCompartment(c
 
 	workId := response.OpcWorkRequestId
 	return s.getDistributedDatabaseFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "distributed_database"), oci_distributed_database.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *DistributedDatabaseDistributedDatabaseResourceCrud) mapToVmClusterDetails(fieldKeyFormat string) (oci_distributed_database.VmClusterDetails, error) {
+	result := oci_distributed_database.VmClusterDetails{}
+
+	if backupNetworkNsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_network_nsg_ids")); ok {
+		set := backupNetworkNsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "backup_network_nsg_ids")) {
+			result.BackupNetworkNsgIds = tmp
+		}
+	}
+
+	if backupSubnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_subnet_id")); ok {
+		tmp := backupSubnetId.(string)
+		result.BackupSubnetId = &tmp
+	}
+
+	if domain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "domain")); ok {
+		tmp := domain.(string)
+		result.Domain = &tmp
+	}
+
+	if enabledECpuCount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "enabled_ecpu_count")); ok {
+		tmp := enabledECpuCount.(int)
+		result.EnabledECpuCount = &tmp
+	}
+
+	if isDiagnosticsEventsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_diagnostics_events_enabled")); ok {
+		tmp := isDiagnosticsEventsEnabled.(bool)
+		result.IsDiagnosticsEventsEnabled = &tmp
+	}
+
+	if isHealthMonitoringEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_health_monitoring_enabled")); ok {
+		tmp := isHealthMonitoringEnabled.(bool)
+		result.IsHealthMonitoringEnabled = &tmp
+	}
+
+	if isIncidentLogsEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_incident_logs_enabled")); ok {
+		tmp := isIncidentLogsEnabled.(bool)
+		result.IsIncidentLogsEnabled = &tmp
+	}
+
+	if licenseModel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "license_model")); ok {
+		result.LicenseModel = oci_distributed_database.VmClusterDetailsLicenseModelEnum(licenseModel.(string))
+	}
+
+	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+			result.NsgIds = tmp
+		}
+	}
+
+	if privateZoneId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_zone_id")); ok {
+		tmp := privateZoneId.(string)
+		result.PrivateZoneId = &tmp
+	}
+
+	if sshPublicKeys, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ssh_public_keys")); ok {
+		interfaces := sshPublicKeys.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "ssh_public_keys")) {
+			result.SshPublicKeys = tmp
+		}
+	}
+
+	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+		tmp := subnetId.(string)
+		result.SubnetId = &tmp
+	}
+
+	if totalECpuCount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "total_ecpu_count")); ok {
+		tmp := totalECpuCount.(int)
+		result.TotalECpuCount = &tmp
+	}
+
+	if vmFileSystemStorageSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vm_file_system_storage_size")); ok {
+		tmp := vmFileSystemStorageSize.(int)
+		result.VmFileSystemStorageSize = &tmp
+	}
+
+	return result, nil
+}
+
+func VmClusterDetailsToMap(obj *oci_distributed_database.VmClusterDetails, datasource bool) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	backupNetworkNsgIds := []interface{}{}
+	for _, item := range obj.BackupNetworkNsgIds {
+		backupNetworkNsgIds = append(backupNetworkNsgIds, item)
+	}
+	if datasource {
+		result["backup_network_nsg_ids"] = backupNetworkNsgIds
+	} else {
+		result["backup_network_nsg_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, backupNetworkNsgIds)
+	}
+
+	if obj.BackupSubnetId != nil {
+		result["backup_subnet_id"] = string(*obj.BackupSubnetId)
+	}
+
+	if obj.Domain != nil {
+		result["domain"] = string(*obj.Domain)
+	}
+
+	if obj.EnabledECpuCount != nil {
+		result["enabled_ecpu_count"] = int(*obj.EnabledECpuCount)
+	}
+
+	if obj.IsDiagnosticsEventsEnabled != nil {
+		result["is_diagnostics_events_enabled"] = bool(*obj.IsDiagnosticsEventsEnabled)
+	}
+
+	if obj.IsHealthMonitoringEnabled != nil {
+		result["is_health_monitoring_enabled"] = bool(*obj.IsHealthMonitoringEnabled)
+	}
+
+	if obj.IsIncidentLogsEnabled != nil {
+		result["is_incident_logs_enabled"] = bool(*obj.IsIncidentLogsEnabled)
+	}
+
+	result["license_model"] = string(obj.LicenseModel)
+
+	nsgIds := []interface{}{}
+	for _, item := range obj.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	if datasource {
+		result["nsg_ids"] = nsgIds
+	} else {
+		result["nsg_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds)
+	}
+
+	if obj.PrivateZoneId != nil {
+		result["private_zone_id"] = string(*obj.PrivateZoneId)
+	}
+
+	result["ssh_public_keys"] = obj.SshPublicKeys
+
+	if obj.SubnetId != nil {
+		result["subnet_id"] = string(*obj.SubnetId)
+	}
+
+	if obj.TotalECpuCount != nil {
+		result["total_ecpu_count"] = int(*obj.TotalECpuCount)
+	}
+
+	if obj.VmFileSystemStorageSize != nil {
+		result["vm_file_system_storage_size"] = int(*obj.VmFileSystemStorageSize)
+	}
+
+	return result
 }
 
 /*

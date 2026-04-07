@@ -25,6 +25,7 @@ data "oci_distributed_database_distributed_autonomous_databases" "test_distribut
 	display_name = var.distributed_autonomous_database_display_name
 	metadata {
 	}
+	private_endpoint_id = oci_distributed_database_distributed_database_private_endpoint.test_distributed_database_private_endpoint.id
 	state = var.distributed_autonomous_database_state
 }
 ```
@@ -37,6 +38,7 @@ The following arguments are supported:
 * `db_deployment_type` - (Optional) A filter to return only resources their dbDeploymentType matches the given dbDeploymentType.
 * `display_name` - (Optional) A filter to return only Globally distributed autonomous databases that match the entire name given. The match is not case sensitive.
 * `metadata` - (Optional) Comma separated names of argument corresponding to which metadata need to be retrived. 
+* `private_endpoint_id` - (Optional) A filter to return only resources that are associated with the given privateEndpointId.
 * `state` - (Optional) A filter to return only resources their lifecycleState matches the given lifecycleState.
 
 
@@ -61,12 +63,14 @@ The following attributes are exported:
 	* `metadata` - Additional metadata related to Globally distributed autonomous database resources.
 		* `map` - The map containing key-value pair of additional metadata.
 	* `name` - The name of catalog.
+	* `okv_end_point_group` - The OKV endpoint name.
+	* `okv_key_store_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store used to create the shard.
 	* `peer_cloud_autonomous_vm_cluster_ids` - This field is deprecated. For catalog peer details please refer peerDetails attribute.
 	* `peer_details` - Peer details for the catalog with dedicated infrastructure.
 		* `cloud_autonomous_vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloudAutonomousVmCluster.
 		* `container_database_id` - the identifier of the container database for underlying supporting resource.
 		* `fast_start_fail_over_lag_limit_in_seconds` - The lag time for my preference based on data loss tolerance in seconds.
-		* `is_automatic_failover_enabled` - Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association 
+		* `is_automatic_failover_enabled` - This field is deprecated. Support for this field will be removed after one year of deprecation cycle. 
 		* `metadata` - Additional metadata related to Globally distributed autonomous database resources.
 			* `map` - The map containing key-value pair of additional metadata.
 		* `protection_mode` - The protectionMode for the shard peer.
@@ -147,12 +151,14 @@ The following attributes are exported:
 	* `metadata` - Additional metadata related to Globally distributed autonomous database resources.
 		* `map` - The map containing key-value pair of additional metadata.
 	* `name` - Name of the shard.
+	* `okv_end_point_group` - The OKV endpoint name.
+	* `okv_key_store_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store used to create the shard.
 	* `peer_cloud_autonomous_vm_cluster_ids` - This field is deprecated. For shard peer details please refer peerDetails attribute.
 	* `peer_details` - Peer details for the shard with dedicated infrastructure.
 		* `cloud_autonomous_vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloudAutonomousVmCluster.
 		* `container_database_id` - the identifier of the container database for underlying supporting resource.
 		* `fast_start_fail_over_lag_limit_in_seconds` - The lag time for my preference based on data loss tolerance in seconds.
-		* `is_automatic_failover_enabled` - Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association 
+		* `is_automatic_failover_enabled` - This field is deprecated. Support for this field will be removed after one year of deprecation cycle. 
 		* `metadata` - Additional metadata related to Globally distributed autonomous database resources.
 			* `map` - The map containing key-value pair of additional metadata.
 		* `protection_mode` - The protectionMode for the shard peer.

@@ -23,3 +23,9 @@ data "oci_distributed_database_distributed_databases" "gdd_list" {
   # display_name       = var.gdd_display_name
   # state              = "AVAILABLE"
 }
+
+
+data "oci_distributed_database_distributed_database_raft_metric" "exascale_raft" {
+  distributed_database_id = oci_distributed_database_distributed_database.ddb.id
+}
+

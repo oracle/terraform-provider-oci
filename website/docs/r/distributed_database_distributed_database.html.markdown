@@ -18,6 +18,8 @@ Creates a Globally distributed database.
   Patch operation to add, remove or update shards to the Globally distributed database topology. In single patch
 operation, multiple shards can be either added, or removed or updated. Combination of inserts, update
 and remove in single operation is not allowed.
+For an EXADB_XS based distributed database, removing a shard with the parameter mustDeleteInfra set to true 
+will also delete the associated VmCluster and DbStorageVault.
 
 
 ## Example Usage
@@ -29,22 +31,71 @@ resource "oci_distributed_database_distributed_database" "test_distributed_datab
 		#Required
 		admin_password = var.distributed_database_catalog_details_admin_password
 		source = var.distributed_database_catalog_details_source
-		vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 
 		#Optional
+		availability_domain = var.distributed_database_catalog_details_availability_domain
+		db_storage_vault_details {
+
+			#Optional
+			additional_flash_cache_in_percent = var.distributed_database_catalog_details_db_storage_vault_details_additional_flash_cache_in_percent
+			high_capacity_database_storage = var.distributed_database_catalog_details_db_storage_vault_details_high_capacity_database_storage
+		}
 		kms_key_id = oci_kms_key.test_key.id
 		kms_key_version_id = oci_kms_key_version.test_key_version.id
 		peer_details {
-			#Required
-			vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 
 			#Optional
+			availability_domain = var.distributed_database_catalog_details_peer_details_availability_domain
+			db_storage_vault_details {
+
+				#Optional
+				additional_flash_cache_in_percent = var.distributed_database_catalog_details_peer_details_db_storage_vault_details_additional_flash_cache_in_percent
+				high_capacity_database_storage = var.distributed_database_catalog_details_peer_details_db_storage_vault_details_high_capacity_database_storage
+			}
 			protection_mode = var.distributed_database_catalog_details_peer_details_protection_mode
 			transport_type = var.distributed_database_catalog_details_peer_details_transport_type
+			vm_cluster_details {
+
+				#Optional
+				backup_network_nsg_ids = var.distributed_database_catalog_details_peer_details_vm_cluster_details_backup_network_nsg_ids
+				backup_subnet_id = oci_core_subnet.test_subnet.id
+				domain = var.distributed_database_catalog_details_peer_details_vm_cluster_details_domain
+				enabled_ecpu_count = var.distributed_database_catalog_details_peer_details_vm_cluster_details_enabled_ecpu_count
+				is_diagnostics_events_enabled = var.distributed_database_catalog_details_peer_details_vm_cluster_details_is_diagnostics_events_enabled
+				is_health_monitoring_enabled = var.distributed_database_catalog_details_peer_details_vm_cluster_details_is_health_monitoring_enabled
+				is_incident_logs_enabled = var.distributed_database_catalog_details_peer_details_vm_cluster_details_is_incident_logs_enabled
+				license_model = var.distributed_database_catalog_details_peer_details_vm_cluster_details_license_model
+				nsg_ids = var.distributed_database_catalog_details_peer_details_vm_cluster_details_nsg_ids
+				private_zone_id = oci_dns_zone.test_zone.id
+				ssh_public_keys = var.distributed_database_catalog_details_peer_details_vm_cluster_details_ssh_public_keys
+				subnet_id = oci_core_subnet.test_subnet.id
+				total_ecpu_count = var.distributed_database_catalog_details_peer_details_vm_cluster_details_total_ecpu_count
+				vm_file_system_storage_size = var.distributed_database_catalog_details_peer_details_vm_cluster_details_vm_file_system_storage_size
+			}
+			vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 		}
 		peer_vm_cluster_ids = var.distributed_database_catalog_details_peer_vm_cluster_ids
 		shard_space = var.distributed_database_catalog_details_shard_space
 		vault_id = oci_kms_vault.test_vault.id
+		vm_cluster_details {
+
+			#Optional
+			backup_network_nsg_ids = var.distributed_database_catalog_details_vm_cluster_details_backup_network_nsg_ids
+			backup_subnet_id = oci_core_subnet.test_subnet.id
+			domain = var.distributed_database_catalog_details_vm_cluster_details_domain
+			enabled_ecpu_count = var.distributed_database_catalog_details_vm_cluster_details_enabled_ecpu_count
+			is_diagnostics_events_enabled = var.distributed_database_catalog_details_vm_cluster_details_is_diagnostics_events_enabled
+			is_health_monitoring_enabled = var.distributed_database_catalog_details_vm_cluster_details_is_health_monitoring_enabled
+			is_incident_logs_enabled = var.distributed_database_catalog_details_vm_cluster_details_is_incident_logs_enabled
+			license_model = var.distributed_database_catalog_details_vm_cluster_details_license_model
+			nsg_ids = var.distributed_database_catalog_details_vm_cluster_details_nsg_ids
+			private_zone_id = oci_dns_zone.test_zone.id
+			ssh_public_keys = var.distributed_database_catalog_details_vm_cluster_details_ssh_public_keys
+			subnet_id = oci_core_subnet.test_subnet.id
+			total_ecpu_count = var.distributed_database_catalog_details_vm_cluster_details_total_ecpu_count
+			vm_file_system_storage_size = var.distributed_database_catalog_details_vm_cluster_details_vm_file_system_storage_size
+		}
+		vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 	}
 	character_set = var.distributed_database_character_set
 	compartment_id = var.compartment_id
@@ -62,22 +113,71 @@ resource "oci_distributed_database_distributed_database" "test_distributed_datab
 		#Required
 		admin_password = var.distributed_database_shard_details_admin_password
 		source = var.distributed_database_shard_details_source
-		vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 
 		#Optional
+		availability_domain = var.distributed_database_shard_details_availability_domain
+		db_storage_vault_details {
+
+			#Optional
+			additional_flash_cache_in_percent = var.distributed_database_shard_details_db_storage_vault_details_additional_flash_cache_in_percent
+			high_capacity_database_storage = var.distributed_database_shard_details_db_storage_vault_details_high_capacity_database_storage
+		}
 		kms_key_id = oci_kms_key.test_key.id
 		kms_key_version_id = oci_kms_key_version.test_key_version.id
 		peer_details {
-			#Required
-			vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 
 			#Optional
+			availability_domain = var.distributed_database_shard_details_peer_details_availability_domain
+			db_storage_vault_details {
+
+				#Optional
+				additional_flash_cache_in_percent = var.distributed_database_shard_details_peer_details_db_storage_vault_details_additional_flash_cache_in_percent
+				high_capacity_database_storage = var.distributed_database_shard_details_peer_details_db_storage_vault_details_high_capacity_database_storage
+			}
 			protection_mode = var.distributed_database_shard_details_peer_details_protection_mode
 			transport_type = var.distributed_database_shard_details_peer_details_transport_type
+			vm_cluster_details {
+
+				#Optional
+				backup_network_nsg_ids = var.distributed_database_shard_details_peer_details_vm_cluster_details_backup_network_nsg_ids
+				backup_subnet_id = oci_core_subnet.test_subnet.id
+				domain = var.distributed_database_shard_details_peer_details_vm_cluster_details_domain
+				enabled_ecpu_count = var.distributed_database_shard_details_peer_details_vm_cluster_details_enabled_ecpu_count
+				is_diagnostics_events_enabled = var.distributed_database_shard_details_peer_details_vm_cluster_details_is_diagnostics_events_enabled
+				is_health_monitoring_enabled = var.distributed_database_shard_details_peer_details_vm_cluster_details_is_health_monitoring_enabled
+				is_incident_logs_enabled = var.distributed_database_shard_details_peer_details_vm_cluster_details_is_incident_logs_enabled
+				license_model = var.distributed_database_shard_details_peer_details_vm_cluster_details_license_model
+				nsg_ids = var.distributed_database_shard_details_peer_details_vm_cluster_details_nsg_ids
+				private_zone_id = oci_dns_zone.test_zone.id
+				ssh_public_keys = var.distributed_database_shard_details_peer_details_vm_cluster_details_ssh_public_keys
+				subnet_id = oci_core_subnet.test_subnet.id
+				total_ecpu_count = var.distributed_database_shard_details_peer_details_vm_cluster_details_total_ecpu_count
+				vm_file_system_storage_size = var.distributed_database_shard_details_peer_details_vm_cluster_details_vm_file_system_storage_size
+			}
+			vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 		}
 		peer_vm_cluster_ids = var.distributed_database_shard_details_peer_vm_cluster_ids
 		shard_space = var.distributed_database_shard_details_shard_space
 		vault_id = oci_kms_vault.test_vault.id
+		vm_cluster_details {
+
+			#Optional
+			backup_network_nsg_ids = var.distributed_database_shard_details_vm_cluster_details_backup_network_nsg_ids
+			backup_subnet_id = oci_core_subnet.test_subnet.id
+			domain = var.distributed_database_shard_details_vm_cluster_details_domain
+			enabled_ecpu_count = var.distributed_database_shard_details_vm_cluster_details_enabled_ecpu_count
+			is_diagnostics_events_enabled = var.distributed_database_shard_details_vm_cluster_details_is_diagnostics_events_enabled
+			is_health_monitoring_enabled = var.distributed_database_shard_details_vm_cluster_details_is_health_monitoring_enabled
+			is_incident_logs_enabled = var.distributed_database_shard_details_vm_cluster_details_is_incident_logs_enabled
+			license_model = var.distributed_database_shard_details_vm_cluster_details_license_model
+			nsg_ids = var.distributed_database_shard_details_vm_cluster_details_nsg_ids
+			private_zone_id = oci_dns_zone.test_zone.id
+			ssh_public_keys = var.distributed_database_shard_details_vm_cluster_details_ssh_public_keys
+			subnet_id = oci_core_subnet.test_subnet.id
+			total_ecpu_count = var.distributed_database_shard_details_vm_cluster_details_total_ecpu_count
+			vm_file_system_storage_size = var.distributed_database_shard_details_vm_cluster_details_vm_file_system_storage_size
+		}
+		vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 	}
 	sharding_method = var.distributed_database_sharding_method
 
@@ -125,6 +225,7 @@ resource "oci_distributed_database_distributed_database" "test_distributed_datab
 	replication_factor = var.distributed_database_replication_factor
 	replication_method = var.distributed_database_replication_method
 	replication_unit = var.distributed_database_replication_unit
+	scan_listener_port = var.distributed_database_scan_listener_port
 }
 ```
 
@@ -133,18 +234,56 @@ resource "oci_distributed_database_distributed_database" "test_distributed_datab
 The following arguments are supported:
 
 * `catalog_details` - (Required) Collection of catalog for the Globally distributed database.
-	* `admin_password` - (Required) The admin password for the cataog associated with Globally distributed database.
+	* `admin_password` - (Required) The admin password for the catalog associated with Globally distributed database.
+	* `availability_domain` - (Required when source=NEW_VAULT_AND_CLUSTER) The name of the availability domain that the distributed database shard will be located in.
+	* `db_storage_vault_details` - (Required when source=NEW_VAULT_AND_CLUSTER) Details of the request to create exascale db vault storage for shard or catalog of the distributed database. 
+		* `additional_flash_cache_in_percent` - (Applicable when source=NEW_VAULT_AND_CLUSTER) The size of additional Flash Cache in percentage of High Capacity database storage.
+		* `high_capacity_database_storage` - (Required when source=NEW_VAULT_AND_CLUSTER) Total storage capacity in GB for vault storage.
 	* `kms_key_id` - (Optional) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	* `kms_key_version_id` - (Optional) The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. 
 	* `peer_details` - (Optional) The details required for creation of the peer for the ExadbXs infrastructure based catalog.
-		* `protection_mode` - (Optional) The protectionMode for the catalog peer.
-		* `transport_type` - (Optional) The redo transport type to use for this Data Guard association.
-		* `vm_cluster_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Cluster for the catalog peer.
-	* `peer_vm_cluster_ids` - (Optional) This field is deprecated. This should not be used while creation of new distributed database. To set the peers on catalog of distributed database please use peerDetails. 
+		* `availability_domain` - (Required when source=NEW_VAULT_AND_CLUSTER) The name of the availability domain that the distributed database shard will be located in.
+		* `db_storage_vault_details` - (Required when source=NEW_VAULT_AND_CLUSTER) Details of the request to create exascale db vault storage for shard or catalog of the distributed database. 
+			* `additional_flash_cache_in_percent` - (Applicable when source=NEW_VAULT_AND_CLUSTER) The size of additional Flash Cache in percentage of High Capacity database storage.
+			* `high_capacity_database_storage` - (Required when source=NEW_VAULT_AND_CLUSTER) Total storage capacity in GB for vault storage.
+		* `protection_mode` - (Applicable when source=EXADB_XS | NEW_VAULT_AND_CLUSTER) The protectionMode for the catalog peer.
+		* `transport_type` - (Applicable when source=EXADB_XS | NEW_VAULT_AND_CLUSTER) The redo transport type to use for this Data Guard association.
+		* `vm_cluster_details` - (Required when source=NEW_VAULT_AND_CLUSTER) Details of the request to create exadb vm cluster for shard or catalog of the distributed database. 
+			* `backup_network_nsg_ids` - (Applicable when source=NEW_VAULT_AND_CLUSTER) A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to.  Setting this to an empty array after the list is created removes the resource from all NSGs.  For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems. 
+			* `backup_subnet_id` - (Required when source=NEW_VAULT_AND_CLUSTER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup network subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
+			* `domain` - (Applicable when source=NEW_VAULT_AND_CLUSTER) A domain name used for the Exadata VM cluster on Exascale Infrastructure.  If the Oracle-provided internet and VCN resolver is enabled for the specified subnet, then the domain name for the subnet is used (do not provide one). Otherwise, provide a valid DNS domain name.  Hyphens (-) are not permitted. Applies to Exadata Database Service on Exascale Infrastructure only. 
+			* `enabled_ecpu_count` - (Required when source=NEW_VAULT_AND_CLUSTER) The number of ECPUs to enable for an Exadata VM cluster on Exascale Infrastructure. 
+			* `is_diagnostics_events_enabled` - (Applicable when source=NEW_VAULT_AND_CLUSTER) Indicates whether diagnostic collection is enabled for the VM cluster.  Enabling diagnostic collection allows you to receive Events service notifications for guest VM issues.  Diagnostic collection also allows Oracle to provide enhanced service and proactive support for your Exadata system.  You can enable diagnostic collection during VM cluster provisioning. You can also disable or enable it at any time using the `UpdateVmCluster` API. 
+			* `is_health_monitoring_enabled` - (Applicable when source=NEW_VAULT_AND_CLUSTER) Indicates whether health monitoring is enabled for the VM cluster.  Enabling health monitoring allows Oracle to collect diagnostic data and share it with its operations and support personnel.  You may also receive notifications for some events. Collecting health diagnostics enables Oracle to provide proactive support and enhanced service for your system. Optionally enable health monitoring while provisioning a system. You can also disable or enable health monitoring anytime using the `UpdateVmCluster` API. 
+			* `is_incident_logs_enabled` - (Applicable when source=NEW_VAULT_AND_CLUSTER) Indicates whether incident logs and trace collection are enabled for the VM cluster.  Enabling incident logs collection allows Oracle to receive Events service notifications for guest VM issues, collect incident logs and traces, and use them to diagnose issues and resolve them. Optionally enable incident logs collection while provisioning a system. You can also disable or enable incident logs collection anytime using the `UpdateVmCluster` API. 
+			* `license_model` - (Applicable when source=NEW_VAULT_AND_CLUSTER) The Oracle license model that applies to the Exadata VM cluster on Exascale Infrastructure. The default is BRING_YOUR_OWN_LICENSE. 
+			* `nsg_ids` - (Applicable when source=NEW_VAULT_AND_CLUSTER) The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs.  Setting this to an empty list removes all resources from all NSGs.  For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
+			* `private_zone_id` - (Applicable when source=NEW_VAULT_AND_CLUSTER) The private zone ID in which you want DNS records to be created. 
+			* `ssh_public_keys` - (Required when source=NEW_VAULT_AND_CLUSTER) The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.
+			* `subnet_id` - (Required when source=NEW_VAULT_AND_CLUSTER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
+			* `total_ecpu_count` - (Applicable when source=NEW_VAULT_AND_CLUSTER) The number of Total ECPUs for an Exadata VM cluster on Exascale Infrastructure. 
+			* `vm_file_system_storage_size` - (Applicable when source=NEW_VAULT_AND_CLUSTER) File System Storage Size in GBs for Exadata VM cluster. 
+		* `vm_cluster_id` - (Required when source=EXADB_XS) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Cluster for the catalog peer.
+	* `peer_vm_cluster_ids` - (Applicable when source=EXADB_XS) This field is deprecated. This should not be used while creation of new distributed database. To set the peers on catalog of distributed database please use peerDetails. 
 	* `shard_space` - (Optional) The shard space name for the Globally distributed database. Shard space for existing shard cannot be changed, once shard is created. Shard space name shall be used while creation of new shards. 
-	* `source` - (Required) The source of Globally distributed database type: Use EXADB_XS for the Globally distributed database with Exascale based distributed database. 
+	* `source` - (Required) Type of Globally distributed database Shard or Catalog. Use NEW_VAULT_AND_CLUSTER for a Globally distributed database on Exascale with new vaults and clusters created from scratch. Use EXISTING_CLUSTER for a Globally distributed database on Exascale based on pre-existing clusters. EXADB_XS is currently the same as EXISTING_CLUSTER and will be deprecated after the deprecation cycle. 
 	* `vault_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `kmsKeyId` are required for Customer Managed Keys.
-	* `vm_cluster_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VmCluster.
+	* `vm_cluster_details` - (Required when source=NEW_VAULT_AND_CLUSTER) Details of the request to create exadb vm cluster for shard or catalog of the distributed database. 
+		* `backup_network_nsg_ids` - (Applicable when source=NEW_VAULT_AND_CLUSTER) A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to.  Setting this to an empty array after the list is created removes the resource from all NSGs.  For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems. 
+		* `backup_subnet_id` - (Required when source=NEW_VAULT_AND_CLUSTER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup network subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
+		* `domain` - (Applicable when source=NEW_VAULT_AND_CLUSTER) A domain name used for the Exadata VM cluster on Exascale Infrastructure.  If the Oracle-provided internet and VCN resolver is enabled for the specified subnet, then the domain name for the subnet is used (do not provide one). Otherwise, provide a valid DNS domain name.  Hyphens (-) are not permitted. Applies to Exadata Database Service on Exascale Infrastructure only. 
+		* `enabled_ecpu_count` - (Required when source=NEW_VAULT_AND_CLUSTER) The number of ECPUs to enable for an Exadata VM cluster on Exascale Infrastructure. 
+		* `is_diagnostics_events_enabled` - (Applicable when source=NEW_VAULT_AND_CLUSTER) Indicates whether diagnostic collection is enabled for the VM cluster.  Enabling diagnostic collection allows you to receive Events service notifications for guest VM issues.  Diagnostic collection also allows Oracle to provide enhanced service and proactive support for your Exadata system.  You can enable diagnostic collection during VM cluster provisioning. You can also disable or enable it at any time using the `UpdateVmCluster` API. 
+		* `is_health_monitoring_enabled` - (Applicable when source=NEW_VAULT_AND_CLUSTER) Indicates whether health monitoring is enabled for the VM cluster.  Enabling health monitoring allows Oracle to collect diagnostic data and share it with its operations and support personnel.  You may also receive notifications for some events. Collecting health diagnostics enables Oracle to provide proactive support and enhanced service for your system. Optionally enable health monitoring while provisioning a system. You can also disable or enable health monitoring anytime using the `UpdateVmCluster` API. 
+		* `is_incident_logs_enabled` - (Applicable when source=NEW_VAULT_AND_CLUSTER) Indicates whether incident logs and trace collection are enabled for the VM cluster.  Enabling incident logs collection allows Oracle to receive Events service notifications for guest VM issues, collect incident logs and traces, and use them to diagnose issues and resolve them. Optionally enable incident logs collection while provisioning a system. You can also disable or enable incident logs collection anytime using the `UpdateVmCluster` API. 
+		* `license_model` - (Applicable when source=NEW_VAULT_AND_CLUSTER) The Oracle license model that applies to the Exadata VM cluster on Exascale Infrastructure. The default is BRING_YOUR_OWN_LICENSE. 
+		* `nsg_ids` - (Applicable when source=NEW_VAULT_AND_CLUSTER) The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs.  Setting this to an empty list removes all resources from all NSGs.  For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
+		* `private_zone_id` - (Applicable when source=NEW_VAULT_AND_CLUSTER) The private zone ID in which you want DNS records to be created. 
+		* `ssh_public_keys` - (Required when source=NEW_VAULT_AND_CLUSTER) The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.
+		* `subnet_id` - (Required when source=NEW_VAULT_AND_CLUSTER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
+		* `total_ecpu_count` - (Applicable when source=NEW_VAULT_AND_CLUSTER) The number of Total ECPUs for an Exadata VM cluster on Exascale Infrastructure. 
+		* `vm_file_system_storage_size` - (Applicable when source=NEW_VAULT_AND_CLUSTER) File System Storage Size in GBs for Exadata VM cluster. 
+	* `vm_cluster_id` - (Required when source=EXADB_XS) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VmCluster.
 * `character_set` - (Required) The character set for the database.
 * `chunks` - (Optional) Number of chunks in a shardspace. The value of chunks must be greater than 2 times the size of the largest shardgroup in any shardspace. Chunks is required to be provided for distributed databases being created with SYSTEM shardingMethod. For USER shardingMethod, chunks should not be set in create payload. 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Globally distributed database compartment.
@@ -189,19 +328,58 @@ The following arguments are supported:
 * `replication_factor` - (Optional) The Replication factor for RAFT replication based Globally distributed database. Currently supported values are 3, 5 and 7. 
 * `replication_method` - (Optional) The Replication method for Globally distributed database. Use RAFT for Raft based replication. With RAFT replication, shards cannot have peers details set on them. In case shards need to have peers, please do not set RAFT replicationMethod. For all non RAFT replication cases (with or without peers), please set replicationMethod as DG or do not set any value for replicationMethod. 
 * `replication_unit` - (Optional) The replication unit count for RAFT based distributed database. For RAFT replication based Globally distributed database, the value should be at least twice the number of shards. 
+* `scan_listener_port` - (Optional) The TCP Single Client Access Name (SCAN) port for clusters created for Globally distributed database. The scanListenerPort number should only be provided if shard and catalog have source type NEW_VAULT_AND_CLUSTER. If shard and catalog have source type NEW_VAULT_AND_CLUSTER and scanListenerPort is not provided then the scanListenerPort will default to value 1521. 
 * `shard_details` - (Required) Collection of shards for the Globally distributed database.
 	* `admin_password` - (Required) The admin password for the shard associated with Globally distributed database.
+	* `availability_domain` - (Required when source=NEW_VAULT_AND_CLUSTER) The name of the availability domain that the distributed database shard will be located in.
+	* `db_storage_vault_details` - (Required when source=NEW_VAULT_AND_CLUSTER) Details of the request to create exascale db vault storage for shard or catalog of the distributed database. 
+		* `additional_flash_cache_in_percent` - (Applicable when source=NEW_VAULT_AND_CLUSTER) The size of additional Flash Cache in percentage of High Capacity database storage.
+		* `high_capacity_database_storage` - (Required when source=NEW_VAULT_AND_CLUSTER) Total storage capacity in GB for vault storage.
 	* `kms_key_id` - (Optional) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	* `kms_key_version_id` - (Optional) The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. 
 	* `peer_details` - (Optional) The details required for creation of the peer for the ExadbXs infrastructure based shard.
-		* `protection_mode` - (Optional) The protectionMode for the shard peer.
-		* `transport_type` - (Optional) The redo transport type to use for this Data Guard association.
-		* `vm_cluster_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Cluster for the shard peer.
-	* `peer_vm_cluster_ids` - (Optional) This field is deprecated. This should not be used while creation of new distributed database. To set the peers on new shards of distributed database please use peerDetails. 
+		* `availability_domain` - (Required when source=NEW_VAULT_AND_CLUSTER) The name of the availability domain that the distributed database shard will be located in.
+		* `db_storage_vault_details` - (Required when source=NEW_VAULT_AND_CLUSTER) Details of the request to create exascale db vault storage for shard or catalog of the distributed database. 
+			* `additional_flash_cache_in_percent` - (Applicable when source=NEW_VAULT_AND_CLUSTER) The size of additional Flash Cache in percentage of High Capacity database storage.
+			* `high_capacity_database_storage` - (Required when source=NEW_VAULT_AND_CLUSTER) Total storage capacity in GB for vault storage.
+		* `protection_mode` - (Applicable when source=EXADB_XS | NEW_VAULT_AND_CLUSTER) The protectionMode for the shard peer.
+		* `transport_type` - (Applicable when source=EXADB_XS | NEW_VAULT_AND_CLUSTER) The redo transport type to use for this Data Guard association.
+		* `vm_cluster_details` - (Required when source=NEW_VAULT_AND_CLUSTER) Details of the request to create exadb vm cluster for shard or catalog of the distributed database. 
+			* `backup_network_nsg_ids` - (Applicable when source=NEW_VAULT_AND_CLUSTER) A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to.  Setting this to an empty array after the list is created removes the resource from all NSGs.  For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems. 
+			* `backup_subnet_id` - (Required when source=NEW_VAULT_AND_CLUSTER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup network subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
+			* `domain` - (Applicable when source=NEW_VAULT_AND_CLUSTER) A domain name used for the Exadata VM cluster on Exascale Infrastructure.  If the Oracle-provided internet and VCN resolver is enabled for the specified subnet, then the domain name for the subnet is used (do not provide one). Otherwise, provide a valid DNS domain name.  Hyphens (-) are not permitted. Applies to Exadata Database Service on Exascale Infrastructure only. 
+			* `enabled_ecpu_count` - (Required when source=NEW_VAULT_AND_CLUSTER) The number of ECPUs to enable for an Exadata VM cluster on Exascale Infrastructure. 
+			* `is_diagnostics_events_enabled` - (Applicable when source=NEW_VAULT_AND_CLUSTER) Indicates whether diagnostic collection is enabled for the VM cluster.  Enabling diagnostic collection allows you to receive Events service notifications for guest VM issues.  Diagnostic collection also allows Oracle to provide enhanced service and proactive support for your Exadata system.  You can enable diagnostic collection during VM cluster provisioning. You can also disable or enable it at any time using the `UpdateVmCluster` API. 
+			* `is_health_monitoring_enabled` - (Applicable when source=NEW_VAULT_AND_CLUSTER) Indicates whether health monitoring is enabled for the VM cluster.  Enabling health monitoring allows Oracle to collect diagnostic data and share it with its operations and support personnel.  You may also receive notifications for some events. Collecting health diagnostics enables Oracle to provide proactive support and enhanced service for your system. Optionally enable health monitoring while provisioning a system. You can also disable or enable health monitoring anytime using the `UpdateVmCluster` API. 
+			* `is_incident_logs_enabled` - (Applicable when source=NEW_VAULT_AND_CLUSTER) Indicates whether incident logs and trace collection are enabled for the VM cluster.  Enabling incident logs collection allows Oracle to receive Events service notifications for guest VM issues, collect incident logs and traces, and use them to diagnose issues and resolve them. Optionally enable incident logs collection while provisioning a system. You can also disable or enable incident logs collection anytime using the `UpdateVmCluster` API. 
+			* `license_model` - (Applicable when source=NEW_VAULT_AND_CLUSTER) The Oracle license model that applies to the Exadata VM cluster on Exascale Infrastructure. The default is BRING_YOUR_OWN_LICENSE. 
+			* `nsg_ids` - (Applicable when source=NEW_VAULT_AND_CLUSTER) The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs.  Setting this to an empty list removes all resources from all NSGs.  For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
+			* `private_zone_id` - (Applicable when source=NEW_VAULT_AND_CLUSTER) The private zone ID in which you want DNS records to be created. 
+			* `ssh_public_keys` - (Required when source=NEW_VAULT_AND_CLUSTER) The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.
+			* `subnet_id` - (Required when source=NEW_VAULT_AND_CLUSTER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
+			* `total_ecpu_count` - (Applicable when source=NEW_VAULT_AND_CLUSTER) The number of Total ECPUs for an Exadata VM cluster on Exascale Infrastructure. 
+			* `vm_file_system_storage_size` - (Applicable when source=NEW_VAULT_AND_CLUSTER) File System Storage Size in GBs for Exadata VM cluster. 
+		* `vm_cluster_id` - (Required when source=EXADB_XS) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Cluster for the shard peer.
+	* `peer_vm_cluster_ids` - (Applicable when source=EXADB_XS) This field is deprecated. This should not be used while creation of new distributed database. To set the peers on new shards of distributed database please use peerDetails. 
 	* `shard_space` - (Optional) The shard space name for the Globally distributed database. Shard space for existing shard cannot be changed, once shard is created. Shard space name shall be used while creation of new shards. 
-	* `source` - (Required) The source of Globally distributed database type: Use EXADB_XS for the Globally distributed database with Exascale based distributed database. 
+	* `source` - (Required) Type of Globally distributed database Shard or Catalog. Use NEW_VAULT_AND_CLUSTER for a Globally distributed database on Exascale with new vaults and clusters created from scratch. Use EXISTING_CLUSTER for a Globally distributed database on Exascale based on pre-existing clusters. EXADB_XS is currently the same as EXISTING_CLUSTER and will be deprecated after the deprecation cycle. 
 	* `vault_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `kmsKeyId` are required for Customer Managed Keys.
-	* `vm_cluster_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VmCluster.
+	* `vm_cluster_details` - (Required when source=NEW_VAULT_AND_CLUSTER) Details of the request to create exadb vm cluster for shard or catalog of the distributed database. 
+		* `backup_network_nsg_ids` - (Applicable when source=NEW_VAULT_AND_CLUSTER) A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to.  Setting this to an empty array after the list is created removes the resource from all NSGs.  For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems. 
+		* `backup_subnet_id` - (Required when source=NEW_VAULT_AND_CLUSTER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup network subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
+		* `domain` - (Applicable when source=NEW_VAULT_AND_CLUSTER) A domain name used for the Exadata VM cluster on Exascale Infrastructure.  If the Oracle-provided internet and VCN resolver is enabled for the specified subnet, then the domain name for the subnet is used (do not provide one). Otherwise, provide a valid DNS domain name.  Hyphens (-) are not permitted. Applies to Exadata Database Service on Exascale Infrastructure only. 
+		* `enabled_ecpu_count` - (Required when source=NEW_VAULT_AND_CLUSTER) The number of ECPUs to enable for an Exadata VM cluster on Exascale Infrastructure. 
+		* `is_diagnostics_events_enabled` - (Applicable when source=NEW_VAULT_AND_CLUSTER) Indicates whether diagnostic collection is enabled for the VM cluster.  Enabling diagnostic collection allows you to receive Events service notifications for guest VM issues.  Diagnostic collection also allows Oracle to provide enhanced service and proactive support for your Exadata system.  You can enable diagnostic collection during VM cluster provisioning. You can also disable or enable it at any time using the `UpdateVmCluster` API. 
+		* `is_health_monitoring_enabled` - (Applicable when source=NEW_VAULT_AND_CLUSTER) Indicates whether health monitoring is enabled for the VM cluster.  Enabling health monitoring allows Oracle to collect diagnostic data and share it with its operations and support personnel.  You may also receive notifications for some events. Collecting health diagnostics enables Oracle to provide proactive support and enhanced service for your system. Optionally enable health monitoring while provisioning a system. You can also disable or enable health monitoring anytime using the `UpdateVmCluster` API. 
+		* `is_incident_logs_enabled` - (Applicable when source=NEW_VAULT_AND_CLUSTER) Indicates whether incident logs and trace collection are enabled for the VM cluster.  Enabling incident logs collection allows Oracle to receive Events service notifications for guest VM issues, collect incident logs and traces, and use them to diagnose issues and resolve them. Optionally enable incident logs collection while provisioning a system. You can also disable or enable incident logs collection anytime using the `UpdateVmCluster` API. 
+		* `license_model` - (Applicable when source=NEW_VAULT_AND_CLUSTER) The Oracle license model that applies to the Exadata VM cluster on Exascale Infrastructure. The default is BRING_YOUR_OWN_LICENSE. 
+		* `nsg_ids` - (Applicable when source=NEW_VAULT_AND_CLUSTER) The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs.  Setting this to an empty list removes all resources from all NSGs.  For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
+		* `private_zone_id` - (Applicable when source=NEW_VAULT_AND_CLUSTER) The private zone ID in which you want DNS records to be created. 
+		* `ssh_public_keys` - (Required when source=NEW_VAULT_AND_CLUSTER) The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.
+		* `subnet_id` - (Required when source=NEW_VAULT_AND_CLUSTER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
+		* `total_ecpu_count` - (Applicable when source=NEW_VAULT_AND_CLUSTER) The number of Total ECPUs for an Exadata VM cluster on Exascale Infrastructure. 
+		* `vm_file_system_storage_size` - (Applicable when source=NEW_VAULT_AND_CLUSTER) File System Storage Size in GBs for Exadata VM cluster. 
+	* `vm_cluster_id` - (Required when source=EXADB_XS) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VmCluster.
 * `sharding_method` - (Required) Sharding Methods for the Globally distributed database.
 * `state` - (Optional) (Updatable) The target state for the Distributed Database. Could be set to `ACTIVE` or `INACTIVE`. 
 * `change_db_backup_config_trigger` - (Optional) (Updatable) An optional property when incremented triggers Change Db Backup Config. Could be set to any integer value.
@@ -209,6 +387,8 @@ The following arguments are supported:
 * `download_gsm_certificate_signing_request_trigger` - (Optional) (Updatable) An optional property when incremented triggers Download Gsm Certificate Signing Request. Could be set to any integer value.
 * `generate_gsm_certificate_signing_request_trigger` - (Optional) (Updatable) An optional property when incremented triggers Generate Gsm Certificate Signing Request. Could be set to any integer value.
 * `generate_wallet_trigger` - (Optional) (Updatable) An optional property when incremented triggers Generate Wallet. Could be set to any integer value.
+* `move_replication_unit_trigger` - (Optional) (Updatable) An optional property when incremented triggers Move Replication Unit. Could be set to any integer value.
+* `recreate_failed_resource_trigger` - (Optional) (Updatable) An optional property when incremented triggers Recreate Failed Resource. Could be set to any integer value.
 * `upload_signed_certificate_and_generate_wallet_trigger` - (Optional) (Updatable) An optional property when incremented triggers Upload Signed Certificate And Generate Wallet. Could be set to any integer value.
 * `validate_network_trigger` - (Optional) (Updatable) An optional property when incremented triggers Validate Network. Could be set to any integer value.
 
@@ -221,15 +401,27 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `catalog_details` - Collection of catalogs associated with the Globally distributed database.
+	* `availability_domain` - The name of the availability domain that the distributed database catalog will be located in.
 	* `container_database_id` - the identifier of the container database for underlying supporting resource.
 	* `db_home_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
+	* `db_storage_vault_details` - The Storage Vault for Distributed Database Resource
+		* `additional_flash_cache_in_percent` - The size of additional Flash Cache in percentage of High Capacity database storage.
+		* `db_storage_vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Vault Storage.
+		* `display_name` - The user-friendly name for the Exadata Database Storage Vault. The name does not need to be unique.
+		* `high_capacity_database_storage` - Total storage capacity in GB for vault storage.
 	* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	* `kms_key_version_id` - The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. 
 	* `metadata` - Additional metadata related to Globally distributed database resources.
 		* `map` - The map containing key-value pair of additional metadata.
 	* `name` - The name of catalog.
 	* `peer_details` - Peer details for the catalog.
+		* `availability_domain` - The name of the availability domain that the distributed database shard will be located in.
 		* `container_database_id` - the identifier of the container database for underlying supporting resource.
+		* `db_storage_vault_details` - The Storage Vault for Distributed Database Resource
+			* `additional_flash_cache_in_percent` - The size of additional Flash Cache in percentage of High Capacity database storage.
+			* `db_storage_vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Vault Storage.
+			* `display_name` - The user-friendly name for the Exadata Database Storage Vault. The name does not need to be unique.
+			* `high_capacity_database_storage` - Total storage capacity in GB for vault storage.
 		* `metadata` - Additional metadata related to Globally distributed database resources.
 			* `map` - The map containing key-value pair of additional metadata.
 		* `protection_mode` - The protectionMode for the catalog peer.
@@ -239,14 +431,48 @@ The following attributes are exported:
 		* `time_created` - The time the catalog peer was created. An RFC3339 formatted datetime string
 		* `time_updated` - The time the catalog peer was last updated. An RFC3339 formatted datetime string
 		* `transport_type` - The redo transport type to use for this Data Guard association.
+		* `vm_cluster_details` - The Exadata VM cluster for Distributed Database Resource
+			* `backup_network_nsg_ids` - A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to.  Setting this to an empty array after the list is created removes the resource from all NSGs.  For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems. 
+			* `backup_subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup network subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
+			* `display_name` - The user-friendly name for the Exadata VM cluster on Exascale Infrastructure. The name does not need to be unique.
+			* `domain` - A domain name used for the Exadata VM cluster on Exascale Infrastructure.  If the Oracle-provided internet and VCN resolver is enabled for the specified subnet, then the domain name for the subnet is used (do not provide one). Otherwise, provide a valid DNS domain name.  Hyphens (-) are not permitted. Applies to Exadata Database Service on Exascale Infrastructure only. 
+			* `enabled_ecpu_count` - The number of ECPUs to enable for an Exadata VM cluster on Exascale Infrastructure. 
+			* `is_diagnostics_events_enabled` - Indicates whether diagnostic collection is enabled for the VM cluster.  Enabling diagnostic collection allows you to receive Events service notifications for guest VM issues.  Diagnostic collection also allows Oracle to provide enhanced service and proactive support for your Exadata system.  You can enable diagnostic collection during VM cluster provisioning. You can also disable or enable it at any time using the `UpdateVmCluster` API. 
+			* `is_health_monitoring_enabled` - Indicates whether health monitoring is enabled for the VM cluster.  Enabling health monitoring allows Oracle to collect diagnostic data and share it with its operations and support personnel.  You may also receive notifications for some events. Collecting health diagnostics enables Oracle to provide proactive support and enhanced service for your system. Optionally enable health monitoring while provisioning a system. You can also disable or enable health monitoring anytime using the `UpdateVmCluster` API. 
+			* `is_incident_logs_enabled` - Indicates whether incident logs and trace collection are enabled for the VM cluster.  Enabling incident logs collection allows Oracle to receive Events service notifications for guest VM issues, collect incident logs and traces, and use them to diagnose issues and resolve them. Optionally enable incident logs collection while provisioning a system. You can also disable or enable incident logs collection anytime using the `UpdateVmCluster` API. 
+			* `license_model` - The Oracle license model that applies to the Exadata VM cluster on Exascale Infrastructure. The default is BRING_YOUR_OWN_LICENSE. 
+			* `nsg_ids` - The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs.  Setting this to an empty list removes all resources from all NSGs.  For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
+			* `private_zone_id` - The private zone ID in which you want DNS records to be created. 
+			* `ssh_public_keys` - The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.
+			* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
+			* `total_ecpu_count` - The number of Total ECPUs for an Exadata VM cluster on Exascale Infrastructure. 
+			* `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata VM cluster on Exascale Infrastructure.
+			* `vm_file_system_storage_size` - File System Storage Size in GBs for Exadata VM cluster. 
 		* `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VmCluster.
 	* `shard_group` - The name of the shardGroup for the catalog.
-	* `source` - The source of Globally distributed database type: Use EXADB_XS for the Globally distributed database with Exascale based distributed database. 
+	* `source` - Type of Globally distributed database Shard or Catalog. Use NEW_VAULT_AND_CLUSTER for a Globally distributed database on Exascale with new vaults and clusters created from scratch. Use EXISTING_CLUSTER for a Globally distributed database on Exascale based on pre-existing clusters. EXADB_XS is currently the same as EXISTING_CLUSTER and will be deprecated after the deprecation cycle. 
 	* `status` - Status of EXADB_XS based catalog.
 	* `supporting_resource_id` - the identifier of the underlying supporting resource.
 	* `time_created` - The time the catalog was created. An RFC3339 formatted datetime string
 	* `time_updated` - The time the catalog was last updated. An RFC3339 formatted datetime string
 	* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `kmsKeyId` are required for Customer Managed Keys.
+	* `vm_cluster_details` - The Exadata VM cluster for Distributed Database Resource
+		* `backup_network_nsg_ids` - A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to.  Setting this to an empty array after the list is created removes the resource from all NSGs.  For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems. 
+		* `backup_subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup network subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
+		* `display_name` - The user-friendly name for the Exadata VM cluster on Exascale Infrastructure. The name does not need to be unique.
+		* `domain` - A domain name used for the Exadata VM cluster on Exascale Infrastructure.  If the Oracle-provided internet and VCN resolver is enabled for the specified subnet, then the domain name for the subnet is used (do not provide one). Otherwise, provide a valid DNS domain name.  Hyphens (-) are not permitted. Applies to Exadata Database Service on Exascale Infrastructure only. 
+		* `enabled_ecpu_count` - The number of ECPUs to enable for an Exadata VM cluster on Exascale Infrastructure. 
+		* `is_diagnostics_events_enabled` - Indicates whether diagnostic collection is enabled for the VM cluster.  Enabling diagnostic collection allows you to receive Events service notifications for guest VM issues.  Diagnostic collection also allows Oracle to provide enhanced service and proactive support for your Exadata system.  You can enable diagnostic collection during VM cluster provisioning. You can also disable or enable it at any time using the `UpdateVmCluster` API. 
+		* `is_health_monitoring_enabled` - Indicates whether health monitoring is enabled for the VM cluster.  Enabling health monitoring allows Oracle to collect diagnostic data and share it with its operations and support personnel.  You may also receive notifications for some events. Collecting health diagnostics enables Oracle to provide proactive support and enhanced service for your system. Optionally enable health monitoring while provisioning a system. You can also disable or enable health monitoring anytime using the `UpdateVmCluster` API. 
+		* `is_incident_logs_enabled` - Indicates whether incident logs and trace collection are enabled for the VM cluster.  Enabling incident logs collection allows Oracle to receive Events service notifications for guest VM issues, collect incident logs and traces, and use them to diagnose issues and resolve them. Optionally enable incident logs collection while provisioning a system. You can also disable or enable incident logs collection anytime using the `UpdateVmCluster` API. 
+		* `license_model` - The Oracle license model that applies to the Exadata VM cluster on Exascale Infrastructure. The default is BRING_YOUR_OWN_LICENSE. 
+		* `nsg_ids` - The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs.  Setting this to an empty list removes all resources from all NSGs.  For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
+		* `private_zone_id` - The private zone ID in which you want DNS records to be created. 
+		* `ssh_public_keys` - The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.
+		* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
+		* `total_ecpu_count` - The number of Total ECPUs for an Exadata VM cluster on Exascale Infrastructure. 
+		* `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata VM cluster on Exascale Infrastructure.
+		* `vm_file_system_storage_size` - File System Storage Size in GBs for Exadata VM cluster. 
 	* `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VmCluster.
 * `character_set` - The character set for the database.
 * `chunks` - The default number of unique chunks in a shardspace. The value of chunks must be greater than 2 times the size of the largest shardgroup in any shardspace. 
@@ -310,16 +536,29 @@ The following attributes are exported:
 * `replication_factor` - The Replication factor for RAFT replication based Globally distributed database. Currently supported values are 3, 5 and 7. 
 * `replication_method` - The Replication method for Globally distributed database. Use RAFT for Raft replication, and DG for DataGuard. If replicationMethod is not provided, it defaults to DG. 
 * `replication_unit` - The replication unit count for RAFT based distributed database. For RAFT replication based Globally distributed database, the value should be at least twice the number of shards. 
+* `scan_listener_port` - The TCP Single Client Access Name (SCAN) port for Globally distributed database clusters.
 * `shard_details` - Collection of shards associated with the Globally distributed database.
+	* `availability_domain` - The name of the availability domain that the distributed database shard will be located in.
 	* `container_database_id` - the identifier of the container database for underlying supporting resource.
 	* `db_home_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
+	* `db_storage_vault_details` - The Storage Vault for Distributed Database Resource
+		* `additional_flash_cache_in_percent` - The size of additional Flash Cache in percentage of High Capacity database storage.
+		* `db_storage_vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Vault Storage.
+		* `display_name` - The user-friendly name for the Exadata Database Storage Vault. The name does not need to be unique.
+		* `high_capacity_database_storage` - Total storage capacity in GB for vault storage.
 	* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	* `kms_key_version_id` - The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. 
 	* `metadata` - Additional metadata related to Globally distributed database resources.
 		* `map` - The map containing key-value pair of additional metadata.
 	* `name` - Name of the shard.
 	* `peer_details` - Peer details for the shard.
+		* `availability_domain` - The name of the availability domain that the distributed database shard will be located in.
 		* `container_database_id` - the identifier of the container database for underlying supporting resource.
+		* `db_storage_vault_details` - The Storage Vault for Distributed Database Resource
+			* `additional_flash_cache_in_percent` - The size of additional Flash Cache in percentage of High Capacity database storage.
+			* `db_storage_vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Vault Storage.
+			* `display_name` - The user-friendly name for the Exadata Database Storage Vault. The name does not need to be unique.
+			* `high_capacity_database_storage` - Total storage capacity in GB for vault storage.
 		* `metadata` - Additional metadata related to Globally distributed database resources.
 			* `map` - The map containing key-value pair of additional metadata.
 		* `protection_mode` - The protectionMode for the shard peer.
@@ -329,15 +568,49 @@ The following attributes are exported:
 		* `time_created` - The time the shard peer was created. An RFC3339 formatted datetime string
 		* `time_updated` - The time the shard peer was last updated. An RFC3339 formatted datetime string
 		* `transport_type` - The redo transport type to use for this Data Guard association.
+		* `vm_cluster_details` - The Exadata VM cluster for Distributed Database Resource
+			* `backup_network_nsg_ids` - A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to.  Setting this to an empty array after the list is created removes the resource from all NSGs.  For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems. 
+			* `backup_subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup network subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
+			* `display_name` - The user-friendly name for the Exadata VM cluster on Exascale Infrastructure. The name does not need to be unique.
+			* `domain` - A domain name used for the Exadata VM cluster on Exascale Infrastructure.  If the Oracle-provided internet and VCN resolver is enabled for the specified subnet, then the domain name for the subnet is used (do not provide one). Otherwise, provide a valid DNS domain name.  Hyphens (-) are not permitted. Applies to Exadata Database Service on Exascale Infrastructure only. 
+			* `enabled_ecpu_count` - The number of ECPUs to enable for an Exadata VM cluster on Exascale Infrastructure. 
+			* `is_diagnostics_events_enabled` - Indicates whether diagnostic collection is enabled for the VM cluster.  Enabling diagnostic collection allows you to receive Events service notifications for guest VM issues.  Diagnostic collection also allows Oracle to provide enhanced service and proactive support for your Exadata system.  You can enable diagnostic collection during VM cluster provisioning. You can also disable or enable it at any time using the `UpdateVmCluster` API. 
+			* `is_health_monitoring_enabled` - Indicates whether health monitoring is enabled for the VM cluster.  Enabling health monitoring allows Oracle to collect diagnostic data and share it with its operations and support personnel.  You may also receive notifications for some events. Collecting health diagnostics enables Oracle to provide proactive support and enhanced service for your system. Optionally enable health monitoring while provisioning a system. You can also disable or enable health monitoring anytime using the `UpdateVmCluster` API. 
+			* `is_incident_logs_enabled` - Indicates whether incident logs and trace collection are enabled for the VM cluster.  Enabling incident logs collection allows Oracle to receive Events service notifications for guest VM issues, collect incident logs and traces, and use them to diagnose issues and resolve them. Optionally enable incident logs collection while provisioning a system. You can also disable or enable incident logs collection anytime using the `UpdateVmCluster` API. 
+			* `license_model` - The Oracle license model that applies to the Exadata VM cluster on Exascale Infrastructure. The default is BRING_YOUR_OWN_LICENSE. 
+			* `nsg_ids` - The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs.  Setting this to an empty list removes all resources from all NSGs.  For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
+			* `private_zone_id` - The private zone ID in which you want DNS records to be created. 
+			* `ssh_public_keys` - The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.
+			* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
+			* `total_ecpu_count` - The number of Total ECPUs for an Exadata VM cluster on Exascale Infrastructure. 
+			* `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata VM cluster on Exascale Infrastructure.
+			* `vm_file_system_storage_size` - File System Storage Size in GBs for Exadata VM cluster. 
 		* `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VmCluster.
 	* `shard_group` - The name of the shardGroup for the shard.
 	* `shard_space` - The shard space name for the Globally distributed database. Shard space for existing shard cannot be changed, once shard is created. Shard space name shall be used while creation of new shards. 
-	* `source` - The source of Globally distributed database type: Use EXADB_XS for the Globally distributed database with Exascale based distributed database. 
+	* `source` - Type of Globally distributed database Shard or Catalog. Use NEW_VAULT_AND_CLUSTER for a Globally distributed database on Exascale with new vaults and clusters created from scratch. Use EXISTING_CLUSTER for a Globally distributed database on Exascale based on pre-existing clusters. EXADB_XS is currently the same as EXISTING_CLUSTER and will be deprecated after the deprecation cycle. 
 	* `status` - Status of EXADB_XS based shard.
 	* `supporting_resource_id` - the identifier of the underlying supporting resource.
 	* `time_created` - The time the shard was created. An RFC3339 formatted datetime string
 	* `time_updated` - The time the shard was last updated. An RFC3339 formatted datetime string
 	* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `kmsKeyId` are required for Customer Managed Keys.
+	* `vm_cluster_details` - The Exadata VM cluster for Distributed Database Resource
+		* `backup_network_nsg_ids` - A list of the [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to.  Setting this to an empty array after the list is created removes the resource from all NSGs.  For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems. 
+		* `backup_subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup network subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
+		* `display_name` - The user-friendly name for the Exadata VM cluster on Exascale Infrastructure. The name does not need to be unique.
+		* `domain` - A domain name used for the Exadata VM cluster on Exascale Infrastructure.  If the Oracle-provided internet and VCN resolver is enabled for the specified subnet, then the domain name for the subnet is used (do not provide one). Otherwise, provide a valid DNS domain name.  Hyphens (-) are not permitted. Applies to Exadata Database Service on Exascale Infrastructure only. 
+		* `enabled_ecpu_count` - The number of ECPUs to enable for an Exadata VM cluster on Exascale Infrastructure. 
+		* `is_diagnostics_events_enabled` - Indicates whether diagnostic collection is enabled for the VM cluster.  Enabling diagnostic collection allows you to receive Events service notifications for guest VM issues.  Diagnostic collection also allows Oracle to provide enhanced service and proactive support for your Exadata system.  You can enable diagnostic collection during VM cluster provisioning. You can also disable or enable it at any time using the `UpdateVmCluster` API. 
+		* `is_health_monitoring_enabled` - Indicates whether health monitoring is enabled for the VM cluster.  Enabling health monitoring allows Oracle to collect diagnostic data and share it with its operations and support personnel.  You may also receive notifications for some events. Collecting health diagnostics enables Oracle to provide proactive support and enhanced service for your system. Optionally enable health monitoring while provisioning a system. You can also disable or enable health monitoring anytime using the `UpdateVmCluster` API. 
+		* `is_incident_logs_enabled` - Indicates whether incident logs and trace collection are enabled for the VM cluster.  Enabling incident logs collection allows Oracle to receive Events service notifications for guest VM issues, collect incident logs and traces, and use them to diagnose issues and resolve them. Optionally enable incident logs collection while provisioning a system. You can also disable or enable incident logs collection anytime using the `UpdateVmCluster` API. 
+		* `license_model` - The Oracle license model that applies to the Exadata VM cluster on Exascale Infrastructure. The default is BRING_YOUR_OWN_LICENSE. 
+		* `nsg_ids` - The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs.  Setting this to an empty list removes all resources from all NSGs.  For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
+		* `private_zone_id` - The private zone ID in which you want DNS records to be created. 
+		* `ssh_public_keys` - The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.
+		* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
+		* `total_ecpu_count` - The number of Total ECPUs for an Exadata VM cluster on Exascale Infrastructure. 
+		* `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata VM cluster on Exascale Infrastructure.
+		* `vm_file_system_storage_size` - File System Storage Size in GBs for Exadata VM cluster. 
 	* `vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VmCluster.
 * `sharding_method` - Sharding Methods for the Globally distributed database.
 * `state` - Lifecycle states for the Globally distributed database.

@@ -46,6 +46,7 @@ func DistributedDatabaseDistributedAutonomousDatabaseResource() *schema.Resource
 		ReadContext:   readDistributedDatabaseDistributedAutonomousDatabaseWithContext,
 		UpdateContext: updateDistributedDatabaseDistributedAutonomousDatabaseWithContext,
 		DeleteContext: deleteDistributedDatabaseDistributedAutonomousDatabaseWithContext,
+		CustomizeDiff: distributedDatabaseDistributedAutonomousDatabaseCustomizeDiff,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"catalog_details": {
@@ -113,6 +114,18 @@ func DistributedDatabaseDistributedAutonomousDatabaseResource() *schema.Resource
 							ForceNew: true,
 						},
 						"kms_key_version_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"okv_end_point_group": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"okv_key_store_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -375,7 +388,6 @@ func DistributedDatabaseDistributedAutonomousDatabaseResource() *schema.Resource
 			"shard_details": {
 				Type:     schema.TypeList,
 				Required: true,
-				ForceNew: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -390,39 +402,32 @@ func DistributedDatabaseDistributedAutonomousDatabaseResource() *schema.Resource
 						// false-positive diffs after the resource has been created.
 						// JIRA: TOP-9459
 						"admin_password": {
-							Type:      schema.TypeString,
-							Required:  true,
-							ForceNew:  true,
-							Sensitive: true,
-							/*Optional:         true,
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
 							Sensitive:        true,
-							Computed:         true,*/
+							StateFunc:        maskWriteOnlyStringState,
 							DiffSuppressFunc: suppressMaskedPasswordDiff,
 						},
 						"cloud_autonomous_vm_cluster_id": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 						"compute_count": {
 							Type:     schema.TypeFloat,
 							Required: true,
-							ForceNew: true,
 						},
 						"data_storage_size_in_gbs": {
 							Type:     schema.TypeFloat,
 							Required: true,
-							ForceNew: true,
 						},
 						"is_auto_scaling_enabled": {
 							Type:     schema.TypeBool,
 							Required: true,
-							ForceNew: true,
 						},
 						"source": {
 							Type:             schema.TypeString,
 							Required:         true,
-							ForceNew:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"ADB_D",
@@ -434,19 +439,26 @@ func DistributedDatabaseDistributedAutonomousDatabaseResource() *schema.Resource
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"kms_key_version_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
+						},
+						"okv_end_point_group": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"okv_key_store_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 						"peer_cloud_autonomous_vm_cluster_ids": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -455,14 +467,12 @@ func DistributedDatabaseDistributedAutonomousDatabaseResource() *schema.Resource
 							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
 									"cloud_autonomous_vm_cluster_id": {
 										Type:     schema.TypeString,
 										Required: true,
-										ForceNew: true,
 									},
 
 									// Optional
@@ -470,25 +480,21 @@ func DistributedDatabaseDistributedAutonomousDatabaseResource() *schema.Resource
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 									},
 									"is_automatic_failover_enabled": {
 										Type:     schema.TypeBool,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 									},
 									"protection_mode": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 									},
 									"standby_maintenance_buffer_in_days": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 									},
 
 									// Computed
@@ -556,13 +562,11 @@ func DistributedDatabaseDistributedAutonomousDatabaseResource() *schema.Resource
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"vault_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 
 						// Computed
@@ -857,25 +861,23 @@ func DistributedDatabaseDistributedAutonomousDatabaseResource() *schema.Resource
 					string(oci_distributed_database.DistributedAutonomousDatabaseLifecycleStateActive),
 				}, true),
 			},
+			// Shared TLS artifacts used by action APIs such as Configure Sharding.
+			"ca_bundle_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"certificate_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"change_db_backup_config_trigger": {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-			// NOTE (JIRA: TOP-9494):
-			// Codegen gap: ChangeDistributedAutonomousDbBackupConfig action requires DbBackupConfig in the payload
-			// (ChangeDistributedAutonomousDbBackupConfigDetails.dbBackupConfig), but schema did not expose an
-			// action-specific input. Added `change_db_backup_config` to make the action usable from Terraform.
-			/*"change_db_backup_config": {
-				Type:     schema.TypeList,
+			"configure_gsm_wallet_trigger": {
+				Type:     schema.TypeInt,
 				Optional: true,
-				MaxItems: 1,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// use the same schema fields you already use under db_backup_config
-						// (whatever DistributedAutonomousDbBackupConfig supports)
-					},
-				},
-			},*/
+			},
 			"configure_sharding_trigger": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -948,6 +950,14 @@ func DistributedDatabaseDistributedAutonomousDatabaseResource() *schema.Resource
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"move_replication_unit_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"recreate_failed_resource_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 			"upload_signed_certificate_and_generate_wallet_trigger": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -960,6 +970,10 @@ func DistributedDatabaseDistributedAutonomousDatabaseResource() *schema.Resource
 				Type:      schema.TypeString,
 				Optional:  true,
 				Sensitive: true,
+			},
+			"validate_ca_bundle_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
 			},
 			"validate_network_trigger": {
 				Type:     schema.TypeInt,
@@ -1221,20 +1235,41 @@ func DistributedDatabaseDistributedAutonomousDatabaseResource() *schema.Resource
 	}
 }
 
-/*
-func createDistributedDatabaseDistributedAutonomousDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	sync := &DistributedDatabaseDistributedAutonomousDatabaseResourceCrud{}
-	sync.D = d
-	sync.Client = m.(*client.OracleClients).DistributedAutonomousDbServiceClient()
-	sync.WorkRequestClient = m.(*client.OracleClients).DistributedDatabaseDistributedDbWorkRequestServiceClient()
+// distributedDatabaseDistributedAutonomousDatabaseCustomizeDiff validates PATCH request shape
+// and decides when shard_details mutations should stay in-place vs require replacement.
+func distributedDatabaseDistributedAutonomousDatabaseCustomizeDiff(ctx context.Context, diff *schema.ResourceDiff, meta interface{}) error {
+	_ = ctx
+	_ = meta
 
-	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
-		return tfresource.HandleDiagError(m, e)
+	if err := validateDistributedDatabasePatchOperations(diff); err != nil {
+		return err
+	}
+
+	if err := stabilizeDistributedAutonomousDatabaseWriteOnlyDiffs(diff); err != nil {
+		return err
+	}
+
+	return configureDistributedDatabaseShardDetailsDiff(diff)
+}
+
+func stabilizeDistributedAutonomousDatabaseWriteOnlyDiffs(diff *schema.ResourceDiff) error {
+	if diff.Id() == "" {
+		return nil
+	}
+
+	for _, key := range diff.GetChangedKeysPrefix("shard_details") {
+		if !strings.HasSuffix(key, ".admin_password") {
+			continue
+		}
+
+		if err := diff.SetNew(key, ""); err != nil {
+			return err
+		}
 	}
 
 	return nil
+}
 
-}*/
 // IMPORTANT:
 // This resource explicitly forbids combining CREATE with action triggers
 // (e.g. start/stop, wallet generation, sharding, backup config changes).
@@ -1269,11 +1304,15 @@ func createDistributedDatabaseDistributedAutonomousDatabaseWithContext(ctx conte
 	// Block CREATE + action triggers (triggers are TypeInt; allow only 0 / unset)
 	for _, attr := range []string{
 		"change_db_backup_config_trigger",
+		"configure_gsm_wallet_trigger",
 		"configure_sharding_trigger",
 		"download_gsm_certificate_signing_request_trigger",
 		"generate_gsm_certificate_signing_request_trigger",
 		"generate_wallet_trigger",
+		"move_replication_unit_trigger",
+		"recreate_failed_resource_trigger",
 		"upload_signed_certificate_and_generate_wallet_trigger",
+		"validate_ca_bundle_trigger",
 		"validate_network_trigger",
 		"start_database_trigger",
 		"stop_database_trigger",
@@ -1296,8 +1335,30 @@ func createDistributedDatabaseDistributedAutonomousDatabaseWithContext(ctx conte
 		}
 	}
 
+	if err := validateDistributedAutonomousDatabaseCreateInputs(d); err != nil {
+		return diag.Diagnostics{{
+			Severity: diag.Error,
+			Summary:  "Missing required create input",
+			Detail:   err.Error(),
+		}}
+	}
+
 	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
 		return tfresource.HandleDiagError(m, e)
+	}
+
+	return nil
+}
+
+func validateDistributedAutonomousDatabaseCreateInputs(d *schema.ResourceData) error {
+	if shardDetails, ok := d.GetOkExists("shard_details"); ok {
+		for i := range shardDetails.([]interface{}) {
+			fieldKey := fmt.Sprintf("shard_details.%d.admin_password", i)
+			password := getConfiguredStringPointer(d, fieldKey)
+			if password == nil {
+				return fmt.Errorf("%s must be provided during create", fieldKey)
+			}
+		}
 	}
 
 	return nil
@@ -1311,590 +1372,6 @@ func readDistributedDatabaseDistributedAutonomousDatabaseWithContext(ctx context
 	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-/*
-func updateDistributedDatabaseDistributedAutonomousDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	sync := &DistributedDatabaseDistributedAutonomousDatabaseResourceCrud{}
-	sync.D = d
-	sync.Client = m.(*client.OracleClients).DistributedAutonomousDbServiceClient()
-	sync.WorkRequestClient = m.(*client.OracleClients).DistributedDatabaseDistributedDbWorkRequestServiceClient()
-
-	actionInvoked := false
-	needsUpdate :=
-    d.HasChange("display_name") ||
-    d.HasChange("freeform_tags") ||
-    d.HasChange("defined_tags") ||
-    d.HasChange("compartment_id") // if you treat it via updateCompartment
-
-	if needsUpdate {
-    if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
-        return tfresource.HandleDiagError(m, err)
-    }
-	} else if actionInvoked {
-    // No PUT-able changes; action already performed + waited inside action handler
-    return nil
-	}
-
-	/*powerOn, powerOff := false, false
-
-	if sync.D.HasChange("state") {
-		wantedState := strings.ToUpper(sync.D.Get("state").(string))
-		if oci_distributed_database.DistributedAutonomousDatabaseLifecycleStateActive == oci_distributed_database.DistributedAutonomousDatabaseLifecycleStateEnum(wantedState) {
-			powerOn = true
-		} else if oci_distributed_database.DistributedAutonomousDatabaseLifecycleStateInactive == oci_distributed_database.DistributedAutonomousDatabaseLifecycleStateEnum(wantedState) {
-			powerOff = true
-		}
-	}*/
-
-//if powerOn {
-// NOTE:
-// This function contains multiple workarounds for known Terraform code
-// generator issues (incorrect return types, missing context propagation).
-// These changes are required for compilation and correctness but should
-// be removed once the generator is fixed.
-// See JIRA: TOP-9394
-/*
-	if err := sync.StartDistributedAutonomousDatabase(); err != nil {
-		return tfresource.HandleDiagError(m, err)
-	}*/
-/*if err := sync.StartDistributedAutonomousDatabase(ctx); err != nil {
-		return tfresource.HandleDiagError(m, err)
-	}
-	sync.D.Set("state", oci_distributed_database.DistributedAutonomousDatabaseLifecycleStateActive)
-}*/
-
-// CODEGEN FIX: TOP-9474
-// Start/Stop are imperative action APIs (not desired-state changes).
-// Terraform cannot infer when to run them unless a trigger changes.
-// Use monotonic int triggers to make the action explicit and idempotent.
-/*if d.HasChange("start_database_trigger") && d.HasChange("stop_database_trigger") {
-	log.Printf("start_database_trigger and stop_database_trigger cannot be changed in the same apply")
-}*/
-
-// START trigger
-/*if oldRaw, newRaw := d.GetChange("start_database_trigger"); d.HasChange("start_database_trigger") {
-	oldV := oldRaw.(int)
-	newV := newRaw.(int)
-	if newV <= oldV {
-		log.Printf("start_database_trigger must be incremented to retrigger start action (old=%d new=%d)", oldV, newV)
-		return nil
-	}
-	if err := sync.StartDistributedAutonomousDatabase(ctx); err != nil {
-		return tfresource.HandleDiagError(m, err)
-	}
-	actionInvoked = true
-	// Preserve trigger in state
-	_ = d.Set("start_database_trigger", newV)
-}*/
-
-// STOP trigger
-/*if oldRaw, newRaw := d.GetChange("stop_database_trigger"); d.HasChange("stop_database_trigger") {
-	oldV := oldRaw.(int)
-	newV := newRaw.(int)
-	if newV <= oldV {
-		log.Printf("stop_database_trigger must be incremented to retrigger stop action (old=%d new=%d)", oldV, newV)
-		return nil
-	}
-	if err := sync.StopDistributedAutonomousDatabase(ctx); err != nil {
-		return tfresource.HandleDiagError(m, err)
-	}
-	actionInvoked = true
-	// Preserve trigger in state
-	_ = d.Set("stop_database_trigger", newV)
-}
-
-if _, ok := sync.D.GetOkExists("change_db_backup_config_trigger"); ok && sync.D.HasChange("change_db_backup_config_trigger") {
-	oldRaw, newRaw := sync.D.GetChange("change_db_backup_config_trigger")
-	oldValue := oldRaw.(int)
-	newValue := newRaw.(int)
-	if oldValue < newValue {
-		err := sync.ChangeDistributedAutonomousDbBackupConfig()
-		actionInvoked = true
-		if err != nil {
-			// WORKAROUND:
-			// This code is generated and incorrectly returns `error` from Context-based
-			// CRUD functions that must return `diag.Diagnostics`.
-			//
-			// The generator emits `return err` in multiple places, which causes a
-			// compile-time type mismatch with Terraform Plugin SDK v2.
-			//
-			// Errors are wrapped here using tfresource.HandleDiagError as a temporary fix.
-			// DO NOT remove unless the generator is updated.
-			// See JIRA: TOP-9389
-			// return err
-			return tfresource.HandleDiagError(m, err)
-		}
-	} else {
-		sync.D.Set("change_db_backup_config_trigger", oldRaw)
-		// WORKAROUND:
-		// This code is generated and incorrectly returns `error` from Context-based
-		// CRUD functions that must return `diag.Diagnostics`.
-		//
-		// The generator emits `return err` in multiple places, which causes a
-		// compile-time type mismatch with Terraform Plugin SDK v2.
-		//
-		// Errors are wrapped here using tfresource.HandleDiagError as a temporary fix.
-		// DO NOT remove unless the generator is updated.
-		// See JIRA: TOP-9389
-		// return err
-		//return fmt.Errorf("new value of trigger should be greater than the old value")
-		return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
-	}
-}
-
-if _, ok := sync.D.GetOkExists("configure_sharding_trigger"); ok && sync.D.HasChange("configure_sharding_trigger") {
-	oldRaw, newRaw := sync.D.GetChange("configure_sharding_trigger")
-	oldValue := oldRaw.(int)
-	newValue := newRaw.(int)
-	if oldValue < newValue {
-		err := sync.ConfigureDistributedAutonomousDatabaseSharding()
-		actionInvoked = true
-		if err != nil {
-			// WORKAROUND:
-			// This code is generated and incorrectly returns `error` from Context-based
-			// CRUD functions that must return `diag.Diagnostics`.
-			//
-			// The generator emits `return err` in multiple places, which causes a
-			// compile-time type mismatch with Terraform Plugin SDK v2.
-			//
-			// Errors are wrapped here using tfresource.HandleDiagError as a temporary fix.
-			// DO NOT remove unless the generator is updated.
-			// See JIRA: TOP-9389
-			// return err
-			return tfresource.HandleDiagError(m, err)
-		}
-	} else {
-		sync.D.Set("configure_sharding_trigger", oldRaw)
-		// WORKAROUND:
-		// This code is generated and incorrectly returns `error` from Context-based
-		// CRUD functions that must return `diag.Diagnostics`.
-		//
-		// The generator emits `return err` in multiple places, which causes a
-		// compile-time type mismatch with Terraform Plugin SDK v2.
-		//
-		// Errors are wrapped here using tfresource.HandleDiagError as a temporary fix.
-		// DO NOT remove unless the generator is updated.
-		// See JIRA: TOP-9389
-		//return fmt.Errorf("new value of trigger should be greater than the old value")
-		return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
-	}
-}
-
-if _, ok := sync.D.GetOkExists("download_gsm_certificate_signing_request_trigger"); ok && sync.D.HasChange("download_gsm_certificate_signing_request_trigger") {
-	oldRaw, newRaw := sync.D.GetChange("download_gsm_certificate_signing_request_trigger")
-	oldValue := oldRaw.(int)
-	newValue := newRaw.(int)
-	if oldValue < newValue {
-		err := sync.DownloadDistributedAutonomousDatabaseGsmCertificateSigningRequest()
-		actionInvoked = true
-		if err != nil {
-			// WORKAROUND:
-			// This code is generated and incorrectly returns `error` from Context-based
-			// CRUD functions that must return `diag.Diagnostics`.
-			//
-			// The generator emits `return err` in multiple places, which causes a
-			// compile-time type mismatch with Terraform Plugin SDK v2.
-			//
-			// Errors are wrapped here using tfresource.HandleDiagError as a temporary fix.
-			// DO NOT remove unless the generator is updated.
-			// See JIRA: TOP-9389
-			// return err
-			return tfresource.HandleDiagError(m, err)
-		}
-	} else {
-		sync.D.Set("download_gsm_certificate_signing_request_trigger", oldRaw)
-		// WORKAROUND:
-		// This code is generated and incorrectly returns `error` from Context-based
-		// CRUD functions that must return `diag.Diagnostics`.
-		//
-		// The generator emits `return err` in multiple places, which causes a
-		// compile-time type mismatch with Terraform Plugin SDK v2.
-		//
-		// Errors are wrapped here using tfresource.HandleDiagError as a temporary fix.
-		// DO NOT remove unless the generator is updated.
-		// See JIRA: TOP-9389
-		//return fmt.Errorf("new value of trigger should be greater than the old value")
-		return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
-	}
-}
-
-if _, ok := sync.D.GetOkExists("generate_gsm_certificate_signing_request_trigger"); ok && sync.D.HasChange("generate_gsm_certificate_signing_request_trigger") {
-	oldRaw, newRaw := sync.D.GetChange("generate_gsm_certificate_signing_request_trigger")
-	oldValue := oldRaw.(int)
-	newValue := newRaw.(int)
-	if oldValue < newValue {
-		err := sync.GenerateDistributedAutonomousDatabaseGsmCertificateSigningRequest()
-		actionInvoked = true
-		if err != nil {
-			// WORKAROUND:
-			// This code is generated and incorrectly returns `error` from Context-based
-			// CRUD functions that must return `diag.Diagnostics`.
-			//
-			// The generator emits `return err` in multiple places, which causes a
-			// compile-time type mismatch with Terraform Plugin SDK v2.
-			//
-			// Errors are wrapped here using tfresource.HandleDiagError as a temporary fix.
-			// DO NOT remove unless the generator is updated.
-			// See JIRA: TOP-9389
-			// return err
-			return tfresource.HandleDiagError(m, err)
-		}
-	} else {
-		sync.D.Set("generate_gsm_certificate_signing_request_trigger", oldRaw)
-		// WORKAROUND:
-		// This code is generated and incorrectly returns `error` from Context-based
-		// CRUD functions that must return `diag.Diagnostics`.
-		//
-		// The generator emits `return err` in multiple places, which causes a
-		// compile-time type mismatch with Terraform Plugin SDK v2.
-		//
-		// Errors are wrapped here using tfresource.HandleDiagError as a temporary fix.
-		// DO NOT remove unless the generator is updated.
-		// See JIRA: TOP-9389
-		//return fmt.Errorf("new value of trigger should be greater than the old value")
-		return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
-	}
-}
-
-if _, ok := sync.D.GetOkExists("generate_wallet_trigger"); ok && sync.D.HasChange("generate_wallet_trigger") {
-	oldRaw, newRaw := sync.D.GetChange("generate_wallet_trigger")
-	oldValue := oldRaw.(int)
-	newValue := newRaw.(int)
-	if oldValue < newValue {
-		err := sync.GenerateDistributedAutonomousDatabaseWallet()
-		actionInvoked = true
-		if err != nil {
-			// WORKAROUND:
-			// This code is generated and incorrectly returns `error` from Context-based
-			// CRUD functions that must return `diag.Diagnostics`.
-			//
-			// The generator emits `return err` in multiple places, which causes a
-			// compile-time type mismatch with Terraform Plugin SDK v2.
-			//
-			// Errors are wrapped here using tfresource.HandleDiagError as a temporary fix.
-			// DO NOT remove unless the generator is updated.
-			// See JIRA: TOP-9389
-			// return err
-			return tfresource.HandleDiagError(m, err)
-		}
-	} else {
-		sync.D.Set("generate_wallet_trigger", oldRaw)
-		// WORKAROUND:
-		// This code is generated and incorrectly returns `error` from Context-based
-		// CRUD functions that must return `diag.Diagnostics`.
-		//
-		// The generator emits `return err` in multiple places, which causes a
-		// compile-time type mismatch with Terraform Plugin SDK v2.
-		//
-		// Errors are wrapped here using tfresource.HandleDiagError as a temporary fix.
-		// DO NOT remove unless the generator is updated.
-		// See JIRA: TOP-9389
-		//return fmt.Errorf("new value of trigger should be greater than the old value")
-		return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
-	}
-}
-
-if _, ok := sync.D.GetOkExists("upload_signed_certificate_and_generate_wallet_trigger"); ok && sync.D.HasChange("upload_signed_certificate_and_generate_wallet_trigger") {
-	oldRaw, newRaw := sync.D.GetChange("upload_signed_certificate_and_generate_wallet_trigger")
-	oldValue := oldRaw.(int)
-	newValue := newRaw.(int)
-	if oldValue < newValue {
-		err := sync.UploadDistributedAutonomousDatabaseSignedCertificateAndGenerateWallet()
-		actionInvoked = true
-		if err != nil {
-			// WORKAROUND:
-			// This code is generated and incorrectly returns `error` from Context-based
-			// CRUD functions that must return `diag.Diagnostics`.
-			//
-			// The generator emits `return err` in multiple places, which causes a
-			// compile-time type mismatch with Terraform Plugin SDK v2.
-			//
-			// Errors are wrapped here using tfresource.HandleDiagError as a temporary fix.
-			// DO NOT remove unless the generator is updated.
-			// See JIRA: TOP-9389
-			// return err
-			return tfresource.HandleDiagError(m, err)
-		}
-	} else {
-		sync.D.Set("upload_signed_certificate_and_generate_wallet_trigger", oldRaw)
-		// WORKAROUND:
-		// This code is generated and incorrectly returns `error` from Context-based
-		// CRUD functions that must return `diag.Diagnostics`.
-		//
-		// The generator emits `return err` in multiple places, which causes a
-		// compile-time type mismatch with Terraform Plugin SDK v2.
-		//
-		// Errors are wrapped here using tfresource.HandleDiagError as a temporary fix.
-		// DO NOT remove unless the generator is updated.
-		// See JIRA: TOP-9389
-		//return fmt.Errorf("new value of trigger should be greater than the old value")
-		return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
-	}
-}
-
-if _, ok := sync.D.GetOkExists("validate_network_trigger"); ok && sync.D.HasChange("validate_network_trigger") {
-	oldRaw, newRaw := sync.D.GetChange("validate_network_trigger")
-	oldValue := oldRaw.(int)
-	newValue := newRaw.(int)
-	if oldValue < newValue {
-		err := sync.ValidateDistributedAutonomousDatabaseNetwork()
-		actionInvoked = true
-		if err != nil {
-			// WORKAROUND:
-			// This code is generated and incorrectly returns `error` from Context-based
-			// CRUD functions that must return `diag.Diagnostics`.
-			//
-			// The generator emits `return err` in multiple places, which causes a
-			// compile-time type mismatch with Terraform Plugin SDK v2.
-			//
-			// Errors are wrapped here using tfresource.HandleDiagError as a temporary fix.
-			// DO NOT remove unless the generator is updated.
-			// See JIRA: TOP-9389
-			// return err
-			return tfresource.HandleDiagError(m, err)
-		}
-	} else {
-		sync.D.Set("validate_network_trigger", oldRaw)
-		// WORKAROUND:
-		// This code is generated and incorrectly returns `error` from Context-based
-		// CRUD functions that must return `diag.Diagnostics`.
-		//
-		// The generator emits `return err` in multiple places, which causes a
-		// compile-time type mismatch with Terraform Plugin SDK v2.
-		//
-		// Errors are wrapped here using tfresource.HandleDiagError as a temporary fix.
-		// DO NOT remove unless the generator is updated.
-		// See JIRA: TOP-9389
-		//return fmt.Errorf("new value of trigger should be greater than the old value")
-		return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
-	}
-}
-// WORKAROUND FOR GENERATED CODE ISSUE:
-// The Terraform code generator invokes UpdateResourceWithContext using an
-// outdated signature that does not include context.Context, causing a
-// compile-time error.
-//
-// The current helper signature requires:
-//   UpdateResourceWithContext(ctx context.Context, d schema.ResourceData, updater ResourceUpdaterWithContext)
-//
-// This call explicitly passes `ctx` as a temporary workaround.
-// DO NOT remove unless the generator is fixed.
-// See JIRA: TOP-9395
-/*if err := tfresource.UpdateResourceWithContext(d, sync); err != nil {
-	return tfresource.HandleDiagError(m, err)
-}*/
-/*if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
-	return tfresource.HandleDiagError(m, err)
-}*/
-
-/*if powerOff {
-// NOTE:
-// This function contains multiple workarounds for known Terraform code
-// generator issues (incorrect return types, missing context propagation).
-// These changes are required for compilation and correctness but should
-// be removed once the generator is fixed.
-// See JIRA: TOP-9394
-/*
-	if err := sync.StopDistributedAutonomousDatabase(); err != nil {
-		return tfresource.HandleDiagError(m, err)
-	}*/
-/*if err := sync.StopDistributedAutonomousDatabase(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
-		}
-		sync.D.Set("state", oci_distributed_database.DistributedAutonomousDatabaseLifecycleStateInactive)
-	}
-
-	return nil
-}*/
-
-// Action triggers are increment-only and intentionally bypass
-// UpdateResourceWithContext to avoid invalid PUT calls
-// while the resource is in UPDATING state.
-// See JIRA: TOP-9479
-
-/*func updateDistributedDatabaseDistributedAutonomousDatabaseWithContext(
-	ctx context.Context,
-	d *schema.ResourceData,
-	m interface{},
-) diag.Diagnostics {
-	sync := &DistributedDatabaseDistributedAutonomousDatabaseResourceCrud{}
-	sync.D = d
-	sync.Client = m.(*client.OracleClients).DistributedAutonomousDbServiceClient()
-	sync.WorkRequestClient = m.(*client.OracleClients).DistributedDatabaseDistributedDbWorkRequestServiceClient()
-
-	// 1) Compute whether a PUT update is needed (fields handled by UpdateWithContext)
-	/*needsUpdate :=
-		d.HasChange("display_name") ||
-			d.HasChange("freeform_tags") ||
-			d.HasChange("defined_tags") ||
-			d.HasChange("compartment_id")*/
-
-// 1) Detect which categories of updates are needed
-/*needsCompartmentMove := s.D.HasChange("compartment_id")
-
-	needsPutUpdate :=
-		s.D.HasChange("display_name") ||
-			s.D.HasChange("freeform_tags") ||
-			s.D.HasChange("defined_tags")
-	// IMPORTANT: compartment_id is handled via ChangeCompartment API (WR), not PUT.
-
-	needsPatch := false
-	if v, ok := s.D.GetOkExists("patch_operations"); ok && s.D.HasChange("patch_operations") {
-		if ops, ok2 := v.([]interface{}); ok2 && len(ops) > 0 {
-			needsPatch = true
-		}
-	}
-
-	// 2) If there is nothing to do besides compartment move, do it and return.
-	if needsCompartmentMove && !needsPutUpdate && !needsPatch {
-		if compartment, ok := s.D.GetOkExists("compartment_id"); ok {
-			oldRaw, newRaw := s.D.GetChange("compartment_id")
-			oldStr, _ := oldRaw.(string)
-			newStr, _ := newRaw.(string)
-			// Keep your guard to avoid weird empty transitions
-			if oldStr != "" && newStr != "" {
-				return s.updateCompartment(ctx, compartment)
-			}
-		}
-		return nil
-	}
-
-	// 2) Compute whether any action trigger is going to run (increment-only triggers)
-	actionInvoked := false
-	hasActionTrigger := false
-
-	// Helper: increment-only trigger check
-	triggerBumped := func(attr string) (bool, int, int) {
-		if _, ok := d.GetOkExists(attr); !ok || !d.HasChange(attr) {
-			return false, 0, 0
-		}
-		oldRaw, newRaw := d.GetChange(attr)
-		oldV := oldRaw.(int)
-		newV := newRaw.(int)
-		if newV <= oldV {
-			// Keep old value to avoid drift
-			_ = d.Set(attr, oldV)
-			return false, oldV, newV
-		}
-		return true, oldV, newV
-	}
-
-	// Pre-scan all triggers (so we can decide whether to skip PUT)
-	triggerAttrs := []string{
-		"start_database_trigger",
-		"stop_database_trigger",
-		"change_db_backup_config_trigger",
-		"configure_sharding_trigger",
-		"download_gsm_certificate_signing_request_trigger",
-		"generate_gsm_certificate_signing_request_trigger",
-		"generate_wallet_trigger",
-		"upload_signed_certificate_and_generate_wallet_trigger",
-		"validate_network_trigger",
-	}
-	for _, a := range triggerAttrs {
-		if ok, _, _ := triggerBumped(a); ok {
-			hasActionTrigger = true
-			break
-		}
-	}
-
-	// 3) If there are PUT-able changes, do them FIRST.
-	// This avoids action -> immediate PUT while resource is UPDATING.
-	if needsPutUpdate {
-		if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
-			return tfresource.HandleDiagError(m, err)
-		}
-	}
-
-	// 4) Run action triggers (action handlers should wait on WR + refresh state).
-	// START
-	if ok, _, newV := triggerBumped("start_database_trigger"); ok {
-		if err := sync.StartDistributedAutonomousDatabase(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
-		}
-		actionInvoked = true
-		_ = d.Set("start_database_trigger", newV)
-	}
-
-	// STOP
-	if ok, _, newV := triggerBumped("stop_database_trigger"); ok {
-		if err := sync.StopDistributedAutonomousDatabase(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
-		}
-		actionInvoked = true
-		_ = d.Set("stop_database_trigger", newV)
-	}
-
-	// generate_gsm_certificate_signing_request_trigger
-	if ok, _, newV := triggerBumped("generate_gsm_certificate_signing_request_trigger"); ok {
-		if err := sync.GenerateDistributedAutonomousDatabaseGsmCertificateSigningRequest(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
-		}
-		actionInvoked = true
-		_ = d.Set("generate_gsm_certificate_signing_request_trigger", newV)
-	}
-
-	// change_db_backup_config_trigger
-	if ok, _, newV := triggerBumped("change_db_backup_config_trigger"); ok {
-		if err := sync.ChangeDistributedAutonomousDbBackupConfig(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
-		}
-		actionInvoked = true
-		_ = d.Set("change_db_backup_config_trigger", newV)
-	}
-
-	//configure_sharding_trigger
-	if ok, _, newV := triggerBumped("configure_sharding_trigger"); ok {
-		if err := sync.ConfigureDistributedAutonomousDatabaseSharding(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
-		}
-		actionInvoked = true
-		_ = d.Set("configure_sharding_trigger", newV)
-	}
-
-	//download_gsm_certificate_signing_request_trigger
-	if ok, _, newV := triggerBumped("download_gsm_certificate_signing_request_trigger"); ok {
-		if err := sync.DownloadDistributedAutonomousDatabaseGsmCertificateSigningRequest(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
-		}
-		actionInvoked = true
-		_ = d.Set("download_gsm_certificate_signing_request_trigger", newV)
-	}
-
-	//generate_wallet_trigger
-	if ok, _, newV := triggerBumped("generate_wallet_trigger"); ok {
-		if err := sync.GenerateDistributedAutonomousDatabaseWallet(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
-		}
-		actionInvoked = true
-		_ = d.Set("generate_wallet_trigger", newV)
-	}
-
-	//upload_signed_certificate_and_generate_wallet_trigger
-	if ok, _, newV := triggerBumped("upload_signed_certificate_and_generate_wallet_trigger"); ok {
-		if err := sync.UploadDistributedAutonomousDatabaseSignedCertificateAndGenerateWallet(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
-		}
-		actionInvoked = true
-		_ = d.Set("upload_signed_certificate_and_generate_wallet_trigger", newV)
-	}
-
-	// validate_network_trigger
-	if ok, _, newV := triggerBumped("validate_network_trigger"); ok {
-		if err := sync.ValidateDistributedAutonomousDatabaseNetwork(ctx); err != nil {
-			return tfresource.HandleDiagError(m, err)
-		}
-		actionInvoked = true
-		_ = d.Set("validate_network_trigger", newV)
-	}
-
-	// 5) If this was an action-only update, we must NOT fall through into any generic update call.
-	// (In this pattern we already ran PUT earlier only if needsUpdate==true.)
-	if hasActionTrigger && !needsPutUpdate && actionInvoked {
-		return nil
-	}
-
-	return nil
-}*/
 // NOTE (JIRA: TOP-9479):
 // Action triggers are increment-only and intentionally bypass additional PUT updates
 // to avoid invalid PUT calls while the resource is in UPDATING state (service rejects).
@@ -2412,13 +1889,17 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) Patch(ctx
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDistributedAutonomousDatabaseFromWorkRequest(
+	if err := s.getDistributedAutonomousDatabaseFromWorkRequest(
 		ctx,
 		workId,
 		tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "distributed_database"),
 		oci_distributed_database.ActionTypeUpdated,
 		s.D.Timeout(schema.TimeoutUpdate),
-	)
+	); err != nil {
+		return err
+	}
+
+	return restoreConfiguredPatchDrivenShardState(s.D)
 }
 
 func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) getDistributedAutonomousDatabaseFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -2686,10 +2167,27 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) UpdateWit
 			s.D.HasChange("defined_tags")
 	// IMPORTANT: compartment_id is handled via ChangeCompartment API (WR), not PUT.
 
-	needsPatch := false
-	if v, ok := s.D.GetOkExists("patch_operations"); ok && s.D.HasChange("patch_operations") {
-		if ops, ok2 := v.([]interface{}); ok2 && len(ops) > 0 {
-			needsPatch = true
+	patchOperations := getPlannedOrCurrentList(s.D, "patch_operations")
+	needsPatch := s.D.HasChange("patch_operations") && len(patchOperations) > 0
+
+	// If a prior shard INSERT PATCH already succeeded but refresh wrote the observed
+	// topology back into state, Terraform will see both patch_operations and
+	// shard_details drift on the next apply. When the old state already has more
+	// shards than config for the same INSERT request, heal state from config instead
+	// of issuing the INSERT again.
+	if needsPatch && !needsCompartmentMove && !needsPutUpdate && s.D.HasChange("shard_details") &&
+		patchOperationsListTargetShardDetails(patchOperations) &&
+		patchOperationsListHaveOperation(patchOperations, "INSERT") {
+		oldShardDetailsRaw, newShardDetailsRaw := s.D.GetChange("shard_details")
+		oldShardDetails, _ := oldShardDetailsRaw.([]interface{})
+		newShardDetails, _ := newShardDetailsRaw.([]interface{})
+
+		if len(oldShardDetails) > len(newShardDetails) {
+			if err := s.GetWithContext(ctx); err != nil {
+				return err
+			}
+
+			return restoreConfiguredPatchDrivenShardState(s.D)
 		}
 	}
 
@@ -2786,10 +2284,86 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) DeleteWit
 	return delWorkRequestErr
 }
 
+func getPlannedOrCurrentList(d *schema.ResourceData, fieldKey string) []interface{} {
+	if d.HasChange(fieldKey) {
+		_, newRaw := d.GetChange(fieldKey)
+		if values, ok := newRaw.([]interface{}); ok {
+			return values
+		}
+	}
+
+	if values, ok := d.Get(fieldKey).([]interface{}); ok {
+		return values
+	}
+
+	return nil
+}
+
+func maskWriteOnlyStringField(item map[string]interface{}, field string) map[string]interface{} {
+	if item == nil {
+		item = map[string]interface{}{}
+	}
+
+	masked := make(map[string]interface{}, len(item)+1)
+	for k, v := range item {
+		masked[k] = v
+	}
+
+	// Keep a stable placeholder in state for write-only attributes so tests can
+	// assert the field exists without ever exposing the configured secret.
+	masked[field] = ""
+
+	return masked
+}
+
+func maskWriteOnlyStringState(v interface{}) string {
+	return ""
+}
+
+func maskNestedAdminPasswordList(items []interface{}) []interface{} {
+	if items == nil {
+		return nil
+	}
+
+	masked := make([]interface{}, 0, len(items))
+	for _, raw := range items {
+		item, ok := raw.(map[string]interface{})
+		if !ok {
+			masked = append(masked, raw)
+			continue
+		}
+
+		masked = append(masked, maskWriteOnlyStringField(item, "admin_password"))
+	}
+
+	return masked
+}
+
+func restoreConfiguredPatchDrivenShardState(d *schema.ResourceData) error {
+	patchOperations := getPlannedOrCurrentList(d, "patch_operations")
+	if len(patchOperations) > 0 {
+		if err := d.Set("patch_operations", patchOperations); err != nil {
+			return err
+		}
+	}
+
+	if !patchOperationsListTargetShardDetails(patchOperations) {
+		return nil
+	}
+
+	shardDetails := getPlannedOrCurrentList(d, "shard_details")
+	if shardDetails == nil {
+		return nil
+	}
+
+	return d.Set("shard_details", maskNestedAdminPasswordList(shardDetails))
+}
+
 func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) SetData() error {
 	catalogDetails := []interface{}{}
 	for _, item := range s.Res.CatalogDetails {
-		catalogDetails = append(catalogDetails, DistributedAutonomousDatabaseCatalogToMap(item))
+		catalogDetail := DistributedAutonomousDatabaseCatalogToMap(item)
+		catalogDetails = append(catalogDetails, maskWriteOnlyStringField(catalogDetail, "admin_password"))
 	}
 	s.D.Set("catalog_details", catalogDetails)
 
@@ -2889,6 +2463,10 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) SetData()
 
 	s.D.Set("private_endpoint_ids", s.Res.PrivateEndpointIds)
 
+	if patchOperations := getPlannedOrCurrentList(s.D, "patch_operations"); len(patchOperations) > 0 {
+		s.D.Set("patch_operations", patchOperations)
+	}
+
 	if s.Res.ReplicationFactor != nil {
 		s.D.Set("replication_factor", *s.Res.ReplicationFactor)
 	}
@@ -2899,11 +2477,21 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) SetData()
 		s.D.Set("replication_unit", *s.Res.ReplicationUnit)
 	}
 
-	shardDetails := []interface{}{}
-	for _, item := range s.Res.ShardDetails {
-		shardDetails = append(shardDetails, DistributedAutonomousDatabaseShardToMap(item))
+	if configuredPatchOperationsTargetShardDetails(s.D) {
+		// shard_details serves both as create-time input and observed topology.
+		// When a shardDetails PATCH is configured, keep the configured value in state
+		// so a successful INSERT/REMOVE does not immediately become a recreate diff.
+		// Mask write-only admin_passwords here too so PATCH workflows do not leak the
+		// configured secret back into state.
+		s.D.Set("shard_details", maskNestedAdminPasswordList(getPlannedOrCurrentList(s.D, "shard_details")))
+	} else {
+		shardDetails := []interface{}{}
+		for _, item := range s.Res.ShardDetails {
+			shardDetail := DistributedAutonomousDatabaseShardToMap(item)
+			shardDetails = append(shardDetails, maskWriteOnlyStringField(shardDetail, "admin_password"))
+		}
+		s.D.Set("shard_details", shardDetails)
 	}
-	s.D.Set("shard_details", shardDetails)
 
 	s.D.Set("sharding_method", s.Res.ShardingMethod)
 
@@ -3126,86 +2714,39 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) ChangeDis
 	return nil
 }
 
-// WORKAROUND FOR GENERATED CODE ISSUE:
-//
-// tfresource.WaitForUpdatedState expects a tfresource.ResourceUpdater (Update()),
-// but this resource CRUD implements UpdateWithContext(ctx) only.
-// Add a thin adapter to satisfy the interface.
-//
-// See JIRA: TOP-9398
+func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) ConfigureDistributedAutonomousDatabaseGsmWallet(ctx context.Context) error {
+	request := oci_distributed_database.ConfigureDistributedAutonomousDatabaseGsmWalletRequest{}
 
-/*func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) Update() error {
-	return s.UpdateWithContext(context.Background())
-}*/
-/*
-func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) ConfigureDistributedAutonomousDatabaseSharding(ctx context.Context) error {
-	request := oci_distributed_database.ConfigureDistributedAutonomousDatabaseShardingRequest{}
+	if caBundleId, ok := s.D.GetOkExists("ca_bundle_id"); ok {
+		tmp := caBundleId.(string)
+		request.CaBundleId = &tmp
+	}
+
+	if certificateId, ok := s.D.GetOkExists("certificate_id"); ok {
+		tmp := certificateId.(string)
+		request.CertificateId = &tmp
+	}
 
 	idTmp := s.D.Id()
 	request.DistributedAutonomousDatabaseId = &idTmp
 
-	if isRebalanceRequired, ok := s.D.GetOkExists("is_rebalance_required"); ok {
-		tmp := isRebalanceRequired.(bool)
-		request.IsRebalanceRequired = &tmp
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "distributed_database")
+
+	// TF_CODE_GEN: TERSI-4920-TOP-18 generated action helpers treat metadata-only SDK responses as if they returned a DistributedAutonomousDatabase payload; refresh with Get() after waiting instead.
+	_, err := s.Client.ConfigureDistributedAutonomousDatabaseGsmWallet(ctx, request)
+	if err != nil {
+		return err
 	}
 
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "distributed_database")
-	// WORKAROUND FOR GENERATED CODE ISSUE:
-	// This is an action-style operation. The OCI Go SDK response does not include a
-	// DistributedAutonomousDatabase model, so we cannot populate s.Res from response.
-	// We must refresh via GET after the operation and wait for a stable lifecycle state.
-	// See JIRA: TOP-9400
-	/*
-		response, err := s.Client.ConfigureDistributedAutonomousDatabaseSharding(context.Background(), request)
-		if err != nil {
-			return err
-		}
-
-		if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
-			return waitErr
-		}
-
-		val := s.D.Get("configure_sharding_trigger")
-		s.D.Set("configure_sharding_trigger", val)
-
-		s.Res = &response.DistributedAutonomousDatabase
-		return nil* */
-
-/*_, err := s.Client.ConfigureDistributedAutonomousDatabaseSharding(ctx, request)
-if err != nil {
-	return err
-}
-// NOTE (TOP-9398):
-// The legacy WaitForUpdatedState helper requires the non-context
-// ResourceUpdater interface (Update()), which this CRUD intentionally
-// does not implement. Use the context-aware waiter instead to align
-// with UpdateWithContext-based CRUD implementations.
-
-/*if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
-	return waitErr
-}*/
-/*if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
-	// Preserve trigger semantics in state.
-	val := s.D.Get("configure_sharding_trigger")
-	s.D.Set("configure_sharding_trigger", val)
+	val := s.D.Get("configure_gsm_wallet_trigger")
+	s.D.Set("configure_gsm_wallet_trigger", val)
 
-	retentionPolicyFunc := func() bool {
-		// Refresh status
-		if err := s.Get(); err != nil {
-			log.Printf("[WARN] Failed to refresh resource during wait: %v", err)
-			return false
-		}
-		return s.Res != nil &&
-			(s.Res.LifecycleState == oci_distributed_database.DistributedAutonomousDatabaseLifecycleStateActive ||
-				s.Res.LifecycleState == oci_distributed_database.DistributedAutonomousDatabaseLifecycleStateNeedsAttention)
-	}
-
-	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
-
-}*/
+	return s.Get()
+}
 
 // NOTE (WORKREQUEST + STATE SETTLE):
 // ConfigureSharding is asynchronous. We must wait for the Opc-Work-Request-Id to complete,
@@ -3219,6 +2760,21 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) Configure
 
 	idTmp := s.D.Id()
 	request.DistributedAutonomousDatabaseId = &idTmp
+
+	// New sharding spec requires both certificate_id and ca_bundle_id query params.
+	caBundleId, ok := s.D.GetOkExists("ca_bundle_id")
+	if !ok || strings.TrimSpace(caBundleId.(string)) == "" {
+		return fmt.Errorf("ca_bundle_id is required when configure_sharding_trigger is incremented")
+	}
+	caBundleTmp := strings.TrimSpace(caBundleId.(string))
+	request.CaBundleId = &caBundleTmp
+
+	certificateId, ok := s.D.GetOkExists("certificate_id")
+	if !ok || strings.TrimSpace(certificateId.(string)) == "" {
+		return fmt.Errorf("certificate_id is required when configure_sharding_trigger is incremented")
+	}
+	certificateTmp := strings.TrimSpace(certificateId.(string))
+	request.CertificateId = &certificateTmp
 
 	// NOTE (CODEGEN GAP):
 	// ConfigureSharding supports request param IsRebalanceRequired, but codegen did not
@@ -3664,6 +3220,87 @@ request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoun
 //
 // See JIRA: TOP-9483
 
+func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) MoveDistributedAutonomousDatabaseReplicationUnit(ctx context.Context) error {
+	request := oci_distributed_database.MoveDistributedAutonomousDatabaseReplicationUnitRequest{}
+
+	if destinationShardName, ok := s.D.GetOkExists("destination_shard_name"); ok {
+		tmp := destinationShardName.(string)
+		request.DestinationShardName = &tmp
+	}
+
+	idTmp := s.D.Id()
+	request.DistributedAutonomousDatabaseId = &idTmp
+
+	if replicationUnits, ok := s.D.GetOkExists("replication_units"); ok {
+		interfaces := replicationUnits.([]interface{})
+		tmp := make([]int, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(int)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("replication_units") {
+			request.ReplicationUnits = tmp
+		}
+	}
+
+	if sourceShardName, ok := s.D.GetOkExists("source_shard_name"); ok {
+		tmp := sourceShardName.(string)
+		request.SourceShardName = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "distributed_database")
+
+	// TF_CODE_GEN: TERSI-4920-TOP-18 generated action helpers treat metadata-only SDK responses as if they returned a DistributedAutonomousDatabase payload; refresh with Get() after waiting instead.
+	_, err := s.Client.MoveDistributedAutonomousDatabaseReplicationUnit(ctx, request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("move_replication_unit_trigger")
+	s.D.Set("move_replication_unit_trigger", val)
+
+	return s.Get()
+}
+
+func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) RecreateFailedDistributedAutonomousDatabaseResource(ctx context.Context) error {
+	request := oci_distributed_database.RecreateFailedDistributedAutonomousDatabaseResourceRequest{}
+
+	idTmp := s.D.Id()
+	request.DistributedAutonomousDatabaseId = &idTmp
+
+	if resourceName, ok := s.D.GetOkExists("resource_name"); ok {
+		tmp := resourceName.(string)
+		request.ResourceName = &tmp
+	}
+
+	if shardGroup, ok := s.D.GetOkExists("shard_group"); ok {
+		tmp := shardGroup.(string)
+		request.ShardGroup = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "distributed_database")
+
+	// TF_CODE_GEN: TERSI-4920-TOP-18 generated action helpers treat metadata-only SDK responses as if they returned a DistributedAutonomousDatabase payload; refresh with Get() after waiting instead.
+	_, err := s.Client.RecreateFailedDistributedAutonomousDatabaseResource(ctx, request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("recreate_failed_resource_trigger")
+	s.D.Set("recreate_failed_resource_trigger", val)
+
+	return s.Get()
+}
+
 func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) UploadDistributedAutonomousDatabaseSignedCertificateAndGenerateWallet(ctx context.Context) error {
 	request := oci_distributed_database.UploadDistributedAutonomousDatabaseSignedCertificateAndGenerateWalletRequest{}
 
@@ -3712,6 +3349,30 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) UploadDis
 	_ = s.D.Set("upload_signed_certificate_and_generate_wallet_trigger", val)
 
 	// Optional: refresh resource after WR completes.
+	return s.Get()
+}
+
+func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) ValidateDistributedAutonomousDatabaseCaBundle(ctx context.Context) error {
+	request := oci_distributed_database.ValidateDistributedAutonomousDatabaseCaBundleRequest{}
+
+	idTmp := s.D.Id()
+	request.DistributedAutonomousDatabaseId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "distributed_database")
+
+	// TF_CODE_GEN: TERSI-4920-TOP-18 generated action helpers treat metadata-only SDK responses as if they returned a DistributedAutonomousDatabase payload; refresh with Get() after waiting instead.
+	_, err := s.Client.ValidateDistributedAutonomousDatabaseCaBundle(ctx, request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("validate_ca_bundle_trigger")
+	s.D.Set("validate_ca_bundle_trigger", val)
+
 	return s.Get()
 }
 
@@ -3924,6 +3585,14 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) mapToCrea
 			tmp := kmsKeyVersionId.(string)
 			details.KmsKeyVersionId = &tmp
 		}
+		if okvEndPointGroup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "okv_end_point_group")); ok {
+			tmp := okvEndPointGroup.(string)
+			details.OkvEndPointGroup = &tmp
+		}
+		if okvKeyStoreId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "okv_key_store_id")); ok {
+			tmp := okvKeyStoreId.(string)
+			details.OkvKeyStoreId = &tmp
+		}
 		if peerCloudAutonomousVmClusterIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "peer_cloud_autonomous_vm_cluster_ids")); ok {
 			interfaces := peerCloudAutonomousVmClusterIds.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -4020,6 +3689,14 @@ func DistributedAutonomousDatabaseCatalogToMap(obj oci_distributed_database.Dist
 			result["kms_key_version_id"] = string(*v.KmsKeyVersionId)
 		}
 
+		if v.OkvEndPointGroup != nil {
+			result["okv_end_point_group"] = string(*v.OkvEndPointGroup)
+		}
+
+		if v.OkvKeyStoreId != nil {
+			result["okv_key_store_id"] = string(*v.OkvKeyStoreId)
+		}
+
 		result["peer_cloud_autonomous_vm_cluster_ids"] = v.PeerCloudAutonomousVmClusterIds
 
 		peerDetails := []interface{}{}
@@ -4073,9 +3750,8 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) mapToCrea
 	switch strings.ToLower(source) {
 	case strings.ToLower("ADB_D"):
 		details := oci_distributed_database.CreateDistributedAutonomousDatabaseShardWithDedicatedInfraDetails{}
-		if adminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_password")); ok {
-			tmp := adminPassword.(string)
-			details.AdminPassword = &tmp
+		if tmp := getConfiguredStringPointer(s.D, fmt.Sprintf(fieldKeyFormat, "admin_password")); tmp != nil {
+			details.AdminPassword = tmp
 		}
 		if cloudAutonomousVmClusterId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cloud_autonomous_vm_cluster_id")); ok {
 			tmp := cloudAutonomousVmClusterId.(string)
@@ -4100,6 +3776,14 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) mapToCrea
 		if kmsKeyVersionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_version_id")); ok {
 			tmp := kmsKeyVersionId.(string)
 			details.KmsKeyVersionId = &tmp
+		}
+		if okvEndPointGroup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "okv_end_point_group")); ok {
+			tmp := okvEndPointGroup.(string)
+			details.OkvEndPointGroup = &tmp
+		}
+		if okvKeyStoreId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "okv_key_store_id")); ok {
+			tmp := okvKeyStoreId.(string)
+			details.OkvKeyStoreId = &tmp
 		}
 		if peerCloudAutonomousVmClusterIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "peer_cloud_autonomous_vm_cluster_ids")); ok {
 			interfaces := peerCloudAutonomousVmClusterIds.([]interface{})
@@ -4210,6 +3894,14 @@ func DistributedAutonomousDatabaseShardToMap(obj oci_distributed_database.Distri
 
 		if v.KmsKeyVersionId != nil {
 			result["kms_key_version_id"] = string(*v.KmsKeyVersionId)
+		}
+
+		if v.OkvEndPointGroup != nil {
+			result["okv_end_point_group"] = string(*v.OkvEndPointGroup)
+		}
+
+		if v.OkvKeyStoreId != nil {
+			result["okv_key_store_id"] = string(*v.OkvKeyStoreId)
 		}
 
 		result["peer_cloud_autonomous_vm_cluster_ids"] = v.PeerCloudAutonomousVmClusterIds
@@ -4626,43 +4318,36 @@ func DistributedAutonomousDbBackupConfigToMap(obj *oci_distributed_database.Dist
 func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) mapToDistributedAutonomousDbBackupDestination(fieldKeyFormat string) (oci_distributed_database.DistributedAutonomousDbBackupDestination, error) {
 	result := oci_distributed_database.DistributedAutonomousDbBackupDestination{}
 
-	if dbrsPolicyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dbrs_policy_id")); ok {
-		tmp := dbrsPolicyId.(string)
-		result.DbrsPolicyId = &tmp
+	if tmp := getConfiguredStringPointer(s.D, fmt.Sprintf(fieldKeyFormat, "dbrs_policy_id")); tmp != nil {
+		result.DbrsPolicyId = tmp
 	}
 
-	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
-		tmp := id.(string)
-		result.Id = &tmp
+	if tmp := getConfiguredStringPointer(s.D, fmt.Sprintf(fieldKeyFormat, "id")); tmp != nil {
+		result.Id = tmp
 	}
 
-	if internetProxy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "internet_proxy")); ok {
-		tmp := internetProxy.(string)
-		result.InternetProxy = &tmp
+	if tmp := getConfiguredStringPointer(s.D, fmt.Sprintf(fieldKeyFormat, "internet_proxy")); tmp != nil {
+		result.InternetProxy = tmp
 	}
 
-	if isRemote, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_remote")); ok {
-		tmp := isRemote.(bool)
-		result.IsRemote = &tmp
+	if tmp := getConfiguredBoolPointer(s.D, fmt.Sprintf(fieldKeyFormat, "is_remote")); tmp != nil {
+		result.IsRemote = tmp
 	}
 
-	if remoteRegion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "remote_region")); ok {
-		tmp := remoteRegion.(string)
-		result.RemoteRegion = &tmp
+	if tmp := getConfiguredStringPointer(s.D, fmt.Sprintf(fieldKeyFormat, "remote_region")); tmp != nil {
+		result.RemoteRegion = tmp
 	}
 
 	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
 		result.Type = oci_distributed_database.DistributedAutonomousDbBackupDestinationTypeEnum(type_.(string))
 	}
 
-	if vpcPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_password")); ok {
-		tmp := vpcPassword.(string)
-		result.VpcPassword = &tmp
+	if tmp := getConfiguredStringPointer(s.D, fmt.Sprintf(fieldKeyFormat, "vpc_password")); tmp != nil {
+		result.VpcPassword = tmp
 	}
 
-	if vpcUser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_user")); ok {
-		tmp := vpcUser.(string)
-		result.VpcUser = &tmp
+	if tmp := getConfiguredStringPointer(s.D, fmt.Sprintf(fieldKeyFormat, "vpc_user")); tmp != nil {
+		result.VpcUser = tmp
 	}
 
 	return result, nil

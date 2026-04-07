@@ -91,6 +91,10 @@ func DistributedDatabaseDistributedAutonomousDatabasesDataSource() *schema.Resou
 					},
 				},
 			},
+			"private_endpoint_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -169,6 +173,11 @@ func (s *DistributedDatabaseDistributedAutonomousDatabasesDataSourceCrud) GetWit
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
 		tmp := metadata.(string)
 		request.Metadata = &tmp
+	}
+
+	if privateEndpointId, ok := s.D.GetOkExists("private_endpoint_id"); ok {
+		tmp := privateEndpointId.(string)
+		request.PrivateEndpointId = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {

@@ -1,5 +1,16 @@
 
 ############################
+# PROVIDER AUTH
+############################
+
+# ApiKey (default)
+# auth             = "ApiKey"
+# tenancy_ocid     = "ocid1.tenancy.oc1..."
+# user_ocid        = "ocid1.user.oc1..."
+# fingerprint      = "aa:bb:cc:dd:ee:ff:11:22:33:44:55:66:77:88:99:00"
+# private_key_path = "~/.oci/oci_api_key.pem"
+
+############################
 # COMPARTMENT & NETWORKING
 ############################
 
@@ -73,6 +84,11 @@ freeform_tags = {
 # Optional lifecycle override
 # state = "INACTIVE"
 
+# Optional Configure Sharding inputs.
+# Set both when configure_sharding_trigger is incremented.
+ca_bundle_id   = null
+certificate_id = null
+
 # Optional triggers/actions
 validate_network_trigger                              = null
 
@@ -81,12 +97,6 @@ generate_wallet_password                              = null
 
 start_database_trigger                                = null
 stop_database_trigger                                 = null
-
-generate_gsm_certificate_signing_request_trigger      = null
-generate_gsm_certificate_signing_request_trigger_ca_bundle_id = null
-download_gsm_certificate_signing_request_trigger      = null
-upload_signed_certificate_and_generate_wallet_trigger = null
-upload_ca_signed_certificate                          = null
 
 configure_sharding_trigger                            = null
 configure_sharding_is_rebalance_required              = null

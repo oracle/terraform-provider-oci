@@ -38,10 +38,10 @@ The following attributes are exported:
 * `description` - DistributedDatabasePrivateEndpoint description.
 * `display_name` - DistributedDatabasePrivateEndpoint display name.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-* `globally_distributed_autonomous_databases` - The details of the non-deleted Globally distributed autonomous databases that consumes the given private endpoint.
+* `globally_distributed_autonomous_databases` - This field is deprecated. Support for this field will be removed after Mon, 1 Mar 2027 00:00:00 GMT. 
 	* `db_deployment_type` - The dbDeploymentType associated with the distributed autonomous database.
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the distributed database.
-* `globally_distributed_databases` - The details of the non-deleted Globally distributed databases that consumes the given private endpoint.
+* `globally_distributed_databases` - This field is deprecated. Support for this field will be removed after Mon, 1 Mar 2027 00:00:00 GMT. 
 	* `db_deployment_type` - The dbDeploymentType associated with the distributed database.
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the distributed database.
 * `id` - The identifier of the Private Endpoint.

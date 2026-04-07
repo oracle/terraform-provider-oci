@@ -1,7 +1,10 @@
 #############################################
 # Resource outputs
 #############################################
-
+/*output "private_endpoint_id" {
+  value       = oci_distributed_database_distributed_database_private_endpoint.pe.id
+  description = "OCID of the created Distributed Database Private Endpoint"
+}*/
 output "distributed_database_id" {
   value       = oci_distributed_database_distributed_database.ddb.id
   description = "OCID of the created Distributed Database (EXADB_XS)"
@@ -30,7 +33,10 @@ output "wallet_content_length" {
 #############################################
 # Singular datasource outputs
 #############################################
-
+/*output "ds_private_endpoint_by_id" {
+  description = "Private Endpoint singular datasource fetched by OCID."
+  value       = data.oci_distributed_database_distributed_database_private_endpoint.pe_by_id
+}*/
 output "ds_exascale_distributed_database_by_id" {
   description = "Exascale Distributed Database singular datasource fetched by OCID."
   value       = data.oci_distributed_database_distributed_database.gdd_by_id
@@ -38,7 +44,10 @@ output "ds_exascale_distributed_database_by_id" {
 #############################################
 # Plural datasource outputs
 #############################################
-
+/*output "ds_private_endpoints_list" {
+  description = "Private Endpoint plural datasource (list in compartment)."
+  value       = data.oci_distributed_database_distributed_database_private_endpoints.pe_list
+}*/
 output "ds_exascale_distributed_databases_list" {
   description = "Exascale Distributed Databases plural datasource (list in compartment)."
   value       = data.oci_distributed_database_distributed_databases.gdd_list
@@ -46,8 +55,19 @@ output "ds_exascale_distributed_databases_list" {
 #############################################
 # Optional: JSON-friendly outputs
 #############################################
-
+/*output "resource_private_endpoint_json" {
+  description = "Private Endpoint resource as JSON string."
+  value       = jsonencode(oci_distributed_database_distributed_database_private_endpoint.private_endpoint)
+}*/
 output "resource_exascale_distributed_database_json" {
   description = "Exascale Distributed Database resource as JSON string."
   value       = jsonencode(oci_distributed_database_distributed_database.ddb)
+}
+
+output "exascale_raft_metrics" {
+  value = data.oci_distributed_database_distributed_database_raft_metric.exascale_raft.raft_metrics
+}
+
+output "exascale_config_tasks" {
+  value = data.oci_distributed_database_distributed_database_raft_metric.exascale_raft.config_tasks
 }
