@@ -34,10 +34,10 @@ variable "compartment_id" {
   type        = string
 }
 
-# variable "subnet_id" {
-#   description = "OCID of the subnet used for the Distributed Database Private Endpoint"
-#   type        = string
-# }
+variable "subnet_id" {
+  description = "OCID of the subnet used for the Distributed Database Private Endpoint"
+  type        = string
+}
 
 variable "private_endpoint_display_name" {
   description = "Display name for the Distributed Database Private Endpoint"
@@ -46,6 +46,12 @@ variable "private_endpoint_display_name" {
 }
 
 # --- Distributed Database (EXADB_XS) ---
+
+# variable "distributed_database_id" {
+#   description = "Input OCID used by the resource schema (generated). Provide an existing OCID when required by the schema."
+#   type        = string
+#   default = ""
+# }
 
 variable "display_name" {
   description = "Display name for the Distributed Database"
@@ -76,10 +82,10 @@ variable "database_version" {
   default     = "19c"
 }
 
-variable "chunks" {
-  description = "Chunks"
-  type        = number
-  default     = 120
+variable "db_workload" {
+  description = "Database workload"
+  type        = string
+  default     = "OLTP"
 }
 
 variable "listener_port" {
@@ -116,6 +122,11 @@ variable "catalog_vm_cluster_id" {
   type        = string
 }
 
+variable "catalog_shard_group" {
+  description = "Shard group name for the catalog"
+  type        = string
+}
+
 # Shard details (EXADB_XS)
 variable "shard_admin_password" {
   description = "Shard admin password (input-only)"
@@ -132,6 +143,11 @@ variable "shard_vm_cluster_id2" {
 }
 variable "shard_vm_cluster_id3" {
   description = "OCID of the Exadata VM Cluster used by the shard"
+  type        = string
+}
+
+variable "shard_shard_group" {
+  description = "Shard group name for the shard"
   type        = string
 }
 

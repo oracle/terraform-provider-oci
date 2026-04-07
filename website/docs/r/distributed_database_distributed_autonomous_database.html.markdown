@@ -37,6 +37,8 @@ resource "oci_distributed_database_distributed_autonomous_database" "test_distri
 		#Optional
 		kms_key_id = oci_kms_key.test_key.id
 		kms_key_version_id = oci_kms_key_version.test_key_version.id
+		okv_end_point_group = var.distributed_autonomous_database_catalog_details_okv_end_point_group
+		okv_key_store_id = oci_database_key_store.test_key_store.id
 		peer_cloud_autonomous_vm_cluster_ids = var.distributed_autonomous_database_catalog_details_peer_cloud_autonomous_vm_cluster_ids
 		peer_details {
 			#Required
@@ -75,6 +77,8 @@ resource "oci_distributed_database_distributed_autonomous_database" "test_distri
 		#Optional
 		kms_key_id = oci_kms_key.test_key.id
 		kms_key_version_id = oci_kms_key_version.test_key_version.id
+		okv_end_point_group = var.distributed_autonomous_database_shard_details_okv_end_point_group
+		okv_key_store_id = oci_database_key_store.test_key_store.id
 		peer_cloud_autonomous_vm_cluster_ids = var.distributed_autonomous_database_shard_details_peer_cloud_autonomous_vm_cluster_ids
 		peer_details {
 			#Required
@@ -140,11 +144,13 @@ The following arguments are supported:
 	* `is_auto_scaling_enabled` - (Required) Determines the auto-scaling mode for the catalog database.
 	* `kms_key_id` - (Optional) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	* `kms_key_version_id` - (Optional) The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. 
+	* `okv_end_point_group` - (Optional) The OKV endpoint name.
+	* `okv_key_store_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store used to create the catalog.
 	* `peer_cloud_autonomous_vm_cluster_ids` - (Optional) This field is deprecated. This should not be used while creation of new distributed autonomous database. To set the peers on catalog of distributed autonomous database please use peerDetails. 
 	* `peer_details` - (Optional) The details required for creation of the peer for the autonomous dedicated infrastructure based catalog.
 		* `cloud_autonomous_vm_cluster_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Autonomous VM Cluster for the peer catalog.
 		* `fast_start_fail_over_lag_limit_in_seconds` - (Optional) The lag time preference based on data loss tolerance in seconds.
-		* `is_automatic_failover_enabled` - (Optional) Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association 
+		* `is_automatic_failover_enabled` - (Optional) This field is deprecated. Support for this field will be removed after one year of deprecation cycle. 
 		* `protection_mode` - (Optional) The protectionMode for the catalog peer.
 		* `standby_maintenance_buffer_in_days` - (Optional) The scheduling detail for the quarterly maintenance window of the standby Autonomous Container Database. This value represents the number of days before schedlued maintenance of the primary database. 
 	* `source` - (Required) The source of Globally distributed autonomous database type: Use ADB_D for the Globally distributed autonomous database with autonomous dedicated cloudautonomousvmclusters. 
@@ -192,11 +198,13 @@ The following arguments are supported:
 	* `is_auto_scaling_enabled` - (Required) Determines the auto-scaling mode for the shard database.
 	* `kms_key_id` - (Optional) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	* `kms_key_version_id` - (Optional) The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. 
+	* `okv_end_point_group` - (Optional) The OKV endpoint name.
+	* `okv_key_store_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store used to create the shard.
 	* `peer_cloud_autonomous_vm_cluster_ids` - (Optional) This field is deprecated. This should not be used while creation of new distributed autonomous database. To set the peers on new shards of distributed autonomous database please use peerDetails. 
 	* `peer_details` - (Optional) The details required for creation of the peer for the autonomous dedicated infrastructure based shard.
 		* `cloud_autonomous_vm_cluster_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Autonomous VM Cluster for the peer shard.
 		* `fast_start_fail_over_lag_limit_in_seconds` - (Optional) The lag time preference based on data loss tolerance in seconds.
-		* `is_automatic_failover_enabled` - (Optional) Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association 
+		* `is_automatic_failover_enabled` - (Optional) This field is deprecated. Support for this field will be removed after one year of deprecation cycle. 
 		* `protection_mode` - (Optional) The protectionMode for the shard peer.
 		* `standby_maintenance_buffer_in_days` - (Optional) The scheduling detail for the quarterly maintenance window of the standby Autonomous Container Database. This value represents the number of days before schedlued maintenance of the primary database. 
 	* `shard_space` - (Optional) The shard space name for the shard database. Shard space for existing shard cannot be changed, once shard is created. Shard space name shall be used while creation of new shards. For User defined sharding, every shard must have a unique shard space name. For system defined sharding, shard space name is not required. 
@@ -204,12 +212,19 @@ The following arguments are supported:
 	* `vault_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `kmsKeyId` are required for Customer Managed Keys.
 * `sharding_method` - (Required) Sharding Methods for the Globally distributed autonomous database.
 * `state` - (Optional) (Updatable) The target state for the Distributed Autonomous Database. Could be set to `ACTIVE` or `INACTIVE`. 
+* `ca_bundle_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the CA bundle to pass to Configure Sharding. Required when `configure_sharding_trigger` is incremented.
+* `certificate_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster certificate to pass to Configure Sharding. Required when `configure_sharding_trigger` is incremented.
 * `change_db_backup_config_trigger` - (Optional) (Updatable) An optional property when incremented triggers Change Db Backup Config. Could be set to any integer value.
+* `configure_gsm_wallet_trigger` - (Optional) (Updatable) An optional property when incremented triggers Configure Gsm Wallet. Could be set to any integer value.
 * `configure_sharding_trigger` - (Optional) (Updatable) An optional property when incremented triggers Configure Sharding. Could be set to any integer value.
+* `configure_sharding_is_rebalance_required` - (Optional) (Updatable) Indicates whether shard chunks should be re-balanced as part of Configure Sharding.
 * `download_gsm_certificate_signing_request_trigger` - (Optional) (Updatable) An optional property when incremented triggers Download Gsm Certificate Signing Request. Could be set to any integer value.
 * `generate_gsm_certificate_signing_request_trigger` - (Optional) (Updatable) An optional property when incremented triggers Generate Gsm Certificate Signing Request. Could be set to any integer value.
 * `generate_wallet_trigger` - (Optional) (Updatable) An optional property when incremented triggers Generate Wallet. Could be set to any integer value.
+* `move_replication_unit_trigger` - (Optional) (Updatable) An optional property when incremented triggers Move Replication Unit. Could be set to any integer value.
+* `recreate_failed_resource_trigger` - (Optional) (Updatable) An optional property when incremented triggers Recreate Failed Resource. Could be set to any integer value.
 * `upload_signed_certificate_and_generate_wallet_trigger` - (Optional) (Updatable) An optional property when incremented triggers Upload Signed Certificate And Generate Wallet. Could be set to any integer value.
+* `validate_ca_bundle_trigger` - (Optional) (Updatable) An optional property when incremented triggers Validate Ca Bundle. Could be set to any integer value.
 * `validate_network_trigger` - (Optional) (Updatable) An optional property when incremented triggers Validate Network. Could be set to any integer value.
 
 
@@ -231,12 +246,14 @@ The following attributes are exported:
 	* `metadata` - Additional metadata related to Globally distributed autonomous database resources.
 		* `map` - The map containing key-value pair of additional metadata.
 	* `name` - The name of catalog.
+	* `okv_end_point_group` - The OKV endpoint name.
+	* `okv_key_store_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store used to create the shard.
 	* `peer_cloud_autonomous_vm_cluster_ids` - This field is deprecated. For catalog peer details please refer peerDetails attribute.
 	* `peer_details` - Peer details for the catalog with dedicated infrastructure.
 		* `cloud_autonomous_vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloudAutonomousVmCluster.
 		* `container_database_id` - the identifier of the container database for underlying supporting resource.
 		* `fast_start_fail_over_lag_limit_in_seconds` - The lag time for my preference based on data loss tolerance in seconds.
-		* `is_automatic_failover_enabled` - Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association 
+		* `is_automatic_failover_enabled` - This field is deprecated. Support for this field will be removed after one year of deprecation cycle. 
 		* `metadata` - Additional metadata related to Globally distributed autonomous database resources.
 			* `map` - The map containing key-value pair of additional metadata.
 		* `protection_mode` - The protectionMode for the shard peer.
@@ -317,12 +334,14 @@ The following attributes are exported:
 	* `metadata` - Additional metadata related to Globally distributed autonomous database resources.
 		* `map` - The map containing key-value pair of additional metadata.
 	* `name` - Name of the shard.
+	* `okv_end_point_group` - The OKV endpoint name.
+	* `okv_key_store_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store used to create the shard.
 	* `peer_cloud_autonomous_vm_cluster_ids` - This field is deprecated. For shard peer details please refer peerDetails attribute.
 	* `peer_details` - Peer details for the shard with dedicated infrastructure.
 		* `cloud_autonomous_vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloudAutonomousVmCluster.
 		* `container_database_id` - the identifier of the container database for underlying supporting resource.
 		* `fast_start_fail_over_lag_limit_in_seconds` - The lag time for my preference based on data loss tolerance in seconds.
-		* `is_automatic_failover_enabled` - Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association 
+		* `is_automatic_failover_enabled` - This field is deprecated. Support for this field will be removed after one year of deprecation cycle. 
 		* `metadata` - Additional metadata related to Globally distributed autonomous database resources.
 			* `map` - The map containing key-value pair of additional metadata.
 		* `protection_mode` - The protectionMode for the shard peer.
@@ -361,4 +380,3 @@ DistributedAutonomousDatabases can be imported using the `id`, e.g.
 ```
 $ terraform import oci_distributed_database_distributed_autonomous_database.test_distributed_autonomous_database "id"
 ```
-
