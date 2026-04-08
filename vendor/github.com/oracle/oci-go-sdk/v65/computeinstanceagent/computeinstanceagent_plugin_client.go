@@ -136,7 +136,7 @@ func (client PluginClient) getInstanceAgentPlugin(ctx context.Context, request c
 
 	var response GetInstanceAgentPluginResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "plugin", "GetInstanceAgentPlugin")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -194,7 +194,7 @@ func (client PluginClient) listInstanceAgentPlugins(ctx context.Context, request
 
 	var response ListInstanceAgentPluginsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "plugin", "ListInstanceAgentPlugins")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

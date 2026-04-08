@@ -141,7 +141,7 @@ func (client StackMonitoringClient) applyMonitoringTemplate(ctx context.Context,
 
 	var response ApplyMonitoringTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ApplyMonitoringTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -205,7 +205,7 @@ func (client StackMonitoringClient) associateMonitoredResources(ctx context.Cont
 
 	var response AssociateMonitoredResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "AssociateMonitoredResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -275,7 +275,7 @@ func (client StackMonitoringClient) changeConfigCompartment(ctx context.Context,
 
 	var response ChangeConfigCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ChangeConfigCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -338,7 +338,7 @@ func (client StackMonitoringClient) changeMetricExtensionCompartment(ctx context
 
 	var response ChangeMetricExtensionCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ChangeMetricExtensionCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -401,7 +401,7 @@ func (client StackMonitoringClient) changeMonitoredResourceCompartment(ctx conte
 
 	var response ChangeMonitoredResourceCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ChangeMonitoredResourceCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -464,7 +464,7 @@ func (client StackMonitoringClient) changeMonitoredResourceTaskCompartment(ctx c
 
 	var response ChangeMonitoredResourceTaskCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ChangeMonitoredResourceTaskCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -527,7 +527,7 @@ func (client StackMonitoringClient) changeProcessSetCompartment(ctx context.Cont
 
 	var response ChangeProcessSetCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ChangeProcessSetCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -590,7 +590,7 @@ func (client StackMonitoringClient) createAlarmCondition(ctx context.Context, re
 
 	var response CreateAlarmConditionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "CreateAlarmCondition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -653,7 +653,7 @@ func (client StackMonitoringClient) createBaselineableMetric(ctx context.Context
 
 	var response CreateBaselineableMetricResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "CreateBaselineableMetric")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -721,7 +721,7 @@ func (client StackMonitoringClient) createConfig(ctx context.Context, request co
 
 	var response CreateConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "CreateConfig")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -783,7 +783,7 @@ func (client StackMonitoringClient) createDiscoveryJob(ctx context.Context, requ
 
 	var response CreateDiscoveryJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "CreateDiscoveryJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -847,7 +847,7 @@ func (client StackMonitoringClient) createMaintenanceWindow(ctx context.Context,
 
 	var response CreateMaintenanceWindowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "CreateMaintenanceWindow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -909,7 +909,7 @@ func (client StackMonitoringClient) createMetricExtension(ctx context.Context, r
 
 	var response CreateMetricExtensionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "CreateMetricExtension")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -973,7 +973,7 @@ func (client StackMonitoringClient) createMonitoredResource(ctx context.Context,
 
 	var response CreateMonitoredResourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "CreateMonitoredResource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1036,7 +1036,7 @@ func (client StackMonitoringClient) createMonitoredResourceTask(ctx context.Cont
 
 	var response CreateMonitoredResourceTaskResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "CreateMonitoredResourceTask")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1099,7 +1099,7 @@ func (client StackMonitoringClient) createMonitoredResourceType(ctx context.Cont
 
 	var response CreateMonitoredResourceTypeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "CreateMonitoredResourceType")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1162,7 +1162,7 @@ func (client StackMonitoringClient) createMonitoringTemplate(ctx context.Context
 
 	var response CreateMonitoringTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "CreateMonitoringTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1225,7 +1225,7 @@ func (client StackMonitoringClient) createProcessSet(ctx context.Context, reques
 
 	var response CreateProcessSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "CreateProcessSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1282,7 +1282,7 @@ func (client StackMonitoringClient) deleteAlarmCondition(ctx context.Context, re
 
 	var response DeleteAlarmConditionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "DeleteAlarmCondition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1340,7 +1340,7 @@ func (client StackMonitoringClient) deleteBaselineableMetric(ctx context.Context
 
 	var response DeleteBaselineableMetricResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "DeleteBaselineableMetric")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1398,7 +1398,7 @@ func (client StackMonitoringClient) deleteConfig(ctx context.Context, request co
 
 	var response DeleteConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "DeleteConfig")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1456,7 +1456,7 @@ func (client StackMonitoringClient) deleteDiscoveryJob(ctx context.Context, requ
 
 	var response DeleteDiscoveryJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "DeleteDiscoveryJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1513,7 +1513,7 @@ func (client StackMonitoringClient) deleteMaintenanceWindow(ctx context.Context,
 
 	var response DeleteMaintenanceWindowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "DeleteMaintenanceWindow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1570,7 +1570,7 @@ func (client StackMonitoringClient) deleteMetricExtension(ctx context.Context, r
 
 	var response DeleteMetricExtensionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "DeleteMetricExtension")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1630,7 +1630,7 @@ func (client StackMonitoringClient) deleteMonitoredResource(ctx context.Context,
 
 	var response DeleteMonitoredResourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "DeleteMonitoredResource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1687,7 +1687,7 @@ func (client StackMonitoringClient) deleteMonitoredResourceType(ctx context.Cont
 
 	var response DeleteMonitoredResourceTypeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "DeleteMonitoredResourceType")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1744,7 +1744,7 @@ func (client StackMonitoringClient) deleteMonitoringTemplate(ctx context.Context
 
 	var response DeleteMonitoringTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "DeleteMonitoringTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1802,7 +1802,7 @@ func (client StackMonitoringClient) deleteProcessSet(ctx context.Context, reques
 
 	var response DeleteProcessSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "DeleteProcessSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1865,7 +1865,7 @@ func (client StackMonitoringClient) disableExternalDatabase(ctx context.Context,
 
 	var response DisableExternalDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "DisableExternalDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1927,7 +1927,7 @@ func (client StackMonitoringClient) disableMetricExtension(ctx context.Context, 
 
 	var response DisableMetricExtensionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "DisableMetricExtension")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1989,7 +1989,7 @@ func (client StackMonitoringClient) disassociateMonitoredResources(ctx context.C
 
 	var response DisassociateMonitoredResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "DisassociateMonitoredResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2051,7 +2051,7 @@ func (client StackMonitoringClient) enableMetricExtension(ctx context.Context, r
 
 	var response EnableMetricExtensionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "EnableMetricExtension")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2114,7 +2114,7 @@ func (client StackMonitoringClient) evaluateBaselineableMetric(ctx context.Conte
 
 	var response EvaluateBaselineableMetricResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "EvaluateBaselineableMetric")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2178,7 +2178,7 @@ func (client StackMonitoringClient) exportMetricExtension(ctx context.Context, r
 
 	var response ExportMetricExtensionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ExportMetricExtension")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MetricExtension/ExportMetricExtension"
@@ -2240,7 +2240,7 @@ func (client StackMonitoringClient) exportMonitoringTemplate(ctx context.Context
 
 	var response ExportMonitoringTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ExportMonitoringTemplate")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoringTemplate/ExportMonitoringTemplate"
@@ -2297,7 +2297,7 @@ func (client StackMonitoringClient) getAlarmCondition(ctx context.Context, reque
 
 	var response GetAlarmConditionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "GetAlarmCondition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2355,7 +2355,7 @@ func (client StackMonitoringClient) getBaselineableMetric(ctx context.Context, r
 
 	var response GetBaselineableMetricResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "GetBaselineableMetric")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2413,7 +2413,7 @@ func (client StackMonitoringClient) getConfig(ctx context.Context, request commo
 
 	var response GetConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "GetConfig")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2471,7 +2471,7 @@ func (client StackMonitoringClient) getDiscoveryJob(ctx context.Context, request
 
 	var response GetDiscoveryJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "GetDiscoveryJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2529,7 +2529,7 @@ func (client StackMonitoringClient) getMaintenanceWindow(ctx context.Context, re
 
 	var response GetMaintenanceWindowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "GetMaintenanceWindow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2587,7 +2587,7 @@ func (client StackMonitoringClient) getMetricExtension(ctx context.Context, requ
 
 	var response GetMetricExtensionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "GetMetricExtension")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2645,7 +2645,7 @@ func (client StackMonitoringClient) getMonitoredResource(ctx context.Context, re
 
 	var response GetMonitoredResourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "GetMonitoredResource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2703,7 +2703,7 @@ func (client StackMonitoringClient) getMonitoredResourceTask(ctx context.Context
 
 	var response GetMonitoredResourceTaskResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "GetMonitoredResourceTask")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2761,7 +2761,7 @@ func (client StackMonitoringClient) getMonitoredResourceType(ctx context.Context
 
 	var response GetMonitoredResourceTypeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "GetMonitoredResourceType")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2819,7 +2819,7 @@ func (client StackMonitoringClient) getMonitoringTemplate(ctx context.Context, r
 
 	var response GetMonitoringTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "GetMonitoringTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2877,7 +2877,7 @@ func (client StackMonitoringClient) getProcessSet(ctx context.Context, request c
 
 	var response GetProcessSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "GetProcessSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2935,7 +2935,7 @@ func (client StackMonitoringClient) getWorkRequest(ctx context.Context, request 
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2993,7 +2993,7 @@ func (client StackMonitoringClient) listAlarmConditions(ctx context.Context, req
 
 	var response ListAlarmConditionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ListAlarmConditions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3051,7 +3051,7 @@ func (client StackMonitoringClient) listBaselineableMetrics(ctx context.Context,
 
 	var response ListBaselineableMetricsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ListBaselineableMetrics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3109,7 +3109,7 @@ func (client StackMonitoringClient) listConfigs(ctx context.Context, request com
 
 	var response ListConfigsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ListConfigs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3167,7 +3167,7 @@ func (client StackMonitoringClient) listDefinedMonitoringTemplates(ctx context.C
 
 	var response ListDefinedMonitoringTemplatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ListDefinedMonitoringTemplates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3225,7 +3225,7 @@ func (client StackMonitoringClient) listDiscoveryJobLogs(ctx context.Context, re
 
 	var response ListDiscoveryJobLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ListDiscoveryJobLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3283,7 +3283,7 @@ func (client StackMonitoringClient) listDiscoveryJobs(ctx context.Context, reque
 
 	var response ListDiscoveryJobsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ListDiscoveryJobs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3341,7 +3341,7 @@ func (client StackMonitoringClient) listMaintenanceWindows(ctx context.Context, 
 
 	var response ListMaintenanceWindowsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ListMaintenanceWindows")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3399,7 +3399,7 @@ func (client StackMonitoringClient) listMetricExtensions(ctx context.Context, re
 
 	var response ListMetricExtensionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ListMetricExtensions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3457,7 +3457,7 @@ func (client StackMonitoringClient) listMonitoredResourceTasks(ctx context.Conte
 
 	var response ListMonitoredResourceTasksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ListMonitoredResourceTasks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3520,7 +3520,7 @@ func (client StackMonitoringClient) listMonitoredResourceTypes(ctx context.Conte
 
 	var response ListMonitoredResourceTypesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ListMonitoredResourceTypes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3578,7 +3578,7 @@ func (client StackMonitoringClient) listMonitoredResources(ctx context.Context, 
 
 	var response ListMonitoredResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ListMonitoredResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3636,7 +3636,7 @@ func (client StackMonitoringClient) listMonitoringTemplates(ctx context.Context,
 
 	var response ListMonitoringTemplatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ListMonitoringTemplates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3694,7 +3694,7 @@ func (client StackMonitoringClient) listProcessSets(ctx context.Context, request
 
 	var response ListProcessSetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ListProcessSets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3752,7 +3752,7 @@ func (client StackMonitoringClient) listWorkRequestErrors(ctx context.Context, r
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3810,7 +3810,7 @@ func (client StackMonitoringClient) listWorkRequestLogs(ctx context.Context, req
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3868,7 +3868,7 @@ func (client StackMonitoringClient) listWorkRequests(ctx context.Context, reques
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3935,7 +3935,7 @@ func (client StackMonitoringClient) manageLicense(ctx context.Context, request c
 
 	var response ManageLicenseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "ManageLicense")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3997,7 +3997,7 @@ func (client StackMonitoringClient) publishMetricExtension(ctx context.Context, 
 
 	var response PublishMetricExtensionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "PublishMetricExtension")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4055,7 +4055,7 @@ func (client StackMonitoringClient) requestMonitoredResourcesSummarizedCount(ctx
 
 	var response RequestMonitoredResourcesSummarizedCountResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "RequestMonitoredResourcesSummarizedCount")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4114,7 +4114,7 @@ func (client StackMonitoringClient) requestSummarizedMetricExtensionsMetrics(ctx
 
 	var response RequestSummarizedMetricExtensionsMetricsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "RequestSummarizedMetricExtensionsMetrics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4173,7 +4173,7 @@ func (client StackMonitoringClient) requestSummarizedMetricExtensionsResources(c
 
 	var response RequestSummarizedMetricExtensionsResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "RequestSummarizedMetricExtensionsResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4230,7 +4230,7 @@ func (client StackMonitoringClient) retryFailedMaintenanceWindowOperation(ctx co
 
 	var response RetryFailedMaintenanceWindowOperationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "RetryFailedMaintenanceWindowOperation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4294,7 +4294,7 @@ func (client StackMonitoringClient) searchAssociatedResources(ctx context.Contex
 
 	var response SearchAssociatedResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "SearchAssociatedResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4357,7 +4357,7 @@ func (client StackMonitoringClient) searchMonitoredResourceAssociations(ctx cont
 
 	var response SearchMonitoredResourceAssociationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "SearchMonitoredResourceAssociations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4420,7 +4420,7 @@ func (client StackMonitoringClient) searchMonitoredResourceMembers(ctx context.C
 
 	var response SearchMonitoredResourceMembersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "SearchMonitoredResourceMembers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4483,7 +4483,7 @@ func (client StackMonitoringClient) searchMonitoredResources(ctx context.Context
 
 	var response SearchMonitoredResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "SearchMonitoredResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4540,7 +4540,7 @@ func (client StackMonitoringClient) stopMaintenanceWindow(ctx context.Context, r
 
 	var response StopMaintenanceWindowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "StopMaintenanceWindow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4602,7 +4602,7 @@ func (client StackMonitoringClient) testMetricExtension(ctx context.Context, req
 
 	var response TestMetricExtensionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "TestMetricExtension")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4665,7 +4665,7 @@ func (client StackMonitoringClient) unapplyMonitoringTemplate(ctx context.Contex
 
 	var response UnapplyMonitoringTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "UnapplyMonitoringTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4723,7 +4723,7 @@ func (client StackMonitoringClient) updateAlarmCondition(ctx context.Context, re
 
 	var response UpdateAlarmConditionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "UpdateAlarmCondition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4789,7 +4789,7 @@ func (client StackMonitoringClient) updateAndPropagateTags(ctx context.Context, 
 
 	var response UpdateAndPropagateTagsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "UpdateAndPropagateTags")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4847,7 +4847,7 @@ func (client StackMonitoringClient) updateBaselineableMetric(ctx context.Context
 
 	var response UpdateBaselineableMetricResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "UpdateBaselineableMetric")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4905,7 +4905,7 @@ func (client StackMonitoringClient) updateConfig(ctx context.Context, request co
 
 	var response UpdateConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "UpdateConfig")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4962,7 +4962,7 @@ func (client StackMonitoringClient) updateMaintenanceWindow(ctx context.Context,
 
 	var response UpdateMaintenanceWindowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "UpdateMaintenanceWindow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5019,7 +5019,7 @@ func (client StackMonitoringClient) updateMetricExtension(ctx context.Context, r
 
 	var response UpdateMetricExtensionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "UpdateMetricExtension")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5078,7 +5078,7 @@ func (client StackMonitoringClient) updateMonitoredResource(ctx context.Context,
 
 	var response UpdateMonitoredResourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "UpdateMonitoredResource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5135,7 +5135,7 @@ func (client StackMonitoringClient) updateMonitoredResourceTask(ctx context.Cont
 
 	var response UpdateMonitoredResourceTaskResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "UpdateMonitoredResourceTask")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5192,7 +5192,7 @@ func (client StackMonitoringClient) updateMonitoredResourceType(ctx context.Cont
 
 	var response UpdateMonitoredResourceTypeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "UpdateMonitoredResourceType")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5249,7 +5249,7 @@ func (client StackMonitoringClient) updateMonitoringTemplate(ctx context.Context
 
 	var response UpdateMonitoringTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "UpdateMonitoringTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5307,7 +5307,7 @@ func (client StackMonitoringClient) updateProcessSet(ctx context.Context, reques
 
 	var response UpdateProcessSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stackMonitoring", "UpdateProcessSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

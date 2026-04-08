@@ -140,7 +140,7 @@ func (client RecipientInvitationClient) acceptRecipientInvitation(ctx context.Co
 
 	var response AcceptRecipientInvitationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "recipientInvitation", "AcceptRecipientInvitation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -197,7 +197,7 @@ func (client RecipientInvitationClient) getRecipientInvitation(ctx context.Conte
 
 	var response GetRecipientInvitationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "recipientInvitation", "GetRecipientInvitation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -259,7 +259,7 @@ func (client RecipientInvitationClient) ignoreRecipientInvitation(ctx context.Co
 
 	var response IgnoreRecipientInvitationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "recipientInvitation", "IgnoreRecipientInvitation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -316,7 +316,7 @@ func (client RecipientInvitationClient) listRecipientInvitations(ctx context.Con
 
 	var response ListRecipientInvitationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "recipientInvitation", "ListRecipientInvitations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -373,7 +373,7 @@ func (client RecipientInvitationClient) updateRecipientInvitation(ctx context.Co
 
 	var response UpdateRecipientInvitationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "recipientInvitation", "UpdateRecipientInvitation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

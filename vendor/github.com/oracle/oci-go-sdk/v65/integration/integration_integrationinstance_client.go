@@ -142,7 +142,7 @@ func (client IntegrationInstanceClient) addLogAnalyticsLogGroup(ctx context.Cont
 
 	var response AddLogAnalyticsLogGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "AddLogAnalyticsLogGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -205,7 +205,7 @@ func (client IntegrationInstanceClient) addOracleManagedCustomEndpoint(ctx conte
 
 	var response AddOracleManagedCustomEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "AddOracleManagedCustomEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -267,7 +267,7 @@ func (client IntegrationInstanceClient) changeIntegrationInstanceCompartment(ctx
 
 	var response ChangeIntegrationInstanceCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "ChangeIntegrationInstanceCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -330,7 +330,7 @@ func (client IntegrationInstanceClient) changeIntegrationInstanceNetworkEndpoint
 
 	var response ChangeIntegrationInstanceNetworkEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "ChangeIntegrationInstanceNetworkEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -393,7 +393,7 @@ func (client IntegrationInstanceClient) changePrivateEndpointOutboundConnection(
 
 	var response ChangePrivateEndpointOutboundConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "ChangePrivateEndpointOutboundConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -458,7 +458,7 @@ func (client IntegrationInstanceClient) convertInstance(ctx context.Context, req
 
 	var response ConvertInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "ConvertInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -521,7 +521,7 @@ func (client IntegrationInstanceClient) createIntegrationInstance(ctx context.Co
 
 	var response CreateIntegrationInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "CreateIntegrationInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -578,7 +578,7 @@ func (client IntegrationInstanceClient) deleteIntegrationInstance(ctx context.Co
 
 	var response DeleteIntegrationInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "DeleteIntegrationInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -641,7 +641,7 @@ func (client IntegrationInstanceClient) disableProcessAutomation(ctx context.Con
 
 	var response DisableProcessAutomationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "DisableProcessAutomation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -707,7 +707,7 @@ func (client IntegrationInstanceClient) disasterRecoveryFailover(ctx context.Con
 
 	var response DisasterRecoveryFailoverResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "DisasterRecoveryFailover")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -769,7 +769,7 @@ func (client IntegrationInstanceClient) enableProcessAutomation(ctx context.Cont
 
 	var response EnableProcessAutomationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "EnableProcessAutomation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -832,7 +832,7 @@ func (client IntegrationInstanceClient) extendDataRetention(ctx context.Context,
 
 	var response ExtendDataRetentionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "ExtendDataRetention")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -889,7 +889,7 @@ func (client IntegrationInstanceClient) getIntegrationInstance(ctx context.Conte
 
 	var response GetIntegrationInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "GetIntegrationInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -946,7 +946,7 @@ func (client IntegrationInstanceClient) getWorkRequest(ctx context.Context, requ
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1003,7 +1003,7 @@ func (client IntegrationInstanceClient) listIntegrationInstances(ctx context.Con
 
 	var response ListIntegrationInstancesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "ListIntegrationInstances")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1060,7 +1060,7 @@ func (client IntegrationInstanceClient) listWorkRequestErrors(ctx context.Contex
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1117,7 +1117,7 @@ func (client IntegrationInstanceClient) listWorkRequestLogs(ctx context.Context,
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1174,7 +1174,7 @@ func (client IntegrationInstanceClient) listWorkRequests(ctx context.Context, re
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1238,7 +1238,7 @@ func (client IntegrationInstanceClient) removeLogAnalyticsLogGroup(ctx context.C
 
 	var response RemoveLogAnalyticsLogGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "RemoveLogAnalyticsLogGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1301,7 +1301,7 @@ func (client IntegrationInstanceClient) removeOracleManagedCustomEndpoint(ctx co
 
 	var response RemoveOracleManagedCustomEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "RemoveOracleManagedCustomEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1363,7 +1363,7 @@ func (client IntegrationInstanceClient) startIntegrationInstance(ctx context.Con
 
 	var response StartIntegrationInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "StartIntegrationInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1425,7 +1425,7 @@ func (client IntegrationInstanceClient) stopIntegrationInstance(ctx context.Cont
 
 	var response StopIntegrationInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "StopIntegrationInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1482,7 +1482,7 @@ func (client IntegrationInstanceClient) updateIntegrationInstance(ctx context.Co
 
 	var response UpdateIntegrationInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "integrationInstance", "UpdateIntegrationInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

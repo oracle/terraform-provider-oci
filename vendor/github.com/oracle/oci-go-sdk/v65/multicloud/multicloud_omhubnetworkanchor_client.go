@@ -136,7 +136,7 @@ func (client OmhubNetworkAnchorClient) getNetworkAnchor(ctx context.Context, req
 
 	var response GetNetworkAnchorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "omhubNetworkAnchor", "GetNetworkAnchor")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -194,7 +194,7 @@ func (client OmhubNetworkAnchorClient) listNetworkAnchors(ctx context.Context, r
 
 	var response ListNetworkAnchorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "omhubNetworkAnchor", "ListNetworkAnchors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

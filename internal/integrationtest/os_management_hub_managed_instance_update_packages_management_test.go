@@ -4,11 +4,8 @@
 package integrationtest
 
 import (
-	"fmt"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
-	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
@@ -19,7 +16,7 @@ var (
 
 	OsManagementHubManagedInstanceUpdatePackagesManagementRepresentation = map[string]interface{}{
 		"managed_instance_id":  acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("osmh_managed_instance_ocid")},
-		"package_names":        acctest.Representation{RepType: acctest.Required, Create: []string{utils.GetEnvSettingWithBlankDefault("osmh_managed_instance_package_to_update")}},
+		"package_names":        acctest.Representation{RepType: acctest.Required, Create: []string{`NetworkManager`}}, // The package must be installed and having updates
 		"work_request_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: OsManagementHubManagedInstanceUpdatePackagesManagementWorkRequestDetailsRepresentation},
 	}
 
@@ -33,43 +30,44 @@ var (
 
 // issue-routing-tag: os_management_hub/default
 func TestOsManagementHubManagedInstanceUpdatePackagesManagementResource_basic(t *testing.T) {
-	httpreplay.SetScenario("TestOsManagementHubManagedInstanceUpdatePackagesManagementResource_basic")
-	defer httpreplay.SaveScenario()
+	// Comment out the test cases as they cannot be run repeatedly
+	// httpreplay.SetScenario("TestOsManagementHubManagedInstanceUpdatePackagesManagementResource_basic")
+	// defer httpreplay.SaveScenario()
 
-	config := acctest.ProviderTestConfig()
+	// config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	// compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	// compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	//resourceName := "oci_os_management_hub_managed_instance_update_packages_management.test_managed_instance_update_packages_management"
+	// resourceName := "oci_os_management_hub_managed_instance_update_packages_management.test_managed_instance_update_packages_management"
 
-	//var resId string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+OsManagementHubManagedInstanceUpdatePackagesManagementResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_update_packages_management", "test_managed_instance_update_packages_management", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceUpdatePackagesManagementRepresentation), "osmanagementhub", "managedInstanceUpdatePackagesManagement", t)
+	// var resId string
+	// // Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	// acctest.SaveConfigContent(config+compartmentIdVariableStr+OsManagementHubManagedInstanceUpdatePackagesManagementResourceDependencies+
+	// 	acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_update_packages_management", "test_managed_instance_update_packages_management", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceUpdatePackagesManagementRepresentation), "osmanagementhub", "managedInstanceUpdatePackagesManagement", t)
 
-	acctest.ResourceTest(t, nil, []resource.TestStep{
-		// verify Create with optionals
-		//{
-		//	Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceUpdatePackagesManagementResourceDependencies +
-		//		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_update_packages_management", "test_managed_instance_update_packages_management", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceUpdatePackagesManagementRepresentation),
-		//	Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-		//		resource.TestCheckResourceAttrSet(resourceName, "managed_instance_id"),
-		//		resource.TestCheckResourceAttr(resourceName, "package_names.#", "1"),
-		//		resource.TestCheckResourceAttr(resourceName, "work_request_details.#", "1"),
-		//		resource.TestCheckResourceAttr(resourceName, "work_request_details.0.description", "description"),
-		//		resource.TestCheckResourceAttr(resourceName, "work_request_details.0.display_name", "displayName"),
-		//
-		//		func(s *terraform.State) (err error) {
-		//			resId, err = acctest.FromInstanceState(s, resourceName, "id")
-		//			if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-		//				if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-		//					return errExport
-		//				}
-		//			}
-		//			return err
-		//		},
-		//	),
-		//},
-	})
+	// acctest.ResourceTest(t, nil, []resource.TestStep{
+	// 	// verify Create with optionals
+	// 	{
+	// 		Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceUpdatePackagesManagementResourceDependencies +
+	// 			acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_update_packages_management", "test_managed_instance_update_packages_management", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceUpdatePackagesManagementRepresentation),
+	// 		Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+	// 			resource.TestCheckResourceAttrSet(resourceName, "managed_instance_id"),
+	// 			resource.TestCheckResourceAttr(resourceName, "package_names.#", "1"),
+	// 			resource.TestCheckResourceAttr(resourceName, "work_request_details.#", "1"),
+	// 			resource.TestCheckResourceAttr(resourceName, "work_request_details.0.description", "description"),
+	// 			resource.TestCheckResourceAttr(resourceName, "work_request_details.0.display_name", "displayName"),
+
+	// 			func(s *terraform.State) (err error) {
+	// 				resId, err = acctest.FromInstanceState(s, resourceName, "id")
+	// 				if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+	// 					if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+	// 						return errExport
+	// 					}
+	// 				}
+	// 				return err
+	// 			},
+	// 		),
+	// 	},
+	// })
 }

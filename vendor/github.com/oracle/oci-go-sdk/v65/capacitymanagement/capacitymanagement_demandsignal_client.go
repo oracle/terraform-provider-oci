@@ -141,7 +141,7 @@ func (client DemandSignalClient) bulkCreateOccmDemandSignalItem(ctx context.Cont
 
 	var response BulkCreateOccmDemandSignalItemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "demandSignal", "BulkCreateOccmDemandSignalItem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -204,7 +204,7 @@ func (client DemandSignalClient) createOccmDemandSignal(ctx context.Context, req
 
 	var response CreateOccmDemandSignalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "demandSignal", "CreateOccmDemandSignal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -267,7 +267,7 @@ func (client DemandSignalClient) createOccmDemandSignalItem(ctx context.Context,
 
 	var response CreateOccmDemandSignalItemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "demandSignal", "CreateOccmDemandSignalItem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -325,7 +325,7 @@ func (client DemandSignalClient) deleteOccmDemandSignal(ctx context.Context, req
 
 	var response DeleteOccmDemandSignalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "demandSignal", "DeleteOccmDemandSignal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -383,7 +383,7 @@ func (client DemandSignalClient) deleteOccmDemandSignalItem(ctx context.Context,
 
 	var response DeleteOccmDemandSignalItemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "demandSignal", "DeleteOccmDemandSignalItem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -441,7 +441,7 @@ func (client DemandSignalClient) getOccmDemandSignal(ctx context.Context, reques
 
 	var response GetOccmDemandSignalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "demandSignal", "GetOccmDemandSignal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -499,7 +499,7 @@ func (client DemandSignalClient) getOccmDemandSignalItem(ctx context.Context, re
 
 	var response GetOccmDemandSignalItemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "demandSignal", "GetOccmDemandSignalItem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -557,7 +557,7 @@ func (client DemandSignalClient) listOccmDemandSignalCatalogResources(ctx contex
 
 	var response ListOccmDemandSignalCatalogResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "demandSignal", "ListOccmDemandSignalCatalogResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -615,7 +615,7 @@ func (client DemandSignalClient) listOccmDemandSignalDeliveries(ctx context.Cont
 
 	var response ListOccmDemandSignalDeliveriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "demandSignal", "ListOccmDemandSignalDeliveries")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -673,7 +673,7 @@ func (client DemandSignalClient) listOccmDemandSignalItems(ctx context.Context, 
 
 	var response ListOccmDemandSignalItemsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "demandSignal", "ListOccmDemandSignalItems")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -731,7 +731,7 @@ func (client DemandSignalClient) listOccmDemandSignals(ctx context.Context, requ
 
 	var response ListOccmDemandSignalsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "demandSignal", "ListOccmDemandSignals")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -789,7 +789,7 @@ func (client DemandSignalClient) updateOccmDemandSignal(ctx context.Context, req
 
 	var response UpdateOccmDemandSignalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "demandSignal", "UpdateOccmDemandSignal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -847,7 +847,7 @@ func (client DemandSignalClient) updateOccmDemandSignalItem(ctx context.Context,
 
 	var response UpdateOccmDemandSignalItemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "demandSignal", "UpdateOccmDemandSignalItem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

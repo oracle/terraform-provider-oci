@@ -202,6 +202,7 @@ type ListAllSoftwarePackagesOsFamilyEnum string
 
 // Set of constants representing the allowable values for ListAllSoftwarePackagesOsFamilyEnum
 const (
+	ListAllSoftwarePackagesOsFamilyOracleLinux10     ListAllSoftwarePackagesOsFamilyEnum = "ORACLE_LINUX_10"
 	ListAllSoftwarePackagesOsFamilyOracleLinux9      ListAllSoftwarePackagesOsFamilyEnum = "ORACLE_LINUX_9"
 	ListAllSoftwarePackagesOsFamilyOracleLinux8      ListAllSoftwarePackagesOsFamilyEnum = "ORACLE_LINUX_8"
 	ListAllSoftwarePackagesOsFamilyOracleLinux7      ListAllSoftwarePackagesOsFamilyEnum = "ORACLE_LINUX_7"
@@ -209,10 +210,16 @@ const (
 	ListAllSoftwarePackagesOsFamilyWindowsServer2016 ListAllSoftwarePackagesOsFamilyEnum = "WINDOWS_SERVER_2016"
 	ListAllSoftwarePackagesOsFamilyWindowsServer2019 ListAllSoftwarePackagesOsFamilyEnum = "WINDOWS_SERVER_2019"
 	ListAllSoftwarePackagesOsFamilyWindowsServer2022 ListAllSoftwarePackagesOsFamilyEnum = "WINDOWS_SERVER_2022"
+	ListAllSoftwarePackagesOsFamilyWindowsServer2025 ListAllSoftwarePackagesOsFamilyEnum = "WINDOWS_SERVER_2025"
+	ListAllSoftwarePackagesOsFamilyWindows11         ListAllSoftwarePackagesOsFamilyEnum = "WINDOWS_11"
 	ListAllSoftwarePackagesOsFamilyAll               ListAllSoftwarePackagesOsFamilyEnum = "ALL"
+	ListAllSoftwarePackagesOsFamilyUbuntu2004        ListAllSoftwarePackagesOsFamilyEnum = "UBUNTU_20_04"
+	ListAllSoftwarePackagesOsFamilyUbuntu2204        ListAllSoftwarePackagesOsFamilyEnum = "UBUNTU_22_04"
+	ListAllSoftwarePackagesOsFamilyUbuntu2404        ListAllSoftwarePackagesOsFamilyEnum = "UBUNTU_24_04"
 )
 
 var mappingListAllSoftwarePackagesOsFamilyEnum = map[string]ListAllSoftwarePackagesOsFamilyEnum{
+	"ORACLE_LINUX_10":     ListAllSoftwarePackagesOsFamilyOracleLinux10,
 	"ORACLE_LINUX_9":      ListAllSoftwarePackagesOsFamilyOracleLinux9,
 	"ORACLE_LINUX_8":      ListAllSoftwarePackagesOsFamilyOracleLinux8,
 	"ORACLE_LINUX_7":      ListAllSoftwarePackagesOsFamilyOracleLinux7,
@@ -220,10 +227,16 @@ var mappingListAllSoftwarePackagesOsFamilyEnum = map[string]ListAllSoftwarePacka
 	"WINDOWS_SERVER_2016": ListAllSoftwarePackagesOsFamilyWindowsServer2016,
 	"WINDOWS_SERVER_2019": ListAllSoftwarePackagesOsFamilyWindowsServer2019,
 	"WINDOWS_SERVER_2022": ListAllSoftwarePackagesOsFamilyWindowsServer2022,
+	"WINDOWS_SERVER_2025": ListAllSoftwarePackagesOsFamilyWindowsServer2025,
+	"WINDOWS_11":          ListAllSoftwarePackagesOsFamilyWindows11,
 	"ALL":                 ListAllSoftwarePackagesOsFamilyAll,
+	"UBUNTU_20_04":        ListAllSoftwarePackagesOsFamilyUbuntu2004,
+	"UBUNTU_22_04":        ListAllSoftwarePackagesOsFamilyUbuntu2204,
+	"UBUNTU_24_04":        ListAllSoftwarePackagesOsFamilyUbuntu2404,
 }
 
 var mappingListAllSoftwarePackagesOsFamilyEnumLowerCase = map[string]ListAllSoftwarePackagesOsFamilyEnum{
+	"oracle_linux_10":     ListAllSoftwarePackagesOsFamilyOracleLinux10,
 	"oracle_linux_9":      ListAllSoftwarePackagesOsFamilyOracleLinux9,
 	"oracle_linux_8":      ListAllSoftwarePackagesOsFamilyOracleLinux8,
 	"oracle_linux_7":      ListAllSoftwarePackagesOsFamilyOracleLinux7,
@@ -231,7 +244,12 @@ var mappingListAllSoftwarePackagesOsFamilyEnumLowerCase = map[string]ListAllSoft
 	"windows_server_2016": ListAllSoftwarePackagesOsFamilyWindowsServer2016,
 	"windows_server_2019": ListAllSoftwarePackagesOsFamilyWindowsServer2019,
 	"windows_server_2022": ListAllSoftwarePackagesOsFamilyWindowsServer2022,
+	"windows_server_2025": ListAllSoftwarePackagesOsFamilyWindowsServer2025,
+	"windows_11":          ListAllSoftwarePackagesOsFamilyWindows11,
 	"all":                 ListAllSoftwarePackagesOsFamilyAll,
+	"ubuntu_20_04":        ListAllSoftwarePackagesOsFamilyUbuntu2004,
+	"ubuntu_22_04":        ListAllSoftwarePackagesOsFamilyUbuntu2204,
+	"ubuntu_24_04":        ListAllSoftwarePackagesOsFamilyUbuntu2404,
 }
 
 // GetListAllSoftwarePackagesOsFamilyEnumValues Enumerates the set of values for ListAllSoftwarePackagesOsFamilyEnum
@@ -246,6 +264,7 @@ func GetListAllSoftwarePackagesOsFamilyEnumValues() []ListAllSoftwarePackagesOsF
 // GetListAllSoftwarePackagesOsFamilyEnumStringValues Enumerates the set of values in String for ListAllSoftwarePackagesOsFamilyEnum
 func GetListAllSoftwarePackagesOsFamilyEnumStringValues() []string {
 	return []string{
+		"ORACLE_LINUX_10",
 		"ORACLE_LINUX_9",
 		"ORACLE_LINUX_8",
 		"ORACLE_LINUX_7",
@@ -253,7 +272,12 @@ func GetListAllSoftwarePackagesOsFamilyEnumStringValues() []string {
 		"WINDOWS_SERVER_2016",
 		"WINDOWS_SERVER_2019",
 		"WINDOWS_SERVER_2022",
+		"WINDOWS_SERVER_2025",
+		"WINDOWS_11",
 		"ALL",
+		"UBUNTU_20_04",
+		"UBUNTU_22_04",
+		"UBUNTU_24_04",
 	}
 }
 

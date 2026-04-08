@@ -139,7 +139,7 @@ func (client ConnectorPluginsClient) getConnectorPlugin(ctx context.Context, req
 
 	var response GetConnectorPluginResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "connectorPlugins", "GetConnectorPlugin")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -197,7 +197,7 @@ func (client ConnectorPluginsClient) listConnectorPlugins(ctx context.Context, r
 
 	var response ListConnectorPluginsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "connectorPlugins", "ListConnectorPlugins")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

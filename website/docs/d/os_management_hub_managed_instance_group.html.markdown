@@ -49,7 +49,12 @@ The following attributes are exported:
 * `notification_topic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Oracle Notifications service (ONS) topic. ONS is the channel used to send notifications to the customer.
 * `os_family` - The operating system type of the instances in the managed instance group.
 * `pending_job_count` - The number of scheduled jobs pending against the managed instance group.
-* `software_source_ids` - The list of software source OCIDs that the managed instance group will use.
+* `software_source_ids` - The list of software source [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that the managed instance group will use.
+	* `description` - Software source description.
+	* `display_name` - Software source name.
+	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
+	* `is_mandatory_for_autonomous_linux` - Indicates whether this is a required software source for Autonomous Linux instances. If true, the user can't unselect it.
+	* `software_source_type` - Type of the software source.
 * `software_sources` - The list of software sources that the managed instance group will use.
 	* `description` - Software source description.
 	* `display_name` - Software source name.

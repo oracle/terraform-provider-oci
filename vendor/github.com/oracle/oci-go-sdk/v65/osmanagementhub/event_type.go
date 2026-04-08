@@ -29,6 +29,7 @@ const (
 	EventTypeManagementStation EventTypeEnum = "MANAGEMENT_STATION"
 	EventTypeSysadmin          EventTypeEnum = "SYSADMIN"
 	EventTypeReboot            EventTypeEnum = "REBOOT"
+	EventTypeSnapUpdate        EventTypeEnum = "SNAP_UPDATE"
 )
 
 var mappingEventTypeEnum = map[string]EventTypeEnum{
@@ -42,6 +43,7 @@ var mappingEventTypeEnum = map[string]EventTypeEnum{
 	"MANAGEMENT_STATION": EventTypeManagementStation,
 	"SYSADMIN":           EventTypeSysadmin,
 	"REBOOT":             EventTypeReboot,
+	"SNAP_UPDATE":        EventTypeSnapUpdate,
 }
 
 var mappingEventTypeEnumLowerCase = map[string]EventTypeEnum{
@@ -55,6 +57,7 @@ var mappingEventTypeEnumLowerCase = map[string]EventTypeEnum{
 	"management_station": EventTypeManagementStation,
 	"sysadmin":           EventTypeSysadmin,
 	"reboot":             EventTypeReboot,
+	"snap_update":        EventTypeSnapUpdate,
 }
 
 // GetEventTypeEnumValues Enumerates the set of values for EventTypeEnum
@@ -79,6 +82,7 @@ func GetEventTypeEnumStringValues() []string {
 		"MANAGEMENT_STATION",
 		"SYSADMIN",
 		"REBOOT",
+		"SNAP_UPDATE",
 	}
 }
 

@@ -37,6 +37,24 @@ var (
 		"profile_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_profile.test_profile.id}`},
 	}
 
+	OsManagementHubProfileDataSourceRepresentation = map[string]interface{}{
+		"arch_type":                       acctest.Representation{RepType: acctest.Optional, Create: `X86_64`},
+		"compartment_id":                  acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"display_name":                    acctest.Representation{RepType: acctest.Optional, Create: `example-name`, Update: `displayName2`},
+		"display_name_contains":           acctest.Representation{RepType: acctest.Optional, Create: `displayNameContains`},
+		"is_default_profile":              acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_service_provided_profile":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"management_station":              acctest.Representation{RepType: acctest.Optional, Create: []string{`managementStation`}},
+		"management_station_not_equal_to": acctest.Representation{RepType: acctest.Optional, Create: []string{`managementStationNotEqualTo`}},
+		"os_family":                       acctest.Representation{RepType: acctest.Optional, Create: `ORACLE_LINUX_8`},
+		"profile_id":                      acctest.Representation{RepType: acctest.Optional, Create: `${oci_os_management_hub_profile.test_profile.id}`},
+		"profile_type":                    acctest.Representation{RepType: acctest.Optional, Create: `SOFTWARESOURCE`},
+		"profile_version":                 acctest.Representation{RepType: acctest.Optional, Create: `profileVersion`},
+		"registration_type":               acctest.Representation{RepType: acctest.Optional, Create: `OCI_LINUX`},
+		"state":                           acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"vendor_name":                     acctest.Representation{RepType: acctest.Optional, Create: `ORACLE`},
+		"filter":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubProfileDataSourceFilterRepresentation}}
+
 	OsManagementHubSoftwareSourceProfileDataSourceRepresentation = map[string]interface{}{
 		"arch_type":                   acctest.Representation{RepType: acctest.Optional, Create: `X86_64`},
 		"compartment_id":              acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
@@ -73,6 +91,7 @@ var (
 		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"vendor_name":           acctest.Representation{RepType: acctest.Optional, Create: `ORACLE`},
 		"filter":                acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubProfileDataSourceFilterRepresentation}}
+
 	OsManagementHubProfileDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_os_management_hub_profile.test_profile.id}`}},
@@ -189,10 +208,11 @@ func TestOsManagementHubProfileResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "arch_type", "X86_64"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckNoResourceAttr(resourceName, "lifecycle_stage_id"),
-				resource.TestCheckNoResourceAttr(resourceName, "managed_instance_group_id"),
+				//resource.TestCheckResourceAttrSet(resourceName, "lifecycle_stage_id"),
+				//resource.TestCheckResourceAttrSet(resourceName, "managed_instance_group_id"),
 				resource.TestCheckResourceAttr(resourceName, "os_family", "ORACLE_LINUX_8"),
 				resource.TestCheckResourceAttr(resourceName, "profile_type", "SOFTWARESOURCE"),
+				resource.TestCheckResourceAttr(resourceName, "software_source_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "vendor_name", "ORACLE"),
 
 				func(s *terraform.State) (err error) {

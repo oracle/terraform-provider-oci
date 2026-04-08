@@ -175,14 +175,14 @@ func (s *OsManagementHubLifecycleStageDetachManagedInstancesManagementResourceCr
 	if workId == nil {
 		return s.Get()
 	}
-	return s.getLifecycleStageDetachManagedInstancesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getLifecycleStageDetachManagedInstancesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *OsManagementHubLifecycleStageDetachManagedInstancesManagementResourceCrud) getLifecycleStageDetachManagedInstancesManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_os_management_hub.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	lifecycleStageDetachManagedInstancesManagementId, err := lifecycleStageDetachManagedInstancesManagementWaitForWorkRequest(workId, "lifecyclestage",
+	lifecycleStageDetachManagedInstancesManagementId, err := lifecycleStageDetachManagedInstancesManagementWaitForWorkRequest(workId, "lifecycle_environment",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {

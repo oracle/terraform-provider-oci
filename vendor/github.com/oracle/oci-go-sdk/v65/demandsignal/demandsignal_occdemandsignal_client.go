@@ -137,7 +137,7 @@ func (client OccDemandSignalClient) changeOccDemandSignalCompartment(ctx context
 
 	var response ChangeOccDemandSignalCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "occDemandSignal", "ChangeOccDemandSignalCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -200,7 +200,7 @@ func (client OccDemandSignalClient) createOccDemandSignal(ctx context.Context, r
 
 	var response CreateOccDemandSignalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "occDemandSignal", "CreateOccDemandSignal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -258,7 +258,7 @@ func (client OccDemandSignalClient) deleteOccDemandSignal(ctx context.Context, r
 
 	var response DeleteOccDemandSignalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "occDemandSignal", "DeleteOccDemandSignal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -316,7 +316,7 @@ func (client OccDemandSignalClient) getOccDemandSignal(ctx context.Context, requ
 
 	var response GetOccDemandSignalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "occDemandSignal", "GetOccDemandSignal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -374,7 +374,7 @@ func (client OccDemandSignalClient) listOccDemandSignals(ctx context.Context, re
 
 	var response ListOccDemandSignalsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "occDemandSignal", "ListOccDemandSignals")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -432,7 +432,7 @@ func (client OccDemandSignalClient) patchOccDemandSignal(ctx context.Context, re
 
 	var response PatchOccDemandSignalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "occDemandSignal", "PatchOccDemandSignal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -490,7 +490,7 @@ func (client OccDemandSignalClient) updateOccDemandSignal(ctx context.Context, r
 
 	var response UpdateOccDemandSignalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "occDemandSignal", "UpdateOccDemandSignal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

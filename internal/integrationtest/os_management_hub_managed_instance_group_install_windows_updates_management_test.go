@@ -23,13 +23,27 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_install_windows_updates_management", "test_managed_instance_group_install_windows_updates_management", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupInstallWindowsUpdatesManagementRepresentation)
 
 	OsManagementHubManagedInstanceGroupInstallWindowsUpdatesManagementRepresentation = map[string]interface{}{
-		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("managed_instance_group_ocid")},
+		// "managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("managed_instance_group_ocid")},
+		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_managed_instance_group.test_managed_instance_group.id}`},
 		"windows_update_types":      acctest.Representation{RepType: acctest.Required, Create: []string{`OTHER`}},
 		"work_request_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: OsManagementHubManagedInstanceGroupInstallWindowsUpdatesManagementWorkRequestDetailsRepresentation},
 	}
 	OsManagementHubManagedInstanceGroupInstallWindowsUpdatesManagementWorkRequestDetailsRepresentation = map[string]interface{}{
 		"description":  acctest.Representation{RepType: acctest.Optional, Create: `description`},
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+	}
+
+	OsManagementHubManagedInstanceGroupWindowsRepresentation = map[string]interface{}{
+		"arch_type":            acctest.Representation{RepType: acctest.Required, Create: `X86_64`},
+		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":         acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"os_family":            acctest.Representation{RepType: acctest.Required, Create: `WINDOWS_SERVER_2019`},
+		"vendor_name":          acctest.Representation{RepType: acctest.Required, Create: `MICROSOFT`},
+		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: OsManagementHubManagedInstanceGroupIgnoreDefinedTagsRepresentation},
+		"description":          acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"location":             acctest.Representation{RepType: acctest.Optional, Create: `OCI_COMPUTE`},
+		"managed_instance_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{}},
 	}
 
 	OsManagementHubManagedInstanceGroupInstallWindowsUpdatesManagementResourceDependencies = ""
@@ -55,7 +69,7 @@ func TestOsManagementHubManagedInstanceGroupInstallWindowsUpdatesManagementResou
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupInstallWindowsUpdatesManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupInstallWindowsUpdatesManagementResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group", "test_managed_instance_group", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupWindowsRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_install_windows_updates_management", "test_managed_instance_group_install_windows_updates_management", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupInstallWindowsUpdatesManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "managed_instance_group_id"),
@@ -69,7 +83,7 @@ func TestOsManagementHubManagedInstanceGroupInstallWindowsUpdatesManagementResou
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupInstallWindowsUpdatesManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupInstallWindowsUpdatesManagementResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group", "test_managed_instance_group", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupWindowsRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_install_windows_updates_management", "test_managed_instance_group_install_windows_updates_management", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceGroupInstallWindowsUpdatesManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "managed_instance_group_id"),

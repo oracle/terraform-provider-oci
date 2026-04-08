@@ -34,6 +34,9 @@ type SoftwarePackageSummary struct {
 	// The architecture for which this software was built.
 	Architecture SoftwarePackageArchitectureEnum `mandatory:"false" json:"architecture,omitempty"`
 
+	// The date and time the package was last modified (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
+	LastModifiedDate *string `mandatory:"false" json:"lastModifiedDate"`
+
 	// Checksum of the package.
 	Checksum *string `mandatory:"false" json:"checksum"`
 

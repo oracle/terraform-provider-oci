@@ -1,11 +1,9 @@
 // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
-variable "region" {}
+variable "region" {
+  default = "us-ashburn-1"
+}
 variable "compartment_id" {}
 
 variable "agent_agent_type" {
@@ -33,17 +31,22 @@ variable "agent_os_version" {
 }
 
 variable "agent_state" {
-  default = "AVAILABLE"
+  default = "ACTIVE"
 }
 
-
-
 provider "oci" {
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
-  region           = var.region
+  auth                = "SecurityToken"
+  config_file_profile = "terraform-federation-test"
+  region              = var.region
+  # version             = "8.3.0"
+}
+
+variable "environment_display_name" {
+  default = "displayName"
+}
+resource "oci_cloud_bridge_environment" "test_environment" {
+  compartment_id = var.compartment_id
+  display_name   = var.environment_display_name
 }
 
 resource "oci_cloud_bridge_agent" "test_agent" {
@@ -56,7 +59,6 @@ resource "oci_cloud_bridge_agent" "test_agent" {
   os_version     = var.agent_os_version
 
   #Optional
-  defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.agent_defined_tags_value)
   freeform_tags = var.agent_freeform_tags
 }
 
@@ -70,4 +72,3 @@ data "oci_cloud_bridge_agents" "test_agents" {
   environment_id = oci_cloud_bridge_environment.test_environment.id
   state          = var.agent_state
 }
-

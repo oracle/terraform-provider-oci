@@ -140,7 +140,7 @@ func (client GenerativeAiAgentClient) cancelWorkRequest(ctx context.Context, req
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -204,7 +204,7 @@ func (client GenerativeAiAgentClient) changeAgentCompartment(ctx context.Context
 
 	var response ChangeAgentCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ChangeAgentCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -268,7 +268,7 @@ func (client GenerativeAiAgentClient) changeAgentEndpointCompartment(ctx context
 
 	var response ChangeAgentEndpointCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ChangeAgentEndpointCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -332,7 +332,7 @@ func (client GenerativeAiAgentClient) changeKnowledgeBaseCompartment(ctx context
 
 	var response ChangeKnowledgeBaseCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ChangeKnowledgeBaseCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -396,7 +396,7 @@ func (client GenerativeAiAgentClient) changeProvisionedCapacityCompartment(ctx c
 
 	var response ChangeProvisionedCapacityCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ChangeProvisionedCapacityCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -459,7 +459,7 @@ func (client GenerativeAiAgentClient) createAgent(ctx context.Context, request c
 
 	var response CreateAgentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "CreateAgent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -522,7 +522,7 @@ func (client GenerativeAiAgentClient) createAgentEndpoint(ctx context.Context, r
 
 	var response CreateAgentEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "CreateAgentEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -585,7 +585,7 @@ func (client GenerativeAiAgentClient) createDataIngestionJob(ctx context.Context
 
 	var response CreateDataIngestionJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "CreateDataIngestionJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -648,7 +648,7 @@ func (client GenerativeAiAgentClient) createDataSource(ctx context.Context, requ
 
 	var response CreateDataSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "CreateDataSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -711,7 +711,7 @@ func (client GenerativeAiAgentClient) createKnowledgeBase(ctx context.Context, r
 
 	var response CreateKnowledgeBaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "CreateKnowledgeBase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -774,7 +774,7 @@ func (client GenerativeAiAgentClient) createProvisionedCapacity(ctx context.Cont
 
 	var response CreateProvisionedCapacityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "CreateProvisionedCapacity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -837,7 +837,7 @@ func (client GenerativeAiAgentClient) createTool(ctx context.Context, request co
 
 	var response CreateToolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "CreateTool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -895,7 +895,7 @@ func (client GenerativeAiAgentClient) deleteAgent(ctx context.Context, request c
 
 	var response DeleteAgentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "DeleteAgent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -953,7 +953,7 @@ func (client GenerativeAiAgentClient) deleteAgentEndpoint(ctx context.Context, r
 
 	var response DeleteAgentEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "DeleteAgentEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1011,7 +1011,7 @@ func (client GenerativeAiAgentClient) deleteDataIngestionJob(ctx context.Context
 
 	var response DeleteDataIngestionJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "DeleteDataIngestionJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1069,7 +1069,7 @@ func (client GenerativeAiAgentClient) deleteDataSource(ctx context.Context, requ
 
 	var response DeleteDataSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "DeleteDataSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1127,7 +1127,7 @@ func (client GenerativeAiAgentClient) deleteKnowledgeBase(ctx context.Context, r
 
 	var response DeleteKnowledgeBaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "DeleteKnowledgeBase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1185,7 +1185,7 @@ func (client GenerativeAiAgentClient) deleteProvisionedCapacity(ctx context.Cont
 
 	var response DeleteProvisionedCapacityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "DeleteProvisionedCapacity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1243,7 +1243,7 @@ func (client GenerativeAiAgentClient) deleteTool(ctx context.Context, request co
 
 	var response DeleteToolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "DeleteTool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1301,7 +1301,7 @@ func (client GenerativeAiAgentClient) getAgent(ctx context.Context, request comm
 
 	var response GetAgentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "GetAgent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1359,7 +1359,7 @@ func (client GenerativeAiAgentClient) getAgentEndpoint(ctx context.Context, requ
 
 	var response GetAgentEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "GetAgentEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1417,7 +1417,7 @@ func (client GenerativeAiAgentClient) getDataIngestionJob(ctx context.Context, r
 
 	var response GetDataIngestionJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "GetDataIngestionJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1475,7 +1475,7 @@ func (client GenerativeAiAgentClient) getDataIngestionJobLogContent(ctx context.
 
 	var response GetDataIngestionJobLogContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "GetDataIngestionJobLogContent")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai-agents/20240531/DataIngestionJob/GetDataIngestionJobLogContent"
@@ -1532,7 +1532,7 @@ func (client GenerativeAiAgentClient) getDataSource(ctx context.Context, request
 
 	var response GetDataSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "GetDataSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1590,7 +1590,7 @@ func (client GenerativeAiAgentClient) getKnowledgeBase(ctx context.Context, requ
 
 	var response GetKnowledgeBaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "GetKnowledgeBase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1648,7 +1648,7 @@ func (client GenerativeAiAgentClient) getProvisionedCapacity(ctx context.Context
 
 	var response GetProvisionedCapacityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "GetProvisionedCapacity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1706,7 +1706,7 @@ func (client GenerativeAiAgentClient) getTool(ctx context.Context, request commo
 
 	var response GetToolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "GetTool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1764,7 +1764,7 @@ func (client GenerativeAiAgentClient) getWorkRequest(ctx context.Context, reques
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1822,7 +1822,7 @@ func (client GenerativeAiAgentClient) listAgentEndpoints(ctx context.Context, re
 
 	var response ListAgentEndpointsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ListAgentEndpoints")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1880,7 +1880,7 @@ func (client GenerativeAiAgentClient) listAgents(ctx context.Context, request co
 
 	var response ListAgentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ListAgents")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1938,7 +1938,7 @@ func (client GenerativeAiAgentClient) listDataIngestionJobs(ctx context.Context,
 
 	var response ListDataIngestionJobsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ListDataIngestionJobs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1996,7 +1996,7 @@ func (client GenerativeAiAgentClient) listDataSources(ctx context.Context, reque
 
 	var response ListDataSourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ListDataSources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2054,7 +2054,7 @@ func (client GenerativeAiAgentClient) listKnowledgeBases(ctx context.Context, re
 
 	var response ListKnowledgeBasesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ListKnowledgeBases")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2112,7 +2112,7 @@ func (client GenerativeAiAgentClient) listProvisionedCapacities(ctx context.Cont
 
 	var response ListProvisionedCapacitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ListProvisionedCapacities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2170,7 +2170,7 @@ func (client GenerativeAiAgentClient) listTools(ctx context.Context, request com
 
 	var response ListToolsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ListTools")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2228,7 +2228,7 @@ func (client GenerativeAiAgentClient) listWorkRequestErrors(ctx context.Context,
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2286,7 +2286,7 @@ func (client GenerativeAiAgentClient) listWorkRequestLogs(ctx context.Context, r
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2344,7 +2344,7 @@ func (client GenerativeAiAgentClient) listWorkRequests(ctx context.Context, requ
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2402,7 +2402,7 @@ func (client GenerativeAiAgentClient) updateAgent(ctx context.Context, request c
 
 	var response UpdateAgentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "UpdateAgent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2460,7 +2460,7 @@ func (client GenerativeAiAgentClient) updateAgentEndpoint(ctx context.Context, r
 
 	var response UpdateAgentEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "UpdateAgentEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2518,7 +2518,7 @@ func (client GenerativeAiAgentClient) updateDataSource(ctx context.Context, requ
 
 	var response UpdateDataSourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "UpdateDataSource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2576,7 +2576,7 @@ func (client GenerativeAiAgentClient) updateKnowledgeBase(ctx context.Context, r
 
 	var response UpdateKnowledgeBaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "UpdateKnowledgeBase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2634,7 +2634,7 @@ func (client GenerativeAiAgentClient) updateProvisionedCapacity(ctx context.Cont
 
 	var response UpdateProvisionedCapacityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "UpdateProvisionedCapacity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2692,7 +2692,7 @@ func (client GenerativeAiAgentClient) updateTool(ctx context.Context, request co
 
 	var response UpdateToolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAiAgent", "UpdateTool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

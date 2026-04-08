@@ -54,6 +54,7 @@ The following attributes are exported:
 	* `checksum_type` - Type of the checksum.
 	* `display_name` - Package name.
 	* `is_latest` - Indicates whether this package is the latest version.
+	* `last_modified_date` - The date and time the package was last modified (in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) format).
 	* `name` - Unique identifier for the package. Note that this is not an OCID.
 	* `os_families` - The OS families the package belongs to.
 	* `software_sources` - List of software sources that provide the software package. This property is deprecated and it will be removed in a future API release.

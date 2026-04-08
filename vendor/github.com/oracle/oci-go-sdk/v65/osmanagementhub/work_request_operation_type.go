@@ -57,6 +57,11 @@ const (
 	WorkRequestOperationTypeRemoveContent                    WorkRequestOperationTypeEnum = "REMOVE_CONTENT"
 	WorkRequestOperationTypeUnregisterManagedInstance        WorkRequestOperationTypeEnum = "UNREGISTER_MANAGED_INSTANCE"
 	WorkRequestOperationTypeReboot                           WorkRequestOperationTypeEnum = "REBOOT"
+	WorkRequestOperationTypeRegisterManagedInstance          WorkRequestOperationTypeEnum = "REGISTER_MANAGED_INSTANCE"
+	WorkRequestOperationTypeListSnaps                        WorkRequestOperationTypeEnum = "LIST_SNAPS"
+	WorkRequestOperationTypeInstallSnaps                     WorkRequestOperationTypeEnum = "INSTALL_SNAPS"
+	WorkRequestOperationTypeRemoveSnaps                      WorkRequestOperationTypeEnum = "REMOVE_SNAPS"
+	WorkRequestOperationTypeSwitchSnapChannel                WorkRequestOperationTypeEnum = "SWITCH_SNAP_CHANNEL"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -98,6 +103,11 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"REMOVE_CONTENT":                      WorkRequestOperationTypeRemoveContent,
 	"UNREGISTER_MANAGED_INSTANCE":         WorkRequestOperationTypeUnregisterManagedInstance,
 	"REBOOT":                              WorkRequestOperationTypeReboot,
+	"REGISTER_MANAGED_INSTANCE":           WorkRequestOperationTypeRegisterManagedInstance,
+	"LIST_SNAPS":                          WorkRequestOperationTypeListSnaps,
+	"INSTALL_SNAPS":                       WorkRequestOperationTypeInstallSnaps,
+	"REMOVE_SNAPS":                        WorkRequestOperationTypeRemoveSnaps,
+	"SWITCH_SNAP_CHANNEL":                 WorkRequestOperationTypeSwitchSnapChannel,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -139,6 +149,11 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"remove_content":                      WorkRequestOperationTypeRemoveContent,
 	"unregister_managed_instance":         WorkRequestOperationTypeUnregisterManagedInstance,
 	"reboot":                              WorkRequestOperationTypeReboot,
+	"register_managed_instance":           WorkRequestOperationTypeRegisterManagedInstance,
+	"list_snaps":                          WorkRequestOperationTypeListSnaps,
+	"install_snaps":                       WorkRequestOperationTypeInstallSnaps,
+	"remove_snaps":                        WorkRequestOperationTypeRemoveSnaps,
+	"switch_snap_channel":                 WorkRequestOperationTypeSwitchSnapChannel,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -191,6 +206,11 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"REMOVE_CONTENT",
 		"UNREGISTER_MANAGED_INSTANCE",
 		"REBOOT",
+		"REGISTER_MANAGED_INSTANCE",
+		"LIST_SNAPS",
+		"INSTALL_SNAPS",
+		"REMOVE_SNAPS",
+		"SWITCH_SNAP_CHANNEL",
 	}
 }
 

@@ -136,7 +136,7 @@ func (client InvoiceServiceClient) downloadPdfContent(ctx context.Context, reque
 
 	var response DownloadPdfContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "invoiceService", "DownloadPdfContent")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := ""
@@ -193,7 +193,7 @@ func (client InvoiceServiceClient) getInvoice(ctx context.Context, request commo
 
 	var response GetInvoiceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "invoiceService", "GetInvoice")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -251,7 +251,7 @@ func (client InvoiceServiceClient) listInvoiceLines(ctx context.Context, request
 
 	var response ListInvoiceLinesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "invoiceService", "ListInvoiceLines")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -309,7 +309,7 @@ func (client InvoiceServiceClient) listInvoices(ctx context.Context, request com
 
 	var response ListInvoicesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "invoiceService", "ListInvoices")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -372,7 +372,7 @@ func (client InvoiceServiceClient) payInvoice(ctx context.Context, request commo
 
 	var response PayInvoiceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "invoiceService", "PayInvoice")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

@@ -71,6 +71,9 @@ type ManagedInstanceSummary struct {
 
 	// The version of osmh-agent running on the managed instance
 	AgentVersion *string `mandatory:"false" json:"agentVersion"`
+
+	// Time that the instance last booted (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
+	TimeLastBoot *common.SDKTime `mandatory:"false" json:"timeLastBoot"`
 }
 
 func (m ManagedInstanceSummary) String() string {

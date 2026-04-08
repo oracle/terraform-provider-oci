@@ -104,6 +104,8 @@ func (s *ObjectStorageBucketDataSourceCrud) SetData() error {
 
 	s.D.Set("auto_tiering", s.Res.AutoTiering)
 
+	s.D.Set("bucket_scope", s.Res.BucketScope)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

@@ -141,7 +141,7 @@ func (client OciCacheConfigSetClient) changeOciCacheConfigSetCompartment(ctx con
 
 	var response ChangeOciCacheConfigSetCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ociCacheConfigSet", "ChangeOciCacheConfigSetCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -204,7 +204,7 @@ func (client OciCacheConfigSetClient) createOciCacheConfigSet(ctx context.Contex
 
 	var response CreateOciCacheConfigSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ociCacheConfigSet", "CreateOciCacheConfigSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -262,7 +262,7 @@ func (client OciCacheConfigSetClient) deleteOciCacheConfigSet(ctx context.Contex
 
 	var response DeleteOciCacheConfigSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ociCacheConfigSet", "DeleteOciCacheConfigSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -320,7 +320,7 @@ func (client OciCacheConfigSetClient) getOciCacheConfigSet(ctx context.Context, 
 
 	var response GetOciCacheConfigSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ociCacheConfigSet", "GetOciCacheConfigSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -378,7 +378,7 @@ func (client OciCacheConfigSetClient) listAssociatedOciCacheClusters(ctx context
 
 	var response ListAssociatedOciCacheClustersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ociCacheConfigSet", "ListAssociatedOciCacheClusters")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -436,7 +436,7 @@ func (client OciCacheConfigSetClient) listOciCacheConfigSets(ctx context.Context
 
 	var response ListOciCacheConfigSetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ociCacheConfigSet", "ListOciCacheConfigSets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -494,7 +494,7 @@ func (client OciCacheConfigSetClient) updateOciCacheConfigSet(ctx context.Contex
 
 	var response UpdateOciCacheConfigSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ociCacheConfigSet", "UpdateOciCacheConfigSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

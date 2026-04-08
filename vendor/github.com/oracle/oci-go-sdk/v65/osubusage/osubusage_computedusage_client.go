@@ -135,7 +135,7 @@ func (client ComputedUsageClient) getComputedUsage(ctx context.Context, request 
 
 	var response GetComputedUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computedUsage", "GetComputedUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -192,7 +192,7 @@ func (client ComputedUsageClient) listComputedUsageAggregateds(ctx context.Conte
 
 	var response ListComputedUsageAggregatedsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computedUsage", "ListComputedUsageAggregateds")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -249,7 +249,7 @@ func (client ComputedUsageClient) listComputedUsages(ctx context.Context, reques
 
 	var response ListComputedUsagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computedUsage", "ListComputedUsages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

@@ -93,6 +93,9 @@ type ListScheduledJobsRequest struct {
 	// Indicates whether to list only resources managed by the Autonomous Linux service.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" contributesTo:"query" name:"isManagedByAutonomousLinux"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dynamic set. This filter returns resources associated with this dynamic set.
+	DynamicSetId *string `mandatory:"false" contributesTo:"query" name:"dynamicSetId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -217,6 +220,9 @@ const (
 	ListScheduledJobsOperationTypeInstallOtherWindowsUpdates       ListScheduledJobsOperationTypeEnum = "INSTALL_OTHER_WINDOWS_UPDATES"
 	ListScheduledJobsOperationTypeReboot                           ListScheduledJobsOperationTypeEnum = "REBOOT"
 	ListScheduledJobsOperationTypeRerunWorkRequest                 ListScheduledJobsOperationTypeEnum = "RERUN_WORK_REQUEST"
+	ListScheduledJobsOperationTypeInstallSnaps                     ListScheduledJobsOperationTypeEnum = "INSTALL_SNAPS"
+	ListScheduledJobsOperationTypeRemoveSnaps                      ListScheduledJobsOperationTypeEnum = "REMOVE_SNAPS"
+	ListScheduledJobsOperationTypeSwitchSnapChannel                ListScheduledJobsOperationTypeEnum = "SWITCH_SNAP_CHANNEL"
 )
 
 var mappingListScheduledJobsOperationTypeEnum = map[string]ListScheduledJobsOperationTypeEnum{
@@ -244,6 +250,9 @@ var mappingListScheduledJobsOperationTypeEnum = map[string]ListScheduledJobsOper
 	"INSTALL_OTHER_WINDOWS_UPDATES":       ListScheduledJobsOperationTypeInstallOtherWindowsUpdates,
 	"REBOOT":                              ListScheduledJobsOperationTypeReboot,
 	"RERUN_WORK_REQUEST":                  ListScheduledJobsOperationTypeRerunWorkRequest,
+	"INSTALL_SNAPS":                       ListScheduledJobsOperationTypeInstallSnaps,
+	"REMOVE_SNAPS":                        ListScheduledJobsOperationTypeRemoveSnaps,
+	"SWITCH_SNAP_CHANNEL":                 ListScheduledJobsOperationTypeSwitchSnapChannel,
 }
 
 var mappingListScheduledJobsOperationTypeEnumLowerCase = map[string]ListScheduledJobsOperationTypeEnum{
@@ -271,6 +280,9 @@ var mappingListScheduledJobsOperationTypeEnumLowerCase = map[string]ListSchedule
 	"install_other_windows_updates":       ListScheduledJobsOperationTypeInstallOtherWindowsUpdates,
 	"reboot":                              ListScheduledJobsOperationTypeReboot,
 	"rerun_work_request":                  ListScheduledJobsOperationTypeRerunWorkRequest,
+	"install_snaps":                       ListScheduledJobsOperationTypeInstallSnaps,
+	"remove_snaps":                        ListScheduledJobsOperationTypeRemoveSnaps,
+	"switch_snap_channel":                 ListScheduledJobsOperationTypeSwitchSnapChannel,
 }
 
 // GetListScheduledJobsOperationTypeEnumValues Enumerates the set of values for ListScheduledJobsOperationTypeEnum
@@ -309,6 +321,9 @@ func GetListScheduledJobsOperationTypeEnumStringValues() []string {
 		"INSTALL_OTHER_WINDOWS_UPDATES",
 		"REBOOT",
 		"RERUN_WORK_REQUEST",
+		"INSTALL_SNAPS",
+		"REMOVE_SNAPS",
+		"SWITCH_SNAP_CHANNEL",
 	}
 }
 

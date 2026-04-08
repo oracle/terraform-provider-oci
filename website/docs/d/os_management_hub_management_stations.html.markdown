@@ -23,6 +23,7 @@ data "oci_os_management_hub_management_stations" "test_management_stations" {
 	compartment_id = var.compartment_id
 	display_name = var.management_station_display_name
 	display_name_contains = var.management_station_display_name_contains
+	health_state = var.management_station_health_state
 	id = var.management_station_id
 	location = var.management_station_location
 	location_not_equal_to = var.management_station_location_not_equal_to
@@ -38,6 +39,7 @@ The following arguments are supported:
 * `compartment_id` - (Optional) (Updatable) The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 * `display_name` - (Optional) A filter to return resources that match the given user-friendly name.
 * `display_name_contains` - (Optional) A filter to return resources that may partially match the given display name.
+* `health_state` - (Optional) A filter that returns information for management stations in the specified health state.
 * `id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station. A filter that returns information about the specified management station.
 * `location` - (Optional) A filter to return only resources whose location matches the given value.
 * `location_not_equal_to` - (Optional) A filter to return only resources whose location does not match the given value.
@@ -55,6 +57,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `arch_type` - The architecture type.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the management station.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - User-specified description for the management station.
@@ -86,6 +89,7 @@ The following attributes are exported:
 	* `syncing` - Total number of software sources currently syncing.
 	* `unsynced` - Total number of software sources that have not yet been synced.
 * `mirror_unique_package_count` - The total number of unique packages within the mirrored software sources on the station. Each package is counted only once, regardless of how many versions it has.
+* `os_family` - The operating system family.
 * `overall_percentage` - A decimal number representing the progress of the current mirror sync.
 * `overall_state` - Current state of the mirror sync for the management station.
 * `peer_management_stations` - A list of other management stations that are behind the same load balancer within a high availability configuration. Stations are identified as peers if they have the same hostname and compartment.

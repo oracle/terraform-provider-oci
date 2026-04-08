@@ -156,7 +156,7 @@ func (client SecurityAttributeClient) bulkDeleteSecurityAttributes(ctx context.C
 
 	var response BulkDeleteSecurityAttributesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "securityAttribute", "BulkDeleteSecurityAttributes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -227,7 +227,7 @@ func (client SecurityAttributeClient) bulkEditSecurityAttributes(ctx context.Con
 
 	var response BulkEditSecurityAttributesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "securityAttribute", "BulkEditSecurityAttributes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -303,7 +303,7 @@ func (client SecurityAttributeClient) cascadingDeleteSecurityAttributeNamespace(
 
 	var response CascadingDeleteSecurityAttributeNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "securityAttribute", "CascadingDeleteSecurityAttributeNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -369,7 +369,7 @@ func (client SecurityAttributeClient) changeSecurityAttributeNamespaceCompartmen
 
 	var response ChangeSecurityAttributeNamespaceCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "securityAttribute", "ChangeSecurityAttributeNamespaceCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -444,7 +444,7 @@ func (client SecurityAttributeClient) createSecurityAttribute(ctx context.Contex
 
 	var response CreateSecurityAttributeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "securityAttribute", "CreateSecurityAttribute")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -517,7 +517,7 @@ func (client SecurityAttributeClient) createSecurityAttributeNamespace(ctx conte
 
 	var response CreateSecurityAttributeNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "securityAttribute", "CreateSecurityAttributeNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -589,7 +589,7 @@ func (client SecurityAttributeClient) deleteSecurityAttribute(ctx context.Contex
 
 	var response DeleteSecurityAttributeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "securityAttribute", "DeleteSecurityAttribute")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -654,7 +654,7 @@ func (client SecurityAttributeClient) deleteSecurityAttributeNamespace(ctx conte
 
 	var response DeleteSecurityAttributeNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "securityAttribute", "DeleteSecurityAttributeNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -712,7 +712,7 @@ func (client SecurityAttributeClient) getSecurityAttribute(ctx context.Context, 
 
 	var response GetSecurityAttributeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "securityAttribute", "GetSecurityAttribute")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -770,7 +770,7 @@ func (client SecurityAttributeClient) getSecurityAttributeNamespace(ctx context.
 
 	var response GetSecurityAttributeNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "securityAttribute", "GetSecurityAttributeNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -829,7 +829,7 @@ func (client SecurityAttributeClient) getSecurityAttributeWorkRequest(ctx contex
 
 	var response GetSecurityAttributeWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "securityAttribute", "GetSecurityAttributeWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -887,7 +887,7 @@ func (client SecurityAttributeClient) listSecurityAttributeNamespaces(ctx contex
 
 	var response ListSecurityAttributeNamespacesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "securityAttribute", "ListSecurityAttributeNamespaces")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -945,7 +945,7 @@ func (client SecurityAttributeClient) listSecurityAttributeWorkRequestErrors(ctx
 
 	var response ListSecurityAttributeWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "securityAttribute", "ListSecurityAttributeWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1003,7 +1003,7 @@ func (client SecurityAttributeClient) listSecurityAttributeWorkRequestLogs(ctx c
 
 	var response ListSecurityAttributeWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "securityAttribute", "ListSecurityAttributeWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1061,7 +1061,7 @@ func (client SecurityAttributeClient) listSecurityAttributeWorkRequests(ctx cont
 
 	var response ListSecurityAttributeWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "securityAttribute", "ListSecurityAttributeWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1119,7 +1119,7 @@ func (client SecurityAttributeClient) listSecurityAttributes(ctx context.Context
 
 	var response ListSecurityAttributesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "securityAttribute", "ListSecurityAttributes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1182,7 +1182,7 @@ func (client SecurityAttributeClient) updateSecurityAttribute(ctx context.Contex
 
 	var response UpdateSecurityAttributeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "securityAttribute", "UpdateSecurityAttribute")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1251,7 +1251,7 @@ func (client SecurityAttributeClient) updateSecurityAttributeNamespace(ctx conte
 
 	var response UpdateSecurityAttributeNamespaceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "securityAttribute", "UpdateSecurityAttributeNamespace")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

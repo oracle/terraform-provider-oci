@@ -72,6 +72,10 @@ var (
 	OsManagementHubManagedInstanceAutonomousSettingsRepresentation = map[string]interface{}{
 		"is_data_collection_authorized": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
+
+	OsManagementHubUbuntuManagedInstanceRepresentation = map[string]interface{}{
+		"managed_instance_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("osmh_managed_instance_ubuntu_ocid")},
+	}
 )
 
 // issue-routing-tag: os_management_hub/default
@@ -208,7 +212,9 @@ func TestOsManagementHubManagedInstanceResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "agent_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "architecture"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "are_sources_managed"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_settings.#", "0"),
+
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bug_updates_available"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
@@ -238,6 +244,7 @@ func TestOsManagementHubManagedInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_last_boot"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_last_checkin"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_last_software_refresh"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "updates_available"),
 			),

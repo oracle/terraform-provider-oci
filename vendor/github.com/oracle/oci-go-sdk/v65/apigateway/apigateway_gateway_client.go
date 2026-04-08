@@ -137,7 +137,7 @@ func (client GatewayClient) addGatewayLock(ctx context.Context, request common.O
 
 	var response AddGatewayLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "gateway", "AddGatewayLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -199,7 +199,7 @@ func (client GatewayClient) changeGatewayCompartment(ctx context.Context, reques
 
 	var response ChangeGatewayCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "gateway", "ChangeGatewayCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -262,7 +262,7 @@ func (client GatewayClient) createGateway(ctx context.Context, request common.OC
 
 	var response CreateGatewayResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "gateway", "CreateGateway")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -319,7 +319,7 @@ func (client GatewayClient) deleteGateway(ctx context.Context, request common.OC
 
 	var response DeleteGatewayResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "gateway", "DeleteGateway")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -377,7 +377,7 @@ func (client GatewayClient) getGateway(ctx context.Context, request common.OCIRe
 
 	var response GetGatewayResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "gateway", "GetGateway")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -435,7 +435,7 @@ func (client GatewayClient) listGateways(ctx context.Context, request common.OCI
 
 	var response ListGatewaysResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "gateway", "ListGateways")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -492,7 +492,7 @@ func (client GatewayClient) removeGatewayLock(ctx context.Context, request commo
 
 	var response RemoveGatewayLockResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "gateway", "RemoveGatewayLock")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -549,7 +549,7 @@ func (client GatewayClient) updateGateway(ctx context.Context, request common.OC
 
 	var response UpdateGatewayResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "gateway", "UpdateGateway")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

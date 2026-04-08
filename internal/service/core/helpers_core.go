@@ -245,3 +245,7 @@ func convertToCanonical(block string) string {
 
 	return result + "/" + prefixSplit[1]
 }
+
+func isEmptyString(input string) bool {
+	return len(strings.TrimSpace(input)) == 0
+}

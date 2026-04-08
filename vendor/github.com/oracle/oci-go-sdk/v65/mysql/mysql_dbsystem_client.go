@@ -141,7 +141,7 @@ func (client DbSystemClient) addHeatWaveCluster(ctx context.Context, request com
 
 	var response AddHeatWaveClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "AddHeatWaveCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -204,7 +204,7 @@ func (client DbSystemClient) controlledUpdateDbSystem(ctx context.Context, reque
 
 	var response ControlledUpdateDbSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "ControlledUpdateDbSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -267,7 +267,7 @@ func (client DbSystemClient) createDbSystem(ctx context.Context, request common.
 
 	var response CreateDbSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "CreateDbSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -326,7 +326,7 @@ func (client DbSystemClient) deleteDbSystem(ctx context.Context, request common.
 
 	var response DeleteDbSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "DeleteDbSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -385,7 +385,7 @@ func (client DbSystemClient) deleteHeatWaveCluster(ctx context.Context, request 
 
 	var response DeleteHeatWaveClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "DeleteHeatWaveCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -449,7 +449,7 @@ func (client DbSystemClient) generateDbSystemStatus(ctx context.Context, request
 
 	var response GenerateDbSystemStatusResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "GenerateDbSystemStatus")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -512,7 +512,7 @@ func (client DbSystemClient) generateHeatWaveClusterMemoryEstimate(ctx context.C
 
 	var response GenerateHeatWaveClusterMemoryEstimateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "GenerateHeatWaveClusterMemoryEstimate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -570,7 +570,7 @@ func (client DbSystemClient) getDbSystem(ctx context.Context, request common.OCI
 
 	var response GetDbSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "GetDbSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -629,7 +629,7 @@ func (client DbSystemClient) getDbSystemStatus(ctx context.Context, request comm
 
 	var response GetDbSystemStatusResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "GetDbSystemStatus")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -687,7 +687,7 @@ func (client DbSystemClient) getHeatWaveCluster(ctx context.Context, request com
 
 	var response GetHeatWaveClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "GetHeatWaveCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -746,7 +746,7 @@ func (client DbSystemClient) getHeatWaveClusterMemoryEstimate(ctx context.Contex
 
 	var response GetHeatWaveClusterMemoryEstimateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "GetHeatWaveClusterMemoryEstimate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -805,7 +805,7 @@ func (client DbSystemClient) listDbSystems(ctx context.Context, request common.O
 
 	var response ListDbSystemsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "ListDbSystems")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -863,7 +863,7 @@ func (client DbSystemClient) listMaintenanceEvents(ctx context.Context, request 
 
 	var response ListMaintenanceEventsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "ListMaintenanceEvents")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -926,7 +926,7 @@ func (client DbSystemClient) restartDbSystem(ctx context.Context, request common
 
 	var response RestartDbSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "RestartDbSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -989,7 +989,7 @@ func (client DbSystemClient) restartHeatWaveCluster(ctx context.Context, request
 
 	var response RestartHeatWaveClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "RestartHeatWaveCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1052,7 +1052,7 @@ func (client DbSystemClient) startDbSystem(ctx context.Context, request common.O
 
 	var response StartDbSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "StartDbSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1115,7 +1115,7 @@ func (client DbSystemClient) startHeatWaveCluster(ctx context.Context, request c
 
 	var response StartHeatWaveClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "StartHeatWaveCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1179,7 +1179,7 @@ func (client DbSystemClient) stopDbSystem(ctx context.Context, request common.OC
 
 	var response StopDbSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "StopDbSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1242,7 +1242,7 @@ func (client DbSystemClient) stopHeatWaveCluster(ctx context.Context, request co
 
 	var response StopHeatWaveClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "StopHeatWaveCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1306,7 +1306,7 @@ func (client DbSystemClient) updateDbSystem(ctx context.Context, request common.
 
 	var response UpdateDbSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "UpdateDbSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1364,7 +1364,7 @@ func (client DbSystemClient) updateHeatWaveCluster(ctx context.Context, request 
 
 	var response UpdateHeatWaveClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbSystem", "UpdateHeatWaveCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

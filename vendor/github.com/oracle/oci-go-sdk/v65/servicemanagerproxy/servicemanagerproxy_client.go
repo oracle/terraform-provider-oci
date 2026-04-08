@@ -136,7 +136,7 @@ func (client ServiceManagerProxyClient) getServiceEnvironment(ctx context.Contex
 
 	var response GetServiceEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceManagerProxy", "GetServiceEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -194,7 +194,7 @@ func (client ServiceManagerProxyClient) listServiceEnvironments(ctx context.Cont
 
 	var response ListServiceEnvironmentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceManagerProxy", "ListServiceEnvironments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

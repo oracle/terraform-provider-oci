@@ -141,7 +141,7 @@ func (client DistributedAutonomousDbServiceClient) addDistributedAutonomousDatab
 
 	var response AddDistributedAutonomousDatabaseGdsControlNodeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "AddDistributedAutonomousDatabaseGdsControlNode")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -204,7 +204,7 @@ func (client DistributedAutonomousDbServiceClient) changeDistributedAutonomousDa
 
 	var response ChangeDistributedAutonomousDatabaseCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "ChangeDistributedAutonomousDatabaseCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -267,7 +267,7 @@ func (client DistributedAutonomousDbServiceClient) changeDistributedAutonomousDb
 
 	var response ChangeDistributedAutonomousDbBackupConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "ChangeDistributedAutonomousDbBackupConfig")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -330,7 +330,7 @@ func (client DistributedAutonomousDbServiceClient) configureDistributedAutonomou
 
 	var response ConfigureDistributedAutonomousDatabaseGsmWalletResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "ConfigureDistributedAutonomousDatabaseGsmWallet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -393,7 +393,7 @@ func (client DistributedAutonomousDbServiceClient) configureDistributedAutonomou
 
 	var response ConfigureDistributedAutonomousDatabaseGsmsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "ConfigureDistributedAutonomousDatabaseGsms")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -460,7 +460,7 @@ func (client DistributedAutonomousDbServiceClient) configureDistributedAutonomou
 
 	var response ConfigureDistributedAutonomousDatabaseShardingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "ConfigureDistributedAutonomousDatabaseSharding")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -523,7 +523,7 @@ func (client DistributedAutonomousDbServiceClient) createDistributedAutonomousDa
 
 	var response CreateDistributedAutonomousDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "CreateDistributedAutonomousDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -586,7 +586,7 @@ func (client DistributedAutonomousDbServiceClient) deleteDistributedAutonomousDa
 
 	var response DeleteDistributedAutonomousDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "DeleteDistributedAutonomousDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -652,7 +652,7 @@ func (client DistributedAutonomousDbServiceClient) downloadDistributedAutonomous
 
 	var response DownloadDistributedAutonomousDatabaseGsmCertificateSigningRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "DownloadDistributedAutonomousDatabaseGsmCertificateSigningRequest")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/DownloadDistributedAutonomousDatabaseGsmCertificateSigningRequest"
@@ -716,7 +716,7 @@ func (client DistributedAutonomousDbServiceClient) generateDistributedAutonomous
 
 	var response GenerateDistributedAutonomousDatabaseGsmCertificateSigningRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "GenerateDistributedAutonomousDatabaseGsmCertificateSigningRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -779,7 +779,7 @@ func (client DistributedAutonomousDbServiceClient) generateDistributedAutonomous
 
 	var response GenerateDistributedAutonomousDatabaseWalletResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "GenerateDistributedAutonomousDatabaseWallet")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/DistributedAutonomousDatabase/GenerateDistributedAutonomousDatabaseWallet"
@@ -836,7 +836,7 @@ func (client DistributedAutonomousDbServiceClient) getDistributedAutonomousDatab
 
 	var response GetDistributedAutonomousDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "GetDistributedAutonomousDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -895,7 +895,7 @@ func (client DistributedAutonomousDbServiceClient) getDistributedAutonomousDatab
 
 	var response GetDistributedAutonomousDatabaseRaftMetricResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "GetDistributedAutonomousDatabaseRaftMetric")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -953,7 +953,7 @@ func (client DistributedAutonomousDbServiceClient) listDistributedAutonomousData
 
 	var response ListDistributedAutonomousDatabasesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "ListDistributedAutonomousDatabases")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1016,7 +1016,7 @@ func (client DistributedAutonomousDbServiceClient) moveDistributedAutonomousData
 
 	var response MoveDistributedAutonomousDatabaseReplicationUnitResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "MoveDistributedAutonomousDatabaseReplicationUnit")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1081,7 +1081,7 @@ func (client DistributedAutonomousDbServiceClient) patchDistributedAutonomousDat
 
 	var response PatchDistributedAutonomousDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "PatchDistributedAutonomousDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1144,7 +1144,7 @@ func (client DistributedAutonomousDbServiceClient) recreateFailedDistributedAuto
 
 	var response RecreateFailedDistributedAutonomousDatabaseResourceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "RecreateFailedDistributedAutonomousDatabaseResource")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1207,7 +1207,7 @@ func (client DistributedAutonomousDbServiceClient) rotateDistributedAutonomousDa
 
 	var response RotateDistributedAutonomousDatabasePasswordsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "RotateDistributedAutonomousDatabasePasswords")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1270,7 +1270,7 @@ func (client DistributedAutonomousDbServiceClient) startDistributedAutonomousDat
 
 	var response StartDistributedAutonomousDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "StartDistributedAutonomousDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1333,7 +1333,7 @@ func (client DistributedAutonomousDbServiceClient) stopDistributedAutonomousData
 
 	var response StopDistributedAutonomousDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "StopDistributedAutonomousDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1391,7 +1391,7 @@ func (client DistributedAutonomousDbServiceClient) updateDistributedAutonomousDa
 
 	var response UpdateDistributedAutonomousDatabaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "UpdateDistributedAutonomousDatabase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1456,7 +1456,7 @@ func (client DistributedAutonomousDbServiceClient) uploadDistributedAutonomousDa
 
 	var response UploadDistributedAutonomousDatabaseSignedCertificateAndGenerateWalletResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "UploadDistributedAutonomousDatabaseSignedCertificateAndGenerateWallet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1519,7 +1519,7 @@ func (client DistributedAutonomousDbServiceClient) validateDistributedAutonomous
 
 	var response ValidateDistributedAutonomousDatabaseCaBundleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "ValidateDistributedAutonomousDatabaseCaBundle")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1582,7 +1582,7 @@ func (client DistributedAutonomousDbServiceClient) validateDistributedAutonomous
 
 	var response ValidateDistributedAutonomousDatabaseNetworkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedAutonomousDbService", "ValidateDistributedAutonomousDatabaseNetwork")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

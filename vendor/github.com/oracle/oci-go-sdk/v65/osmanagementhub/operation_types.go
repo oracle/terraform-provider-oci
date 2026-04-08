@@ -43,6 +43,9 @@ const (
 	OperationTypesInstallOtherWindowsUpdates       OperationTypesEnum = "INSTALL_OTHER_WINDOWS_UPDATES"
 	OperationTypesReboot                           OperationTypesEnum = "REBOOT"
 	OperationTypesRerunWorkRequest                 OperationTypesEnum = "RERUN_WORK_REQUEST"
+	OperationTypesInstallSnaps                     OperationTypesEnum = "INSTALL_SNAPS"
+	OperationTypesRemoveSnaps                      OperationTypesEnum = "REMOVE_SNAPS"
+	OperationTypesSwitchSnapChannel                OperationTypesEnum = "SWITCH_SNAP_CHANNEL"
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
@@ -70,6 +73,9 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"INSTALL_OTHER_WINDOWS_UPDATES":       OperationTypesInstallOtherWindowsUpdates,
 	"REBOOT":                              OperationTypesReboot,
 	"RERUN_WORK_REQUEST":                  OperationTypesRerunWorkRequest,
+	"INSTALL_SNAPS":                       OperationTypesInstallSnaps,
+	"REMOVE_SNAPS":                        OperationTypesRemoveSnaps,
+	"SWITCH_SNAP_CHANNEL":                 OperationTypesSwitchSnapChannel,
 }
 
 var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
@@ -97,6 +103,9 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"install_other_windows_updates":       OperationTypesInstallOtherWindowsUpdates,
 	"reboot":                              OperationTypesReboot,
 	"rerun_work_request":                  OperationTypesRerunWorkRequest,
+	"install_snaps":                       OperationTypesInstallSnaps,
+	"remove_snaps":                        OperationTypesRemoveSnaps,
+	"switch_snap_channel":                 OperationTypesSwitchSnapChannel,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
@@ -135,6 +144,9 @@ func GetOperationTypesEnumStringValues() []string {
 		"INSTALL_OTHER_WINDOWS_UPDATES",
 		"REBOOT",
 		"RERUN_WORK_REQUEST",
+		"INSTALL_SNAPS",
+		"REMOVE_SNAPS",
+		"SWITCH_SNAP_CHANNEL",
 	}
 }
 

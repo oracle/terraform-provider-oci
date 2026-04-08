@@ -142,7 +142,7 @@ func (client ComputeCloudAtCustomerClient) changeCccInfrastructureCompartment(ct
 
 	var response ChangeCccInfrastructureCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "ChangeCccInfrastructureCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -206,7 +206,7 @@ func (client ComputeCloudAtCustomerClient) changeCccUpgradeScheduleCompartment(c
 
 	var response ChangeCccUpgradeScheduleCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "ChangeCccUpgradeScheduleCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -270,7 +270,7 @@ func (client ComputeCloudAtCustomerClient) createCccInfrastructure(ctx context.C
 
 	var response CreateCccInfrastructureResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "CreateCccInfrastructure")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -333,7 +333,7 @@ func (client ComputeCloudAtCustomerClient) createCccUpgradeSchedule(ctx context.
 
 	var response CreateCccUpgradeScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "CreateCccUpgradeSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -391,7 +391,7 @@ func (client ComputeCloudAtCustomerClient) deleteCccInfrastructure(ctx context.C
 
 	var response DeleteCccInfrastructureResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "DeleteCccInfrastructure")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -449,7 +449,7 @@ func (client ComputeCloudAtCustomerClient) deleteCccUpgradeSchedule(ctx context.
 
 	var response DeleteCccUpgradeScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "DeleteCccUpgradeSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -508,7 +508,7 @@ func (client ComputeCloudAtCustomerClient) getCccInfrastructure(ctx context.Cont
 
 	var response GetCccInfrastructureResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "GetCccInfrastructure")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -567,7 +567,7 @@ func (client ComputeCloudAtCustomerClient) getCccUpgradeSchedule(ctx context.Con
 
 	var response GetCccUpgradeScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "GetCccUpgradeSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -625,7 +625,7 @@ func (client ComputeCloudAtCustomerClient) listCccInfrastructures(ctx context.Co
 
 	var response ListCccInfrastructuresResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "ListCccInfrastructures")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -683,7 +683,7 @@ func (client ComputeCloudAtCustomerClient) listCccUpgradeSchedules(ctx context.C
 
 	var response ListCccUpgradeSchedulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "ListCccUpgradeSchedules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -740,7 +740,7 @@ func (client ComputeCloudAtCustomerClient) updateCccInfrastructure(ctx context.C
 
 	var response UpdateCccInfrastructureResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "UpdateCccInfrastructure")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -797,7 +797,7 @@ func (client ComputeCloudAtCustomerClient) updateCccUpgradeSchedule(ctx context.
 
 	var response UpdateCccUpgradeScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "computeCloudAtCustomer", "UpdateCccUpgradeSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

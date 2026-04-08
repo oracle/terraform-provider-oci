@@ -137,7 +137,7 @@ func (client ServiceCatalogClient) bulkReplaceServiceCatalogAssociations(ctx con
 
 	var response BulkReplaceServiceCatalogAssociationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "BulkReplaceServiceCatalogAssociations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -195,7 +195,7 @@ func (client ServiceCatalogClient) changePrivateApplicationCompartment(ctx conte
 
 	var response ChangePrivateApplicationCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "ChangePrivateApplicationCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -253,7 +253,7 @@ func (client ServiceCatalogClient) changeServiceCatalogCompartment(ctx context.C
 
 	var response ChangeServiceCatalogCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "ChangeServiceCatalogCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -316,7 +316,7 @@ func (client ServiceCatalogClient) createPrivateApplication(ctx context.Context,
 
 	var response CreatePrivateApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "CreatePrivateApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -379,7 +379,7 @@ func (client ServiceCatalogClient) createServiceCatalog(ctx context.Context, req
 
 	var response CreateServiceCatalogResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "CreateServiceCatalog")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -442,7 +442,7 @@ func (client ServiceCatalogClient) createServiceCatalogAssociation(ctx context.C
 
 	var response CreateServiceCatalogAssociationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "CreateServiceCatalogAssociation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -500,7 +500,7 @@ func (client ServiceCatalogClient) deletePrivateApplication(ctx context.Context,
 
 	var response DeletePrivateApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "DeletePrivateApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -558,7 +558,7 @@ func (client ServiceCatalogClient) deleteServiceCatalog(ctx context.Context, req
 
 	var response DeleteServiceCatalogResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "DeleteServiceCatalog")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -616,7 +616,7 @@ func (client ServiceCatalogClient) deleteServiceCatalogAssociation(ctx context.C
 
 	var response DeleteServiceCatalogAssociationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "DeleteServiceCatalogAssociation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -674,7 +674,7 @@ func (client ServiceCatalogClient) getConfiguration(ctx context.Context, request
 
 	var response GetConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "GetConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -732,7 +732,7 @@ func (client ServiceCatalogClient) getPrivateApplication(ctx context.Context, re
 
 	var response GetPrivateApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "GetPrivateApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -790,7 +790,7 @@ func (client ServiceCatalogClient) getPrivateApplicationActionDownloadLogo(ctx c
 
 	var response GetPrivateApplicationActionDownloadLogoResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "GetPrivateApplicationActionDownloadLogo")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/PrivateApplication/GetPrivateApplicationActionDownloadLogo"
@@ -847,7 +847,7 @@ func (client ServiceCatalogClient) getPrivateApplicationPackage(ctx context.Cont
 
 	var response GetPrivateApplicationPackageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "GetPrivateApplicationPackage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -905,7 +905,7 @@ func (client ServiceCatalogClient) getPrivateApplicationPackageActionDownloadCon
 
 	var response GetPrivateApplicationPackageActionDownloadConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "GetPrivateApplicationPackageActionDownloadConfig")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/service-catalog/20210527/PrivateApplicationPackage/GetPrivateApplicationPackageActionDownloadConfig"
@@ -962,7 +962,7 @@ func (client ServiceCatalogClient) getServiceCatalog(ctx context.Context, reques
 
 	var response GetServiceCatalogResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "GetServiceCatalog")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1020,7 +1020,7 @@ func (client ServiceCatalogClient) getServiceCatalogAssociation(ctx context.Cont
 
 	var response GetServiceCatalogAssociationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "GetServiceCatalogAssociation")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1078,7 +1078,7 @@ func (client ServiceCatalogClient) getWorkRequest(ctx context.Context, request c
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1137,7 +1137,7 @@ func (client ServiceCatalogClient) listAllApplications(ctx context.Context, requ
 
 	var response ListAllApplicationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "ListAllApplications")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1197,7 +1197,7 @@ func (client ServiceCatalogClient) listApplications(ctx context.Context, request
 
 	var response ListApplicationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "ListApplications")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1255,7 +1255,7 @@ func (client ServiceCatalogClient) listPrivateApplicationPackages(ctx context.Co
 
 	var response ListPrivateApplicationPackagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "ListPrivateApplicationPackages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1313,7 +1313,7 @@ func (client ServiceCatalogClient) listPrivateApplications(ctx context.Context, 
 
 	var response ListPrivateApplicationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "ListPrivateApplications")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1371,7 +1371,7 @@ func (client ServiceCatalogClient) listServiceCatalogAssociations(ctx context.Co
 
 	var response ListServiceCatalogAssociationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "ListServiceCatalogAssociations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1429,7 +1429,7 @@ func (client ServiceCatalogClient) listServiceCatalogs(ctx context.Context, requ
 
 	var response ListServiceCatalogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "ListServiceCatalogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1487,7 +1487,7 @@ func (client ServiceCatalogClient) listWorkRequestErrors(ctx context.Context, re
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1545,7 +1545,7 @@ func (client ServiceCatalogClient) listWorkRequestLogs(ctx context.Context, requ
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1603,7 +1603,7 @@ func (client ServiceCatalogClient) listWorkRequests(ctx context.Context, request
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1661,7 +1661,7 @@ func (client ServiceCatalogClient) updatePrivateApplication(ctx context.Context,
 
 	var response UpdatePrivateApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "UpdatePrivateApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1719,7 +1719,7 @@ func (client ServiceCatalogClient) updateServiceCatalog(ctx context.Context, req
 
 	var response UpdateServiceCatalogResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceCatalog", "UpdateServiceCatalog")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

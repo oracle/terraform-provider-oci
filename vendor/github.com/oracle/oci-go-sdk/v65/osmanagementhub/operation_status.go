@@ -26,6 +26,7 @@ const (
 	OperationStatusSucceeded  OperationStatusEnum = "SUCCEEDED"
 	OperationStatusCanceling  OperationStatusEnum = "CANCELING"
 	OperationStatusCanceled   OperationStatusEnum = "CANCELED"
+	OperationStatusSkipped    OperationStatusEnum = "SKIPPED"
 )
 
 var mappingOperationStatusEnum = map[string]OperationStatusEnum{
@@ -36,6 +37,7 @@ var mappingOperationStatusEnum = map[string]OperationStatusEnum{
 	"SUCCEEDED":   OperationStatusSucceeded,
 	"CANCELING":   OperationStatusCanceling,
 	"CANCELED":    OperationStatusCanceled,
+	"SKIPPED":     OperationStatusSkipped,
 }
 
 var mappingOperationStatusEnumLowerCase = map[string]OperationStatusEnum{
@@ -46,6 +48,7 @@ var mappingOperationStatusEnumLowerCase = map[string]OperationStatusEnum{
 	"succeeded":   OperationStatusSucceeded,
 	"canceling":   OperationStatusCanceling,
 	"canceled":    OperationStatusCanceled,
+	"skipped":     OperationStatusSkipped,
 }
 
 // GetOperationStatusEnumValues Enumerates the set of values for OperationStatusEnum
@@ -67,6 +70,7 @@ func GetOperationStatusEnumStringValues() []string {
 		"SUCCEEDED",
 		"CANCELING",
 		"CANCELED",
+		"SKIPPED",
 	}
 }
 

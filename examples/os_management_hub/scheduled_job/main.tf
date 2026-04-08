@@ -6,6 +6,7 @@ variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
 variable "osmh_managed_instance_windows_ocid" {}
+variable "osmh_managed_instance_ubuntu_ocid" {}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -30,6 +31,17 @@ data "oci_os_management_hub_software_sources" "ol8_baseos_latest_x86_64" {
   vendor_name          = "ORACLE"
 }
 
+data "oci_os_management_hub_software_sources" "ol8_x86_64_userspace_ksplice_x86_64" {
+  arch_type            = ["X86_64"]
+  availability         = ["SELECTED"]
+  compartment_id       = var.compartment_ocid
+  display_name         = "ol8_x86_64_userspace_ksplice-x86_64"
+  os_family            = ["ORACLE_LINUX_8"]
+  software_source_type = ["VENDOR"]
+  state                = ["ACTIVE"]
+  vendor_name          = "ORACLE"
+}
+
 # Managed instance - Windows 2022
 resource "oci_os_management_hub_managed_instance" "test_managed_instance_windows" {
   managed_instance_id = var.osmh_managed_instance_windows_ocid
@@ -43,7 +55,8 @@ resource "oci_os_management_hub_managed_instance_group" "test_managed_instance_g
   display_name   = "displayNameExample"
   os_family      = "ORACLE_LINUX_8"
   software_source_ids = [
-    data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id
+    data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id,
+    data.oci_os_management_hub_software_sources.ol8_x86_64_userspace_ksplice_x86_64.software_source_collection[0].items[0].id
   ]
   vendor_name = "ORACLE"
 }
@@ -87,7 +100,7 @@ resource "oci_os_management_hub_scheduled_job" "test_scheduled_job_windows_updat
     operation_type = "INSTALL_OTHER_WINDOWS_UPDATES"
   }
   schedule_type       = "ONETIME"
-  time_next_execution = "2024-03-27T23:00:49.382Z"
+  time_next_execution = "2026-03-27T23:00:49.382Z"
 
   # Optional
   managed_instance_ids = [
@@ -104,7 +117,7 @@ resource "oci_os_management_hub_scheduled_job" "test_scheduled_job_windows_updat
   }
   schedule_type       = "RECURRING"
   recurring_rule      = "FREQ=DAILY;INTERVAL=1"
-  time_next_execution = "2024-03-27T23:00:49.382Z"
+  time_next_execution = "2026-03-27T23:00:49.382Z"
 
   # Optional
   managed_instance_ids = [
@@ -137,7 +150,7 @@ resource "oci_os_management_hub_scheduled_job" "test_scheduled_job_install_packa
     package_names  = ["InvalidPackage"]
   }
   schedule_type       = "ONETIME"
-  time_next_execution = "2024-03-27T23:00:49.382Z"
+  time_next_execution = "2026-03-27T23:00:49.382Z"
 
   # Optional
   managed_instance_group_ids = [
@@ -146,20 +159,21 @@ resource "oci_os_management_hub_scheduled_job" "test_scheduled_job_install_packa
 }
 
 # Scheduled job on managed instance group - update ksplice userspace
-resource "oci_os_management_hub_scheduled_job" "test_scheduled_job_update_ksplice_userspace_on_group" {
-  # Required
-  compartment_id = var.compartment_ocid
-  operations {
-    operation_type = "UPDATE_KSPLICE_USERSPACE"
-  }
-  schedule_type       = "ONETIME"
-  time_next_execution = "2024-03-27T23:00:49.382Z"
+# Backend bug - will be fixed in release/3.7
+#resource "oci_os_management_hub_scheduled_job" "test_scheduled_job_update_ksplice_userspace_on_group" {
+# Required
+#  compartment_id = var.compartment_ocid
+#  operations {
+#    operation_type = "UPDATE_KSPLICE_USERSPACE"
+#  }
+#  schedule_type       = "ONETIME"
+#  time_next_execution = "2026-03-27T23:00:49.382Z"
 
-  # Optional
-  managed_instance_group_ids = [
-    oci_os_management_hub_managed_instance_group.test_managed_instance_group.id
-  ]
-}
+# Optional
+#  managed_instance_group_ids = [
+#    oci_os_management_hub_managed_instance_group.test_managed_instance_group.id
+#  ]
+#}
 
 # Scheduled job on managed instance group - switch module streams
 resource "oci_os_management_hub_scheduled_job" "test_scheduled_job_switch_module_stream_on_group" {
@@ -175,13 +189,35 @@ resource "oci_os_management_hub_scheduled_job" "test_scheduled_job_switch_module
     }
   }
   schedule_type       = "ONETIME"
-  time_next_execution = "2024-03-27T23:00:49.382Z"
+  time_next_execution = "2026-03-27T23:00:49.382Z"
 
   # Optional
   managed_instance_group_ids = [
     oci_os_management_hub_managed_instance_group.test_managed_instance_group.id
   ]
 }
+
+# Scheduled job on managed instance  - install snaps
+resource "oci_os_management_hub_scheduled_job" "test_scheduled_job_install_snaps" {
+  # Required
+  compartment_id = var.compartment_ocid
+  operations {
+    operation_type = "INSTALL_SNAPS"
+    install_snap_details {
+      name      = "speedtest-cli"
+      channel   = "stable"
+      is_signed = false
+    }
+  }
+  schedule_type       = "ONETIME"
+  time_next_execution = "2026-03-27T23:00:49.382Z"
+
+  # Optional
+  managed_instance_ids = [
+    var.osmh_managed_instance_ubuntu_ocid
+  ]
+}
+
 
 # Scheduled job on lifecycle stage - promote
 resource "oci_os_management_hub_scheduled_job" "test_scheduled_job_promote_lifecycle_stage" {
@@ -191,7 +227,7 @@ resource "oci_os_management_hub_scheduled_job" "test_scheduled_job_promote_lifec
     operation_type = "PROMOTE_LIFECYCLE"
   }
   schedule_type       = "ONETIME"
-  time_next_execution = "2024-03-27T23:00:49.382Z"
+  time_next_execution = "2026-03-27T23:00:49.382Z"
 
   # Optional
   lifecycle_stage_ids = [

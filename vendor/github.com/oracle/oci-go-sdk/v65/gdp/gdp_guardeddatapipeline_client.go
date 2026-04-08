@@ -141,7 +141,7 @@ func (client GuardedDataPipelineClient) changeGdpPipelineCompartment(ctx context
 
 	var response ChangeGdpPipelineCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "ChangeGdpPipelineCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -204,7 +204,7 @@ func (client GuardedDataPipelineClient) createGdpPipeline(ctx context.Context, r
 
 	var response CreateGdpPipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "CreateGdpPipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -262,7 +262,7 @@ func (client GuardedDataPipelineClient) deleteGdpPipeline(ctx context.Context, r
 
 	var response DeleteGdpPipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "DeleteGdpPipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -320,7 +320,7 @@ func (client GuardedDataPipelineClient) getGdpPipeline(ctx context.Context, requ
 
 	var response GetGdpPipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "GetGdpPipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -378,7 +378,7 @@ func (client GuardedDataPipelineClient) getGdpWorkRequest(ctx context.Context, r
 
 	var response GetGdpWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "GetGdpWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -436,7 +436,7 @@ func (client GuardedDataPipelineClient) listGdpPipelines(ctx context.Context, re
 
 	var response ListGdpPipelinesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "ListGdpPipelines")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -494,7 +494,7 @@ func (client GuardedDataPipelineClient) listGdpWorkRequestErrors(ctx context.Con
 
 	var response ListGdpWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "ListGdpWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -552,7 +552,7 @@ func (client GuardedDataPipelineClient) listGdpWorkRequestLogs(ctx context.Conte
 
 	var response ListGdpWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "ListGdpWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -610,7 +610,7 @@ func (client GuardedDataPipelineClient) listGdpWorkRequests(ctx context.Context,
 
 	var response ListGdpWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "ListGdpWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -673,7 +673,7 @@ func (client GuardedDataPipelineClient) peerGdpPipeline(ctx context.Context, req
 
 	var response PeerGdpPipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "PeerGdpPipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -736,7 +736,7 @@ func (client GuardedDataPipelineClient) rotateGdpPipelineKeys(ctx context.Contex
 
 	var response RotateGdpPipelineKeysResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "RotateGdpPipelineKeys")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -799,7 +799,7 @@ func (client GuardedDataPipelineClient) startGdpPipeline(ctx context.Context, re
 
 	var response StartGdpPipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "StartGdpPipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -862,7 +862,7 @@ func (client GuardedDataPipelineClient) stopGdpPipeline(ctx context.Context, req
 
 	var response StopGdpPipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "StopGdpPipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -925,7 +925,7 @@ func (client GuardedDataPipelineClient) updateGdpPipeline(ctx context.Context, r
 
 	var response UpdateGdpPipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "UpdateGdpPipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

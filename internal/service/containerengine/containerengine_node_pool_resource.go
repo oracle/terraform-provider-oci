@@ -104,6 +104,11 @@ func ContainerengineNodePoolResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"network_launch_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"node_config_details": {
 				Type:          schema.TypeList,
 				Optional:      true,
@@ -444,6 +449,128 @@ func ContainerengineNodePoolResource() *schema.Resource {
 				Computed:      true,
 				ConflictsWith: []string{"node_config_details"},
 			},
+			"secondary_vnics": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: false,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"create_vnic_details": {
+							Type:     schema.TypeList,
+							Required: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"subnet_id": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"application_resources": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"assign_ipv6ip": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"assign_public_ip": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"defined_tags": {
+										Type:             schema.TypeMap,
+										Optional:         true,
+										Computed:         true,
+										DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+										Elem:             schema.TypeString,
+									},
+									"display_name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"freeform_tags": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"ip_count": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+									"ipv6address_ipv6subnet_cidr_pair_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"ipv6address": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"ipv6subnet_cidr": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"nsg_ids": {
+										Type:     schema.TypeSet,
+										Optional: true,
+										Computed: true,
+										Set:      tfresource.LiteralTypeHashCodeForSets,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"skip_source_dest_check": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Optional
+						"display_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"nic_index": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"ssh_public_key": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -711,6 +838,10 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
+	if networkLaunchType, ok := s.D.GetOkExists("network_launch_type"); ok {
+		request.NetworkLaunchType = oci_containerengine.NetworkLaunchTypeEnum(networkLaunchType.(string))
+	}
+
 	if nodeConfigDetails, ok := s.D.GetOkExists("node_config_details"); ok {
 		if tmpList := nodeConfigDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_config_details", 0)
@@ -787,6 +918,23 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 	if quantityPerSubnet, ok := s.D.GetOkExists("quantity_per_subnet"); ok {
 		tmp := quantityPerSubnet.(int)
 		request.QuantityPerSubnet = &tmp
+	}
+
+	if secondaryVnics, ok := s.D.GetOkExists("secondary_vnics"); ok {
+		interfaces := secondaryVnics.([]interface{})
+		tmp := make([]oci_containerengine.NodePoolSecondaryVnicDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "secondary_vnics", stateDataIndex)
+			converted, err := s.mapToNodePoolSecondaryVnicDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("secondary_vnics") {
+			request.SecondaryVnics = tmp
+		}
 	}
 
 	if sshPublicKey, ok := s.D.GetOkExists("ssh_public_key"); ok {
@@ -1099,6 +1247,10 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 		request.Name = &tmp
 	}
 
+	if networkLaunchType, ok := s.D.GetOkExists("network_launch_type"); ok {
+		request.NetworkLaunchType = oci_containerengine.NetworkLaunchTypeEnum(networkLaunchType.(string))
+	}
+
 	if nodeConfigDetails, ok := s.D.GetOkExists("node_config_details"); ok {
 		if feildNameList := nodeConfigDetails.([]interface{}); len(feildNameList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "node_config_details", 0)
@@ -1176,6 +1328,23 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 	if quantityPerSubnet, ok := s.D.GetOkExists("quantity_per_subnet"); ok && s.D.HasChange("quantity_per_subnet") {
 		tmp := quantityPerSubnet.(int)
 		request.QuantityPerSubnet = &tmp
+	}
+
+	if secondaryVnics, _ := s.D.GetOk("secondary_vnics"); secondaryVnics != nil {
+		interfaces := secondaryVnics.([]interface{})
+		tmp := make([]oci_containerengine.NodePoolSecondaryVnicDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "secondary_vnics", stateDataIndex)
+			converted, err := s.mapToNodePoolSecondaryVnicDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if s.D.HasChange("secondary_vnics") {
+			request.SecondaryVnics = tmp
+		}
 	}
 
 	if sshPublicKey, ok := s.D.GetOkExists("ssh_public_key"); ok {
@@ -1269,6 +1438,8 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 		s.D.Set("name", *s.Res.Name)
 	}
 
+	s.D.Set("network_launch_type", s.Res.NetworkLaunchType)
+
 	if s.Res.NodeConfigDetails != nil {
 		s.D.Set("node_config_details", []interface{}{NodePoolNodeConfigDetailsToMap(s.Res.NodeConfigDetails, false)})
 	} else {
@@ -1335,6 +1506,16 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 
 	if s.Res.QuantityPerSubnet != nil {
 		s.D.Set("quantity_per_subnet", *s.Res.QuantityPerSubnet)
+	}
+
+	if s.Res.SecondaryVnics != nil {
+		secondaryVnics := []interface{}{}
+		for _, item := range s.Res.SecondaryVnics {
+			secondaryVnics = append(secondaryVnics, NodePoolSecondaryVnicDetailsToMap(item, false))
+		}
+		s.D.Set("secondary_vnics", secondaryVnics)
+	} else {
+		s.D.Set("secondary_vnics", nil)
 	}
 
 	if s.Res.SshPublicKey != nil {
@@ -1535,6 +1716,182 @@ func NodeShapeConfigToMap(obj *oci_containerengine.NodeShapeConfig) map[string]i
 
 	if obj.Ocpus != nil {
 		result["ocpus"] = float32(*obj.Ocpus)
+	}
+
+	return result
+}
+
+func (s *ContainerengineNodePoolResourceCrud) mapToCreateVnicDetails(fieldKeyFormat string) (oci_containerengine.CreateVnicDetails, error) {
+	result := oci_containerengine.CreateVnicDetails{}
+
+	if applicationResources, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "application_resources")); ok {
+		interfaces := applicationResources.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "application_resources")) {
+			result.ApplicationResources = tmp
+		}
+	}
+
+	if assignIpv6Ip, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "assign_ipv6ip")); ok {
+		tmp := assignIpv6Ip.(bool)
+		result.AssignIpv6Ip = &tmp
+	}
+
+	if assignPublicIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "assign_public_ip")); ok {
+		tmp := assignPublicIp.(bool)
+		result.AssignPublicIp = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if displayName, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+		tmp := displayName.(string)
+		result.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if ipCount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ip_count")); ok {
+		tmp := ipCount.(int)
+		result.IpCount = &tmp
+	}
+
+	if ipv6AddressIpv6SubnetCidrPairDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details")); ok {
+		interfaces := ipv6AddressIpv6SubnetCidrPairDetails.([]interface{})
+		tmp := make([]oci_containerengine.Ipv6AddressIpv6SubnetCidrPairDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details"), stateDataIndex)
+			converted, err := s.mapToIpv6AddressIpv6SubnetCidrPairDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "ipv6address_ipv6subnet_cidr_pair_details")) {
+			result.Ipv6AddressIpv6SubnetCidrPairDetails = tmp
+		}
+	}
+
+	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+			result.NsgIds = tmp
+		}
+	}
+
+	if skipSourceDestCheck, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_source_dest_check")); ok {
+		tmp := skipSourceDestCheck.(bool)
+		result.SkipSourceDestCheck = &tmp
+	}
+
+	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+		tmp := subnetId.(string)
+		result.SubnetId = &tmp
+	}
+
+	return result, nil
+}
+
+func CreateVnicDetailsToMap(obj *oci_containerengine.CreateVnicDetails, datasource bool) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["application_resources"] = obj.ApplicationResources
+
+	if obj.AssignIpv6Ip != nil {
+		result["assign_ipv6ip"] = bool(*obj.AssignIpv6Ip)
+	}
+
+	if obj.AssignPublicIp != nil {
+		result["assign_public_ip"] = bool(*obj.AssignPublicIp)
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.IpCount != nil {
+		result["ip_count"] = int(*obj.IpCount)
+	}
+
+	ipv6AddressIpv6SubnetCidrPairDetails := []interface{}{}
+	for _, item := range obj.Ipv6AddressIpv6SubnetCidrPairDetails {
+		ipv6AddressIpv6SubnetCidrPairDetails = append(ipv6AddressIpv6SubnetCidrPairDetails, Ipv6AddressIpv6SubnetCidrPairDetailsToMap(item))
+	}
+	result["ipv6address_ipv6subnet_cidr_pair_details"] = ipv6AddressIpv6SubnetCidrPairDetails
+
+	nsgIds := []interface{}{}
+	for _, item := range obj.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	if datasource {
+		result["nsg_ids"] = nsgIds
+	} else {
+		result["nsg_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds)
+	}
+
+	if obj.SkipSourceDestCheck != nil {
+		result["skip_source_dest_check"] = bool(*obj.SkipSourceDestCheck)
+	}
+
+	if obj.SubnetId != nil {
+		result["subnet_id"] = string(*obj.SubnetId)
+	}
+
+	return result
+}
+
+func (s *ContainerengineNodePoolResourceCrud) mapToIpv6AddressIpv6SubnetCidrPairDetails(fieldKeyFormat string) (oci_containerengine.Ipv6AddressIpv6SubnetCidrPairDetails, error) {
+	result := oci_containerengine.Ipv6AddressIpv6SubnetCidrPairDetails{}
+
+	if ipv6Address, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6address")); ok {
+		tmp := ipv6Address.(string)
+		result.Ipv6Address = &tmp
+	}
+
+	if ipv6SubnetCidr, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6subnet_cidr")); ok {
+		tmp := ipv6SubnetCidr.(string)
+		result.Ipv6SubnetCidr = &tmp
+	}
+
+	return result, nil
+}
+
+func Ipv6AddressIpv6SubnetCidrPairDetailsToMap(obj oci_containerengine.Ipv6AddressIpv6SubnetCidrPairDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Ipv6Address != nil {
+		result["ipv6address"] = string(*obj.Ipv6Address)
+	}
+
+	if obj.Ipv6SubnetCidr != nil {
+		result["ipv6subnet_cidr"] = string(*obj.Ipv6SubnetCidr)
 	}
 
 	return result
@@ -1866,6 +2223,51 @@ func NodePoolPodNetworkOptionDetailsToMap(obj *oci_containerengine.NodePoolPodNe
 	default:
 		log.Printf("[WARN] Received 'cni_type' of unknown type %v", *obj)
 		return nil
+	}
+
+	return result
+}
+
+func (s *ContainerengineNodePoolResourceCrud) mapToNodePoolSecondaryVnicDetails(fieldKeyFormat string) (oci_containerengine.NodePoolSecondaryVnicDetails, error) {
+	result := oci_containerengine.NodePoolSecondaryVnicDetails{}
+
+	if createVnicDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "create_vnic_details")); ok {
+		if tmpList := createVnicDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "create_vnic_details"), 0)
+			tmp, err := s.mapToCreateVnicDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert create_vnic_details, encountered error: %v", err)
+			}
+			result.CreateVnicDetails = &tmp
+		}
+	}
+
+	if displayName, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+		tmp := displayName.(string)
+		result.DisplayName = &tmp
+	}
+
+	if nicIndex, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nic_index")); ok {
+		tmp := nicIndex.(int)
+		result.NicIndex = &tmp
+	}
+
+	return result, nil
+}
+
+func NodePoolSecondaryVnicDetailsToMap(obj oci_containerengine.NodePoolSecondaryVnicDetails, datasource bool) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CreateVnicDetails != nil {
+		result["create_vnic_details"] = []interface{}{CreateVnicDetailsToMap(obj.CreateVnicDetails, datasource)}
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.NicIndex != nil {
+		result["nic_index"] = int(*obj.NicIndex)
 	}
 
 	return result

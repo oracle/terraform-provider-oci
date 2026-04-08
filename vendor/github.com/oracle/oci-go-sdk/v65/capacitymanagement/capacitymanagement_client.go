@@ -141,7 +141,7 @@ func (client CapacityManagementClient) createOccAvailabilityCatalog(ctx context.
 
 	var response CreateOccAvailabilityCatalogResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "CreateOccAvailabilityCatalog")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -204,7 +204,7 @@ func (client CapacityManagementClient) createOccCapacityRequest(ctx context.Cont
 
 	var response CreateOccCapacityRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "CreateOccCapacityRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -267,7 +267,7 @@ func (client CapacityManagementClient) createOccCustomer(ctx context.Context, re
 
 	var response CreateOccCustomerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "CreateOccCustomer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -330,7 +330,7 @@ func (client CapacityManagementClient) createOccCustomerGroup(ctx context.Contex
 
 	var response CreateOccCustomerGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "CreateOccCustomerGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -388,7 +388,7 @@ func (client CapacityManagementClient) deleteOccAvailabilityCatalog(ctx context.
 
 	var response DeleteOccAvailabilityCatalogResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "DeleteOccAvailabilityCatalog")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -446,7 +446,7 @@ func (client CapacityManagementClient) deleteOccCapacityRequest(ctx context.Cont
 
 	var response DeleteOccCapacityRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "DeleteOccCapacityRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -504,7 +504,7 @@ func (client CapacityManagementClient) deleteOccCustomer(ctx context.Context, re
 
 	var response DeleteOccCustomerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "DeleteOccCustomer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -562,7 +562,7 @@ func (client CapacityManagementClient) deleteOccCustomerGroup(ctx context.Contex
 
 	var response DeleteOccCustomerGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "DeleteOccCustomerGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -620,7 +620,7 @@ func (client CapacityManagementClient) getOccAvailabilityCatalog(ctx context.Con
 
 	var response GetOccAvailabilityCatalogResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "GetOccAvailabilityCatalog")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -683,7 +683,7 @@ func (client CapacityManagementClient) getOccAvailabilityCatalogContent(ctx cont
 
 	var response GetOccAvailabilityCatalogContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "GetOccAvailabilityCatalogContent")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occm/20231107/OccAvailabilityCatalog/GetOccAvailabilityCatalogContent"
@@ -740,7 +740,7 @@ func (client CapacityManagementClient) getOccCapacityRequest(ctx context.Context
 
 	var response GetOccCapacityRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "GetOccCapacityRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -798,7 +798,7 @@ func (client CapacityManagementClient) getOccCustomerGroup(ctx context.Context, 
 
 	var response GetOccCustomerGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "GetOccCustomerGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -856,7 +856,7 @@ func (client CapacityManagementClient) listInternalNamespaceOccOverviews(ctx con
 
 	var response ListInternalNamespaceOccOverviewsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "ListInternalNamespaceOccOverviews")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -914,7 +914,7 @@ func (client CapacityManagementClient) listInternalOccHandoverResourceBlockDetai
 
 	var response ListInternalOccHandoverResourceBlockDetailsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "ListInternalOccHandoverResourceBlockDetails")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -972,7 +972,7 @@ func (client CapacityManagementClient) listInternalOccHandoverResourceBlocks(ctx
 
 	var response ListInternalOccHandoverResourceBlocksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "ListInternalOccHandoverResourceBlocks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1030,7 +1030,7 @@ func (client CapacityManagementClient) listOccAvailabilities(ctx context.Context
 
 	var response ListOccAvailabilitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "ListOccAvailabilities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1088,7 +1088,7 @@ func (client CapacityManagementClient) listOccAvailabilityCatalogs(ctx context.C
 
 	var response ListOccAvailabilityCatalogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "ListOccAvailabilityCatalogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1146,7 +1146,7 @@ func (client CapacityManagementClient) listOccAvailabilityCatalogsInternal(ctx c
 
 	var response ListOccAvailabilityCatalogsInternalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "ListOccAvailabilityCatalogsInternal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1204,7 +1204,7 @@ func (client CapacityManagementClient) listOccCapacityRequests(ctx context.Conte
 
 	var response ListOccCapacityRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "ListOccCapacityRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1262,7 +1262,7 @@ func (client CapacityManagementClient) listOccCapacityRequestsInternal(ctx conte
 
 	var response ListOccCapacityRequestsInternalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "ListOccCapacityRequestsInternal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1320,7 +1320,7 @@ func (client CapacityManagementClient) listOccCustomerGroups(ctx context.Context
 
 	var response ListOccCustomerGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "ListOccCustomerGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1378,7 +1378,7 @@ func (client CapacityManagementClient) listOccHandoverResourceBlockDetails(ctx c
 
 	var response ListOccHandoverResourceBlockDetailsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "ListOccHandoverResourceBlockDetails")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1436,7 +1436,7 @@ func (client CapacityManagementClient) listOccHandoverResourceBlocks(ctx context
 
 	var response ListOccHandoverResourceBlocksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "ListOccHandoverResourceBlocks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1494,7 +1494,7 @@ func (client CapacityManagementClient) listOccOverviews(ctx context.Context, req
 
 	var response ListOccOverviewsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "ListOccOverviews")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1552,7 +1552,7 @@ func (client CapacityManagementClient) patchInternalOccCapacityRequest(ctx conte
 
 	var response PatchInternalOccCapacityRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "PatchInternalOccCapacityRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1610,7 +1610,7 @@ func (client CapacityManagementClient) patchOccCapacityRequest(ctx context.Conte
 
 	var response PatchOccCapacityRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "PatchOccCapacityRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1673,7 +1673,7 @@ func (client CapacityManagementClient) publishOccAvailabilityCatalog(ctx context
 
 	var response PublishOccAvailabilityCatalogResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "PublishOccAvailabilityCatalog")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1731,7 +1731,7 @@ func (client CapacityManagementClient) updateInternalOccCapacityRequest(ctx cont
 
 	var response UpdateInternalOccCapacityRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "UpdateInternalOccCapacityRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1789,7 +1789,7 @@ func (client CapacityManagementClient) updateOccAvailabilityCatalog(ctx context.
 
 	var response UpdateOccAvailabilityCatalogResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "UpdateOccAvailabilityCatalog")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1847,7 +1847,7 @@ func (client CapacityManagementClient) updateOccCapacityRequest(ctx context.Cont
 
 	var response UpdateOccCapacityRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "UpdateOccCapacityRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1905,7 +1905,7 @@ func (client CapacityManagementClient) updateOccCustomer(ctx context.Context, re
 
 	var response UpdateOccCustomerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "UpdateOccCustomer")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1963,7 +1963,7 @@ func (client CapacityManagementClient) updateOccCustomerGroup(ctx context.Contex
 
 	var response UpdateOccCustomerGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "capacityManagement", "UpdateOccCustomerGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

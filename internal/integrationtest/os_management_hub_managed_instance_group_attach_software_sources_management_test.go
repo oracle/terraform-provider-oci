@@ -23,10 +23,30 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_attach_software_sources_management", "test_managed_instance_group_attach_software_sources_management", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementRepresentation)
 
 	OsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementRepresentation = map[string]interface{}{
-		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("managed_instance_group_ocid")},
+		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_managed_instance_group.test_managed_instance_group.id}`},
 		"software_sources":          acctest.Representation{RepType: acctest.Required, Create: []string{`${data.oci_os_management_hub_software_sources.ol8_appstream_x86_64.software_source_collection[0].items[0].id}`}},
 		"work_request_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: OsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementWorkRequestDetailsRepresentation},
 	}
+
+	OsManagementHubManagedInstanceGroupIgnoreSSRepresentation = map[string]interface{}{
+		"arch_type":            acctest.Representation{RepType: acctest.Required, Create: `X86_64`},
+		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":         acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"os_family":            acctest.Representation{RepType: acctest.Required, Create: `ORACLE_LINUX_8`},
+		"vendor_name":          acctest.Representation{RepType: acctest.Required, Create: `ORACLE`},
+		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: OsManagementHubManagedInstanceGroupIgnoreDefinedTagsRepresentation},
+		"description":          acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"location":             acctest.Representation{RepType: acctest.Optional, Create: `OCI_COMPUTE`},
+		"managed_instance_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{}},
+		"software_source_ids":  acctest.Representation{RepType: acctest.Required, Create: []string{`${data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id}`}},
+		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubMIGIgnoreSSChangesRepresentation},
+	}
+
+	OsManagementHubMIGIgnoreSSChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`software_source_ids`}},
+	}
+
 	OsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementWorkRequestDetailsRepresentation = map[string]interface{}{
 		"description":  acctest.Representation{RepType: acctest.Optional, Create: `description`},
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
@@ -50,13 +70,14 @@ func TestOsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementResou
 
 	var resId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+OsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementResourceDependencies+OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config+
 		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_attach_software_sources_management", "test_managed_instance_group_attach_software_sources_management", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementRepresentation), "osmanagementhub", "managedInstanceGroupAttachSoftwareSourcesManagement", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementResourceDependencies + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group", "test_managed_instance_group", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceGroupIgnoreSSRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_attach_software_sources_management", "test_managed_instance_group_attach_software_sources_management", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "managed_instance_group_id"),
@@ -65,7 +86,7 @@ func TestOsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementResou
 		},
 		// detach software source
 		{
-			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupDetachSoftwareSourcesManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupDetachSoftwareSourcesManagementResourceDependencies + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config + OsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_detach_software_sources_management", "test_managed_instance_group_detach_software_sources_management", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupDetachSoftwareSourcesManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceNameDetach, "managed_instance_group_id"),
@@ -74,11 +95,13 @@ func TestOsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementResou
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementResourceDependencies,
+			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementResourceDependencies + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config,
 		},
 		// verify Create with optionals
+
 		{
-			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementResourceDependencies + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group", "test_managed_instance_group", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceGroupIgnoreSSRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_attach_software_sources_management", "test_managed_instance_group_attach_software_sources_management", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "managed_instance_group_id"),
@@ -100,7 +123,7 @@ func TestOsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementResou
 		},
 		// detach software source
 		{
-			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupDetachSoftwareSourcesManagementResourceDependencies +
+			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupDetachSoftwareSourcesManagementResourceDependencies + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config + OsManagementHubManagedInstanceGroupAttachSoftwareSourcesManagementResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_detach_software_sources_management", "test_managed_instance_group_detach_software_sources_management", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupDetachSoftwareSourcesManagementRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceNameDetach, "managed_instance_group_id"),

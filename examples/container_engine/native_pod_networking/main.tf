@@ -50,11 +50,9 @@ variable "node_pool_node_config_details_size" {
 }
 
 provider "oci" {
-  region           = var.region
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
+  region = var.region
+  auth = "SecurityToken"
+  config_file_profile = "terraform-federation-test"
 }
 
 data "oci_identity_availability_domain" "ad1" {
@@ -65,6 +63,10 @@ data "oci_identity_availability_domain" "ad1" {
 data "oci_identity_availability_domain" "ad2" {
   compartment_id = var.tenancy_ocid
   ad_number      = 2
+}
+
+data "oci_containerengine_cluster_option" "test_cluster_option" {
+  cluster_option_id = "all"
 }
 
 resource "oci_core_vcn" "test_vcn" {
@@ -118,7 +120,7 @@ resource "oci_core_subnet" "clusterSubnet_1" {
 resource "oci_containerengine_cluster" "test_npn_cluster" {
   #Required
   compartment_id     = var.compartment_ocid
-  kubernetes_version = "v1.23.4"
+  kubernetes_version = reverse(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)[0]
   name               = "tfTestCluster"
   vcn_id             = oci_core_vcn.test_vcn.id
 
@@ -142,7 +144,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
   #Required
   cluster_id         = oci_containerengine_cluster.test_npn_cluster.id
   compartment_id     = var.compartment_ocid
-  kubernetes_version = "v1.23.4"
+  kubernetes_version = reverse(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)[0]
   name               = "tfPool"
   node_shape         = "VM.Standard2.1"
 
@@ -179,6 +181,74 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
       }
   }
 
+  node_metadata = {
+    "areLegacyImdsEndpointsDisabled" = "true"
+  }
+
+  ssh_public_key      = var.node_pool_ssh_public_key
+}
+
+resource "oci_containerengine_node_pool" "test_node_pool_secondary_vnics" {
+  #Required
+  cluster_id         = oci_containerengine_cluster.test_npn_cluster.id
+  compartment_id     = var.compartment_ocid
+  kubernetes_version = reverse(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)[0]
+  name               = "tfPool"
+  node_shape         = "VM.Standard.E3.flex"
+
+  node_source_details {
+    #Required
+    image_id    = local.image_id
+    source_type = "IMAGE"
+  }
+
+  node_config_details {
+    #Required
+    placement_configs {
+      #Required
+      availability_domain = data.oci_identity_availability_domain.ad1.name
+      subnet_id           = oci_core_subnet.nodePool_Subnet_1.id
+    }
+    size = var.node_pool_node_config_details_size
+
+    node_pool_pod_network_option_details {
+      #Required
+      cni_type = var.node_pool_node_config_details_node_pool_pod_network_option_details_cni_type
+    }
+  }
+
+  network_launch_type = "VFIO"
+
+  secondary_vnics {
+    create_vnic_details {
+      subnet_id = oci_core_subnet.nodePool_Subnet_1.id
+      ip_count  = 8
+      application_resources = ["blue"]
+      display_name = "vnic1"
+    }
+    display_name = "vnic-attachment-1"
+    nic_index = 1
+  }
+
+  secondary_vnics {
+    create_vnic_details {
+      subnet_id = oci_core_subnet.nodePool_Subnet_1.id
+      ip_count  = 8
+      application_resources = ["blue"]
+      display_name = "vnic2"
+    }
+    display_name = "vnic-attachment2"
+    nic_index = 0
+  }
+
+  node_metadata = {
+    "areLegacyImdsEndpointsDisabled" = "true"
+  }
+
+  node_shape_config {
+    ocpus = 3.0
+  }
+
   ssh_public_key      = var.node_pool_ssh_public_key
 }
 
@@ -202,8 +272,17 @@ output "cluster" {
     }
 }
 
+output "secondary_vnics_node_pool" {
+  value = {
+    id                 = oci_containerengine_node_pool.test_node_pool_secondary_vnics.id
+    kubernetes_version = oci_containerengine_node_pool.test_node_pool_secondary_vnics.kubernetes_version
+    name               = oci_containerengine_node_pool.test_node_pool_secondary_vnics.name
+  }
+}
+
 data "oci_containerengine_node_pool_option" "test_node_pool_option" {
   node_pool_option_id = "all"
+  compartment_id = var.compartment_ocid
 }
 
 data "oci_core_images" "shape_specific_images" {

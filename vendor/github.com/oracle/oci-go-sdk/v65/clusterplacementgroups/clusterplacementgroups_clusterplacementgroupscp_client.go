@@ -141,7 +141,7 @@ func (client ClusterPlacementGroupsCPClient) activateClusterPlacementGroup(ctx c
 
 	var response ActivateClusterPlacementGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "clusterPlacementGroupsCP", "ActivateClusterPlacementGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -199,7 +199,7 @@ func (client ClusterPlacementGroupsCPClient) cancelWorkRequest(ctx context.Conte
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "clusterPlacementGroupsCP", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -264,7 +264,7 @@ func (client ClusterPlacementGroupsCPClient) changeClusterPlacementGroupCompartm
 
 	var response ChangeClusterPlacementGroupCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "clusterPlacementGroupsCP", "ChangeClusterPlacementGroupCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -327,7 +327,7 @@ func (client ClusterPlacementGroupsCPClient) createClusterPlacementGroup(ctx con
 
 	var response CreateClusterPlacementGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "clusterPlacementGroupsCP", "CreateClusterPlacementGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -390,7 +390,7 @@ func (client ClusterPlacementGroupsCPClient) deactivateClusterPlacementGroup(ctx
 
 	var response DeactivateClusterPlacementGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "clusterPlacementGroupsCP", "DeactivateClusterPlacementGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -448,7 +448,7 @@ func (client ClusterPlacementGroupsCPClient) deleteClusterPlacementGroup(ctx con
 
 	var response DeleteClusterPlacementGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "clusterPlacementGroupsCP", "DeleteClusterPlacementGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -506,7 +506,7 @@ func (client ClusterPlacementGroupsCPClient) getClusterPlacementGroup(ctx contex
 
 	var response GetClusterPlacementGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "clusterPlacementGroupsCP", "GetClusterPlacementGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -564,7 +564,7 @@ func (client ClusterPlacementGroupsCPClient) getWorkRequest(ctx context.Context,
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "clusterPlacementGroupsCP", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -622,7 +622,7 @@ func (client ClusterPlacementGroupsCPClient) listClusterPlacementGroups(ctx cont
 
 	var response ListClusterPlacementGroupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "clusterPlacementGroupsCP", "ListClusterPlacementGroups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -680,7 +680,7 @@ func (client ClusterPlacementGroupsCPClient) listWorkRequestErrors(ctx context.C
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "clusterPlacementGroupsCP", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -738,7 +738,7 @@ func (client ClusterPlacementGroupsCPClient) listWorkRequestLogs(ctx context.Con
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "clusterPlacementGroupsCP", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -796,7 +796,7 @@ func (client ClusterPlacementGroupsCPClient) listWorkRequests(ctx context.Contex
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "clusterPlacementGroupsCP", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -854,7 +854,7 @@ func (client ClusterPlacementGroupsCPClient) updateClusterPlacementGroup(ctx con
 
 	var response UpdateClusterPlacementGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "clusterPlacementGroupsCP", "UpdateClusterPlacementGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

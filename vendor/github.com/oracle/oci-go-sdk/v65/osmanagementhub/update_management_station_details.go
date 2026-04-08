@@ -31,6 +31,12 @@ type UpdateManagementStationDetails struct {
 	// When enabled, the station setup script automatically runs to configure the firewall and SELinux settings on the station.
 	IsAutoConfigEnabled *bool `mandatory:"false" json:"isAutoConfigEnabled"`
 
+	// The operating system family.
+	OsFamily OsFamilyEnum `mandatory:"false" json:"osFamily,omitempty"`
+
+	// The architecture type.
+	ArchType ArchTypeEnum `mandatory:"false" json:"archType,omitempty"`
+
 	Proxy *UpdateProxyConfigurationDetails `mandatory:"false" json:"proxy"`
 
 	Mirror *UpdateMirrorConfigurationDetails `mandatory:"false" json:"mirror"`
@@ -56,6 +62,12 @@ func (m UpdateManagementStationDetails) String() string {
 func (m UpdateManagementStationDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingOsFamilyEnum(string(m.OsFamily)); !ok && m.OsFamily != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", m.OsFamily, strings.Join(GetOsFamilyEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingArchTypeEnum(string(m.ArchType)); !ok && m.ArchType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ArchType: %s. Supported values are: %s.", m.ArchType, strings.Join(GetArchTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

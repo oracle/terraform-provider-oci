@@ -138,7 +138,7 @@ func (client WaaClient) changeWebAppAccelerationCompartment(ctx context.Context,
 
 	var response ChangeWebAppAccelerationCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waa", "ChangeWebAppAccelerationCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -196,7 +196,7 @@ func (client WaaClient) changeWebAppAccelerationPolicyCompartment(ctx context.Co
 
 	var response ChangeWebAppAccelerationPolicyCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waa", "ChangeWebAppAccelerationPolicyCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -258,7 +258,7 @@ func (client WaaClient) createWebAppAcceleration(ctx context.Context, request co
 
 	var response CreateWebAppAccelerationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waa", "CreateWebAppAcceleration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -320,7 +320,7 @@ func (client WaaClient) createWebAppAccelerationPolicy(ctx context.Context, requ
 
 	var response CreateWebAppAccelerationPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waa", "CreateWebAppAccelerationPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -377,7 +377,7 @@ func (client WaaClient) deleteWebAppAcceleration(ctx context.Context, request co
 
 	var response DeleteWebAppAccelerationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waa", "DeleteWebAppAcceleration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -434,7 +434,7 @@ func (client WaaClient) deleteWebAppAccelerationPolicy(ctx context.Context, requ
 
 	var response DeleteWebAppAccelerationPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waa", "DeleteWebAppAccelerationPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -491,7 +491,7 @@ func (client WaaClient) getWebAppAcceleration(ctx context.Context, request commo
 
 	var response GetWebAppAccelerationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waa", "GetWebAppAcceleration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -548,7 +548,7 @@ func (client WaaClient) getWebAppAccelerationPolicy(ctx context.Context, request
 
 	var response GetWebAppAccelerationPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waa", "GetWebAppAccelerationPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -605,7 +605,7 @@ func (client WaaClient) listWebAppAccelerationPolicies(ctx context.Context, requ
 
 	var response ListWebAppAccelerationPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waa", "ListWebAppAccelerationPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -662,7 +662,7 @@ func (client WaaClient) listWebAppAccelerations(ctx context.Context, request com
 
 	var response ListWebAppAccelerationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waa", "ListWebAppAccelerations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -720,7 +720,7 @@ func (client WaaClient) purgeWebAppAccelerationCache(ctx context.Context, reques
 
 	var response PurgeWebAppAccelerationCacheResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waa", "PurgeWebAppAccelerationCache")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -777,7 +777,7 @@ func (client WaaClient) updateWebAppAcceleration(ctx context.Context, request co
 
 	var response UpdateWebAppAccelerationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waa", "UpdateWebAppAcceleration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -834,7 +834,7 @@ func (client WaaClient) updateWebAppAccelerationPolicy(ctx context.Context, requ
 
 	var response UpdateWebAppAccelerationPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "waa", "UpdateWebAppAccelerationPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

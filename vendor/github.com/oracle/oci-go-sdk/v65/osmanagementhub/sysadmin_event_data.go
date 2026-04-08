@@ -34,6 +34,9 @@ type SysadminEventData struct {
 	// The log output after the resolutions.
 	ResolutionLog *string `mandatory:"true" json:"resolutionLog"`
 
+	// Brief description on how this error is categorized.
+	ErrorSummary *string `mandatory:"false" json:"errorSummary"`
+
 	AdditionalDetails *WorkRequestEventDataAdditionalDetails `mandatory:"false" json:"additionalDetails"`
 }
 

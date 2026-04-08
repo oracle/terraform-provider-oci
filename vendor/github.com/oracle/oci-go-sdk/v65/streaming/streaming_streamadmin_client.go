@@ -136,7 +136,7 @@ func (client StreamAdminClient) changeConnectHarnessCompartment(ctx context.Cont
 
 	var response ChangeConnectHarnessCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "ChangeConnectHarnessCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -196,7 +196,7 @@ func (client StreamAdminClient) changeStreamCompartment(ctx context.Context, req
 
 	var response ChangeStreamCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "ChangeStreamCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -254,7 +254,7 @@ func (client StreamAdminClient) changeStreamPoolCompartment(ctx context.Context,
 
 	var response ChangeStreamPoolCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "ChangeStreamPoolCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -318,7 +318,7 @@ func (client StreamAdminClient) createConnectHarness(ctx context.Context, reques
 
 	var response CreateConnectHarnessResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "CreateConnectHarness")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -380,7 +380,7 @@ func (client StreamAdminClient) createStream(ctx context.Context, request common
 
 	var response CreateStreamResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "CreateStream")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -445,7 +445,7 @@ func (client StreamAdminClient) createStreamPool(ctx context.Context, request co
 
 	var response CreateStreamPoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "CreateStreamPool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -507,7 +507,7 @@ func (client StreamAdminClient) deleteConnectHarness(ctx context.Context, reques
 
 	var response DeleteConnectHarnessResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "DeleteConnectHarness")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -569,7 +569,7 @@ func (client StreamAdminClient) deleteStream(ctx context.Context, request common
 
 	var response DeleteStreamResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "DeleteStream")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -628,7 +628,7 @@ func (client StreamAdminClient) deleteStreamPool(ctx context.Context, request co
 
 	var response DeleteStreamPoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "DeleteStreamPool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -686,7 +686,7 @@ func (client StreamAdminClient) getConnectHarness(ctx context.Context, request c
 
 	var response GetConnectHarnessResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "GetConnectHarness")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -744,7 +744,7 @@ func (client StreamAdminClient) getStream(ctx context.Context, request common.OC
 
 	var response GetStreamResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "GetStream")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -802,7 +802,7 @@ func (client StreamAdminClient) getStreamPool(ctx context.Context, request commo
 
 	var response GetStreamPoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "GetStreamPool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -860,7 +860,7 @@ func (client StreamAdminClient) listConnectHarnesses(ctx context.Context, reques
 
 	var response ListConnectHarnessesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "ListConnectHarnesses")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -918,7 +918,7 @@ func (client StreamAdminClient) listStreamPools(ctx context.Context, request com
 
 	var response ListStreamPoolsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "ListStreamPools")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -979,7 +979,7 @@ func (client StreamAdminClient) listStreams(ctx context.Context, request common.
 
 	var response ListStreamsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "ListStreams")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1037,7 +1037,7 @@ func (client StreamAdminClient) updateConnectHarness(ctx context.Context, reques
 
 	var response UpdateConnectHarnessResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "UpdateConnectHarness")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1095,7 +1095,7 @@ func (client StreamAdminClient) updateStream(ctx context.Context, request common
 
 	var response UpdateStreamResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "UpdateStream")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1153,7 +1153,7 @@ func (client StreamAdminClient) updateStreamPool(ctx context.Context, request co
 
 	var response UpdateStreamPoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "UpdateStreamPool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

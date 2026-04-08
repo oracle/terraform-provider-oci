@@ -21,6 +21,8 @@ data "oci_cloud_bridge_assets" "test_assets" {
 	compartment_id = var.compartment_id
 
 	#Optional
+	asset_class_name = var.asset_asset_class_name
+	asset_class_version = var.asset_asset_class_version
 	asset_id = oci_cloud_bridge_asset.test_asset.id
 	asset_type = var.asset_asset_type
 	display_name = var.asset_display_name
@@ -35,6 +37,8 @@ data "oci_cloud_bridge_assets" "test_assets" {
 
 The following arguments are supported:
 
+* `asset_class_name` - (Applicable when asset_type=INVENTORY_ASSET) The name of the asset class.
+* `asset_class_version` - (Applicable when asset_type=INVENTORY_ASSET) The version of the asset class.
 * `asset_id` - (Optional) Unique asset identifier.
 * `asset_type` - (Optional) The type of asset.
 * `compartment_id` - (Required) The ID of the compartment in which to list resources.
@@ -55,6 +59,9 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `asset_class_name` - The class name of the asset.
+* `asset_class_version` - The version of the asset class.
+* `asset_details` - The details of the asset.
 * `asset_source_ids` - List of asset source OCID.
 * `asset_type` - The type of asset.
 * `compartment_id` - The OCID of the compartment to which an asset belongs to.
@@ -116,6 +123,7 @@ The following attributes are exported:
 	* `threads_per_core_count` - Number of threads per core.
 * `defined_tags` - The defined tags associated with this resource, if any. Each key is predefined and scoped to namespaces. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - Asset display name.
+* `environment_type` - Specifies if this is the Source or Destination point for migration - different assets may be discovered depending on setting.
 * `external_asset_key` - The key of the asset from the external environment.
 * `freeform_tags` - The freeform tags associated with this resource, if any. Each tag is a simple key-value pair with no predefined name, type, or namespace/scope. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - Asset OCID that is immutable on creation.

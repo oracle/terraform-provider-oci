@@ -134,6 +134,12 @@ type ManagedInstance struct {
 
 	// The version of osmh-agent running on the managed instance
 	AgentVersion *string `mandatory:"false" json:"agentVersion"`
+
+	// Controls whether OSMH manages software sources for this instance. This defaults to false for Ubuntu and Windows instances.
+	AreSourcesManaged *bool `mandatory:"false" json:"areSourcesManaged"`
+
+	// The date and time the instance's software information was last refreshed (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
+	TimeLastSoftwareRefresh *common.SDKTime `mandatory:"false" json:"timeLastSoftwareRefresh"`
 }
 
 func (m ManagedInstance) String() string {

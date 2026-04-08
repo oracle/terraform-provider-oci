@@ -43,10 +43,12 @@ The following attributes are exported:
 * `discovery_schedule_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of an attached discovery schedule.
 * `display_name` - A user-friendly name for the asset source. Does not have to be unique, and it's mutable. Avoid entering confidential information. 
 * `environment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the environment.
+* `environment_type` - Specifies if this is the Source or Destination point for migration - different assets may be discovered depending on setting.
 * `freeform_tags` - The freeform tags associated with this resource, if any. Each tag is a simple key-value pair with no predefined name, type, or namespace/scope. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource.
 * `inventory_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the inventory that will contain created assets.
 * `lifecycle_details` - The detailed state of the asset source.
+* `olvm_endpoint` - Endpoint for OLVM asset discovery and replication in the form of ```https://<host>:<port>```
 * `replication_credentials` - Credentials for an asset source.
 	* `secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret in a vault. If the the type of the credentials is BASIC`, the secret must contain the username and password in JSON format, which is in the form of `{ "username": "<VMwareUser>", "password": "<VMwarePassword>" }`. 
 	* `type` - Authentication type

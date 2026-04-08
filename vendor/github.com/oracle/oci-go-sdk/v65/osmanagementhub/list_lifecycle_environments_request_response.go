@@ -171,6 +171,9 @@ const (
 	ListLifecycleEnvironmentsArchTypeNoarch  ListLifecycleEnvironmentsArchTypeEnum = "NOARCH"
 	ListLifecycleEnvironmentsArchTypeSrc     ListLifecycleEnvironmentsArchTypeEnum = "SRC"
 	ListLifecycleEnvironmentsArchTypeI386    ListLifecycleEnvironmentsArchTypeEnum = "I386"
+	ListLifecycleEnvironmentsArchTypeAmd64   ListLifecycleEnvironmentsArchTypeEnum = "AMD64"
+	ListLifecycleEnvironmentsArchTypeArm64   ListLifecycleEnvironmentsArchTypeEnum = "ARM64"
+	ListLifecycleEnvironmentsArchTypeAll     ListLifecycleEnvironmentsArchTypeEnum = "ALL"
 )
 
 var mappingListLifecycleEnvironmentsArchTypeEnum = map[string]ListLifecycleEnvironmentsArchTypeEnum{
@@ -180,6 +183,9 @@ var mappingListLifecycleEnvironmentsArchTypeEnum = map[string]ListLifecycleEnvir
 	"NOARCH":  ListLifecycleEnvironmentsArchTypeNoarch,
 	"SRC":     ListLifecycleEnvironmentsArchTypeSrc,
 	"I386":    ListLifecycleEnvironmentsArchTypeI386,
+	"AMD64":   ListLifecycleEnvironmentsArchTypeAmd64,
+	"ARM64":   ListLifecycleEnvironmentsArchTypeArm64,
+	"ALL":     ListLifecycleEnvironmentsArchTypeAll,
 }
 
 var mappingListLifecycleEnvironmentsArchTypeEnumLowerCase = map[string]ListLifecycleEnvironmentsArchTypeEnum{
@@ -189,6 +195,9 @@ var mappingListLifecycleEnvironmentsArchTypeEnumLowerCase = map[string]ListLifec
 	"noarch":  ListLifecycleEnvironmentsArchTypeNoarch,
 	"src":     ListLifecycleEnvironmentsArchTypeSrc,
 	"i386":    ListLifecycleEnvironmentsArchTypeI386,
+	"amd64":   ListLifecycleEnvironmentsArchTypeAmd64,
+	"arm64":   ListLifecycleEnvironmentsArchTypeArm64,
+	"all":     ListLifecycleEnvironmentsArchTypeAll,
 }
 
 // GetListLifecycleEnvironmentsArchTypeEnumValues Enumerates the set of values for ListLifecycleEnvironmentsArchTypeEnum
@@ -209,6 +218,9 @@ func GetListLifecycleEnvironmentsArchTypeEnumStringValues() []string {
 		"NOARCH",
 		"SRC",
 		"I386",
+		"AMD64",
+		"ARM64",
+		"ALL",
 	}
 }
 
@@ -223,6 +235,7 @@ type ListLifecycleEnvironmentsOsFamilyEnum string
 
 // Set of constants representing the allowable values for ListLifecycleEnvironmentsOsFamilyEnum
 const (
+	ListLifecycleEnvironmentsOsFamilyOracleLinux10     ListLifecycleEnvironmentsOsFamilyEnum = "ORACLE_LINUX_10"
 	ListLifecycleEnvironmentsOsFamilyOracleLinux9      ListLifecycleEnvironmentsOsFamilyEnum = "ORACLE_LINUX_9"
 	ListLifecycleEnvironmentsOsFamilyOracleLinux8      ListLifecycleEnvironmentsOsFamilyEnum = "ORACLE_LINUX_8"
 	ListLifecycleEnvironmentsOsFamilyOracleLinux7      ListLifecycleEnvironmentsOsFamilyEnum = "ORACLE_LINUX_7"
@@ -230,10 +243,16 @@ const (
 	ListLifecycleEnvironmentsOsFamilyWindowsServer2016 ListLifecycleEnvironmentsOsFamilyEnum = "WINDOWS_SERVER_2016"
 	ListLifecycleEnvironmentsOsFamilyWindowsServer2019 ListLifecycleEnvironmentsOsFamilyEnum = "WINDOWS_SERVER_2019"
 	ListLifecycleEnvironmentsOsFamilyWindowsServer2022 ListLifecycleEnvironmentsOsFamilyEnum = "WINDOWS_SERVER_2022"
+	ListLifecycleEnvironmentsOsFamilyWindowsServer2025 ListLifecycleEnvironmentsOsFamilyEnum = "WINDOWS_SERVER_2025"
+	ListLifecycleEnvironmentsOsFamilyWindows11         ListLifecycleEnvironmentsOsFamilyEnum = "WINDOWS_11"
 	ListLifecycleEnvironmentsOsFamilyAll               ListLifecycleEnvironmentsOsFamilyEnum = "ALL"
+	ListLifecycleEnvironmentsOsFamilyUbuntu2004        ListLifecycleEnvironmentsOsFamilyEnum = "UBUNTU_20_04"
+	ListLifecycleEnvironmentsOsFamilyUbuntu2204        ListLifecycleEnvironmentsOsFamilyEnum = "UBUNTU_22_04"
+	ListLifecycleEnvironmentsOsFamilyUbuntu2404        ListLifecycleEnvironmentsOsFamilyEnum = "UBUNTU_24_04"
 )
 
 var mappingListLifecycleEnvironmentsOsFamilyEnum = map[string]ListLifecycleEnvironmentsOsFamilyEnum{
+	"ORACLE_LINUX_10":     ListLifecycleEnvironmentsOsFamilyOracleLinux10,
 	"ORACLE_LINUX_9":      ListLifecycleEnvironmentsOsFamilyOracleLinux9,
 	"ORACLE_LINUX_8":      ListLifecycleEnvironmentsOsFamilyOracleLinux8,
 	"ORACLE_LINUX_7":      ListLifecycleEnvironmentsOsFamilyOracleLinux7,
@@ -241,10 +260,16 @@ var mappingListLifecycleEnvironmentsOsFamilyEnum = map[string]ListLifecycleEnvir
 	"WINDOWS_SERVER_2016": ListLifecycleEnvironmentsOsFamilyWindowsServer2016,
 	"WINDOWS_SERVER_2019": ListLifecycleEnvironmentsOsFamilyWindowsServer2019,
 	"WINDOWS_SERVER_2022": ListLifecycleEnvironmentsOsFamilyWindowsServer2022,
+	"WINDOWS_SERVER_2025": ListLifecycleEnvironmentsOsFamilyWindowsServer2025,
+	"WINDOWS_11":          ListLifecycleEnvironmentsOsFamilyWindows11,
 	"ALL":                 ListLifecycleEnvironmentsOsFamilyAll,
+	"UBUNTU_20_04":        ListLifecycleEnvironmentsOsFamilyUbuntu2004,
+	"UBUNTU_22_04":        ListLifecycleEnvironmentsOsFamilyUbuntu2204,
+	"UBUNTU_24_04":        ListLifecycleEnvironmentsOsFamilyUbuntu2404,
 }
 
 var mappingListLifecycleEnvironmentsOsFamilyEnumLowerCase = map[string]ListLifecycleEnvironmentsOsFamilyEnum{
+	"oracle_linux_10":     ListLifecycleEnvironmentsOsFamilyOracleLinux10,
 	"oracle_linux_9":      ListLifecycleEnvironmentsOsFamilyOracleLinux9,
 	"oracle_linux_8":      ListLifecycleEnvironmentsOsFamilyOracleLinux8,
 	"oracle_linux_7":      ListLifecycleEnvironmentsOsFamilyOracleLinux7,
@@ -252,7 +277,12 @@ var mappingListLifecycleEnvironmentsOsFamilyEnumLowerCase = map[string]ListLifec
 	"windows_server_2016": ListLifecycleEnvironmentsOsFamilyWindowsServer2016,
 	"windows_server_2019": ListLifecycleEnvironmentsOsFamilyWindowsServer2019,
 	"windows_server_2022": ListLifecycleEnvironmentsOsFamilyWindowsServer2022,
+	"windows_server_2025": ListLifecycleEnvironmentsOsFamilyWindowsServer2025,
+	"windows_11":          ListLifecycleEnvironmentsOsFamilyWindows11,
 	"all":                 ListLifecycleEnvironmentsOsFamilyAll,
+	"ubuntu_20_04":        ListLifecycleEnvironmentsOsFamilyUbuntu2004,
+	"ubuntu_22_04":        ListLifecycleEnvironmentsOsFamilyUbuntu2204,
+	"ubuntu_24_04":        ListLifecycleEnvironmentsOsFamilyUbuntu2404,
 }
 
 // GetListLifecycleEnvironmentsOsFamilyEnumValues Enumerates the set of values for ListLifecycleEnvironmentsOsFamilyEnum
@@ -267,6 +297,7 @@ func GetListLifecycleEnvironmentsOsFamilyEnumValues() []ListLifecycleEnvironment
 // GetListLifecycleEnvironmentsOsFamilyEnumStringValues Enumerates the set of values in String for ListLifecycleEnvironmentsOsFamilyEnum
 func GetListLifecycleEnvironmentsOsFamilyEnumStringValues() []string {
 	return []string{
+		"ORACLE_LINUX_10",
 		"ORACLE_LINUX_9",
 		"ORACLE_LINUX_8",
 		"ORACLE_LINUX_7",
@@ -274,7 +305,12 @@ func GetListLifecycleEnvironmentsOsFamilyEnumStringValues() []string {
 		"WINDOWS_SERVER_2016",
 		"WINDOWS_SERVER_2019",
 		"WINDOWS_SERVER_2022",
+		"WINDOWS_SERVER_2025",
+		"WINDOWS_11",
 		"ALL",
+		"UBUNTU_20_04",
+		"UBUNTU_22_04",
+		"UBUNTU_24_04",
 	}
 }
 

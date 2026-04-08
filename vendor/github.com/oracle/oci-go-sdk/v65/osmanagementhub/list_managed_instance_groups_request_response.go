@@ -176,6 +176,9 @@ const (
 	ListManagedInstanceGroupsArchTypeNoarch  ListManagedInstanceGroupsArchTypeEnum = "NOARCH"
 	ListManagedInstanceGroupsArchTypeSrc     ListManagedInstanceGroupsArchTypeEnum = "SRC"
 	ListManagedInstanceGroupsArchTypeI386    ListManagedInstanceGroupsArchTypeEnum = "I386"
+	ListManagedInstanceGroupsArchTypeAmd64   ListManagedInstanceGroupsArchTypeEnum = "AMD64"
+	ListManagedInstanceGroupsArchTypeArm64   ListManagedInstanceGroupsArchTypeEnum = "ARM64"
+	ListManagedInstanceGroupsArchTypeAll     ListManagedInstanceGroupsArchTypeEnum = "ALL"
 )
 
 var mappingListManagedInstanceGroupsArchTypeEnum = map[string]ListManagedInstanceGroupsArchTypeEnum{
@@ -185,6 +188,9 @@ var mappingListManagedInstanceGroupsArchTypeEnum = map[string]ListManagedInstanc
 	"NOARCH":  ListManagedInstanceGroupsArchTypeNoarch,
 	"SRC":     ListManagedInstanceGroupsArchTypeSrc,
 	"I386":    ListManagedInstanceGroupsArchTypeI386,
+	"AMD64":   ListManagedInstanceGroupsArchTypeAmd64,
+	"ARM64":   ListManagedInstanceGroupsArchTypeArm64,
+	"ALL":     ListManagedInstanceGroupsArchTypeAll,
 }
 
 var mappingListManagedInstanceGroupsArchTypeEnumLowerCase = map[string]ListManagedInstanceGroupsArchTypeEnum{
@@ -194,6 +200,9 @@ var mappingListManagedInstanceGroupsArchTypeEnumLowerCase = map[string]ListManag
 	"noarch":  ListManagedInstanceGroupsArchTypeNoarch,
 	"src":     ListManagedInstanceGroupsArchTypeSrc,
 	"i386":    ListManagedInstanceGroupsArchTypeI386,
+	"amd64":   ListManagedInstanceGroupsArchTypeAmd64,
+	"arm64":   ListManagedInstanceGroupsArchTypeArm64,
+	"all":     ListManagedInstanceGroupsArchTypeAll,
 }
 
 // GetListManagedInstanceGroupsArchTypeEnumValues Enumerates the set of values for ListManagedInstanceGroupsArchTypeEnum
@@ -214,6 +223,9 @@ func GetListManagedInstanceGroupsArchTypeEnumStringValues() []string {
 		"NOARCH",
 		"SRC",
 		"I386",
+		"AMD64",
+		"ARM64",
+		"ALL",
 	}
 }
 
@@ -228,6 +240,7 @@ type ListManagedInstanceGroupsOsFamilyEnum string
 
 // Set of constants representing the allowable values for ListManagedInstanceGroupsOsFamilyEnum
 const (
+	ListManagedInstanceGroupsOsFamilyOracleLinux10     ListManagedInstanceGroupsOsFamilyEnum = "ORACLE_LINUX_10"
 	ListManagedInstanceGroupsOsFamilyOracleLinux9      ListManagedInstanceGroupsOsFamilyEnum = "ORACLE_LINUX_9"
 	ListManagedInstanceGroupsOsFamilyOracleLinux8      ListManagedInstanceGroupsOsFamilyEnum = "ORACLE_LINUX_8"
 	ListManagedInstanceGroupsOsFamilyOracleLinux7      ListManagedInstanceGroupsOsFamilyEnum = "ORACLE_LINUX_7"
@@ -235,10 +248,16 @@ const (
 	ListManagedInstanceGroupsOsFamilyWindowsServer2016 ListManagedInstanceGroupsOsFamilyEnum = "WINDOWS_SERVER_2016"
 	ListManagedInstanceGroupsOsFamilyWindowsServer2019 ListManagedInstanceGroupsOsFamilyEnum = "WINDOWS_SERVER_2019"
 	ListManagedInstanceGroupsOsFamilyWindowsServer2022 ListManagedInstanceGroupsOsFamilyEnum = "WINDOWS_SERVER_2022"
+	ListManagedInstanceGroupsOsFamilyWindowsServer2025 ListManagedInstanceGroupsOsFamilyEnum = "WINDOWS_SERVER_2025"
+	ListManagedInstanceGroupsOsFamilyWindows11         ListManagedInstanceGroupsOsFamilyEnum = "WINDOWS_11"
 	ListManagedInstanceGroupsOsFamilyAll               ListManagedInstanceGroupsOsFamilyEnum = "ALL"
+	ListManagedInstanceGroupsOsFamilyUbuntu2004        ListManagedInstanceGroupsOsFamilyEnum = "UBUNTU_20_04"
+	ListManagedInstanceGroupsOsFamilyUbuntu2204        ListManagedInstanceGroupsOsFamilyEnum = "UBUNTU_22_04"
+	ListManagedInstanceGroupsOsFamilyUbuntu2404        ListManagedInstanceGroupsOsFamilyEnum = "UBUNTU_24_04"
 )
 
 var mappingListManagedInstanceGroupsOsFamilyEnum = map[string]ListManagedInstanceGroupsOsFamilyEnum{
+	"ORACLE_LINUX_10":     ListManagedInstanceGroupsOsFamilyOracleLinux10,
 	"ORACLE_LINUX_9":      ListManagedInstanceGroupsOsFamilyOracleLinux9,
 	"ORACLE_LINUX_8":      ListManagedInstanceGroupsOsFamilyOracleLinux8,
 	"ORACLE_LINUX_7":      ListManagedInstanceGroupsOsFamilyOracleLinux7,
@@ -246,10 +265,16 @@ var mappingListManagedInstanceGroupsOsFamilyEnum = map[string]ListManagedInstanc
 	"WINDOWS_SERVER_2016": ListManagedInstanceGroupsOsFamilyWindowsServer2016,
 	"WINDOWS_SERVER_2019": ListManagedInstanceGroupsOsFamilyWindowsServer2019,
 	"WINDOWS_SERVER_2022": ListManagedInstanceGroupsOsFamilyWindowsServer2022,
+	"WINDOWS_SERVER_2025": ListManagedInstanceGroupsOsFamilyWindowsServer2025,
+	"WINDOWS_11":          ListManagedInstanceGroupsOsFamilyWindows11,
 	"ALL":                 ListManagedInstanceGroupsOsFamilyAll,
+	"UBUNTU_20_04":        ListManagedInstanceGroupsOsFamilyUbuntu2004,
+	"UBUNTU_22_04":        ListManagedInstanceGroupsOsFamilyUbuntu2204,
+	"UBUNTU_24_04":        ListManagedInstanceGroupsOsFamilyUbuntu2404,
 }
 
 var mappingListManagedInstanceGroupsOsFamilyEnumLowerCase = map[string]ListManagedInstanceGroupsOsFamilyEnum{
+	"oracle_linux_10":     ListManagedInstanceGroupsOsFamilyOracleLinux10,
 	"oracle_linux_9":      ListManagedInstanceGroupsOsFamilyOracleLinux9,
 	"oracle_linux_8":      ListManagedInstanceGroupsOsFamilyOracleLinux8,
 	"oracle_linux_7":      ListManagedInstanceGroupsOsFamilyOracleLinux7,
@@ -257,7 +282,12 @@ var mappingListManagedInstanceGroupsOsFamilyEnumLowerCase = map[string]ListManag
 	"windows_server_2016": ListManagedInstanceGroupsOsFamilyWindowsServer2016,
 	"windows_server_2019": ListManagedInstanceGroupsOsFamilyWindowsServer2019,
 	"windows_server_2022": ListManagedInstanceGroupsOsFamilyWindowsServer2022,
+	"windows_server_2025": ListManagedInstanceGroupsOsFamilyWindowsServer2025,
+	"windows_11":          ListManagedInstanceGroupsOsFamilyWindows11,
 	"all":                 ListManagedInstanceGroupsOsFamilyAll,
+	"ubuntu_20_04":        ListManagedInstanceGroupsOsFamilyUbuntu2004,
+	"ubuntu_22_04":        ListManagedInstanceGroupsOsFamilyUbuntu2204,
+	"ubuntu_24_04":        ListManagedInstanceGroupsOsFamilyUbuntu2404,
 }
 
 // GetListManagedInstanceGroupsOsFamilyEnumValues Enumerates the set of values for ListManagedInstanceGroupsOsFamilyEnum
@@ -272,6 +302,7 @@ func GetListManagedInstanceGroupsOsFamilyEnumValues() []ListManagedInstanceGroup
 // GetListManagedInstanceGroupsOsFamilyEnumStringValues Enumerates the set of values in String for ListManagedInstanceGroupsOsFamilyEnum
 func GetListManagedInstanceGroupsOsFamilyEnumStringValues() []string {
 	return []string{
+		"ORACLE_LINUX_10",
 		"ORACLE_LINUX_9",
 		"ORACLE_LINUX_8",
 		"ORACLE_LINUX_7",
@@ -279,7 +310,12 @@ func GetListManagedInstanceGroupsOsFamilyEnumStringValues() []string {
 		"WINDOWS_SERVER_2016",
 		"WINDOWS_SERVER_2019",
 		"WINDOWS_SERVER_2022",
+		"WINDOWS_SERVER_2025",
+		"WINDOWS_11",
 		"ALL",
+		"UBUNTU_20_04",
+		"UBUNTU_22_04",
+		"UBUNTU_24_04",
 	}
 }
 

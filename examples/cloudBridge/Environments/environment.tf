@@ -8,22 +8,13 @@ variable "private_key_path" {}
 variable "region" {}
 variable "compartment_id" {}
 
-variable "environment_defined_tags_value" {
-  default = "value"
-}
-
 variable "environment_display_name" {
   default = "displayName"
 }
 
-variable "environment_freeform_tags" {
-  default = { "Department" = "Finance" }
-}
-
 variable "environment_state" {
-  default = "AVAILABLE"
+  default = "ACTIVE"
 }
-
 
 
 provider "oci" {
@@ -35,22 +26,13 @@ provider "oci" {
 }
 
 resource "oci_cloud_bridge_environment" "test_environment" {
-  #Required
   compartment_id = var.compartment_id
-
-  #Optional
-  defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.environment_defined_tags_value)
   display_name  = var.environment_display_name
-  freeform_tags = var.environment_freeform_tags
 }
 
 data "oci_cloud_bridge_environments" "test_environments" {
-  #Required
   compartment_id = var.compartment_id
-
-  #Optional
   display_name   = var.environment_display_name
   environment_id = oci_cloud_bridge_environment.test_environment.id
   state          = var.environment_state
 }
-

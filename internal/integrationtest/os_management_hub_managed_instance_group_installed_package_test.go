@@ -17,7 +17,7 @@ import (
 
 var (
 	OsManagementHubManagedInstanceGroupInstalledPackageDataSourceRepresentation = map[string]interface{}{
-		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("managed_instance_group_ocid")},
+		"managed_instance_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_managed_instance_group.test_grp.id}`},
 		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: []string{`ed`}},
 		"display_name_contains":     acctest.Representation{RepType: acctest.Optional, Create: `ed`},
@@ -45,6 +45,7 @@ func TestOsManagementHubManagedInstanceGroupInstalledPackageResource_basic(t *te
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_managed_instance_group_installed_packages", "test_managed_instance_group_installed_packages", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceGroupInstalledPackageDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group", "test_grp", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupRepresentation) + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config +
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),

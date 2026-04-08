@@ -197,6 +197,10 @@ type BaseClient struct {
 	BasePath string
 
 	Configuration CustomClientConfiguration
+
+	//Whether the OCI_INCLUDE_REQUEST_TELEMETRY_DATA environment variable was true at the time of client creation,
+	//indicating that x-oci-service-name and x-oci-operation-id headers should be sent.
+	ociIncludeRequestTelemetryDataEnabled bool
 }
 
 // SetCustomClientConfiguration sets client with retry and other custom configurations
@@ -288,11 +292,14 @@ func getNextSeed() int64 {
 func newBaseClient(signer HTTPRequestSigner, dispatcher HTTPRequestDispatcher) BaseClient {
 	rand.Seed(getNextSeed())
 
+	includeTelemetry := strings.EqualFold(os.Getenv("OCI_INCLUDE_REQUEST_TELEMETRY_DATA"), "true")
+
 	baseClient := BaseClient{
-		UserAgent:   defaultUserAgent(),
-		Interceptor: nil,
-		Signer:      signer,
-		HTTPClient:  dispatcher,
+		UserAgent:                             defaultUserAgent(),
+		Interceptor:                           nil,
+		Signer:                                signer,
+		HTTPClient:                            dispatcher,
+		ociIncludeRequestTelemetryDataEnabled: includeTelemetry,
 	}
 
 	// check the default retry environment variable setting
@@ -700,15 +707,27 @@ type OCIOperation func(context.Context, OCIRequest, *OCIReadSeekCloser, map[stri
 
 // ClientCallDetails a set of settings used by the a single Call operation of the http Client
 type ClientCallDetails struct {
-	Signer HTTPRequestSigner
+	Signer        HTTPRequestSigner
+	ServiceName   string
+	OperationName string
 }
 
 // Call executes the http request with the given context
 func (client BaseClient) Call(ctx context.Context, request *http.Request) (response *http.Response, err error) {
+	details := ClientCallDetails{Signer: client.Signer}
 	if client.IsRefreshableAuthType() {
-		return client.RefreshableTokenWrappedCallWithDetails(ctx, request, ClientCallDetails{Signer: client.Signer})
+		return client.RefreshableTokenWrappedCallWithDetails(ctx, request, details)
 	}
-	return client.CallWithDetails(ctx, request, ClientCallDetails{Signer: client.Signer})
+	return client.CallWithDetails(ctx, request, details)
+}
+
+// CallWithServiceAndOperationName executes the http request with the given context and known service and operation name
+func (client BaseClient) CallWithServiceAndOperationName(ctx context.Context, request *http.Request, serviceName string, operationName string) (response *http.Response, err error) {
+	details := ClientCallDetails{Signer: client.Signer, ServiceName: serviceName, OperationName: operationName}
+	if client.IsRefreshableAuthType() {
+		return client.RefreshableTokenWrappedCallWithDetails(ctx, request, details)
+	}
+	return client.CallWithDetails(ctx, request, details)
 }
 
 // RefreshableTokenWrappedCallWithDetails wraps the CallWithDetails with retry on 401 for Refreshable Token (Instance Principal, Resource Principal, etc.)
@@ -772,6 +791,16 @@ func (client BaseClient) RefreshableTokenWrappedCallWithDetails(ctx context.Cont
 func (client BaseClient) CallWithDetails(ctx context.Context, request *http.Request, details ClientCallDetails) (response *http.Response, err error) {
 	Debugln("Attempting to call downstream service")
 	request = request.WithContext(ctx)
+
+	if client.ociIncludeRequestTelemetryDataEnabled {
+		if details.ServiceName != "" {
+			request.Header.Set("x-oci-service-name", details.ServiceName)
+		}
+		if details.ServiceName != "" {
+			request.Header.Set("x-oci-operation-id", details.OperationName)
+		}
+	}
+
 	err = client.prepareRequest(request)
 	if err != nil {
 		return

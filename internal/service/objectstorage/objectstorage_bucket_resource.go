@@ -62,6 +62,11 @@ func ObjectStorageBucketResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"bucket_scope": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -275,6 +280,10 @@ func (s *ObjectStorageBucketResourceCrud) Create() error {
 		request.AutoTiering = oci_object_storage.BucketAutoTieringEnum(autoTiering.(string))
 	}
 
+	if bucketScope, ok := s.D.GetOkExists("bucket_scope"); ok {
+		request.BucketScope = oci_object_storage.BucketBucketScopeEnum(bucketScope.(string))
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -423,6 +432,10 @@ func (s *ObjectStorageBucketResourceCrud) Update() error {
 		request.BucketName = &tmp
 	}
 
+	if bucketScope, ok := s.D.GetOkExists("bucket_scope"); ok {
+		request.BucketScope = oci_object_storage.BucketBucketScopeEnum(bucketScope.(string))
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -528,6 +541,8 @@ func (s *ObjectStorageBucketResourceCrud) SetData() error {
 	}
 
 	s.D.Set("auto_tiering", s.Res.AutoTiering)
+
+	s.D.Set("bucket_scope", s.Res.BucketScope)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)

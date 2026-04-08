@@ -145,7 +145,7 @@ func (client DelegateAccessControlClient) approveDelegatedResourceAccessRequest(
 
 	var response ApproveDelegatedResourceAccessRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ApproveDelegatedResourceAccessRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -208,7 +208,7 @@ func (client DelegateAccessControlClient) changeDelegationControlCompartment(ctx
 
 	var response ChangeDelegationControlCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ChangeDelegationControlCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -271,7 +271,7 @@ func (client DelegateAccessControlClient) changeDelegationSubscriptionCompartmen
 
 	var response ChangeDelegationSubscriptionCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ChangeDelegationSubscriptionCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -334,7 +334,7 @@ func (client DelegateAccessControlClient) createDelegationControl(ctx context.Co
 
 	var response CreateDelegationControlResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "CreateDelegationControl")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -397,7 +397,7 @@ func (client DelegateAccessControlClient) createDelegationSubscription(ctx conte
 
 	var response CreateDelegationSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "CreateDelegationSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -459,7 +459,7 @@ func (client DelegateAccessControlClient) deleteDelegationControl(ctx context.Co
 
 	var response DeleteDelegationControlResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "DeleteDelegationControl")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -517,7 +517,7 @@ func (client DelegateAccessControlClient) deleteDelegationSubscription(ctx conte
 
 	var response DeleteDelegationSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "DeleteDelegationSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -575,7 +575,7 @@ func (client DelegateAccessControlClient) getDelegatedResourceAccessRequest(ctx 
 
 	var response GetDelegatedResourceAccessRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "GetDelegatedResourceAccessRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -633,7 +633,7 @@ func (client DelegateAccessControlClient) getDelegatedResourceAccessRequestAudit
 
 	var response GetDelegatedResourceAccessRequestAuditLogReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "GetDelegatedResourceAccessRequestAuditLogReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -691,7 +691,7 @@ func (client DelegateAccessControlClient) getDelegationControl(ctx context.Conte
 
 	var response GetDelegationControlResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "GetDelegationControl")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -749,7 +749,7 @@ func (client DelegateAccessControlClient) getDelegationSubscription(ctx context.
 
 	var response GetDelegationSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "GetDelegationSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -807,7 +807,7 @@ func (client DelegateAccessControlClient) getServiceProvider(ctx context.Context
 
 	var response GetServiceProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "GetServiceProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -865,7 +865,7 @@ func (client DelegateAccessControlClient) getServiceProviderAction(ctx context.C
 
 	var response GetServiceProviderActionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "GetServiceProviderAction")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -923,7 +923,7 @@ func (client DelegateAccessControlClient) listDelegatedResourceAccessRequestHist
 
 	var response ListDelegatedResourceAccessRequestHistoriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ListDelegatedResourceAccessRequestHistories")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -981,7 +981,7 @@ func (client DelegateAccessControlClient) listDelegatedResourceAccessRequests(ct
 
 	var response ListDelegatedResourceAccessRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ListDelegatedResourceAccessRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1039,7 +1039,7 @@ func (client DelegateAccessControlClient) listDelegationControlResources(ctx con
 
 	var response ListDelegationControlResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ListDelegationControlResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1097,7 +1097,7 @@ func (client DelegateAccessControlClient) listDelegationControls(ctx context.Con
 
 	var response ListDelegationControlsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ListDelegationControls")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1155,7 +1155,7 @@ func (client DelegateAccessControlClient) listDelegationSubscriptions(ctx contex
 
 	var response ListDelegationSubscriptionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ListDelegationSubscriptions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1213,7 +1213,7 @@ func (client DelegateAccessControlClient) listServiceProviderActions(ctx context
 
 	var response ListServiceProviderActionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ListServiceProviderActions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1271,7 +1271,7 @@ func (client DelegateAccessControlClient) listServiceProviderInteractions(ctx co
 
 	var response ListServiceProviderInteractionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ListServiceProviderInteractions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1329,7 +1329,7 @@ func (client DelegateAccessControlClient) listServiceProviders(ctx context.Conte
 
 	var response ListServiceProvidersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ListServiceProviders")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1392,7 +1392,7 @@ func (client DelegateAccessControlClient) rejectDelegatedResourceAccessRequest(c
 
 	var response RejectDelegatedResourceAccessRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "RejectDelegatedResourceAccessRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1455,7 +1455,7 @@ func (client DelegateAccessControlClient) revokeDelegatedResourceAccessRequest(c
 
 	var response RevokeDelegatedResourceAccessRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "RevokeDelegatedResourceAccessRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1518,7 +1518,7 @@ func (client DelegateAccessControlClient) serviceProviderInteractionRequest(ctx 
 
 	var response ServiceProviderInteractionRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "ServiceProviderInteractionRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1576,7 +1576,7 @@ func (client DelegateAccessControlClient) updateDelegationControl(ctx context.Co
 
 	var response UpdateDelegationControlResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "UpdateDelegationControl")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1634,7 +1634,7 @@ func (client DelegateAccessControlClient) updateDelegationSubscription(ctx conte
 
 	var response UpdateDelegationSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "delegateAccessControl", "UpdateDelegationSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
