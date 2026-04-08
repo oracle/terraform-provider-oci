@@ -1,4 +1,4 @@
-## 8.8.2 (April 7, 2026)
+## 8.9.0 (April 8, 2026)
 
 ### Added
 - Support for load balancer bulk attach/detach for instance pools
