@@ -20,18 +20,21 @@ import (
 // CreateSoftwareSourceProfileDetails Provides the information used to create the software source registration profile.
 type CreateSoftwareSourceProfileDetails struct {
 
-	// A user-friendly name. Does not have to be unique and you can change the name later. Avoid entering
+	// A user-friendly name. Must be unique and you can change the name later. Avoid entering
 	// confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the registration profile.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// The list of software source OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that the registration profile will use.
+	SoftwareSourceIds []string `mandatory:"true" json:"softwareSourceIds"`
+
 	// User-specified description of the registration profile.
 	Description *string `mandatory:"false" json:"description"`
 
 	// description: The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate
-	// with an instance once registered. This is required when creating a profile for non-OCI instances.
+	// with an instance once registered. This is used when creating a profile for non-OCI instances.
 	ManagementStationId *string `mandatory:"false" json:"managementStationId"`
 
 	// Indicates if the profile is set as the default. There is exactly one default profile for a specified architecture, OS family, registration type, and vendor. When registering an instance with the corresonding characteristics, the default profile is used, unless another profile is specified.
@@ -46,9 +49,6 @@ type CreateSoftwareSourceProfileDetails struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-
-	// The list of software source OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that the registration profile will use.
-	SoftwareSourceIds []string `mandatory:"false" json:"softwareSourceIds"`
 
 	// The type of instance to register.
 	RegistrationType ProfileRegistrationTypeEnum `mandatory:"false" json:"registrationType,omitempty"`

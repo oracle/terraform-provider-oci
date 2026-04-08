@@ -74,7 +74,9 @@ type ScheduledJob struct {
 	// The time of the last execution of this scheduled job (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeLastExecution *common.SDKTime `mandatory:"false" json:"timeLastExecution"`
 
-	// The frequency schedule for a recurring scheduled job.
+	// The frequency schedule for a recurring scheduled job in the RFC5535 (https://www.rfc-editor.org/rfc/rfc5535) format.
+	// Currently, only FREQ/INTERVAL/BYMONTHDAY/BYDAY/BYSETPOS/BYMONTH/BYHOUR/BYMINUTE/BYSECOND rules are supported.
+	// In FREQ, only YEARLY, MONTHLY, WEEKLY, DAILY", HOURLY are supported.
 	RecurringRule *string `mandatory:"false" json:"recurringRule"`
 
 	// The managed instance OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
@@ -90,8 +92,13 @@ type ScheduledJob struct {
 
 	// The lifecycle stage OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
 	// A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with
-	// managedInstanceIds, managedInstanceGroupIds, and managedCompartmentIds.
+	// managedInstanceIds, managedInstanceGroupIds, managedCompartmentIds, and dynamicSetIds.
 	LifecycleStageIds []string `mandatory:"false" json:"lifecycleStageIds"`
+
+	// The dynamic set OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
+	// A scheduled job can only operate on one type of target. therefore this parameter is mutually exclusive with
+	// managedInstanceIds, managedInstanceGroupIds, and managedCompartmentIds.
+	DynamicSetIds []string `mandatory:"false" json:"dynamicSetIds"`
 
 	// Indicates whether to apply the scheduled job to all compartments in the tenancy when managedCompartmentIds specifies the tenancy OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) (root compartment).
 	IsSubcompartmentIncluded *bool `mandatory:"false" json:"isSubcompartmentIncluded"`

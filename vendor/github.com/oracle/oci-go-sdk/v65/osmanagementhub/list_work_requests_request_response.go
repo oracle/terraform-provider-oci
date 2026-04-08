@@ -80,6 +80,9 @@ type ListWorkRequestsRequest struct {
 	// Indicates whether to list only resources managed by the Autonomous Linux service.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" contributesTo:"query" name:"isManagedByAutonomousLinux"`
 
+	// Indicates whether to include subcompartments in the returned results. Default is false.
+	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

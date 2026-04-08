@@ -142,7 +142,7 @@ func (client FleetAppsManagementOperationsClient) changePatchCompartment(ctx con
 
 	var response ChangePatchCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "ChangePatchCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -205,7 +205,7 @@ func (client FleetAppsManagementOperationsClient) createPatch(ctx context.Contex
 
 	var response CreatePatchResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "CreatePatch")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -268,7 +268,7 @@ func (client FleetAppsManagementOperationsClient) createSchedulerDefinition(ctx 
 
 	var response CreateSchedulerDefinitionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "CreateSchedulerDefinition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -326,7 +326,7 @@ func (client FleetAppsManagementOperationsClient) deletePatch(ctx context.Contex
 
 	var response DeletePatchResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "DeletePatch")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -384,7 +384,7 @@ func (client FleetAppsManagementOperationsClient) deleteSchedulerDefinition(ctx 
 
 	var response DeleteSchedulerDefinitionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "DeleteSchedulerDefinition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -442,7 +442,7 @@ func (client FleetAppsManagementOperationsClient) deleteSchedulerJob(ctx context
 
 	var response DeleteSchedulerJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "DeleteSchedulerJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -505,7 +505,7 @@ func (client FleetAppsManagementOperationsClient) exportComplianceReport(ctx con
 
 	var response ExportComplianceReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "ExportComplianceReport")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fleet-management/20250228/ComplianceRecord/ExportComplianceReport"
@@ -562,7 +562,7 @@ func (client FleetAppsManagementOperationsClient) getExecution(ctx context.Conte
 
 	var response GetExecutionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "GetExecution")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -620,7 +620,7 @@ func (client FleetAppsManagementOperationsClient) getJobActivity(ctx context.Con
 
 	var response GetJobActivityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "GetJobActivity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -678,7 +678,7 @@ func (client FleetAppsManagementOperationsClient) getPatch(ctx context.Context, 
 
 	var response GetPatchResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "GetPatch")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -736,7 +736,7 @@ func (client FleetAppsManagementOperationsClient) getSchedulerDefinition(ctx con
 
 	var response GetSchedulerDefinitionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "GetSchedulerDefinition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -794,7 +794,7 @@ func (client FleetAppsManagementOperationsClient) getSchedulerJob(ctx context.Co
 
 	var response GetSchedulerJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "GetSchedulerJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -852,7 +852,7 @@ func (client FleetAppsManagementOperationsClient) listComplianceRecords(ctx cont
 
 	var response ListComplianceRecordsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "ListComplianceRecords")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -910,7 +910,7 @@ func (client FleetAppsManagementOperationsClient) listExecutions(ctx context.Con
 
 	var response ListExecutionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "ListExecutions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -969,7 +969,7 @@ func (client FleetAppsManagementOperationsClient) listInstalledPatches(ctx conte
 
 	var response ListInstalledPatchesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "ListInstalledPatches")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1027,7 +1027,7 @@ func (client FleetAppsManagementOperationsClient) listInventoryRecords(ctx conte
 
 	var response ListInventoryRecordsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "ListInventoryRecords")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1086,7 +1086,7 @@ func (client FleetAppsManagementOperationsClient) listPatches(ctx context.Contex
 
 	var response ListPatchesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "ListPatches")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1144,7 +1144,7 @@ func (client FleetAppsManagementOperationsClient) listRecommendedPatches(ctx con
 
 	var response ListRecommendedPatchesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "ListRecommendedPatches")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1202,7 +1202,7 @@ func (client FleetAppsManagementOperationsClient) listReportMetadata(ctx context
 
 	var response ListReportMetadataResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "ListReportMetadata")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1260,7 +1260,7 @@ func (client FleetAppsManagementOperationsClient) listResources(ctx context.Cont
 
 	var response ListResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "ListResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1318,7 +1318,7 @@ func (client FleetAppsManagementOperationsClient) listScheduledFleets(ctx contex
 
 	var response ListScheduledFleetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "ListScheduledFleets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1377,7 +1377,7 @@ func (client FleetAppsManagementOperationsClient) listSchedulerDefinitions(ctx c
 
 	var response ListSchedulerDefinitionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "ListSchedulerDefinitions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1435,7 +1435,7 @@ func (client FleetAppsManagementOperationsClient) listSchedulerExecutions(ctx co
 
 	var response ListSchedulerExecutionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "ListSchedulerExecutions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1494,7 +1494,7 @@ func (client FleetAppsManagementOperationsClient) listSchedulerJobs(ctx context.
 
 	var response ListSchedulerJobsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "ListSchedulerJobs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1552,7 +1552,7 @@ func (client FleetAppsManagementOperationsClient) listSteps(ctx context.Context,
 
 	var response ListStepsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "ListSteps")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1610,7 +1610,7 @@ func (client FleetAppsManagementOperationsClient) listTargetComponents(ctx conte
 
 	var response ListTargetComponentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "ListTargetComponents")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1668,7 +1668,7 @@ func (client FleetAppsManagementOperationsClient) listTargetProperties(ctx conte
 
 	var response ListTargetPropertiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "ListTargetProperties")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1731,7 +1731,7 @@ func (client FleetAppsManagementOperationsClient) manageJobExecution(ctx context
 
 	var response ManageJobExecutionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "ManageJobExecution")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1794,7 +1794,7 @@ func (client FleetAppsManagementOperationsClient) report(ctx context.Context, re
 
 	var response ReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "Report")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1852,7 +1852,7 @@ func (client FleetAppsManagementOperationsClient) summarizeComplianceRecordCount
 
 	var response SummarizeComplianceRecordCountsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "SummarizeComplianceRecordCounts")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1910,7 +1910,7 @@ func (client FleetAppsManagementOperationsClient) summarizeManagedEntityCounts(c
 
 	var response SummarizeManagedEntityCountsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "SummarizeManagedEntityCounts")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1968,7 +1968,7 @@ func (client FleetAppsManagementOperationsClient) summarizeSchedulerJobCounts(ct
 
 	var response SummarizeSchedulerJobCountsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "SummarizeSchedulerJobCounts")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2026,7 +2026,7 @@ func (client FleetAppsManagementOperationsClient) updatePatch(ctx context.Contex
 
 	var response UpdatePatchResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "UpdatePatch")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2084,7 +2084,7 @@ func (client FleetAppsManagementOperationsClient) updateSchedulerDefinition(ctx 
 
 	var response UpdateSchedulerDefinitionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "UpdateSchedulerDefinition")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2142,7 +2142,7 @@ func (client FleetAppsManagementOperationsClient) updateSchedulerJob(ctx context
 
 	var response UpdateSchedulerJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementOperations", "UpdateSchedulerJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

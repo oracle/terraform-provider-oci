@@ -49,29 +49,36 @@ type CreateScheduledJobDetails struct {
 	// The list of locations this scheduled job should operate on for a job targeting on compartments. (Empty list means apply to all locations). This can only be set when managedCompartmentIds is not empty.
 	Locations []ManagedInstanceLocationEnum `mandatory:"false" json:"locations"`
 
-	// The frequency schedule for a recurring scheduled job.
+	// The frequency schedule for a recurring scheduled job in the RFC5535 (https://www.rfc-editor.org/rfc/rfc5535) format.
+	// Note: Currently, only FREQ/INTERVAL/BYMONTHDAY/BYDAY/BYSETPOS/BYMONTH/BYHOUR/BYMINUTE/BYSECOND rules are supported.
+	// In FREQ, only YEARLY, MONTHLY, WEEKLY, DAILY", HOURLY are supported.
 	RecurringRule *string `mandatory:"false" json:"recurringRule"`
 
 	// The managed instance OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
 	// A scheduled job can only operate on one type of target, therefore you must supply either this or
-	// managedInstanceGroupIds, or managedCompartmentIds, or lifecycleStageIds.
+	// managedInstanceGroupIds, or managedCompartmentIds, or lifecycleStageIds, or dynamicSetIds.
 	ManagedInstanceIds []string `mandatory:"false" json:"managedInstanceIds"`
 
 	// The managed instance group OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
 	// A scheduled job can only operate on one type of target, therefore you must supply either this or managedInstanceIds,
-	// or managedCompartmentIds, or lifecycleStageIds.
+	// or managedCompartmentIds, or lifecycleStageIds, or dynamicSetIds.
 	ManagedInstanceGroupIds []string `mandatory:"false" json:"managedInstanceGroupIds"`
 
 	// The compartment OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
 	// To apply the job to all compartments in the tenancy, set this to the tenancy OCID (root compartment) and set
 	// isSubcompartmentIncluded to true. A scheduled job can only operate on one type of target, therefore you must
-	// supply either this or managedInstanceIds, or managedInstanceGroupIds, or lifecycleStageIds.
+	// supply either this or managedInstanceIds, or managedInstanceGroupIds, or lifecycleStageIds, or dynamicSetIds.
 	ManagedCompartmentIds []string `mandatory:"false" json:"managedCompartmentIds"`
 
 	// The lifecycle stage OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
 	// A scheduled job can only operate on one type of target, therefore you must supply either this or managedInstanceIds,
-	// or managedInstanceGroupIds, or managedCompartmentIds.
+	// or managedInstanceGroupIds, or managedCompartmentIds, or dynamicSetIds.
 	LifecycleStageIds []string `mandatory:"false" json:"lifecycleStageIds"`
+
+	// The dynamic set OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
+	// A scheduled job can only operate on one type of target. therefore this parameter is mutually exclusive with
+	// managedInstanceIds, managedInstanceGroupIds, lifecycleStageIds, managedCompartmentIds.
+	DynamicSetIds []string `mandatory:"false" json:"dynamicSetIds"`
 
 	// Indicates whether to apply the scheduled job to all compartments in the tenancy when managedCompartmentIds specifies
 	// the tenancy OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) (root compartment).

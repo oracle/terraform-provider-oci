@@ -144,7 +144,7 @@ func (client DnsClient) changeResolverCompartment(ctx context.Context, request c
 
 	var response ChangeResolverCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "ChangeResolverCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -207,7 +207,7 @@ func (client DnsClient) changeSteeringPolicyCompartment(ctx context.Context, req
 
 	var response ChangeSteeringPolicyCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "ChangeSteeringPolicyCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -270,7 +270,7 @@ func (client DnsClient) changeTsigKeyCompartment(ctx context.Context, request co
 
 	var response ChangeTsigKeyCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "ChangeTsigKeyCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -334,7 +334,7 @@ func (client DnsClient) changeViewCompartment(ctx context.Context, request commo
 
 	var response ChangeViewCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "ChangeViewCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -402,7 +402,7 @@ func (client DnsClient) changeZoneCompartment(ctx context.Context, request commo
 
 	var response ChangeZoneCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "ChangeZoneCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -465,7 +465,7 @@ func (client DnsClient) createResolverEndpoint(ctx context.Context, request comm
 
 	var response CreateResolverEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "CreateResolverEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -529,7 +529,7 @@ func (client DnsClient) createSteeringPolicy(ctx context.Context, request common
 
 	var response CreateSteeringPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "CreateSteeringPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -597,7 +597,7 @@ func (client DnsClient) createSteeringPolicyAttachment(ctx context.Context, requ
 
 	var response CreateSteeringPolicyAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "CreateSteeringPolicyAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -656,7 +656,7 @@ func (client DnsClient) createTsigKey(ctx context.Context, request common.OCIReq
 
 	var response CreateTsigKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "CreateTsigKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -719,7 +719,7 @@ func (client DnsClient) createView(ctx context.Context, request common.OCIReques
 
 	var response CreateViewResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "CreateView")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -783,7 +783,7 @@ func (client DnsClient) createZone(ctx context.Context, request common.OCIReques
 
 	var response CreateZoneResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "CreateZone")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -845,7 +845,7 @@ func (client DnsClient) createZoneFromZoneFile(ctx context.Context, request comm
 
 	var response CreateZoneFromZoneFileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "CreateZoneFromZoneFile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -905,7 +905,7 @@ func (client DnsClient) deleteDomainRecords(ctx context.Context, request common.
 
 	var response DeleteDomainRecordsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "DeleteDomainRecords")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -965,7 +965,7 @@ func (client DnsClient) deleteRRSet(ctx context.Context, request common.OCIReque
 
 	var response DeleteRRSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "DeleteRRSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1025,7 +1025,7 @@ func (client DnsClient) deleteResolverEndpoint(ctx context.Context, request comm
 
 	var response DeleteResolverEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "DeleteResolverEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1085,7 +1085,7 @@ func (client DnsClient) deleteSteeringPolicy(ctx context.Context, request common
 
 	var response DeleteSteeringPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "DeleteSteeringPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1143,7 +1143,7 @@ func (client DnsClient) deleteSteeringPolicyAttachment(ctx context.Context, requ
 
 	var response DeleteSteeringPolicyAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "DeleteSteeringPolicyAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1200,7 +1200,7 @@ func (client DnsClient) deleteTsigKey(ctx context.Context, request common.OCIReq
 
 	var response DeleteTsigKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "DeleteTsigKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1261,7 +1261,7 @@ func (client DnsClient) deleteView(ctx context.Context, request common.OCIReques
 
 	var response DeleteViewResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "DeleteView")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1321,7 +1321,7 @@ func (client DnsClient) deleteZone(ctx context.Context, request common.OCIReques
 
 	var response DeleteZoneResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "DeleteZone")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1382,7 +1382,7 @@ func (client DnsClient) getDomainRecords(ctx context.Context, request common.OCI
 
 	var response GetDomainRecordsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "GetDomainRecords")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1442,7 +1442,7 @@ func (client DnsClient) getRRSet(ctx context.Context, request common.OCIRequest,
 
 	var response GetRRSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "GetRRSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1502,7 +1502,7 @@ func (client DnsClient) getResolver(ctx context.Context, request common.OCIReque
 
 	var response GetResolverResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "GetResolver")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1562,7 +1562,7 @@ func (client DnsClient) getResolverEndpoint(ctx context.Context, request common.
 
 	var response GetResolverEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "GetResolverEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1620,7 +1620,7 @@ func (client DnsClient) getSteeringPolicy(ctx context.Context, request common.OC
 
 	var response GetSteeringPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "GetSteeringPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1678,7 +1678,7 @@ func (client DnsClient) getSteeringPolicyAttachment(ctx context.Context, request
 
 	var response GetSteeringPolicyAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "GetSteeringPolicyAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1736,7 +1736,7 @@ func (client DnsClient) getTsigKey(ctx context.Context, request common.OCIReques
 
 	var response GetTsigKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "GetTsigKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1797,7 +1797,7 @@ func (client DnsClient) getView(ctx context.Context, request common.OCIRequest, 
 
 	var response GetViewResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "GetView")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1857,7 +1857,7 @@ func (client DnsClient) getZone(ctx context.Context, request common.OCIRequest, 
 
 	var response GetZoneResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "GetZone")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1915,7 +1915,7 @@ func (client DnsClient) getZoneContent(ctx context.Context, request common.OCIRe
 
 	var response GetZoneContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "GetZoneContent")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Zone/GetZoneContent"
@@ -1976,7 +1976,7 @@ func (client DnsClient) getZoneRecords(ctx context.Context, request common.OCIRe
 
 	var response GetZoneRecordsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "GetZoneRecords")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2053,7 +2053,7 @@ func (client DnsClient) listResolverEndpoints(ctx context.Context, request commo
 
 	var response ListResolverEndpointsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "ListResolverEndpoints")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2115,7 +2115,7 @@ func (client DnsClient) listResolvers(ctx context.Context, request common.OCIReq
 
 	var response ListResolversResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "ListResolvers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2173,7 +2173,7 @@ func (client DnsClient) listSteeringPolicies(ctx context.Context, request common
 
 	var response ListSteeringPoliciesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "ListSteeringPolicies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2231,7 +2231,7 @@ func (client DnsClient) listSteeringPolicyAttachments(ctx context.Context, reque
 
 	var response ListSteeringPolicyAttachmentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "ListSteeringPolicyAttachments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2289,7 +2289,7 @@ func (client DnsClient) listTsigKeys(ctx context.Context, request common.OCIRequ
 
 	var response ListTsigKeysResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "ListTsigKeys")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2351,7 +2351,7 @@ func (client DnsClient) listViews(ctx context.Context, request common.OCIRequest
 
 	var response ListViewsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "ListViews")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2411,7 +2411,7 @@ func (client DnsClient) listZoneTransferServers(ctx context.Context, request com
 
 	var response ListZoneTransferServersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "ListZoneTransferServers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2471,7 +2471,7 @@ func (client DnsClient) listZones(ctx context.Context, request common.OCIRequest
 
 	var response ListZonesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "ListZones")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2533,7 +2533,7 @@ func (client DnsClient) patchDomainRecords(ctx context.Context, request common.O
 
 	var response PatchDomainRecordsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "PatchDomainRecords")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2593,7 +2593,7 @@ func (client DnsClient) patchRRSet(ctx context.Context, request common.OCIReques
 
 	var response PatchRRSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "PatchRRSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2655,7 +2655,7 @@ func (client DnsClient) patchZoneRecords(ctx context.Context, request common.OCI
 
 	var response PatchZoneRecordsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "PatchZoneRecords")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2724,7 +2724,7 @@ func (client DnsClient) promoteZoneDnssecKeyVersion(ctx context.Context, request
 
 	var response PromoteZoneDnssecKeyVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "PromoteZoneDnssecKeyVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2790,7 +2790,7 @@ func (client DnsClient) stageZoneDnssecKeyVersion(ctx context.Context, request c
 
 	var response StageZoneDnssecKeyVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "StageZoneDnssecKeyVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2852,7 +2852,7 @@ func (client DnsClient) updateDomainRecords(ctx context.Context, request common.
 
 	var response UpdateDomainRecordsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "UpdateDomainRecords")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2912,7 +2912,7 @@ func (client DnsClient) updateRRSet(ctx context.Context, request common.OCIReque
 
 	var response UpdateRRSetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "UpdateRRSet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2970,7 +2970,7 @@ func (client DnsClient) updateResolver(ctx context.Context, request common.OCIRe
 
 	var response UpdateResolverResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "UpdateResolver")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3028,7 +3028,7 @@ func (client DnsClient) updateResolverEndpoint(ctx context.Context, request comm
 
 	var response UpdateResolverEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "UpdateResolverEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3086,7 +3086,7 @@ func (client DnsClient) updateSteeringPolicy(ctx context.Context, request common
 
 	var response UpdateSteeringPolicyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "UpdateSteeringPolicy")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3144,7 +3144,7 @@ func (client DnsClient) updateSteeringPolicyAttachment(ctx context.Context, requ
 
 	var response UpdateSteeringPolicyAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "UpdateSteeringPolicyAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3202,7 +3202,7 @@ func (client DnsClient) updateTsigKey(ctx context.Context, request common.OCIReq
 
 	var response UpdateTsigKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "UpdateTsigKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3260,7 +3260,7 @@ func (client DnsClient) updateView(ctx context.Context, request common.OCIReques
 
 	var response UpdateViewResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "UpdateView")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3322,7 +3322,7 @@ func (client DnsClient) updateZone(ctx context.Context, request common.OCIReques
 
 	var response UpdateZoneResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "UpdateZone")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3385,7 +3385,7 @@ func (client DnsClient) updateZoneRecords(ctx context.Context, request common.OC
 
 	var response UpdateZoneRecordsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dns", "UpdateZoneRecords")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

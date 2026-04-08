@@ -141,7 +141,7 @@ func (client DistributedDbPrivateEndpointServiceClient) changeDistributedDatabas
 
 	var response ChangeDistributedDatabasePrivateEndpointCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedDbPrivateEndpointService", "ChangeDistributedDatabasePrivateEndpointCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -204,7 +204,7 @@ func (client DistributedDbPrivateEndpointServiceClient) createDistributedDatabas
 
 	var response CreateDistributedDatabasePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedDbPrivateEndpointService", "CreateDistributedDatabasePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -267,7 +267,7 @@ func (client DistributedDbPrivateEndpointServiceClient) deleteDistributedDatabas
 
 	var response DeleteDistributedDatabasePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedDbPrivateEndpointService", "DeleteDistributedDatabasePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -325,7 +325,7 @@ func (client DistributedDbPrivateEndpointServiceClient) getDistributedDatabasePr
 
 	var response GetDistributedDatabasePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedDbPrivateEndpointService", "GetDistributedDatabasePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -383,7 +383,7 @@ func (client DistributedDbPrivateEndpointServiceClient) listDistributedDatabaseP
 
 	var response ListDistributedDatabasePrivateEndpointsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedDbPrivateEndpointService", "ListDistributedDatabasePrivateEndpoints")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -446,7 +446,7 @@ func (client DistributedDbPrivateEndpointServiceClient) reinstateProxyInstance(c
 
 	var response ReinstateProxyInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedDbPrivateEndpointService", "ReinstateProxyInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -509,7 +509,7 @@ func (client DistributedDbPrivateEndpointServiceClient) updateDistributedDatabas
 
 	var response UpdateDistributedDatabasePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "distributedDbPrivateEndpointService", "UpdateDistributedDatabasePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

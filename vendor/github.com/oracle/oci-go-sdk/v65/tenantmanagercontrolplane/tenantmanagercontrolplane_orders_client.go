@@ -140,7 +140,7 @@ func (client OrdersClient) activateOrder(ctx context.Context, request common.OCI
 
 	var response ActivateOrderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "orders", "ActivateOrder")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -197,7 +197,7 @@ func (client OrdersClient) getOrder(ctx context.Context, request common.OCIReque
 
 	var response GetOrderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "orders", "GetOrder")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

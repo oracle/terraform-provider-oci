@@ -68,6 +68,10 @@ func CoreClusterNetworkResource() *schema.Resource {
 							Elem:     schema.TypeString,
 						},
 						// Computed
+						"current_size": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -936,6 +940,10 @@ func InstancePoolToMap(obj oci_core.InstancePool) map[string]interface{} {
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.CurrentSize != nil {
+		result["current_size"] = int(*obj.CurrentSize)
 	}
 
 	if obj.DefinedTags != nil {

@@ -136,7 +136,7 @@ func (client ApplicationDependencyManagementClient) activateRemediationRecipe(ct
 
 	var response ActivateRemediationRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "ActivateRemediationRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -199,7 +199,7 @@ func (client ApplicationDependencyManagementClient) cancelRemediationRun(ctx con
 
 	var response CancelRemediationRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "CancelRemediationRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -257,7 +257,7 @@ func (client ApplicationDependencyManagementClient) cancelWorkRequest(ctx contex
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -320,7 +320,7 @@ func (client ApplicationDependencyManagementClient) changeKnowledgeBaseCompartme
 
 	var response ChangeKnowledgeBaseCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "ChangeKnowledgeBaseCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -383,7 +383,7 @@ func (client ApplicationDependencyManagementClient) changeRemediationRecipeCompa
 
 	var response ChangeRemediationRecipeCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "ChangeRemediationRecipeCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -446,7 +446,7 @@ func (client ApplicationDependencyManagementClient) changeRemediationRunCompartm
 
 	var response ChangeRemediationRunCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "ChangeRemediationRunCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -509,7 +509,7 @@ func (client ApplicationDependencyManagementClient) changeVulnerabilityAuditComp
 
 	var response ChangeVulnerabilityAuditCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "ChangeVulnerabilityAuditCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -572,7 +572,7 @@ func (client ApplicationDependencyManagementClient) createKnowledgeBase(ctx cont
 
 	var response CreateKnowledgeBaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "CreateKnowledgeBase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -635,7 +635,7 @@ func (client ApplicationDependencyManagementClient) createRemediationRecipe(ctx 
 
 	var response CreateRemediationRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "CreateRemediationRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -698,7 +698,7 @@ func (client ApplicationDependencyManagementClient) createRemediationRun(ctx con
 
 	var response CreateRemediationRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "CreateRemediationRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -761,7 +761,7 @@ func (client ApplicationDependencyManagementClient) createVulnerabilityAudit(ctx
 
 	var response CreateVulnerabilityAuditResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "CreateVulnerabilityAudit")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -819,7 +819,7 @@ func (client ApplicationDependencyManagementClient) deactivateRemediationRecipe(
 
 	var response DeactivateRemediationRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "DeactivateRemediationRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -877,7 +877,7 @@ func (client ApplicationDependencyManagementClient) deleteKnowledgeBase(ctx cont
 
 	var response DeleteKnowledgeBaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "DeleteKnowledgeBase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -935,7 +935,7 @@ func (client ApplicationDependencyManagementClient) deleteRemediationRecipe(ctx 
 
 	var response DeleteRemediationRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "DeleteRemediationRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -993,7 +993,7 @@ func (client ApplicationDependencyManagementClient) deleteRemediationRun(ctx con
 
 	var response DeleteRemediationRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "DeleteRemediationRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1051,7 +1051,7 @@ func (client ApplicationDependencyManagementClient) deleteVulnerabilityAudit(ctx
 
 	var response DeleteVulnerabilityAuditResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "DeleteVulnerabilityAudit")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1109,7 +1109,7 @@ func (client ApplicationDependencyManagementClient) getKnowledgeBase(ctx context
 
 	var response GetKnowledgeBaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "GetKnowledgeBase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1167,7 +1167,7 @@ func (client ApplicationDependencyManagementClient) getRemediationRecipe(ctx con
 
 	var response GetRemediationRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "GetRemediationRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1225,7 +1225,7 @@ func (client ApplicationDependencyManagementClient) getRemediationRun(ctx contex
 
 	var response GetRemediationRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "GetRemediationRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1283,7 +1283,7 @@ func (client ApplicationDependencyManagementClient) getStage(ctx context.Context
 
 	var response GetStageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "GetStage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1341,7 +1341,7 @@ func (client ApplicationDependencyManagementClient) getVulnerabilityAudit(ctx co
 
 	var response GetVulnerabilityAuditResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "GetVulnerabilityAudit")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1399,7 +1399,7 @@ func (client ApplicationDependencyManagementClient) getWorkRequest(ctx context.C
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1457,7 +1457,7 @@ func (client ApplicationDependencyManagementClient) listApplicationDependencyRec
 
 	var response ListApplicationDependencyRecommendationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "ListApplicationDependencyRecommendations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1515,7 +1515,7 @@ func (client ApplicationDependencyManagementClient) listApplicationDependencyVul
 
 	var response ListApplicationDependencyVulnerabilitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "ListApplicationDependencyVulnerabilities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1574,7 +1574,7 @@ func (client ApplicationDependencyManagementClient) listKnowledgeBases(ctx conte
 
 	var response ListKnowledgeBasesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "ListKnowledgeBases")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1633,7 +1633,7 @@ func (client ApplicationDependencyManagementClient) listRemediationRecipes(ctx c
 
 	var response ListRemediationRecipesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "ListRemediationRecipes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1692,7 +1692,7 @@ func (client ApplicationDependencyManagementClient) listRemediationRuns(ctx cont
 
 	var response ListRemediationRunsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "ListRemediationRuns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1750,7 +1750,7 @@ func (client ApplicationDependencyManagementClient) listStages(ctx context.Conte
 
 	var response ListStagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "ListStages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1808,7 +1808,7 @@ func (client ApplicationDependencyManagementClient) listVulnerabilities(ctx cont
 
 	var response ListVulnerabilitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "ListVulnerabilities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1867,7 +1867,7 @@ func (client ApplicationDependencyManagementClient) listVulnerabilityAudits(ctx 
 
 	var response ListVulnerabilityAuditsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "ListVulnerabilityAudits")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1925,7 +1925,7 @@ func (client ApplicationDependencyManagementClient) listWorkRequestErrors(ctx co
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1983,7 +1983,7 @@ func (client ApplicationDependencyManagementClient) listWorkRequestLogs(ctx cont
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2041,7 +2041,7 @@ func (client ApplicationDependencyManagementClient) listWorkRequests(ctx context
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2099,7 +2099,7 @@ func (client ApplicationDependencyManagementClient) updateKnowledgeBase(ctx cont
 
 	var response UpdateKnowledgeBaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "UpdateKnowledgeBase")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2157,7 +2157,7 @@ func (client ApplicationDependencyManagementClient) updateRemediationRecipe(ctx 
 
 	var response UpdateRemediationRecipeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "UpdateRemediationRecipe")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2215,7 +2215,7 @@ func (client ApplicationDependencyManagementClient) updateRemediationRun(ctx con
 
 	var response UpdateRemediationRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "UpdateRemediationRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2273,7 +2273,7 @@ func (client ApplicationDependencyManagementClient) updateVulnerabilityAudit(ctx
 
 	var response UpdateVulnerabilityAuditResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "applicationDependencyManagement", "UpdateVulnerabilityAudit")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

@@ -136,7 +136,7 @@ func (client UsagelimitsClient) listUsageLimits(ctx context.Context, request com
 
 	var response ListUsageLimitsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "usagelimits", "ListUsageLimits")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

@@ -141,7 +141,7 @@ func (client RedisIdentityClient) createIdentityToken(ctx context.Context, reque
 
 	var response CreateIdentityTokenResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "redisIdentity", "CreateIdentityToken")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

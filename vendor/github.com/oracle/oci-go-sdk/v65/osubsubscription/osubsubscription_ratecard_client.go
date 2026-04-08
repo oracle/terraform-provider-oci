@@ -136,7 +136,7 @@ func (client RatecardClient) listRateCards(ctx context.Context, request common.O
 
 	var response ListRateCardsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "ratecard", "ListRateCards")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

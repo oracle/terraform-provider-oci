@@ -141,7 +141,7 @@ func (client LimitsClient) getResourceAvailability(ctx context.Context, request 
 
 	var response GetResourceAvailabilityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "limits", "GetResourceAvailability")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -201,7 +201,7 @@ func (client LimitsClient) listLimitDefinitions(ctx context.Context, request com
 
 	var response ListLimitDefinitionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "limits", "ListLimitDefinitions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -260,7 +260,7 @@ func (client LimitsClient) listLimitValues(ctx context.Context, request common.O
 
 	var response ListLimitValuesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "limits", "ListLimitValues")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -319,7 +319,7 @@ func (client LimitsClient) listServices(ctx context.Context, request common.OCIR
 
 	var response ListServicesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "limits", "ListServices")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

@@ -80,6 +80,9 @@ type VmWareAssetSource struct {
 
 	// The current state of the asset source.
 	LifecycleState AssetSourceLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// Specifies if this is the Source or Destination point for migration - different assets may be discovered depending on setting.
+	EnvironmentType EnvironmentTypeEnum `mandatory:"false" json:"environmentType,omitempty"`
 }
 
 // GetId returns Id
@@ -152,6 +155,11 @@ func (m VmWareAssetSource) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
+// GetEnvironmentType returns EnvironmentType
+func (m VmWareAssetSource) GetEnvironmentType() EnvironmentTypeEnum {
+	return m.EnvironmentType
+}
+
 func (m VmWareAssetSource) String() string {
 	return common.PointerString(m)
 }
@@ -164,6 +172,9 @@ func (m VmWareAssetSource) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingAssetSourceLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAssetSourceLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingEnvironmentTypeEnum(string(m.EnvironmentType)); !ok && m.EnvironmentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnvironmentType: %s. Supported values are: %s.", m.EnvironmentType, strings.Join(GetEnvironmentTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

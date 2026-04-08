@@ -29,6 +29,12 @@ type AvailableSoftwareSourceSummary struct {
 
 	// User-friendly name for the software source.
 	DisplayName *string `mandatory:"true" json:"displayName"`
+
+	// Type of the software source.
+	SoftwareSourceType SoftwareSourceTypeEnum `mandatory:"true" json:"softwareSourceType"`
+
+	// Software source description.
+	Description *string `mandatory:"false" json:"description"`
 }
 
 func (m AvailableSoftwareSourceSummary) String() string {
@@ -40,6 +46,9 @@ func (m AvailableSoftwareSourceSummary) String() string {
 // Not recommended for calling this function directly
 func (m AvailableSoftwareSourceSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingSoftwareSourceTypeEnum(string(m.SoftwareSourceType)); !ok && m.SoftwareSourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SoftwareSourceType: %s. Supported values are: %s.", m.SoftwareSourceType, strings.Join(GetSoftwareSourceTypeEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

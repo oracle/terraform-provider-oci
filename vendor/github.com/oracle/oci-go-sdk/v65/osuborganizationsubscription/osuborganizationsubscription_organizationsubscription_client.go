@@ -135,7 +135,7 @@ func (client OrganizationSubscriptionClient) listOrganizationSubscriptions(ctx c
 
 	var response ListOrganizationSubscriptionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "organizationSubscription", "ListOrganizationSubscriptions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

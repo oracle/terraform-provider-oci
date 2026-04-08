@@ -135,7 +135,7 @@ func (client InvoiceSummaryClient) listInvoicelineComputedUsages(ctx context.Con
 
 	var response ListInvoicelineComputedUsagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "invoiceSummary", "ListInvoicelineComputedUsages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -192,7 +192,7 @@ func (client InvoiceSummaryClient) listInvoices(ctx context.Context, request com
 
 	var response ListInvoicesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "invoiceSummary", "ListInvoices")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

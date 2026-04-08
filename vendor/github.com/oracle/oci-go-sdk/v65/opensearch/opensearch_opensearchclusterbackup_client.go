@@ -135,7 +135,7 @@ func (client OpensearchClusterBackupClient) deleteOpensearchClusterBackup(ctx co
 
 	var response DeleteOpensearchClusterBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchClusterBackup", "DeleteOpensearchClusterBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -192,7 +192,7 @@ func (client OpensearchClusterBackupClient) getOpensearchClusterBackup(ctx conte
 
 	var response GetOpensearchClusterBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchClusterBackup", "GetOpensearchClusterBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -249,7 +249,7 @@ func (client OpensearchClusterBackupClient) listOpensearchClusterBackups(ctx con
 
 	var response ListOpensearchClusterBackupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchClusterBackup", "ListOpensearchClusterBackups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -306,7 +306,7 @@ func (client OpensearchClusterBackupClient) updateOpensearchClusterBackup(ctx co
 
 	var response UpdateOpensearchClusterBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchClusterBackup", "UpdateOpensearchClusterBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

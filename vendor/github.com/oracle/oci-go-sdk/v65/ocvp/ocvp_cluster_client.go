@@ -145,7 +145,7 @@ func (client ClusterClient) createCluster(ctx context.Context, request common.OC
 
 	var response CreateClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cluster", "CreateCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -207,7 +207,7 @@ func (client ClusterClient) deleteCluster(ctx context.Context, request common.OC
 
 	var response DeleteClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cluster", "DeleteCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -265,7 +265,7 @@ func (client ClusterClient) getCluster(ctx context.Context, request common.OCIRe
 
 	var response GetClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cluster", "GetCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -323,7 +323,7 @@ func (client ClusterClient) listClusters(ctx context.Context, request common.OCI
 
 	var response ListClustersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cluster", "ListClusters")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -384,7 +384,7 @@ func (client ClusterClient) updateCluster(ctx context.Context, request common.OC
 
 	var response UpdateClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cluster", "UpdateCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

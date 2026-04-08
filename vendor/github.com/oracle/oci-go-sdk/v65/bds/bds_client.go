@@ -140,7 +140,7 @@ func (client BdsClient) activateBdsMetastoreConfiguration(ctx context.Context, r
 
 	var response ActivateBdsMetastoreConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ActivateBdsMetastoreConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -202,7 +202,7 @@ func (client BdsClient) activateIamUserSyncConfiguration(ctx context.Context, re
 
 	var response ActivateIamUserSyncConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ActivateIamUserSyncConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -264,7 +264,7 @@ func (client BdsClient) activateUpstConfiguration(ctx context.Context, request c
 
 	var response ActivateUpstConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ActivateUpstConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -326,7 +326,7 @@ func (client BdsClient) addAutoScalingConfiguration(ctx context.Context, request
 
 	var response AddAutoScalingConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "AddAutoScalingConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -388,7 +388,7 @@ func (client BdsClient) addBlockStorage(ctx context.Context, request common.OCIR
 
 	var response AddBlockStorageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "AddBlockStorage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -450,7 +450,7 @@ func (client BdsClient) addCloudSql(ctx context.Context, request common.OCIReque
 
 	var response AddCloudSqlResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "AddCloudSql")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -512,7 +512,7 @@ func (client BdsClient) addKafka(ctx context.Context, request common.OCIRequest,
 
 	var response AddKafkaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "AddKafka")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -574,7 +574,7 @@ func (client BdsClient) addMasterNodes(ctx context.Context, request common.OCIRe
 
 	var response AddMasterNodesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "AddMasterNodes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -636,7 +636,7 @@ func (client BdsClient) addUtilityNodes(ctx context.Context, request common.OCIR
 
 	var response AddUtilityNodesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "AddUtilityNodes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -698,7 +698,7 @@ func (client BdsClient) addWorkerNodes(ctx context.Context, request common.OCIRe
 
 	var response AddWorkerNodesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "AddWorkerNodes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -760,7 +760,7 @@ func (client BdsClient) backupNode(ctx context.Context, request common.OCIReques
 
 	var response BackupNodeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "BackupNode")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -822,7 +822,7 @@ func (client BdsClient) bdsInstanceResetPassword(ctx context.Context, request co
 
 	var response BdsInstanceResetPasswordResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "BdsInstanceResetPassword")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -884,7 +884,7 @@ func (client BdsClient) certificateServiceInfo(ctx context.Context, request comm
 
 	var response CertificateServiceInfoResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "CertificateServiceInfo")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -946,7 +946,7 @@ func (client BdsClient) changeBdsInstanceCompartment(ctx context.Context, reques
 
 	var response ChangeBdsInstanceCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ChangeBdsInstanceCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1008,7 +1008,7 @@ func (client BdsClient) changeShape(ctx context.Context, request common.OCIReque
 
 	var response ChangeShapeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ChangeShape")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1070,7 +1070,7 @@ func (client BdsClient) createBdsApiKey(ctx context.Context, request common.OCIR
 
 	var response CreateBdsApiKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "CreateBdsApiKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1132,7 +1132,7 @@ func (client BdsClient) createBdsCapacityReport(ctx context.Context, request com
 
 	var response CreateBdsCapacityReportResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "CreateBdsCapacityReport")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1194,7 +1194,7 @@ func (client BdsClient) createBdsCertificateConfiguration(ctx context.Context, r
 
 	var response CreateBdsCertificateConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "CreateBdsCertificateConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1256,7 +1256,7 @@ func (client BdsClient) createBdsInstance(ctx context.Context, request common.OC
 
 	var response CreateBdsInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "CreateBdsInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1318,7 +1318,7 @@ func (client BdsClient) createBdsMetastoreConfiguration(ctx context.Context, req
 
 	var response CreateBdsMetastoreConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "CreateBdsMetastoreConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1380,7 +1380,7 @@ func (client BdsClient) createIdentityConfiguration(ctx context.Context, request
 
 	var response CreateIdentityConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "CreateIdentityConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1442,7 +1442,7 @@ func (client BdsClient) createNodeBackupConfiguration(ctx context.Context, reque
 
 	var response CreateNodeBackupConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "CreateNodeBackupConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1504,7 +1504,7 @@ func (client BdsClient) createNodeReplaceConfiguration(ctx context.Context, requ
 
 	var response CreateNodeReplaceConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "CreateNodeReplaceConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1566,7 +1566,7 @@ func (client BdsClient) createResourcePrincipalConfiguration(ctx context.Context
 
 	var response CreateResourcePrincipalConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "CreateResourcePrincipalConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1628,7 +1628,7 @@ func (client BdsClient) deactivateIamUserSyncConfiguration(ctx context.Context, 
 
 	var response DeactivateIamUserSyncConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "DeactivateIamUserSyncConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1690,7 +1690,7 @@ func (client BdsClient) deactivateUpstConfiguration(ctx context.Context, request
 
 	var response DeactivateUpstConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "DeactivateUpstConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1747,7 +1747,7 @@ func (client BdsClient) deleteBdsApiKey(ctx context.Context, request common.OCIR
 
 	var response DeleteBdsApiKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "DeleteBdsApiKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1809,7 +1809,7 @@ func (client BdsClient) deleteBdsCertificateConfiguration(ctx context.Context, r
 
 	var response DeleteBdsCertificateConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "DeleteBdsCertificateConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1866,7 +1866,7 @@ func (client BdsClient) deleteBdsInstance(ctx context.Context, request common.OC
 
 	var response DeleteBdsInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "DeleteBdsInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1923,7 +1923,7 @@ func (client BdsClient) deleteBdsMetastoreConfiguration(ctx context.Context, req
 
 	var response DeleteBdsMetastoreConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "DeleteBdsMetastoreConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1980,7 +1980,7 @@ func (client BdsClient) deleteIdentityConfiguration(ctx context.Context, request
 
 	var response DeleteIdentityConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "DeleteIdentityConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2037,7 +2037,7 @@ func (client BdsClient) deleteNodeBackup(ctx context.Context, request common.OCI
 
 	var response DeleteNodeBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "DeleteNodeBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2094,7 +2094,7 @@ func (client BdsClient) deleteNodeBackupConfiguration(ctx context.Context, reque
 
 	var response DeleteNodeBackupConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "DeleteNodeBackupConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2156,7 +2156,7 @@ func (client BdsClient) disableCertificate(ctx context.Context, request common.O
 
 	var response DisableCertificateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "DisableCertificate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2218,7 +2218,7 @@ func (client BdsClient) enableCertificate(ctx context.Context, request common.OC
 
 	var response EnableCertificateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "EnableCertificate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2280,7 +2280,7 @@ func (client BdsClient) executeBootstrapScript(ctx context.Context, request comm
 
 	var response ExecuteBootstrapScriptResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ExecuteBootstrapScript")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2342,7 +2342,7 @@ func (client BdsClient) forceRefreshResourcePrincipal(ctx context.Context, reque
 
 	var response ForceRefreshResourcePrincipalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ForceRefreshResourcePrincipal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2404,7 +2404,7 @@ func (client BdsClient) generateBdsCertificate(ctx context.Context, request comm
 
 	var response GenerateBdsCertificateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "GenerateBdsCertificate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2461,7 +2461,7 @@ func (client BdsClient) getAutoScalingConfiguration(ctx context.Context, request
 
 	var response GetAutoScalingConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "GetAutoScalingConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2518,7 +2518,7 @@ func (client BdsClient) getBdsApiKey(ctx context.Context, request common.OCIRequ
 
 	var response GetBdsApiKeyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "GetBdsApiKey")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2575,7 +2575,7 @@ func (client BdsClient) getBdsCertificateConfiguration(ctx context.Context, requ
 
 	var response GetBdsCertificateConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "GetBdsCertificateConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2632,7 +2632,7 @@ func (client BdsClient) getBdsInstance(ctx context.Context, request common.OCIRe
 
 	var response GetBdsInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "GetBdsInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2689,7 +2689,7 @@ func (client BdsClient) getBdsMetastoreConfiguration(ctx context.Context, reques
 
 	var response GetBdsMetastoreConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "GetBdsMetastoreConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2746,7 +2746,7 @@ func (client BdsClient) getIdentityConfiguration(ctx context.Context, request co
 
 	var response GetIdentityConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "GetIdentityConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2803,7 +2803,7 @@ func (client BdsClient) getNodeBackup(ctx context.Context, request common.OCIReq
 
 	var response GetNodeBackupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "GetNodeBackup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2860,7 +2860,7 @@ func (client BdsClient) getNodeBackupConfiguration(ctx context.Context, request 
 
 	var response GetNodeBackupConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "GetNodeBackupConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2917,7 +2917,7 @@ func (client BdsClient) getNodeReplaceConfiguration(ctx context.Context, request
 
 	var response GetNodeReplaceConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "GetNodeReplaceConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2979,7 +2979,7 @@ func (client BdsClient) getOsPatchDetails(ctx context.Context, request common.OC
 
 	var response GetOsPatchDetailsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "GetOsPatchDetails")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3036,7 +3036,7 @@ func (client BdsClient) getResourcePrincipalConfiguration(ctx context.Context, r
 
 	var response GetResourcePrincipalConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "GetResourcePrincipalConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3098,7 +3098,7 @@ func (client BdsClient) getSoftwareUpdate(ctx context.Context, request common.OC
 
 	var response GetSoftwareUpdateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "GetSoftwareUpdate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3155,7 +3155,7 @@ func (client BdsClient) getWorkRequest(ctx context.Context, request common.OCIRe
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3217,7 +3217,7 @@ func (client BdsClient) installOsPatch(ctx context.Context, request common.OCIRe
 
 	var response InstallOsPatchResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "InstallOsPatch")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3279,7 +3279,7 @@ func (client BdsClient) installPatch(ctx context.Context, request common.OCIRequ
 
 	var response InstallPatchResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "InstallPatch")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3341,7 +3341,7 @@ func (client BdsClient) installSoftwareUpdates(ctx context.Context, request comm
 
 	var response InstallSoftwareUpdatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "InstallSoftwareUpdates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3398,7 +3398,7 @@ func (client BdsClient) listAutoScalingConfigurations(ctx context.Context, reque
 
 	var response ListAutoScalingConfigurationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ListAutoScalingConfigurations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3455,7 +3455,7 @@ func (client BdsClient) listBdsApiKeys(ctx context.Context, request common.OCIRe
 
 	var response ListBdsApiKeysResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ListBdsApiKeys")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3512,7 +3512,7 @@ func (client BdsClient) listBdsCertificateConfigurations(ctx context.Context, re
 
 	var response ListBdsCertificateConfigurationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ListBdsCertificateConfigurations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3569,7 +3569,7 @@ func (client BdsClient) listBdsClusterVersions(ctx context.Context, request comm
 
 	var response ListBdsClusterVersionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ListBdsClusterVersions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3626,7 +3626,7 @@ func (client BdsClient) listBdsInstances(ctx context.Context, request common.OCI
 
 	var response ListBdsInstancesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ListBdsInstances")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3683,7 +3683,7 @@ func (client BdsClient) listBdsMetastoreConfigurations(ctx context.Context, requ
 
 	var response ListBdsMetastoreConfigurationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ListBdsMetastoreConfigurations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3740,7 +3740,7 @@ func (client BdsClient) listIdentityConfigurations(ctx context.Context, request 
 
 	var response ListIdentityConfigurationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ListIdentityConfigurations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3797,7 +3797,7 @@ func (client BdsClient) listNodeBackupConfigurations(ctx context.Context, reques
 
 	var response ListNodeBackupConfigurationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ListNodeBackupConfigurations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3854,7 +3854,7 @@ func (client BdsClient) listNodeBackups(ctx context.Context, request common.OCIR
 
 	var response ListNodeBackupsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ListNodeBackups")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3911,7 +3911,7 @@ func (client BdsClient) listNodeReplaceConfigurations(ctx context.Context, reque
 
 	var response ListNodeReplaceConfigurationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ListNodeReplaceConfigurations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3973,7 +3973,7 @@ func (client BdsClient) listOsPatches(ctx context.Context, request common.OCIReq
 
 	var response ListOsPatchesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ListOsPatches")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4030,7 +4030,7 @@ func (client BdsClient) listPatchHistories(ctx context.Context, request common.O
 
 	var response ListPatchHistoriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ListPatchHistories")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4087,7 +4087,7 @@ func (client BdsClient) listPatches(ctx context.Context, request common.OCIReque
 
 	var response ListPatchesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ListPatches")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4144,7 +4144,7 @@ func (client BdsClient) listResourcePrincipalConfigurations(ctx context.Context,
 
 	var response ListResourcePrincipalConfigurationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ListResourcePrincipalConfigurations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4206,7 +4206,7 @@ func (client BdsClient) listSoftwareUpdates(ctx context.Context, request common.
 
 	var response ListSoftwareUpdatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ListSoftwareUpdates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4263,7 +4263,7 @@ func (client BdsClient) listWorkRequestErrors(ctx context.Context, request commo
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4320,7 +4320,7 @@ func (client BdsClient) listWorkRequestLogs(ctx context.Context, request common.
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4377,7 +4377,7 @@ func (client BdsClient) listWorkRequests(ctx context.Context, request common.OCI
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4439,7 +4439,7 @@ func (client BdsClient) refreshConfidentialApplication(ctx context.Context, requ
 
 	var response RefreshConfidentialApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "RefreshConfidentialApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4501,7 +4501,7 @@ func (client BdsClient) refreshUpstTokenExchangeKeytab(ctx context.Context, requ
 
 	var response RefreshUpstTokenExchangeKeytabResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "RefreshUpstTokenExchangeKeytab")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4563,7 +4563,7 @@ func (client BdsClient) removeAutoScalingConfiguration(ctx context.Context, requ
 
 	var response RemoveAutoScalingConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "RemoveAutoScalingConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4625,7 +4625,7 @@ func (client BdsClient) removeCloudSql(ctx context.Context, request common.OCIRe
 
 	var response RemoveCloudSqlResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "RemoveCloudSql")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4687,7 +4687,7 @@ func (client BdsClient) removeKafka(ctx context.Context, request common.OCIReque
 
 	var response RemoveKafkaResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "RemoveKafka")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4744,7 +4744,7 @@ func (client BdsClient) removeNode(ctx context.Context, request common.OCIReques
 
 	var response RemoveNodeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "RemoveNode")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4806,7 +4806,7 @@ func (client BdsClient) removeNodeReplaceConfiguration(ctx context.Context, requ
 
 	var response RemoveNodeReplaceConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "RemoveNodeReplaceConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4868,7 +4868,7 @@ func (client BdsClient) removeNodes(ctx context.Context, request common.OCIReque
 
 	var response RemoveNodesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "RemoveNodes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4925,7 +4925,7 @@ func (client BdsClient) removeResourcePrincipalConfiguration(ctx context.Context
 
 	var response RemoveResourcePrincipalConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "RemoveResourcePrincipalConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4987,7 +4987,7 @@ func (client BdsClient) renewBdsCertificate(ctx context.Context, request common.
 
 	var response RenewBdsCertificateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "RenewBdsCertificate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5049,7 +5049,7 @@ func (client BdsClient) renewCertificate(ctx context.Context, request common.OCI
 
 	var response RenewCertificateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "RenewCertificate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5111,7 +5111,7 @@ func (client BdsClient) replaceNode(ctx context.Context, request common.OCIReque
 
 	var response ReplaceNodeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "ReplaceNode")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5173,7 +5173,7 @@ func (client BdsClient) restartNode(ctx context.Context, request common.OCIReque
 
 	var response RestartNodeResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "RestartNode")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5235,7 +5235,7 @@ func (client BdsClient) setDefaultBdsCertificateConfiguration(ctx context.Contex
 
 	var response SetDefaultBdsCertificateConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "SetDefaultBdsCertificateConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5292,7 +5292,7 @@ func (client BdsClient) startBdsInstance(ctx context.Context, request common.OCI
 
 	var response StartBdsInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "StartBdsInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5349,7 +5349,7 @@ func (client BdsClient) stopBdsInstance(ctx context.Context, request common.OCIR
 
 	var response StopBdsInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "StopBdsInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5406,7 +5406,7 @@ func (client BdsClient) testBdsMetastoreConfiguration(ctx context.Context, reque
 
 	var response TestBdsMetastoreConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "TestBdsMetastoreConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5463,7 +5463,7 @@ func (client BdsClient) testBdsObjectStorageConnection(ctx context.Context, requ
 
 	var response TestBdsObjectStorageConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "TestBdsObjectStorageConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5525,7 +5525,7 @@ func (client BdsClient) updateAutoScalingConfiguration(ctx context.Context, requ
 
 	var response UpdateAutoScalingConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "UpdateAutoScalingConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5582,7 +5582,7 @@ func (client BdsClient) updateBdsInstance(ctx context.Context, request common.OC
 
 	var response UpdateBdsInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "UpdateBdsInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5639,7 +5639,7 @@ func (client BdsClient) updateBdsMetastoreConfiguration(ctx context.Context, req
 
 	var response UpdateBdsMetastoreConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "UpdateBdsMetastoreConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5701,7 +5701,7 @@ func (client BdsClient) updateIdentityConfiguration(ctx context.Context, request
 
 	var response UpdateIdentityConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "UpdateIdentityConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5763,7 +5763,7 @@ func (client BdsClient) updateNodeBackupConfiguration(ctx context.Context, reque
 
 	var response UpdateNodeBackupConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "UpdateNodeBackupConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5825,7 +5825,7 @@ func (client BdsClient) updateNodeReplaceConfiguration(ctx context.Context, requ
 
 	var response UpdateNodeReplaceConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "UpdateNodeReplaceConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5887,7 +5887,7 @@ func (client BdsClient) updateResourcePrincipalConfiguration(ctx context.Context
 
 	var response UpdateResourcePrincipalConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "bds", "UpdateResourcePrincipalConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

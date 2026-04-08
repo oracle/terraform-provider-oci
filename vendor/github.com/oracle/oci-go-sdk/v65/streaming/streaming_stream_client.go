@@ -123,7 +123,7 @@ func (client StreamClient) consumerCommit(ctx context.Context, request common.OC
 
 	var response ConsumerCommitResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stream", "ConsumerCommit")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -181,7 +181,7 @@ func (client StreamClient) consumerHeartbeat(ctx context.Context, request common
 
 	var response ConsumerHeartbeatResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stream", "ConsumerHeartbeat")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -243,7 +243,7 @@ func (client StreamClient) createCursor(ctx context.Context, request common.OCIR
 
 	var response CreateCursorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stream", "CreateCursor")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -301,7 +301,7 @@ func (client StreamClient) createGroupCursor(ctx context.Context, request common
 
 	var response CreateGroupCursorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stream", "CreateGroupCursor")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -359,7 +359,7 @@ func (client StreamClient) getGroup(ctx context.Context, request common.OCIReque
 
 	var response GetGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stream", "GetGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -419,7 +419,7 @@ func (client StreamClient) getMessages(ctx context.Context, request common.OCIRe
 
 	var response GetMessagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stream", "GetMessages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -489,7 +489,7 @@ func (client StreamClient) putMessages(ctx context.Context, request common.OCIRe
 	}
 
 	//Execute the request with a custom signer
-	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner, ServiceName: "stream", OperationName: "PutMessages"})
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -547,7 +547,7 @@ func (client StreamClient) updateGroup(ctx context.Context, request common.OCIRe
 
 	var response UpdateGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stream", "UpdateGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

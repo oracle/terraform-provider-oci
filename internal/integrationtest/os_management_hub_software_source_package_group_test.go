@@ -25,8 +25,8 @@ var (
 		"software_source_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id}`},
 		"compartment_id":     acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"group_type":         acctest.Representation{RepType: acctest.Optional, Create: []string{`GROUP`}},
-		"name":               acctest.Representation{RepType: acctest.Optional, Create: `Base`},
-		"name_contains":      acctest.Representation{RepType: acctest.Optional, Create: `Base`},
+		"name":               acctest.Representation{RepType: acctest.Optional, Create: `base`},
+		"name_contains":      acctest.Representation{RepType: acctest.Optional, Create: `base`},
 	}
 )
 
@@ -52,8 +52,8 @@ func TestOsManagementHubSoftwareSourcePackageGroupResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "group_type.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "name", "Base"),
-				resource.TestCheckResourceAttr(datasourceName, "name_contains", "Base"),
+				resource.TestCheckResourceAttr(datasourceName, "name", "base"),
+				resource.TestCheckResourceAttr(datasourceName, "name_contains", "base"),
 				resource.TestCheckResourceAttrSet(datasourceName, "software_source_id"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "package_group_collection.#"),

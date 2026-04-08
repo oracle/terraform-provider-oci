@@ -275,6 +275,18 @@ var exportOsManagementHubWorkRequestRerunManagementHints = &tf_export.TerraformR
 	ResourceAbbreviation: "work_request_rerun_management",
 }
 
+var exportOsManagementHubDynamicSetHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_os_management_hub_dynamic_set",
+	DatasourceClass:        "oci_os_management_hub_dynamic_sets",
+	DatasourceItemsAttr:    "dynamic_set_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "dynamic_set",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_os_management_hub.DynamicSetLifecycleStateActive),
+	},
+}
+
 var osManagementHubResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOsManagementHubManagedInstanceHints},
@@ -285,5 +297,6 @@ var osManagementHubResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportOsManagementHubManagementStationHints},
 		{TerraformResourceHints: exportOsManagementHubSoftwareSourceHints},
 		{TerraformResourceHints: exportOsManagementHubEventHints},
+		{TerraformResourceHints: exportOsManagementHubDynamicSetHints},
 	},
 }

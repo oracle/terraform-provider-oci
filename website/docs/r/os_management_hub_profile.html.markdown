@@ -45,21 +45,21 @@ resource "oci_os_management_hub_profile" "test_profile" {
 
 The following arguments are supported:
 
-* `arch_type` - (Required when profile_type=SOFTWARESOURCE | STATION | WINDOWS_STANDALONE) The architecture type.
+* `arch_type` - (Required when profile_type=SOFTWARESOURCE | STATION | UBUNTU_STANDALONE | WINDOWS_STANDALONE) The architecture type.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the registration profile.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) User-specified description of the registration profile.
-* `display_name` - (Required) (Updatable) A user-friendly name. Does not have to be unique and you can change the name later. Avoid entering  confidential information. 
+* `display_name` - (Required) (Updatable) A user-friendly name. Must be unique and you can change the name later. Avoid entering  confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `is_default_profile` - (Optional) (Updatable) Indicates if the profile is set as the default. There is exactly one default profile for a specified architecture, OS family, registration type, and vendor. When registering an instance with the corresonding characteristics, the default profile is used, unless another profile is specified. 
 * `lifecycle_stage_id` - (Required when profile_type=LIFECYCLE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle stage that the instance will be associated with.
 * `managed_instance_group_id` - (Required when profile_type=GROUP) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group that the instance will join after registration.
-* `management_station_id` - (Optional) description: The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate  with an instance once registered. This is required when creating a profile for non-OCI instances. 
-* `os_family` - (Required when profile_type=SOFTWARESOURCE | STATION | WINDOWS_STANDALONE) The operating system family.
+* `management_station_id` - (Optional) description: The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate  with an instance once registered. This is used when creating a profile for non-OCI instances. 
+* `os_family` - (Required when profile_type=SOFTWARESOURCE | STATION | UBUNTU_STANDALONE | WINDOWS_STANDALONE) The operating system family.
 * `profile_type` - (Required) The type of profile.
 * `registration_type` - (Optional) The type of instance to register.
-* `software_source_ids` - (Applicable when profile_type=SOFTWARESOURCE) The list of software source [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that the registration profile will use.
-* `vendor_name` - (Required when profile_type=SOFTWARESOURCE | STATION | WINDOWS_STANDALONE) The vendor of the operating system for the instance.
+* `software_source_ids` - (Required when profile_type=SOFTWARESOURCE) The list of software source [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that the registration profile will use.
+* `vendor_name` - (Required when profile_type=SOFTWARESOURCE | STATION | UBUNTU_STANDALONE | WINDOWS_STANDALONE) The vendor of the operating system for the instance.
 
 
 ** IMPORTANT **

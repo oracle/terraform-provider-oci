@@ -1983,7 +1983,13 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 				}
 			}
 
-			err := s.D.Set("create_vnic_details", []interface{}{CreateVnicDetailsToMap(vnic, createVnicDetails, false)})
+			ipv6AddressIpv6SubnetCidrPairDetailsExplicitlyConfigured := isIpv6PairDetailsExplicitlyConfigured(s.D, createVnicDetails)
+			createVnicDetailsToSet := CreateVnicDetailsToMap(vnic, createVnicDetails, false)
+			if !ipv6AddressIpv6SubnetCidrPairDetailsExplicitlyConfigured {
+				createVnicDetailsToSet["ipv6address_ipv6subnet_cidr_pair_details"] = deriveIpv6PairDetailsFromVnic(vnic, s.VirtualNetworkClient, s.DisableNotFoundRetries)
+			}
+
+			err := s.D.Set("create_vnic_details", []interface{}{createVnicDetailsToSet})
 			if err != nil {
 				log.Printf("[WARN] create_vnic_details could not be set: %q", err)
 			}
@@ -2144,11 +2150,13 @@ func CreateVnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]int
 	}
 
 	if createVnicDetails != nil {
-		ipv6AddressIpv6SubnetCidrPairDetails := []interface{}{}
-		for _, item := range createVnicDetails["ipv6address_ipv6subnet_cidr_pair_details"].([]interface{}) {
-			ipv6AddressIpv6SubnetCidrPairDetails = append(ipv6AddressIpv6SubnetCidrPairDetails, item)
+		if ipv6AddressIpv6SubnetCidrPairDetails, ok := createVnicDetails["ipv6address_ipv6subnet_cidr_pair_details"]; ok {
+			if interfaces, ok := ipv6AddressIpv6SubnetCidrPairDetails.([]interface{}); ok {
+				tmp := make([]interface{}, len(interfaces))
+				copy(tmp, interfaces)
+				result["ipv6address_ipv6subnet_cidr_pair_details"] = tmp
+			}
 		}
-		result["ipv6address_ipv6subnet_cidr_pair_details"] = ipv6AddressIpv6SubnetCidrPairDetails
 	}
 
 	nsgIds := []interface{}{}

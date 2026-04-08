@@ -136,7 +136,7 @@ func (client AnnouncementSubscriptionClient) changeAnnouncementSubscriptionCompa
 
 	var response ChangeAnnouncementSubscriptionCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "announcementSubscription", "ChangeAnnouncementSubscriptionCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -199,7 +199,7 @@ func (client AnnouncementSubscriptionClient) createAnnouncementSubscription(ctx 
 
 	var response CreateAnnouncementSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "announcementSubscription", "CreateAnnouncementSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -262,7 +262,7 @@ func (client AnnouncementSubscriptionClient) createFilterGroup(ctx context.Conte
 
 	var response CreateFilterGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "announcementSubscription", "CreateFilterGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -320,7 +320,7 @@ func (client AnnouncementSubscriptionClient) deleteAnnouncementSubscription(ctx 
 
 	var response DeleteAnnouncementSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "announcementSubscription", "DeleteAnnouncementSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -378,7 +378,7 @@ func (client AnnouncementSubscriptionClient) deleteFilterGroup(ctx context.Conte
 
 	var response DeleteFilterGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "announcementSubscription", "DeleteFilterGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -436,7 +436,7 @@ func (client AnnouncementSubscriptionClient) getAnnouncementSubscription(ctx con
 
 	var response GetAnnouncementSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "announcementSubscription", "GetAnnouncementSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -494,7 +494,7 @@ func (client AnnouncementSubscriptionClient) listAnnouncementSubscriptions(ctx c
 
 	var response ListAnnouncementSubscriptionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "announcementSubscription", "ListAnnouncementSubscriptions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -552,7 +552,7 @@ func (client AnnouncementSubscriptionClient) updateAnnouncementSubscription(ctx 
 
 	var response UpdateAnnouncementSubscriptionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "announcementSubscription", "UpdateAnnouncementSubscription")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -610,7 +610,7 @@ func (client AnnouncementSubscriptionClient) updateFilterGroup(ctx context.Conte
 
 	var response UpdateFilterGroupResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "announcementSubscription", "UpdateFilterGroup")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

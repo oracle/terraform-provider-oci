@@ -147,7 +147,7 @@ func (client ArtifactsClient) changeContainerRepositoryCompartment(ctx context.C
 
 	var response ChangeContainerRepositoryCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "ChangeContainerRepositoryCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -212,7 +212,7 @@ func (client ArtifactsClient) changeRepositoryCompartment(ctx context.Context, r
 
 	var response ChangeRepositoryCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "ChangeRepositoryCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -275,7 +275,7 @@ func (client ArtifactsClient) createContainerImageSignature(ctx context.Context,
 
 	var response CreateContainerImageSignatureResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "CreateContainerImageSignature")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -338,7 +338,7 @@ func (client ArtifactsClient) createContainerRepository(ctx context.Context, req
 
 	var response CreateContainerRepositoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "CreateContainerRepository")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -400,7 +400,7 @@ func (client ArtifactsClient) createRepository(ctx context.Context, request comm
 
 	var response CreateRepositoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "CreateRepository")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -458,7 +458,7 @@ func (client ArtifactsClient) deleteContainerImage(ctx context.Context, request 
 
 	var response DeleteContainerImageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "DeleteContainerImage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -516,7 +516,7 @@ func (client ArtifactsClient) deleteContainerImageSignature(ctx context.Context,
 
 	var response DeleteContainerImageSignatureResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "DeleteContainerImageSignature")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -574,7 +574,7 @@ func (client ArtifactsClient) deleteContainerRepository(ctx context.Context, req
 
 	var response DeleteContainerRepositoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "DeleteContainerRepository")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -632,7 +632,7 @@ func (client ArtifactsClient) deleteGenericArtifact(ctx context.Context, request
 
 	var response DeleteGenericArtifactResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "DeleteGenericArtifact")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -690,7 +690,7 @@ func (client ArtifactsClient) deleteGenericArtifactByPath(ctx context.Context, r
 
 	var response DeleteGenericArtifactByPathResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "DeleteGenericArtifactByPath")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -748,7 +748,7 @@ func (client ArtifactsClient) deleteRepository(ctx context.Context, request comm
 
 	var response DeleteRepositoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "DeleteRepository")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -806,7 +806,7 @@ func (client ArtifactsClient) getContainerConfiguration(ctx context.Context, req
 
 	var response GetContainerConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "GetContainerConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -864,7 +864,7 @@ func (client ArtifactsClient) getContainerImage(ctx context.Context, request com
 
 	var response GetContainerImageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "GetContainerImage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -922,7 +922,7 @@ func (client ArtifactsClient) getContainerImageSignature(ctx context.Context, re
 
 	var response GetContainerImageSignatureResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "GetContainerImageSignature")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -980,7 +980,7 @@ func (client ArtifactsClient) getContainerRepository(ctx context.Context, reques
 
 	var response GetContainerRepositoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "GetContainerRepository")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1038,7 +1038,7 @@ func (client ArtifactsClient) getGenericArtifact(ctx context.Context, request co
 
 	var response GetGenericArtifactResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "GetGenericArtifact")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1096,7 +1096,7 @@ func (client ArtifactsClient) getGenericArtifactByPath(ctx context.Context, requ
 
 	var response GetGenericArtifactByPathResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "GetGenericArtifactByPath")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1154,7 +1154,7 @@ func (client ArtifactsClient) getRepository(ctx context.Context, request common.
 
 	var response GetRepositoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "GetRepository")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1212,7 +1212,7 @@ func (client ArtifactsClient) listContainerImageSignatures(ctx context.Context, 
 
 	var response ListContainerImageSignaturesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "ListContainerImageSignatures")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1270,7 +1270,7 @@ func (client ArtifactsClient) listContainerImages(ctx context.Context, request c
 
 	var response ListContainerImagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "ListContainerImages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1328,7 +1328,7 @@ func (client ArtifactsClient) listContainerRepositories(ctx context.Context, req
 
 	var response ListContainerRepositoriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "ListContainerRepositories")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1386,7 +1386,7 @@ func (client ArtifactsClient) listGenericArtifacts(ctx context.Context, request 
 
 	var response ListGenericArtifactsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "ListGenericArtifacts")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1444,7 +1444,7 @@ func (client ArtifactsClient) listRepositories(ctx context.Context, request comm
 
 	var response ListRepositoriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "ListRepositories")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1502,7 +1502,7 @@ func (client ArtifactsClient) lookupContainerImageByUri(ctx context.Context, req
 
 	var response LookupContainerImageByUriResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "LookupContainerImageByUri")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1565,7 +1565,7 @@ func (client ArtifactsClient) removeContainerVersion(ctx context.Context, reques
 
 	var response RemoveContainerVersionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "RemoveContainerVersion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1628,7 +1628,7 @@ func (client ArtifactsClient) restoreContainerImage(ctx context.Context, request
 
 	var response RestoreContainerImageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "RestoreContainerImage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1686,7 +1686,7 @@ func (client ArtifactsClient) updateContainerConfiguration(ctx context.Context, 
 
 	var response UpdateContainerConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "UpdateContainerConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1744,7 +1744,7 @@ func (client ArtifactsClient) updateContainerImage(ctx context.Context, request 
 
 	var response UpdateContainerImageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "UpdateContainerImage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1802,7 +1802,7 @@ func (client ArtifactsClient) updateContainerImageSignature(ctx context.Context,
 
 	var response UpdateContainerImageSignatureResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "UpdateContainerImageSignature")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1860,7 +1860,7 @@ func (client ArtifactsClient) updateContainerRepository(ctx context.Context, req
 
 	var response UpdateContainerRepositoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "UpdateContainerRepository")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1918,7 +1918,7 @@ func (client ArtifactsClient) updateGenericArtifact(ctx context.Context, request
 
 	var response UpdateGenericArtifactResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "UpdateGenericArtifact")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1976,7 +1976,7 @@ func (client ArtifactsClient) updateGenericArtifactByPath(ctx context.Context, r
 
 	var response UpdateGenericArtifactByPathResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "UpdateGenericArtifactByPath")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2034,7 +2034,7 @@ func (client ArtifactsClient) updateRepository(ctx context.Context, request comm
 
 	var response UpdateRepositoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "artifacts", "UpdateRepository")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

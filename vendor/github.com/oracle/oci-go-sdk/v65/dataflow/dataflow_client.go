@@ -135,7 +135,7 @@ func (client DataFlowClient) cascadingDeleteApplication(ctx context.Context, req
 
 	var response CascadingDeleteApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "CascadingDeleteApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -198,7 +198,7 @@ func (client DataFlowClient) changeApplicationCompartment(ctx context.Context, r
 
 	var response ChangeApplicationCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "ChangeApplicationCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -264,7 +264,7 @@ func (client DataFlowClient) changePoolCompartment(ctx context.Context, request 
 
 	var response ChangePoolCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "ChangePoolCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -321,7 +321,7 @@ func (client DataFlowClient) changePrivateEndpointCompartment(ctx context.Contex
 
 	var response ChangePrivateEndpointCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "ChangePrivateEndpointCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -386,7 +386,7 @@ func (client DataFlowClient) changeRunCompartment(ctx context.Context, request c
 
 	var response ChangeRunCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "ChangeRunCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -448,7 +448,7 @@ func (client DataFlowClient) changeSqlEndpointCompartment(ctx context.Context, r
 
 	var response ChangeSqlEndpointCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "ChangeSqlEndpointCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -510,7 +510,7 @@ func (client DataFlowClient) createApplication(ctx context.Context, request comm
 
 	var response CreateApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "CreateApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -573,7 +573,7 @@ func (client DataFlowClient) createPool(ctx context.Context, request common.OCIR
 
 	var response CreatePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "CreatePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -635,7 +635,7 @@ func (client DataFlowClient) createPrivateEndpoint(ctx context.Context, request 
 
 	var response CreatePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "CreatePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -697,7 +697,7 @@ func (client DataFlowClient) createRun(ctx context.Context, request common.OCIRe
 
 	var response CreateRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "CreateRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -759,7 +759,7 @@ func (client DataFlowClient) createSqlEndpoint(ctx context.Context, request comm
 
 	var response CreateSqlEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "CreateSqlEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -816,7 +816,7 @@ func (client DataFlowClient) createStatement(ctx context.Context, request common
 
 	var response CreateStatementResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "CreateStatement")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -873,7 +873,7 @@ func (client DataFlowClient) deleteApplication(ctx context.Context, request comm
 
 	var response DeleteApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "DeleteApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -930,7 +930,7 @@ func (client DataFlowClient) deletePool(ctx context.Context, request common.OCIR
 
 	var response DeletePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "DeletePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -987,7 +987,7 @@ func (client DataFlowClient) deletePrivateEndpoint(ctx context.Context, request 
 
 	var response DeletePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "DeletePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1045,7 +1045,7 @@ func (client DataFlowClient) deleteRun(ctx context.Context, request common.OCIRe
 
 	var response DeleteRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "DeleteRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1102,7 +1102,7 @@ func (client DataFlowClient) deleteSqlEndpoint(ctx context.Context, request comm
 
 	var response DeleteSqlEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "DeleteSqlEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1160,7 +1160,7 @@ func (client DataFlowClient) deleteStatement(ctx context.Context, request common
 
 	var response DeleteStatementResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "DeleteStatement")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1218,7 +1218,7 @@ func (client DataFlowClient) getApplication(ctx context.Context, request common.
 
 	var response GetApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "GetApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1276,7 +1276,7 @@ func (client DataFlowClient) getPool(ctx context.Context, request common.OCIRequ
 
 	var response GetPoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "GetPool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1334,7 +1334,7 @@ func (client DataFlowClient) getPrivateEndpoint(ctx context.Context, request com
 
 	var response GetPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "GetPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1392,7 +1392,7 @@ func (client DataFlowClient) getRun(ctx context.Context, request common.OCIReque
 
 	var response GetRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "GetRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1450,7 +1450,7 @@ func (client DataFlowClient) getRunLog(ctx context.Context, request common.OCIRe
 
 	var response GetRunLogResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "GetRunLog")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Run/GetRunLog"
@@ -1507,7 +1507,7 @@ func (client DataFlowClient) getSqlEndpoint(ctx context.Context, request common.
 
 	var response GetSqlEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "GetSqlEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1565,7 +1565,7 @@ func (client DataFlowClient) getStatement(ctx context.Context, request common.OC
 
 	var response GetStatementResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "GetStatement")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1623,7 +1623,7 @@ func (client DataFlowClient) getWorkRequest(ctx context.Context, request common.
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1681,7 +1681,7 @@ func (client DataFlowClient) listApplications(ctx context.Context, request commo
 
 	var response ListApplicationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "ListApplications")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1739,7 +1739,7 @@ func (client DataFlowClient) listPools(ctx context.Context, request common.OCIRe
 
 	var response ListPoolsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "ListPools")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1797,7 +1797,7 @@ func (client DataFlowClient) listPrivateEndpoints(ctx context.Context, request c
 
 	var response ListPrivateEndpointsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "ListPrivateEndpoints")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1855,7 +1855,7 @@ func (client DataFlowClient) listRunLogs(ctx context.Context, request common.OCI
 
 	var response ListRunLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "ListRunLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1913,7 +1913,7 @@ func (client DataFlowClient) listRuns(ctx context.Context, request common.OCIReq
 
 	var response ListRunsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "ListRuns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1973,7 +1973,7 @@ func (client DataFlowClient) listSqlEndpoints(ctx context.Context, request commo
 
 	var response ListSqlEndpointsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "ListSqlEndpoints")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2031,7 +2031,7 @@ func (client DataFlowClient) listStatements(ctx context.Context, request common.
 
 	var response ListStatementsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "ListStatements")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2089,7 +2089,7 @@ func (client DataFlowClient) listWorkRequestErrors(ctx context.Context, request 
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2147,7 +2147,7 @@ func (client DataFlowClient) listWorkRequestLogs(ctx context.Context, request co
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2205,7 +2205,7 @@ func (client DataFlowClient) listWorkRequests(ctx context.Context, request commo
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2268,7 +2268,7 @@ func (client DataFlowClient) startPool(ctx context.Context, request common.OCIRe
 
 	var response StartPoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "StartPool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2331,7 +2331,7 @@ func (client DataFlowClient) startSqlEndpoint(ctx context.Context, request commo
 
 	var response StartSqlEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "StartSqlEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2394,7 +2394,7 @@ func (client DataFlowClient) stopPool(ctx context.Context, request common.OCIReq
 
 	var response StopPoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "StopPool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2457,7 +2457,7 @@ func (client DataFlowClient) stopSqlEndpoint(ctx context.Context, request common
 
 	var response StopSqlEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "StopSqlEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2514,7 +2514,7 @@ func (client DataFlowClient) updateApplication(ctx context.Context, request comm
 
 	var response UpdateApplicationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "UpdateApplication")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2573,7 +2573,7 @@ func (client DataFlowClient) updatePool(ctx context.Context, request common.OCIR
 
 	var response UpdatePoolResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "UpdatePool")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2632,7 +2632,7 @@ func (client DataFlowClient) updatePrivateEndpoint(ctx context.Context, request 
 
 	var response UpdatePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "UpdatePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2689,7 +2689,7 @@ func (client DataFlowClient) updateRun(ctx context.Context, request common.OCIRe
 
 	var response UpdateRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "UpdateRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2746,7 +2746,7 @@ func (client DataFlowClient) updateSqlEndpoint(ctx context.Context, request comm
 
 	var response UpdateSqlEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "UpdateSqlEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

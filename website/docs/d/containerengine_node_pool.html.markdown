@@ -43,6 +43,7 @@ The following attributes are exported:
 * `kubernetes_version` - The version of Kubernetes running on the nodes in the node pool.
 * `lifecycle_details` - Details about the state of the nodepool.
 * `name` - The name of the node pool.
+* `network_launch_type` - Emulation type for the physical network interface card (NIC) for nodes
 * `node_config_details` - The configuration of nodes in the node pool.
 	* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
 	* `kms_key_id` - The OCID of the Key Management Service key assigned to the boot volume.
@@ -109,6 +110,23 @@ The following attributes are exported:
 	* `state` - The state of the node.
 	* `subnet_id` - The OCID of the subnet in which this node is placed.
 * `quantity_per_subnet` - The number of nodes in each subnet.
+* `secondary_vnics` - A list of secondary vnics to attach to nodes
+	* `create_vnic_details` - The properties of the secondary vnics
+		* `application_resources` - The application resource that corresponds to this secondary vnic. Used to map pods to this specific vnic for scheduling 
+		* `assign_ipv6ip` - Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet 
+		* `assign_public_ip` - Whether the VNIC should be assigned a public IP address 
+		* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+		* `display_name` - Display name for secondary vnic
+		* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+		* `ip_count` - The number of ip addresses to attach to secondary vnic 
+		* `ipv6address_ipv6subnet_cidr_pair_details` - A list of IPv6 prefixes from which the VNIC should be assigned an IPv6 address. You can provide only the prefix  and Oracle Cloud Infrastructure selects an available address from the range. You can optionally choose to leave the prefix range empty  and instead provide the specific IPv6 address that should be used from within that range. 
+			* `ipv6address` - An IPv6 address of your choice. Must be an available IPv6 address within the subnet's prefix 
+			* `ipv6subnet_cidr` - The IPv6 prefix allocated to the subnet 
+		* `nsg_ids` - A list of the OCIDs of the network security groups (NSGs) to add the VNIC to 
+		* `skip_source_dest_check` - Whether the source/destination check is disabled on the VNIC 
+		* `subnet_id` - the ocid of the subnet to create the vnic in
+	* `display_name` - Display name for vnic attachment
+	* `nic_index` - Which physical network interface card (NIC) the VNIC will use
 * `ssh_public_key` - The SSH public key on each node in the node pool on launch.
 * `state` - The state of the nodepool.
 * `subnet_ids` - The OCIDs of the subnets in which to place nodes for this node pool.

@@ -239,6 +239,12 @@ func OsManagementHubSoftwareSourceResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"origin_display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"origin_software_source_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -977,10 +983,6 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) SetData() error {
 			s.D.Set("gpg_key_url", *v.GpgKeyUrl)
 		}
 
-		if v.Id != nil {
-			s.D.Set("id", *v.Id)
-		}
-
 		s.D.Set("os_family", v.OsFamily)
 
 		if v.PackageCount != nil {
@@ -1614,6 +1616,10 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) populateTopLevelPolymorphicC
 		request.CreateSoftwareSourceDetails = details
 	case strings.ToLower("VENDOR"):
 		details := oci_os_management_hub.CreateVendorSoftwareSourceDetails{}
+		if originDisplayName, ok := s.D.GetOkExists("origin_display_name"); ok {
+			tmp := originDisplayName.(string)
+			details.OriginDisplayName = &tmp
+		}
 		if originSoftwareSourceId, ok := s.D.GetOkExists("origin_software_source_id"); ok {
 			tmp := originSoftwareSourceId.(string)
 			details.OriginSoftwareSourceId = &tmp

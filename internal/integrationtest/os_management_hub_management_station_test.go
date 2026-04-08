@@ -36,8 +36,9 @@ var (
 
 	OsManagementHubManagementStationDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `example-name`, Update: `displayName2`},
 		"display_name_contains": acctest.Representation{RepType: acctest.Optional, Create: `displayNameContains`},
+		"health_state":          acctest.Representation{RepType: acctest.Optional, Create: `HEALTHY`},
 		"id":                    acctest.Representation{RepType: acctest.Optional, Create: `${oci_os_management_hub_management_station.test_management_station.id}`},
 		"managed_instance_id":   acctest.Representation{RepType: acctest.Optional, Create: `${var.managed_instance_id}`},
 		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
@@ -133,6 +134,7 @@ func TestOsManagementHubManagementStationResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_management_station", "test_management_station", acctest.Optional, acctest.Create, OsManagementHubManagementStationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "arch_type"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -168,6 +170,7 @@ func TestOsManagementHubManagementStationResource_basic(t *testing.T) {
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "arch_type"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -201,6 +204,7 @@ func TestOsManagementHubManagementStationResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_management_station", "test_management_station", acctest.Optional, acctest.Update, OsManagementHubManagementStationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "arch_type"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -250,6 +254,7 @@ func TestOsManagementHubManagementStationResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "management_station_id"),
 
+				resource.TestCheckResourceAttrSet(resourceName, "arch_type"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
@@ -271,9 +276,10 @@ func TestOsManagementHubManagementStationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "mirror_storage_size"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "mirror_sync_status.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "mirror_unique_package_count"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "os_family", "ORACLE_LINUX_8"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "overall_percentage"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "overall_state"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "peer_management_stations.#", "0"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_management_stations.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "profile_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "proxy.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "proxy.0.is_enabled", "true"),

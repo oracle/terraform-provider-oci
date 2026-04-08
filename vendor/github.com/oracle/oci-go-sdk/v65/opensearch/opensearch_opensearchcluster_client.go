@@ -140,7 +140,7 @@ func (client OpensearchClusterClient) backupOpensearchCluster(ctx context.Contex
 
 	var response BackupOpensearchClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "BackupOpensearchCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -202,7 +202,7 @@ func (client OpensearchClusterClient) configureOutboundCluster(ctx context.Conte
 
 	var response ConfigureOutboundClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "ConfigureOutboundCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -264,7 +264,7 @@ func (client OpensearchClusterClient) createOpensearchCluster(ctx context.Contex
 
 	var response CreateOpensearchClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "CreateOpensearchCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -321,7 +321,7 @@ func (client OpensearchClusterClient) deleteOpensearchCluster(ctx context.Contex
 
 	var response DeleteOpensearchClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "DeleteOpensearchCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -378,7 +378,7 @@ func (client OpensearchClusterClient) getOpensearchCluster(ctx context.Context, 
 
 	var response GetOpensearchClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "GetOpensearchCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -435,7 +435,7 @@ func (client OpensearchClusterClient) getWorkRequest(ctx context.Context, reques
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -492,7 +492,7 @@ func (client OpensearchClusterClient) listOpensearchClusterShapes(ctx context.Co
 
 	var response ListOpensearchClusterShapesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "ListOpensearchClusterShapes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -549,7 +549,7 @@ func (client OpensearchClusterClient) listOpensearchClusters(ctx context.Context
 
 	var response ListOpensearchClustersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "ListOpensearchClusters")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -606,7 +606,7 @@ func (client OpensearchClusterClient) listOpensearchVersions(ctx context.Context
 
 	var response ListOpensearchVersionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "ListOpensearchVersions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -663,7 +663,7 @@ func (client OpensearchClusterClient) listWorkRequestErrors(ctx context.Context,
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -720,7 +720,7 @@ func (client OpensearchClusterClient) listWorkRequestLogs(ctx context.Context, r
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -777,7 +777,7 @@ func (client OpensearchClusterClient) listWorkRequests(ctx context.Context, requ
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -839,7 +839,7 @@ func (client OpensearchClusterClient) opensearchClusterRestore(ctx context.Conte
 
 	var response OpensearchClusterRestoreResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "OpensearchClusterRestore")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -901,7 +901,7 @@ func (client OpensearchClusterClient) resizeOpensearchClusterHorizontal(ctx cont
 
 	var response ResizeOpensearchClusterHorizontalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "ResizeOpensearchClusterHorizontal")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -963,7 +963,7 @@ func (client OpensearchClusterClient) resizeOpensearchClusterVertical(ctx contex
 
 	var response ResizeOpensearchClusterVerticalResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "ResizeOpensearchClusterVertical")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1020,7 +1020,7 @@ func (client OpensearchClusterClient) updateOpensearchCluster(ctx context.Contex
 
 	var response UpdateOpensearchClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "UpdateOpensearchCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1082,7 +1082,7 @@ func (client OpensearchClusterClient) upgradeOpenSearchCluster(ctx context.Conte
 
 	var response UpgradeOpenSearchClusterResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "UpgradeOpenSearchCluster")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

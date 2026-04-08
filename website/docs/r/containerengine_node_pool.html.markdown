@@ -35,6 +35,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 		value = var.node_pool_initial_node_labels_value
 	}
 	kubernetes_version = var.node_pool_kubernetes_version
+	network_launch_type = var.node_pool_network_launch_type
 	node_config_details {
 		#Required
 		placement_configs {
@@ -59,6 +60,8 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 		size = var.node_pool_node_config_details_size
 
 		#Optional
+		defined_tags = {"Operations.CostCenter"= "42"}
+		freeform_tags = {"Department"= "Finance"}
 		is_pv_encryption_in_transit_enabled = var.node_pool_node_config_details_is_pv_encryption_in_transit_enabled
 		kms_key_id = oci_kms_key.test_key.id
 		node_pool_pod_network_option_details {
@@ -70,8 +73,6 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 			pod_nsg_ids = var.node_pool_node_config_details_node_pool_pod_network_option_details_pod_nsg_ids
 			pod_subnet_ids = var.node_pool_node_config_details_node_pool_pod_network_option_details_pod_subnet_ids
 		}
-		defined_tags = {"Operations.CostCenter"= "42"}
-		freeform_tags = {"Department"= "Finance"}
 		nsg_ids = var.node_pool_node_config_details_nsg_ids
 	}
 	node_eviction_node_pool_settings {
@@ -106,6 +107,34 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 		boot_volume_size_in_gbs = var.node_pool_node_source_details_boot_volume_size_in_gbs
 	}
 	quantity_per_subnet = var.node_pool_quantity_per_subnet
+	secondary_vnics {
+		#Required
+		create_vnic_details {
+			#Required
+			subnet_id = oci_core_subnet.test_subnet.id
+
+			#Optional
+			application_resources = var.node_pool_secondary_vnics_create_vnic_details_application_resources
+			assign_ipv6ip = var.node_pool_secondary_vnics_create_vnic_details_assign_ipv6ip
+			assign_public_ip = var.node_pool_secondary_vnics_create_vnic_details_assign_public_ip
+			defined_tags = {"Operations.CostCenter"= "42"}
+			display_name = var.node_pool_secondary_vnics_create_vnic_details_display_name
+			freeform_tags = {"Department"= "Finance"}
+			ip_count = var.node_pool_secondary_vnics_create_vnic_details_ip_count
+			ipv6address_ipv6subnet_cidr_pair_details {
+
+				#Optional
+				ipv6address = var.node_pool_secondary_vnics_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details_ipv6address
+				ipv6subnet_cidr = var.node_pool_secondary_vnics_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details_ipv6subnet_cidr
+			}
+			nsg_ids = var.node_pool_secondary_vnics_create_vnic_details_nsg_ids
+			skip_source_dest_check = var.node_pool_secondary_vnics_create_vnic_details_skip_source_dest_check
+		}
+
+		#Optional
+		display_name = var.node_pool_secondary_vnics_display_name
+		nic_index = var.node_pool_secondary_vnics_nic_index
+	}
 	ssh_public_key = var.node_pool_ssh_public_key
 	subnet_ids = var.node_pool_subnet_ids
 }
@@ -124,16 +153,17 @@ The following arguments are supported:
 	* `value` - (Optional) (Updatable) The value of the pair.
 * `kubernetes_version` - (Optional) (Updatable) The version of Kubernetes to install on the nodes in the node pool.
 * `name` - (Required) (Updatable) The name of the node pool. Avoid entering confidential information.
+* `network_launch_type` - (Optional) (Updatable) Emulation type for the physical network interface card (NIC) for nodes
 * `node_config_details` - (Optional) (Updatable) The configuration of nodes in the node pool. Exactly one of the subnetIds or nodeConfigDetails properties must be specified. 
+	* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+	* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 	* `is_pv_encryption_in_transit_enabled` - (Optional) (Updatable) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
 	* `kms_key_id` - (Optional) (Updatable) The OCID of the Key Management Service key assigned to the boot volume.
 	* `node_pool_pod_network_option_details` - (Optional) (Updatable) The CNI related configuration of pods in the node pool. 
 		* `cni_type` - (Required) (Updatable) The CNI plugin used by this node pool
 		* `max_pods_per_node` - (Applicable when cni_type=OCI_VCN_IP_NATIVE) (Updatable) The max number of pods per node in the node pool. This value will be limited by the number of VNICs attachable to the node pool shape 
 		* `pod_nsg_ids` - (Applicable when cni_type=OCI_VCN_IP_NATIVE) (Updatable) The OCIDs of the Network Security Group(s) to associate pods for this node pool with. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
-		* `pod_subnet_ids` - (Required when cni_type=OCI_VCN_IP_NATIVE) (Updatable) The OCIDs of the subnets in which to place pods for this node pool. This can be one of the node pool subnet IDs 
-	* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
-	* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+		* `pod_subnet_ids` - (Applicable when cni_type=OCI_VCN_IP_NATIVE) (Updatable) The OCIDs of the subnets in which to place pods for this node pool. This can be one of the node pool subnet IDs 
 	* `nsg_ids` - (Optional) (Updatable) The OCIDs of the Network Security Group(s) to associate nodes for this node pool with. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
 	* `placement_configs` - (Required) (Updatable) The placement configurations for the node pool. Provide one placement configuration for each availability domain in which you intend to launch a node.
 
@@ -167,6 +197,23 @@ The following arguments are supported:
 	* `image_id` - (Required) (Updatable) The OCID of the image used to boot the node.
 	* `source_type` - (Required) (Updatable) The source type for the node. Use `IMAGE` when specifying an OCID of an image. 
 * `quantity_per_subnet` - (Optional) (Updatable) Optional, default to 1. The number of nodes to create in each subnet specified in subnetIds property. When used, subnetIds is required. This property is deprecated, use nodeConfigDetails instead. 
+* `secondary_vnics` - (Optional) (Updatable) A list of secondary vnics to attach to nodes
+	* `create_vnic_details` - (Required) (Updatable) The properties of the secondary vnics
+		* `application_resources` - (Optional) (Updatable) The application resource that corresponds to this secondary vnic. Used to map pods to this specific vnic for scheduling 
+		* `assign_ipv6ip` - (Optional) (Updatable) Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet 
+		* `assign_public_ip` - (Optional) (Updatable) Whether the VNIC should be assigned a public IP address 
+		* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+		* `display_name` - (Optional) (Updatable) Display name for secondary vnic
+		* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+		* `ip_count` - (Optional) (Updatable) The number of ip addresses to attach to secondary vnic 
+		* `ipv6address_ipv6subnet_cidr_pair_details` - (Optional) (Updatable) A list of IPv6 prefixes from which the VNIC should be assigned an IPv6 address. You can provide only the prefix  and Oracle Cloud Infrastructure selects an available address from the range. You can optionally choose to leave the prefix range empty  and instead provide the specific IPv6 address that should be used from within that range. 
+			* `ipv6address` - (Optional) (Updatable) An IPv6 address of your choice. Must be an available IPv6 address within the subnet's prefix 
+			* `ipv6subnet_cidr` - (Optional) (Updatable) The IPv6 prefix allocated to the subnet 
+		* `nsg_ids` - (Optional) (Updatable) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to 
+		* `skip_source_dest_check` - (Optional) (Updatable) Whether the source/destination check is disabled on the VNIC 
+		* `subnet_id` - (Required) (Updatable) the ocid of the subnet to create the vnic in
+	* `display_name` - (Optional) (Updatable) Display name for vnic attachment
+	* `nic_index` - (Optional) (Updatable) Which physical network interface card (NIC) the VNIC will use
 * `ssh_public_key` - (Optional) (Updatable) The SSH public key on each node in the node pool on launch.
 * `subnet_ids` - (Optional) (Updatable) The OCIDs of the subnets in which to place nodes for this node pool. When used, quantityPerSubnet can be provided. This property is deprecated, use nodeConfigDetails. Exactly one of the subnetIds or nodeConfigDetails properties must be specified. 
 
@@ -189,7 +236,10 @@ The following attributes are exported:
 * `kubernetes_version` - The version of Kubernetes running on the nodes in the node pool.
 * `lifecycle_details` - Details about the state of the nodepool.
 * `name` - The name of the node pool.
+* `network_launch_type` - Emulation type for the physical network interface card (NIC) for nodes
 * `node_config_details` - The configuration of nodes in the node pool.
+	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+	* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 	* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
 	* `kms_key_id` - The OCID of the Key Management Service key assigned to the boot volume.
 	* `node_pool_pod_network_option_details` - The CNI related configuration of pods in the node pool. 
@@ -197,8 +247,6 @@ The following attributes are exported:
 		* `max_pods_per_node` - The max number of pods per node in the node pool. This value will be limited by the number of VNICs attachable to the node pool shape 
 		* `pod_nsg_ids` - The OCIDs of the Network Security Group(s) to associate pods for this node pool with. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
 		* `pod_subnet_ids` - The OCIDs of the subnets in which to place pods for this node pool. This can be one of the node pool subnet IDs 
-	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
-	* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 	* `nsg_ids` - The OCIDs of the Network Security Group(s) to associate nodes for this node pool with. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
 	* `placement_configs` - The placement configurations for the node pool. Provide one placement configuration for each availability domain in which you intend to launch a node.
 
@@ -252,12 +300,31 @@ The following attributes are exported:
 	* `node_pool_id` - The OCID of the node pool to which this node belongs.
 	* `private_ip` - The private IP address of this node.
 	* `public_ip` - The public IP address of this node.
-	* `state` - The state of the node.
+	* `state` - The state of the node. For more information, see [Monitoring Clusters](https://docs.cloud.oracle.com/iaas/Content/ContEng/Tasks/contengmonitoringclusters.htm)
 	* `subnet_id` - The OCID of the subnet in which this node is placed.
+	* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `quantity_per_subnet` - The number of nodes in each subnet.
+* `secondary_vnics` - A list of secondary vnics to attach to nodes
+	* `create_vnic_details` - The properties of the secondary vnics
+		* `application_resources` - The application resource that corresponds to this secondary vnic. Used to map pods to this specific vnic for scheduling 
+		* `assign_ipv6ip` - Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet 
+		* `assign_public_ip` - Whether the VNIC should be assigned a public IP address 
+		* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+		* `display_name` - Display name for secondary vnic
+		* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+		* `ip_count` - The number of ip addresses to attach to secondary vnic 
+		* `ipv6address_ipv6subnet_cidr_pair_details` - A list of IPv6 prefixes from which the VNIC should be assigned an IPv6 address. You can provide only the prefix  and Oracle Cloud Infrastructure selects an available address from the range. You can optionally choose to leave the prefix range empty  and instead provide the specific IPv6 address that should be used from within that range. 
+			* `ipv6address` - An IPv6 address of your choice. Must be an available IPv6 address within the subnet's prefix 
+			* `ipv6subnet_cidr` - The IPv6 prefix allocated to the subnet 
+		* `nsg_ids` - A list of the OCIDs of the network security groups (NSGs) to add the VNIC to 
+		* `skip_source_dest_check` - Whether the source/destination check is disabled on the VNIC 
+		* `subnet_id` - the ocid of the subnet to create the vnic in
+	* `display_name` - Display name for vnic attachment
+	* `nic_index` - Which physical network interface card (NIC) the VNIC will use
 * `ssh_public_key` - The SSH public key on each node in the node pool on launch.
-* `state` - The state of the nodepool.
+* `state` - The state of the nodepool. For more information, see [Monitoring Clusters](https://docs.cloud.oracle.com/iaas/Content/ContEng/Tasks/contengmonitoringclusters.htm)
 * `subnet_ids` - The OCIDs of the subnets in which to place nodes for this node pool.
+* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 
 ## Timeouts
 

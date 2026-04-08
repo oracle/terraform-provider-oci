@@ -141,7 +141,7 @@ func (client FleetAppsManagementMaintenanceWindowClient) createMaintenanceWindow
 
 	var response CreateMaintenanceWindowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementMaintenanceWindow", "CreateMaintenanceWindow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -199,7 +199,7 @@ func (client FleetAppsManagementMaintenanceWindowClient) deleteMaintenanceWindow
 
 	var response DeleteMaintenanceWindowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementMaintenanceWindow", "DeleteMaintenanceWindow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -257,7 +257,7 @@ func (client FleetAppsManagementMaintenanceWindowClient) getMaintenanceWindow(ct
 
 	var response GetMaintenanceWindowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementMaintenanceWindow", "GetMaintenanceWindow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -316,7 +316,7 @@ func (client FleetAppsManagementMaintenanceWindowClient) listMaintenanceWindows(
 
 	var response ListMaintenanceWindowsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementMaintenanceWindow", "ListMaintenanceWindows")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -374,7 +374,7 @@ func (client FleetAppsManagementMaintenanceWindowClient) updateMaintenanceWindow
 
 	var response UpdateMaintenanceWindowResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetAppsManagementMaintenanceWindow", "UpdateMaintenanceWindow")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

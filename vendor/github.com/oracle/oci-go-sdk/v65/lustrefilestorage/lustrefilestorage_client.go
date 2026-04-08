@@ -136,7 +136,7 @@ func (client LustreFileStorageClient) cancelWorkRequest(ctx context.Context, req
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -195,7 +195,7 @@ func (client LustreFileStorageClient) changeLustreFileSystemCompartment(ctx cont
 
 	var response ChangeLustreFileSystemCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "ChangeLustreFileSystemCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -259,7 +259,7 @@ func (client LustreFileStorageClient) changeObjectStorageLinkCompartment(ctx con
 
 	var response ChangeObjectStorageLinkCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "ChangeObjectStorageLinkCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -322,7 +322,7 @@ func (client LustreFileStorageClient) createLustreFileSystem(ctx context.Context
 
 	var response CreateLustreFileSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "CreateLustreFileSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -385,7 +385,7 @@ func (client LustreFileStorageClient) createObjectStorageLink(ctx context.Contex
 
 	var response CreateObjectStorageLinkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "CreateObjectStorageLink")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -443,7 +443,7 @@ func (client LustreFileStorageClient) deleteLustreFileSystem(ctx context.Context
 
 	var response DeleteLustreFileSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "DeleteLustreFileSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -501,7 +501,7 @@ func (client LustreFileStorageClient) deleteObjectStorageLink(ctx context.Contex
 
 	var response DeleteObjectStorageLinkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "DeleteObjectStorageLink")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -559,7 +559,7 @@ func (client LustreFileStorageClient) getLustreFileSystem(ctx context.Context, r
 
 	var response GetLustreFileSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "GetLustreFileSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -617,7 +617,7 @@ func (client LustreFileStorageClient) getObjectStorageLink(ctx context.Context, 
 
 	var response GetObjectStorageLinkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "GetObjectStorageLink")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -675,7 +675,7 @@ func (client LustreFileStorageClient) getSyncJob(ctx context.Context, request co
 
 	var response GetSyncJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "GetSyncJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -733,7 +733,7 @@ func (client LustreFileStorageClient) getWorkRequest(ctx context.Context, reques
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -791,7 +791,7 @@ func (client LustreFileStorageClient) listAvailableMaintenanceScheduleStartTimes
 
 	var response ListAvailableMaintenanceScheduleStartTimesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "ListAvailableMaintenanceScheduleStartTimes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -849,7 +849,7 @@ func (client LustreFileStorageClient) listAvailableOverrideMaintenanceStartTimes
 
 	var response ListAvailableOverrideMaintenanceStartTimesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "ListAvailableOverrideMaintenanceStartTimes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -907,7 +907,7 @@ func (client LustreFileStorageClient) listLustreFileSystems(ctx context.Context,
 
 	var response ListLustreFileSystemsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "ListLustreFileSystems")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -965,7 +965,7 @@ func (client LustreFileStorageClient) listObjectStorageLinks(ctx context.Context
 
 	var response ListObjectStorageLinksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "ListObjectStorageLinks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1023,7 +1023,7 @@ func (client LustreFileStorageClient) listSyncJobs(ctx context.Context, request 
 
 	var response ListSyncJobsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "ListSyncJobs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1081,7 +1081,7 @@ func (client LustreFileStorageClient) listWorkRequestErrors(ctx context.Context,
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1139,7 +1139,7 @@ func (client LustreFileStorageClient) listWorkRequestLogs(ctx context.Context, r
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1197,7 +1197,7 @@ func (client LustreFileStorageClient) listWorkRequests(ctx context.Context, requ
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1255,7 +1255,7 @@ func (client LustreFileStorageClient) overrideMaintenance(ctx context.Context, r
 
 	var response OverrideMaintenanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "OverrideMaintenance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1319,7 +1319,7 @@ func (client LustreFileStorageClient) startExportToObject(ctx context.Context, r
 
 	var response StartExportToObjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "StartExportToObject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1383,7 +1383,7 @@ func (client LustreFileStorageClient) startImportFromObject(ctx context.Context,
 
 	var response StartImportFromObjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "StartImportFromObject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1447,7 +1447,7 @@ func (client LustreFileStorageClient) stopExportToObject(ctx context.Context, re
 
 	var response StopExportToObjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "StopExportToObject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1511,7 +1511,7 @@ func (client LustreFileStorageClient) stopImportFromObject(ctx context.Context, 
 
 	var response StopImportFromObjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "StopImportFromObject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1569,7 +1569,7 @@ func (client LustreFileStorageClient) updateLustreFileSystem(ctx context.Context
 
 	var response UpdateLustreFileSystemResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "UpdateLustreFileSystem")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1627,7 +1627,7 @@ func (client LustreFileStorageClient) updateObjectStorageLink(ctx context.Contex
 
 	var response UpdateObjectStorageLinkResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "UpdateObjectStorageLink")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

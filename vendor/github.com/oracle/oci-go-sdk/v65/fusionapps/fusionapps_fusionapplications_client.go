@@ -142,7 +142,7 @@ func (client FusionApplicationsClient) changeFusionEnvironmentCompartment(ctx co
 
 	var response ChangeFusionEnvironmentCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "ChangeFusionEnvironmentCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -206,7 +206,7 @@ func (client FusionApplicationsClient) changeFusionEnvironmentFamilyCompartment(
 
 	var response ChangeFusionEnvironmentFamilyCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "ChangeFusionEnvironmentFamilyCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -269,7 +269,7 @@ func (client FusionApplicationsClient) createDataMaskingActivity(ctx context.Con
 
 	var response CreateDataMaskingActivityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "CreateDataMaskingActivity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -332,7 +332,7 @@ func (client FusionApplicationsClient) createFusionEnvironment(ctx context.Conte
 
 	var response CreateFusionEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "CreateFusionEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -395,7 +395,7 @@ func (client FusionApplicationsClient) createFusionEnvironmentAdminUser(ctx cont
 
 	var response CreateFusionEnvironmentAdminUserResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "CreateFusionEnvironmentAdminUser")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -458,7 +458,7 @@ func (client FusionApplicationsClient) createFusionEnvironmentFamily(ctx context
 
 	var response CreateFusionEnvironmentFamilyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "CreateFusionEnvironmentFamily")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -521,7 +521,7 @@ func (client FusionApplicationsClient) createRefreshActivity(ctx context.Context
 
 	var response CreateRefreshActivityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "CreateRefreshActivity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -584,7 +584,7 @@ func (client FusionApplicationsClient) createServiceAttachment(ctx context.Conte
 
 	var response CreateServiceAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "CreateServiceAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -642,7 +642,7 @@ func (client FusionApplicationsClient) deleteFusionEnvironment(ctx context.Conte
 
 	var response DeleteFusionEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "DeleteFusionEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -700,7 +700,7 @@ func (client FusionApplicationsClient) deleteFusionEnvironmentAdminUser(ctx cont
 
 	var response DeleteFusionEnvironmentAdminUserResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "DeleteFusionEnvironmentAdminUser")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -758,7 +758,7 @@ func (client FusionApplicationsClient) deleteFusionEnvironmentFamily(ctx context
 
 	var response DeleteFusionEnvironmentFamilyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "DeleteFusionEnvironmentFamily")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -816,7 +816,7 @@ func (client FusionApplicationsClient) deleteRefreshActivity(ctx context.Context
 
 	var response DeleteRefreshActivityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "DeleteRefreshActivity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -874,7 +874,7 @@ func (client FusionApplicationsClient) deleteServiceAttachment(ctx context.Conte
 
 	var response DeleteServiceAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "DeleteServiceAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -932,7 +932,7 @@ func (client FusionApplicationsClient) generateExtractDetails(ctx context.Contex
 
 	var response GenerateExtractDetailsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "GenerateExtractDetails")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -990,7 +990,7 @@ func (client FusionApplicationsClient) getDataMaskingActivity(ctx context.Contex
 
 	var response GetDataMaskingActivityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "GetDataMaskingActivity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1048,7 +1048,7 @@ func (client FusionApplicationsClient) getFusionEnvironment(ctx context.Context,
 
 	var response GetFusionEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "GetFusionEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1106,7 +1106,7 @@ func (client FusionApplicationsClient) getFusionEnvironmentFamily(ctx context.Co
 
 	var response GetFusionEnvironmentFamilyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "GetFusionEnvironmentFamily")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1164,7 +1164,7 @@ func (client FusionApplicationsClient) getFusionEnvironmentFamilyLimitsAndUsage(
 
 	var response GetFusionEnvironmentFamilyLimitsAndUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "GetFusionEnvironmentFamilyLimitsAndUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1222,7 +1222,7 @@ func (client FusionApplicationsClient) getFusionEnvironmentFamilySubscriptionDet
 
 	var response GetFusionEnvironmentFamilySubscriptionDetailResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "GetFusionEnvironmentFamilySubscriptionDetail")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1280,7 +1280,7 @@ func (client FusionApplicationsClient) getFusionEnvironmentStatus(ctx context.Co
 
 	var response GetFusionEnvironmentStatusResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "GetFusionEnvironmentStatus")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1338,7 +1338,7 @@ func (client FusionApplicationsClient) getRefreshActivity(ctx context.Context, r
 
 	var response GetRefreshActivityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "GetRefreshActivity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1396,7 +1396,7 @@ func (client FusionApplicationsClient) getScheduledActivity(ctx context.Context,
 
 	var response GetScheduledActivityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "GetScheduledActivity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1454,7 +1454,7 @@ func (client FusionApplicationsClient) getServiceAttachment(ctx context.Context,
 
 	var response GetServiceAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "GetServiceAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1512,7 +1512,7 @@ func (client FusionApplicationsClient) getWorkRequest(ctx context.Context, reque
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1570,7 +1570,7 @@ func (client FusionApplicationsClient) initiateExtract(ctx context.Context, requ
 
 	var response InitiateExtractResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "InitiateExtract")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1628,7 +1628,7 @@ func (client FusionApplicationsClient) listAdminUsers(ctx context.Context, reque
 
 	var response ListAdminUsersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "ListAdminUsers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1686,7 +1686,7 @@ func (client FusionApplicationsClient) listDataMaskingActivities(ctx context.Con
 
 	var response ListDataMaskingActivitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "ListDataMaskingActivities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1744,7 +1744,7 @@ func (client FusionApplicationsClient) listFusionEnvironmentFamilies(ctx context
 
 	var response ListFusionEnvironmentFamiliesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "ListFusionEnvironmentFamilies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1802,7 +1802,7 @@ func (client FusionApplicationsClient) listFusionEnvironments(ctx context.Contex
 
 	var response ListFusionEnvironmentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "ListFusionEnvironments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1860,7 +1860,7 @@ func (client FusionApplicationsClient) listRefreshActivities(ctx context.Context
 
 	var response ListRefreshActivitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "ListRefreshActivities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1918,7 +1918,7 @@ func (client FusionApplicationsClient) listScheduledActivities(ctx context.Conte
 
 	var response ListScheduledActivitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "ListScheduledActivities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1976,7 +1976,7 @@ func (client FusionApplicationsClient) listServiceAttachments(ctx context.Contex
 
 	var response ListServiceAttachmentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "ListServiceAttachments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2034,7 +2034,7 @@ func (client FusionApplicationsClient) listTimeAvailableForRefreshes(ctx context
 
 	var response ListTimeAvailableForRefreshesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "ListTimeAvailableForRefreshes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2092,7 +2092,7 @@ func (client FusionApplicationsClient) listWorkRequestErrors(ctx context.Context
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2150,7 +2150,7 @@ func (client FusionApplicationsClient) listWorkRequestLogs(ctx context.Context, 
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2208,7 +2208,7 @@ func (client FusionApplicationsClient) listWorkRequests(ctx context.Context, req
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2271,7 +2271,7 @@ func (client FusionApplicationsClient) resetFusionEnvironmentPassword(ctx contex
 
 	var response ResetFusionEnvironmentPasswordResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "ResetFusionEnvironmentPassword")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2329,7 +2329,7 @@ func (client FusionApplicationsClient) updateFusionEnvironment(ctx context.Conte
 
 	var response UpdateFusionEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "UpdateFusionEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2387,7 +2387,7 @@ func (client FusionApplicationsClient) updateFusionEnvironmentFamily(ctx context
 
 	var response UpdateFusionEnvironmentFamilyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "UpdateFusionEnvironmentFamily")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2445,7 +2445,7 @@ func (client FusionApplicationsClient) updateRefreshActivity(ctx context.Context
 
 	var response UpdateRefreshActivityResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "UpdateRefreshActivity")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2503,7 +2503,7 @@ func (client FusionApplicationsClient) verifyServiceAttachment(ctx context.Conte
 
 	var response VerifyServiceAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "VerifyServiceAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

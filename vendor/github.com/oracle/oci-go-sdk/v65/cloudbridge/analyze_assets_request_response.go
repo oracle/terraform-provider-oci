@@ -54,6 +54,12 @@ type AnalyzeAssetsRequest struct {
 	// Unique Inventory identifier.
 	InventoryId *string `mandatory:"false" contributesTo:"query" name:"inventoryId"`
 
+	// The name of the asset class.
+	AssetClassName *string `mandatory:"false" contributesTo:"query" name:"assetClassName"`
+
+	// The version of the asset class.
+	AssetClassVersion *string `mandatory:"false" contributesTo:"query" name:"assetClassVersion"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -138,24 +144,27 @@ type AnalyzeAssetsAssetTypeEnum string
 
 // Set of constants representing the allowable values for AnalyzeAssetsAssetTypeEnum
 const (
-	AnalyzeAssetsAssetTypeVmwareVm AnalyzeAssetsAssetTypeEnum = "VMWARE_VM"
-	AnalyzeAssetsAssetTypeVm       AnalyzeAssetsAssetTypeEnum = "VM"
-	AnalyzeAssetsAssetTypeAwsEc2   AnalyzeAssetsAssetTypeEnum = "AWS_EC2"
-	AnalyzeAssetsAssetTypeAwsEbs   AnalyzeAssetsAssetTypeEnum = "AWS_EBS"
+	AnalyzeAssetsAssetTypeVmwareVm       AnalyzeAssetsAssetTypeEnum = "VMWARE_VM"
+	AnalyzeAssetsAssetTypeVm             AnalyzeAssetsAssetTypeEnum = "VM"
+	AnalyzeAssetsAssetTypeInventoryAsset AnalyzeAssetsAssetTypeEnum = "INVENTORY_ASSET"
+	AnalyzeAssetsAssetTypeAwsEc2         AnalyzeAssetsAssetTypeEnum = "AWS_EC2"
+	AnalyzeAssetsAssetTypeAwsEbs         AnalyzeAssetsAssetTypeEnum = "AWS_EBS"
 )
 
 var mappingAnalyzeAssetsAssetTypeEnum = map[string]AnalyzeAssetsAssetTypeEnum{
-	"VMWARE_VM": AnalyzeAssetsAssetTypeVmwareVm,
-	"VM":        AnalyzeAssetsAssetTypeVm,
-	"AWS_EC2":   AnalyzeAssetsAssetTypeAwsEc2,
-	"AWS_EBS":   AnalyzeAssetsAssetTypeAwsEbs,
+	"VMWARE_VM":       AnalyzeAssetsAssetTypeVmwareVm,
+	"VM":              AnalyzeAssetsAssetTypeVm,
+	"INVENTORY_ASSET": AnalyzeAssetsAssetTypeInventoryAsset,
+	"AWS_EC2":         AnalyzeAssetsAssetTypeAwsEc2,
+	"AWS_EBS":         AnalyzeAssetsAssetTypeAwsEbs,
 }
 
 var mappingAnalyzeAssetsAssetTypeEnumLowerCase = map[string]AnalyzeAssetsAssetTypeEnum{
-	"vmware_vm": AnalyzeAssetsAssetTypeVmwareVm,
-	"vm":        AnalyzeAssetsAssetTypeVm,
-	"aws_ec2":   AnalyzeAssetsAssetTypeAwsEc2,
-	"aws_ebs":   AnalyzeAssetsAssetTypeAwsEbs,
+	"vmware_vm":       AnalyzeAssetsAssetTypeVmwareVm,
+	"vm":              AnalyzeAssetsAssetTypeVm,
+	"inventory_asset": AnalyzeAssetsAssetTypeInventoryAsset,
+	"aws_ec2":         AnalyzeAssetsAssetTypeAwsEc2,
+	"aws_ebs":         AnalyzeAssetsAssetTypeAwsEbs,
 }
 
 // GetAnalyzeAssetsAssetTypeEnumValues Enumerates the set of values for AnalyzeAssetsAssetTypeEnum
@@ -172,6 +181,7 @@ func GetAnalyzeAssetsAssetTypeEnumStringValues() []string {
 	return []string{
 		"VMWARE_VM",
 		"VM",
+		"INVENTORY_ASSET",
 		"AWS_EC2",
 		"AWS_EBS",
 	}

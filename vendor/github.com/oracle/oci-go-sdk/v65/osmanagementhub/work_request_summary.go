@@ -63,6 +63,9 @@ type WorkRequestSummary struct {
 
 	// The number of minutes the service waits for the reboot to complete. If the managed instance doesn't reboot within the timeout, the service marks the reboot job as failed.
 	RebootTimeoutInMins *int `mandatory:"false" json:"rebootTimeoutInMins"`
+
+	// The date and time the work request completed (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
+	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 }
 
 func (m WorkRequestSummary) String() string {

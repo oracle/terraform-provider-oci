@@ -1,3 +1,19 @@
+## 8.8.2 (April 7, 2026)
+
+### Added
+- Support for load balancer bulk attach/detach for instance pools
+- Support for Oracle AI for Data
+- Support for Object S3 Virtual Style- Existing buckets
+- Support for OKE Generic VNIC Attachments
+- Support for IPA - Add currentSize field to GET instancePool APIs (API ONLY)
+- Support for OSMH v3.2 Updates to ALX, Ubuntu Support and Dynamic Groupings
+- Support for VMware to OLVM Virtual Machine Migrations
+- Support for Management Agent: Support for IPv6 dual-stack
+
+### Bug Fix
+- Preserve configured IPv6 pair details and derive missing pair details from API during refresh
+- Terraform backward compatibility for subnet IPv6 prefix configuration
+
 ## 8.8.1 (April 2, 2026)
 
 ### Bug Fix

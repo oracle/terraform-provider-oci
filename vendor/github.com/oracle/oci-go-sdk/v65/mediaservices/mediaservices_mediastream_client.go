@@ -137,7 +137,7 @@ func (client MediaStreamClient) generatePlaylist(ctx context.Context, request co
 
 	var response GeneratePlaylistResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "mediaStream", "GeneratePlaylist")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamDistributionChannel/GeneratePlaylist"
@@ -194,7 +194,7 @@ func (client MediaStreamClient) generateSessionToken(ctx context.Context, reques
 
 	var response GenerateSessionTokenResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "mediaStream", "GenerateSessionToken")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

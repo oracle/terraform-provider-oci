@@ -1,0 +1,51 @@
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
+// This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
+// Code generated. DO NOT EDIT.
+
+// OS Management Hub API
+//
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.oracle.com/iaas/osmh/doc/overview.htm).
+//
+
+package osmanagementhub
+
+import (
+	"fmt"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	"strings"
+)
+
+// UpdatePackagesOnDynamicSetDetails Provides the information used to update software packages on a dynamic set.
+type UpdatePackagesOnDynamicSetDetails struct {
+
+	// The types of updates to be applied.
+	UpdateTypes []UpdateTypesEnum `mandatory:"false" json:"updateTypes,omitempty"`
+
+	// The list of managed instance OCIDs to be attached/detached.
+	ManagedInstances []string `mandatory:"false" json:"managedInstances"`
+
+	WorkRequestDetails *WorkRequestDetails `mandatory:"false" json:"workRequestDetails"`
+}
+
+func (m UpdatePackagesOnDynamicSetDetails) String() string {
+	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdatePackagesOnDynamicSetDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	for _, val := range m.UpdateTypes {
+		if _, ok := GetMappingUpdateTypesEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateTypes: %s. Supported values are: %s.", val, strings.Join(GetUpdateTypesEnumStringValues(), ",")))
+		}
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}

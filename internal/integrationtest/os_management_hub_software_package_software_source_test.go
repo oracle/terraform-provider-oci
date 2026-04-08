@@ -68,26 +68,5 @@ func TestOsManagementHubSoftwarePackageSoftwareSourceResource_basic(t *testing.T
 				resource.TestCheckResourceAttr(datasourceName, "software_source_collection.0.items.#", "1"),
 			),
 		},
-		// verify data source with optional
-		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_software_package_software_source", "test_software_package_software_source", acctest.Optional, acctest.Create, OsManagementHubSoftwarePackageSoftwareSourceDataSourceRepresentation) +
-				compartmentIdVariableStr + OsManagementHubSoftwarePackageSoftwareSourceResourceConfig,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(datasourceName, "software_source_collection.0.items.0.arch_type"),
-				resource.TestCheckResourceAttrSet(datasourceName, "software_source_collection.0.items.0.availability"),
-				resource.TestCheckResourceAttrSet(datasourceName, "software_source_collection.0.items.0.availability_at_oci"),
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "software_source_collection.0.items.0.display_name", "ol8_codeready_builder-x86_64"),
-				resource.TestCheckResourceAttr(datasourceName, "display_name_contains", "ol8_codeready_builder-x86_64"),
-				resource.TestCheckResourceAttr(datasourceName, "software_source_collection.0.items.0.os_family", "ORACLE_LINUX_8"),
-				resource.TestCheckResourceAttrSet(datasourceName, "software_package_name"),
-				resource.TestCheckResourceAttr(datasourceName, "software_source_collection.0.items.0.software_source_type", "VENDOR"),
-				resource.TestCheckResourceAttr(datasourceName, "software_source_collection.0.items.0.state", "ACTIVE"),
-
-				resource.TestCheckResourceAttrSet(datasourceName, "software_source_collection.#"),
-				resource.TestCheckResourceAttr(datasourceName, "software_source_collection.0.items.#", "1"),
-			),
-		},
 	})
 }

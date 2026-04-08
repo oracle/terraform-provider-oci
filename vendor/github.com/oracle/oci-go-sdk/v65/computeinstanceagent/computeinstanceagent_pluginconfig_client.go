@@ -136,7 +136,7 @@ func (client PluginconfigClient) listInstanceagentAvailablePlugins(ctx context.C
 
 	var response ListInstanceagentAvailablePluginsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "pluginconfig", "ListInstanceagentAvailablePlugins")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

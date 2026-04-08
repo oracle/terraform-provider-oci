@@ -102,6 +102,10 @@ func (m *createassetdetails) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := CreateVmwareVmAssetDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "INVENTORY_ASSET":
+		mm := CreateInventoryAssetDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AWS_EC2":
 		mm := CreateAwsEc2AssetDetails{}
 		err = json.Unmarshal(data, &mm)

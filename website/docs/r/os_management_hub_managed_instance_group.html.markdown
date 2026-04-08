@@ -49,7 +49,7 @@ resource "oci_os_management_hub_managed_instance_group" "test_managed_instance_g
 The following arguments are supported:
 
 * `arch_type` - (Required) The CPU architecture type of the managed instances that will be attached to this group. 
-* `autonomous_settings` - (Optional) (Updatable) Updatable settings for the Autonomous Linux service.
+* `autonomous_settings` - (Optional) (Updatable) Updatable settings for the Autonomous Linux service. This is required when creating an Autonomous Linux Managed Instance Group. Do not include it when creating a standard (non-Autonomous) Managed Instance Group.
 	* `is_data_collection_authorized` - (Optional) (Updatable) Indicates whether Autonomous Linux will collect crash files.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the managed instance group.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
@@ -88,7 +88,12 @@ The following attributes are exported:
 * `notification_topic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Oracle Notifications service (ONS) topic. ONS is the channel used to send notifications to the customer.
 * `os_family` - The operating system type of the instances in the managed instance group.
 * `pending_job_count` - The number of scheduled jobs pending against the managed instance group.
-* `software_source_ids` - The list of software source OCIDs that the managed instance group will use.
+* `software_source_ids` - The list of software source [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that the managed instance group will use.
+	* `description` - Software source description.
+	* `display_name` - Software source name.
+	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
+	* `is_mandatory_for_autonomous_linux` - Indicates whether this is a required software source for Autonomous Linux instances. If true, the user can't unselect it.
+	* `software_source_type` - Type of the software source.
 * `software_sources` - The list of software sources that the managed instance group will use.
 	* `description` - Software source description.
 	* `display_name` - Software source name.

@@ -149,7 +149,7 @@ func (client ServiceConnectorClient) activateServiceConnector(ctx context.Contex
 
 	var response ActivateServiceConnectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "ActivateServiceConnector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -210,7 +210,7 @@ func (client ServiceConnectorClient) changeServiceConnectorCompartment(ctx conte
 
 	var response ChangeServiceConnectorCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "ChangeServiceConnectorCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -290,7 +290,7 @@ func (client ServiceConnectorClient) createServiceConnector(ctx context.Context,
 
 	var response CreateServiceConnectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "CreateServiceConnector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -357,7 +357,7 @@ func (client ServiceConnectorClient) deactivateServiceConnector(ctx context.Cont
 
 	var response DeactivateServiceConnectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "DeactivateServiceConnector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -419,7 +419,7 @@ func (client ServiceConnectorClient) deleteServiceConnector(ctx context.Context,
 
 	var response DeleteServiceConnectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "DeleteServiceConnector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -479,7 +479,7 @@ func (client ServiceConnectorClient) getServiceConnector(ctx context.Context, re
 
 	var response GetServiceConnectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "GetServiceConnector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -539,7 +539,7 @@ func (client ServiceConnectorClient) getWorkRequest(ctx context.Context, request
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -599,7 +599,7 @@ func (client ServiceConnectorClient) listServiceConnectors(ctx context.Context, 
 
 	var response ListServiceConnectorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "ListServiceConnectors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -659,7 +659,7 @@ func (client ServiceConnectorClient) listWorkRequestErrors(ctx context.Context, 
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -719,7 +719,7 @@ func (client ServiceConnectorClient) listWorkRequestLogs(ctx context.Context, re
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -779,7 +779,7 @@ func (client ServiceConnectorClient) listWorkRequests(ctx context.Context, reque
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -842,7 +842,7 @@ func (client ServiceConnectorClient) updateServiceConnector(ctx context.Context,
 
 	var response UpdateServiceConnectorResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "serviceConnector", "UpdateServiceConnector")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

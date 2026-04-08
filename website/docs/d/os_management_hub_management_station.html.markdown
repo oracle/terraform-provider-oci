@@ -33,6 +33,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `arch_type` - The architecture type.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the management station.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - User-specified description for the management station.
@@ -64,6 +65,7 @@ The following attributes are exported:
 	* `syncing` - Total number of software sources currently syncing.
 	* `unsynced` - Total number of software sources that have not yet been synced.
 * `mirror_unique_package_count` - The total number of unique packages within the mirrored software sources on the station. Each package is counted only once, regardless of how many versions it has.
+* `os_family` - The operating system family.
 * `overall_percentage` - A decimal number representing the progress of the current mirror sync.
 * `overall_state` - Current state of the mirror sync for the management station.
 * `peer_management_stations` - A list of other management stations that are behind the same load balancer within a high availability configuration. Stations are identified as peers if they have the same hostname and compartment.

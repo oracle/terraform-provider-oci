@@ -142,7 +142,7 @@ func (client OdaClient) changeOdaInstanceCompartment(ctx context.Context, reques
 
 	var response ChangeOdaInstanceCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oda", "ChangeOdaInstanceCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -207,7 +207,7 @@ func (client OdaClient) createOdaInstance(ctx context.Context, request common.OC
 
 	var response CreateOdaInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oda", "CreateOdaInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -272,7 +272,7 @@ func (client OdaClient) createOdaInstanceAttachment(ctx context.Context, request
 
 	var response CreateOdaInstanceAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oda", "CreateOdaInstanceAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -331,7 +331,7 @@ func (client OdaClient) deleteOdaInstance(ctx context.Context, request common.OC
 
 	var response DeleteOdaInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oda", "DeleteOdaInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -389,7 +389,7 @@ func (client OdaClient) deleteOdaInstanceAttachment(ctx context.Context, request
 
 	var response DeleteOdaInstanceAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oda", "DeleteOdaInstanceAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -447,7 +447,7 @@ func (client OdaClient) getOdaInstance(ctx context.Context, request common.OCIRe
 
 	var response GetOdaInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oda", "GetOdaInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -505,7 +505,7 @@ func (client OdaClient) getOdaInstanceAttachment(ctx context.Context, request co
 
 	var response GetOdaInstanceAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oda", "GetOdaInstanceAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -565,7 +565,7 @@ func (client OdaClient) getWorkRequest(ctx context.Context, request common.OCIRe
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oda", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -623,7 +623,7 @@ func (client OdaClient) listOdaInstanceAttachments(ctx context.Context, request 
 
 	var response ListOdaInstanceAttachmentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oda", "ListOdaInstanceAttachments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -685,7 +685,7 @@ func (client OdaClient) listOdaInstances(ctx context.Context, request common.OCI
 
 	var response ListOdaInstancesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oda", "ListOdaInstances")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -746,7 +746,7 @@ func (client OdaClient) listWorkRequestErrors(ctx context.Context, request commo
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oda", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -807,7 +807,7 @@ func (client OdaClient) listWorkRequestLogs(ctx context.Context, request common.
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oda", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -868,7 +868,7 @@ func (client OdaClient) listWorkRequests(ctx context.Context, request common.OCI
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oda", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -932,7 +932,7 @@ func (client OdaClient) startOdaInstance(ctx context.Context, request common.OCI
 
 	var response StartOdaInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oda", "StartOdaInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -997,7 +997,7 @@ func (client OdaClient) stopOdaInstance(ctx context.Context, request common.OCIR
 
 	var response StopOdaInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oda", "StopOdaInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1055,7 +1055,7 @@ func (client OdaClient) updateOdaInstance(ctx context.Context, request common.OC
 
 	var response UpdateOdaInstanceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oda", "UpdateOdaInstance")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1113,7 +1113,7 @@ func (client OdaClient) updateOdaInstanceAttachment(ctx context.Context, request
 
 	var response UpdateOdaInstanceAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "oda", "UpdateOdaInstanceAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

@@ -140,7 +140,7 @@ func (client MysqlaasClient) createConfiguration(ctx context.Context, request co
 
 	var response CreateConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "mysqlaas", "CreateConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -199,7 +199,7 @@ func (client MysqlaasClient) deleteConfiguration(ctx context.Context, request co
 
 	var response DeleteConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "mysqlaas", "DeleteConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -257,7 +257,7 @@ func (client MysqlaasClient) getConfiguration(ctx context.Context, request commo
 
 	var response GetConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "mysqlaas", "GetConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -320,7 +320,7 @@ func (client MysqlaasClient) listConfigurations(ctx context.Context, request com
 
 	var response ListConfigurationsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "mysqlaas", "ListConfigurations")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -381,7 +381,7 @@ func (client MysqlaasClient) listShapes(ctx context.Context, request common.OCIR
 
 	var response ListShapesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "mysqlaas", "ListShapes")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -440,7 +440,7 @@ func (client MysqlaasClient) listVersions(ctx context.Context, request common.OC
 
 	var response ListVersionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "mysqlaas", "ListVersions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -498,7 +498,7 @@ func (client MysqlaasClient) updateConfiguration(ctx context.Context, request co
 
 	var response UpdateConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "mysqlaas", "UpdateConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

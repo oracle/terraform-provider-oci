@@ -146,7 +146,7 @@ func (client ResourceManagerClient) cancelJob(ctx context.Context, request commo
 
 	var response CancelJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "CancelJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -211,7 +211,7 @@ func (client ResourceManagerClient) changeConfigurationSourceProviderCompartment
 
 	var response ChangeConfigurationSourceProviderCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "ChangeConfigurationSourceProviderCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -276,7 +276,7 @@ func (client ResourceManagerClient) changePrivateEndpointCompartment(ctx context
 
 	var response ChangePrivateEndpointCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "ChangePrivateEndpointCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -341,7 +341,7 @@ func (client ResourceManagerClient) changeStackCompartment(ctx context.Context, 
 
 	var response ChangeStackCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "ChangeStackCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -406,7 +406,7 @@ func (client ResourceManagerClient) changeTemplateCompartment(ctx context.Contex
 
 	var response ChangeTemplateCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "ChangeTemplateCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -471,7 +471,7 @@ func (client ResourceManagerClient) createConfigurationSourceProvider(ctx contex
 
 	var response CreateConfigurationSourceProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "CreateConfigurationSourceProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -536,7 +536,7 @@ func (client ResourceManagerClient) createJob(ctx context.Context, request commo
 
 	var response CreateJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "CreateJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -601,7 +601,7 @@ func (client ResourceManagerClient) createPrivateEndpoint(ctx context.Context, r
 
 	var response CreatePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "CreatePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -670,7 +670,7 @@ func (client ResourceManagerClient) createStack(ctx context.Context, request com
 
 	var response CreateStackResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "CreateStack")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -735,7 +735,7 @@ func (client ResourceManagerClient) createTemplate(ctx context.Context, request 
 
 	var response CreateTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "CreateTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -795,7 +795,7 @@ func (client ResourceManagerClient) deleteConfigurationSourceProvider(ctx contex
 
 	var response DeleteConfigurationSourceProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "DeleteConfigurationSourceProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -855,7 +855,7 @@ func (client ResourceManagerClient) deletePrivateEndpoint(ctx context.Context, r
 
 	var response DeletePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "DeletePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -915,7 +915,7 @@ func (client ResourceManagerClient) deleteStack(ctx context.Context, request com
 
 	var response DeleteStackResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "DeleteStack")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -975,7 +975,7 @@ func (client ResourceManagerClient) deleteTemplate(ctx context.Context, request 
 
 	var response DeleteTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "DeleteTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1040,7 +1040,7 @@ func (client ResourceManagerClient) detectStackDrift(ctx context.Context, reques
 
 	var response DetectStackDriftResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "DetectStackDrift")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1100,7 +1100,7 @@ func (client ResourceManagerClient) getConfigurationSourceProvider(ctx context.C
 
 	var response GetConfigurationSourceProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "GetConfigurationSourceProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1160,7 +1160,7 @@ func (client ResourceManagerClient) getJob(ctx context.Context, request common.O
 
 	var response GetJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "GetJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1221,7 +1221,7 @@ func (client ResourceManagerClient) getJobDetailedLogContent(ctx context.Context
 
 	var response GetJobDetailedLogContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "GetJobDetailedLogContent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1281,7 +1281,7 @@ func (client ResourceManagerClient) getJobLogs(ctx context.Context, request comm
 
 	var response GetJobLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "GetJobLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1342,7 +1342,7 @@ func (client ResourceManagerClient) getJobLogsContent(ctx context.Context, reque
 
 	var response GetJobLogsContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "GetJobLogsContent")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1403,7 +1403,7 @@ func (client ResourceManagerClient) getJobTfConfig(ctx context.Context, request 
 
 	var response GetJobTfConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "GetJobTfConfig")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Job/GetJobTfConfig"
@@ -1462,7 +1462,7 @@ func (client ResourceManagerClient) getJobTfPlan(ctx context.Context, request co
 
 	var response GetJobTfPlanResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "GetJobTfPlan")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Job/GetJobTfPlan"
@@ -1521,7 +1521,7 @@ func (client ResourceManagerClient) getJobTfState(ctx context.Context, request c
 
 	var response GetJobTfStateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "GetJobTfState")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Job/GetJobTfState"
@@ -1580,7 +1580,7 @@ func (client ResourceManagerClient) getPrivateEndpoint(ctx context.Context, requ
 
 	var response GetPrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "GetPrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1646,7 +1646,7 @@ func (client ResourceManagerClient) getReachableIp(ctx context.Context, request 
 
 	var response GetReachableIpResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "GetReachableIp")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1706,7 +1706,7 @@ func (client ResourceManagerClient) getStack(ctx context.Context, request common
 
 	var response GetStackResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "GetStack")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1767,7 +1767,7 @@ func (client ResourceManagerClient) getStackTfConfig(ctx context.Context, reques
 
 	var response GetStackTfConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "GetStackTfConfig")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Stack/GetStackTfConfig"
@@ -1826,7 +1826,7 @@ func (client ResourceManagerClient) getStackTfState(ctx context.Context, request
 
 	var response GetStackTfStateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "GetStackTfState")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Stack/GetStackTfState"
@@ -1885,7 +1885,7 @@ func (client ResourceManagerClient) getTemplate(ctx context.Context, request com
 
 	var response GetTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "GetTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1946,7 +1946,7 @@ func (client ResourceManagerClient) getTemplateLogo(ctx context.Context, request
 
 	var response GetTemplateLogoResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "GetTemplateLogo")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Template/GetTemplateLogo"
@@ -2006,7 +2006,7 @@ func (client ResourceManagerClient) getTemplateTfConfig(ctx context.Context, req
 
 	var response GetTemplateTfConfigResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "GetTemplateTfConfig")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Template/GetTemplateTfConfig"
@@ -2065,7 +2065,7 @@ func (client ResourceManagerClient) getWorkRequest(ctx context.Context, request 
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2127,7 +2127,7 @@ func (client ResourceManagerClient) listConfigurationSourceProviders(ctx context
 
 	var response ListConfigurationSourceProvidersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "ListConfigurationSourceProviders")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2187,7 +2187,7 @@ func (client ResourceManagerClient) listJobAssociatedResources(ctx context.Conte
 
 	var response ListJobAssociatedResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "ListJobAssociatedResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2247,7 +2247,7 @@ func (client ResourceManagerClient) listJobOutputs(ctx context.Context, request 
 
 	var response ListJobOutputsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "ListJobOutputs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2310,7 +2310,7 @@ func (client ResourceManagerClient) listJobs(ctx context.Context, request common
 
 	var response ListJobsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "ListJobs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2372,7 +2372,7 @@ func (client ResourceManagerClient) listPrivateEndpoints(ctx context.Context, re
 
 	var response ListPrivateEndpointsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "ListPrivateEndpoints")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2433,7 +2433,7 @@ func (client ResourceManagerClient) listResourceDiscoveryServices(ctx context.Co
 
 	var response ListResourceDiscoveryServicesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "ListResourceDiscoveryServices")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2493,7 +2493,7 @@ func (client ResourceManagerClient) listStackAssociatedResources(ctx context.Con
 
 	var response ListStackAssociatedResourcesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "ListStackAssociatedResources")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2557,7 +2557,7 @@ func (client ResourceManagerClient) listStackResourceDriftDetails(ctx context.Co
 
 	var response ListStackResourceDriftDetailsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "ListStackResourceDriftDetails")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2619,7 +2619,7 @@ func (client ResourceManagerClient) listStacks(ctx context.Context, request comm
 
 	var response ListStacksResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "ListStacks")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2679,7 +2679,7 @@ func (client ResourceManagerClient) listTemplateCategories(ctx context.Context, 
 
 	var response ListTemplateCategoriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "ListTemplateCategories")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2740,7 +2740,7 @@ func (client ResourceManagerClient) listTemplates(ctx context.Context, request c
 
 	var response ListTemplatesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "ListTemplates")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2800,7 +2800,7 @@ func (client ResourceManagerClient) listTerraformVersions(ctx context.Context, r
 
 	var response ListTerraformVersionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "ListTerraformVersions")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2860,7 +2860,7 @@ func (client ResourceManagerClient) listWorkRequestErrors(ctx context.Context, r
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2920,7 +2920,7 @@ func (client ResourceManagerClient) listWorkRequestLogs(ctx context.Context, req
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2980,7 +2980,7 @@ func (client ResourceManagerClient) listWorkRequests(ctx context.Context, reques
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3040,7 +3040,7 @@ func (client ResourceManagerClient) updateConfigurationSourceProvider(ctx contex
 
 	var response UpdateConfigurationSourceProviderResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "UpdateConfigurationSourceProvider")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3100,7 +3100,7 @@ func (client ResourceManagerClient) updateJob(ctx context.Context, request commo
 
 	var response UpdateJobResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "UpdateJob")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3160,7 +3160,7 @@ func (client ResourceManagerClient) updatePrivateEndpoint(ctx context.Context, r
 
 	var response UpdatePrivateEndpointResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "UpdatePrivateEndpoint")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3222,7 +3222,7 @@ func (client ResourceManagerClient) updateStack(ctx context.Context, request com
 
 	var response UpdateStackResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "UpdateStack")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3282,7 +3282,7 @@ func (client ResourceManagerClient) updateTemplate(ctx context.Context, request 
 
 	var response UpdateTemplateResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "UpdateTemplate")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

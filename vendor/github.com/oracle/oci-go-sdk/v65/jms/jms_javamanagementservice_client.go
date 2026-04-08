@@ -141,7 +141,7 @@ func (client JavaManagementServiceClient) addFleetInstallationSites(ctx context.
 
 	var response AddFleetInstallationSitesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "AddFleetInstallationSites")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -199,7 +199,7 @@ func (client JavaManagementServiceClient) cancelWorkRequest(ctx context.Context,
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -262,7 +262,7 @@ func (client JavaManagementServiceClient) changeFleetCompartment(ctx context.Con
 
 	var response ChangeFleetCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ChangeFleetCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -325,7 +325,7 @@ func (client JavaManagementServiceClient) createBlocklist(ctx context.Context, r
 
 	var response CreateBlocklistResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "CreateBlocklist")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -388,7 +388,7 @@ func (client JavaManagementServiceClient) createDrsFile(ctx context.Context, req
 
 	var response CreateDrsFileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "CreateDrsFile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -456,7 +456,7 @@ func (client JavaManagementServiceClient) createFleet(ctx context.Context, reque
 
 	var response CreateFleetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "CreateFleet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -521,7 +521,7 @@ func (client JavaManagementServiceClient) createJmsPlugin(ctx context.Context, r
 
 	var response CreateJmsPluginResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "CreateJmsPlugin")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -584,7 +584,7 @@ func (client JavaManagementServiceClient) createTaskSchedule(ctx context.Context
 
 	var response CreateTaskScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "CreateTaskSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -642,7 +642,7 @@ func (client JavaManagementServiceClient) deleteBlocklist(ctx context.Context, r
 
 	var response DeleteBlocklistResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "DeleteBlocklist")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -700,7 +700,7 @@ func (client JavaManagementServiceClient) deleteCryptoAnalysisResult(ctx context
 
 	var response DeleteCryptoAnalysisResultResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "DeleteCryptoAnalysisResult")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -758,7 +758,7 @@ func (client JavaManagementServiceClient) deleteDrsFile(ctx context.Context, req
 
 	var response DeleteDrsFileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "DeleteDrsFile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -816,7 +816,7 @@ func (client JavaManagementServiceClient) deleteFleet(ctx context.Context, reque
 
 	var response DeleteFleetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "DeleteFleet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -874,7 +874,7 @@ func (client JavaManagementServiceClient) deleteJavaMigrationAnalysisResult(ctx 
 
 	var response DeleteJavaMigrationAnalysisResultResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "DeleteJavaMigrationAnalysisResult")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -933,7 +933,7 @@ func (client JavaManagementServiceClient) deleteJmsPlugin(ctx context.Context, r
 
 	var response DeleteJmsPluginResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "DeleteJmsPlugin")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -991,7 +991,7 @@ func (client JavaManagementServiceClient) deletePerformanceTuningAnalysisResult(
 
 	var response DeletePerformanceTuningAnalysisResultResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "DeletePerformanceTuningAnalysisResult")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1049,7 +1049,7 @@ func (client JavaManagementServiceClient) deleteTaskSchedule(ctx context.Context
 
 	var response DeleteTaskScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "DeleteTaskSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1112,7 +1112,7 @@ func (client JavaManagementServiceClient) disableDrs(ctx context.Context, reques
 
 	var response DisableDrsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "DisableDrs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1175,7 +1175,7 @@ func (client JavaManagementServiceClient) enableDrs(ctx context.Context, request
 
 	var response EnableDrsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "EnableDrs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1233,7 +1233,7 @@ func (client JavaManagementServiceClient) generateAgentDeployScript(ctx context.
 
 	var response GenerateAgentDeployScriptResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GenerateAgentDeployScript")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/GenerateAgentDeployScript"
@@ -1290,7 +1290,7 @@ func (client JavaManagementServiceClient) generateAgentInstallerConfiguration(ct
 
 	var response GenerateAgentInstallerConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GenerateAgentInstallerConfiguration")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/AgentInstallerSummary/GenerateAgentInstallerConfiguration"
@@ -1347,7 +1347,7 @@ func (client JavaManagementServiceClient) generateLoadPipelineScript(ctx context
 
 	var response GenerateLoadPipelineScriptResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GenerateLoadPipelineScript")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/GenerateLoadPipelineScript"
@@ -1404,7 +1404,7 @@ func (client JavaManagementServiceClient) getCryptoAnalysisResult(ctx context.Co
 
 	var response GetCryptoAnalysisResultResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetCryptoAnalysisResult")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1462,7 +1462,7 @@ func (client JavaManagementServiceClient) getDrsFile(ctx context.Context, reques
 
 	var response GetDrsFileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetDrsFile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1520,7 +1520,7 @@ func (client JavaManagementServiceClient) getExportSetting(ctx context.Context, 
 
 	var response GetExportSettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetExportSetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1578,7 +1578,7 @@ func (client JavaManagementServiceClient) getExportStatus(ctx context.Context, r
 
 	var response GetExportStatusResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetExportStatus")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1636,7 +1636,7 @@ func (client JavaManagementServiceClient) getFleet(ctx context.Context, request 
 
 	var response GetFleetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetFleet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1694,7 +1694,7 @@ func (client JavaManagementServiceClient) getFleetAdvancedFeatureConfiguration(c
 
 	var response GetFleetAdvancedFeatureConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetFleetAdvancedFeatureConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1752,7 +1752,7 @@ func (client JavaManagementServiceClient) getFleetAgentConfiguration(ctx context
 
 	var response GetFleetAgentConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetFleetAgentConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1810,7 +1810,7 @@ func (client JavaManagementServiceClient) getJavaFamily(ctx context.Context, req
 
 	var response GetJavaFamilyResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetJavaFamily")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1868,7 +1868,7 @@ func (client JavaManagementServiceClient) getJavaMigrationAnalysisResult(ctx con
 
 	var response GetJavaMigrationAnalysisResultResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetJavaMigrationAnalysisResult")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1926,7 +1926,7 @@ func (client JavaManagementServiceClient) getJavaRelease(ctx context.Context, re
 
 	var response GetJavaReleaseResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetJavaRelease")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1984,7 +1984,7 @@ func (client JavaManagementServiceClient) getJmsPlugin(ctx context.Context, requ
 
 	var response GetJmsPluginResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetJmsPlugin")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2042,7 +2042,7 @@ func (client JavaManagementServiceClient) getPerformanceTuningAnalysisResult(ctx
 
 	var response GetPerformanceTuningAnalysisResultResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetPerformanceTuningAnalysisResult")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2100,7 +2100,7 @@ func (client JavaManagementServiceClient) getTaskSchedule(ctx context.Context, r
 
 	var response GetTaskScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetTaskSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2158,7 +2158,7 @@ func (client JavaManagementServiceClient) getWorkRequest(ctx context.Context, re
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2216,7 +2216,7 @@ func (client JavaManagementServiceClient) listAgentInstallers(ctx context.Contex
 
 	var response ListAgentInstallersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListAgentInstallers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2274,7 +2274,7 @@ func (client JavaManagementServiceClient) listAnnouncements(ctx context.Context,
 
 	var response ListAnnouncementsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListAnnouncements")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2332,7 +2332,7 @@ func (client JavaManagementServiceClient) listBlocklists(ctx context.Context, re
 
 	var response ListBlocklistsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListBlocklists")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2390,7 +2390,7 @@ func (client JavaManagementServiceClient) listContainers(ctx context.Context, re
 
 	var response ListContainersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListContainers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2448,7 +2448,7 @@ func (client JavaManagementServiceClient) listCryptoAnalysisResults(ctx context.
 
 	var response ListCryptoAnalysisResultsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListCryptoAnalysisResults")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2506,7 +2506,7 @@ func (client JavaManagementServiceClient) listDrsFiles(ctx context.Context, requ
 
 	var response ListDrsFilesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListDrsFiles")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2564,7 +2564,7 @@ func (client JavaManagementServiceClient) listFleetDiagnoses(ctx context.Context
 
 	var response ListFleetDiagnosesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListFleetDiagnoses")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2622,7 +2622,7 @@ func (client JavaManagementServiceClient) listFleetErrors(ctx context.Context, r
 
 	var response ListFleetErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListFleetErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2681,7 +2681,7 @@ func (client JavaManagementServiceClient) listFleets(ctx context.Context, reques
 
 	var response ListFleetsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListFleets")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2739,7 +2739,7 @@ func (client JavaManagementServiceClient) listInstallationSites(ctx context.Cont
 
 	var response ListInstallationSitesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListInstallationSites")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2798,7 +2798,7 @@ func (client JavaManagementServiceClient) listJavaFamilies(ctx context.Context, 
 
 	var response ListJavaFamiliesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListJavaFamilies")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2856,7 +2856,7 @@ func (client JavaManagementServiceClient) listJavaMigrationAnalysisResults(ctx c
 
 	var response ListJavaMigrationAnalysisResultsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListJavaMigrationAnalysisResults")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2914,7 +2914,7 @@ func (client JavaManagementServiceClient) listJavaReleases(ctx context.Context, 
 
 	var response ListJavaReleasesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListJavaReleases")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2972,7 +2972,7 @@ func (client JavaManagementServiceClient) listJmsPlugins(ctx context.Context, re
 
 	var response ListJmsPluginsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListJmsPlugins")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3030,7 +3030,7 @@ func (client JavaManagementServiceClient) listJreUsage(ctx context.Context, requ
 
 	var response ListJreUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListJreUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3088,7 +3088,7 @@ func (client JavaManagementServiceClient) listLibraryApplicationUsage(ctx contex
 
 	var response ListLibraryApplicationUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListLibraryApplicationUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3146,7 +3146,7 @@ func (client JavaManagementServiceClient) listLibraryManagedInstanceUsage(ctx co
 
 	var response ListLibraryManagedInstanceUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListLibraryManagedInstanceUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3204,7 +3204,7 @@ func (client JavaManagementServiceClient) listPerformanceTuningAnalysisResults(c
 
 	var response ListPerformanceTuningAnalysisResultsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListPerformanceTuningAnalysisResults")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3262,7 +3262,7 @@ func (client JavaManagementServiceClient) listPluginErrors(ctx context.Context, 
 
 	var response ListPluginErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListPluginErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3320,7 +3320,7 @@ func (client JavaManagementServiceClient) listTaskSchedules(ctx context.Context,
 
 	var response ListTaskSchedulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListTaskSchedules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3378,7 +3378,7 @@ func (client JavaManagementServiceClient) listUncorrelatedPackageApplicationUsag
 
 	var response ListUncorrelatedPackageApplicationUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListUncorrelatedPackageApplicationUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3436,7 +3436,7 @@ func (client JavaManagementServiceClient) listUncorrelatedPackageManagedInstance
 
 	var response ListUncorrelatedPackageManagedInstanceUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListUncorrelatedPackageManagedInstanceUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3494,7 +3494,7 @@ func (client JavaManagementServiceClient) listUncorrelatedPackageUsage(ctx conte
 
 	var response ListUncorrelatedPackageUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListUncorrelatedPackageUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3552,7 +3552,7 @@ func (client JavaManagementServiceClient) listWorkItems(ctx context.Context, req
 
 	var response ListWorkItemsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListWorkItems")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3610,7 +3610,7 @@ func (client JavaManagementServiceClient) listWorkRequestErrors(ctx context.Cont
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3668,7 +3668,7 @@ func (client JavaManagementServiceClient) listWorkRequestLogs(ctx context.Contex
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3726,7 +3726,7 @@ func (client JavaManagementServiceClient) listWorkRequests(ctx context.Context, 
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3789,7 +3789,7 @@ func (client JavaManagementServiceClient) removeFleetInstallationSites(ctx conte
 
 	var response RemoveFleetInstallationSitesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "RemoveFleetInstallationSites")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3847,7 +3847,7 @@ func (client JavaManagementServiceClient) requestCryptoAnalyses(ctx context.Cont
 
 	var response RequestCryptoAnalysesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "RequestCryptoAnalyses")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3906,7 +3906,7 @@ func (client JavaManagementServiceClient) requestDeployedApplicationMigrationAna
 
 	var response RequestDeployedApplicationMigrationAnalysesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "RequestDeployedApplicationMigrationAnalyses")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3965,7 +3965,7 @@ func (client JavaManagementServiceClient) requestJavaMigrationAnalyses(ctx conte
 
 	var response RequestJavaMigrationAnalysesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "RequestJavaMigrationAnalyses")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4023,7 +4023,7 @@ func (client JavaManagementServiceClient) requestJfrRecordings(ctx context.Conte
 
 	var response RequestJfrRecordingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "RequestJfrRecordings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4082,7 +4082,7 @@ func (client JavaManagementServiceClient) requestPerformanceTuningAnalyses(ctx c
 
 	var response RequestPerformanceTuningAnalysesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "RequestPerformanceTuningAnalyses")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4145,7 +4145,7 @@ func (client JavaManagementServiceClient) scanJavaServerUsage(ctx context.Contex
 
 	var response ScanJavaServerUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ScanJavaServerUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4208,7 +4208,7 @@ func (client JavaManagementServiceClient) scanLibraryUsage(ctx context.Context, 
 
 	var response ScanLibraryUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ScanLibraryUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4266,7 +4266,7 @@ func (client JavaManagementServiceClient) summarizeApplicationInstallationUsage(
 
 	var response SummarizeApplicationInstallationUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizeApplicationInstallationUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4324,7 +4324,7 @@ func (client JavaManagementServiceClient) summarizeApplicationUsage(ctx context.
 
 	var response SummarizeApplicationUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizeApplicationUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4382,7 +4382,7 @@ func (client JavaManagementServiceClient) summarizeDeployedApplicationInstallati
 
 	var response SummarizeDeployedApplicationInstallationUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizeDeployedApplicationInstallationUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4440,7 +4440,7 @@ func (client JavaManagementServiceClient) summarizeDeployedApplicationUsage(ctx 
 
 	var response SummarizeDeployedApplicationUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizeDeployedApplicationUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4498,7 +4498,7 @@ func (client JavaManagementServiceClient) summarizeFleetErrors(ctx context.Conte
 
 	var response SummarizeFleetErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizeFleetErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4556,7 +4556,7 @@ func (client JavaManagementServiceClient) summarizeInstallationUsage(ctx context
 
 	var response SummarizeInstallationUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizeInstallationUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4614,7 +4614,7 @@ func (client JavaManagementServiceClient) summarizeJavaServerInstanceUsage(ctx c
 
 	var response SummarizeJavaServerInstanceUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizeJavaServerInstanceUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4672,7 +4672,7 @@ func (client JavaManagementServiceClient) summarizeJavaServerUsage(ctx context.C
 
 	var response SummarizeJavaServerUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizeJavaServerUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4730,7 +4730,7 @@ func (client JavaManagementServiceClient) summarizeJreUsage(ctx context.Context,
 
 	var response SummarizeJreUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizeJreUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4788,7 +4788,7 @@ func (client JavaManagementServiceClient) summarizeLibraryInventory(ctx context.
 
 	var response SummarizeLibraryInventoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizeLibraryInventory")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4846,7 +4846,7 @@ func (client JavaManagementServiceClient) summarizeLibraryUsage(ctx context.Cont
 
 	var response SummarizeLibraryUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizeLibraryUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4904,7 +4904,7 @@ func (client JavaManagementServiceClient) summarizeManagedInstanceUsage(ctx cont
 
 	var response SummarizeManagedInstanceUsageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizeManagedInstanceUsage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4962,7 +4962,7 @@ func (client JavaManagementServiceClient) summarizePluginErrors(ctx context.Cont
 
 	var response SummarizePluginErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizePluginErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5020,7 +5020,7 @@ func (client JavaManagementServiceClient) summarizeResourceInventory(ctx context
 
 	var response SummarizeResourceInventoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizeResourceInventory")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5083,7 +5083,7 @@ func (client JavaManagementServiceClient) updateDrsFile(ctx context.Context, req
 
 	var response UpdateDrsFileResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "UpdateDrsFile")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5141,7 +5141,7 @@ func (client JavaManagementServiceClient) updateExportSetting(ctx context.Contex
 
 	var response UpdateExportSettingResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "UpdateExportSetting")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5199,7 +5199,7 @@ func (client JavaManagementServiceClient) updateFleet(ctx context.Context, reque
 
 	var response UpdateFleetResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "UpdateFleet")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5263,7 +5263,7 @@ func (client JavaManagementServiceClient) updateFleetAdvancedFeatureConfiguratio
 
 	var response UpdateFleetAdvancedFeatureConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "UpdateFleetAdvancedFeatureConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5321,7 +5321,7 @@ func (client JavaManagementServiceClient) updateFleetAgentConfiguration(ctx cont
 
 	var response UpdateFleetAgentConfigurationResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "UpdateFleetAgentConfiguration")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5379,7 +5379,7 @@ func (client JavaManagementServiceClient) updateJmsPlugin(ctx context.Context, r
 
 	var response UpdateJmsPluginResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "UpdateJmsPlugin")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5442,7 +5442,7 @@ func (client JavaManagementServiceClient) updateTaskSchedule(ctx context.Context
 
 	var response UpdateTaskScheduleResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "UpdateTaskSchedule")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

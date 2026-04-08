@@ -67,6 +67,169 @@ func (s *CloudBridgeAssetSourceDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.AssetSource.GetId())
 	switch v := (s.Res.AssetSource).(type) {
+	case oci_cloud_bridge.AwsAssetSource:
+		s.D.Set("type", "AWS")
+
+		if v.Id != nil {
+			s.D.Set("id", *v.Id)
+		}
+		if v.AreHistoricalMetricsCollected != nil {
+			s.D.Set("are_historical_metrics_collected", *v.AreHistoricalMetricsCollected)
+		}
+
+		if v.AreRealtimeMetricsCollected != nil {
+			s.D.Set("are_realtime_metrics_collected", *v.AreRealtimeMetricsCollected)
+		}
+
+		if v.AwsAccountKey != nil {
+			s.D.Set("aws_account_key", *v.AwsAccountKey)
+		}
+
+		if v.AwsRegion != nil {
+			s.D.Set("aws_region", *v.AwsRegion)
+		}
+
+		if v.DiscoveryCredentials != nil {
+			s.D.Set("discovery_credentials", []interface{}{AssetSourceCredentialsToMap(v.DiscoveryCredentials)})
+		} else {
+			s.D.Set("discovery_credentials", nil)
+		}
+
+		if v.IsCostInformationCollected != nil {
+			s.D.Set("is_cost_information_collected", *v.IsCostInformationCollected)
+		}
+
+		if v.ReplicationCredentials != nil {
+			s.D.Set("replication_credentials", []interface{}{AssetSourceCredentialsToMap(v.ReplicationCredentials)})
+		} else {
+			s.D.Set("replication_credentials", nil)
+		}
+
+		if v.AssetsCompartmentId != nil {
+			s.D.Set("assets_compartment_id", *v.AssetsCompartmentId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DiscoveryScheduleId != nil {
+			s.D.Set("discovery_schedule_id", *v.DiscoveryScheduleId)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.EnvironmentId != nil {
+			s.D.Set("environment_id", *v.EnvironmentId)
+		}
+
+		s.D.Set("environment_type", v.EnvironmentType)
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.InventoryId != nil {
+			s.D.Set("inventory_id", *v.InventoryId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+	case oci_cloud_bridge.OlvmAssetSource:
+		s.D.Set("type", "OLVM")
+
+		if v.AreHistoricalMetricsCollected != nil {
+			s.D.Set("are_historical_metrics_collected", *v.AreHistoricalMetricsCollected)
+		}
+
+		if v.AreRealtimeMetricsCollected != nil {
+			s.D.Set("are_realtime_metrics_collected", *v.AreRealtimeMetricsCollected)
+		}
+
+		if v.DiscoveryCredentials != nil {
+			s.D.Set("discovery_credentials", []interface{}{AssetSourceCredentialsToMap(v.DiscoveryCredentials)})
+		} else {
+			s.D.Set("discovery_credentials", nil)
+		}
+
+		if v.OlvmEndpoint != nil {
+			s.D.Set("olvm_endpoint", *v.OlvmEndpoint)
+		}
+
+		if v.ReplicationCredentials != nil {
+			s.D.Set("replication_credentials", []interface{}{AssetSourceCredentialsToMap(v.ReplicationCredentials)})
+		} else {
+			s.D.Set("replication_credentials", nil)
+		}
+
+		if v.AssetsCompartmentId != nil {
+			s.D.Set("assets_compartment_id", *v.AssetsCompartmentId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DiscoveryScheduleId != nil {
+			s.D.Set("discovery_schedule_id", *v.DiscoveryScheduleId)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.EnvironmentId != nil {
+			s.D.Set("environment_id", *v.EnvironmentId)
+		}
+
+		s.D.Set("environment_type", v.EnvironmentType)
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.InventoryId != nil {
+			s.D.Set("inventory_id", *v.InventoryId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_cloud_bridge.VmWareAssetSource:
 		s.D.Set("type", "VMWARE")
 
@@ -121,6 +284,8 @@ func (s *CloudBridgeAssetSourceDataSourceCrud) SetData() error {
 		if v.EnvironmentId != nil {
 			s.D.Set("environment_id", *v.EnvironmentId)
 		}
+
+		s.D.Set("environment_type", v.EnvironmentType)
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 

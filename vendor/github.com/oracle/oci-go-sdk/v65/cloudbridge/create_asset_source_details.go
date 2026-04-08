@@ -53,6 +53,9 @@ type CreateAssetSourceDetails interface {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	GetSystemTags() map[string]map[string]interface{}
+
+	// Specifies if this is the Source or Destination point for migration - different assets may be discovered depending on setting.
+	GetEnvironmentType() EnvironmentTypeEnum
 }
 
 type createassetsourcedetails struct {
@@ -62,6 +65,7 @@ type createassetsourcedetails struct {
 	FreeformTags        map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags         map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags          map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	EnvironmentType     EnvironmentTypeEnum               `mandatory:"false" json:"environmentType,omitempty"`
 	CompartmentId       *string                           `mandatory:"true" json:"compartmentId"`
 	EnvironmentId       *string                           `mandatory:"true" json:"environmentId"`
 	InventoryId         *string                           `mandatory:"true" json:"inventoryId"`
@@ -89,6 +93,7 @@ func (m *createassetsourcedetails) UnmarshalJSON(data []byte) error {
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
+	m.EnvironmentType = s.Model.EnvironmentType
 	m.Type = s.Model.Type
 
 	return err
@@ -105,6 +110,10 @@ func (m *createassetsourcedetails) UnmarshalPolymorphicJSON(data []byte) (interf
 	switch m.Type {
 	case "VMWARE":
 		mm := CreateVmWareAssetSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OLVM":
+		mm := CreateOlvmAssetSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AWS":
@@ -142,6 +151,11 @@ func (m createassetsourcedetails) GetSystemTags() map[string]map[string]interfac
 	return m.SystemTags
 }
 
+// GetEnvironmentType returns EnvironmentType
+func (m createassetsourcedetails) GetEnvironmentType() EnvironmentTypeEnum {
+	return m.EnvironmentType
+}
+
 // GetCompartmentId returns CompartmentId
 func (m createassetsourcedetails) GetCompartmentId() *string {
 	return m.CompartmentId
@@ -172,6 +186,9 @@ func (m createassetsourcedetails) String() string {
 func (m createassetsourcedetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingEnvironmentTypeEnum(string(m.EnvironmentType)); !ok && m.EnvironmentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnvironmentType: %s. Supported values are: %s.", m.EnvironmentType, strings.Join(GetEnvironmentTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

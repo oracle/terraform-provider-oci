@@ -141,7 +141,7 @@ func (client DevopsClient) approveDeployment(ctx context.Context, request common
 
 	var response ApproveDeploymentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ApproveDeployment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -204,7 +204,7 @@ func (client DevopsClient) cancelBuildRun(ctx context.Context, request common.OC
 
 	var response CancelBuildRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "CancelBuildRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -267,7 +267,7 @@ func (client DevopsClient) cancelDeployment(ctx context.Context, request common.
 
 	var response CancelDeploymentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "CancelDeployment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -330,7 +330,7 @@ func (client DevopsClient) cancelScheduledCascadingProjectDeletion(ctx context.C
 
 	var response CancelScheduledCascadingProjectDeletionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "CancelScheduledCascadingProjectDeletion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -393,7 +393,7 @@ func (client DevopsClient) changeProjectCompartment(ctx context.Context, request
 
 	var response ChangeProjectCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ChangeProjectCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -456,7 +456,7 @@ func (client DevopsClient) createBuildPipeline(ctx context.Context, request comm
 
 	var response CreateBuildPipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "CreateBuildPipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -519,7 +519,7 @@ func (client DevopsClient) createBuildPipelineStage(ctx context.Context, request
 
 	var response CreateBuildPipelineStageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "CreateBuildPipelineStage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -582,7 +582,7 @@ func (client DevopsClient) createBuildRun(ctx context.Context, request common.OC
 
 	var response CreateBuildRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "CreateBuildRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -645,7 +645,7 @@ func (client DevopsClient) createConnection(ctx context.Context, request common.
 
 	var response CreateConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "CreateConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -708,7 +708,7 @@ func (client DevopsClient) createDeployArtifact(ctx context.Context, request com
 
 	var response CreateDeployArtifactResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "CreateDeployArtifact")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -771,7 +771,7 @@ func (client DevopsClient) createDeployEnvironment(ctx context.Context, request 
 
 	var response CreateDeployEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "CreateDeployEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -834,7 +834,7 @@ func (client DevopsClient) createDeployPipeline(ctx context.Context, request com
 
 	var response CreateDeployPipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "CreateDeployPipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -897,7 +897,7 @@ func (client DevopsClient) createDeployStage(ctx context.Context, request common
 
 	var response CreateDeployStageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "CreateDeployStage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -960,7 +960,7 @@ func (client DevopsClient) createDeployment(ctx context.Context, request common.
 
 	var response CreateDeploymentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "CreateDeployment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1023,7 +1023,7 @@ func (client DevopsClient) createOrUpdateGitRef(ctx context.Context, request com
 
 	var response CreateOrUpdateGitRefResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "CreateOrUpdateGitRef")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1086,7 +1086,7 @@ func (client DevopsClient) createOrUpdateProtectedBranch(ctx context.Context, re
 
 	var response CreateOrUpdateProtectedBranchResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "CreateOrUpdateProtectedBranch")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1149,7 +1149,7 @@ func (client DevopsClient) createProject(ctx context.Context, request common.OCI
 
 	var response CreateProjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "CreateProject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1212,7 +1212,7 @@ func (client DevopsClient) createPullRequest(ctx context.Context, request common
 
 	var response CreatePullRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "CreatePullRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1275,7 +1275,7 @@ func (client DevopsClient) createPullRequestAttachment(ctx context.Context, requ
 
 	var response CreatePullRequestAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "CreatePullRequestAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1338,7 +1338,7 @@ func (client DevopsClient) createPullRequestComment(ctx context.Context, request
 
 	var response CreatePullRequestCommentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "CreatePullRequestComment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1401,7 +1401,7 @@ func (client DevopsClient) createRepository(ctx context.Context, request common.
 
 	var response CreateRepositoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "CreateRepository")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1464,7 +1464,7 @@ func (client DevopsClient) createTrigger(ctx context.Context, request common.OCI
 
 	var response CreateTriggerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "CreateTrigger")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1522,7 +1522,7 @@ func (client DevopsClient) declinePullRequest(ctx context.Context, request commo
 
 	var response DeclinePullRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "DeclinePullRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1580,7 +1580,7 @@ func (client DevopsClient) deleteBuildPipeline(ctx context.Context, request comm
 
 	var response DeleteBuildPipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "DeleteBuildPipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1638,7 +1638,7 @@ func (client DevopsClient) deleteBuildPipelineStage(ctx context.Context, request
 
 	var response DeleteBuildPipelineStageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "DeleteBuildPipelineStage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1696,7 +1696,7 @@ func (client DevopsClient) deleteConnection(ctx context.Context, request common.
 
 	var response DeleteConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "DeleteConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1754,7 +1754,7 @@ func (client DevopsClient) deleteDeployArtifact(ctx context.Context, request com
 
 	var response DeleteDeployArtifactResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "DeleteDeployArtifact")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1812,7 +1812,7 @@ func (client DevopsClient) deleteDeployEnvironment(ctx context.Context, request 
 
 	var response DeleteDeployEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "DeleteDeployEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1870,7 +1870,7 @@ func (client DevopsClient) deleteDeployPipeline(ctx context.Context, request com
 
 	var response DeleteDeployPipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "DeleteDeployPipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1928,7 +1928,7 @@ func (client DevopsClient) deleteDeployStage(ctx context.Context, request common
 
 	var response DeleteDeployStageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "DeleteDeployStage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -1991,7 +1991,7 @@ func (client DevopsClient) deleteGitRef(ctx context.Context, request common.OCIR
 
 	var response DeleteGitRefResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "DeleteGitRef")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2049,7 +2049,7 @@ func (client DevopsClient) deleteProject(ctx context.Context, request common.OCI
 
 	var response DeleteProjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "DeleteProject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2112,7 +2112,7 @@ func (client DevopsClient) deleteProjectRepositorySettings(ctx context.Context, 
 
 	var response DeleteProjectRepositorySettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "DeleteProjectRepositorySettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2175,7 +2175,7 @@ func (client DevopsClient) deleteProtectedBranch(ctx context.Context, request co
 
 	var response DeleteProtectedBranchResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "DeleteProtectedBranch")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2233,7 +2233,7 @@ func (client DevopsClient) deletePullRequest(ctx context.Context, request common
 
 	var response DeletePullRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "DeletePullRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2291,7 +2291,7 @@ func (client DevopsClient) deletePullRequestAttachment(ctx context.Context, requ
 
 	var response DeletePullRequestAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "DeletePullRequestAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2349,7 +2349,7 @@ func (client DevopsClient) deletePullRequestComment(ctx context.Context, request
 
 	var response DeletePullRequestCommentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "DeletePullRequestComment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2412,7 +2412,7 @@ func (client DevopsClient) deleteRef(ctx context.Context, request common.OCIRequ
 
 	var response DeleteRefResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "DeleteRef")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2470,7 +2470,7 @@ func (client DevopsClient) deleteRepository(ctx context.Context, request common.
 
 	var response DeleteRepositoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "DeleteRepository")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2533,7 +2533,7 @@ func (client DevopsClient) deleteRepositorySettings(ctx context.Context, request
 
 	var response DeleteRepositorySettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "DeleteRepositorySettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2591,7 +2591,7 @@ func (client DevopsClient) deleteTrigger(ctx context.Context, request common.OCI
 
 	var response DeleteTriggerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "DeleteTrigger")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2649,7 +2649,7 @@ func (client DevopsClient) getBuildPipeline(ctx context.Context, request common.
 
 	var response GetBuildPipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetBuildPipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2707,7 +2707,7 @@ func (client DevopsClient) getBuildPipelineStage(ctx context.Context, request co
 
 	var response GetBuildPipelineStageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetBuildPipelineStage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2765,7 +2765,7 @@ func (client DevopsClient) getBuildRun(ctx context.Context, request common.OCIRe
 
 	var response GetBuildRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetBuildRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2823,7 +2823,7 @@ func (client DevopsClient) getCommit(ctx context.Context, request common.OCIRequ
 
 	var response GetCommitResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetCommit")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2881,7 +2881,7 @@ func (client DevopsClient) getCommitDiff(ctx context.Context, request common.OCI
 
 	var response GetCommitDiffResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetCommitDiff")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2939,7 +2939,7 @@ func (client DevopsClient) getConnection(ctx context.Context, request common.OCI
 
 	var response GetConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -2997,7 +2997,7 @@ func (client DevopsClient) getDeployArtifact(ctx context.Context, request common
 
 	var response GetDeployArtifactResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetDeployArtifact")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3055,7 +3055,7 @@ func (client DevopsClient) getDeployEnvironment(ctx context.Context, request com
 
 	var response GetDeployEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetDeployEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3113,7 +3113,7 @@ func (client DevopsClient) getDeployPipeline(ctx context.Context, request common
 
 	var response GetDeployPipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetDeployPipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3171,7 +3171,7 @@ func (client DevopsClient) getDeployStage(ctx context.Context, request common.OC
 
 	var response GetDeployStageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetDeployStage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3229,7 +3229,7 @@ func (client DevopsClient) getDeployment(ctx context.Context, request common.OCI
 
 	var response GetDeploymentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetDeployment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3287,7 +3287,7 @@ func (client DevopsClient) getFileDiff(ctx context.Context, request common.OCIRe
 
 	var response GetFileDiffResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetFileDiff")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3345,7 +3345,7 @@ func (client DevopsClient) getMirrorRecord(ctx context.Context, request common.O
 
 	var response GetMirrorRecordResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetMirrorRecord")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3403,7 +3403,7 @@ func (client DevopsClient) getObject(ctx context.Context, request common.OCIRequ
 
 	var response GetObjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetObject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3461,7 +3461,7 @@ func (client DevopsClient) getObjectContent(ctx context.Context, request common.
 
 	var response GetObjectContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetObjectContent")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/GetObjectContent"
@@ -3518,7 +3518,7 @@ func (client DevopsClient) getProject(ctx context.Context, request common.OCIReq
 
 	var response GetProjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetProject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3576,7 +3576,7 @@ func (client DevopsClient) getProjectNotificationPreference(ctx context.Context,
 
 	var response GetProjectNotificationPreferenceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetProjectNotificationPreference")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3634,7 +3634,7 @@ func (client DevopsClient) getProjectRepositorySettings(ctx context.Context, req
 
 	var response GetProjectRepositorySettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetProjectRepositorySettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3692,7 +3692,7 @@ func (client DevopsClient) getPullRequest(ctx context.Context, request common.OC
 
 	var response GetPullRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetPullRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3750,7 +3750,7 @@ func (client DevopsClient) getPullRequestAttachment(ctx context.Context, request
 
 	var response GetPullRequestAttachmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetPullRequestAttachment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3808,7 +3808,7 @@ func (client DevopsClient) getPullRequestAttachmentContent(ctx context.Context, 
 
 	var response GetPullRequestAttachmentContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetPullRequestAttachmentContent")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/GetPullRequestAttachmentContent"
@@ -3865,7 +3865,7 @@ func (client DevopsClient) getPullRequestComment(ctx context.Context, request co
 
 	var response GetPullRequestCommentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetPullRequestComment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3923,7 +3923,7 @@ func (client DevopsClient) getPullRequestNotificationPreference(ctx context.Cont
 
 	var response GetPullRequestNotificationPreferenceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetPullRequestNotificationPreference")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -3981,7 +3981,7 @@ func (client DevopsClient) getRef(ctx context.Context, request common.OCIRequest
 
 	var response GetRefResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetRef")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4039,7 +4039,7 @@ func (client DevopsClient) getRepoFileDiff(ctx context.Context, request common.O
 
 	var response GetRepoFileDiffResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetRepoFileDiff")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4097,7 +4097,7 @@ func (client DevopsClient) getRepoFileLines(ctx context.Context, request common.
 
 	var response GetRepoFileLinesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetRepoFileLines")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4155,7 +4155,7 @@ func (client DevopsClient) getRepository(ctx context.Context, request common.OCI
 
 	var response GetRepositoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetRepository")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4213,7 +4213,7 @@ func (client DevopsClient) getRepositoryArchiveContent(ctx context.Context, requ
 
 	var response GetRepositoryArchiveContentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetRepositoryArchiveContent")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/GetRepositoryArchiveContent"
@@ -4270,7 +4270,7 @@ func (client DevopsClient) getRepositoryFileLines(ctx context.Context, request c
 
 	var response GetRepositoryFileLinesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetRepositoryFileLines")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4328,7 +4328,7 @@ func (client DevopsClient) getRepositoryNotificationPreference(ctx context.Conte
 
 	var response GetRepositoryNotificationPreferenceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetRepositoryNotificationPreference")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4386,7 +4386,7 @@ func (client DevopsClient) getRepositorySettings(ctx context.Context, request co
 
 	var response GetRepositorySettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetRepositorySettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4444,7 +4444,7 @@ func (client DevopsClient) getTrigger(ctx context.Context, request common.OCIReq
 
 	var response GetTriggerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetTrigger")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4502,7 +4502,7 @@ func (client DevopsClient) getWorkRequest(ctx context.Context, request common.OC
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4560,7 +4560,7 @@ func (client DevopsClient) likePullRequestComment(ctx context.Context, request c
 
 	var response LikePullRequestCommentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "LikePullRequestComment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4618,7 +4618,7 @@ func (client DevopsClient) listAuthors(ctx context.Context, request common.OCIRe
 
 	var response ListAuthorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListAuthors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4676,7 +4676,7 @@ func (client DevopsClient) listBuildPipelineStages(ctx context.Context, request 
 
 	var response ListBuildPipelineStagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListBuildPipelineStages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4734,7 +4734,7 @@ func (client DevopsClient) listBuildPipelines(ctx context.Context, request commo
 
 	var response ListBuildPipelinesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListBuildPipelines")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4792,7 +4792,7 @@ func (client DevopsClient) listBuildRunSnapshots(ctx context.Context, request co
 
 	var response ListBuildRunSnapshotsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListBuildRunSnapshots")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4850,7 +4850,7 @@ func (client DevopsClient) listBuildRuns(ctx context.Context, request common.OCI
 
 	var response ListBuildRunsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListBuildRuns")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4908,7 +4908,7 @@ func (client DevopsClient) listCommitDiffs(ctx context.Context, request common.O
 
 	var response ListCommitDiffsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListCommitDiffs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -4966,7 +4966,7 @@ func (client DevopsClient) listCommits(ctx context.Context, request common.OCIRe
 
 	var response ListCommitsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListCommits")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5024,7 +5024,7 @@ func (client DevopsClient) listConnections(ctx context.Context, request common.O
 
 	var response ListConnectionsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListConnections")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5082,7 +5082,7 @@ func (client DevopsClient) listDeployArtifacts(ctx context.Context, request comm
 
 	var response ListDeployArtifactsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListDeployArtifacts")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5140,7 +5140,7 @@ func (client DevopsClient) listDeployEnvironments(ctx context.Context, request c
 
 	var response ListDeployEnvironmentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListDeployEnvironments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5198,7 +5198,7 @@ func (client DevopsClient) listDeployPipelines(ctx context.Context, request comm
 
 	var response ListDeployPipelinesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListDeployPipelines")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5256,7 +5256,7 @@ func (client DevopsClient) listDeployStages(ctx context.Context, request common.
 
 	var response ListDeployStagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListDeployStages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5314,7 +5314,7 @@ func (client DevopsClient) listDeployments(ctx context.Context, request common.O
 
 	var response ListDeploymentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListDeployments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5372,7 +5372,7 @@ func (client DevopsClient) listForkSyncStatuses(ctx context.Context, request com
 
 	var response ListForkSyncStatusesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListForkSyncStatuses")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5430,7 +5430,7 @@ func (client DevopsClient) listMirrorRecords(ctx context.Context, request common
 
 	var response ListMirrorRecordsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListMirrorRecords")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5488,7 +5488,7 @@ func (client DevopsClient) listPaths(ctx context.Context, request common.OCIRequ
 
 	var response ListPathsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListPaths")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5546,7 +5546,7 @@ func (client DevopsClient) listProjectCommitAnalyticsAuthors(ctx context.Context
 
 	var response ListProjectCommitAnalyticsAuthorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListProjectCommitAnalyticsAuthors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5604,7 +5604,7 @@ func (client DevopsClient) listProjects(ctx context.Context, request common.OCIR
 
 	var response ListProjectsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListProjects")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5662,7 +5662,7 @@ func (client DevopsClient) listProtectedBranches(ctx context.Context, request co
 
 	var response ListProtectedBranchesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListProtectedBranches")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5720,7 +5720,7 @@ func (client DevopsClient) listPullRequestActivities(ctx context.Context, reques
 
 	var response ListPullRequestActivitiesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListPullRequestActivities")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5778,7 +5778,7 @@ func (client DevopsClient) listPullRequestAttachments(ctx context.Context, reque
 
 	var response ListPullRequestAttachmentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListPullRequestAttachments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5836,7 +5836,7 @@ func (client DevopsClient) listPullRequestAuthors(ctx context.Context, request c
 
 	var response ListPullRequestAuthorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListPullRequestAuthors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5894,7 +5894,7 @@ func (client DevopsClient) listPullRequestComments(ctx context.Context, request 
 
 	var response ListPullRequestCommentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListPullRequestComments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -5952,7 +5952,7 @@ func (client DevopsClient) listPullRequests(ctx context.Context, request common.
 
 	var response ListPullRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListPullRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6010,7 +6010,7 @@ func (client DevopsClient) listRefs(ctx context.Context, request common.OCIReque
 
 	var response ListRefsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListRefs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6068,7 +6068,7 @@ func (client DevopsClient) listRepositories(ctx context.Context, request common.
 
 	var response ListRepositoriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListRepositories")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6126,7 +6126,7 @@ func (client DevopsClient) listRepositoryCommitAnalyticsAuthors(ctx context.Cont
 
 	var response ListRepositoryCommitAnalyticsAuthorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListRepositoryCommitAnalyticsAuthors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6184,7 +6184,7 @@ func (client DevopsClient) listTriggers(ctx context.Context, request common.OCIR
 
 	var response ListTriggersResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListTriggers")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6242,7 +6242,7 @@ func (client DevopsClient) listWorkRequestErrors(ctx context.Context, request co
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6300,7 +6300,7 @@ func (client DevopsClient) listWorkRequestLogs(ctx context.Context, request comm
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6358,7 +6358,7 @@ func (client DevopsClient) listWorkRequests(ctx context.Context, request common.
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6421,7 +6421,7 @@ func (client DevopsClient) mergePullRequest(ctx context.Context, request common.
 
 	var response MergePullRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "MergePullRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6479,7 +6479,7 @@ func (client DevopsClient) mirrorRepository(ctx context.Context, request common.
 
 	var response MirrorRepositoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "MirrorRepository")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6537,7 +6537,7 @@ func (client DevopsClient) patchPullRequest(ctx context.Context, request common.
 
 	var response PatchPullRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "PatchPullRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6600,7 +6600,7 @@ func (client DevopsClient) putRepositoryRef(ctx context.Context, request common.
 
 	var response PutRepositoryRefResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "PutRepositoryRef")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6658,7 +6658,7 @@ func (client DevopsClient) reopenPullRequest(ctx context.Context, request common
 
 	var response ReopenPullRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ReopenPullRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6721,7 +6721,7 @@ func (client DevopsClient) reviewPullRequest(ctx context.Context, request common
 
 	var response ReviewPullRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ReviewPullRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6784,7 +6784,7 @@ func (client DevopsClient) scheduleCascadingProjectDeletion(ctx context.Context,
 
 	var response ScheduleCascadingProjectDeletionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ScheduleCascadingProjectDeletion")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6842,7 +6842,7 @@ func (client DevopsClient) summarizeProjectRepositoryAnalytics(ctx context.Conte
 
 	var response SummarizeProjectRepositoryAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "SummarizeProjectRepositoryAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6900,7 +6900,7 @@ func (client DevopsClient) summarizeRepositoryAnalytics(ctx context.Context, req
 
 	var response SummarizeRepositoryAnalyticsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "SummarizeRepositoryAnalytics")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -6963,7 +6963,7 @@ func (client DevopsClient) syncRepository(ctx context.Context, request common.OC
 
 	var response SyncRepositoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "SyncRepository")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7026,7 +7026,7 @@ func (client DevopsClient) triggerDeploymentDryRun(ctx context.Context, request 
 
 	var response TriggerDeploymentDryRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "TriggerDeploymentDryRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7084,7 +7084,7 @@ func (client DevopsClient) unlikePullRequestComment(ctx context.Context, request
 
 	var response UnlikePullRequestCommentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UnlikePullRequestComment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7142,7 +7142,7 @@ func (client DevopsClient) unsubscribePullRequest(ctx context.Context, request c
 
 	var response UnsubscribePullRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UnsubscribePullRequest")
 	response.RawResponse = httpResponse
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/UnsubscribePullRequest"
@@ -7199,7 +7199,7 @@ func (client DevopsClient) updateBuildPipeline(ctx context.Context, request comm
 
 	var response UpdateBuildPipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UpdateBuildPipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7257,7 +7257,7 @@ func (client DevopsClient) updateBuildPipelineStage(ctx context.Context, request
 
 	var response UpdateBuildPipelineStageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UpdateBuildPipelineStage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7315,7 +7315,7 @@ func (client DevopsClient) updateBuildRun(ctx context.Context, request common.OC
 
 	var response UpdateBuildRunResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UpdateBuildRun")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7373,7 +7373,7 @@ func (client DevopsClient) updateConnection(ctx context.Context, request common.
 
 	var response UpdateConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UpdateConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7431,7 +7431,7 @@ func (client DevopsClient) updateDeployArtifact(ctx context.Context, request com
 
 	var response UpdateDeployArtifactResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UpdateDeployArtifact")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7489,7 +7489,7 @@ func (client DevopsClient) updateDeployEnvironment(ctx context.Context, request 
 
 	var response UpdateDeployEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UpdateDeployEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7547,7 +7547,7 @@ func (client DevopsClient) updateDeployPipeline(ctx context.Context, request com
 
 	var response UpdateDeployPipelineResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UpdateDeployPipeline")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7605,7 +7605,7 @@ func (client DevopsClient) updateDeployStage(ctx context.Context, request common
 
 	var response UpdateDeployStageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UpdateDeployStage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7663,7 +7663,7 @@ func (client DevopsClient) updateDeployment(ctx context.Context, request common.
 
 	var response UpdateDeploymentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UpdateDeployment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7721,7 +7721,7 @@ func (client DevopsClient) updateProject(ctx context.Context, request common.OCI
 
 	var response UpdateProjectResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UpdateProject")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7779,7 +7779,7 @@ func (client DevopsClient) updateProjectNotificationPreference(ctx context.Conte
 
 	var response UpdateProjectNotificationPreferenceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UpdateProjectNotificationPreference")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7842,7 +7842,7 @@ func (client DevopsClient) updateProjectRepositorySettings(ctx context.Context, 
 
 	var response UpdateProjectRepositorySettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UpdateProjectRepositorySettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7900,7 +7900,7 @@ func (client DevopsClient) updatePullRequest(ctx context.Context, request common
 
 	var response UpdatePullRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UpdatePullRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -7958,7 +7958,7 @@ func (client DevopsClient) updatePullRequestComment(ctx context.Context, request
 
 	var response UpdatePullRequestCommentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UpdatePullRequestComment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8016,7 +8016,7 @@ func (client DevopsClient) updatePullRequestNotificationPreference(ctx context.C
 
 	var response UpdatePullRequestNotificationPreferenceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UpdatePullRequestNotificationPreference")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8074,7 +8074,7 @@ func (client DevopsClient) updateRepository(ctx context.Context, request common.
 
 	var response UpdateRepositoryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UpdateRepository")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8132,7 +8132,7 @@ func (client DevopsClient) updateRepositoryNotificationPreference(ctx context.Co
 
 	var response UpdateRepositoryNotificationPreferenceResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UpdateRepositoryNotificationPreference")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8195,7 +8195,7 @@ func (client DevopsClient) updateRepositorySettings(ctx context.Context, request
 
 	var response UpdateRepositorySettingsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UpdateRepositorySettings")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8253,7 +8253,7 @@ func (client DevopsClient) updateTrigger(ctx context.Context, request common.OCI
 
 	var response UpdateTriggerResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "UpdateTrigger")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -8316,7 +8316,7 @@ func (client DevopsClient) validateConnection(ctx context.Context, request commo
 
 	var response ValidateConnectionResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "devops", "ValidateConnection")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

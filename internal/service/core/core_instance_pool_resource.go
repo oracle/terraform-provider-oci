@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"sort"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
@@ -334,6 +335,10 @@ func CoreInstancePoolResource() *schema.Resource {
 			},
 
 			// Computed
+			"current_size": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"state": {
 				Type:             schema.TypeString,
 				Computed:         true,
@@ -499,10 +504,9 @@ func (s *CoreInstancePoolResourceCrud) Create() error {
 		set := loadBalancers.(*schema.Set)
 		interfaces := set.List()
 
-		tmp := make([]oci_core.AttachLoadBalancerDetails, len(interfaces))
-		for i, item := range interfaces {
-			converted := mapToAttachLoadBalancerDetails(item.(map[string]interface{}))
-			tmp[i] = converted
+		tmp, err := mapToUniqueAttachLoadBalancerDetailsList(interfaces)
+		if err != nil {
+			return err
 		}
 		if len(tmp) != 0 || s.D.HasChange("load_balancers") {
 			request.LoadBalancers = tmp
@@ -730,6 +734,10 @@ func (s *CoreInstancePoolResourceCrud) Delete() error {
 func (s *CoreInstancePoolResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.CurrentSize != nil {
+		s.D.Set("current_size", *s.Res.CurrentSize)
 	}
 
 	if s.Res.DefinedTags != nil {
@@ -1294,63 +1302,6 @@ func (s *CoreInstancePoolResourceCrud) updateCompartment(compartment interface{}
 	return nil
 }
 
-/*
-*
-
-	   	This method decides if load_balancers update/attach/detach should go through.
-		Only one operation can happen in single request
-		1. update/attach should happen from the end of the lb list
-		2. detach can happen from anywhere in the list.
-*/
-func (s *CoreInstancePoolResourceCrud) oneEditAway(oldLoadBalancers []oci_core.AttachLoadBalancerDetails, newLoadBalancers []oci_core.AttachLoadBalancerDetails) (bool, string, oci_core.AttachLoadBalancerDetails, oci_core.AttachLoadBalancerDetails, string) {
-	newLbsLength := len(newLoadBalancers)
-	oldLbsLength := len(oldLoadBalancers)
-
-	// if old and new lb size is > 1 throw error
-	if Abs(newLbsLength-oldLbsLength) > 1 {
-		return false, "", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}, "Error: Failed to update load balancers, only one load balancer can be modified but found more than one"
-	}
-
-	// if old and new lb size is same that means this is an update to lb
-	if Abs(newLbsLength-oldLbsLength) == 0 {
-		deltas, positionToUpdate := s.getLoadBalancerDeltas(oldLoadBalancers, newLoadBalancers)
-		if deltas > 1 {
-			uniqueDeltas := s.getUniqueLoadBalancerDeltas(oldLoadBalancers, newLoadBalancers)
-			if uniqueDeltas > 1 {
-				return false, "", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}, "Error: Failed to update load balancers details, only one load balancer can be modified but found more than one"
-			} else {
-				return true, "ignoreOrder", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}, "Info: Ignoring order of load balancers"
-			}
-
-		} else if deltas == 1 && positionToUpdate == newLbsLength-1 {
-			return true, "update", oldLoadBalancers[positionToUpdate], newLoadBalancers[positionToUpdate], ""
-		}
-		return true, "ignoreOrder", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}, "Error: Failed to update load balancers, only the load balancer which is at the end of the config can be modified"
-	}
-
-	// If the new lbs length is > old one that means an attach of an lb
-	if newLbsLength > oldLbsLength {
-		deltas, _ := s.getLoadBalancerDeltas(oldLoadBalancers, newLoadBalancers)
-		if deltas != 0 {
-			return true, "ignoreOrder", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}, "Error: Failed to attach load balancer, only the load balancer which is at the end of the config can be attached"
-		}
-		return true, "attach", oci_core.AttachLoadBalancerDetails{}, newLoadBalancers[newLbsLength-1], ""
-	}
-
-	// Remaining case does detach
-	for i := 0; i < newLbsLength; i++ {
-		if lbHasChanges(oldLoadBalancers[i], newLoadBalancers[i]) /**oldLoadBalancers[i].LoadBalancerId != *newLoadBalancers[i].LoadBalancerId*/ {
-			for j := i + 1; j < newLbsLength; j++ {
-				if lbHasChanges(oldLoadBalancers[j], newLoadBalancers[j-1]) /**oldLoadBalancers[j].LoadBalancerId != *newLoadBalancers[j-1].LoadBalancerId*/ {
-					return false, "", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}, "Error: Failed to detach load balancer, only one load balancer can be detached but found more than one"
-				}
-			}
-			return true, "detach", oldLoadBalancers[i], oci_core.AttachLoadBalancerDetails{}, ""
-		}
-	}
-	return true, "detach", oldLoadBalancers[oldLbsLength-1], oci_core.AttachLoadBalancerDetails{}, ""
-}
-
 func (s *CoreInstancePoolResourceCrud) updateLoadBalancers(oldRaw interface{}, newRaw interface{}) error {
 	interfaces := oldRaw.([]interface{})
 	oldBalancers := make([]oci_core.AttachLoadBalancerDetails, len(interfaces))
@@ -1360,133 +1311,142 @@ func (s *CoreInstancePoolResourceCrud) updateLoadBalancers(oldRaw interface{}, n
 	}
 
 	interfaces = newRaw.([]interface{})
-	newBalancers := make([]oci_core.AttachLoadBalancerDetails, len(interfaces))
-	for i, item := range interfaces {
-		converted := mapToAttachLoadBalancerDetails(item.(map[string]interface{}))
-		newBalancers[i] = converted
-	}
-	canEdit, operation, oldLoadbalancer, newLoadBalancer, errorMsg := s.oneEditAway(oldBalancers, newBalancers)
-	if !canEdit {
-		return fmt.Errorf("%s", errorMsg)
+	newBalancers, err := mapToUniqueAttachLoadBalancerDetailsList(interfaces)
+	if err != nil {
+		return err
 	}
 
-	if operation == "ignoreOrder" {
-		log.Printf("Unordered edits are present in the request")
-		log.Printf("Error Msg from oneEditAway func: %s\n", errorMsg)
-		s.multipleEdits(oldBalancers, newBalancers)
-	} else {
-		id := s.D.Id()
+	detachLoadBalancers, attachLoadBalancers := planLoadBalancerReconciliation(oldBalancers, newBalancers)
+	id := s.D.Id()
 
-		if operation == "detach" || operation == "update" {
-			detachLoadBalancerRequest := oci_core.DetachLoadBalancerRequest{}
-			detachLoadBalancerRequest.LoadBalancerId = oldLoadbalancer.LoadBalancerId
-			detachLoadBalancerRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
-			detachLoadBalancerRequest.InstancePoolId = &id
-			detachLoadBalancerRequest.BackendSetName = oldLoadbalancer.BackendSetName
-			_, err := s.Client.DetachLoadBalancer(context.Background(), detachLoadBalancerRequest)
-
-			if err != nil {
-				return err
-			}
-
-			_, err = s.pollForLbOperationCompletion(&id, &oldLoadbalancer)
-
-			if err != nil {
-				return err
-			}
-		}
-
-		if operation == "attach" || operation == "update" {
-			attachLoadBalancerRequest := oci_core.AttachLoadBalancerRequest{}
-			attachLoadBalancerRequest.InstancePoolId = &id
-			attachLoadBalancerRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
-			attachLoadBalancerRequest.AttachLoadBalancerDetails = newLoadBalancer
-			_, err := s.Client.AttachLoadBalancer(context.Background(), attachLoadBalancerRequest)
-
-			if err != nil {
-				return err
-			}
-
-			_, err = s.pollForLbOperationCompletion(&id, &attachLoadBalancerRequest.AttachLoadBalancerDetails)
-
-			if err != nil {
-				return err
-			}
-		}
+	if err := applyLoadBalancerReconciliationPlan(
+		detachLoadBalancers,
+		attachLoadBalancers,
+		func(lb oci_core.AttachLoadBalancerDetails) error {
+			return s.detachLoadBalancer(id, lb)
+		},
+		func(lb oci_core.AttachLoadBalancerDetails) error {
+			return s.attachLoadBalancer(id, lb)
+		},
+	); err != nil {
+		return err
 	}
+
 	return nil
 }
 
-/*
-*
-This function handles unordered addition of load balancers and multiple changes to the load balancer list.
-It is designed to manage multiple attach and detach operations
+func applyLoadBalancerReconciliationPlan(
+	detachLoadBalancers []oci_core.AttachLoadBalancerDetails,
+	attachLoadBalancers []oci_core.AttachLoadBalancerDetails,
+	detachOperation func(oci_core.AttachLoadBalancerDetails) error,
+	attachOperation func(oci_core.AttachLoadBalancerDetails) error,
+) error {
+	for _, detachLB := range detachLoadBalancers {
+		if err := detachOperation(detachLB); err != nil {
+			return fmt.Errorf(
+				"failed to detach load balancer %s: %w",
+				loadBalancerUniqueKey(detachLB),
+				err,
+			)
+		}
+	}
 
-Currently, upstream filtering ensures only unordered requests are sent to this function to maintain alignment
-with the other SDK. In the future, when the other SDKs are updated to handle multiple operations on the load
-balancer list, we can update the conditions upstream to forward those requests to this function as well.
-*/
-func (s *CoreInstancePoolResourceCrud) multipleEdits(oldLoadBalancers []oci_core.AttachLoadBalancerDetails, newLoadBalancers []oci_core.AttachLoadBalancerDetails) {
-	log.Printf("entering the multiple edits")
+	for _, attachLB := range attachLoadBalancers {
+		if err := attachOperation(attachLB); err != nil {
+			return fmt.Errorf(
+				"failed to attach load balancer %s: %w",
+				loadBalancerUniqueKey(attachLB),
+				err,
+			)
+		}
+	}
 
-	var noChangeLBS []int
-	var attachLBS []oci_core.AttachLoadBalancerDetails
-	var detachLBS []oci_core.AttachLoadBalancerDetails
+	return nil
+}
+
+func planLoadBalancerReconciliation(oldLoadBalancers []oci_core.AttachLoadBalancerDetails, newLoadBalancers []oci_core.AttachLoadBalancerDetails) ([]oci_core.AttachLoadBalancerDetails, []oci_core.AttachLoadBalancerDetails) {
+	oldByKey := make(map[string]oci_core.AttachLoadBalancerDetails, len(oldLoadBalancers))
+	newByKey := make(map[string]oci_core.AttachLoadBalancerDetails, len(newLoadBalancers))
+
+	for _, oldLoadBalancer := range oldLoadBalancers {
+		oldByKey[loadBalancerUniqueKey(oldLoadBalancer)] = oldLoadBalancer
+	}
 
 	for _, newLoadBalancer := range newLoadBalancers {
-		foundMatch := false
-		for i, oldLoadBalancer := range oldLoadBalancers {
-			if lbHasChanges(newLoadBalancer, oldLoadBalancer) {
-				continue
-			}
-			log.Printf("Adding index to noChangeLBS list")
-			noChangeLBS = append(noChangeLBS, i)
-			foundMatch = true
-			//break
-		}
-		if !foundMatch {
-			attachLBS = append(attachLBS, newLoadBalancer)
+		newByKey[loadBalancerUniqueKey(newLoadBalancer)] = newLoadBalancer
+	}
+
+	detachKeys := make([]string, 0, len(oldByKey))
+	attachKeys := make([]string, 0, len(newByKey))
+
+	for key := range oldByKey {
+		if _, exists := newByKey[key]; !exists {
+			detachKeys = append(detachKeys, key)
 		}
 	}
 
-	for i, oldLoadBalancer := range oldLoadBalancers {
-		foundMatch := false
-		for _, noChangeLB := range noChangeLBS {
-			if i == noChangeLB {
-				foundMatch = true
-			}
-		}
-		if !foundMatch {
-			detachLBS = append(detachLBS, oldLoadBalancer)
+	for key := range newByKey {
+		if _, exists := oldByKey[key]; !exists {
+			attachKeys = append(attachKeys, key)
 		}
 	}
 
-	id := s.D.Id()
-
-	for _, detachLB := range detachLBS {
-		log.Printf("calling detach load balancer")
-		err := s.detachLoadBalancer(id, detachLB)
-		log.Printf("Detach load balancer process complete")
-
-		if err != nil {
-			log.Printf("Error occurred while detaching load balancer: %v", err)
-			// return err
-			// *** decide if we want to return err here or continue trying to detach remaining lbs
+	// For the same identity key (load_balancer_id + backend_set_name), changes to mutable
+	// fields (port/vnic_selection) require detach + attach.
+	for key, oldLoadBalancer := range oldByKey {
+		if newLoadBalancer, exists := newByKey[key]; exists && requiresLoadBalancerReattach(oldLoadBalancer, newLoadBalancer) {
+			detachKeys = append(detachKeys, key)
+			attachKeys = append(attachKeys, key)
 		}
 	}
 
-	for _, attachLB := range attachLBS {
-		log.Printf("calling attach load balancer")
-		err := s.attachLoadBalancer(id, attachLB)
-		log.Printf("Attach load balancer process complete")
+	sort.Strings(detachKeys)
+	sort.Strings(attachKeys)
 
-		if err != nil {
-			log.Printf("Error occurred while attaching load balancer: %v", err)
-			// return err
-			// *** decide if we want to return err here or continue trying to attach remaining lbs
-		}
+	detachLoadBalancers := make([]oci_core.AttachLoadBalancerDetails, 0, len(detachKeys))
+	attachLoadBalancers := make([]oci_core.AttachLoadBalancerDetails, 0, len(attachKeys))
+
+	for _, key := range detachKeys {
+		detachLoadBalancers = append(detachLoadBalancers, oldByKey[key])
+	}
+	for _, key := range attachKeys {
+		attachLoadBalancers = append(attachLoadBalancers, newByKey[key])
 	}
 
+	return detachLoadBalancers, attachLoadBalancers
+}
+
+func loadBalancerUniqueKey(loadBalancer oci_core.AttachLoadBalancerDetails) string {
+	return fmt.Sprintf(
+		"%s|%s",
+		*loadBalancer.LoadBalancerId,
+		*loadBalancer.BackendSetName,
+	)
+}
+
+func mapToUniqueAttachLoadBalancerDetailsList(items []interface{}) ([]oci_core.AttachLoadBalancerDetails, error) {
+	loadBalancers := make([]oci_core.AttachLoadBalancerDetails, len(items))
+	seen := make(map[string]struct{}, len(items))
+
+	for i, item := range items {
+		loadBalancer := mapToAttachLoadBalancerDetails(item.(map[string]interface{}))
+		loadBalancers[i] = loadBalancer
+		key := loadBalancerUniqueKey(loadBalancer)
+		if _, ok := seen[key]; ok {
+			return nil, fmt.Errorf(
+				"invalid load_balancers configuration: duplicate attachment key %q; only one load balancer is allowed per load_balancer_id + backend_set_name",
+				key,
+			)
+		}
+		seen[key] = struct{}{}
+	}
+
+	return loadBalancers, nil
+}
+
+func requiresLoadBalancerReattach(oldLoadBalancer oci_core.AttachLoadBalancerDetails, newLoadBalancer oci_core.AttachLoadBalancerDetails) bool {
+	return *oldLoadBalancer.Port != *newLoadBalancer.Port ||
+		*oldLoadBalancer.VnicSelection != *newLoadBalancer.VnicSelection
 }
 
 func (s *CoreInstancePoolResourceCrud) attachLoadBalancer(id string, newLoadBalancer oci_core.AttachLoadBalancerDetails) error {
@@ -1585,55 +1545,4 @@ func (s *CoreInstancePoolResourceCrud) pollForLbOperationCompletion(poolId *stri
 	}
 
 	return &response.InstancePool, nil
-}
-
-func (s *CoreInstancePoolResourceCrud) getLoadBalancerDeltas(balancers []oci_core.AttachLoadBalancerDetails, balancers2 []oci_core.AttachLoadBalancerDetails) (int, int) {
-	lbLength := len(balancers)
-	deltas := 0
-	positionToUpdate := -1
-	for i := 0; i < lbLength; i++ {
-		if lbHasChanges(balancers[i], balancers2[i]) {
-			deltas++
-			positionToUpdate = i
-		}
-	}
-	return deltas, positionToUpdate
-}
-
-func (s *CoreInstancePoolResourceCrud) getUniqueLoadBalancerDeltas(balancers []oci_core.AttachLoadBalancerDetails, balancers2 []oci_core.AttachLoadBalancerDetails) int {
-	deltas := 0
-
-	for _, oldLb := range balancers {
-		found := false
-		for _, newLb := range balancers2 {
-			if oldLb == newLb {
-				found = true
-				break
-			}
-		}
-		if !found {
-			deltas++
-		}
-	}
-	for _, newLb := range balancers2 {
-		found := false
-		for _, oldLb := range balancers {
-			if oldLb == newLb {
-				found = true
-				break
-			}
-		}
-		if !found {
-			deltas++
-		}
-	}
-	// Dividing by 2 because we calculate same delta twice
-	return deltas / 2.0
-}
-
-func lbHasChanges(details oci_core.AttachLoadBalancerDetails, details2 oci_core.AttachLoadBalancerDetails) bool {
-	return !(*details.BackendSetName == *details2.BackendSetName &&
-		*details.LoadBalancerId == *details2.LoadBalancerId &&
-		*details.Port == *details2.Port &&
-		*details.VnicSelection == *details2.VnicSelection)
 }

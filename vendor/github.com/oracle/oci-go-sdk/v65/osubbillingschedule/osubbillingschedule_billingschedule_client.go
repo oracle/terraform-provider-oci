@@ -136,7 +136,7 @@ func (client BillingScheduleClient) listBillingSchedules(ctx context.Context, re
 
 	var response ListBillingSchedulesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "billingSchedule", "ListBillingSchedules")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

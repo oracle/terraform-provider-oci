@@ -135,7 +135,7 @@ func (client ServiceClient) listServices(ctx context.Context, request common.OCI
 
 	var response ListServicesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "service", "ListServices")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

@@ -18,6 +18,14 @@ func CloudBridgeAssetsDataSource() *schema.Resource {
 		Read: readCloudBridgeAssets,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"asset_class_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"asset_class_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"asset_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -88,6 +96,16 @@ func (s *CloudBridgeAssetsDataSourceCrud) VoidState() {
 
 func (s *CloudBridgeAssetsDataSourceCrud) Get() error {
 	request := oci_cloud_bridge.ListAssetsRequest{}
+
+	if assetClassName, ok := s.D.GetOkExists("asset_class_name"); ok {
+		tmp := assetClassName.(string)
+		request.AssetClassName = &tmp
+	}
+
+	if assetClassVersion, ok := s.D.GetOkExists("asset_class_version"); ok {
+		tmp := assetClassVersion.(string)
+		request.AssetClassVersion = &tmp
+	}
 
 	if assetId, ok := s.D.GetOkExists("id"); ok {
 		tmp := assetId.(string)

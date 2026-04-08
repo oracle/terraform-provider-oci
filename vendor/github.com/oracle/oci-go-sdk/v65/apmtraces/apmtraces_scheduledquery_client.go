@@ -140,7 +140,7 @@ func (client ScheduledQueryClient) createScheduledQuery(ctx context.Context, req
 
 	var response CreateScheduledQueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "scheduledQuery", "CreateScheduledQuery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -202,7 +202,7 @@ func (client ScheduledQueryClient) deleteScheduledQuery(ctx context.Context, req
 
 	var response DeleteScheduledQueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "scheduledQuery", "DeleteScheduledQuery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -264,7 +264,7 @@ func (client ScheduledQueryClient) getScheduledQuery(ctx context.Context, reques
 
 	var response GetScheduledQueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "scheduledQuery", "GetScheduledQuery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -326,7 +326,7 @@ func (client ScheduledQueryClient) listScheduledQueries(ctx context.Context, req
 
 	var response ListScheduledQueriesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "scheduledQuery", "ListScheduledQueries")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -388,7 +388,7 @@ func (client ScheduledQueryClient) updateScheduledQuery(ctx context.Context, req
 
 	var response UpdateScheduledQueryResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "scheduledQuery", "UpdateScheduledQuery")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

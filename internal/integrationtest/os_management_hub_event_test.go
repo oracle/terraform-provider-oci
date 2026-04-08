@@ -25,16 +25,12 @@ var (
 	OsManagementHubEventRequiredOnlyResource = OsManagementHubEventResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_event", "test_event", acctest.Required, acctest.Create, OsManagementHubEventRepresentation)
 
-	//OsManagementHubEventResourceConfig = OsManagementHubEventResourceDependencies +
-	//	acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_event", "test_event", acctest.Optional, acctest.Update, OsManagementHubEventRepresentation)
-
 	OsManagementHubEventSingularDataSourceRepresentation = map[string]interface{}{
 		"event_id": acctest.Representation{RepType: acctest.Required, Create: `${var.event_id2}`},
 	}
 
 	OsManagementHubEventDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		//"event_fingerprint":              acctest.Representation{RepType: acctest.Optional, Create: `eventFingerprint`},
+		"compartment_id":                        acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"event_summary":                         acctest.Representation{RepType: acctest.Optional, Create: `Manually created event 2 for testing caused by <Yijiu>`},
 		"event_summary_contains":                acctest.Representation{RepType: acctest.Optional, Create: `testing`},
 		"id":                                    acctest.Representation{RepType: acctest.Optional, Create: `${var.event_id2}`},
@@ -51,174 +47,169 @@ var (
 	}
 
 	OsManagementHubEventRepresentation = map[string]interface{}{
-		"event_id": acctest.Representation{RepType: acctest.Required, Create: `${var.event_id}`},
-		//"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"event_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.event_id}`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	OsManagementHubEventRepresentation2 = map[string]interface{}{
-		"event_id": acctest.Representation{RepType: acctest.Required, Create: `${var.event_id2}`},
-		//"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"event_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.event_id2}`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
 	OsManagementHubEventResourceDependencies = ``
-	//DefinedTagsDependencies +
-	//acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_event", "test_event", acctest.Required, acctest.Create, OsManagementHubEventRepresentation) +
-	//acctest.GenerateDataSourceFromRepresentationMap("oci_usage_proxy_resources", "test_resources", acctest.Required, acctest.Create, UsageProxyResourceDataSourceRepresentation)
 )
 
 // issue-routing-tag: os_management_hub/default
 func TestOsManagementHubEventResource_basic(t *testing.T) {
-	/*	httpreplay.SetScenario("TestOsManagementHubEventResource_basic")
-		defer httpreplay.SaveScenario()
+	// Comment out the code as we need manual steps to run the test cases
+	// httpreplay.SetScenario("TestOsManagementHubEventResource_basic")
+	// defer httpreplay.SaveScenario()
 
-		config := acctest.ProviderTestConfig()
+	// config := acctest.ProviderTestConfig()
 
-		compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-		compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	// compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	// compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-		compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
-		compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+	// compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	// compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
-		eventId := utils.GetEnvSettingWithBlankDefault("event_id")
-		eventIdVariableStr := fmt.Sprintf("variable \"event_id\" { default = \"%s\" }\n", eventId)
+	// eventId := utils.GetEnvSettingWithBlankDefault("event_id")
+	// eventIdVariableStr := fmt.Sprintf("variable \"event_id\" { default = \"%s\" }\n", eventId)
 
-		eventId2 := utils.GetEnvSettingWithDefault("event_id2", eventId)
-		eventIdVariableStr2 := fmt.Sprintf("variable \"event_id2\" { default = \"%s\" }\n", eventId2)
+	// eventId2 := utils.GetEnvSettingWithDefault("event_id2", eventId)
+	// eventIdVariableStr2 := fmt.Sprintf("variable \"event_id2\" { default = \"%s\" }\n", eventId2)
 
-		resourceName := "oci_os_management_hub_event.test_event"
-		datasourceName := "data.oci_os_management_hub_events.test_events"
-		singularDatasourceName := "data.oci_os_management_hub_event.test_event"
+	// resourceName := "oci_os_management_hub_event.test_event"
+	// datasourceName := "data.oci_os_management_hub_events.test_events"
+	// singularDatasourceName := "data.oci_os_management_hub_event.test_event"
 
-		var resId, resId2 string
-		// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-		acctest.SaveConfigContent(config+compartmentIdVariableStr+compartmentIdUVariableStr+OsManagementHubEventResourceDependencies+eventIdVariableStr+
-			acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_event", "test_event", acctest.Optional, acctest.Create,
-				acctest.RepresentationCopyWithNewProperties(OsManagementHubEventRepresentation, map[string]interface{}{
-					"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-				})), "osmanagementhub", "event", t)
+	// var resId, resId2 string
+	// // Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	// acctest.SaveConfigContent(config+compartmentIdVariableStr+compartmentIdUVariableStr+OsManagementHubEventResourceDependencies+eventIdVariableStr+
+	// 	acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_event", "test_event", acctest.Optional, acctest.Create,
+	// 		acctest.RepresentationCopyWithNewProperties(OsManagementHubEventRepresentation, map[string]interface{}{
+	// 			"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+	// 		})), "osmanagementhub", "event", t)
 
-		acctest.ResourceTest(t, nil, []resource.TestStep{
-			// verify update with tag
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OsManagementHubEventResourceDependencies + eventIdVariableStr +
-					acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_event", "test_event", acctest.Optional, acctest.Create,
-						acctest.RepresentationCopyWithNewProperties(OsManagementHubEventRepresentation, map[string]interface{}{
-							"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-						})),
-				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "data.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "event_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "event_summary"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "type"),
+	// acctest.ResourceTest(t, nil, []resource.TestStep{
+	// 	// verify update with tag
+	// 	{
+	// 		Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OsManagementHubEventResourceDependencies + eventIdVariableStr +
+	// 			acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_event", "test_event", acctest.Optional, acctest.Create,
+	// 				acctest.RepresentationCopyWithNewProperties(OsManagementHubEventRepresentation, map[string]interface{}{
+	// 					"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+	// 				})),
+	// 		Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+	// 			resource.TestCheckResourceAttr(resourceName, "data.#", "1"),
+	// 			resource.TestCheckResourceAttrSet(resourceName, "event_id"),
+	// 			resource.TestCheckResourceAttrSet(resourceName, "event_summary"),
+	// 			resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+	// 			resource.TestCheckResourceAttrSet(resourceName, "id"),
+	// 			resource.TestCheckResourceAttrSet(resourceName, "state"),
+	// 			resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+	// 			resource.TestCheckResourceAttrSet(resourceName, "type"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = acctest.FromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
-						}
-						return err
-					},
-				),
-			},
+	// 			func(s *terraform.State) (err error) {
+	// 				resId, err = acctest.FromInstanceState(s, resourceName, "id")
+	// 				if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+	// 					if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+	// 						return errExport
+	// 					}
+	// 				}
+	// 				return err
+	// 			},
+	// 		),
+	// 	},
 
-			// verify updates to updatable parameters and compartmentId
-			{
-				Config: config + compartmentIdUVariableStr + OsManagementHubEventResourceDependencies + eventIdVariableStr +
-					acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_event", "test_event", acctest.Optional, acctest.Update,
-						acctest.RepresentationCopyWithNewProperties(OsManagementHubEventRepresentation, map[string]interface{}{
-							"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
-						})),
-				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "data.#", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "event_id"),
-					resource.TestCheckResourceAttrSet(resourceName, "event_summary"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
-					resource.TestCheckResourceAttrSet(resourceName, "state"),
-					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(resourceName, "type"),
+	// 	// verify updates to updatable parameters and compartmentId
+	// 	{
+	// 		Config: config + compartmentIdUVariableStr + OsManagementHubEventResourceDependencies + eventIdVariableStr +
+	// 			acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_event", "test_event", acctest.Optional, acctest.Update,
+	// 				acctest.RepresentationCopyWithNewProperties(OsManagementHubEventRepresentation, map[string]interface{}{
+	// 					"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+	// 				})),
+	// 		Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+	// 			resource.TestCheckResourceAttr(resourceName, "data.#", "1"),
+	// 			resource.TestCheckResourceAttrSet(resourceName, "event_id"),
+	// 			resource.TestCheckResourceAttrSet(resourceName, "event_summary"),
+	// 			resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+	// 			resource.TestCheckResourceAttrSet(resourceName, "id"),
+	// 			resource.TestCheckResourceAttrSet(resourceName, "state"),
+	// 			resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+	// 			resource.TestCheckResourceAttrSet(resourceName, "type"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify resource import
-			{
-				Config:                  config + OsManagementHubEventRequiredOnlyResource + eventIdVariableStr,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
-			// verify datasource
-			{
-				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_events", "test_events", acctest.Optional, acctest.Update, OsManagementHubEventDataSourceRepresentation) +
-					compartmentIdVariableStr + OsManagementHubEventResourceDependencies + eventIdVariableStr2,
-				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					//resource.TestCheckResourceAttr(datasourceName, "event_fingerprint", "eventFingerprint"),
-					resource.TestCheckResourceAttr(datasourceName, "event_summary", "Manually created event 2 for testing caused by <Yijiu>"),
-					resource.TestCheckResourceAttr(datasourceName, "event_summary_contains", "testing"),
-					//resource.TestCheckResourceAttr(datasourceName, "id", "id"),
-					resource.TestCheckResourceAttr(datasourceName, "is_managed_by_autonomous_linux", "true"),
-					resource.TestCheckResourceAttrSet(datasourceName, "resource_id"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-					resource.TestCheckResourceAttrSet(datasourceName, "time_created_greater_than_or_equal_to"),
-					resource.TestCheckResourceAttrSet(datasourceName, "time_created_less_than"),
-					resource.TestCheckResourceAttr(datasourceName, "type.#", "1"),
+	// 			func(s *terraform.State) (err error) {
+	// 				resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+	// 				if resId != resId2 {
+	// 					return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+	// 				}
+	// 				return err
+	// 			},
+	// 		),
+	// 	},
+	// 	// verify resource import
+	// 	{
+	// 		Config:                  config + OsManagementHubEventRequiredOnlyResource + eventIdVariableStr,
+	// 		ImportState:             true,
+	// 		ImportStateVerify:       true,
+	// 		ImportStateVerifyIgnore: []string{},
+	// 		ResourceName:            resourceName,
+	// 	},
+	// 	// verify datasource
+	// 	{
+	// 		Config: config +
+	// 			acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_events", "test_events", acctest.Optional, acctest.Update, OsManagementHubEventDataSourceRepresentation) +
+	// 			compartmentIdVariableStr + OsManagementHubEventResourceDependencies + eventIdVariableStr2,
+	// 		Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+	// 			resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+	// 			//resource.TestCheckResourceAttr(datasourceName, "event_fingerprint", "eventFingerprint"),
+	// 			resource.TestCheckResourceAttr(datasourceName, "event_summary", "Manually created event 2 for testing caused by <Yijiu>"),
+	// 			resource.TestCheckResourceAttr(datasourceName, "event_summary_contains", "testing"),
+	// 			//resource.TestCheckResourceAttr(datasourceName, "id", "id"),
+	// 			resource.TestCheckResourceAttr(datasourceName, "is_managed_by_autonomous_linux", "true"),
+	// 			resource.TestCheckResourceAttrSet(datasourceName, "resource_id"),
+	// 			resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+	// 			resource.TestCheckResourceAttrSet(datasourceName, "time_created_greater_than_or_equal_to"),
+	// 			resource.TestCheckResourceAttrSet(datasourceName, "time_created_less_than"),
+	// 			resource.TestCheckResourceAttr(datasourceName, "type.#", "1"),
 
-					resource.TestCheckResourceAttr(datasourceName, "event_collection.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "event_collection.0.items.#", "1"),
-				),
-			},
-			//// delete before next step
-			//{
-			//	Config: config + compartmentIdVariableStr + OsManagementHubEventResourceDependencies + eventIdVariableStr2,
-			//},
-			// verify singular datasource
-			{
-				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_event", "test_event", acctest.Required, acctest.Create, OsManagementHubEventSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + eventIdVariableStr2,
-				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "event_id"),
+	// 			resource.TestCheckResourceAttr(datasourceName, "event_collection.#", "1"),
+	// 			resource.TestCheckResourceAttr(datasourceName, "event_collection.0.items.#", "1"),
+	// 		),
+	// 	},
+	// 	//// delete before next step
+	// 	//{
+	// 	//	Config: config + compartmentIdVariableStr + OsManagementHubEventResourceDependencies + eventIdVariableStr2,
+	// 	//},
+	// 	// verify singular datasource
+	// 	{
+	// 		Config: config +
+	// 			acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_event", "test_event", acctest.Required, acctest.Create, OsManagementHubEventSingularDataSourceRepresentation) +
+	// 			compartmentIdVariableStr + eventIdVariableStr2,
+	// 		Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+	// 			resource.TestCheckResourceAttrSet(singularDatasourceName, "event_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(singularDatasourceName, "data.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "event_details"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "event_summary"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "is_managed_by_autonomous_linux"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "system_details.#", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_occurred"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
-				),
-			},
-		})*/
+	// 			resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+	// 			resource.TestCheckResourceAttr(singularDatasourceName, "data.#", "1"),
+	// 			resource.TestCheckResourceAttrSet(singularDatasourceName, "event_details"),
+	// 			resource.TestCheckResourceAttrSet(singularDatasourceName, "event_summary"),
+	// 			resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+	// 			resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+	// 			resource.TestCheckResourceAttrSet(singularDatasourceName, "is_managed_by_autonomous_linux"),
+	// 			resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+	// 			resource.TestCheckResourceAttr(singularDatasourceName, "system_details.#", "1"),
+	// 			resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+	// 			resource.TestCheckResourceAttrSet(singularDatasourceName, "time_occurred"),
+	// 			resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+	// 			resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
+	// 		),
+	// 	},
+	// })
 }
 
-// TODO
 func testAccCheckOsManagementHubEventDestroy(s *terraform.State) error {
 	noResourceFound := true
-	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).OsmhEventClient()
+	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).EventClient()
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_os_management_hub_event" {
 			noResourceFound = false
@@ -270,7 +261,7 @@ func init() {
 }
 
 func sweepOsManagementHubEventResource(compartment string) error {
-	eventClient := acctest.GetTestClients(&schema.ResourceData{}).OsmhEventClient()
+	eventClient := acctest.GetTestClients(&schema.ResourceData{}).EventClient()
 	eventIds, err := getOsManagementHubEventIds(compartment)
 	if err != nil {
 		return err
@@ -301,7 +292,7 @@ func getOsManagementHubEventIds(compartment string) ([]string, error) {
 	}
 	var resourceIds []string
 	compartmentId := compartment
-	eventClient := acctest.GetTestClients(&schema.ResourceData{}).OsmhEventClient()
+	eventClient := acctest.GetTestClients(&schema.ResourceData{}).EventClient()
 
 	listEventsRequest := oci_os_management_hub.ListEventsRequest{}
 	listEventsRequest.CompartmentId = &compartmentId
@@ -328,7 +319,7 @@ func OsManagementHubEventSweepWaitCondition(response common.OCIOperationResponse
 }
 
 func OsManagementHubEventSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.OsmhEventClient().GetEvent(context.Background(), oci_os_management_hub.GetEventRequest{
+	_, err := client.EventClient().GetEvent(context.Background(), oci_os_management_hub.GetEventRequest{
 		EventId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,

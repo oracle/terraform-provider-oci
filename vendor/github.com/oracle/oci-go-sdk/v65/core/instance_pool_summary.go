@@ -59,6 +59,9 @@ type InstancePoolSummary struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Count of instance in running state associated to the Instance Pool.
+	CurrentSize *int `mandatory:"false" json:"currentSize"`
 }
 
 func (m InstancePoolSummary) String() string {

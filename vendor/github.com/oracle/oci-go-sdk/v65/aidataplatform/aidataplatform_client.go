@@ -136,7 +136,7 @@ func (client AiDataPlatformClient) cancelWorkRequest(ctx context.Context, reques
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aiDataPlatform", "CancelWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -195,7 +195,7 @@ func (client AiDataPlatformClient) changeAiDataPlatformCompartment(ctx context.C
 
 	var response ChangeAiDataPlatformCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aiDataPlatform", "ChangeAiDataPlatformCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -258,7 +258,7 @@ func (client AiDataPlatformClient) createAiDataPlatform(ctx context.Context, req
 
 	var response CreateAiDataPlatformResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aiDataPlatform", "CreateAiDataPlatform")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -316,7 +316,7 @@ func (client AiDataPlatformClient) deleteAiDataPlatform(ctx context.Context, req
 
 	var response DeleteAiDataPlatformResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aiDataPlatform", "DeleteAiDataPlatform")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -374,7 +374,7 @@ func (client AiDataPlatformClient) getAiDataPlatform(ctx context.Context, reques
 
 	var response GetAiDataPlatformResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aiDataPlatform", "GetAiDataPlatform")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -432,7 +432,7 @@ func (client AiDataPlatformClient) getWorkRequest(ctx context.Context, request c
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aiDataPlatform", "GetWorkRequest")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -490,7 +490,7 @@ func (client AiDataPlatformClient) listAiDataPlatforms(ctx context.Context, requ
 
 	var response ListAiDataPlatformsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aiDataPlatform", "ListAiDataPlatforms")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -548,7 +548,7 @@ func (client AiDataPlatformClient) listWorkRequestErrors(ctx context.Context, re
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aiDataPlatform", "ListWorkRequestErrors")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -606,7 +606,7 @@ func (client AiDataPlatformClient) listWorkRequestLogs(ctx context.Context, requ
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aiDataPlatform", "ListWorkRequestLogs")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -664,7 +664,7 @@ func (client AiDataPlatformClient) listWorkRequests(ctx context.Context, request
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aiDataPlatform", "ListWorkRequests")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -722,7 +722,7 @@ func (client AiDataPlatformClient) updateAiDataPlatform(ctx context.Context, req
 
 	var response UpdateAiDataPlatformResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aiDataPlatform", "UpdateAiDataPlatform")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {

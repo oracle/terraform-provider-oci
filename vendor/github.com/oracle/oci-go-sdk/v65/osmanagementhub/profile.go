@@ -151,6 +151,10 @@ func (m *profile) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := WindowsStandaloneProfile{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "UBUNTU_STANDALONE":
+		mm := UbuntuStandaloneProfile{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "LIFECYCLE":
 		mm := LifecycleProfile{}
 		err = json.Unmarshal(data, &mm)

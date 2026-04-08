@@ -142,7 +142,7 @@ func (client LifecycleEnvironmentClient) attachManagedInstancesToLifecycleStage(
 
 	var response AttachManagedInstancesToLifecycleStageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "AttachManagedInstancesToLifecycleStage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -205,7 +205,7 @@ func (client LifecycleEnvironmentClient) changeLifecycleEnvironmentCompartment(c
 
 	var response ChangeLifecycleEnvironmentCompartmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "ChangeLifecycleEnvironmentCompartment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -268,7 +268,7 @@ func (client LifecycleEnvironmentClient) createLifecycleEnvironment(ctx context.
 
 	var response CreateLifecycleEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "CreateLifecycleEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -326,7 +326,7 @@ func (client LifecycleEnvironmentClient) deleteLifecycleEnvironment(ctx context.
 
 	var response DeleteLifecycleEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "DeleteLifecycleEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -389,7 +389,7 @@ func (client LifecycleEnvironmentClient) detachManagedInstancesFromLifecycleStag
 
 	var response DetachManagedInstancesFromLifecycleStageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "DetachManagedInstancesFromLifecycleStage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -447,7 +447,7 @@ func (client LifecycleEnvironmentClient) getLifecycleEnvironment(ctx context.Con
 
 	var response GetLifecycleEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "GetLifecycleEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -505,7 +505,7 @@ func (client LifecycleEnvironmentClient) getLifecycleStage(ctx context.Context, 
 
 	var response GetLifecycleStageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "GetLifecycleStage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -564,7 +564,7 @@ func (client LifecycleEnvironmentClient) listLifecycleEnvironments(ctx context.C
 
 	var response ListLifecycleEnvironmentsResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "ListLifecycleEnvironments")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -623,7 +623,7 @@ func (client LifecycleEnvironmentClient) listLifecycleStageInstalledPackages(ctx
 
 	var response ListLifecycleStageInstalledPackagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "ListLifecycleStageInstalledPackages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -681,7 +681,7 @@ func (client LifecycleEnvironmentClient) listLifecycleStages(ctx context.Context
 
 	var response ListLifecycleStagesResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "ListLifecycleStages")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -746,7 +746,7 @@ func (client LifecycleEnvironmentClient) promoteSoftwareSourceToLifecycleStage(c
 
 	var response PromoteSoftwareSourceToLifecycleStageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "PromoteSoftwareSourceToLifecycleStage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -809,7 +809,7 @@ func (client LifecycleEnvironmentClient) rebootLifecycleStage(ctx context.Contex
 
 	var response RebootLifecycleStageResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "RebootLifecycleStage")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
@@ -867,7 +867,7 @@ func (client LifecycleEnvironmentClient) updateLifecycleEnvironment(ctx context.
 
 	var response UpdateLifecycleEnvironmentResponse
 	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lifecycleEnvironment", "UpdateLifecycleEnvironment")
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
