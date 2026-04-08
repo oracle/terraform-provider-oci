@@ -136,7 +136,7 @@ func (client MetadataClient) listExternalLocationDetailsMetadata(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/ExternalLocationsMetadatumCollection/ListExternalLocationDetailsMetadata"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Metadata", "ListExternalLocationDetailsMetadata", apiReferenceLink)
 		return response, err
 	}
@@ -196,7 +196,7 @@ func (client MetadataClient) listExternalLocationMappingMetadata(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/ExternalLocationMappingMetadatumSummaryCollection/ListExternalLocationMappingMetadata"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Metadata", "ListExternalLocationMappingMetadata", apiReferenceLink)
 		return response, err
 	}
@@ -250,7 +250,7 @@ func (client MetadataClient) listExternalLocationSummariesMetadata(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/ExternalLocationSummariesMetadatumSummaryCollection/ListExternalLocationSummariesMetadata"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Metadata", "ListExternalLocationSummariesMetadata", apiReferenceLink)
 		return response, err
 	}

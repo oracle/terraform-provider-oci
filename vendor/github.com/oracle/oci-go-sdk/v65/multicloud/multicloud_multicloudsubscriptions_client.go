@@ -137,7 +137,7 @@ func (client MulticloudsubscriptionsClient) listMulticloudSubscriptions(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/MulticloudSubscriptionCollection/ListMulticloudSubscriptions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Multicloudsubscriptions", "ListMulticloudSubscriptions", apiReferenceLink)
 		return response, err
 	}

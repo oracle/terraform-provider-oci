@@ -32,6 +32,7 @@ type x509FederationClientForOkeWorkloadIdentity struct {
 	sessionKeySupplier           sessionKeySupplier
 	securityToken                securityToken
 	authClient                   *common.BaseClient
+	httpClient                   *http.Client
 	mux                          sync.Mutex
 	proxymuxEndpoint             string
 	saTokenProvider              ServiceAccountTokenProvider
@@ -47,8 +48,27 @@ func newX509FederationClientForOkeWorkloadIdentity(endpoint string, saTokenProvi
 	}
 
 	client.sessionKeySupplier = newSessionKeySupplier()
+	client.httpClient = newOkeWorkloadIdentityHTTPClient(kubernetesServiceAccountCert)
 
 	return client, nil
+}
+
+func newOkeWorkloadIdentityHTTPClient(kubernetesServiceAccountCert *x509.CertPool) *http.Client {
+	return &http.Client{
+		Timeout: 30 * time.Second,
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				RootCAs: kubernetesServiceAccountCert,
+			},
+		},
+	}
+}
+
+func (c *x509FederationClientForOkeWorkloadIdentity) proxymuxHTTPClient() *http.Client {
+	if c.httpClient == nil {
+		c.httpClient = newOkeWorkloadIdentityHTTPClient(c.kubernetesServiceAccountCert)
+	}
+	return c.httpClient
 }
 
 func (c *x509FederationClientForOkeWorkloadIdentity) renewSecurityToken() (err error) {
@@ -74,15 +94,6 @@ type token struct {
 
 // getSecurityToken get security token from Proxymux
 func (c *x509FederationClientForOkeWorkloadIdentity) getSecurityToken() (securityToken, error) {
-	client := http.Client{
-		Timeout: 30 * time.Second,
-		Transport: &http.Transport{
-			TLSClientConfig: &tls.Config{
-				RootCAs: c.kubernetesServiceAccountCert,
-			},
-		},
-	}
-
 	publicKey := string(c.sessionKeySupplier.PublicKeyPemRaw())
 	common.Logf("Public Key for OKE Workload Identity is:", publicKey)
 	rawPayload := workloadIdentityRequestPayload{Podkey: publicKey}
@@ -111,7 +122,7 @@ func (c *x509FederationClientForOkeWorkloadIdentity) getSecurityToken() (securit
 	opcRequestID := utils.GenerateOpcRequestID()
 	request.Header.Set("opc-request-id", opcRequestID)
 
-	response, err := client.Do(request)
+	response, err := c.proxymuxHTTPClient().Do(request)
 	if err != nil {
 		return nil, fmt.Errorf("error %s", err)
 	}
@@ -124,6 +135,11 @@ func (c *x509FederationClientForOkeWorkloadIdentity) getSecurityToken() (securit
 		}
 	}(response.Body)
 
+	// Ensure body is read before returning, to allow connection reuse.
+	if _, err = body.ReadFrom(response.Body); err != nil {
+		return nil, fmt.Errorf("error reading Workload Identity token generation response: %s. Please contact OKE team", err)
+	}
+
 	statusCode := response.StatusCode
 	if statusCode != http.StatusOK {
 		if statusCode == http.StatusForbidden {
@@ -134,10 +150,6 @@ func (c *x509FederationClientForOkeWorkloadIdentity) getSecurityToken() (securit
 				response.Status, body.String())
 		}
 
-	}
-
-	if _, err = body.ReadFrom(response.Body); err != nil {
-		return nil, fmt.Errorf("error reading Workload Identity token generation response: %s. Please contact OKE team", err)
 	}
 
 	rawBody := body.String()

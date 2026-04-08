@@ -136,7 +136,7 @@ func (client DistributedDbWorkRequestServiceClient) getWorkRequest(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/WorkRequest/GetWorkRequest"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20250101/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "DistributedDbWorkRequestService", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -190,7 +190,7 @@ func (client DistributedDbWorkRequestServiceClient) listWorkRequestErrors(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20250101/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "DistributedDbWorkRequestService", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -244,7 +244,7 @@ func (client DistributedDbWorkRequestServiceClient) listWorkRequestLogs(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20250101/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "DistributedDbWorkRequestService", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -298,7 +298,7 @@ func (client DistributedDbWorkRequestServiceClient) listWorkRequests(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-database/20250101/WorkRequest/ListWorkRequests"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/globally-distributed-autonomous-database/20250101/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "DistributedDbWorkRequestService", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}

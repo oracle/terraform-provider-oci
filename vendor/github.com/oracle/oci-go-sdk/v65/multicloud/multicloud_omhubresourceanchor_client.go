@@ -138,7 +138,7 @@ func (client OmhubResourceAnchorClient) getResourceAnchor(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/ResourceAnchor/GetResourceAnchor"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OmhubResourceAnchor", "GetResourceAnchor", apiReferenceLink)
 		return response, err
 	}
@@ -195,7 +195,7 @@ func (client OmhubResourceAnchorClient) listResourceAnchors(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/ResourceAnchorCollection/ListResourceAnchors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "OmhubResourceAnchor", "ListResourceAnchors", apiReferenceLink)
 		return response, err
 	}

@@ -141,7 +141,7 @@ func (client TenancyOverrideClient) createTenancyOverride(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/TenancyOverride/CreateTenancyOverride"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "TenancyOverride", "CreateTenancyOverride", apiReferenceLink)
 		return response, err
 	}
@@ -195,7 +195,7 @@ func (client TenancyOverrideClient) deleteAllTenancyOverridesForTenant(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/TenancyOverride/DeleteAllTenancyOverridesForTenant"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "TenancyOverride", "DeleteAllTenancyOverridesForTenant", apiReferenceLink)
 		return response, err
 	}
@@ -249,7 +249,7 @@ func (client TenancyOverrideClient) deleteTenancyOverride(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/TenancyOverride/DeleteTenancyOverride"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "TenancyOverride", "DeleteTenancyOverride", apiReferenceLink)
 		return response, err
 	}
@@ -303,7 +303,7 @@ func (client TenancyOverrideClient) getTenancyOverride(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/TenancyOverride/GetTenancyOverride"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "TenancyOverride", "GetTenancyOverride", apiReferenceLink)
 		return response, err
 	}
@@ -357,7 +357,7 @@ func (client TenancyOverrideClient) listTenancyOverrides(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/TenancyOverrideCollection/ListTenancyOverrides"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "TenancyOverride", "ListTenancyOverrides", apiReferenceLink)
 		return response, err
 	}
@@ -411,7 +411,7 @@ func (client TenancyOverrideClient) updateTenancyOverride(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/TenancyOverride/UpdateTenancyOverride"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "TenancyOverride", "UpdateTenancyOverride", apiReferenceLink)
 		return response, err
 	}

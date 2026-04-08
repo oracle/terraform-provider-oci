@@ -138,7 +138,7 @@ func (client MulticloudAlertsClient) listMulticloudAlerts(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/MulticloudAlertCollection/ListMulticloudAlerts"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "MulticloudAlerts", "ListMulticloudAlerts", apiReferenceLink)
 		return response, err
 	}

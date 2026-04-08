@@ -136,7 +136,7 @@ func (client InternalClient) injectFault(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/LustreFileSystem/InjectFault"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Internal", "InjectFault", apiReferenceLink)
 		return response, err
 	}

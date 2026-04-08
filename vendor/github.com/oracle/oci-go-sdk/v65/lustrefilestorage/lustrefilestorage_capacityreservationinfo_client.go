@@ -141,7 +141,7 @@ func (client CapacityReservationInfoClient) createCapacityReservationInfo(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CapacityReservationInfo/CreateCapacityReservationInfo"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CapacityReservationInfo", "CreateCapacityReservationInfo", apiReferenceLink)
 		return response, err
 	}
@@ -195,7 +195,7 @@ func (client CapacityReservationInfoClient) deleteCapacityReservationInfo(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CapacityReservationInfo/DeleteCapacityReservationInfo"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CapacityReservationInfo", "DeleteCapacityReservationInfo", apiReferenceLink)
 		return response, err
 	}
@@ -249,7 +249,7 @@ func (client CapacityReservationInfoClient) getCapacityReservationInfo(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CapacityReservationInfo/GetCapacityReservationInfo"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CapacityReservationInfo", "GetCapacityReservationInfo", apiReferenceLink)
 		return response, err
 	}
@@ -303,7 +303,7 @@ func (client CapacityReservationInfoClient) listCapacityReservationInfos(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CapacityReservationInfoCollection/ListCapacityReservationInfos"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CapacityReservationInfo", "ListCapacityReservationInfos", apiReferenceLink)
 		return response, err
 	}
@@ -357,7 +357,7 @@ func (client CapacityReservationInfoClient) updateCapacityReservationInfo(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/CapacityReservationInfo/UpdateCapacityReservationInfo"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "CapacityReservationInfo", "UpdateCapacityReservationInfo", apiReferenceLink)
 		return response, err
 	}

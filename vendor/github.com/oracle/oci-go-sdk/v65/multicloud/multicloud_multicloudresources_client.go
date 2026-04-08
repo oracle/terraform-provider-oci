@@ -139,7 +139,7 @@ func (client MulticloudResourcesClient) listMulticloudResources(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/multicloud-omhub-cp/20180828/MulticloudResourceCollection/ListMulticloudResources"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "MulticloudResources", "ListMulticloudResources", apiReferenceLink)
 		return response, err
 	}
