@@ -34,11 +34,16 @@ var (
 		"env/dev/main.tf":      "provider oci {}\n",
 		"env/dev/variables.tf": "variable \"stack_name\" { default = \"create\" }\n",
 	}
+	ResourcemanagerStackConfigOnlyUpdateZipFiles = map[string]string{
+		"env/dev/main.tf":      "provider oci {}\n# config only update\n",
+		"env/dev/variables.tf": "variable \"stack_name\" { default = \"config-only-update\" }\n",
+	}
 	ResourcemanagerStackUpdateZipFiles = map[string]string{
 		"env/dev/main.tf":      "provider oci {}\n# updated config\n",
 		"env/dev/variables.tf": "variable \"stack_name\" { default = \"update\" }\n",
 	}
 	ResourcemanagerStackCreateZipFileBase64Encoded = mustBuildResourcemanagerStackZipBase64(ResourcemanagerStackCreateZipFiles)
+	ResourcemanagerStackConfigOnlyUpdateZipFileBase64Encoded = mustBuildResourcemanagerStackZipBase64(ResourcemanagerStackConfigOnlyUpdateZipFiles)
 	ResourcemanagerStackUpdateZipFileBase64Encoded = mustBuildResourcemanagerStackZipBase64(ResourcemanagerStackUpdateZipFiles)
 
 	ResourcemanagerStackResourceRepresentation = map[string]interface{}{
@@ -52,6 +57,50 @@ var (
 		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `TestResourcemanagerStackResource_crud`, Update: `TestResourcemanagerStackResource_crud_updated`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"variables":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"var1": "value1"}, Update: map[string]string{"var1": "updatedValue", "var2": "value2"}},
+	}
+	ResourcemanagerStackIncrementalCreateRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"config_source": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
+			"config_source_type":     acctest.Representation{RepType: acctest.Required, Create: `ZIP_UPLOAD`},
+			"zip_file_base64encoded": acctest.Representation{RepType: acctest.Required, Create: ResourcemanagerStackCreateZipFileBase64Encoded},
+			"working_directory":      acctest.Representation{RepType: acctest.Optional, Create: `env/dev`},
+		}},
+		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `TestResourcemanagerStackResource_incrementalUpdates`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
+		"variables":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"var1": "value1"}},
+	}
+	ResourcemanagerStackIncrementalTagUpdateRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"config_source": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
+			"config_source_type":     acctest.Representation{RepType: acctest.Required, Create: `ZIP_UPLOAD`},
+			"zip_file_base64encoded": acctest.Representation{RepType: acctest.Required, Create: ResourcemanagerStackCreateZipFileBase64Encoded},
+			"working_directory":      acctest.Representation{RepType: acctest.Optional, Create: `env/dev`},
+		}},
+		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `TestResourcemanagerStackResource_incrementalUpdates`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Accounting"}},
+		"variables":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"var1": "value1"}},
+	}
+	ResourcemanagerStackIncrementalVariableUpdateRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"config_source": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
+			"config_source_type":     acctest.Representation{RepType: acctest.Required, Create: `ZIP_UPLOAD`},
+			"zip_file_base64encoded": acctest.Representation{RepType: acctest.Required, Create: ResourcemanagerStackCreateZipFileBase64Encoded},
+			"working_directory":      acctest.Representation{RepType: acctest.Optional, Create: `env/dev`},
+		}},
+		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `TestResourcemanagerStackResource_incrementalUpdates`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Accounting"}},
+		"variables":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"var1": "updatedValue", "var2": "value2"}},
+	}
+	ResourcemanagerStackIncrementalConfigUpdateRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"config_source": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
+			"config_source_type":     acctest.Representation{RepType: acctest.Required, Create: `ZIP_UPLOAD`},
+			"zip_file_base64encoded": acctest.Representation{RepType: acctest.Required, Create: ResourcemanagerStackConfigOnlyUpdateZipFileBase64Encoded},
+			"working_directory":      acctest.Representation{RepType: acctest.Optional, Create: `env/dev`},
+		}},
+		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `TestResourcemanagerStackResource_incrementalUpdates`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Accounting"}},
+		"variables":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"var1": "updatedValue", "var2": "value2"}},
 	}
 
 	ResourcemanagerResourcemanagerStackSingularDataSourceRepresentation = map[string]interface{}{
@@ -168,6 +217,70 @@ func TestResourcemanagerStackResource_crud(t *testing.T) {
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
 			ResourceName:            resourceName,
+		},
+	})
+}
+
+// issue-routing-tag: resourcemanager/default
+func TestResourcemanagerStackResource_incrementalUpdates(t *testing.T) {
+	if strings.Contains(utils.GetEnvSettingWithBlankDefault("suppressed_tests"), "TestResourcemanagerStackResource_incrementalUpdates") {
+		t.Skip("Skipping suppressed TestResourcemanagerStackResource_incrementalUpdates")
+	}
+
+	httpreplay.SetScenario("TestResourcemanagerStackResource_incrementalUpdates")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	resourceName := "oci_resourcemanager_stack.test_stack"
+
+	var resId string
+
+	acctest.ResourceTest(t, testAccCheckResourcemanagerStackDestroy, []resource.TestStep{
+		{
+			Config: config + compartmentIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_stack", "test_stack", acctest.Optional, acctest.Create, ResourcemanagerStackIncrementalCreateRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.Department", "Finance"),
+				resource.TestCheckResourceAttr(resourceName, "variables.%", "1"),
+				testCheckResourcemanagerStackZipContents(resourceName, ResourcemanagerStackCreateZipFiles),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_stack", "test_stack", acctest.Optional, acctest.Create, ResourcemanagerStackIncrementalTagUpdateRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.Department", "Accounting"),
+				resource.TestCheckResourceAttr(resourceName, "variables.%", "1"),
+				testCheckResourcemanagerStackZipContents(resourceName, ResourcemanagerStackCreateZipFiles),
+				testCheckResourcemanagerStackResourceIdUnchanged(resourceName, &resId),
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_stack", "test_stack", acctest.Optional, acctest.Create, ResourcemanagerStackIncrementalVariableUpdateRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.Department", "Accounting"),
+				resource.TestCheckResourceAttr(resourceName, "variables.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "variables.var1", "updatedValue"),
+				testCheckResourcemanagerStackZipContents(resourceName, ResourcemanagerStackCreateZipFiles),
+				testCheckResourcemanagerStackResourceIdUnchanged(resourceName, &resId),
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_resourcemanager_stack", "test_stack", acctest.Optional, acctest.Create, ResourcemanagerStackIncrementalConfigUpdateRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.Department", "Accounting"),
+				resource.TestCheckResourceAttr(resourceName, "variables.%", "2"),
+				testCheckResourcemanagerStackZipContents(resourceName, ResourcemanagerStackConfigOnlyUpdateZipFiles),
+				testCheckResourcemanagerStackResourceIdUnchanged(resourceName, &resId),
+			),
 		},
 	})
 }
@@ -313,6 +426,19 @@ func mustBuildResourcemanagerStackZipBase64(files map[string]string) string {
 	}
 
 	return base64.StdEncoding.EncodeToString(buf.Bytes())
+}
+
+func testCheckResourcemanagerStackResourceIdUnchanged(resourceName string, expectedId *string) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		currentId, err := acctest.FromInstanceState(s, resourceName, "id")
+		if err != nil {
+			return err
+		}
+		if *expectedId != currentId {
+			return fmt.Errorf("resource recreated when it was supposed to be updated: previous id %s current id %s", *expectedId, currentId)
+		}
+		return nil
+	}
 }
 
 func testCheckResourcemanagerStackZipContents(resourceName string, expectedFiles map[string]string) resource.TestCheckFunc {
