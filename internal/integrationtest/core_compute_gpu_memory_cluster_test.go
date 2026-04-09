@@ -56,20 +56,18 @@ var (
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compute_cluster_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_core_compute_cluster.test_compute_cluster.id}`},
 		// Use provided IC if set; otherwise use the one created by this test (index 0 due to count)
-		"instance_configuration_id": acctest.Representation{RepType: acctest.Required, Create: `${var.instance_configuration_id != "" ? var.instance_configuration_id : oci_core_instance_configuration.test_instance_configuration[0].id}`},
-		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
-		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
-		"gpu_memory_fabric_id":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_compute_gpu_memory_fabric.test_compute_gpu_memory_fabric.id}`},
-		"size":                      acctest.Representation{RepType: acctest.Required, Create: `${var.gmc_size}`},
-		// uncomment for testing with tenancies that automatically added tags like Oracle-Tags
-		// "lifecycle":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: IgnoreDefinedTagsRepresentation},
+		"instance_configuration_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.instance_configuration_id != "" ? var.instance_configuration_id : oci_core_instance_configuration.test_instance_configuration[0].id}`},
+		"display_name":                    acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
+		"gpu_memory_fabric_id":            acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_compute_gpu_memory_fabric.test_compute_gpu_memory_fabric.id}`},
 		"gpu_memory_cluster_scale_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreComputeGpuMemoryClusterGpuMemoryClusterScaleConfigRepresentation},
+		"private_ip_ids":                  acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.private_ip_ids[0]}`, `${var.private_ip_ids[1]}`, `${var.private_ip_ids[2]}`, `${var.private_ip_ids[3]}`, `${var.private_ip_ids[4]}`}, Update: []string{`${var.private_ip_ids[0]}`, `${var.private_ip_ids[1]}`, `${var.private_ip_ids[2]}`, `${var.private_ip_ids[3]}`, `${var.private_ip_ids[4]}`}},
+		"size":                            acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
 	}
 	CoreComputeGpuMemoryClusterGpuMemoryClusterScaleConfigRepresentation = map[string]interface{}{
 		"is_upsize_enabled":   acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
 		"is_downsize_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
-		"target_size":         acctest.Representation{RepType: acctest.Optional, Create: `2`, Update: `3`},
+		"target_size":         acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `2`},
 	}
 
 	GpuMemoryClusterInstanceConfigurationInstanceDetailsRepresentation = map[string]interface{}{
@@ -77,15 +75,18 @@ var (
 		"launch_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: GpuMemoryClusterInstanceConfigurationInstanceDetailsLaunchDetailsRepresentation},
 	}
 
-	GpuMemoryClusterInstanceConfigurationInstanceDetailsLaunchDetailsRepresentation = acctest.RepresentationCopyWithRemovedProperties(
-		acctest.GetMultipleUpdatedRepresenationCopy(
-			[]string{"shape", "source_details"},
-			[]interface{}{
-				acctest.Representation{RepType: acctest.Optional, Create: `BM.GPU.GB200.4`}, // modified shape to GB200
-				acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("image_id", acctest.Representation{RepType: acctest.Optional, Create: `${var.image_id}`}, CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation)},
-			},
-			CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentation),
-		[]string{"shape_config", "dedicated_vm_host_id", "is_pv_encryption_in_transit_enabled", "preferred_maintenance_action", "defined_tags", "freeform_tags", "placement_constraint_details"})
+	GpuMemoryClusterInstanceConfigurationInstanceDetailsLaunchDetailsRepresentation = acctest.RepresentationCopyWithRemovedNestedProperties(
+		"create_vnic_details.ipv6address_ipv6subnet_cidr_pair_details",
+		acctest.RepresentationCopyWithRemovedProperties(
+			acctest.GetMultipleUpdatedRepresenationCopy(
+				[]string{"shape", "source_details"},
+				[]interface{}{
+					acctest.Representation{RepType: acctest.Optional, Create: `BM.GPU.GB200.4`}, // modified shape to GB200
+					acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.GetUpdatedRepresentationCopy("image_id", acctest.Representation{RepType: acctest.Optional, Create: `${var.image_id}`}, CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation)},
+				},
+				CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentation),
+			[]string{"shape_config", "dedicated_vm_host_id", "is_pv_encryption_in_transit_enabled", "preferred_maintenance_action", "defined_tags", "freeform_tags", "placement_constraint_details"}),
+	)
 
 	GpuMemoryClusterInstanceConfigurationRepresentation = acctest.RepresentationCopyWithRemovedProperties(
 		CoreInstanceConfigurationRepresentation,
@@ -93,7 +94,6 @@ var (
 
 	CoreComputeGpuMemoryClusterResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_compute_cluster", "test_compute_cluster", acctest.Required, acctest.Create, CoreComputeClusterRepresentation) +
 		AvailabilityDomainConfig +
-		DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
@@ -130,6 +130,8 @@ func TestCoreComputeGpuMemoryClusterResource_basic(t *testing.T) {
 
 	computeGpuMemoryFabricId := utils.GetEnvSettingWithBlankDefault("compute_gpu_memory_fabric_id")
 	computeGpuMemoryFabricIdVariableStr := fmt.Sprintf("variable \"compute_gpu_memory_fabric_id\" { default = \"%s\" }\n", computeGpuMemoryFabricId)
+	privateIpIds := utils.GetEnvSettingWithDefault("private_ip_ids", "[]")
+	privateIpIdsVariableStr := fmt.Sprintf("variable \"private_ip_ids\" {\n  type = list(string)\n  default = %s\n}\n", privateIpIds)
 
 	// Some shared instance configuration representations in this branch may reference
 	// var.compute_host_group_id (e.g., via placement constraints). Ensure the variable
@@ -147,13 +149,13 @@ func TestCoreComputeGpuMemoryClusterResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+gpuMemoryClusterSizeVariableStr+imageIdVariableStr+computeGpuMemoryFabricIdVariableStr+computeHostGroupIdVariableStr+instanceConfigurationIdVariableStr+CoreComputeGpuMemoryClusterResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+gpuMemoryClusterSizeVariableStr+imageIdVariableStr+computeGpuMemoryFabricIdVariableStr+privateIpIdsVariableStr+computeHostGroupIdVariableStr+instanceConfigurationIdVariableStr+CoreComputeGpuMemoryClusterResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_core_compute_gpu_memory_cluster", "test_compute_gpu_memory_cluster", acctest.Optional, acctest.Create, CoreComputeGpuMemoryClusterRepresentation), "core", "computeGpuMemoryCluster", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreComputeGpuMemoryClusterDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + gpuMemoryClusterSizeVariableStr + imageIdVariableStr + computeGpuMemoryFabricIdVariableStr + computeHostGroupIdVariableStr + instanceConfigurationIdVariableStr + CoreComputeGpuMemoryClusterResourceDependencies +
+			Config: config + compartmentIdVariableStr + gpuMemoryClusterSizeVariableStr + imageIdVariableStr + computeGpuMemoryFabricIdVariableStr + privateIpIdsVariableStr + computeHostGroupIdVariableStr + instanceConfigurationIdVariableStr + CoreComputeGpuMemoryClusterResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_gpu_memory_cluster", "test_compute_gpu_memory_cluster", acctest.Required, acctest.Create, CoreComputeGpuMemoryClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -171,11 +173,11 @@ func TestCoreComputeGpuMemoryClusterResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + gpuMemoryClusterSizeVariableStr + imageIdVariableStr + computeGpuMemoryFabricIdVariableStr + computeHostGroupIdVariableStr + instanceConfigurationIdVariableStr + CoreComputeGpuMemoryClusterResourceDependencies,
+			Config: config + compartmentIdVariableStr + gpuMemoryClusterSizeVariableStr + imageIdVariableStr + computeGpuMemoryFabricIdVariableStr + privateIpIdsVariableStr + computeHostGroupIdVariableStr + instanceConfigurationIdVariableStr + CoreComputeGpuMemoryClusterResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + gpuMemoryClusterSizeVariableStr + imageIdVariableStr + computeGpuMemoryFabricIdVariableStr + computeHostGroupIdVariableStr + instanceConfigurationIdVariableStr + CoreComputeGpuMemoryClusterResourceDependencies +
+			Config: config + compartmentIdVariableStr + gpuMemoryClusterSizeVariableStr + imageIdVariableStr + computeGpuMemoryFabricIdVariableStr + privateIpIdsVariableStr + computeHostGroupIdVariableStr + instanceConfigurationIdVariableStr + CoreComputeGpuMemoryClusterResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_gpu_memory_cluster", "test_compute_gpu_memory_cluster", acctest.Optional, acctest.Create, CoreComputeGpuMemoryClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -186,11 +188,12 @@ func TestCoreComputeGpuMemoryClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "gpu_memory_cluster_scale_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "gpu_memory_cluster_scale_config.0.is_downsize_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "gpu_memory_cluster_scale_config.0.is_upsize_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "gpu_memory_cluster_scale_config.0.target_size", "2"),
+				resource.TestCheckResourceAttr(resourceName, "gpu_memory_cluster_scale_config.0.target_size", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "gpu_memory_fabric_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
-				resource.TestCheckResourceAttr(resourceName, "size", gpuMemoryClusterSize),
+				resource.TestCheckResourceAttr(resourceName, "size", "1"),
+				resource.TestCheckResourceAttr(resourceName, "private_ip_ids.#", "5"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -208,7 +211,7 @@ func TestCoreComputeGpuMemoryClusterResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + gpuMemoryClusterSizeVariableStr + imageIdVariableStr + computeGpuMemoryFabricIdVariableStr + computeHostGroupIdVariableStr + instanceConfigurationIdVariableStr + CoreComputeGpuMemoryClusterResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + gpuMemoryClusterSizeVariableStr + imageIdVariableStr + computeGpuMemoryFabricIdVariableStr + privateIpIdsVariableStr + computeHostGroupIdVariableStr + instanceConfigurationIdVariableStr + CoreComputeGpuMemoryClusterResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_gpu_memory_cluster", "test_compute_gpu_memory_cluster", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(CoreComputeGpuMemoryClusterRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -222,11 +225,12 @@ func TestCoreComputeGpuMemoryClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "gpu_memory_cluster_scale_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "gpu_memory_cluster_scale_config.0.is_downsize_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "gpu_memory_cluster_scale_config.0.is_upsize_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "gpu_memory_cluster_scale_config.0.target_size", "2"),
+				resource.TestCheckResourceAttr(resourceName, "gpu_memory_cluster_scale_config.0.target_size", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "gpu_memory_fabric_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
-				resource.TestCheckResourceAttr(resourceName, "size", gpuMemoryClusterSize),
+				resource.TestCheckResourceAttr(resourceName, "size", "1"),
+				resource.TestCheckResourceAttr(resourceName, "private_ip_ids.#", "5"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -242,7 +246,7 @@ func TestCoreComputeGpuMemoryClusterResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + gpuMemoryClusterSizeVariableStr + imageIdVariableStr + computeGpuMemoryFabricIdVariableStr + computeHostGroupIdVariableStr + instanceConfigurationIdVariableStr + CoreComputeGpuMemoryClusterResourceDependencies +
+			Config: config + compartmentIdVariableStr + gpuMemoryClusterSizeVariableStr + imageIdVariableStr + computeGpuMemoryFabricIdVariableStr + privateIpIdsVariableStr + computeHostGroupIdVariableStr + instanceConfigurationIdVariableStr + CoreComputeGpuMemoryClusterResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_gpu_memory_cluster", "test_compute_gpu_memory_cluster", acctest.Optional, acctest.Update, CoreComputeGpuMemoryClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -253,11 +257,12 @@ func TestCoreComputeGpuMemoryClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "gpu_memory_cluster_scale_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "gpu_memory_cluster_scale_config.0.is_downsize_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "gpu_memory_cluster_scale_config.0.is_upsize_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "gpu_memory_cluster_scale_config.0.target_size", "3"),
+				resource.TestCheckResourceAttr(resourceName, "gpu_memory_cluster_scale_config.0.target_size", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "gpu_memory_fabric_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
-				resource.TestCheckResourceAttr(resourceName, "size", gpuMemoryClusterSize),
+				resource.TestCheckResourceAttr(resourceName, "size", "2"),
+				resource.TestCheckResourceAttr(resourceName, "private_ip_ids.#", "5"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -274,7 +279,7 @@ func TestCoreComputeGpuMemoryClusterResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_gpu_memory_clusters", "test_compute_gpu_memory_clusters", acctest.Optional, acctest.Update, CoreComputeGpuMemoryClusterDataSourceRepresentation) +
-				compartmentIdVariableStr + gpuMemoryClusterSizeVariableStr + imageIdVariableStr + computeGpuMemoryFabricIdVariableStr + computeHostGroupIdVariableStr + instanceConfigurationIdVariableStr + CoreComputeGpuMemoryClusterResourceDependencies +
+				compartmentIdVariableStr + gpuMemoryClusterSizeVariableStr + imageIdVariableStr + computeGpuMemoryFabricIdVariableStr + privateIpIdsVariableStr + computeHostGroupIdVariableStr + instanceConfigurationIdVariableStr + CoreComputeGpuMemoryClusterResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_gpu_memory_cluster", "test_compute_gpu_memory_cluster", acctest.Optional, acctest.Update, CoreComputeGpuMemoryClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
@@ -291,7 +296,7 @@ func TestCoreComputeGpuMemoryClusterResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_gpu_memory_cluster", "test_compute_gpu_memory_cluster", acctest.Required, acctest.Create, CoreComputeGpuMemoryClusterSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + gpuMemoryClusterSizeVariableStr + imageIdVariableStr + computeGpuMemoryFabricIdVariableStr + computeHostGroupIdVariableStr + instanceConfigurationIdVariableStr + CoreComputeGpuMemoryClusterResourceConfig,
+				compartmentIdVariableStr + gpuMemoryClusterSizeVariableStr + imageIdVariableStr + computeGpuMemoryFabricIdVariableStr + privateIpIdsVariableStr + computeHostGroupIdVariableStr + instanceConfigurationIdVariableStr + CoreComputeGpuMemoryClusterResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_gpu_memory_cluster_id"),
 
@@ -302,9 +307,10 @@ func TestCoreComputeGpuMemoryClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "gpu_memory_cluster_scale_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "gpu_memory_cluster_scale_config.0.is_downsize_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "gpu_memory_cluster_scale_config.0.is_upsize_enabled", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "gpu_memory_cluster_scale_config.0.target_size", "3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "gpu_memory_cluster_scale_config.0.target_size", "2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "size", gpuMemoryClusterSize),
+				resource.TestCheckResourceAttr(singularDatasourceName, "size", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "private_ip_ids.#", "5"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),

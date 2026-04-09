@@ -103,6 +103,8 @@ func (s *CoreComputeGpuMemoryClusterDataSourceCrud) SetData() error {
 		s.D.Set("instance_configuration_id", *s.Res.InstanceConfigurationId)
 	}
 
+	s.D.Set("private_ip_ids", s.Res.PrivateIpIds)
+
 	if s.Res.Size != nil {
 		s.D.Set("size", strconv.FormatInt(*s.Res.Size, 10))
 	}

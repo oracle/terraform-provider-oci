@@ -39,15 +39,15 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `items` - The list of compute GPU memory cluster instances.
-	* `availability_domain` - The availability domain of the GPU memory cluster instance. 
+* `items` - The list of compute GPU Memory Cluster instances.
+	* `availability_domain` - The availability domain of the GPU Memory Cluster instance. 
 	* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the compartment compartment. 
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-	* `fault_domain` - The fault domain the GPU memory cluster instance is running in.
-	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Customer-unique GPU memory cluster instance 
+	* `fault_domain` - The fault domain the GPU Memory Cluster instance is running in.
+	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Customer-unique GPU Memory Cluster instance 
 	* `instance_configuration_id` - Configuration to be used for this GPU Memory Cluster instance. 
 	* `instance_shape` - The shape of an instance. The shape determines the number of CPUs, amount of memory,  and other resources allocated to the instance. The shape determines the number of CPUs,  the amount of memory, and other resources allocated to the instance. You can list all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes). 
 	* `region` - The region that contains the availability domain the instance is running in.
-	* `state` - The lifecycle state of the GPU memory cluster instance 
-	* `time_created` - The date and time the GPU memory cluster instance was created.  Example: `2016-09-15T21:10:29.600Z` 
+	* `state` - The lifecycle state of the GPU Memory Cluster instance 
+	* `time_created` - The date and time the GPU Memory Cluster instance was created.  Example: `2016-09-15T21:10:29.600Z` 
 

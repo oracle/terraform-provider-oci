@@ -33,7 +33,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `availability_domain` - The availability domain of the GPU memory cluster. 
+* `availability_domain` - The availability domain of the GPU Memory Cluster. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the compute GPU memory cluster. 
 * `compute_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute cluster. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
@@ -42,12 +42,13 @@ The following attributes are exported:
 * `gpu_memory_cluster_scale_config` - Configuration settings for GPU Memory Cluster scaling. 
 	* `is_downsize_enabled` - Whether downsizing is enabled. 
 	* `is_upsize_enabled` - Whether upsizing is enabled. 
-	* `target_size` - The configured target size for the GPU Memory cluster. 
+	* `target_size` - The configured target size for the GPU Memory Cluster. 
 * `gpu_memory_fabric_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the GPU memory fabric. 
-* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Customer-unique GPU memory cluster 
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Customer-unique GPU Memory Cluster 
 * `instance_configuration_id` - The OCID of the Instance Configuration used to source launch details for this instance.
-* `size` - The number of instances currently running in the GpuMemoryCluster 
-* `state` - The lifecycle state of the GPU memory cluster 
+* `private_ip_ids` - Unique list of OCIDs for private IPs (IPv4/IPv6) associated with the GPU Memory Cluster
+* `size` - The size represents the total number of instances in the GPU Memory Cluster, including both running instances and those still in the process of launching. 
+* `state` - The lifecycle state of the GPU Memory Cluster 
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `time_created` - The date and time the GPU memory cluster was created.  Example: `2016-09-15T21:10:29.600Z` 
+* `time_created` - The date and time the GPU Memory Cluster was created.  Example: `2016-09-15T21:10:29.600Z` 
 

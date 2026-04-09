@@ -76,7 +76,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `availability_domain` - The availability domain the dedicated virtual machine host is running in.  Example: `Uocm:PHX-AD-1` 
-* `capacity_bins` - A list of total and remaining CPU and memory per capacity bucket. 
+* `capacity_bins` - 
 	* `capacity_index` - Zero-based index for the corresponding capacity bucket. 
 	* `remaining_memory_in_gbs` - The remaining memory of the capacity bucket, in GBs. 
 	* `remaining_ocpus` - The available OCPUs of the capacity bucket. 

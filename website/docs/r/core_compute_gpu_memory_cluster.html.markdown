@@ -39,6 +39,7 @@ resource "oci_core_compute_gpu_memory_cluster" "test_compute_gpu_memory_cluster"
 		target_size = var.compute_gpu_memory_cluster_gpu_memory_cluster_scale_config_target_size
 	}
 	gpu_memory_fabric_id = oci_core_gpu_memory_fabric.test_gpu_memory_fabric.id
+	private_ip_ids = var.compute_gpu_memory_cluster_private_ip_ids
 	size = var.compute_gpu_memory_cluster_size
 }
 ```
@@ -47,8 +48,8 @@ resource "oci_core_compute_gpu_memory_cluster" "test_compute_gpu_memory_cluster"
 
 The following arguments are supported:
 
-* `availability_domain` - (Required) The availability domain of the GPU memory cluster. 
-* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the compute GPU memory cluster. compartment. 
+* `availability_domain` - (Required) The availability domain of the GPU Memory Cluster. 
+* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the compute GPU Memory Cluster. compartment. 
 * `compute_cluster_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute cluster. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -56,10 +57,11 @@ The following arguments are supported:
 * `gpu_memory_cluster_scale_config` - (Optional) (Updatable) Configuration settings for GPU Memory Cluster scaling. 
 	* `is_downsize_enabled` - (Optional) (Updatable) Enables downsizing towards the target size. 
 	* `is_upsize_enabled` - (Required) (Updatable) Enables upsizing towards the target size. 
-	* `target_size` - (Optional) (Updatable) The configured target size for the GPU Memory cluster. 
+	* `target_size` - (Optional) (Updatable) The configured target size for the GPU Memory Cluster. 
 * `gpu_memory_fabric_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the GPU memory fabric. 
 * `instance_configuration_id` - (Required) (Updatable) Instance Configuration to be used for this GPU Memory Cluster 
-* `size` - (Optional) (Updatable) The number of instances currently running in the GpuMemoryCluster 
+* `private_ip_ids` - (Optional) (Updatable) Unique list of OCIDs for private IPs (IPv4/IPv6) associated with the GPU Memory Cluster
+* `size` - (Optional) (Updatable) The desired number of instances for the GPU Memory Cluster. 
 
 
 ** IMPORTANT **
@@ -69,7 +71,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `availability_domain` - The availability domain of the GPU memory cluster. 
+* `availability_domain` - The availability domain of the GPU Memory Cluster. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the compute GPU memory cluster. 
 * `compute_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute cluster. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
@@ -78,14 +80,15 @@ The following attributes are exported:
 * `gpu_memory_cluster_scale_config` - Configuration settings for GPU Memory Cluster scaling. 
 	* `is_downsize_enabled` - Whether downsizing is enabled. 
 	* `is_upsize_enabled` - Whether upsizing is enabled. 
-	* `target_size` - The configured target size for the GPU Memory cluster. 
+	* `target_size` - The configured target size for the GPU Memory Cluster. 
 * `gpu_memory_fabric_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the GPU memory fabric. 
-* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Customer-unique GPU memory cluster 
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Customer-unique GPU Memory Cluster 
 * `instance_configuration_id` - The OCID of the Instance Configuration used to source launch details for this instance.
-* `size` - The number of instances currently running in the GpuMemoryCluster 
-* `state` - The lifecycle state of the GPU memory cluster 
+* `private_ip_ids` - Unique list of OCIDs for private IPs (IPv4/IPv6) associated with the GPU Memory Cluster
+* `size` - The size represents the total number of instances in the GPU Memory Cluster, including both running instances and those still in the process of launching. 
+* `state` - The lifecycle state of the GPU Memory Cluster 
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `time_created` - The date and time the GPU memory cluster was created.  Example: `2016-09-15T21:10:29.600Z` 
+* `time_created` - The date and time the GPU Memory Cluster was created.  Example: `2016-09-15T21:10:29.600Z` 
 
 ## Timeouts
 

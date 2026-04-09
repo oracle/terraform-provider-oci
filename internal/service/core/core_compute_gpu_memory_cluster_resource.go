@@ -106,6 +106,15 @@ func CoreComputeGpuMemoryClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"private_ip_ids": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				Computed: true,
+				Set:      schema.HashString,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"size": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -272,6 +281,13 @@ func (s *CoreComputeGpuMemoryClusterResourceCrud) Create() error {
 		request.InstanceConfigurationId = &tmp
 	}
 
+	if privateIpIds, ok := s.D.GetOkExists("private_ip_ids"); ok {
+		tmp := tfresource.SetToStrings(privateIpIds.(*schema.Set))
+		if len(tmp) != 0 || s.D.HasChange("private_ip_ids") {
+			request.PrivateIpIds = tmp
+		}
+	}
+
 	if size, ok := s.D.GetOkExists("size"); ok {
 		tmp := size.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
@@ -375,6 +391,13 @@ func (s *CoreComputeGpuMemoryClusterResourceCrud) Update() error {
 		request.InstanceConfigurationId = &tmp
 	}
 
+	if privateIpIds, ok := s.D.GetOkExists("private_ip_ids"); ok {
+		tmp := tfresource.SetToStrings(privateIpIds.(*schema.Set))
+		if len(tmp) != 0 || s.D.HasChange("private_ip_ids") {
+			request.PrivateIpIds = tmp
+		}
+	}
+
 	if size, ok := s.D.GetOkExists("size"); ok {
 		tmp := size.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
@@ -461,6 +484,8 @@ func (s *CoreComputeGpuMemoryClusterResourceCrud) SetData() error {
 	if s.Res.InstanceConfigurationId != nil {
 		s.D.Set("instance_configuration_id", *s.Res.InstanceConfigurationId)
 	}
+
+	s.D.Set("private_ip_ids", tfresource.StringsToSet(s.Res.PrivateIpIds))
 
 	if s.Res.Size != nil {
 		s.D.Set("size", strconv.FormatInt(*s.Res.Size, 10))
