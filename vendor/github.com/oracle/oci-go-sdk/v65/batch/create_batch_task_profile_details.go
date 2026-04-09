@@ -10,6 +10,7 @@
 package batch
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -22,18 +23,23 @@ type CreateBatchTaskProfileDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The minimum required OCPUs.
-	MinOcpus *int `mandatory:"true" json:"minOcpus"`
-
-	// The minimum required memory.
-	MinMemoryInGBs *int `mandatory:"true" json:"minMemoryInGBs"`
-
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// If not specified or provided as null or empty string, it be generated as "<resourceType><timeCreated>", where timeCreated corresponds with the resource creation time in ISO 8601 basic format, i.e. omitting separating punctuation, at second-level precision and no UTC offset. Example: batchtaskprofile20250914115623.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The batch task profile description.
 	Description *string `mandatory:"false" json:"description"`
+
+	// The minimum required OCPUs.
+	MinOcpus *int `mandatory:"false" json:"minOcpus"`
+
+	// The minimum required memory.
+	MinMemoryInGBs *int `mandatory:"false" json:"minMemoryInGBs"`
+
+	// The minimum required size of disk space in GBs.
+	MinDiskSizeInGBs *int `mandatory:"false" json:"minDiskSizeInGBs"`
+
+	ExtendedInformation CreateBatchTaskProfileExtendedInformationDetails `mandatory:"false" json:"extendedInformation"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -60,4 +66,52 @@ func (m CreateBatchTaskProfileDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateBatchTaskProfileDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName         *string                                          `json:"displayName"`
+		Description         *string                                          `json:"description"`
+		MinOcpus            *int                                             `json:"minOcpus"`
+		MinMemoryInGBs      *int                                             `json:"minMemoryInGBs"`
+		MinDiskSizeInGBs    *int                                             `json:"minDiskSizeInGBs"`
+		ExtendedInformation createbatchtaskprofileextendedinformationdetails `json:"extendedInformation"`
+		DefinedTags         map[string]map[string]interface{}                `json:"definedTags"`
+		FreeformTags        map[string]string                                `json:"freeformTags"`
+		CompartmentId       *string                                          `json:"compartmentId"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.Description = model.Description
+
+	m.MinOcpus = model.MinOcpus
+
+	m.MinMemoryInGBs = model.MinMemoryInGBs
+
+	m.MinDiskSizeInGBs = model.MinDiskSizeInGBs
+
+	nn, e = model.ExtendedInformation.UnmarshalPolymorphicJSON(model.ExtendedInformation.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ExtendedInformation = nn.(CreateBatchTaskProfileExtendedInformationDetails)
+	} else {
+		m.ExtendedInformation = nil
+	}
+
+	m.DefinedTags = model.DefinedTags
+
+	m.FreeformTags = model.FreeformTags
+
+	m.CompartmentId = model.CompartmentId
+
+	return
 }

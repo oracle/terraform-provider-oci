@@ -28,7 +28,7 @@ type CreateBatchTaskDetails interface {
 	// A list of resources (for example licences) this task needs for its execution.
 	GetEntitlementClaims() []string
 
-	// A list of tasks from the same job this task depends on referenced by name.
+	// A list of tasks on which this tasks depends, referenced by name. Dependencies must be within the same parent (job or group task). For tasks within a group task, all dependencies must also be within that same group task.
 	GetDependencies() []string
 
 	// Environment variables to use for the task execution.
@@ -77,6 +77,10 @@ func (m *createbatchtaskdetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 	switch m.Type {
 	case "COMPUTE":
 		mm := CreateComputeTaskDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GROUP":
+		mm := CreateGroupTaskDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -132,14 +136,17 @@ type CreateBatchTaskDetailsTypeEnum string
 // Set of constants representing the allowable values for CreateBatchTaskDetailsTypeEnum
 const (
 	CreateBatchTaskDetailsTypeCompute CreateBatchTaskDetailsTypeEnum = "COMPUTE"
+	CreateBatchTaskDetailsTypeGroup   CreateBatchTaskDetailsTypeEnum = "GROUP"
 )
 
 var mappingCreateBatchTaskDetailsTypeEnum = map[string]CreateBatchTaskDetailsTypeEnum{
 	"COMPUTE": CreateBatchTaskDetailsTypeCompute,
+	"GROUP":   CreateBatchTaskDetailsTypeGroup,
 }
 
 var mappingCreateBatchTaskDetailsTypeEnumLowerCase = map[string]CreateBatchTaskDetailsTypeEnum{
 	"compute": CreateBatchTaskDetailsTypeCompute,
+	"group":   CreateBatchTaskDetailsTypeGroup,
 }
 
 // GetCreateBatchTaskDetailsTypeEnumValues Enumerates the set of values for CreateBatchTaskDetailsTypeEnum
@@ -155,6 +162,7 @@ func GetCreateBatchTaskDetailsTypeEnumValues() []CreateBatchTaskDetailsTypeEnum 
 func GetCreateBatchTaskDetailsTypeEnumStringValues() []string {
 	return []string{
 		"COMPUTE",
+		"GROUP",
 	}
 }
 

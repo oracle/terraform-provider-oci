@@ -147,7 +147,7 @@ func (client PrivilegedApiControlClient) changePrivilegedApiControlCompartment(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oracle-api-access-control/20241130/PrivilegedApiControl/ChangePrivilegedApiControlCompartment"
 		err = common.PostProcessServiceError(err, "PrivilegedApiControl", "ChangePrivilegedApiControlCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -206,7 +206,7 @@ func (client PrivilegedApiControlClient) createPrivilegedApiControl(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oracle-api-access-control/20241130/PrivilegedApiControl/CreatePrivilegedApiControl"
 		err = common.PostProcessServiceError(err, "PrivilegedApiControl", "CreatePrivilegedApiControl", apiReferenceLink)
 		return response, err
 	}
@@ -260,7 +260,7 @@ func (client PrivilegedApiControlClient) deletePrivilegedApiControl(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oracle-api-access-control/20241130/PrivilegedApiControl/DeletePrivilegedApiControl"
 		err = common.PostProcessServiceError(err, "PrivilegedApiControl", "DeletePrivilegedApiControl", apiReferenceLink)
 		return response, err
 	}
@@ -314,7 +314,7 @@ func (client PrivilegedApiControlClient) getPrivilegedApiControl(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oracle-api-access-control/20241130/PrivilegedApiControl/GetPrivilegedApiControl"
 		err = common.PostProcessServiceError(err, "PrivilegedApiControl", "GetPrivilegedApiControl", apiReferenceLink)
 		return response, err
 	}
@@ -368,7 +368,7 @@ func (client PrivilegedApiControlClient) listPrivilegedApiControls(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oracle-api-access-control/20241130/PrivilegedApiControlCollection/ListPrivilegedApiControls"
 		err = common.PostProcessServiceError(err, "PrivilegedApiControl", "ListPrivilegedApiControls", apiReferenceLink)
 		return response, err
 	}
@@ -422,7 +422,7 @@ func (client PrivilegedApiControlClient) updatePrivilegedApiControl(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/oracle-api-access-control/20241130/PrivilegedApiControl/UpdatePrivilegedApiControl"
 		err = common.PostProcessServiceError(err, "PrivilegedApiControl", "UpdatePrivilegedApiControl", apiReferenceLink)
 		return response, err
 	}

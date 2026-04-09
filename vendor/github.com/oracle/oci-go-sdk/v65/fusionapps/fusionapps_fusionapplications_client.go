@@ -3119,7 +3119,7 @@ func (client FusionApplicationsClient) listVanityDomains(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/VanityDomainCollection/ListVanityDomains"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/VanityDomain/ListVanityDomains"
 		err = common.PostProcessServiceError(err, "FusionApplications", "ListVanityDomains", apiReferenceLink)
 		return response, err
 	}

@@ -31,7 +31,7 @@ type CreateComputeTaskDetails struct {
 	// A list of resources (for example licences) this task needs for its execution.
 	EntitlementClaims []string `mandatory:"false" json:"entitlementClaims"`
 
-	// A list of tasks from the same job this task depends on referenced by name.
+	// A list of tasks on which this tasks depends, referenced by name. Dependencies must be within the same parent (job or group task). For tasks within a group task, all dependencies must also be within that same group task.
 	Dependencies []string `mandatory:"false" json:"dependencies"`
 
 	// Environment variables to use for the task execution.

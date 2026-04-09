@@ -66,6 +66,12 @@ type CreateNetworkConfigurationDetails struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
+	// The OCID of OCI Lake.
+	UserTenantId *string `mandatory:"false" json:"userTenantId"`
+
+	// The OCID of the Compute Cluster.
+	ComputeClusterId *string `mandatory:"false" json:"computeClusterId"`
 }
 
 func (m CreateNetworkConfigurationDetails) String() string {

@@ -28,6 +28,12 @@ type BatchTaskSummary interface {
 	// The name of the batch task. It must be unique within its parent batch job.
 	GetName() *string
 
+	// The hierarchical name of the task, which incorporates names of all parent group tasks, separated by "." (dot symbol). Maximum nesting depth is 4 levels. Example: groupTaskA.nestedGroupTaskB.thisTaskName
+	GetHierarchicalName() *string
+
+	// The hierarchical name of the group task. Null for top-level tasks.
+	GetGroupTaskName() *string
+
 	// An optional description that provides additional context next to the displayName.
 	GetDescription() *string
 
@@ -40,6 +46,8 @@ type BatchTaskSummary interface {
 
 type batchtasksummary struct {
 	JsonData         []byte
+	HierarchicalName *string                     `mandatory:"false" json:"hierarchicalName"`
+	GroupTaskName    *string                     `mandatory:"false" json:"groupTaskName"`
 	Description      *string                     `mandatory:"false" json:"description"`
 	LifecycleState   BatchTaskLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 	LifecycleDetails *string                     `mandatory:"false" json:"lifecycleDetails"`
@@ -63,6 +71,8 @@ func (m *batchtasksummary) UnmarshalJSON(data []byte) error {
 	m.Id = s.Model.Id
 	m.JobId = s.Model.JobId
 	m.Name = s.Model.Name
+	m.HierarchicalName = s.Model.HierarchicalName
+	m.GroupTaskName = s.Model.GroupTaskName
 	m.Description = s.Model.Description
 	m.LifecycleState = s.Model.LifecycleState
 	m.LifecycleDetails = s.Model.LifecycleDetails
@@ -84,10 +94,24 @@ func (m *batchtasksummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		mm := ComputeTaskSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GROUP":
+		mm := GroupTaskSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for BatchTaskSummary: %s.", m.Type)
 		return *m, nil
 	}
+}
+
+// GetHierarchicalName returns HierarchicalName
+func (m batchtasksummary) GetHierarchicalName() *string {
+	return m.HierarchicalName
+}
+
+// GetGroupTaskName returns GroupTaskName
+func (m batchtasksummary) GetGroupTaskName() *string {
+	return m.GroupTaskName
 }
 
 // GetDescription returns Description

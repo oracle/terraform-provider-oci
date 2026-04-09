@@ -62,6 +62,12 @@ type ContainerRepository struct {
 	// The tenancy namespace used in the container repository path.
 	Namespace *string `mandatory:"true" json:"namespace"`
 
+	// The type of container repository. This determines the repository behavior and required settings.
+	RepositoryType ContainerRepositoryRepositoryTypeEnum `mandatory:"true" json:"repositoryType"`
+
+	// Whether the repository is top-level. A top-level repository reserves its name in namespace as a prefix and allows images to be hosted under child paths of that prefix.
+	IsTopLevel *bool `mandatory:"true" json:"isTopLevel"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -80,6 +86,19 @@ type ContainerRepository struct {
 
 	// An RFC 3339 timestamp indicating when an image was last pushed to the repository.
 	TimeLastPushed *common.SDKTime `mandatory:"false" json:"timeLastPushed"`
+
+	// The upstream registry URL for a pull-through cache repository.
+	UpstreamUrl *string `mandatory:"false" json:"upstreamUrl"`
+
+	// The upstream registry username for a pull-through cache repository.
+	UpstreamUsername *string `mandatory:"false" json:"upstreamUsername"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OCI Vault secret that contains the upstream registry password as base64 encoded string for a pull-through cache repository.
+	UpstreamSecretId *string `mandatory:"false" json:"upstreamSecretId"`
+
+	// List of peer regions that define the multi-region group. Peer regions must be specified using canonical region names (for example, us-phoenix-1).
+	// The peer set must match a supported multi-region endpoint group and MUST include the local OCIR region where the repository is created.
+	MultiRegionPeers []string `mandatory:"false" json:"multiRegionPeers"`
 }
 
 func (m ContainerRepository) String() string {
@@ -93,6 +112,9 @@ func (m ContainerRepository) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingContainerRepositoryLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetContainerRepositoryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingContainerRepositoryRepositoryTypeEnum(string(m.RepositoryType)); !ok && m.RepositoryType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RepositoryType: %s. Supported values are: %s.", m.RepositoryType, strings.Join(GetContainerRepositoryRepositoryTypeEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
@@ -144,5 +166,51 @@ func GetContainerRepositoryLifecycleStateEnumStringValues() []string {
 // GetMappingContainerRepositoryLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingContainerRepositoryLifecycleStateEnum(val string) (ContainerRepositoryLifecycleStateEnum, bool) {
 	enum, ok := mappingContainerRepositoryLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ContainerRepositoryRepositoryTypeEnum Enum with underlying type: string
+type ContainerRepositoryRepositoryTypeEnum string
+
+// Set of constants representing the allowable values for ContainerRepositoryRepositoryTypeEnum
+const (
+	ContainerRepositoryRepositoryTypeStandard    ContainerRepositoryRepositoryTypeEnum = "STANDARD"
+	ContainerRepositoryRepositoryTypePullThrough ContainerRepositoryRepositoryTypeEnum = "PULL_THROUGH"
+	ContainerRepositoryRepositoryTypeMultiRegion ContainerRepositoryRepositoryTypeEnum = "MULTI_REGION"
+)
+
+var mappingContainerRepositoryRepositoryTypeEnum = map[string]ContainerRepositoryRepositoryTypeEnum{
+	"STANDARD":     ContainerRepositoryRepositoryTypeStandard,
+	"PULL_THROUGH": ContainerRepositoryRepositoryTypePullThrough,
+	"MULTI_REGION": ContainerRepositoryRepositoryTypeMultiRegion,
+}
+
+var mappingContainerRepositoryRepositoryTypeEnumLowerCase = map[string]ContainerRepositoryRepositoryTypeEnum{
+	"standard":     ContainerRepositoryRepositoryTypeStandard,
+	"pull_through": ContainerRepositoryRepositoryTypePullThrough,
+	"multi_region": ContainerRepositoryRepositoryTypeMultiRegion,
+}
+
+// GetContainerRepositoryRepositoryTypeEnumValues Enumerates the set of values for ContainerRepositoryRepositoryTypeEnum
+func GetContainerRepositoryRepositoryTypeEnumValues() []ContainerRepositoryRepositoryTypeEnum {
+	values := make([]ContainerRepositoryRepositoryTypeEnum, 0)
+	for _, v := range mappingContainerRepositoryRepositoryTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetContainerRepositoryRepositoryTypeEnumStringValues Enumerates the set of values in String for ContainerRepositoryRepositoryTypeEnum
+func GetContainerRepositoryRepositoryTypeEnumStringValues() []string {
+	return []string{
+		"STANDARD",
+		"PULL_THROUGH",
+		"MULTI_REGION",
+	}
+}
+
+// GetMappingContainerRepositoryRepositoryTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingContainerRepositoryRepositoryTypeEnum(val string) (ContainerRepositoryRepositoryTypeEnum, bool) {
+	enum, ok := mappingContainerRepositoryRepositoryTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

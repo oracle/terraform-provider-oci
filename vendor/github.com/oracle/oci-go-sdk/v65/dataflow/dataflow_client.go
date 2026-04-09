@@ -3317,6 +3317,60 @@ func (client DataFlowClient) listWorkRequests(ctx context.Context, request commo
 	return response, err
 }
 
+// MavenSearchLibraries Lists limit maven search artifacts.
+// A default retry strategy applies to this operation MavenSearchLibraries()
+func (client DataFlowClient) MavenSearchLibraries(ctx context.Context, request MavenSearchLibrariesRequest) (response MavenSearchLibrariesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.mavenSearchLibraries, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = MavenSearchLibrariesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = MavenSearchLibrariesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(MavenSearchLibrariesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into MavenSearchLibrariesResponse")
+	}
+	return
+}
+
+// mavenSearchLibraries implements the OCIOperation interface (enables retrying operations)
+func (client DataFlowClient) mavenSearchLibraries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/libraries/maven-search", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response MavenSearchLibrariesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "MavenSearchLibraries")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/MavenSearchSummary/MavenSearchLibraries"
+		err = common.PostProcessServiceError(err, "DataFlow", "MavenSearchLibraries", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // PatchLibraries Patch Libraries to be used by dataflow compute cluster.
 // A default retry strategy applies to this operation PatchLibraries()
 func (client DataFlowClient) PatchLibraries(ctx context.Context, request PatchLibrariesRequest) (response PatchLibrariesResponse, err error) {

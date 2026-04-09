@@ -26,6 +26,8 @@ type UpdateManagedComputeClusterModelDeployInfrastructureConfigDetails struct {
 	ModelDeploymentResourceConfiguration *ManagedComputeClusterModelDeploymentResourceConfiguration `mandatory:"false" json:"modelDeploymentResourceConfiguration"`
 
 	ScalingPolicy ManagedComputeClusterWorkloadScalingPolicy `mandatory:"false" json:"scalingPolicy"`
+
+	NetworkConfiguration ManagedComputeClusterModelDeploymentNetworkConfiguration `mandatory:"false" json:"networkConfiguration"`
 }
 
 func (m UpdateManagedComputeClusterModelDeployInfrastructureConfigDetails) String() string {
@@ -64,6 +66,7 @@ func (m *UpdateManagedComputeClusterModelDeployInfrastructureConfigDetails) Unma
 		ComputeTargetId                      *string                                                    `json:"computeTargetId"`
 		ModelDeploymentResourceConfiguration *ManagedComputeClusterModelDeploymentResourceConfiguration `json:"modelDeploymentResourceConfiguration"`
 		ScalingPolicy                        managedcomputeclusterworkloadscalingpolicy                 `json:"scalingPolicy"`
+		NetworkConfiguration                 managedcomputeclustermodeldeploymentnetworkconfiguration   `json:"networkConfiguration"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -83,6 +86,16 @@ func (m *UpdateManagedComputeClusterModelDeployInfrastructureConfigDetails) Unma
 		m.ScalingPolicy = nn.(ManagedComputeClusterWorkloadScalingPolicy)
 	} else {
 		m.ScalingPolicy = nil
+	}
+
+	nn, e = model.NetworkConfiguration.UnmarshalPolymorphicJSON(model.NetworkConfiguration.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.NetworkConfiguration = nn.(ManagedComputeClusterModelDeploymentNetworkConfiguration)
+	} else {
+		m.NetworkConfiguration = nil
 	}
 
 	return

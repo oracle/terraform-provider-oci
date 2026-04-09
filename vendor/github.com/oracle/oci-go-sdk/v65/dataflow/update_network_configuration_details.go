@@ -18,6 +18,9 @@ import (
 // UpdateNetworkConfigurationDetails The details required to update a network configuration.
 type UpdateNetworkConfigurationDetails struct {
 
+	// The OCID of the Compute Cluster.
+	ComputeClusterId *string `mandatory:"true" json:"computeClusterId"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
@@ -51,6 +54,9 @@ type UpdateNetworkConfigurationDetails struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
+	// The OCID of OCI Lake.
+	UserTenantId *string `mandatory:"false" json:"userTenantId"`
 }
 
 func (m UpdateNetworkConfigurationDetails) String() string {

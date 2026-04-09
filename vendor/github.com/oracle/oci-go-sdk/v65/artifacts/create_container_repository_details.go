@@ -28,6 +28,32 @@ type CreateContainerRepositoryDetails struct {
 	// The container repository name.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
+	// The type of container repository. This determines the repository behavior and required settings.
+	RepositoryType ContainerRepositoryRepositoryTypeEnum `mandatory:"false" json:"repositoryType,omitempty"`
+
+	// Whether the repository is top-level. A top-level repository reserves its name in namespace as a prefix and allows images to be hosted under child paths of that prefix.
+	IsTopLevel *bool `mandatory:"false" json:"isTopLevel"`
+
+	// The upstream registry URL for a pull-through cache repository. Required when repositoryType is PULL_THROUGH.
+	// The value must include the registry endpoint and repository path, and must not include a tag or digest.
+	// If isTopLevel is false, the value must be an exact upstream image full path.
+	// Example: `iad.ocir.io/<upstreamNamespace>/library/ubuntu`
+	// If isTopLevel is true, the value must be an upstream repository path prefix, allowing OCIR to pull multiple repositories under that prefix.
+	// Example: `iad.ocir.io/<upstreamNamespace>/library` or `iad.ocir.io/<upstreamNamespace>`
+	UpstreamUrl *string `mandatory:"false" json:"upstreamUrl"`
+
+	// The upstream registry username for a pull-through cache repository. Required when repositoryType is PULL_THROUGH.
+	UpstreamUsername *string `mandatory:"false" json:"upstreamUsername"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OCI Vault secret that contains the upstream registry password as base64 encoded string for a pull-through cache repository. Required when repositoryType is PULL_THROUGH.
+	// Example: `ocid1.vaultsecret.oc1..exampleuniqueID`
+	UpstreamSecretId *string `mandatory:"false" json:"upstreamSecretId"`
+
+	// List of peer regions that define the multi-region group. Peer regions must be specified using canonical region names (for example, `us-phoenix-1`).
+	// The peer set must match a supported multi-region endpoint group and MUST include the local OCIR region where the repository is created.
+	// Required when repositoryType is MULTI_REGION.
+	MultiRegionPeers []string `mandatory:"false" json:"multiRegionPeers"`
+
 	// Whether the repository is immutable. Images cannot be overwritten in an immutable repository.
 	IsImmutable *bool `mandatory:"false" json:"isImmutable"`
 
@@ -57,6 +83,9 @@ func (m CreateContainerRepositoryDetails) String() string {
 func (m CreateContainerRepositoryDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingContainerRepositoryRepositoryTypeEnum(string(m.RepositoryType)); !ok && m.RepositoryType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RepositoryType: %s. Supported values are: %s.", m.RepositoryType, strings.Join(GetContainerRepositoryRepositoryTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

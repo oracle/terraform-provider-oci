@@ -30,6 +30,12 @@ type ListContainerRepositoriesRequest struct {
 	// A filter to return only resources that match the given display name exactly.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
+	// A filter to return only resources that match the given repository type exactly.
+	RepositoryType *string `mandatory:"false" contributesTo:"query" name:"repositoryType"`
+
+	// A filter to return resources that match the isTopLevel value.
+	IsTopLevel *bool `mandatory:"false" contributesTo:"query" name:"isTopLevel"`
+
 	// A filter to return resources that match the isPublic value.
 	IsPublic *bool `mandatory:"false" contributesTo:"query" name:"isPublic"`
 

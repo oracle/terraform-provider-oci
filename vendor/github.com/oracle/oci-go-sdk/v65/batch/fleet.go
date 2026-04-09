@@ -54,6 +54,10 @@ func (m *fleet) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := ServiceManagedFleet{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "SERVICE_MANAGED_GPU_FLEET":
+		mm := ServiceManagedGpuFleet{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for Fleet: %s.", m.Type)
 		return *m, nil
@@ -81,15 +85,18 @@ type FleetTypeEnum string
 
 // Set of constants representing the allowable values for FleetTypeEnum
 const (
-	FleetTypeServiceManagedFleet FleetTypeEnum = "SERVICE_MANAGED_FLEET"
+	FleetTypeFleet    FleetTypeEnum = "SERVICE_MANAGED_FLEET"
+	FleetTypeGpuFleet FleetTypeEnum = "SERVICE_MANAGED_GPU_FLEET"
 )
 
 var mappingFleetTypeEnum = map[string]FleetTypeEnum{
-	"SERVICE_MANAGED_FLEET": FleetTypeServiceManagedFleet,
+	"SERVICE_MANAGED_FLEET":     FleetTypeFleet,
+	"SERVICE_MANAGED_GPU_FLEET": FleetTypeGpuFleet,
 }
 
 var mappingFleetTypeEnumLowerCase = map[string]FleetTypeEnum{
-	"service_managed_fleet": FleetTypeServiceManagedFleet,
+	"service_managed_fleet":     FleetTypeFleet,
+	"service_managed_gpu_fleet": FleetTypeGpuFleet,
 }
 
 // GetFleetTypeEnumValues Enumerates the set of values for FleetTypeEnum
@@ -105,6 +112,7 @@ func GetFleetTypeEnumValues() []FleetTypeEnum {
 func GetFleetTypeEnumStringValues() []string {
 	return []string{
 		"SERVICE_MANAGED_FLEET",
+		"SERVICE_MANAGED_GPU_FLEET",
 	}
 }
 

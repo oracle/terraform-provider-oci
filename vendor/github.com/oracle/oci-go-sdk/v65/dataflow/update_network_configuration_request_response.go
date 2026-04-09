@@ -14,7 +14,7 @@ import (
 // UpdateNetworkConfigurationRequest wrapper for the UpdateNetworkConfiguration operation
 type UpdateNetworkConfigurationRequest struct {
 
-	// Details for updating a compute cluster.
+	// Details for updating a network configuration.
 	UpdateNetworkConfigurationDetails `contributesTo:"body"`
 
 	// The unique ID for a network configuration.

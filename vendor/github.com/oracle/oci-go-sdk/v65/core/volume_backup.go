@@ -111,6 +111,20 @@ type VolumeBackup struct {
 
 	// The OCID of the volume.
 	VolumeId *string `mandatory:"false" json:"volumeId"`
+
+	// The date and time when a backup’s retention period ends and it is set to expire. This is an optional field. If it is not specified, it is set to null, no retention period will be applied to the backups.
+	TimeRetentionExpiresAt *common.SDKTime `mandatory:"false" json:"timeRetentionExpiresAt"`
+
+	RetentionPeriod *RetentionDuration `mandatory:"false" json:"retentionPeriod"`
+
+	// Prevent backups from being deleted during the configured retention period. This is an optional field. If it is not specified, it is set to null, prevent deletion will not be applied to the backups.
+	IsPreventDeletionEnabled *bool `mandatory:"false" json:"isPreventDeletionEnabled"`
+
+	// feature that prevents deletion or alteration of backup data for a specified period to ensure data protection and regulatory compliance. This is an optional field. If it is not specified, it is set to null, no retention lock will be applied to the backups. This feature should be used in conjunction with the retention-period field.
+	IsRetentionLockEnabled *bool `mandatory:"false" json:"isRetentionLockEnabled"`
+
+	// feature that preserves backup data from modification or deletion to ensure it remains available for legal or regulatory investigations or litigation, regardless of standard retention policies. This is an optional field. If it is not specified, it is set to null, no legal hold will be applied to the backups.
+	IsIndefiniteRetentionEnabled *bool `mandatory:"false" json:"isIndefiniteRetentionEnabled"`
 }
 
 func (m VolumeBackup) String() string {

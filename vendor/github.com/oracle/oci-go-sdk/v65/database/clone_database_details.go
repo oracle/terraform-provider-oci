@@ -22,9 +22,6 @@ type CloneDatabaseDetails struct {
 	// The source database OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SourceDatabaseId *string `mandatory:"true" json:"sourceDatabaseId"`
 
-	// The password to open the TDE wallet.
-	SourceTdePassword *string `mandatory:"true" json:"sourceTdePassword"`
-
 	// The password for the target Database TDE wallet.
 	TdeWalletPassword *string `mandatory:"true" json:"tdeWalletPassword"`
 
@@ -36,6 +33,9 @@ type CloneDatabaseDetails struct {
 
 	// Specifies whether thick or thin database cloning is to be performed.
 	IsThinClone *bool `mandatory:"false" json:"isThinClone"`
+
+	// The password to open the TDE wallet.
+	SourceTdePassword *string `mandatory:"false" json:"sourceTdePassword"`
 
 	// The source database's password for SYS, SYSTEM.
 	SourceAdminPassword *string `mandatory:"false" json:"sourceAdminPassword"`
@@ -60,6 +60,8 @@ type CloneDatabaseDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 	KeyStoreId *string `mandatory:"false" json:"keyStoreId"`
+
+	EncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"encryptionKeyLocationDetails"`
 
 	StorageSizeDetails *DatabaseStorageSizeDetails `mandatory:"false" json:"storageSizeDetails"`
 
@@ -101,6 +103,7 @@ func (m CloneDatabaseDetails) ValidateEnumValue() (bool, error) {
 func (m *CloneDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		IsThinClone                        *bool                              `json:"isThinClone"`
+		SourceTdePassword                  *string                            `json:"sourceTdePassword"`
 		SourceAdminPassword                *string                            `json:"sourceAdminPassword"`
 		SourceEncryptionKeyLocationDetails encryptionkeylocationdetails       `json:"sourceEncryptionKeyLocationDetails"`
 		DbBackupConfig                     *DbBackupConfig                    `json:"dbBackupConfig"`
@@ -109,6 +112,7 @@ func (m *CloneDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		NcharacterSet                      *string                            `json:"ncharacterSet"`
 		SidPrefix                          *string                            `json:"sidPrefix"`
 		KeyStoreId                         *string                            `json:"keyStoreId"`
+		EncryptionKeyLocationDetails       encryptionkeylocationdetails       `json:"encryptionKeyLocationDetails"`
 		StorageSizeDetails                 *DatabaseStorageSizeDetails        `json:"storageSizeDetails"`
 		ManagedSoftwareUpdateDetails       *ManagedSoftwareUpdateInputDetails `json:"managedSoftwareUpdateDetails"`
 		VmClusterId                        *string                            `json:"vmClusterId"`
@@ -116,7 +120,6 @@ func (m *CloneDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags                        map[string]map[string]interface{}  `json:"definedTags"`
 		IsDataSafeRegistered               *bool                              `json:"isDataSafeRegistered"`
 		SourceDatabaseId                   *string                            `json:"sourceDatabaseId"`
-		SourceTdePassword                  *string                            `json:"sourceTdePassword"`
 		TdeWalletPassword                  *string                            `json:"tdeWalletPassword"`
 		AdminPassword                      *string                            `json:"adminPassword"`
 		DbName                             *string                            `json:"dbName"`
@@ -128,6 +131,8 @@ func (m *CloneDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.IsThinClone = model.IsThinClone
+
+	m.SourceTdePassword = model.SourceTdePassword
 
 	m.SourceAdminPassword = model.SourceAdminPassword
 
@@ -153,6 +158,16 @@ func (m *CloneDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.KeyStoreId = model.KeyStoreId
 
+	nn, e = model.EncryptionKeyLocationDetails.UnmarshalPolymorphicJSON(model.EncryptionKeyLocationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.EncryptionKeyLocationDetails = nn.(EncryptionKeyLocationDetails)
+	} else {
+		m.EncryptionKeyLocationDetails = nil
+	}
+
 	m.StorageSizeDetails = model.StorageSizeDetails
 
 	m.ManagedSoftwareUpdateDetails = model.ManagedSoftwareUpdateDetails
@@ -166,8 +181,6 @@ func (m *CloneDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	m.IsDataSafeRegistered = model.IsDataSafeRegistered
 
 	m.SourceDatabaseId = model.SourceDatabaseId
-
-	m.SourceTdePassword = model.SourceTdePassword
 
 	m.TdeWalletPassword = model.TdeWalletPassword
 

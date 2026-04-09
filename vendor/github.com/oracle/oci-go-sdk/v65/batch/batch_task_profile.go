@@ -10,6 +10,7 @@
 package batch
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -60,6 +61,11 @@ type BatchTaskProfile struct {
 	// The batch task profile description.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The minimum required size of disk space in GBs.
+	MinDiskSizeInGBs *int `mandatory:"false" json:"minDiskSizeInGBs"`
+
+	ExtendedInformation BatchTaskProfileExtendedInformation `mandatory:"false" json:"extendedInformation"`
+
 	// The date and time the batch task profile was updated, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
@@ -82,6 +88,69 @@ func (m BatchTaskProfile) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *BatchTaskProfile) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Description         *string                             `json:"description"`
+		MinDiskSizeInGBs    *int                                `json:"minDiskSizeInGBs"`
+		ExtendedInformation batchtaskprofileextendedinformation `json:"extendedInformation"`
+		TimeUpdated         *common.SDKTime                     `json:"timeUpdated"`
+		Id                  *string                             `json:"id"`
+		CompartmentId       *string                             `json:"compartmentId"`
+		DisplayName         *string                             `json:"displayName"`
+		MinOcpus            *int                                `json:"minOcpus"`
+		MinMemoryInGBs      *int                                `json:"minMemoryInGBs"`
+		LifecycleState      BatchTaskProfileLifecycleStateEnum  `json:"lifecycleState"`
+		TimeCreated         *common.SDKTime                     `json:"timeCreated"`
+		DefinedTags         map[string]map[string]interface{}   `json:"definedTags"`
+		FreeformTags        map[string]string                   `json:"freeformTags"`
+		SystemTags          map[string]map[string]interface{}   `json:"systemTags"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Description = model.Description
+
+	m.MinDiskSizeInGBs = model.MinDiskSizeInGBs
+
+	nn, e = model.ExtendedInformation.UnmarshalPolymorphicJSON(model.ExtendedInformation.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ExtendedInformation = nn.(BatchTaskProfileExtendedInformation)
+	} else {
+		m.ExtendedInformation = nil
+	}
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.Id = model.Id
+
+	m.CompartmentId = model.CompartmentId
+
+	m.DisplayName = model.DisplayName
+
+	m.MinOcpus = model.MinOcpus
+
+	m.MinMemoryInGBs = model.MinMemoryInGBs
+
+	m.LifecycleState = model.LifecycleState
+
+	m.TimeCreated = model.TimeCreated
+
+	m.DefinedTags = model.DefinedTags
+
+	m.FreeformTags = model.FreeformTags
+
+	m.SystemTags = model.SystemTags
+
+	return
 }
 
 // BatchTaskProfileLifecycleStateEnum Enum with underlying type: string

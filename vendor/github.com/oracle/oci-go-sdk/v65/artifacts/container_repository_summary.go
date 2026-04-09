@@ -32,6 +32,12 @@ type ContainerRepositorySummary struct {
 	// Example: `ocid1.containerrepo.oc1..exampleuniqueID`
 	Id *string `mandatory:"true" json:"id"`
 
+	// The type of container repository. This determines the repository behavior and required settings.
+	RepositoryType ContainerRepositoryRepositoryTypeEnum `mandatory:"true" json:"repositoryType"`
+
+	// Whether the repository is top-level. A top-level repository reserves its name in namespace as a prefix and allows images to be hosted under child paths of that prefix.
+	IsTopLevel *bool `mandatory:"true" json:"isTopLevel"`
+
 	// Total number of images.
 	ImageCount *int `mandatory:"true" json:"imageCount"`
 
@@ -80,6 +86,9 @@ func (m ContainerRepositorySummary) String() string {
 // Not recommended for calling this function directly
 func (m ContainerRepositorySummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingContainerRepositoryRepositoryTypeEnum(string(m.RepositoryType)); !ok && m.RepositoryType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RepositoryType: %s. Supported values are: %s.", m.RepositoryType, strings.Join(GetContainerRepositoryRepositoryTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingContainerRepositoryLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetContainerRepositoryLifecycleStateEnumStringValues(), ",")))
 	}

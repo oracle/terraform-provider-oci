@@ -1115,8 +1115,8 @@ func (client IntegrationInstanceClient) listWorkRequests(ctx context.Context, re
 	return response, err
 }
 
-// RemoveLogAnalyticsLogGroup Removes Log Analytics logGroup, if enabled for given integrationInstance. Since only single LogGroup can be enabled
-// for integration instance, no additional details are required to be includes in the request.
+// RemoveLogAnalyticsLogGroup Removes Log Analytics logGroup, if enabled for given integrationInstance.
+// Also used for removing Log Analytics log Group for attached OPA instance.
 // A default retry strategy applies to this operation RemoveLogAnalyticsLogGroup()
 func (client IntegrationInstanceClient) RemoveLogAnalyticsLogGroup(ctx context.Context, request RemoveLogAnalyticsLogGroupRequest) (response RemoveLogAnalyticsLogGroupResponse, err error) {
 	var ociResponse common.OCIResponse

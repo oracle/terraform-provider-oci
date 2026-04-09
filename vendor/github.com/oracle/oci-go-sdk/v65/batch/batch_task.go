@@ -28,11 +28,17 @@ type BatchTask interface {
 	// A list of resources (for example licences) this task needs for its execution.
 	GetEntitlementClaims() []string
 
-	// A list of tasks from the same job this task depends on referenced by name.
+	// A list of tasks on which this tasks depends, referenced by name. Dependencies must be within the same parent (job or group task). For tasks within a group task, all dependencies must also be within that same group task.
 	GetDependencies() []string
 
 	// Environment variables to use for the task execution.
 	GetEnvironmentVariables() []EnvironmentVariable
+
+	// The hierarchical name of the task, which incorporates names of all parent group tasks, separated by "." (dot symbol). Maximum nesting depth is 4 levels. Example: groupTaskA.nestedGroupTaskB.thisTaskName
+	GetHierarchicalName() *string
+
+	// The hierarchical name of the group task. Null for top-level tasks.
+	GetGroupTaskName() *string
 
 	// An optional description that provides additional context next to the displayName.
 	GetDescription() *string
@@ -46,6 +52,8 @@ type BatchTask interface {
 
 type batchtask struct {
 	JsonData             []byte
+	HierarchicalName     *string                     `mandatory:"false" json:"hierarchicalName"`
+	GroupTaskName        *string                     `mandatory:"false" json:"groupTaskName"`
 	Description          *string                     `mandatory:"false" json:"description"`
 	LifecycleState       BatchTaskLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 	LifecycleDetails     *string                     `mandatory:"false" json:"lifecycleDetails"`
@@ -73,6 +81,8 @@ func (m *batchtask) UnmarshalJSON(data []byte) error {
 	m.EntitlementClaims = s.Model.EntitlementClaims
 	m.Dependencies = s.Model.Dependencies
 	m.EnvironmentVariables = s.Model.EnvironmentVariables
+	m.HierarchicalName = s.Model.HierarchicalName
+	m.GroupTaskName = s.Model.GroupTaskName
 	m.Description = s.Model.Description
 	m.LifecycleState = s.Model.LifecycleState
 	m.LifecycleDetails = s.Model.LifecycleDetails
@@ -94,10 +104,24 @@ func (m *batchtask) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := ComputeTask{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GROUP":
+		mm := GroupTask{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for BatchTask: %s.", m.Type)
 		return *m, nil
 	}
+}
+
+// GetHierarchicalName returns HierarchicalName
+func (m batchtask) GetHierarchicalName() *string {
+	return m.HierarchicalName
+}
+
+// GetGroupTaskName returns GroupTaskName
+func (m batchtask) GetGroupTaskName() *string {
+	return m.GroupTaskName
 }
 
 // GetDescription returns Description
@@ -227,14 +251,17 @@ type BatchTaskTypeEnum string
 // Set of constants representing the allowable values for BatchTaskTypeEnum
 const (
 	BatchTaskTypeCompute BatchTaskTypeEnum = "COMPUTE"
+	BatchTaskTypeGroup   BatchTaskTypeEnum = "GROUP"
 )
 
 var mappingBatchTaskTypeEnum = map[string]BatchTaskTypeEnum{
 	"COMPUTE": BatchTaskTypeCompute,
+	"GROUP":   BatchTaskTypeGroup,
 }
 
 var mappingBatchTaskTypeEnumLowerCase = map[string]BatchTaskTypeEnum{
 	"compute": BatchTaskTypeCompute,
+	"group":   BatchTaskTypeGroup,
 }
 
 // GetBatchTaskTypeEnumValues Enumerates the set of values for BatchTaskTypeEnum
@@ -250,6 +277,7 @@ func GetBatchTaskTypeEnumValues() []BatchTaskTypeEnum {
 func GetBatchTaskTypeEnumStringValues() []string {
 	return []string{
 		"COMPUTE",
+		"GROUP",
 	}
 }
 

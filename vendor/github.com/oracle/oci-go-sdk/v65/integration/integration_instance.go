@@ -115,6 +115,9 @@ type IntegrationInstance struct {
 
 	// OCID of LogAnalytics LogGroup, enabled for given integration instance
 	LogGroupId *string `mandatory:"false" json:"logGroupId"`
+
+	// OCID of LogAnalytics LogGroup, enabled for given Process Automation attached to integration instance.
+	ProcessAutomationLogGroupId *string `mandatory:"false" json:"processAutomationLogGroupId"`
 }
 
 func (m IntegrationInstance) String() string {
@@ -175,6 +178,7 @@ func (m *IntegrationInstance) UnmarshalJSON(data []byte) (e error) {
 		DisasterRecoveryDetails           *DisasterRecoveryDetails                       `json:"disasterRecoveryDetails"`
 		DataRetentionPeriod               IntegrationInstanceDataRetentionPeriodEnum     `json:"dataRetentionPeriod"`
 		LogGroupId                        *string                                        `json:"logGroupId"`
+		ProcessAutomationLogGroupId       *string                                        `json:"processAutomationLogGroupId"`
 		Id                                *string                                        `json:"id"`
 		DisplayName                       *string                                        `json:"displayName"`
 		CompartmentId                     *string                                        `json:"compartmentId"`
@@ -252,6 +256,8 @@ func (m *IntegrationInstance) UnmarshalJSON(data []byte) (e error) {
 	m.DataRetentionPeriod = model.DataRetentionPeriod
 
 	m.LogGroupId = model.LogGroupId
+
+	m.ProcessAutomationLogGroupId = model.ProcessAutomationLogGroupId
 
 	m.Id = model.Id
 

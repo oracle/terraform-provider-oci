@@ -18,30 +18,39 @@ type OperationTypeEnum string
 
 // Set of constants representing the allowable values for OperationTypeEnum
 const (
-	OperationTypeCreateKafkaCluster OperationTypeEnum = "CREATE_KAFKA_CLUSTER"
-	OperationTypeUpdateKafkaCluster OperationTypeEnum = "UPDATE_KAFKA_CLUSTER"
-	OperationTypeDeleteKafkaCluster OperationTypeEnum = "DELETE_KAFKA_CLUSTER"
-	OperationTypeMoveKafkaCluster   OperationTypeEnum = "MOVE_KAFKA_CLUSTER"
-	OperationTypeEnableSuperuser    OperationTypeEnum = "ENABLE_SUPERUSER"
-	OperationTypeDisableSuperuser   OperationTypeEnum = "DISABLE_SUPERUSER"
+	OperationTypeCreateKafkaCluster         OperationTypeEnum = "CREATE_KAFKA_CLUSTER"
+	OperationTypeUpdateKafkaCluster         OperationTypeEnum = "UPDATE_KAFKA_CLUSTER"
+	OperationTypeDeleteKafkaCluster         OperationTypeEnum = "DELETE_KAFKA_CLUSTER"
+	OperationTypeMoveKafkaCluster           OperationTypeEnum = "MOVE_KAFKA_CLUSTER"
+	OperationTypeEnableSuperuser            OperationTypeEnum = "ENABLE_SUPERUSER"
+	OperationTypeDisableSuperuser           OperationTypeEnum = "DISABLE_SUPERUSER"
+	OperationTypeInstallKafkaClusterAddon   OperationTypeEnum = "INSTALL_KAFKA_CLUSTER_ADDON"
+	OperationTypeUpdateKafkaClusterAddon    OperationTypeEnum = "UPDATE_KAFKA_CLUSTER_ADDON"
+	OperationTypeUninstallKafkaClusterAddon OperationTypeEnum = "UNINSTALL_KAFKA_CLUSTER_ADDON"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
-	"CREATE_KAFKA_CLUSTER": OperationTypeCreateKafkaCluster,
-	"UPDATE_KAFKA_CLUSTER": OperationTypeUpdateKafkaCluster,
-	"DELETE_KAFKA_CLUSTER": OperationTypeDeleteKafkaCluster,
-	"MOVE_KAFKA_CLUSTER":   OperationTypeMoveKafkaCluster,
-	"ENABLE_SUPERUSER":     OperationTypeEnableSuperuser,
-	"DISABLE_SUPERUSER":    OperationTypeDisableSuperuser,
+	"CREATE_KAFKA_CLUSTER":          OperationTypeCreateKafkaCluster,
+	"UPDATE_KAFKA_CLUSTER":          OperationTypeUpdateKafkaCluster,
+	"DELETE_KAFKA_CLUSTER":          OperationTypeDeleteKafkaCluster,
+	"MOVE_KAFKA_CLUSTER":            OperationTypeMoveKafkaCluster,
+	"ENABLE_SUPERUSER":              OperationTypeEnableSuperuser,
+	"DISABLE_SUPERUSER":             OperationTypeDisableSuperuser,
+	"INSTALL_KAFKA_CLUSTER_ADDON":   OperationTypeInstallKafkaClusterAddon,
+	"UPDATE_KAFKA_CLUSTER_ADDON":    OperationTypeUpdateKafkaClusterAddon,
+	"UNINSTALL_KAFKA_CLUSTER_ADDON": OperationTypeUninstallKafkaClusterAddon,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
-	"create_kafka_cluster": OperationTypeCreateKafkaCluster,
-	"update_kafka_cluster": OperationTypeUpdateKafkaCluster,
-	"delete_kafka_cluster": OperationTypeDeleteKafkaCluster,
-	"move_kafka_cluster":   OperationTypeMoveKafkaCluster,
-	"enable_superuser":     OperationTypeEnableSuperuser,
-	"disable_superuser":    OperationTypeDisableSuperuser,
+	"create_kafka_cluster":          OperationTypeCreateKafkaCluster,
+	"update_kafka_cluster":          OperationTypeUpdateKafkaCluster,
+	"delete_kafka_cluster":          OperationTypeDeleteKafkaCluster,
+	"move_kafka_cluster":            OperationTypeMoveKafkaCluster,
+	"enable_superuser":              OperationTypeEnableSuperuser,
+	"disable_superuser":             OperationTypeDisableSuperuser,
+	"install_kafka_cluster_addon":   OperationTypeInstallKafkaClusterAddon,
+	"update_kafka_cluster_addon":    OperationTypeUpdateKafkaClusterAddon,
+	"uninstall_kafka_cluster_addon": OperationTypeUninstallKafkaClusterAddon,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -62,6 +71,9 @@ func GetOperationTypeEnumStringValues() []string {
 		"MOVE_KAFKA_CLUSTER",
 		"ENABLE_SUPERUSER",
 		"DISABLE_SUPERUSER",
+		"INSTALL_KAFKA_CLUSTER_ADDON",
+		"UPDATE_KAFKA_CLUSTER_ADDON",
+		"UNINSTALL_KAFKA_CLUSTER_ADDON",
 	}
 }
 

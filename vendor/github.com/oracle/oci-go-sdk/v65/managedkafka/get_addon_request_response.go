@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-package core
+package managedkafka
 
 import (
 	"fmt"
@@ -11,14 +11,19 @@ import (
 	"strings"
 )
 
-// GetComputeHostsRequest wrapper for the GetComputeHosts operation
-type GetComputeHostsRequest struct {
+// GetAddonRequest wrapper for the GetAddon operation
+type GetAddonRequest struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute host.
-	ComputeHostId *string `mandatory:"true" contributesTo:"path" name:"computeHostId"`
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the KafkaCluster.
+	KafkaClusterId *string `mandatory:"true" contributesTo:"path" name:"kafkaClusterId"`
 
-	// Unique identifier for the request.
-	// If you need to contact Oracle about a particular request, please provide the request ID.
+	// The unique name of the KafkaClusterAddon.
+	AddonName *string `mandatory:"true" contributesTo:"path" name:"addonName"`
+
+	// Unique Oracle-assigned identifier for the request. If you need to contact
+	// Oracle about a particular request, please provide the request ID.
+	// The only valid characters for request IDs are letters, numbers,
+	// underscore, and dash.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -26,12 +31,12 @@ type GetComputeHostsRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request GetComputeHostsRequest) String() string {
+func (request GetAddonRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request GetComputeHostsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request GetAddonRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -41,36 +46,21 @@ func (request GetComputeHostsRequest) HTTPRequest(method, path string, binaryReq
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request GetComputeHostsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request GetAddonRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
-// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
-// Not all services are supporting this feature and this method will be a no-op for those services.
-func (request GetComputeHostsRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
-	if mandatoryParamMap["computeHostId"] != nil {
-		templateParam := mandatoryParamMap["computeHostId"]
-		for _, template := range templateParam {
-			replacementParam := *request.ComputeHostId
-			if template.EndsWithDot {
-				replacementParam = replacementParam + "."
-			}
-			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
-		}
-	}
-}
-
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetComputeHostsRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetAddonRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request GetComputeHostsRequest) ValidateEnumValue() (bool, error) {
+func (request GetAddonRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -78,14 +68,14 @@ func (request GetComputeHostsRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// GetComputeHostsResponse wrapper for the GetComputeHosts operation
-type GetComputeHostsResponse struct {
+// GetAddonResponse wrapper for the GetAddon operation
+type GetAddonResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The ComputeHost instance
-	ComputeHost `presentIn:"body"`
+	// The KafkaClusterAddon instance
+	KafkaClusterAddon `presentIn:"body"`
 
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
@@ -95,11 +85,11 @@ type GetComputeHostsResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response GetComputeHostsResponse) String() string {
+func (response GetAddonResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response GetComputeHostsResponse) HTTPResponse() *http.Response {
+func (response GetAddonResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

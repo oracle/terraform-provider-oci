@@ -30,7 +30,7 @@ type ServiceManagedFleet struct {
 	// Current state of the service manage fleet configuration.
 	State *string `mandatory:"false" json:"state"`
 
-	// A message that describes the current state of the service manage fleet configuration in more detail.
+	// A message that describes the current state of the service managed fleet configuration in more detail.
 	Details *string `mandatory:"false" json:"details"`
 }
 
