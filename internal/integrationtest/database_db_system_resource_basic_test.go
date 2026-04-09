@@ -420,12 +420,5 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 }
 
 func init() {
-	if acctest.DependencyGraph == nil {
-		acctest.InitDependencyGraph()
-	}
-	resource.AddTestSweepers("DatabaseDbSystem", &resource.Sweeper{
-		Name:         "DatabaseDbSystem",
-		Dependencies: acctest.DependencyGraph["dbSystem"],
-		F:            sweepDatabaseDbSystemResource,
-	})
+	registerDatabaseDbSystemSweeper()
 }
