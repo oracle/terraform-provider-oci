@@ -6,6 +6,7 @@ package file_storage
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -132,6 +133,10 @@ func FileStorageSnapshotResource() *schema.Resource {
 				Computed: true,
 			},
 			// Computed
+			"exclusive_bytes": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"filesystem_snapshot_policy_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -419,6 +424,10 @@ func (s *FileStorageSnapshotResourceCrud) Delete() error {
 func (s *FileStorageSnapshotResourceCrud) SetData() error {
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
+	if s.Res.ExclusiveBytes != nil {
+		s.D.Set("exclusive_bytes", strconv.FormatInt(*s.Res.ExclusiveBytes, 10))
 	}
 
 	if s.Res.ExpirationTime != nil {

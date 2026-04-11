@@ -226,6 +226,7 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "snapshots.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.exclusive_bytes"),
 				resource.TestCheckResourceAttr(datasourceName, "snapshots.0.expiration_time", ExpirationTimeUpdate),
 				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.file_system_id"),
 				resource.TestCheckResourceAttr(datasourceName, "snapshots.0.freeform_tags.%", "1"),
@@ -255,6 +256,7 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "snapshot_id"),
 
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "exclusive_bytes"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "expiration_time"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

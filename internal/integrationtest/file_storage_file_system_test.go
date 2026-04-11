@@ -310,6 +310,7 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "file_systems.0.availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.clone_attach_status", "ATTACHED"),
 				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "file_systems.0.compartment_quota_enforcement_state"),
 				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "file_systems.0.freeform_tags.%", "1"),
 
