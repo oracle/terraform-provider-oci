@@ -142,6 +142,10 @@ func FileStorageFileSystemResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"compartment_quota_enforcement_state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"is_clone_parent": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -519,6 +523,8 @@ func (s *FileStorageFileSystemResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
+
+	s.D.Set("compartment_quota_enforcement_state", s.Res.CompartmentQuotaEnforcementState)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
