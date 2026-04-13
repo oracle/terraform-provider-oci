@@ -6,13 +6,14 @@ package database
 import (
 	"context"
 
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
-
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DatabasePluggableDatabaseSnapshotResource() *schema.Resource {
@@ -20,10 +21,10 @@ func DatabasePluggableDatabaseSnapshotResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabasePluggableDatabaseSnapshot,
-		Read:     readDatabasePluggableDatabaseSnapshot,
-		Delete:   deleteDatabasePluggableDatabaseSnapshot,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabasePluggableDatabaseSnapshotWithContext,
+		ReadContext:   readDatabasePluggableDatabaseSnapshotWithContext,
+		DeleteContext: deleteDatabasePluggableDatabaseSnapshotWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"name": {
@@ -84,31 +85,31 @@ func DatabasePluggableDatabaseSnapshotResource() *schema.Resource {
 	}
 }
 
-func createDatabasePluggableDatabaseSnapshot(d *schema.ResourceData, m interface{}) error {
+func createDatabasePluggableDatabaseSnapshotWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabasePluggableDatabaseSnapshotResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabasePluggableDatabaseSnapshot(d *schema.ResourceData, m interface{}) error {
+func readDatabasePluggableDatabaseSnapshotWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabasePluggableDatabaseSnapshotResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteDatabasePluggableDatabaseSnapshot(d *schema.ResourceData, m interface{}) error {
+func deleteDatabasePluggableDatabaseSnapshotWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabasePluggableDatabaseSnapshotResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabasePluggableDatabaseSnapshotResourceCrud struct {
@@ -147,7 +148,7 @@ func (s *DatabasePluggableDatabaseSnapshotResourceCrud) DeletedTarget() []string
 	}
 }
 
-func (s *DatabasePluggableDatabaseSnapshotResourceCrud) Create() error {
+func (s *DatabasePluggableDatabaseSnapshotResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreatePluggableDatabaseSnapshotRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -174,7 +175,7 @@ func (s *DatabasePluggableDatabaseSnapshotResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreatePluggableDatabaseSnapshot(context.Background(), request)
+	response, err := s.Client.CreatePluggableDatabaseSnapshot(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -189,7 +190,7 @@ func (s *DatabasePluggableDatabaseSnapshotResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "pluggabledatabasesnapshot", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "pluggabledatabasesnapshot", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
@@ -197,10 +198,10 @@ func (s *DatabasePluggableDatabaseSnapshotResourceCrud) Create() error {
 			return err
 		}
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabasePluggableDatabaseSnapshotResourceCrud) Get() error {
+func (s *DatabasePluggableDatabaseSnapshotResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetPluggableDatabaseSnapshotRequest{}
 
 	tmp := s.D.Id()
@@ -208,7 +209,7 @@ func (s *DatabasePluggableDatabaseSnapshotResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetPluggableDatabaseSnapshot(context.Background(), request)
+	response, err := s.Client.GetPluggableDatabaseSnapshot(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -217,7 +218,7 @@ func (s *DatabasePluggableDatabaseSnapshotResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabasePluggableDatabaseSnapshotResourceCrud) Delete() error {
+func (s *DatabasePluggableDatabaseSnapshotResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeletePluggableDatabaseSnapshotRequest{}
 
 	tmp := s.D.Id()
@@ -225,14 +226,14 @@ func (s *DatabasePluggableDatabaseSnapshotResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DeletePluggableDatabaseSnapshot(context.Background(), request)
+	response, err := s.Client.DeletePluggableDatabaseSnapshot(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "pluggabledatabasesnapshot", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "pluggabledatabasesnapshot", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

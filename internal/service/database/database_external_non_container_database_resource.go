@@ -6,10 +6,11 @@ package database
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
@@ -20,11 +21,11 @@ func DatabaseExternalNonContainerDatabaseResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseExternalNonContainerDatabase,
-		Read:     readDatabaseExternalNonContainerDatabase,
-		Update:   updateDatabaseExternalNonContainerDatabase,
-		Delete:   deleteDatabaseExternalNonContainerDatabase,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseExternalNonContainerDatabaseWithContext,
+		ReadContext:   readDatabaseExternalNonContainerDatabaseWithContext,
+		UpdateContext: updateDatabaseExternalNonContainerDatabaseWithContext,
+		DeleteContext: deleteDatabaseExternalNonContainerDatabaseWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -176,41 +177,41 @@ func DatabaseExternalNonContainerDatabaseResource() *schema.Resource {
 	}
 }
 
-func createDatabaseExternalNonContainerDatabase(d *schema.ResourceData, m interface{}) error {
+func createDatabaseExternalNonContainerDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalNonContainerDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseExternalNonContainerDatabase(d *schema.ResourceData, m interface{}) error {
+func readDatabaseExternalNonContainerDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalNonContainerDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseExternalNonContainerDatabase(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseExternalNonContainerDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalNonContainerDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseExternalNonContainerDatabase(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseExternalNonContainerDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalNonContainerDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseExternalNonContainerDatabaseResourceCrud struct {
@@ -250,7 +251,7 @@ func (s *DatabaseExternalNonContainerDatabaseResourceCrud) DeletedTarget() []str
 	}
 }
 
-func (s *DatabaseExternalNonContainerDatabaseResourceCrud) Create() error {
+func (s *DatabaseExternalNonContainerDatabaseResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateExternalNonContainerDatabaseRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -277,7 +278,7 @@ func (s *DatabaseExternalNonContainerDatabaseResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateExternalNonContainerDatabase(context.Background(), request)
+	response, err := s.Client.CreateExternalNonContainerDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -292,7 +293,7 @@ func (s *DatabaseExternalNonContainerDatabaseResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -302,7 +303,7 @@ func (s *DatabaseExternalNonContainerDatabaseResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatabaseExternalNonContainerDatabaseResourceCrud) Get() error {
+func (s *DatabaseExternalNonContainerDatabaseResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetExternalNonContainerDatabaseRequest{}
 
 	tmp := s.D.Id()
@@ -310,7 +311,7 @@ func (s *DatabaseExternalNonContainerDatabaseResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetExternalNonContainerDatabase(context.Background(), request)
+	response, err := s.Client.GetExternalNonContainerDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -319,11 +320,11 @@ func (s *DatabaseExternalNonContainerDatabaseResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseExternalNonContainerDatabaseResourceCrud) Update() error {
+func (s *DatabaseExternalNonContainerDatabaseResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -353,23 +354,23 @@ func (s *DatabaseExternalNonContainerDatabaseResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateExternalNonContainerDatabase(context.Background(), request)
+	response, err := s.Client.UpdateExternalNonContainerDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseExternalNonContainerDatabaseResourceCrud) Delete() error {
+func (s *DatabaseExternalNonContainerDatabaseResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteExternalNonContainerDatabaseRequest{}
 
 	tmp := s.D.Id()
@@ -377,14 +378,14 @@ func (s *DatabaseExternalNonContainerDatabaseResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DeleteExternalNonContainerDatabase(context.Background(), request)
+	response, err := s.Client.DeleteExternalNonContainerDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -513,7 +514,7 @@ func StackMonitoringNonContainerConfigToMap(obj *oci_database.StackMonitoringCon
 	return result
 }
 
-func (s *DatabaseExternalNonContainerDatabaseResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseExternalNonContainerDatabaseResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database.ChangeExternalNonContainerDatabaseCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -524,7 +525,7 @@ func (s *DatabaseExternalNonContainerDatabaseResourceCrud) updateCompartment(com
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.ChangeExternalNonContainerDatabaseCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeExternalNonContainerDatabaseCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}

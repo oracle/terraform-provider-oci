@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -17,11 +18,11 @@ import (
 
 func DatabaseExternalPluggableDatabaseManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseExternalPluggableDatabaseManagement,
-		Update:   updateDatabaseExternalPluggableDatabaseManagement,
-		Read:     readDatabaseExternalPluggableDatabaseManagement,
-		Delete:   deleteDatabaseExternalPluggableDatabaseManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseExternalPluggableDatabaseManagementWithContext,
+		UpdateContext: updateDatabaseExternalPluggableDatabaseManagementWithContext,
+		ReadContext:   readDatabaseExternalPluggableDatabaseManagementWithContext,
+		DeleteContext: deleteDatabaseExternalPluggableDatabaseManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"external_database_connector_id": {
@@ -44,30 +45,30 @@ func DatabaseExternalPluggableDatabaseManagementResource() *schema.Resource {
 	}
 }
 
-func createDatabaseExternalPluggableDatabaseManagement(d *schema.ResourceData, m interface{}) error {
+func createDatabaseExternalPluggableDatabaseManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalPluggableDatabaseManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.Res = &DatabaseExternalPluggableDatabaseManagementResponse{}
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func updateDatabaseExternalPluggableDatabaseManagement(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseExternalPluggableDatabaseManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalPluggableDatabaseManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.Res = &DatabaseExternalPluggableDatabaseManagementResponse{}
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseExternalPluggableDatabaseManagement(d *schema.ResourceData, m interface{}) error {
+func readDatabaseExternalPluggableDatabaseManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDatabaseExternalPluggableDatabaseManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseExternalPluggableDatabaseManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalPluggableDatabaseManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
@@ -75,7 +76,7 @@ func deleteDatabaseExternalPluggableDatabaseManagement(d *schema.ResourceData, m
 	sync.Res = &DatabaseExternalPluggableDatabaseManagementResponse{}
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseExternalPluggableDatabaseManagementResponse struct {
@@ -95,7 +96,7 @@ func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) ID() string {
 	return tfresource.GenerateDataSourceHashID("DatabaseExternalPluggableDatabaseManagementResource-", DatabaseExternalPluggableDatabaseManagementResource(), s.D)
 }
 
-func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) Create() error {
+func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 
 	var operation bool
 	if enableManagement, ok := s.D.GetOkExists("enable_management"); ok {
@@ -118,14 +119,14 @@ func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) Create() error
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-		response, err := s.Client.EnableExternalPluggableDatabaseDatabaseManagement(context.Background(), request)
+		response, err := s.Client.EnableExternalPluggableDatabaseDatabaseManagement(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
 		if workId != nil {
-			_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+			_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 			if err != nil {
 				return err
 			}
@@ -143,14 +144,14 @@ func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) Create() error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DisableExternalPluggableDatabaseDatabaseManagement(context.Background(), request)
+	response, err := s.Client.DisableExternalPluggableDatabaseDatabaseManagement(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -159,7 +160,7 @@ func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) Create() error
 	return nil
 }
 
-func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) Update() error {
+func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableManagement, ok := s.D.GetOkExists("enable_management"); ok {
 		operation = enableManagement.(bool)
@@ -181,14 +182,14 @@ func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) Update() error
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-		response, err := s.Client.EnableExternalPluggableDatabaseDatabaseManagement(context.Background(), request)
+		response, err := s.Client.EnableExternalPluggableDatabaseDatabaseManagement(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
 		if workId != nil {
-			_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+			_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 			if err != nil {
 				return err
 			}
@@ -206,14 +207,14 @@ func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) Update() error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DisableExternalPluggableDatabaseDatabaseManagement(context.Background(), request)
+	response, err := s.Client.DisableExternalPluggableDatabaseDatabaseManagement(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -222,7 +223,7 @@ func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) Update() error
 	return nil
 }
 
-func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) Delete() error {
+func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	var operation bool
 	if enableManagement, ok := s.D.GetOkExists("enable_management"); ok {
 		operation = enableManagement.(bool)
@@ -241,14 +242,14 @@ func (s *DatabaseExternalPluggableDatabaseManagementResourceCrud) Delete() error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DisableExternalPluggableDatabaseDatabaseManagement(context.Background(), request)
+	response, err := s.Client.DisableExternalPluggableDatabaseDatabaseManagement(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

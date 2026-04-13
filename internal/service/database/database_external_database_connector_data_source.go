@@ -10,7 +10,9 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
@@ -20,15 +22,15 @@ func DatabaseExternalDatabaseConnectorDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseExternalDatabaseConnectorResource(), fieldMap, readSingularDatabaseExternalDatabaseConnector)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseExternalDatabaseConnectorResource(), fieldMap, readSingularDatabaseExternalDatabaseConnectorWithContext)
 }
 
-func readSingularDatabaseExternalDatabaseConnector(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseExternalDatabaseConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalDatabaseConnectorDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseExternalDatabaseConnectorDataSourceCrud struct {
@@ -41,7 +43,7 @@ func (s *DatabaseExternalDatabaseConnectorDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseExternalDatabaseConnectorDataSourceCrud) Get() error {
+func (s *DatabaseExternalDatabaseConnectorDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetExternalDatabaseConnectorRequest{}
 
 	if externalDatabaseConnectorId, ok := s.D.GetOkExists("external_database_connector_id"); ok {
@@ -51,7 +53,7 @@ func (s *DatabaseExternalDatabaseConnectorDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetExternalDatabaseConnector(context.Background(), request)
+	response, err := s.Client.GetExternalDatabaseConnector(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -7,22 +7,23 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
-
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DatabasePluggableDatabasePluggabledatabasemanagementsManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabasePluggableDatabasePluggabledatabasemanagementsManagement,
-		Read:     readDatabasePluggableDatabasePluggabledatabasemanagementsManagement,
-		Update:   updateDatabasePluggableDatabasePluggabledatabasemanagementsManagement,
-		Delete:   deleteDatabasePluggableDatabasePluggabledatabasemanagementsManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabasePluggableDatabasePluggabledatabasemanagementsManagementWithContext,
+		ReadContext:   readDatabasePluggableDatabasePluggabledatabasemanagementsManagementWithContext,
+		UpdateContext: updateDatabasePluggableDatabasePluggabledatabasemanagementsManagementWithContext,
+		DeleteContext: deleteDatabasePluggableDatabasePluggabledatabasemanagementsManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"pluggable_database_id": {
@@ -187,31 +188,31 @@ func DatabasePluggableDatabasePluggabledatabasemanagementsManagementResource() *
 	}
 }
 
-func createDatabasePluggableDatabasePluggabledatabasemanagementsManagement(d *schema.ResourceData, m interface{}) error {
+func createDatabasePluggableDatabasePluggabledatabasemanagementsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabasePluggableDatabasePluggabledatabasemanagementsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.Res = &DatabasePluggableDatabasePluggabledatabasemanagementsManagementResponse{}
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabasePluggableDatabasePluggabledatabasemanagementsManagement(d *schema.ResourceData, m interface{}) error {
+func readDatabasePluggableDatabasePluggabledatabasemanagementsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func updateDatabasePluggableDatabasePluggabledatabasemanagementsManagement(d *schema.ResourceData, m interface{}) error {
+func updateDatabasePluggableDatabasePluggabledatabasemanagementsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabasePluggableDatabasePluggabledatabasemanagementsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.Res = &DatabasePluggableDatabasePluggabledatabasemanagementsManagementResponse{}
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabasePluggableDatabasePluggabledatabasemanagementsManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDatabasePluggableDatabasePluggabledatabasemanagementsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabasePluggableDatabasePluggabledatabasemanagementsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
@@ -219,7 +220,7 @@ func deleteDatabasePluggableDatabasePluggabledatabasemanagementsManagement(d *sc
 	sync.Res = &DatabasePluggableDatabasePluggabledatabasemanagementsManagementResponse{}
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabasePluggableDatabasePluggabledatabasemanagementsManagementResponse struct {
@@ -240,7 +241,7 @@ func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResource
 	return tfresource.GenerateDataSourceHashID("DatabasePluggableDatabasePluggabledatabasemanagementsManagementResource-", DatabasePluggableDatabasePluggabledatabasemanagementsManagementResource(), s.D)
 }
 
-func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResourceCrud) Create() error {
+func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_pluggabledatabasemanagement"); ok {
 		operation = enableOperation.(bool)
@@ -295,7 +296,7 @@ func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResource
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-		response, err := s.Client.EnablePluggableDatabaseManagement(context.Background(), request)
+		response, err := s.Client.EnablePluggableDatabaseManagement(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -303,7 +304,7 @@ func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResource
 		workId := response.OpcWorkRequestId
 
 		if workId != nil {
-			_, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "pluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+			_, err := tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "pluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 			if err != nil {
 				return err
 			}
@@ -322,7 +323,7 @@ func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResource
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DisablePluggableDatabaseManagement(context.Background(), request)
+	response, err := s.Client.DisablePluggableDatabaseManagement(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -330,7 +331,7 @@ func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResource
 	workId := response.OpcWorkRequestId
 
 	if workId != nil {
-		_, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "pluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err := tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "pluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -340,7 +341,7 @@ func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResource
 	return nil
 }
 
-func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResourceCrud) Update() error {
+func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_pluggabledatabasemanagement"); ok {
 		operation = enableOperation.(bool)
@@ -394,7 +395,7 @@ func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResource
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-		response, err := s.Client.ModifyPluggableDatabaseManagement(context.Background(), request)
+		response, err := s.Client.ModifyPluggableDatabaseManagement(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -402,7 +403,7 @@ func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResource
 		workId := response.OpcWorkRequestId
 
 		if workId != nil {
-			_, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "pluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+			_, err := tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "pluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 			if err != nil {
 				return err
 			}
@@ -421,7 +422,7 @@ func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResource
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DisablePluggableDatabaseManagement(context.Background(), request)
+	response, err := s.Client.DisablePluggableDatabaseManagement(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -429,7 +430,7 @@ func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResource
 	workId := response.OpcWorkRequestId
 
 	if workId != nil {
-		_, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "pluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err := tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "pluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -439,7 +440,7 @@ func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResource
 	return nil
 }
 
-func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResourceCrud) Delete() error {
+func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_pluggabledatabasemanagement"); ok {
 		operation = enableOperation.(bool)
@@ -458,7 +459,7 @@ func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResource
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DisablePluggableDatabaseManagement(context.Background(), request)
+	response, err := s.Client.DisablePluggableDatabaseManagement(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -466,7 +467,7 @@ func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResource
 	workId := response.OpcWorkRequestId
 
 	if workId != nil {
-		_, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "pluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err := tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "pluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

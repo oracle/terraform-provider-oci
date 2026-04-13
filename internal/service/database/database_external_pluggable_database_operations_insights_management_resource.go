@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -17,11 +18,11 @@ import (
 
 func DatabaseExternalPluggableDatabaseOperationsInsightsManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseExternalPluggableDatabaseOperationsInsightsManagement,
-		Update:   updateDatabaseExternalPluggableDatabaseOperationsInsightsManagement,
-		Read:     readDatabaseExternalPluggableDatabaseOperationsInsightsManagement,
-		Delete:   deleteDatabaseExternalPluggableDatabaseOperationsInsightsManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseExternalPluggableDatabaseOperationsInsightsManagementWithContext,
+		UpdateContext: updateDatabaseExternalPluggableDatabaseOperationsInsightsManagementWithContext,
+		ReadContext:   readDatabaseExternalPluggableDatabaseOperationsInsightsManagementWithContext,
+		DeleteContext: deleteDatabaseExternalPluggableDatabaseOperationsInsightsManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"external_database_connector_id": {
@@ -47,30 +48,30 @@ func DatabaseExternalPluggableDatabaseOperationsInsightsManagementResource() *sc
 	}
 }
 
-func createDatabaseExternalPluggableDatabaseOperationsInsightsManagement(d *schema.ResourceData, m interface{}) error {
+func createDatabaseExternalPluggableDatabaseOperationsInsightsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.Res = &DatabaseExternalPluggableDatabaseOperationsInsightsResponse{}
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func updateDatabaseExternalPluggableDatabaseOperationsInsightsManagement(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseExternalPluggableDatabaseOperationsInsightsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.Res = &DatabaseExternalPluggableDatabaseOperationsInsightsResponse{}
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseExternalPluggableDatabaseOperationsInsightsManagement(d *schema.ResourceData, m interface{}) error {
+func readDatabaseExternalPluggableDatabaseOperationsInsightsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDatabaseExternalPluggableDatabaseOperationsInsightsManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseExternalPluggableDatabaseOperationsInsightsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
@@ -78,7 +79,7 @@ func deleteDatabaseExternalPluggableDatabaseOperationsInsightsManagement(d *sche
 	sync.Res = &DatabaseExternalPluggableDatabaseOperationsInsightsResponse{}
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseExternalPluggableDatabaseOperationsInsightsResponse struct {
@@ -98,7 +99,7 @@ func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCr
 	return tfresource.GenerateDataSourceHashID("DatabaseExternalPluggableDatabaseOperationsInsightsManagementResource-", DatabaseExternalPluggableDatabaseOperationsInsightsManagementResource(), s.D)
 }
 
-func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCrud) Create() error {
+func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperationsInsights, ok := s.D.GetOkExists("enable_operations_insights"); ok {
 		operation = enableOperationsInsights.(bool)
@@ -120,14 +121,14 @@ func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCr
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-		response, err := s.Client.EnableExternalPluggableDatabaseOperationsInsights(context.Background(), request)
+		response, err := s.Client.EnableExternalPluggableDatabaseOperationsInsights(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
 		if workId != nil {
-			_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+			_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 			if err != nil {
 				return err
 			}
@@ -146,14 +147,14 @@ func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCr
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DisableExternalPluggableDatabaseOperationsInsights(context.Background(), request)
+	response, err := s.Client.DisableExternalPluggableDatabaseOperationsInsights(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -162,7 +163,7 @@ func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCr
 	return nil
 }
 
-func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCrud) Update() error {
+func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperationsInsights, ok := s.D.GetOkExists("enable_operations_insights"); ok {
 		operation = enableOperationsInsights.(bool)
@@ -184,14 +185,14 @@ func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCr
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-		response, err := s.Client.EnableExternalPluggableDatabaseOperationsInsights(context.Background(), request)
+		response, err := s.Client.EnableExternalPluggableDatabaseOperationsInsights(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
 		if workId != nil {
-			_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+			_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 			if err != nil {
 				return err
 			}
@@ -210,14 +211,14 @@ func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCr
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DisableExternalPluggableDatabaseOperationsInsights(context.Background(), request)
+	response, err := s.Client.DisableExternalPluggableDatabaseOperationsInsights(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -226,7 +227,7 @@ func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCr
 	return nil
 }
 
-func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCrud) Delete() error {
+func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOpsi, ok := s.D.GetOkExists("enable_operations_insights"); ok {
 		operation = enableOpsi.(bool)
@@ -245,14 +246,14 @@ func (s *DatabaseExternalPluggableDatabaseOperationsInsightsManagementResourceCr
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DisableExternalPluggableDatabaseOperationsInsights(context.Background(), request)
+	response, err := s.Client.DisableExternalPluggableDatabaseOperationsInsights(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

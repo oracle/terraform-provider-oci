@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -17,11 +18,11 @@ import (
 
 func DatabaseExternalpluggabledatabasesStackMonitoringResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseExternalpluggabledatabasesStackMonitoring,
-		Update:   updateDatabaseExternalpluggabledatabasesStackMonitoring,
-		Read:     readDatabaseExternalpluggabledatabasesStackMonitoring,
-		Delete:   deleteDatabaseExternalpluggabledatabasesStackMonitoring,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseExternalpluggabledatabasesStackMonitoringWithContext,
+		UpdateContext: updateDatabaseExternalpluggabledatabasesStackMonitoringWithContext,
+		ReadContext:   readDatabaseExternalpluggabledatabasesStackMonitoringWithContext,
+		DeleteContext: deleteDatabaseExternalpluggabledatabasesStackMonitoringWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"external_database_connector_id": {
@@ -46,24 +47,24 @@ func DatabaseExternalpluggabledatabasesStackMonitoringResource() *schema.Resourc
 	}
 }
 
-func createDatabaseExternalpluggabledatabasesStackMonitoring(d *schema.ResourceData, m interface{}) error {
+func createDatabaseExternalpluggabledatabasesStackMonitoringWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalpluggabledatabasesStackMonitoringResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.Res = &DatabaseExternalpluggabledatabaseStackMonitoringResponse{}
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func updateDatabaseExternalpluggabledatabasesStackMonitoring(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseExternalpluggabledatabasesStackMonitoringWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func readDatabaseExternalpluggabledatabasesStackMonitoring(d *schema.ResourceData, m interface{}) error {
+func readDatabaseExternalpluggabledatabasesStackMonitoringWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDatabaseExternalpluggabledatabasesStackMonitoring(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseExternalpluggabledatabasesStackMonitoringWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalpluggabledatabasesStackMonitoringResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
@@ -71,7 +72,7 @@ func deleteDatabaseExternalpluggabledatabasesStackMonitoring(d *schema.ResourceD
 	sync.Res = &DatabaseExternalpluggabledatabaseStackMonitoringResponse{}
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseExternalpluggabledatabaseStackMonitoringResponse struct {
@@ -91,7 +92,7 @@ func (s *DatabaseExternalpluggabledatabasesStackMonitoringResourceCrud) ID() str
 	return tfresource.GenerateDataSourceHashID("DatabaseExternalpluggabledatabasesStackMonitoringResource-", DatabaseExternalpluggabledatabasesStackMonitoringResource(), s.D)
 }
 
-func (s *DatabaseExternalpluggabledatabasesStackMonitoringResourceCrud) Create() error {
+func (s *DatabaseExternalpluggabledatabasesStackMonitoringResourceCrud) CreateWithContext(ctx context.Context) error {
 	var operation_stack_monitoring bool
 	if enableStackMonitoring, ok := s.D.GetOkExists("enable_stack_monitoring"); ok {
 		operation_stack_monitoring = enableStackMonitoring.(bool)
@@ -113,13 +114,13 @@ func (s *DatabaseExternalpluggabledatabasesStackMonitoringResourceCrud) Create()
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-		response, err := s.Client.EnableExternalPluggableDatabaseStackMonitoring(context.Background(), request)
+		response, err := s.Client.EnableExternalPluggableDatabaseStackMonitoring(ctx, request)
 		if err != nil {
 			return err
 		}
 		workId := response.OpcWorkRequestId
 		if workId != nil {
-			identifier, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+			identifier, err := tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 			if identifier != nil {
 				s.D.SetId(*identifier)
 			}
@@ -141,14 +142,14 @@ func (s *DatabaseExternalpluggabledatabasesStackMonitoringResourceCrud) Create()
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DisableExternalPluggableDatabaseStackMonitoring(context.Background(), request)
+	response, err := s.Client.DisableExternalPluggableDatabaseStackMonitoring(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -157,7 +158,7 @@ func (s *DatabaseExternalpluggabledatabasesStackMonitoringResourceCrud) Create()
 	return nil
 }
 
-func (s *DatabaseExternalpluggabledatabasesStackMonitoringResourceCrud) Delete() error {
+func (s *DatabaseExternalpluggabledatabasesStackMonitoringResourceCrud) DeleteWithContext(ctx context.Context) error {
 	var operation_stack_monitoring bool
 	if enableOpsi, ok := s.D.GetOkExists("enable_stack_monitoring"); ok {
 		operation_stack_monitoring = enableOpsi.(bool)
@@ -176,7 +177,7 @@ func (s *DatabaseExternalpluggabledatabasesStackMonitoringResourceCrud) Delete()
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DisableExternalPluggableDatabaseStackMonitoring(context.Background(), request)
+	response, err := s.Client.DisableExternalPluggableDatabaseStackMonitoring(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -184,7 +185,7 @@ func (s *DatabaseExternalpluggabledatabasesStackMonitoringResourceCrud) Delete()
 	workId := response.OpcWorkRequestId
 	if workId != nil {
 		// verification required for entity type name "externalPluggableDatabase"
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

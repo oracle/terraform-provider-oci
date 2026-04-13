@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -20,11 +21,11 @@ func DatabaseExternalPluggableDatabaseResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseExternalPluggableDatabase,
-		Read:     readDatabaseExternalPluggableDatabase,
-		Update:   updateDatabaseExternalPluggableDatabase,
-		Delete:   deleteDatabaseExternalPluggableDatabase,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseExternalPluggableDatabaseWithContext,
+		ReadContext:   readDatabaseExternalPluggableDatabaseWithContext,
+		UpdateContext: updateDatabaseExternalPluggableDatabaseWithContext,
+		DeleteContext: deleteDatabaseExternalPluggableDatabaseWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -187,40 +188,40 @@ func DatabaseExternalPluggableDatabaseResource() *schema.Resource {
 	}
 }
 
-func createDatabaseExternalPluggableDatabase(d *schema.ResourceData, m interface{}) error {
+func createDatabaseExternalPluggableDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalPluggableDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseExternalPluggableDatabase(d *schema.ResourceData, m interface{}) error {
+func readDatabaseExternalPluggableDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalPluggableDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseExternalPluggableDatabase(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseExternalPluggableDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalPluggableDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseExternalPluggableDatabase(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseExternalPluggableDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalPluggableDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseExternalPluggableDatabaseResourceCrud struct {
@@ -260,7 +261,7 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) DeletedTarget() []string
 	}
 }
 
-func (s *DatabaseExternalPluggableDatabaseResourceCrud) Create() error {
+func (s *DatabaseExternalPluggableDatabaseResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateExternalPluggableDatabaseRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -297,7 +298,7 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateExternalPluggableDatabase(context.Background(), request)
+	response, err := s.Client.CreateExternalPluggableDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -312,7 +313,7 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -321,7 +322,7 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatabaseExternalPluggableDatabaseResourceCrud) Get() error {
+func (s *DatabaseExternalPluggableDatabaseResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetExternalPluggableDatabaseRequest{}
 
 	tmp := s.D.Id()
@@ -329,7 +330,7 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetExternalPluggableDatabase(context.Background(), request)
+	response, err := s.Client.GetExternalPluggableDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -338,11 +339,11 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseExternalPluggableDatabaseResourceCrud) Update() error {
+func (s *DatabaseExternalPluggableDatabaseResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -372,23 +373,23 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateExternalPluggableDatabase(context.Background(), request)
+	response, err := s.Client.UpdateExternalPluggableDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseExternalPluggableDatabaseResourceCrud) Delete() error {
+func (s *DatabaseExternalPluggableDatabaseResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteExternalPluggableDatabaseRequest{}
 
 	tmp := s.D.Id()
@@ -396,14 +397,14 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DeleteExternalPluggableDatabase(context.Background(), request)
+	response, err := s.Client.DeleteExternalPluggableDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalPluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -540,7 +541,7 @@ func StackMonitoringConfigToMap(obj *oci_database.StackMonitoringConfig) map[str
 	return result
 }
 
-func (s *DatabaseExternalPluggableDatabaseResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseExternalPluggableDatabaseResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database.ChangeExternalPluggableDatabaseCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -551,7 +552,7 @@ func (s *DatabaseExternalPluggableDatabaseResourceCrud) updateCompartment(compar
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.ChangeExternalPluggableDatabaseCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeExternalPluggableDatabaseCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}

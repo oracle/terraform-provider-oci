@@ -12,6 +12,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -24,11 +25,11 @@ func DatabaseExternalDatabaseConnectorResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseExternalDatabaseConnector,
-		Read:     readDatabaseExternalDatabaseConnector,
-		Update:   updateDatabaseExternalDatabaseConnector,
-		Delete:   deleteDatabaseExternalDatabaseConnector,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseExternalDatabaseConnectorWithContext,
+		ReadContext:   readDatabaseExternalDatabaseConnectorWithContext,
+		UpdateContext: updateDatabaseExternalDatabaseConnectorWithContext,
+		DeleteContext: deleteDatabaseExternalDatabaseConnectorWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"connection_credentials": {
@@ -186,41 +187,41 @@ func DatabaseExternalDatabaseConnectorResource() *schema.Resource {
 	}
 }
 
-func createDatabaseExternalDatabaseConnector(d *schema.ResourceData, m interface{}) error {
+func createDatabaseExternalDatabaseConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalDatabaseConnectorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseExternalDatabaseConnector(d *schema.ResourceData, m interface{}) error {
+func readDatabaseExternalDatabaseConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalDatabaseConnectorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseExternalDatabaseConnector(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseExternalDatabaseConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalDatabaseConnectorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseExternalDatabaseConnector(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseExternalDatabaseConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalDatabaseConnectorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseExternalDatabaseConnectorResourceCrud struct {
@@ -260,7 +261,7 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) DeletedTarget() []string
 	}
 }
 
-func (s *DatabaseExternalDatabaseConnectorResourceCrud) Create() error {
+func (s *DatabaseExternalDatabaseConnectorResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateExternalDatabaseConnectorRequest{}
 	err := s.populateTopLevelPolymorphicCreateExternalDatabaseConnectorRequest(&request)
 	if err != nil {
@@ -269,7 +270,7 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateExternalDatabaseConnector(context.Background(), request)
+	response, err := s.Client.CreateExternalDatabaseConnector(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -284,7 +285,7 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalDatabaseConnector", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalDatabaseConnector", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -293,7 +294,7 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatabaseExternalDatabaseConnectorResourceCrud) Get() error {
+func (s *DatabaseExternalDatabaseConnectorResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetExternalDatabaseConnectorRequest{}
 
 	tmp := s.D.Id()
@@ -301,7 +302,7 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetExternalDatabaseConnector(context.Background(), request)
+	response, err := s.Client.GetExternalDatabaseConnector(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -310,7 +311,7 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseExternalDatabaseConnectorResourceCrud) Update() error {
+func (s *DatabaseExternalDatabaseConnectorResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database.UpdateExternalDatabaseConnectorRequest{}
 	err := s.populateTopLevelPolymorphicUpdateExternalDatabaseConnectorRequest(&request)
 	if err != nil {
@@ -319,23 +320,23 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateExternalDatabaseConnector(context.Background(), request)
+	response, err := s.Client.UpdateExternalDatabaseConnector(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalDatabaseConnector", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalDatabaseConnector", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseExternalDatabaseConnectorResourceCrud) Delete() error {
+func (s *DatabaseExternalDatabaseConnectorResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteExternalDatabaseConnectorRequest{}
 
 	tmp := s.D.Id()
@@ -343,14 +344,14 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DeleteExternalDatabaseConnector(context.Background(), request)
+	response, err := s.Client.DeleteExternalDatabaseConnector(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalDatabaseConnector", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalDatabaseConnector", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

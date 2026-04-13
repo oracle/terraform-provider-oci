@@ -9,13 +9,14 @@ import (
 	"log"
 	"strings"
 
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 )
 
@@ -29,10 +30,10 @@ func DatabasePluggableDatabaseResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("12h"),
 			Delete: tfresource.GetTimeoutDuration("12h"),
 		},
-		Create: createDatabasePluggableDatabase,
-		Read:   readDatabasePluggableDatabase,
-		Update: updateDatabasePluggableDatabase,
-		Delete: deleteDatabasePluggableDatabase,
+		CreateContext: createDatabasePluggableDatabaseWithContext,
+		ReadContext:   readDatabasePluggableDatabaseWithContext,
+		UpdateContext: updateDatabasePluggableDatabaseWithContext,
+		DeleteContext: deleteDatabasePluggableDatabaseWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"container_database_id": {
@@ -318,49 +319,49 @@ func DatabasePluggableDatabaseResource() *schema.Resource {
 	}
 }
 
-func createDatabasePluggableDatabase(d *schema.ResourceData, m interface{}) error {
+func createDatabasePluggableDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabasePluggableDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 
 	if _, ok := sync.D.GetOkExists("convert_to_regular_trigger"); ok {
-		err := sync.ConvertToRegularPluggableDatabase()
+		err := sync.ConvertToRegularPluggableDatabase(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("refresh_trigger"); ok {
-		err := sync.RefreshPluggableDatabase()
+		err := sync.RefreshPluggableDatabase(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("rotate_key_trigger"); ok {
-		err := sync.RotatePluggableDatabaseEncryptionKey()
+		err := sync.RotatePluggableDatabaseEncryptionKey(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 	return nil
 
 }
 
-func readDatabasePluggableDatabase(d *schema.ResourceData, m interface{}) error {
+func readDatabasePluggableDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabasePluggableDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabasePluggableDatabase(d *schema.ResourceData, m interface{}) error {
+func updateDatabasePluggableDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabasePluggableDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
@@ -371,14 +372,14 @@ func updateDatabasePluggableDatabase(d *schema.ResourceData, m interface{}) erro
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.ConvertToRegularPluggableDatabase()
+			err := sync.ConvertToRegularPluggableDatabase(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("convert_to_regular_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
@@ -387,14 +388,14 @@ func updateDatabasePluggableDatabase(d *schema.ResourceData, m interface{}) erro
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.RefreshPluggableDatabase()
+			err := sync.RefreshPluggableDatabase(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("refresh_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
@@ -403,31 +404,31 @@ func updateDatabasePluggableDatabase(d *schema.ResourceData, m interface{}) erro
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.RotatePluggableDatabaseEncryptionKey()
+			err := sync.RotatePluggableDatabaseEncryptionKey(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("rotate_key_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	return nil
 }
 
-func deleteDatabasePluggableDatabase(d *schema.ResourceData, m interface{}) error {
+func deleteDatabasePluggableDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabasePluggableDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabasePluggableDatabaseResourceCrud struct {
@@ -467,7 +468,7 @@ func (s *DatabasePluggableDatabaseResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatabasePluggableDatabaseResourceCrud) Create() error {
+func (s *DatabasePluggableDatabaseResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreatePluggableDatabaseRequest{}
 
 	if containerDatabaseAdminPassword, ok := s.D.GetOkExists("container_database_admin_password"); ok {
@@ -530,7 +531,7 @@ func (s *DatabasePluggableDatabaseResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreatePluggableDatabase(context.Background(), request)
+	response, err := s.Client.CreatePluggableDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -544,7 +545,7 @@ func (s *DatabasePluggableDatabaseResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "pluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "pluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
@@ -553,10 +554,10 @@ func (s *DatabasePluggableDatabaseResourceCrud) Create() error {
 		}
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabasePluggableDatabaseResourceCrud) Get() error {
+func (s *DatabasePluggableDatabaseResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetPluggableDatabaseRequest{}
 
 	tmp := s.D.Id()
@@ -564,7 +565,7 @@ func (s *DatabasePluggableDatabaseResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetPluggableDatabase(context.Background(), request)
+	response, err := s.Client.GetPluggableDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -573,7 +574,7 @@ func (s *DatabasePluggableDatabaseResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabasePluggableDatabaseResourceCrud) Update() error {
+func (s *DatabasePluggableDatabaseResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database.UpdatePluggableDatabaseRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -593,13 +594,13 @@ func (s *DatabasePluggableDatabaseResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdatePluggableDatabase(context.Background(), request)
+	response, err := s.Client.UpdatePluggableDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	if _, ok := s.D.GetOkExists("kms_key_version_id"); ok && s.D.HasChange("kms_key_version_id") {
-		errKms := s.setPdbDbKeyVersion(tmp)
+		errKms := s.setPdbDbKeyVersion(ctx, tmp)
 		if errKms != nil {
 			return errKms
 		}
@@ -609,7 +610,7 @@ func (s *DatabasePluggableDatabaseResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DatabasePluggableDatabaseResourceCrud) Delete() error {
+func (s *DatabasePluggableDatabaseResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeletePluggableDatabaseRequest{}
 
 	tmp := s.D.Id()
@@ -617,7 +618,7 @@ func (s *DatabasePluggableDatabaseResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.DeletePluggableDatabase(context.Background(), request)
+	_, err := s.Client.DeletePluggableDatabase(ctx, request)
 	return err
 }
 
@@ -691,7 +692,7 @@ func (s *DatabasePluggableDatabaseResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DatabasePluggableDatabaseResourceCrud) setPdbDbKeyVersion(databaseId string) error {
+func (s *DatabasePluggableDatabaseResourceCrud) setPdbDbKeyVersion(ctx context.Context, databaseId string) error {
 	setPdbDbKeyVersionRequest := oci_database.SetPdbKeyVersionRequest{}
 	setPdbDbKeyVersionRequest.PluggableDatabaseId = &databaseId
 	setPdbDbKeyVersionRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -708,20 +709,20 @@ func (s *DatabasePluggableDatabaseResourceCrud) setPdbDbKeyVersion(databaseId st
 		}
 	}
 
-	response, err := s.Client.SetPdbKeyVersion(context.Background(), setPdbDbKeyVersionRequest)
+	response, err := s.Client.SetPdbKeyVersion(ctx, setPdbDbKeyVersionRequest)
 	if err != nil {
 		return err
 	}
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "pluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "pluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 		}
 	}
 	return nil
 }
 
-func (s *DatabasePluggableDatabaseResourceCrud) ConvertToRegularPluggableDatabase() error {
+func (s *DatabasePluggableDatabaseResourceCrud) ConvertToRegularPluggableDatabase(ctx context.Context) error {
 	request := oci_database.ConvertToRegularPluggableDatabaseRequest{}
 
 	if containerDatabaseAdminPassword, ok := s.D.GetOkExists("container_database_admin_password"); ok {
@@ -744,12 +745,12 @@ func (s *DatabasePluggableDatabaseResourceCrud) ConvertToRegularPluggableDatabas
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ConvertToRegularPluggableDatabase(context.Background(), request)
+	response, err := s.Client.ConvertToRegularPluggableDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -760,7 +761,7 @@ func (s *DatabasePluggableDatabaseResourceCrud) ConvertToRegularPluggableDatabas
 	return nil
 }
 
-func (s *DatabasePluggableDatabaseResourceCrud) RefreshPluggableDatabase() error {
+func (s *DatabasePluggableDatabaseResourceCrud) RefreshPluggableDatabase(ctx context.Context) error {
 	request := oci_database.RefreshPluggableDatabaseRequest{}
 
 	idTmp := s.D.Id()
@@ -768,12 +769,12 @@ func (s *DatabasePluggableDatabaseResourceCrud) RefreshPluggableDatabase() error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.RefreshPluggableDatabase(context.Background(), request)
+	response, err := s.Client.RefreshPluggableDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -784,7 +785,7 @@ func (s *DatabasePluggableDatabaseResourceCrud) RefreshPluggableDatabase() error
 	return nil
 }
 
-func (s *DatabasePluggableDatabaseResourceCrud) RotatePluggableDatabaseEncryptionKey() error {
+func (s *DatabasePluggableDatabaseResourceCrud) RotatePluggableDatabaseEncryptionKey(ctx context.Context) error {
 	request := oci_database.RotatePluggableDatabaseEncryptionKeyRequest{}
 
 	idTmp := s.D.Id()
@@ -792,12 +793,12 @@ func (s *DatabasePluggableDatabaseResourceCrud) RotatePluggableDatabaseEncryptio
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.RotatePluggableDatabaseEncryptionKey(context.Background(), request)
+	_, err := s.Client.RotatePluggableDatabaseEncryptionKey(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

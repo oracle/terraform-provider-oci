@@ -6,11 +6,13 @@ package database
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v65/database"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
+	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
 func DatabasePluggableDatabaseSnapshotDataSource() *schema.Resource {
@@ -19,15 +21,15 @@ func DatabasePluggableDatabaseSnapshotDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabasePluggableDatabaseSnapshotResource(), fieldMap, readSingularDatabasePluggableDatabaseSnapshot)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabasePluggableDatabaseSnapshotResource(), fieldMap, readSingularDatabasePluggableDatabaseSnapshotWithContext)
 }
 
-func readSingularDatabasePluggableDatabaseSnapshot(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabasePluggableDatabaseSnapshotWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabasePluggableDatabaseSnapshotDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabasePluggableDatabaseSnapshotDataSourceCrud struct {
@@ -40,7 +42,7 @@ func (s *DatabasePluggableDatabaseSnapshotDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabasePluggableDatabaseSnapshotDataSourceCrud) Get() error {
+func (s *DatabasePluggableDatabaseSnapshotDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetPluggableDatabaseSnapshotRequest{}
 
 	if pluggableDatabaseSnapshotId, ok := s.D.GetOkExists("pluggable_database_snapshot_id"); ok {
@@ -50,7 +52,7 @@ func (s *DatabasePluggableDatabaseSnapshotDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetPluggableDatabaseSnapshot(context.Background(), request)
+	response, err := s.Client.GetPluggableDatabaseSnapshot(ctx, request)
 	if err != nil {
 		return err
 	}

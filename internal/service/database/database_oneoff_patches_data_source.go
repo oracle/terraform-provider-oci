@@ -6,16 +6,18 @@ package database
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v65/database"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
+	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
 func DatabaseOneoffPatchesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseOneoffPatches,
+		ReadContext: readDatabaseOneoffPatchesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -39,12 +41,12 @@ func DatabaseOneoffPatchesDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseOneoffPatches(d *schema.ResourceData, m interface{}) error {
+func readDatabaseOneoffPatchesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseOneoffPatchesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseOneoffPatchesDataSourceCrud struct {
@@ -57,7 +59,7 @@ func (s *DatabaseOneoffPatchesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseOneoffPatchesDataSourceCrud) Get() error {
+func (s *DatabaseOneoffPatchesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListOneoffPatchesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -76,7 +78,7 @@ func (s *DatabaseOneoffPatchesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListOneoffPatches(context.Background(), request)
+	response, err := s.Client.ListOneoffPatches(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -85,7 +87,7 @@ func (s *DatabaseOneoffPatchesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOneoffPatches(context.Background(), request)
+		listResponse, err := s.Client.ListOneoffPatches(ctx, request)
 		if err != nil {
 			return err
 		}

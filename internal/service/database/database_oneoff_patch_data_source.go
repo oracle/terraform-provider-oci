@@ -6,11 +6,13 @@ package database
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	oci_database "github.com/oracle/oci-go-sdk/v65/database"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
+	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
 func DatabaseOneoffPatchDataSource() *schema.Resource {
@@ -19,15 +21,15 @@ func DatabaseOneoffPatchDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseOneoffPatchResource(), fieldMap, readSingularDatabaseOneoffPatch)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseOneoffPatchResource(), fieldMap, readSingularDatabaseOneoffPatchWithContext)
 }
 
-func readSingularDatabaseOneoffPatch(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseOneoffPatchWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseOneoffPatchDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseOneoffPatchDataSourceCrud struct {
@@ -40,7 +42,7 @@ func (s *DatabaseOneoffPatchDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseOneoffPatchDataSourceCrud) Get() error {
+func (s *DatabaseOneoffPatchDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetOneoffPatchRequest{}
 
 	if oneoffPatchId, ok := s.D.GetOkExists("oneoff_patch_id"); ok {
@@ -50,7 +52,7 @@ func (s *DatabaseOneoffPatchDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetOneoffPatch(context.Background(), request)
+	response, err := s.Client.GetOneoffPatch(ctx, request)
 	if err != nil {
 		return err
 	}
