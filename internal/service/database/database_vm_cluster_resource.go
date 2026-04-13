@@ -7,9 +7,11 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
@@ -26,10 +28,10 @@ func DatabaseVmClusterResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("12h"),
 			Delete: tfresource.GetTimeoutDuration("12h"),
 		},
-		Create: createDatabaseVmCluster,
-		Read:   readDatabaseVmCluster,
-		Update: updateDatabaseVmCluster,
-		Delete: deleteDatabaseVmCluster,
+		CreateContext: createDatabaseVmClusterWithContext,
+		ReadContext:   readDatabaseVmClusterWithContext,
+		UpdateContext: updateDatabaseVmClusterWithContext,
+		DeleteContext: deleteDatabaseVmClusterWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -367,40 +369,40 @@ func DatabaseVmClusterResource() *schema.Resource {
 	}
 }
 
-func createDatabaseVmCluster(d *schema.ResourceData, m interface{}) error {
+func createDatabaseVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseVmCluster(d *schema.ResourceData, m interface{}) error {
+func readDatabaseVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseVmCluster(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseVmCluster(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseVmClusterResourceCrud struct {
@@ -452,7 +454,7 @@ func (s *DatabaseVmClusterResourceCrud) UpdatedTarget() []string {
 	}
 }
 
-func (s *DatabaseVmClusterResourceCrud) Create() error {
+func (s *DatabaseVmClusterResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateVmClusterRequest{}
 
 	if cloudAutomationUpdateDetails, ok := s.D.GetOkExists("cloud_automation_update_details"); ok {
@@ -647,7 +649,7 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateVmCluster(context.Background(), request)
+	response, err := s.Client.CreateVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -656,7 +658,7 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatabaseVmClusterResourceCrud) Get() error {
+func (s *DatabaseVmClusterResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetVmClusterRequest{}
 
 	tmp := s.D.Id()
@@ -664,7 +666,7 @@ func (s *DatabaseVmClusterResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetVmCluster(context.Background(), request)
+	response, err := s.Client.GetVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -673,11 +675,11 @@ func (s *DatabaseVmClusterResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseVmClusterResourceCrud) Update() error {
+func (s *DatabaseVmClusterResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -817,7 +819,7 @@ func (s *DatabaseVmClusterResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateVmCluster(context.Background(), request)
+	response, err := s.Client.UpdateVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -826,7 +828,7 @@ func (s *DatabaseVmClusterResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DatabaseVmClusterResourceCrud) Delete() error {
+func (s *DatabaseVmClusterResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteVmClusterRequest{}
 
 	tmp := s.D.Id()
@@ -834,7 +836,7 @@ func (s *DatabaseVmClusterResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.DeleteVmCluster(context.Background(), request)
+	_, err := s.Client.DeleteVmCluster(ctx, request)
 	return err
 }
 
@@ -1164,7 +1166,7 @@ func (s *DatabaseVmClusterResourceCrud) mapToFileSystemConfigurationDetail(field
 	return result, nil
 }
 
-func (s *DatabaseVmClusterResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseVmClusterResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database.ChangeVmClusterCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1175,14 +1177,14 @@ func (s *DatabaseVmClusterResourceCrud) updateCompartment(compartment interface{
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ChangeVmClusterCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeVmClusterCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "vmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "vmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

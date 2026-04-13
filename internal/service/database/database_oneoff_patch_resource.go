@@ -7,13 +7,14 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
-
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DatabaseOneoffPatchResource() *schema.Resource {
@@ -21,11 +22,11 @@ func DatabaseOneoffPatchResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseOneoffPatch,
-		Read:     readDatabaseOneoffPatch,
-		Update:   updateDatabaseOneoffPatch,
-		Delete:   deleteDatabaseOneoffPatch,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseOneoffPatchWithContext,
+		ReadContext:   readDatabaseOneoffPatchWithContext,
+		UpdateContext: updateDatabaseOneoffPatchWithContext,
+		DeleteContext: deleteDatabaseOneoffPatchWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -114,35 +115,35 @@ func DatabaseOneoffPatchResource() *schema.Resource {
 	}
 }
 
-func createDatabaseOneoffPatch(d *schema.ResourceData, m interface{}) error {
+func createDatabaseOneoffPatchWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseOneoffPatchResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 
 	if _, ok := sync.D.GetOkExists("download_oneoff_patch_trigger"); ok {
-		err := sync.DownloadOneoffPatch()
+		err := sync.DownloadOneoffPatch(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 	return nil
 
 }
 
-func readDatabaseOneoffPatch(d *schema.ResourceData, m interface{}) error {
+func readDatabaseOneoffPatchWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseOneoffPatchResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseOneoffPatch(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseOneoffPatchWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseOneoffPatchResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
@@ -153,32 +154,32 @@ func updateDatabaseOneoffPatch(d *schema.ResourceData, m interface{}) error {
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.DownloadOneoffPatch()
+			err := sync.DownloadOneoffPatch(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("download_oneoff_patch_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	return nil
 }
 
-func deleteDatabaseOneoffPatch(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseOneoffPatchWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseOneoffPatchResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseOneoffPatchResourceCrud struct {
@@ -219,7 +220,7 @@ func (s *DatabaseOneoffPatchResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatabaseOneoffPatchResourceCrud) Create() error {
+func (s *DatabaseOneoffPatchResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateOneoffPatchRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -269,7 +270,7 @@ func (s *DatabaseOneoffPatchResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateOneoffPatch(context.Background(), request)
+	response, err := s.Client.CreateOneoffPatch(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -278,7 +279,7 @@ func (s *DatabaseOneoffPatchResourceCrud) Create() error {
 	s.Res = &response.OneoffPatch
 
 	if workId != nil {
-		identifier, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "oneoffPatch", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err := tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "oneoffPatch", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
@@ -287,10 +288,10 @@ func (s *DatabaseOneoffPatchResourceCrud) Create() error {
 		}
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseOneoffPatchResourceCrud) Get() error {
+func (s *DatabaseOneoffPatchResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetOneoffPatchRequest{}
 
 	tmp := s.D.Id()
@@ -298,7 +299,7 @@ func (s *DatabaseOneoffPatchResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetOneoffPatch(context.Background(), request)
+	response, err := s.Client.GetOneoffPatch(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -307,10 +308,10 @@ func (s *DatabaseOneoffPatchResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseOneoffPatchResourceCrud) Update() error {
+func (s *DatabaseOneoffPatchResourceCrud) UpdateWithContext(ctx context.Context) error {
 
 	if _, ok := s.D.GetOkExists("compartmentId"); ok && s.D.HasChange("compartmentId") {
-		err := s.ChangeOneoffPatchCompartment()
+		err := s.ChangeOneoffPatchCompartment(ctx)
 		if err != nil {
 			return err
 		}
@@ -318,7 +319,7 @@ func (s *DatabaseOneoffPatchResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -343,7 +344,7 @@ func (s *DatabaseOneoffPatchResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateOneoffPatch(context.Background(), request)
+	response, err := s.Client.UpdateOneoffPatch(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -352,7 +353,7 @@ func (s *DatabaseOneoffPatchResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DatabaseOneoffPatchResourceCrud) Delete() error {
+func (s *DatabaseOneoffPatchResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteOneoffPatchRequest{}
 
 	tmp := s.D.Id()
@@ -360,14 +361,14 @@ func (s *DatabaseOneoffPatchResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DeleteOneoffPatch(context.Background(), request)
+	response, err := s.Client.DeleteOneoffPatch(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "oneoffPatch", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "oneoffPatch", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -436,7 +437,7 @@ func (s *DatabaseOneoffPatchResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DatabaseOneoffPatchResourceCrud) DownloadOneoffPatch() error {
+func (s *DatabaseOneoffPatchResourceCrud) DownloadOneoffPatch(ctx context.Context) error {
 	request := oci_database.DownloadOneoffPatchRequest{}
 
 	idTmp := s.D.Id()
@@ -444,22 +445,22 @@ func (s *DatabaseOneoffPatchResourceCrud) DownloadOneoffPatch() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.DownloadOneoffPatch(context.Background(), request)
+	_, err := s.Client.DownloadOneoffPatch(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	val := s.D.Get("download_oneoff_patch_trigger")
 	s.D.Set("download_oneoff_patch_trigger", val)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseOneoffPatchResourceCrud) ChangeOneoffPatchCompartment() error {
+func (s *DatabaseOneoffPatchResourceCrud) ChangeOneoffPatchCompartment(ctx context.Context) error {
 	request := oci_database.ChangeOneoffPatchCompartmentRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -472,19 +473,19 @@ func (s *DatabaseOneoffPatchResourceCrud) ChangeOneoffPatchCompartment() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.ChangeOneoffPatchCompartment(context.Background(), request)
+	_, err := s.Client.ChangeOneoffPatchCompartment(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	return nil
 }
 
-func (s *DatabaseOneoffPatchResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseOneoffPatchResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database.ChangeOneoffPatchCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -495,14 +496,14 @@ func (s *DatabaseOneoffPatchResourceCrud) updateCompartment(compartment interfac
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ChangeOneoffPatchCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeOneoffPatchCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "oneoffPatch", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "oneoffPatch", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
