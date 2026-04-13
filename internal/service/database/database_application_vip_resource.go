@@ -6,6 +6,8 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -20,10 +22,10 @@ func DatabaseApplicationVipResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseApplicationVip,
-		Read:     readDatabaseApplicationVip,
-		Delete:   deleteDatabaseApplicationVip,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseApplicationVipWithContext,
+		ReadContext:   readDatabaseApplicationVipWithContext,
+		DeleteContext: deleteDatabaseApplicationVipWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"cloud_vm_cluster_id": {
@@ -93,31 +95,31 @@ func DatabaseApplicationVipResource() *schema.Resource {
 	}
 }
 
-func createDatabaseApplicationVip(d *schema.ResourceData, m interface{}) error {
+func createDatabaseApplicationVipWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseApplicationVipResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseApplicationVip(d *schema.ResourceData, m interface{}) error {
+func readDatabaseApplicationVipWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseApplicationVipResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteDatabaseApplicationVip(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseApplicationVipWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseApplicationVipResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseApplicationVipResourceCrud struct {
@@ -156,7 +158,7 @@ func (s *DatabaseApplicationVipResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatabaseApplicationVipResourceCrud) Create() error {
+func (s *DatabaseApplicationVipResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateApplicationVipRequest{}
 
 	if cloudVmClusterId, ok := s.D.GetOkExists("cloud_vm_cluster_id"); ok {
@@ -191,7 +193,7 @@ func (s *DatabaseApplicationVipResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateApplicationVip(context.Background(), request)
+	response, err := s.Client.CreateApplicationVip(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -205,7 +207,7 @@ func (s *DatabaseApplicationVipResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "applicationvip", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "applicationvip", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
@@ -218,7 +220,7 @@ func (s *DatabaseApplicationVipResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatabaseApplicationVipResourceCrud) Get() error {
+func (s *DatabaseApplicationVipResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetApplicationVipRequest{}
 
 	tmp := s.D.Id()
@@ -226,7 +228,7 @@ func (s *DatabaseApplicationVipResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetApplicationVip(context.Background(), request)
+	response, err := s.Client.GetApplicationVip(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -235,7 +237,7 @@ func (s *DatabaseApplicationVipResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseApplicationVipResourceCrud) Delete() error {
+func (s *DatabaseApplicationVipResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteApplicationVipRequest{}
 
 	tmp := s.D.Id()
@@ -243,14 +245,14 @@ func (s *DatabaseApplicationVipResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DeleteApplicationVip(context.Background(), request)
+	response, err := s.Client.DeleteApplicationVip(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "applicationVip", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "applicationVip", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

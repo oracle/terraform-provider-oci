@@ -6,6 +6,8 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -19,15 +21,15 @@ func DatabaseApplicationVipDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseApplicationVipResource(), fieldMap, readSingularDatabaseApplicationVip)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseApplicationVipResource(), fieldMap, readSingularDatabaseApplicationVipWithContext)
 }
 
-func readSingularDatabaseApplicationVip(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseApplicationVipWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseApplicationVipDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseApplicationVipDataSourceCrud struct {
@@ -40,7 +42,7 @@ func (s *DatabaseApplicationVipDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseApplicationVipDataSourceCrud) Get() error {
+func (s *DatabaseApplicationVipDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetApplicationVipRequest{}
 
 	if applicationVipId, ok := s.D.GetOkExists("application_vip_id"); ok {
@@ -50,7 +52,7 @@ func (s *DatabaseApplicationVipDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetApplicationVip(context.Background(), request)
+	response, err := s.Client.GetApplicationVip(ctx, request)
 	if err != nil {
 		return err
 	}

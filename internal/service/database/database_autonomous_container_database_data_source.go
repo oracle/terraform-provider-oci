@@ -6,6 +6,8 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -19,15 +21,15 @@ func DatabaseAutonomousContainerDatabaseDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseAutonomousContainerDatabaseResource(), fieldMap, readSingularDatabaseAutonomousContainerDatabase)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseAutonomousContainerDatabaseResource(), fieldMap, readSingularDatabaseAutonomousContainerDatabaseWithContext)
 }
 
-func readSingularDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseAutonomousContainerDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousContainerDatabaseDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseAutonomousContainerDatabaseDataSourceCrud struct {
@@ -40,7 +42,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) Get() error {
+func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetAutonomousContainerDatabaseRequest{}
 
 	if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
@@ -50,7 +52,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetAutonomousContainerDatabase(context.Background(), request)
+	response, err := s.Client.GetAutonomousContainerDatabase(ctx, request)
 	if err != nil {
 		return err
 	}

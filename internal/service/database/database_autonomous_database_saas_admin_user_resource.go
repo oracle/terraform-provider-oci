@@ -6,6 +6,8 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/oracle/oci-go-sdk/v65/common"
 
@@ -18,10 +20,10 @@ import (
 
 func DatabaseAutonomousDatabaseSaasAdminUserResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseAutonomousDatabaseSaasAdminUser,
-		Read:     readDatabaseAutonomousDatabaseSaasAdminUser,
-		Delete:   deleteDatabaseAutonomousDatabaseSaasAdminUser,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseAutonomousDatabaseSaasAdminUserWithContext,
+		ReadContext:   readDatabaseAutonomousDatabaseSaasAdminUserWithContext,
+		DeleteContext: deleteDatabaseAutonomousDatabaseSaasAdminUserWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"autonomous_database_id": {
@@ -79,31 +81,31 @@ type SaasAdminUser struct {
 	TimeSaasAdminUserEnabled *common.SDKTime
 }
 
-func createDatabaseAutonomousDatabaseSaasAdminUser(d *schema.ResourceData, m interface{}) error {
+func createDatabaseAutonomousDatabaseSaasAdminUserWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousDatabaseSaasAdminUserResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseAutonomousDatabaseSaasAdminUser(d *schema.ResourceData, m interface{}) error {
+func readDatabaseAutonomousDatabaseSaasAdminUserWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousDatabaseSaasAdminUserResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteDatabaseAutonomousDatabaseSaasAdminUser(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseAutonomousDatabaseSaasAdminUserWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousDatabaseSaasAdminUserResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseAutonomousDatabaseSaasAdminUserResourceCrud struct {
@@ -118,7 +120,7 @@ func (s *DatabaseAutonomousDatabaseSaasAdminUserResourceCrud) ID() string {
 	return "saas-admin-user-admin-user-" + *s.Res.AutonomousDatabaseId
 }
 
-func (s *DatabaseAutonomousDatabaseSaasAdminUserResourceCrud) Create() error {
+func (s *DatabaseAutonomousDatabaseSaasAdminUserResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.ConfigureSaasAdminUserRequest{}
 
 	enabledTrue := true
@@ -161,7 +163,7 @@ func (s *DatabaseAutonomousDatabaseSaasAdminUserResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ConfigureSaasAdminUser(context.Background(), request)
+	response, err := s.Client.ConfigureSaasAdminUser(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -170,7 +172,7 @@ func (s *DatabaseAutonomousDatabaseSaasAdminUserResourceCrud) Create() error {
 	if workId != nil {
 		var identifier *string
 		var err error
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "autonomousDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "autonomousDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
@@ -189,10 +191,10 @@ func (s *DatabaseAutonomousDatabaseSaasAdminUserResourceCrud) Create() error {
 	}
 	s.Res = &saasAdminUser
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseAutonomousDatabaseSaasAdminUserResourceCrud) Get() error {
+func (s *DatabaseAutonomousDatabaseSaasAdminUserResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.SaasAdminUserStatusRequest{}
 
 	if autonomousDatabaseId, ok := s.D.GetOkExists("autonomous_database_id"); ok {
@@ -202,7 +204,7 @@ func (s *DatabaseAutonomousDatabaseSaasAdminUserResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.SaasAdminUserStatus(context.Background(), request)
+	response, err := s.Client.SaasAdminUserStatus(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -249,7 +251,7 @@ func (s *DatabaseAutonomousDatabaseSaasAdminUserResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseSaasAdminUserResourceCrud) Delete() error {
+func (s *DatabaseAutonomousDatabaseSaasAdminUserResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.ConfigureSaasAdminUserRequest{}
 
 	tmp := s.D.Get("autonomous_database_id").(string)
@@ -259,12 +261,12 @@ func (s *DatabaseAutonomousDatabaseSaasAdminUserResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ConfigureSaasAdminUser(context.Background(), request)
+	response, err := s.Client.ConfigureSaasAdminUser(ctx, request)
 	workId := response.OpcWorkRequestId
 	if workId != nil {
 		var identifier *string
 		var err error
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "autonomousDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "autonomousDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}

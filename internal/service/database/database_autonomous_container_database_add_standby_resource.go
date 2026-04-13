@@ -5,8 +5,11 @@ package database
 
 import (
 	"context"
+
 	"fmt"
 	"log"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,9 +27,9 @@ func DatabaseAutonomousContainerDatabaseAddStandbyResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("12h"),
 			Delete: tfresource.GetTimeoutDuration("12h"),
 		},
-		Create: createDatabaseAutonomousContainerDatabaseAddStandby,
-		Read:   readDatabaseAutonomousContainerDatabaseAddStandby,
-		Delete: deleteDatabaseAutonomousContainerDatabaseAddStandby,
+		CreateContext: createDatabaseAutonomousContainerDatabaseAddStandbyWithContext,
+		ReadContext:   readDatabaseAutonomousContainerDatabaseAddStandbyWithContext,
+		DeleteContext: deleteDatabaseAutonomousContainerDatabaseAddStandbyWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"autonomous_container_database_id": {
@@ -760,33 +763,33 @@ func DatabaseAutonomousContainerDatabaseAddStandbyResource() *schema.Resource {
 	}
 }
 
-func createDatabaseAutonomousContainerDatabaseAddStandby(d *schema.ResourceData, m interface{}) error {
+func createDatabaseAutonomousContainerDatabaseAddStandbyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseAutonomousContainerDatabaseAddStandby(d *schema.ResourceData, m interface{}) error {
+func readDatabaseAutonomousContainerDatabaseAddStandbyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	//sync := &DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud{}
 	//sync.D = d
 	//sync.Client = m.(*client.OracleClients).DatabaseClient()
 	//sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	//
-	//return tfresource.ReadResource(sync)
+	//return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 	return nil
 }
 
-func deleteDatabaseAutonomousContainerDatabaseAddStandby(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseAutonomousContainerDatabaseAddStandbyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	//sync := &DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud{}
 	//sync.D = d
 	//sync.Client = m.(*client.OracleClients).DatabaseClient()
 	//sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	//sync.DisableNotFoundRetries = true
 	//
-	//return tfresource.DeleteResource(d, sync)
+	//return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 	return nil
 }
 
@@ -798,7 +801,7 @@ type DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud struct {
 	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
-func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) Get() error {
+func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetAutonomousContainerDatabaseRequest{}
 
 	tmp := s.D.Id()
@@ -806,7 +809,7 @@ func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) Get() error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetAutonomousContainerDatabase(context.Background(), request)
+	response, err := s.Client.GetAutonomousContainerDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -845,7 +848,7 @@ func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) DeletedTarge
 	}
 }
 
-func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) Delete() error {
+func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.TerminateAutonomousContainerDatabaseRequest{}
 	log.Println("adbcc: delete called")
 	var id string
@@ -861,10 +864,10 @@ func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) Delete() err
 		}
 	}
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
-	response, err := s.Client.TerminateAutonomousContainerDatabase(context.Background(), request)
+	response, err := s.Client.TerminateAutonomousContainerDatabase(ctx, request)
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -872,7 +875,7 @@ func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) Delete() err
 	return err
 }
 
-func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) Create() error {
+func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.AddStandbyAutonomousContainerDatabaseRequest{}
 
 	if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
@@ -937,7 +940,7 @@ func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) Create() err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.AddStandbyAutonomousContainerDatabase(context.Background(), request)
+	response, err := s.Client.AddStandbyAutonomousContainerDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -948,7 +951,7 @@ func (s *DatabaseAutonomousContainerDatabaseAddStandbyResourceCrud) Create() err
 	if workId != nil {
 		var identifier *string
 		var err error
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "autonomouscontainerdatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "autonomouscontainerdatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}

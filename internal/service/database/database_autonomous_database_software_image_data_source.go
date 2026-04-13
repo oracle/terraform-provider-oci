@@ -6,6 +6,8 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -19,15 +21,15 @@ func DatabaseAutonomousDatabaseSoftwareImageDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseAutonomousDatabaseSoftwareImageResource(), fieldMap, readSingularDatabaseAutonomousDatabaseSoftwareImage)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseAutonomousDatabaseSoftwareImageResource(), fieldMap, readSingularDatabaseAutonomousDatabaseSoftwareImageWithContext)
 }
 
-func readSingularDatabaseAutonomousDatabaseSoftwareImage(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseAutonomousDatabaseSoftwareImageWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousDatabaseSoftwareImageDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseAutonomousDatabaseSoftwareImageDataSourceCrud struct {
@@ -40,7 +42,7 @@ func (s *DatabaseAutonomousDatabaseSoftwareImageDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseAutonomousDatabaseSoftwareImageDataSourceCrud) Get() error {
+func (s *DatabaseAutonomousDatabaseSoftwareImageDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetAutonomousDatabaseSoftwareImageRequest{}
 
 	if autonomousDatabaseSoftwareImageId, ok := s.D.GetOkExists("autonomous_database_software_image_id"); ok {
@@ -50,7 +52,7 @@ func (s *DatabaseAutonomousDatabaseSoftwareImageDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetAutonomousDatabaseSoftwareImage(context.Background(), request)
+	response, err := s.Client.GetAutonomousDatabaseSoftwareImage(ctx, request)
 	if err != nil {
 		return err
 	}

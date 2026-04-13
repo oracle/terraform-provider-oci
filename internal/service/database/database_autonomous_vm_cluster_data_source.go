@@ -6,6 +6,8 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -19,15 +21,15 @@ func DatabaseAutonomousVmClusterDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseAutonomousVmClusterResource(), fieldMap, readSingularDatabaseAutonomousVmCluster)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseAutonomousVmClusterResource(), fieldMap, readSingularDatabaseAutonomousVmClusterWithContext)
 }
 
-func readSingularDatabaseAutonomousVmCluster(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseAutonomousVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousVmClusterDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseAutonomousVmClusterDataSourceCrud struct {
@@ -40,7 +42,7 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseAutonomousVmClusterDataSourceCrud) Get() error {
+func (s *DatabaseAutonomousVmClusterDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetAutonomousVmClusterRequest{}
 
 	if autonomousVmClusterId, ok := s.D.GetOkExists("autonomous_vm_cluster_id"); ok {
@@ -50,7 +52,7 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetAutonomousVmCluster(context.Background(), request)
+	response, err := s.Client.GetAutonomousVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}

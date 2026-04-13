@@ -6,6 +6,8 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +17,7 @@ import (
 
 func DatabaseAutonomousExadataInfrastructuresDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseAutonomousExadataInfrastructures,
+		ReadContext: readDatabaseAutonomousExadataInfrastructuresWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"availability_domain": {
@@ -43,12 +45,12 @@ func DatabaseAutonomousExadataInfrastructuresDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseAutonomousExadataInfrastructures(d *schema.ResourceData, m interface{}) error {
+func readDatabaseAutonomousExadataInfrastructuresWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousExadataInfrastructuresDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseAutonomousExadataInfrastructuresDataSourceCrud struct {
@@ -61,7 +63,7 @@ func (s *DatabaseAutonomousExadataInfrastructuresDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseAutonomousExadataInfrastructuresDataSourceCrud) Get() error {
+func (s *DatabaseAutonomousExadataInfrastructuresDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListAutonomousExadataInfrastructuresRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -85,7 +87,7 @@ func (s *DatabaseAutonomousExadataInfrastructuresDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListAutonomousExadataInfrastructures(context.Background(), request)
+	response, err := s.Client.ListAutonomousExadataInfrastructures(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -94,7 +96,7 @@ func (s *DatabaseAutonomousExadataInfrastructuresDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListAutonomousExadataInfrastructures(context.Background(), request)
+		listResponse, err := s.Client.ListAutonomousExadataInfrastructures(ctx, request)
 		if err != nil {
 			return err
 		}

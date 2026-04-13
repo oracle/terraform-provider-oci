@@ -6,6 +6,8 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -19,15 +21,15 @@ func DatabaseAutonomousExadataInfrastructureDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseAutonomousExadataInfrastructureResource(), fieldMap, readSingularDatabaseAutonomousExadataInfrastructure)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseAutonomousExadataInfrastructureResource(), fieldMap, readSingularDatabaseAutonomousExadataInfrastructureWithContext)
 }
 
-func readSingularDatabaseAutonomousExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseAutonomousExadataInfrastructureWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousExadataInfrastructureDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseAutonomousExadataInfrastructureDataSourceCrud struct {
@@ -40,7 +42,7 @@ func (s *DatabaseAutonomousExadataInfrastructureDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseAutonomousExadataInfrastructureDataSourceCrud) Get() error {
+func (s *DatabaseAutonomousExadataInfrastructureDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetAutonomousExadataInfrastructureRequest{}
 
 	if autonomousExadataInfrastructureId, ok := s.D.GetOkExists("autonomous_exadata_infrastructure_id"); ok {
@@ -50,7 +52,7 @@ func (s *DatabaseAutonomousExadataInfrastructureDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetAutonomousExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.GetAutonomousExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}

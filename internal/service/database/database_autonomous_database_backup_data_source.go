@@ -6,6 +6,8 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -19,15 +21,15 @@ func DatabaseAutonomousDatabaseBackupDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseAutonomousDatabaseBackupResource(), fieldMap, readSingularDatabaseAutonomousDatabaseBackup)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseAutonomousDatabaseBackupResource(), fieldMap, readSingularDatabaseAutonomousDatabaseBackupWithContext)
 }
 
-func readSingularDatabaseAutonomousDatabaseBackup(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseAutonomousDatabaseBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousDatabaseBackupDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseAutonomousDatabaseBackupDataSourceCrud struct {
@@ -40,7 +42,7 @@ func (s *DatabaseAutonomousDatabaseBackupDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseAutonomousDatabaseBackupDataSourceCrud) Get() error {
+func (s *DatabaseAutonomousDatabaseBackupDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetAutonomousDatabaseBackupRequest{}
 
 	if autonomousDatabaseBackupId, ok := s.D.GetOkExists("autonomous_database_backup_id"); ok {
@@ -50,7 +52,7 @@ func (s *DatabaseAutonomousDatabaseBackupDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetAutonomousDatabaseBackup(context.Background(), request)
+	response, err := s.Client.GetAutonomousDatabaseBackup(ctx, request)
 	if err != nil {
 		return err
 	}

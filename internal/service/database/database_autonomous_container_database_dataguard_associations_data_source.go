@@ -6,6 +6,8 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +17,7 @@ import (
 
 func DatabaseAutonomousContainerDatabaseDataguardAssociationsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseAutonomousContainerDatabaseDataguardAssociations,
+		ReadContext: readDatabaseAutonomousContainerDatabaseDataguardAssociationsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"autonomous_container_database_id": {
@@ -31,12 +33,12 @@ func DatabaseAutonomousContainerDatabaseDataguardAssociationsDataSource() *schem
 	}
 }
 
-func readDatabaseAutonomousContainerDatabaseDataguardAssociations(d *schema.ResourceData, m interface{}) error {
+func readDatabaseAutonomousContainerDatabaseDataguardAssociationsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousContainerDatabaseDataguardAssociationsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseAutonomousContainerDatabaseDataguardAssociationsDataSourceCrud struct {
@@ -49,7 +51,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationsDataSourceCrud)
 	s.D.SetId("")
 }
 
-func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationsDataSourceCrud) Get() error {
+func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListAutonomousContainerDatabaseDataguardAssociationsRequest{}
 
 	if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
@@ -59,7 +61,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationsDataSourceCrud)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListAutonomousContainerDatabaseDataguardAssociations(context.Background(), request)
+	response, err := s.Client.ListAutonomousContainerDatabaseDataguardAssociations(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -68,7 +70,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationsDataSourceCrud)
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListAutonomousContainerDatabaseDataguardAssociations(context.Background(), request)
+		listResponse, err := s.Client.ListAutonomousContainerDatabaseDataguardAssociations(ctx, request)
 		if err != nil {
 			return err
 		}

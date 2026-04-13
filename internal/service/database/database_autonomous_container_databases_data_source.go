@@ -6,6 +6,8 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +17,7 @@ import (
 
 func DatabaseAutonomousContainerDatabasesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseAutonomousContainerDatabases,
+		ReadContext: readDatabaseAutonomousContainerDatabasesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"autonomous_exadata_infrastructure_id": {
@@ -63,12 +65,12 @@ func DatabaseAutonomousContainerDatabasesDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseAutonomousContainerDatabases(d *schema.ResourceData, m interface{}) error {
+func readDatabaseAutonomousContainerDatabasesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousContainerDatabasesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseAutonomousContainerDatabasesDataSourceCrud struct {
@@ -81,7 +83,7 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) Get() error {
+func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListAutonomousContainerDatabasesRequest{}
 
 	if autonomousExadataInfrastructureId, ok := s.D.GetOkExists("autonomous_exadata_infrastructure_id"); ok {
@@ -129,7 +131,7 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListAutonomousContainerDatabases(context.Background(), request)
+	response, err := s.Client.ListAutonomousContainerDatabases(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -138,7 +140,7 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListAutonomousContainerDatabases(context.Background(), request)
+		listResponse, err := s.Client.ListAutonomousContainerDatabases(ctx, request)
 		if err != nil {
 			return err
 		}

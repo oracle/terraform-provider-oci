@@ -5,7 +5,10 @@ package database
 
 import (
 	"context"
+
 	"fmt"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -27,10 +30,10 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("12h"),
 			Delete: tfresource.GetTimeoutDuration("12h"),
 		},
-		Create: createDatabaseAutonomousExadataInfrastructure,
-		Read:   readDatabaseAutonomousExadataInfrastructure,
-		Update: updateDatabaseAutonomousExadataInfrastructure,
-		Delete: deleteDatabaseAutonomousExadataInfrastructure,
+		CreateContext: createDatabaseAutonomousExadataInfrastructureWithContext,
+		ReadContext:   readDatabaseAutonomousExadataInfrastructureWithContext,
+		UpdateContext: updateDatabaseAutonomousExadataInfrastructureWithContext,
+		DeleteContext: deleteDatabaseAutonomousExadataInfrastructureWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -338,41 +341,41 @@ func DatabaseAutonomousExadataInfrastructureResource() *schema.Resource {
 	}
 }
 
-func createDatabaseAutonomousExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
+func createDatabaseAutonomousExadataInfrastructureWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseAutonomousExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
+func readDatabaseAutonomousExadataInfrastructureWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseAutonomousExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseAutonomousExadataInfrastructureWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseAutonomousExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseAutonomousExadataInfrastructureWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseAutonomousExadataInfrastructureResourceCrud struct {
@@ -436,7 +439,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) UpdatedTarget() []
 	}
 }
 
-func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Create() error {
+func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.LaunchAutonomousExadataInfrastructureRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -512,7 +515,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.LaunchAutonomousExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.LaunchAutonomousExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -525,7 +528,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "autonomousExadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "autonomousExadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -534,7 +537,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Get() error {
+func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetAutonomousExadataInfrastructureRequest{}
 
 	tmp := s.D.Id()
@@ -542,7 +545,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetAutonomousExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.GetAutonomousExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -551,11 +554,11 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Update() error {
+func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -610,14 +613,14 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateAutonomousExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.UpdateAutonomousExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "autonomousExadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "autonomousExadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -627,7 +630,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Delete() error {
+func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.TerminateAutonomousExadataInfrastructureRequest{}
 
 	tmp := s.D.Id()
@@ -635,7 +638,7 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.TerminateAutonomousExadataInfrastructure(context.Background(), request)
+	_, err := s.Client.TerminateAutonomousExadataInfrastructure(ctx, request)
 	return err
 }
 
@@ -916,7 +919,7 @@ func MonthToMapAvm(obj oci_database.Month) map[string]interface{} {
 	return result
 }
 
-func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database.ChangeAutonomousExadataInfrastructureCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -927,12 +930,12 @@ func (s *DatabaseAutonomousExadataInfrastructureResourceCrud) updateCompartment(
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.ChangeAutonomousExadataInfrastructureCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeAutonomousExadataInfrastructureCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

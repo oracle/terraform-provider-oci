@@ -6,6 +6,8 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -15,7 +17,7 @@ import (
 
 func DatabaseAutonomousDatabaseSoftwareImagesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseAutonomousDatabaseSoftwareImages,
+		ReadContext: readDatabaseAutonomousDatabaseSoftwareImagesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +54,12 @@ func DatabaseAutonomousDatabaseSoftwareImagesDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseAutonomousDatabaseSoftwareImages(d *schema.ResourceData, m interface{}) error {
+func readDatabaseAutonomousDatabaseSoftwareImagesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousDatabaseSoftwareImagesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseAutonomousDatabaseSoftwareImagesDataSourceCrud struct {
@@ -70,7 +72,7 @@ func (s *DatabaseAutonomousDatabaseSoftwareImagesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseAutonomousDatabaseSoftwareImagesDataSourceCrud) Get() error {
+func (s *DatabaseAutonomousDatabaseSoftwareImagesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListAutonomousDatabaseSoftwareImagesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -93,7 +95,7 @@ func (s *DatabaseAutonomousDatabaseSoftwareImagesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListAutonomousDatabaseSoftwareImages(context.Background(), request)
+	response, err := s.Client.ListAutonomousDatabaseSoftwareImages(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -102,7 +104,7 @@ func (s *DatabaseAutonomousDatabaseSoftwareImagesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListAutonomousDatabaseSoftwareImages(context.Background(), request)
+		listResponse, err := s.Client.ListAutonomousDatabaseSoftwareImages(ctx, request)
 		if err != nil {
 			return err
 		}

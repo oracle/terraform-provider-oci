@@ -5,8 +5,11 @@ package database
 
 import (
 	"context"
+
 	"fmt"
 	"time"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -23,11 +26,11 @@ func DatabaseAutonomousDatabaseBackupResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseAutonomousDatabaseBackup,
-		Read:     readDatabaseAutonomousDatabaseBackup,
-		Update:   updateDatabaseAutonomousDatabaseBackup,
-		Delete:   deleteDatabaseAutonomousDatabaseBackup,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseAutonomousDatabaseBackupWithContext,
+		ReadContext:   readDatabaseAutonomousDatabaseBackupWithContext,
+		UpdateContext: updateDatabaseAutonomousDatabaseBackupWithContext,
+		DeleteContext: deleteDatabaseAutonomousDatabaseBackupWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"autonomous_database_id": {
@@ -272,41 +275,41 @@ func DatabaseAutonomousDatabaseBackupResource() *schema.Resource {
 	}
 }
 
-func createDatabaseAutonomousDatabaseBackup(d *schema.ResourceData, m interface{}) error {
+func createDatabaseAutonomousDatabaseBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousDatabaseBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseAutonomousDatabaseBackup(d *schema.ResourceData, m interface{}) error {
+func readDatabaseAutonomousDatabaseBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousDatabaseBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseAutonomousDatabaseBackup(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseAutonomousDatabaseBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousDatabaseBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseAutonomousDatabaseBackup(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseAutonomousDatabaseBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousDatabaseBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseAutonomousDatabaseBackupResourceCrud struct {
@@ -345,7 +348,7 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) DeletedTarget() []string 
 	}
 }
 
-func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Create() error {
+func (s *DatabaseAutonomousDatabaseBackupResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateAutonomousDatabaseBackupRequest{}
 
 	if autonomousDatabaseId, ok := s.D.GetOkExists("autonomous_database_id"); ok {
@@ -381,7 +384,7 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateAutonomousDatabaseBackup(context.Background(), request)
+	response, err := s.Client.CreateAutonomousDatabaseBackup(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -394,7 +397,7 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -404,7 +407,7 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Get() error {
+func (s *DatabaseAutonomousDatabaseBackupResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetAutonomousDatabaseBackupRequest{}
 
 	tmp := s.D.Id()
@@ -412,7 +415,7 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetAutonomousDatabaseBackup(context.Background(), request)
+	response, err := s.Client.GetAutonomousDatabaseBackup(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -421,7 +424,7 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Update() error {
+func (s *DatabaseAutonomousDatabaseBackupResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database.UpdateAutonomousDatabaseBackupRequest{}
 
 	tmp := s.D.Id()
@@ -434,23 +437,23 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateAutonomousDatabaseBackup(context.Background(), request)
+	response, err := s.Client.UpdateAutonomousDatabaseBackup(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "autonomousDatabaseBackup", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "autonomousDatabaseBackup", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Delete() error {
+func (s *DatabaseAutonomousDatabaseBackupResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteAutonomousDatabaseBackupRequest{}
 
 	tmp := s.D.Id()
@@ -458,7 +461,7 @@ func (s *DatabaseAutonomousDatabaseBackupResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.DeleteAutonomousDatabaseBackup(context.Background(), request)
+	_, err := s.Client.DeleteAutonomousDatabaseBackup(ctx, request)
 	return err
 }
 

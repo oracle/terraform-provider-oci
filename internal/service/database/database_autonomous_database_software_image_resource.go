@@ -6,6 +6,8 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -20,11 +22,11 @@ func DatabaseAutonomousDatabaseSoftwareImageResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseAutonomousDatabaseSoftwareImage,
-		Read:     readDatabaseAutonomousDatabaseSoftwareImage,
-		Update:   updateDatabaseAutonomousDatabaseSoftwareImage,
-		Delete:   deleteDatabaseAutonomousDatabaseSoftwareImage,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseAutonomousDatabaseSoftwareImageWithContext,
+		ReadContext:   readDatabaseAutonomousDatabaseSoftwareImageWithContext,
+		UpdateContext: updateDatabaseAutonomousDatabaseSoftwareImageWithContext,
+		DeleteContext: deleteDatabaseAutonomousDatabaseSoftwareImageWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -99,40 +101,40 @@ func DatabaseAutonomousDatabaseSoftwareImageResource() *schema.Resource {
 	}
 }
 
-func createDatabaseAutonomousDatabaseSoftwareImage(d *schema.ResourceData, m interface{}) error {
+func createDatabaseAutonomousDatabaseSoftwareImageWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousDatabaseSoftwareImageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseAutonomousDatabaseSoftwareImage(d *schema.ResourceData, m interface{}) error {
+func readDatabaseAutonomousDatabaseSoftwareImageWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousDatabaseSoftwareImageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseAutonomousDatabaseSoftwareImage(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseAutonomousDatabaseSoftwareImageWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousDatabaseSoftwareImageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseAutonomousDatabaseSoftwareImage(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseAutonomousDatabaseSoftwareImageWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousDatabaseSoftwareImageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseAutonomousDatabaseSoftwareImageResourceCrud struct {
@@ -171,7 +173,7 @@ func (s *DatabaseAutonomousDatabaseSoftwareImageResourceCrud) DeletedTarget() []
 	}
 }
 
-func (s *DatabaseAutonomousDatabaseSoftwareImageResourceCrud) Create() error {
+func (s *DatabaseAutonomousDatabaseSoftwareImageResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateAutonomousDatabaseSoftwareImageRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -207,7 +209,7 @@ func (s *DatabaseAutonomousDatabaseSoftwareImageResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateAutonomousDatabaseSoftwareImage(context.Background(), request)
+	response, err := s.Client.CreateAutonomousDatabaseSoftwareImage(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -222,7 +224,7 @@ func (s *DatabaseAutonomousDatabaseSoftwareImageResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "autonomousdatabasesoftwareimage", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "autonomousdatabasesoftwareimage", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
@@ -230,10 +232,10 @@ func (s *DatabaseAutonomousDatabaseSoftwareImageResourceCrud) Create() error {
 			return err
 		}
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseAutonomousDatabaseSoftwareImageResourceCrud) Get() error {
+func (s *DatabaseAutonomousDatabaseSoftwareImageResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetAutonomousDatabaseSoftwareImageRequest{}
 
 	tmp := s.D.Id()
@@ -241,7 +243,7 @@ func (s *DatabaseAutonomousDatabaseSoftwareImageResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetAutonomousDatabaseSoftwareImage(context.Background(), request)
+	response, err := s.Client.GetAutonomousDatabaseSoftwareImage(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -250,11 +252,11 @@ func (s *DatabaseAutonomousDatabaseSoftwareImageResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseSoftwareImageResourceCrud) Update() error {
+func (s *DatabaseAutonomousDatabaseSoftwareImageResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -279,7 +281,7 @@ func (s *DatabaseAutonomousDatabaseSoftwareImageResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateAutonomousDatabaseSoftwareImage(context.Background(), request)
+	response, err := s.Client.UpdateAutonomousDatabaseSoftwareImage(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -288,7 +290,7 @@ func (s *DatabaseAutonomousDatabaseSoftwareImageResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseSoftwareImageResourceCrud) Delete() error {
+func (s *DatabaseAutonomousDatabaseSoftwareImageResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteAutonomousDatabaseSoftwareImageRequest{}
 
 	tmp := s.D.Id()
@@ -296,14 +298,14 @@ func (s *DatabaseAutonomousDatabaseSoftwareImageResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DeleteAutonomousDatabaseSoftwareImage(context.Background(), request)
+	response, err := s.Client.DeleteAutonomousDatabaseSoftwareImage(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "autonomousdatabasesoftwareimage", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "autonomousdatabasesoftwareimage", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -406,7 +408,7 @@ func AutonomousDatabaseSoftwareImageSummaryToMap(obj oci_database.AutonomousData
 	return result
 }
 
-func (s *DatabaseAutonomousDatabaseSoftwareImageResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseAutonomousDatabaseSoftwareImageResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database.ChangeAutonomousDatabaseSoftwareImageCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -417,14 +419,14 @@ func (s *DatabaseAutonomousDatabaseSoftwareImageResourceCrud) updateCompartment(
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ChangeAutonomousDatabaseSoftwareImageCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeAutonomousDatabaseSoftwareImageCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "autonomousdatabasesoftwareimage", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "autonomousdatabasesoftwareimage", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

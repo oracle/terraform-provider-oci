@@ -5,7 +5,10 @@ package database
 
 import (
 	"context"
+
 	"time"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -16,7 +19,7 @@ import (
 
 func DatabaseAutonomousDatabasesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseAutonomousDatabases,
+		ReadContext: readDatabaseAutonomousDatabasesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"autonomous_container_database_id": {
@@ -80,12 +83,12 @@ func DatabaseAutonomousDatabasesDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseAutonomousDatabases(d *schema.ResourceData, m interface{}) error {
+func readDatabaseAutonomousDatabasesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousDatabasesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseAutonomousDatabasesDataSourceCrud struct {
@@ -98,7 +101,7 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseAutonomousDatabasesDataSourceCrud) Get() error {
+func (s *DatabaseAutonomousDatabasesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListAutonomousDatabasesRequest{}
 
 	if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
@@ -164,7 +167,7 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListAutonomousDatabases(context.Background(), request)
+	response, err := s.Client.ListAutonomousDatabases(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -173,7 +176,7 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListAutonomousDatabases(context.Background(), request)
+		listResponse, err := s.Client.ListAutonomousDatabases(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -18,6 +18,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -37,10 +38,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("12h"),
 			Delete: tfresource.GetTimeoutDuration("12h"),
 		},
-		Create: createDatabaseAutonomousDatabase,
-		Read:   readDatabaseAutonomousDatabase,
-		Update: updateDatabaseAutonomousDatabase,
-		Delete: deleteDatabaseAutonomousDatabase,
+		CreateContext: createDatabaseAutonomousDatabaseWithContext,
+		ReadContext:   readDatabaseAutonomousDatabaseWithContext,
+		UpdateContext: updateDatabaseAutonomousDatabaseWithContext,
+		DeleteContext: deleteDatabaseAutonomousDatabaseWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -1717,7 +1718,7 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 	}
 }
 
-func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
+func createDatabaseAutonomousDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
@@ -1756,36 +1757,36 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 		configDatabaseManagementStatus = oci_database.AutonomousDatabaseDatabaseManagementStatusEnum(databaseManagementStatus.(string))
 	}
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 
 	if _, ok := sync.D.GetOkExists("rotate_key_trigger"); ok {
-		err := sync.RotateAutonomousDatabaseEncryptionKey()
+		err := sync.RotateAutonomousDatabaseEncryptionKey(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("is_shrink_only"); ok {
 		raw := sync.D.Get("is_shrink_only")
 		if raw.(bool) {
-			err := sync.ShrinkAutonomousDatabase(oci_database.AutonomousDatabaseLifecycleStateAvailable)
+			err := sync.ShrinkAutonomousDatabase(ctx, oci_database.AutonomousDatabaseLifecycleStateAvailable)
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("shrink_adb_trigger"); ok {
-		err := sync.ShrinkAutonomousDatabase(oci_database.AutonomousDatabaseLifecycleStateAvailable)
+		err := sync.ShrinkAutonomousDatabase(ctx, oci_database.AutonomousDatabaseLifecycleStateAvailable)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if isInactiveRequest {
-		return inactiveAutonomousDatabaseIfNeeded(d, sync)
+		return tfresource.HandleDiagError(m, inactiveAutonomousDatabaseIfNeeded(ctx, sync))
 	}
 
 	if configOpenMode == oci_database.UpdateAutonomousDatabaseDetailsOpenModeOnly || configPermissionLevel == oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelRestricted {
@@ -1795,69 +1796,69 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 		if configPermissionLevel == oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelRestricted {
 			sync.D.Set("permission_level", configPermissionLevel)
 		}
-		err := sync.updateOpenModeAndPermission(sync.D.Id(), configOpenMode, configPermissionLevel)
+		err := sync.updateOpenModeAndPermission(ctx, sync.D.Id(), configOpenMode, configPermissionLevel)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if configDataSafeStatus == oci_database.AutonomousDatabaseDataSafeStatusRegistered {
-		err := sync.updateDataSafeStatus(sync.D.Id(), oci_database.AutonomousDatabaseDataSafeStatusRegistered)
+		err := sync.updateDataSafeStatus(ctx, sync.D.Id(), oci_database.AutonomousDatabaseDataSafeStatusRegistered)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
-		if e := tfresource.ReadResource(sync); e != nil {
-			return e
+		if e := tfresource.ReadResourceWithContext(ctx, sync); e != nil {
+			return tfresource.HandleDiagError(m, e)
 		}
 	}
 
 	if configDatabaseManagementStatus == oci_database.AutonomousDatabaseDatabaseManagementStatusEnabled {
-		err := sync.updateAutonomousDatabaseManagementStatus(sync.D.Id(), oci_database.AutonomousDatabaseDatabaseManagementStatusEnabled)
+		err := sync.updateAutonomousDatabaseManagementStatus(ctx, sync.D.Id(), oci_database.AutonomousDatabaseDatabaseManagementStatusEnabled)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
-		if e := tfresource.ReadResource(sync); e != nil {
-			return e
+		if e := tfresource.ReadResourceWithContext(ctx, sync); e != nil {
+			return tfresource.HandleDiagError(m, e)
 		}
 	}
 
 	if configOperationsInsightsStatus == oci_database.AutonomousDatabaseOperationsInsightsStatusEnabled {
-		err := sync.updateOperationsInsightsStatus(sync.D.Id(), oci_database.AutonomousDatabaseOperationsInsightsStatusEnabled)
+		err := sync.updateOperationsInsightsStatus(ctx, sync.D.Id(), oci_database.AutonomousDatabaseOperationsInsightsStatusEnabled)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
-		if e := tfresource.ReadResource(sync); e != nil {
-			return e
+		if e := tfresource.ReadResourceWithContext(ctx, sync); e != nil {
+			return tfresource.HandleDiagError(m, e)
 		}
 	}
 	return nil
 }
 
-func readDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
+func readDatabaseAutonomousDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseAutonomousDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	err := sync.validateSwitchoverDatabase()
+	err := sync.validateSwitchoverDatabase(ctx)
 	if err != nil {
-		return err
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	if _, ok := sync.D.GetOkExists("is_shrink_only"); ok && sync.D.HasChange("is_shrink_only") {
 		oldRaw, newRaw := sync.D.GetChange("is_shrink_only")
 		if !oldRaw.(bool) && newRaw.(bool) {
-			err = sync.ShrinkAutonomousDatabase(oci_database.AutonomousDatabaseLifecycleStateAvailable)
+			err = sync.ShrinkAutonomousDatabase(ctx, oci_database.AutonomousDatabaseLifecycleStateAvailable)
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
@@ -1867,14 +1868,14 @@ func updateDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.ShrinkAutonomousDatabase(oci_database.AutonomousDatabaseLifecycleStateAvailable)
+			err := sync.ShrinkAutonomousDatabase(ctx, oci_database.AutonomousDatabaseLifecycleStateAvailable)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("shrink_adb_trigger", oldRaw)
-			return fmt.Errorf("new value of shrink_adb_trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of shrink_adb_trigger should be greater than the old value"))
 		}
 	}
 
@@ -1892,60 +1893,60 @@ func updateDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 	}
 
 	if stateActive {
-		if err := sync.StartAutonomousDatabase(oci_database.AutonomousDatabaseLifecycleStateAvailable); err != nil {
-			return err
+		if err := sync.StartAutonomousDatabase(ctx, oci_database.AutonomousDatabaseLifecycleStateAvailable); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 		if err := sync.D.Set("state", oci_database.AutonomousDatabaseLifecycleStateAvailable); err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("rotate_key_trigger"); ok && sync.D.HasChange("rotate_key_trigger") {
-		err := sync.RotateAutonomousDatabaseEncryptionKey()
+		err := sync.RotateAutonomousDatabaseEncryptionKey(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("key_version_id"); ok && sync.D.HasChange("key_version_id") {
-		err := sync.RotateAutonomousDatabaseEncryptionKey()
+		err := sync.RotateAutonomousDatabaseEncryptionKey(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("transportable_tablespace"); ok && sync.D.HasChange("transportable_tablespace") {
-		err := sync.ImportTransportableTablespace()
+		err := sync.ImportTransportableTablespace(ctx)
 
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	if stateInactive {
-		if err := sync.StopAutonomousDatabase(oci_database.AutonomousDatabaseLifecycleStateStopped); err != nil {
-			return err
+		if err := sync.StopAutonomousDatabase(ctx, oci_database.AutonomousDatabaseLifecycleStateStopped); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 		if err := sync.D.Set("state", oci_database.AutonomousDatabaseLifecycleStateStopped); err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	return nil
 }
 
-func deleteDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseAutonomousDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseAutonomousDatabaseResourceCrud struct {
@@ -2008,7 +2009,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) UpdatedTarget() []string {
 	}
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) Create() error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateAutonomousDatabaseRequest{}
 	localAdg, localAdgDataLossLimit := validateLocalAdgCreate(s)
 	err := s.populateTopLevelPolymorphicCreateAutonomousDatabaseRequest(&request)
@@ -2018,7 +2019,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateAutonomousDatabase(context.Background(), request)
+	response, err := s.Client.CreateAutonomousDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -2031,7 +2032,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -2040,7 +2041,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Create() error {
 	s.Res = &response.AutonomousDatabase
 	log.Printf("local adg value is, %v, data loss limit is %v", localAdg, localAdgDataLossLimit)
 	if localAdg == true {
-		err := s.UpdateLocalAdg(localAdg, localAdgDataLossLimit)
+		err := s.UpdateLocalAdg(ctx, localAdg, localAdgDataLossLimit)
 		if err != nil {
 			return fmt.Errorf("resource created but standby could not be enabled because %v", err)
 		}
@@ -2048,7 +2049,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) Get() error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetAutonomousDatabaseRequest{}
 
 	tmp := s.D.Id()
@@ -2056,7 +2057,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetAutonomousDatabase(context.Background(), request)
+	response, err := s.Client.GetAutonomousDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -2065,11 +2066,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -2079,7 +2080,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok && s.D.HasChange("subscription_id") {
 		oldRaw, newRaw := s.D.GetChange("subscription_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateSubscription(subscriptionId.(string))
+			err := s.updateSubscription(ctx, subscriptionId.(string))
 			if err != nil {
 				return err
 			}
@@ -2090,7 +2091,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		oldRaw, newRaw := s.D.GetChange("data_safe_status")
 		if newRaw != "" && oldRaw != "" {
 			configDataSafeStatus := oci_database.AutonomousDatabaseDataSafeStatusEnum(strings.ToUpper(dataSafeStatus.(string)))
-			err := s.updateDataSafeStatus(s.D.Id(), configDataSafeStatus)
+			err := s.updateDataSafeStatus(ctx, s.D.Id(), configDataSafeStatus)
 			if err != nil {
 				return err
 			}
@@ -2109,7 +2110,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		permissionLevelConfig = oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelEnum(permissionLevel.(string))
 	}
 	if updateFlag == true {
-		err := s.updateOpenModeAndPermission(s.D.Id(), openModeConfig, permissionLevelConfig)
+		err := s.updateOpenModeAndPermission(ctx, s.D.Id(), openModeConfig, permissionLevelConfig)
 		if err != nil {
 			return err
 		}
@@ -2119,7 +2120,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		oldRaw, newRaw := s.D.GetChange("operations_insights_status")
 		if newRaw != "" && oldRaw != "" {
 			configOperationsInsightsStatus := oci_database.AutonomousDatabaseOperationsInsightsStatusEnum(operationsInsightsStatus.(string))
-			err := s.updateOperationsInsightsStatus(s.D.Id(), configOperationsInsightsStatus)
+			err := s.updateOperationsInsightsStatus(ctx, s.D.Id(), configOperationsInsightsStatus)
 			if err != nil {
 				return err
 			}
@@ -2130,7 +2131,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		_, newRaw := s.D.GetChange("database_management_status")
 		if newRaw != "" {
 			configDatabaseManagementStatus := oci_database.AutonomousDatabaseDatabaseManagementStatusEnum(databaseManagementStatus.(string))
-			err := s.updateAutonomousDatabaseManagementStatus(s.D.Id(), configDatabaseManagementStatus)
+			err := s.updateAutonomousDatabaseManagementStatus(ctx, s.D.Id(), configDatabaseManagementStatus)
 			if err != nil {
 				return err
 			}
@@ -2142,7 +2143,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 			oldRaw1, newRaw1 := s.D.GetChange("kms_key_id")
 			oldRaw2, newRaw2 := s.D.GetChange("vault_id")
 			if newRaw1 != "" && oldRaw1 != "" && newRaw2 != "" && oldRaw2 != "" && (s.D.HasChange("kms_key_id") || s.D.HasChange("vault_id")) {
-				err := s.ConfigureAutonomousDatabaseVaultKey(s.D.Id(), kmsKeyId.(string), vaultId.(string))
+				err := s.ConfigureAutonomousDatabaseVaultKey(ctx, s.D.Id(), kmsKeyId.(string), vaultId.(string))
 				if err != nil {
 					return err
 				}
@@ -2254,14 +2255,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 			scheduleUgReq.AutonomousDatabaseId = &tmpId
 			scheduleUgReq.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-			response, err := s.Client.UpdateAutonomousDatabase(context.Background(), scheduleUgReq)
+			response, err := s.Client.UpdateAutonomousDatabase(ctx, scheduleUgReq)
 			if err != nil {
 				return err
 			}
 
 			workId := response.OpcWorkRequestId
 			if workId != nil {
-				_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+				_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 				if err != nil {
 					return err
 				}
@@ -2283,14 +2284,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 			scheduleUgEarliestReq.AutonomousDatabaseId = &tmpId
 			scheduleUgEarliestReq.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-			response, err := s.Client.UpdateAutonomousDatabase(context.Background(), scheduleUgEarliestReq)
+			response, err := s.Client.UpdateAutonomousDatabase(ctx, scheduleUgEarliestReq)
 			if err != nil {
 				return err
 			}
 
 			workId := response.OpcWorkRequestId
 			if workId != nil {
-				_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+				_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 				if err != nil {
 					return err
 				}
@@ -2302,7 +2303,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	}
 
 	if dbVersion, ok := s.D.GetOkExists("db_version"); ok && s.D.HasChange("db_version") {
-		err := s.updateDbVersion(dbVersion.(string))
+		err := s.updateDbVersion(ctx, dbVersion.(string))
 		if err != nil {
 			return err
 		}
@@ -2463,7 +2464,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 			}
 		}
 		if len(tmp) != 0 || s.D.HasChange("nsg_ids") || updateNewtworkAccessFlag {
-			err := s.updateNsgIds(tmp)
+			err := s.updateNsgIds(ctx, tmp)
 			if err != nil {
 				return err
 			}
@@ -2638,14 +2639,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateAutonomousDatabase(context.Background(), request)
+	response, err := s.Client.UpdateAutonomousDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -2655,7 +2656,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) Delete() error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteAutonomousDatabaseRequest{}
 
 	tmp := s.D.Id()
@@ -2663,7 +2664,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.DeleteAutonomousDatabase(context.Background(), request)
+	_, err := s.Client.DeleteAutonomousDatabase(ctx, request)
 	return err
 }
 
@@ -3244,7 +3245,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) ImportTransportableTablespace() error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) ImportTransportableTablespace(ctx context.Context) error {
 	request := oci_database.ImportTransportableTablespaceRequest{}
 
 	idTmp := s.D.Id()
@@ -3261,12 +3262,12 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) ImportTransportableTablespace()
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ImportTransportableTablespace(context.Background(), request)
+	response, err := s.Client.ImportTransportableTablespace(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -6846,7 +6847,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database.ChangeAutonomousDatabaseCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -6857,14 +6858,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateCompartment(compartment i
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ChangeAutonomousDatabaseCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeAutonomousDatabaseCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -6872,7 +6873,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateCompartment(compartment i
 	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) updateSubscription(subscriptionId string) error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) updateSubscription(ctx context.Context, subscriptionId string) error {
 	changeSubscriptionRequest := oci_database.ChangeAutonomousDatabaseSubscriptionRequest{}
 
 	idTmp := s.D.Id()
@@ -6883,14 +6884,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateSubscription(subscription
 
 	changeSubscriptionRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.ChangeAutonomousDatabaseSubscription(context.Background(), changeSubscriptionRequest)
+	_, err := s.Client.ChangeAutonomousDatabaseSubscription(ctx, changeSubscriptionRequest)
 	if err != nil {
 		return err
 	}
 
 	return nil
 }
-func (s *DatabaseAutonomousDatabaseResourceCrud) updateDataSafeStatus(autonomousDatabaseId string, dataSafeStatus oci_database.AutonomousDatabaseDataSafeStatusEnum) error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) updateDataSafeStatus(ctx context.Context, autonomousDatabaseId string, dataSafeStatus oci_database.AutonomousDatabaseDataSafeStatusEnum) error {
 	switch dataSafeStatus {
 	case oci_database.AutonomousDatabaseDataSafeStatusRegistered:
 		request := oci_database.RegisterAutonomousDatabaseDataSafeRequest{}
@@ -6901,13 +6902,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateDataSafeStatus(autonomous
 		request.AutonomousDatabaseId = &autonomousDatabaseId
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-		response, err := s.Client.RegisterAutonomousDatabaseDataSafe(context.Background(), request)
+		response, err := s.Client.RegisterAutonomousDatabaseDataSafe(ctx, request)
 
 		if err != nil {
 			return err
 		}
 		workId := response.OpcWorkRequestId
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -6922,13 +6923,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateDataSafeStatus(autonomous
 		request.AutonomousDatabaseId = &autonomousDatabaseId
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-		response, err := s.Client.DeregisterAutonomousDatabaseDataSafe(context.Background(), request)
+		response, err := s.Client.DeregisterAutonomousDatabaseDataSafe(ctx, request)
 
 		if err != nil {
 			return err
 		}
 		workId := response.OpcWorkRequestId
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -6940,7 +6941,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateDataSafeStatus(autonomous
 
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) updateDbVersion(dbVersion string) error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) updateDbVersion(ctx context.Context, dbVersion string) error {
 	changeDbVersionRequest := oci_database.UpdateAutonomousDatabaseRequest{}
 	changeDbVersionRequest.DbVersion = &dbVersion
 
@@ -6949,13 +6950,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateDbVersion(dbVersion strin
 
 	changeDbVersionRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateAutonomousDatabase(context.Background(), changeDbVersionRequest)
+	response, err := s.Client.UpdateAutonomousDatabase(ctx, changeDbVersionRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 	if err != nil {
 		return err
 	}
@@ -6963,7 +6964,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateDbVersion(dbVersion strin
 	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) updateNsgIds(nsgIds []string) error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) updateNsgIds(ctx context.Context, nsgIds []string) error {
 	changeNsgIdsRequest := oci_database.UpdateAutonomousDatabaseRequest{}
 	changeNsgIdsRequest.NsgIds = nsgIds
 
@@ -6989,13 +6990,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateNsgIds(nsgIds []string) e
 
 	changeNsgIdsRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateAutonomousDatabase(context.Background(), changeNsgIdsRequest)
+	response, err := s.Client.UpdateAutonomousDatabase(ctx, changeNsgIdsRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 	if err != nil {
 		return err
 	}
@@ -7003,8 +7004,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateNsgIds(nsgIds []string) e
 	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) validateSwitchoverDatabase() error {
-	err := s.Get()
+func (s *DatabaseAutonomousDatabaseResourceCrud) validateSwitchoverDatabase(ctx context.Context) error {
+	err := s.GetWithContext(ctx)
 	if err != nil {
 		return err
 	}
@@ -7025,7 +7026,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) validateSwitchoverDatabase() er
 							if standbyState, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "state")); ok {
 								wantedStandByState := oci_database.AutonomousDatabaseStandbySummaryLifecycleStateEnum(strings.ToUpper(standbyState.(string)))
 								if (wantedStandByState == oci_database.AutonomousDatabaseStandbySummaryLifecycleStateAvailable) || (wantedStandByState == oci_database.AutonomousDatabaseStandbySummaryLifecycleStateStandby) {
-									if err := s.switchoverDatabase(""); err != nil {
+									if err := s.switchoverDatabase(ctx, ""); err != nil {
 										s.D.Set("switchover_to", oldRaw.(string))
 										return err
 									}
@@ -7070,7 +7071,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) validateSwitchoverDatabase() er
 				return fmt.Errorf("Autonomous Data Guard not found in enabled state")
 			}
 
-			if err := s.switchoverDatabase(newId); err != nil {
+			if err := s.switchoverDatabase(ctx, newId); err != nil {
 				s.D.Set("switchover_to_remote_peer_id", oldId)
 				return err
 			}
@@ -7081,7 +7082,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) validateSwitchoverDatabase() er
 	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) switchoverDatabase(peerDbId string) error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) switchoverDatabase(ctx context.Context, peerDbId string) error {
 	request := oci_database.SwitchoverAutonomousDatabaseRequest{}
 
 	tmp := s.D.Id()
@@ -7092,14 +7093,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) switchoverDatabase(peerDbId str
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.SwitchoverAutonomousDatabase(context.Background(), request)
+	response, err := s.Client.SwitchoverAutonomousDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -7108,19 +7109,19 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) switchoverDatabase(peerDbId str
 	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) updateOperationsInsightsStatus(autonomousDatabaseId string, operationsInsightsStatus oci_database.AutonomousDatabaseOperationsInsightsStatusEnum) error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) updateOperationsInsightsStatus(ctx context.Context, autonomousDatabaseId string, operationsInsightsStatus oci_database.AutonomousDatabaseOperationsInsightsStatusEnum) error {
 	switch operationsInsightsStatus {
 	case oci_database.AutonomousDatabaseOperationsInsightsStatusEnabled:
 		request := oci_database.EnableAutonomousDatabaseOperationsInsightsRequest{}
 
 		request.AutonomousDatabaseId = &autonomousDatabaseId
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
-		response, err := s.Client.EnableAutonomousDatabaseOperationsInsights(context.Background(), request)
+		response, err := s.Client.EnableAutonomousDatabaseOperationsInsights(ctx, request)
 		if err != nil {
 			return err
 		}
 		workId := response.OpcWorkRequestId
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -7132,12 +7133,12 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateOperationsInsightsStatus(
 
 		request.AutonomousDatabaseId = &autonomousDatabaseId
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
-		response, err := s.Client.DisableAutonomousDatabaseOperationsInsights(context.Background(), request)
+		response, err := s.Client.DisableAutonomousDatabaseOperationsInsights(ctx, request)
 		if err != nil {
 			return err
 		}
 		workId := response.OpcWorkRequestId
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -7148,19 +7149,19 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateOperationsInsightsStatus(
 	}
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) updateAutonomousDatabaseManagementStatus(autonomousDatabaseId string, autonomousDatabaseManagement oci_database.AutonomousDatabaseDatabaseManagementStatusEnum) error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) updateAutonomousDatabaseManagementStatus(ctx context.Context, autonomousDatabaseId string, autonomousDatabaseManagement oci_database.AutonomousDatabaseDatabaseManagementStatusEnum) error {
 	switch autonomousDatabaseManagement {
 	case oci_database.AutonomousDatabaseDatabaseManagementStatusEnabled:
 		request := oci_database.EnableAutonomousDatabaseManagementRequest{}
 
 		request.AutonomousDatabaseId = &autonomousDatabaseId
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
-		response, err := s.Client.EnableAutonomousDatabaseManagement(context.Background(), request)
+		response, err := s.Client.EnableAutonomousDatabaseManagement(ctx, request)
 		if err != nil {
 			return err
 		}
 		workId := response.OpcWorkRequestId
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -7171,12 +7172,12 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateAutonomousDatabaseManagem
 		request := oci_database.DisableAutonomousDatabaseManagementRequest{}
 		request.AutonomousDatabaseId = &autonomousDatabaseId
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
-		response, err := s.Client.DisableAutonomousDatabaseManagement(context.Background(), request)
+		response, err := s.Client.DisableAutonomousDatabaseManagement(ctx, request)
 		if err != nil {
 			return err
 		}
 		workId := response.OpcWorkRequestId
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -7187,14 +7188,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateAutonomousDatabaseManagem
 	}
 }
 
-func inactiveAutonomousDatabaseIfNeeded(d *schema.ResourceData, sync *DatabaseAutonomousDatabaseResourceCrud) error {
-	if err := sync.StopAutonomousDatabase(oci_database.AutonomousDatabaseLifecycleStateStopped); err != nil {
+func inactiveAutonomousDatabaseIfNeeded(ctx context.Context, sync *DatabaseAutonomousDatabaseResourceCrud) error {
+	if err := sync.StopAutonomousDatabase(ctx, oci_database.AutonomousDatabaseLifecycleStateStopped); err != nil {
 		return err
 	}
-	return tfresource.ReadResource(sync)
+	return tfresource.ReadResourceWithContext(ctx, sync)
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) StartAutonomousDatabase(state oci_database.AutonomousDatabaseLifecycleStateEnum) error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) StartAutonomousDatabase(ctx context.Context, state oci_database.AutonomousDatabaseLifecycleStateEnum) error {
 	request := oci_database.StartAutonomousDatabaseRequest{}
 
 	tmp := s.D.Id()
@@ -7202,15 +7203,15 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) StartAutonomousDatabase(state o
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	if _, err := s.Client.StartAutonomousDatabase(context.Background(), request); err != nil {
+	if _, err := s.Client.StartAutonomousDatabase(ctx, request); err != nil {
 		return err
 	}
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == state }
 
-	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) StopAutonomousDatabase(state oci_database.AutonomousDatabaseLifecycleStateEnum) error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) StopAutonomousDatabase(ctx context.Context, state oci_database.AutonomousDatabaseLifecycleStateEnum) error {
 	request := oci_database.StopAutonomousDatabaseRequest{}
 
 	tmp := s.D.Id()
@@ -7218,15 +7219,15 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) StopAutonomousDatabase(state oc
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	if _, err := s.Client.StopAutonomousDatabase(context.Background(), request); err != nil {
+	if _, err := s.Client.StopAutonomousDatabase(ctx, request); err != nil {
 		return err
 	}
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == state }
 
-	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) ShrinkAutonomousDatabase(state oci_database.AutonomousDatabaseLifecycleStateEnum) error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) ShrinkAutonomousDatabase(ctx context.Context, state oci_database.AutonomousDatabaseLifecycleStateEnum) error {
 	request := oci_database.ShrinkAutonomousDatabaseRequest{}
 
 	tmp := s.D.Id()
@@ -7234,15 +7235,15 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) ShrinkAutonomousDatabase(state 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	if _, err := s.Client.ShrinkAutonomousDatabase(context.Background(), request); err != nil {
+	if _, err := s.Client.ShrinkAutonomousDatabase(ctx, request); err != nil {
 		return err
 	}
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == state }
 
-	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) updateOpenModeAndPermission(autonomousDatabaseId string, openMode oci_database.UpdateAutonomousDatabaseDetailsOpenModeEnum, permissionLevel oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelEnum) error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) updateOpenModeAndPermission(ctx context.Context, autonomousDatabaseId string, openMode oci_database.UpdateAutonomousDatabaseDetailsOpenModeEnum, permissionLevel oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelEnum) error {
 	updateRequest := oci_database.UpdateAutonomousDatabaseRequest{}
 	updateRequest.AutonomousDatabaseId = &autonomousDatabaseId
 
@@ -7270,14 +7271,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateOpenModeAndPermission(aut
 	}
 	updateRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	updateResponse, err := s.Client.UpdateAutonomousDatabase(context.Background(), updateRequest)
+	updateResponse, err := s.Client.UpdateAutonomousDatabase(ctx, updateRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := updateResponse.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -7285,7 +7286,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateOpenModeAndPermission(aut
 	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) RotateAutonomousDatabaseEncryptionKey() error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) RotateAutonomousDatabaseEncryptionKey(ctx context.Context) error {
 	request := oci_database.RotateAutonomousDatabaseEncryptionKeyRequest{}
 
 	if isDedicated, ok := s.D.GetOkExists("is_dedicated"); !ok || isDedicated.(bool) == false {
@@ -7302,13 +7303,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) RotateAutonomousDatabaseEncrypt
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.RotateAutonomousDatabaseEncryptionKey(context.Background(), request)
+	response, err := s.Client.RotateAutonomousDatabaseEncryptionKey(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 	if err != nil {
 		return err
 	}
@@ -7320,7 +7321,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) RotateAutonomousDatabaseEncrypt
 	return nil
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) ConfigureAutonomousDatabaseVaultKey(autonomousDatabaseId string, kmsKeyId string, vautlId string) error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) ConfigureAutonomousDatabaseVaultKey(ctx context.Context, autonomousDatabaseId string, kmsKeyId string, vautlId string) error {
 	request := oci_database.ConfigureAutonomousDatabaseVaultKeyRequest{}
 
 	request.AutonomousDatabaseId = &autonomousDatabaseId
@@ -7331,14 +7332,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) ConfigureAutonomousDatabaseVaul
 
 	request.VaultId = &vautlId
 
-	response, err := s.Client.ConfigureAutonomousDatabaseVaultKey(context.Background(), request)
+	response, err := s.Client.ConfigureAutonomousDatabaseVaultKey(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -7359,7 +7360,7 @@ func validateLocalAdgCreate(s *DatabaseAutonomousDatabaseResourceCrud) (bool, in
 	return localAdg, localAdgDataLossLimit
 }
 
-func (s *DatabaseAutonomousDatabaseResourceCrud) UpdateLocalAdg(adg bool, limit int) error {
+func (s *DatabaseAutonomousDatabaseResourceCrud) UpdateLocalAdg(ctx context.Context, adg bool, limit int) error {
 	updateLocalAdgRequest := oci_database.UpdateAutonomousDatabaseRequest{}
 	updateLocalAdgRequest.IsLocalDataGuardEnabled = &adg
 	updateLocalAdgRequest.LocalAdgAutoFailoverMaxDataLossLimit = &limit
@@ -7369,13 +7370,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) UpdateLocalAdg(adg bool, limit 
 
 	updateLocalAdgRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateAutonomousDatabase(context.Background(), updateLocalAdgRequest)
+	response, err := s.Client.UpdateAutonomousDatabase(ctx, updateLocalAdgRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 	if err != nil {
 		return err
 	}

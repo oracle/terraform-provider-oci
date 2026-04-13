@@ -5,7 +5,10 @@ package database
 
 import (
 	"context"
+
 	"fmt"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -25,10 +28,10 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("12h"),
 			Delete: tfresource.GetTimeoutDuration("12h"),
 		},
-		Create: createDatabaseAutonomousVmCluster,
-		Read:   readDatabaseAutonomousVmCluster,
-		Update: updateDatabaseAutonomousVmCluster,
-		Delete: deleteDatabaseAutonomousVmCluster,
+		CreateContext: createDatabaseAutonomousVmClusterWithContext,
+		ReadContext:   readDatabaseAutonomousVmClusterWithContext,
+		UpdateContext: updateDatabaseAutonomousVmClusterWithContext,
+		DeleteContext: deleteDatabaseAutonomousVmClusterWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -470,37 +473,37 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 	}
 }
 
-func createDatabaseAutonomousVmCluster(d *schema.ResourceData, m interface{}) error {
+func createDatabaseAutonomousVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseAutonomousVmCluster(d *schema.ResourceData, m interface{}) error {
+func readDatabaseAutonomousVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseAutonomousVmCluster(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseAutonomousVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseAutonomousVmCluster(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseAutonomousVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseAutonomousVmClusterResourceCrud struct {
@@ -552,7 +555,7 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) UpdatedTarget() []string {
 	}
 }
 
-func (s *DatabaseAutonomousVmClusterResourceCrud) Create() error {
+func (s *DatabaseAutonomousVmClusterResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateAutonomousVmClusterRequest{}
 
 	if autonomousDataStorageSizeInTBs, ok := s.D.GetOkExists("autonomous_data_storage_size_in_tbs"); ok {
@@ -666,7 +669,7 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateAutonomousVmCluster(context.Background(), request)
+	response, err := s.Client.CreateAutonomousVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -675,7 +678,7 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatabaseAutonomousVmClusterResourceCrud) Get() error {
+func (s *DatabaseAutonomousVmClusterResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetAutonomousVmClusterRequest{}
 
 	tmp := s.D.Id()
@@ -683,7 +686,7 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetAutonomousVmCluster(context.Background(), request)
+	response, err := s.Client.GetAutonomousVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -692,11 +695,11 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseAutonomousVmClusterResourceCrud) Update() error {
+func (s *DatabaseAutonomousVmClusterResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -751,7 +754,7 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateAutonomousVmCluster(context.Background(), request)
+	response, err := s.Client.UpdateAutonomousVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -760,7 +763,7 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DatabaseAutonomousVmClusterResourceCrud) Delete() error {
+func (s *DatabaseAutonomousVmClusterResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteAutonomousVmClusterRequest{}
 
 	tmp := s.D.Id()
@@ -768,7 +771,7 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.DeleteAutonomousVmCluster(context.Background(), request)
+	_, err := s.Client.DeleteAutonomousVmCluster(ctx, request)
 	return err
 }
 
@@ -1145,7 +1148,7 @@ func AvmMonthToMap(obj oci_database.Month) map[string]interface{} {
 	return result
 }
 
-func (s *DatabaseAutonomousVmClusterResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseAutonomousVmClusterResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database.ChangeAutonomousVmClusterCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -1156,12 +1159,12 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) updateCompartment(compartment 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.ChangeAutonomousVmClusterCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeAutonomousVmClusterCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

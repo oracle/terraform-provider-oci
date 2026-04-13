@@ -6,6 +6,8 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -23,15 +25,15 @@ func DatabaseAutonomousContainerDatabaseDataguardAssociationDataSource() *schema
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseAutonomousContainerDatabaseDataguardAssociationResource(), fieldMap, readSingularDatabaseAutonomousContainerDatabaseDataguardAssociation)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseAutonomousContainerDatabaseDataguardAssociationResource(), fieldMap, readSingularDatabaseAutonomousContainerDatabaseDataguardAssociationWithContext)
 }
 
-func readSingularDatabaseAutonomousContainerDatabaseDataguardAssociation(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseAutonomousContainerDatabaseDataguardAssociationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousContainerDatabaseDataguardAssociationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseAutonomousContainerDatabaseDataguardAssociationDataSourceCrud struct {
@@ -44,7 +46,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationDataSourceCrud) 
 	s.D.SetId("")
 }
 
-func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationDataSourceCrud) Get() error {
+func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetAutonomousContainerDatabaseDataguardAssociationRequest{}
 
 	if autonomousContainerDatabaseDataguardAssociationId, ok := s.D.GetOkExists("autonomous_container_database_dataguard_association_id"); ok {
@@ -59,7 +61,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationDataSourceCrud) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetAutonomousContainerDatabaseDataguardAssociation(context.Background(), request)
+	response, err := s.Client.GetAutonomousContainerDatabaseDataguardAssociation(ctx, request)
 	if err != nil {
 		return err
 	}

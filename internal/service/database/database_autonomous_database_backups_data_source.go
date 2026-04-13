@@ -6,6 +6,8 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -15,7 +17,7 @@ import (
 
 func DatabaseAutonomousDatabaseBackupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseAutonomousDatabaseBackups,
+		ReadContext: readDatabaseAutonomousDatabaseBackupsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"autonomous_database_id": {
@@ -59,12 +61,12 @@ func DatabaseAutonomousDatabaseBackupsDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseAutonomousDatabaseBackups(d *schema.ResourceData, m interface{}) error {
+func readDatabaseAutonomousDatabaseBackupsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousDatabaseBackupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseAutonomousDatabaseBackupsDataSourceCrud struct {
@@ -77,7 +79,7 @@ func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) Get() error {
+func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListAutonomousDatabaseBackupsRequest{}
 
 	if autonomousDatabaseId, ok := s.D.GetOkExists("autonomous_database_id"); ok {
@@ -121,7 +123,7 @@ func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListAutonomousDatabaseBackups(context.Background(), request)
+	response, err := s.Client.ListAutonomousDatabaseBackups(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -130,7 +132,7 @@ func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListAutonomousDatabaseBackups(context.Background(), request)
+		listResponse, err := s.Client.ListAutonomousDatabaseBackups(ctx, request)
 		if err != nil {
 			return err
 		}
