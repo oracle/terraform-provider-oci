@@ -55,6 +55,9 @@ var (
 		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"hostname":           acctest.Representation{RepType: acctest.Optional, Create: `hostname`, Update: `hostname2`},
+		"ip_address":         acctest.Representation{RepType: acctest.Optional, Create: `ipAddress`},
+		"ipv6subnet_cidr":    acctest.Representation{RepType: acctest.Optional, Create: `ipv6SubnetCidr`},
 		"lifetime":           acctest.Representation{RepType: acctest.Optional, Create: `EPHEMERAL`, Update: `RESERVED`},
 		"route_table_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_route_table.test_route_table.id}`},
 		"cidr_prefix_length": acctest.Representation{RepType: acctest.Optional, Create: `80`},
@@ -137,6 +140,10 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname", "hostname"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "ip_address", "ipAddress"),
+				resource.TestCheckResourceAttr(resourceName, "ipv6subnet_cidr", "ipv6SubnetCidr"),
 				resource.TestCheckResourceAttr(resourceName, "lifetime", "EPHEMERAL"),
 				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
@@ -165,6 +172,7 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname", "hostname2"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "lifetime", "RESERVED"),
 				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
@@ -216,15 +224,10 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 				compartmentIdVariableStr + CoreIpv6ResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_ipv6", "test_ipv6", acctest.Optional, acctest.Update, CoreIpv6Representation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				//resource.TestCheckResourceAttr(datasourceName, "ip_address", "ipAddress"),
-				//resource.TestCheckResourceAttr(datasourceName, "ip_state", "ipState"),
-				//resource.TestCheckResourceAttr(datasourceName, "lifetime", "lifetime2"),
-				//resource.TestCheckResourceAttrSet(datasourceName, "subnet_id"),
-				//resource.TestCheckResourceAttrSet(datasourceName, "vnic_id"),
-
 				resource.TestCheckResourceAttr(datasourceName, "ipv6s.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "ipv6s.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "ipv6s.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "ipv6s.0.hostname", "hostname2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ipv6s.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "ipv6s.0.ip_state"),
 				resource.TestCheckResourceAttr(datasourceName, "ipv6s.0.lifetime", "RESERVED"),
@@ -245,6 +248,7 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ipv6id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "hostname", "hostname2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ip_state"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "lifetime", "RESERVED"),
@@ -257,7 +261,7 @@ func TestCoreIpv6Resource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + CoreIpv6RequiredOnlyResource,
+			Config:            config + compartmentIdVariableStr + CoreIpv6RequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

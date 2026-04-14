@@ -151,6 +151,9 @@ func (s *CoreIpv6sDataSourceCrud) SetData() error {
 			ipv6["route_table_id"] = *r.RouteTableId
 		}
 
+		if r.Hostname != nil && *r.Hostname != "" {
+			ipv6["hostname"] = *r.Hostname
+		}
 		ipv6["ip_state"] = r.IpState
 		ipv6["lifetime"] = r.Lifetime
 

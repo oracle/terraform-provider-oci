@@ -26,6 +26,7 @@ resource "oci_core_ipv6" "test_ipv6" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.ipv6_display_name
 	freeform_tags = {"Department"= "Finance"}
+	hostname = var.ipv6_hostname
 	ip_address = var.ipv6_ip_address
 	ipv6subnet_cidr = var.ipv6_ipv6subnet_cidr
 	lifetime = var.ipv6_lifetime
@@ -43,6 +44,7 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `hostname` - (Optional) (Updatable) The hostname associated with the IPv6 address. Only the hostname label, not the FQDN. 
 * `ip_address` - (Optional) An IPv6 address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns an IPv6 address from the subnet. The subnet is the one that contains the VNIC you specify in `vnicId`.  Example: `2001:DB8::` 
 * `ipv6subnet_cidr` - (Optional) The IPv6 prefix allocated to the subnet. This is required if more than one IPv6 prefix exists on the subnet. 
 * `lifetime` - (Optional) (Updatable) Lifetime of the IP address. There are two types of IPv6 IPs:
@@ -65,6 +67,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `hostname` - The hostname associated with the IPv6 address. Only the hostname label, not the FQDN. 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IPv6.
 * `ip_address` - The IPv6 address of the `IPv6` object. The address is within the IPv6 prefix of the VNIC's subnet (see the `ipv6CidrBlock` attribute for the [Subnet](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Subnet/) object.  Example: `2001:0db8:0123:1111:abcd:ef01:2345:6789` 
 * `ip_state` - State of the IP address. If an IP address is assigned to a VNIC it is ASSIGNED, otherwise it is AVAILABLE. 
