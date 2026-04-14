@@ -32,7 +32,7 @@ resource "oci_core_vcn" "example_vcn" {
 resource "oci_core_subnet" "example_subnet" {
   availability_domain = data.oci_identity_availability_domain.ad.name
   cidr_block          = "10.1.20.0/24"
-  ipv6cidr_blocks     = ["fc00::/64"]
+  ipv6cidr_blocks     = ["fc00:0000:0000:0000:0000:0000:0000:0000/64"]
   display_name        = "exampleSubnet"
   dns_label           = "tfexamplesubnet"
   security_list_ids   = [oci_core_vcn.example_vcn.default_security_list_id]
@@ -100,6 +100,7 @@ resource "oci_core_ipv6" "test_ipv6" {
   vnic_id        = data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0]["vnic_id"]
   display_name   = "someIpv6DisplayName"
   route_table_id = oci_core_vcn.example_vcn.default_route_table_id
+  hostname = "testhostname"
 }
 
 # List IPv6s
@@ -107,7 +108,4 @@ data "oci_core_ipv6s" "ipv6_datasource" {
   vnic_id    = oci_core_ipv6.test_ipv6.vnic_id
 }
 
-output "ipv6s" {
-  value = [data.oci_core_ipv6s.ipv6_datasource.ipv6s]
-}
 

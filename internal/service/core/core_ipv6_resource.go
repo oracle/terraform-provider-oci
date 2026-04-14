@@ -54,6 +54,11 @@ func CoreIpv6Resource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"hostname": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"ip_address": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -201,6 +206,11 @@ func (s *CoreIpv6ResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if hostname, ok := s.D.GetOkExists("hostname"); ok {
+		tmp := hostname.(string)
+		request.Hostname = &tmp
+	}
+
 	if ipAddress, ok := s.D.GetOkExists("ip_address"); ok {
 		tmp := ipAddress.(string)
 		request.IpAddress = &tmp
@@ -277,6 +287,11 @@ func (s *CoreIpv6ResourceCrud) Update() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if hostname, ok := s.D.GetOkExists("hostname"); ok {
+		tmp := hostname.(string)
+		request.Hostname = &tmp
 	}
 
 	tmp := s.D.Id()
@@ -382,6 +397,10 @@ func (s *CoreIpv6ResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.Hostname != nil {
+		s.D.Set("hostname", *s.Res.Hostname)
+	}
 
 	if s.Res.IpAddress != nil {
 		s.D.Set("ip_address", *s.Res.IpAddress)
