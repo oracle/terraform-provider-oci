@@ -68,6 +68,12 @@ type Snapshot struct {
 	// Locks associated with this resource.
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
+	LockDurationDetails *LockDurationDetails `mandatory:"false" json:"lockDurationDetails"`
+
+	// The date and time as per RFC 3339 (https://tools.ietf.org/html/rfc3339) when this snapshot was locked.
+	// It is a read-only property because the user should not be able to set it, it is set by our service.
+	TimeLocked *common.SDKTime `mandatory:"false" json:"timeLocked"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).

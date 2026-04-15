@@ -21,7 +21,7 @@ type GetNetworkAnchorRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the NetworkAnchor.
 	NetworkAnchorId *string `mandatory:"true" contributesTo:"path" name:"networkAnchorId"`
 
-	// The subscription service name of the Cloud Service Provider.
+	// The cloud service provider.
 	SubscriptionServiceName GetNetworkAnchorSubscriptionServiceNameEnum `mandatory:"true" contributesTo:"query" name:"subscriptionServiceName" omitEmpty:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud subscription in which to list resources.
@@ -33,7 +33,7 @@ type GetNetworkAnchorRequest struct {
 	// underscore, and dash.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// The Cloud Service Provider region.
+	// The cloud service provider region.
 	ExternalLocation *string `mandatory:"false" contributesTo:"query" name:"externalLocation"`
 
 	// Whether to fetch and include the vcn display name, which may introduce additional latency.

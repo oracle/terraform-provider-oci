@@ -21,26 +21,26 @@ type ListExternalLocationDetailsMetadataRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud subscription in which to list resources.
 	SubscriptionId *string `mandatory:"true" contributesTo:"query" name:"subscriptionId"`
 
-	// The subscription service name of the Cloud Service Provider.
+	// The cloud service provider.
 	SubscriptionServiceName ListExternalLocationDetailsMetadataSubscriptionServiceNameEnum `mandatory:"true" contributesTo:"query" name:"subscriptionServiceName" omitEmpty:"true"`
 
-	// The resource type query (i.e. dbsystem, instance etc.)
+	// The resource type query (for example, dbsystem or instance).
 	EntityType ListExternalLocationDetailsMetadataEntityTypeEnum `mandatory:"false" contributesTo:"query" name:"entityType" omitEmpty:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud base compartment in which to list resources.
-	// A Multicloud base compartment is an OCI compartment that maps to a subscription in a Cloud Service Provider (such as Azure, AWS, or Google Cloud).
+	// A Multicloud base compartment is an OCI compartment that maps to a subscription in a cloud service provider (such as Azure or AWS).
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment linked to the resource.
 	LinkedCompartmentId *string `mandatory:"false" contributesTo:"query" name:"linkedCompartmentId"`
 
-	// The Cloud Service Provider region.
+	// The cloud service provider region.
 	ExternalLocation *string `mandatory:"false" contributesTo:"query" name:"externalLocation"`
 
-	// OCI Logical AD to filter the response.
+	// OCI logical availability domain (AD) to filter the response.
 	LogicalZone *string `mandatory:"false" contributesTo:"query" name:"logicalZone"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Cluster Placement Group.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group.
 	ClusterPlacementGroupId *string `mandatory:"false" contributesTo:"query" name:"clusterPlacementGroupId"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a
@@ -54,6 +54,7 @@ type ListExternalLocationDetailsMetadataRequest struct {
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+	// In general, the sort order is `DESC` when sorting by time and `ASC` otherwise.
 	SortOrder ListExternalLocationDetailsMetadataSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The field to sort by. You can provide only one sort order. Default order for `timeCreated`

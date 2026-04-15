@@ -22,19 +22,19 @@ type PatchAction struct {
 	// A string that describes the details of the action. It does not have to be unique, and you can change it. Avoid entering confidential information.
 	Description *string `mandatory:"true" json:"description"`
 
-	// Unique identifier of the object that represents the action
+	// Unique identifier of the object that represents the action.
 	ReferenceKey *string `mandatory:"false" json:"referenceKey"`
 
-	// patch bundle name
+	// Patch bundle name.
 	Artifact *string `mandatory:"false" json:"artifact"`
 
-	// A string that describes whether the change is applied hot or cold
+	// A string that describes whether the change is applied hot or cold.
 	Mode PatchActionModeEnum `mandatory:"false" json:"mode,omitempty"`
 
-	// patch artifact category
+	// Patch artifact category.
 	Category PatchActionCategoryEnum `mandatory:"false" json:"category,omitempty"`
 
-	// A string that describes whether the change is applied hot or cold
+	// A string that describes whether the change is applied hot or cold.
 	State ActionStateEnum `mandatory:"false" json:"state,omitempty"`
 }
 

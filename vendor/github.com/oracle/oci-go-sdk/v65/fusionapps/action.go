@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// Action Action details
+// Action Action details.
 type Action interface {
 
 	// A string that describes the details of the action. It does not have to be unique, and you can change it. Avoid entering confidential information.
 	GetDescription() *string
 
-	// Unique identifier of the object that represents the action
+	// Unique identifier of the object that represents the action.
 	GetReferenceKey() *string
 
-	// A string that describes whether the change is applied hot or cold
+	// A string that describes whether the change is applied hot or cold.
 	GetState() ActionStateEnum
 }
 

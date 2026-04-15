@@ -4,7 +4,7 @@
 
 // Oracle Multicloud API
 //
-// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see <link to docs>.
+// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see Oracle Multicloud Hub (https://docs.oracle.com/iaas/Content/multicloud-hub/home.htm).
 //
 
 package multicloud
@@ -91,7 +91,10 @@ func (client *MulticloudResourcesClient) ConfigurationProvider() *common.Configu
 	return client.config
 }
 
-// ListMulticloudResources Gets a list of multicloud resources with multicloud base compartment and subscription across Cloud Service Providers.
+// ListMulticloudResources Lists Multicloud resources in the specified Multicloud subscription.
+// Details for each resource include Multicloud base compartment, name, state, resource type, and network anchor.
+// For more information, see
+// Multicloud Resources (https://docs.oracle.com/iaas/Content/multicloud-hub/list-resources.htm).
 //
 // # See also
 //

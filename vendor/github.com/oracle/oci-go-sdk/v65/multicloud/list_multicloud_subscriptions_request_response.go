@@ -45,6 +45,7 @@ type ListMulticloudSubscriptionsRequest struct {
 	SortBy ListMulticloudSubscriptionsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+	// In general, the sort order is `DESC` when sorting by time and `ASC` otherwise.
 	SortOrder ListMulticloudSubscriptionsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

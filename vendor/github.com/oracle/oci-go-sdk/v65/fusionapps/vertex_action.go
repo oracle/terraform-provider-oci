@@ -16,19 +16,19 @@ import (
 	"strings"
 )
 
-// VertexAction Vertex update action
+// VertexAction Vertex update action.
 type VertexAction struct {
 
 	// A string that describes the details of the action. It does not have to be unique, and you can change it. Avoid entering confidential information.
 	Description *string `mandatory:"true" json:"description"`
 
-	// Unique identifier of the object that represents the action
+	// Unique identifier of the object that represents the action.
 	ReferenceKey *string `mandatory:"false" json:"referenceKey"`
 
-	// patch that delivered the vertex update prerequisite
+	// Patch that delivered the Vertex update prerequisite.
 	Artifact *string `mandatory:"false" json:"artifact"`
 
-	// A string that describes whether the change is applied hot or cold
+	// A string that describes whether the change is applied hot or cold.
 	State ActionStateEnum `mandatory:"false" json:"state,omitempty"`
 }
 

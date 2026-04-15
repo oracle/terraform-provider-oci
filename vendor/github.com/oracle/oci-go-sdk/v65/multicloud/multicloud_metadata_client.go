@@ -4,7 +4,7 @@
 
 // Oracle Multicloud API
 //
-// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see <link to docs>.
+// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see Oracle Multicloud Hub (https://docs.oracle.com/iaas/Content/multicloud-hub/home.htm).
 //
 
 package multicloud
@@ -149,7 +149,13 @@ func (client MetadataClient) listExternalLocationDetailsMetadata(ctx context.Con
 	return response, err
 }
 
-// ListExternalLocationMappingMetadata List externalLocation metadata from OCI to the Cloud Service Provider for regions, Physical Availability Zones.
+// ListExternalLocationMappingMetadata List mapped partner cloud regions and zones across cloud service providers
+// for the specified Multicloud base compartment and subscription service name.
+// Each mapping includes the OCI region, logical availability domain, and physical availability domain,
+// along with mapped partner cloud details that depend on the partner cloud.
+// For example, Azure includes a logical zone while AWS doesn't.
+// For more information, see
+// Cross-Cloud Region-Zone Mapping (https://docs.oracle.com/iaas/Content/multicloud-hub/view-cloud-mapping.htm).
 //
 // # See also
 //

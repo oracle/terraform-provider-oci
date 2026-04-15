@@ -42,6 +42,9 @@ type AutonomousDatabaseConnectionUrls struct {
 
 	// The URL of the Database Transforms for the Autonomous AI Database.
 	DatabaseTransformsUrl *string `mandatory:"false" json:"databaseTransformsUrl"`
+
+	// The URL of the Spatial Studio for the Autonomous AI Database.
+	SpatialStudioUrl *string `mandatory:"false" json:"spatialStudioUrl"`
 }
 
 func (m AutonomousDatabaseConnectionUrls) String() string {
