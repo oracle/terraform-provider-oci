@@ -232,10 +232,10 @@ func (s *MulticloudNetworkAnchorsDataSourceCrud) Get() error {
 		request.NetworkAnchorOciSubnetId = &tmp
 	}
 
-	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
+	/*if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
 		tmp := compartmentIdInSubtree.(bool)
 		request.CompartmentIdInSubtree = &tmp
-	}
+	}*/
 
 	if networkAnchorOciVcnId, ok := s.D.GetOkExists("network_anchor_oci_vcn_id"); ok {
 		tmp := networkAnchorOciVcnId.(string)

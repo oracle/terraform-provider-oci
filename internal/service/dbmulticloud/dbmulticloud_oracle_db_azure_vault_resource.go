@@ -459,7 +459,7 @@ func (s *DbmulticloudOracleDbAzureVaultResourceCrud) Update() error {
 		if err != nil {
 			return err
 		}
-		if waitErr := s.waitForAzureVaultActive(ctx, s.D.Timeout(schema.TimeoutUpdate)); waitErr != nil {
+		if waitErr := s.waitForAzureVaultActive(context.Background(), s.D.Timeout(schema.TimeoutUpdate)); waitErr != nil {
 			return waitErr
 		}
 		return s.Get()
@@ -545,7 +545,7 @@ func (s *DbmulticloudOracleDbAzureVaultResourceCrud) waitForAzureVaultActive(ctx
 		Pending: []string{"PENDING"},
 		Target:  []string{"DONE"},
 		Refresh: func() (interface{}, string, error) {
-			if err := s.GetWithContext(ctx); err != nil {
+			if err := s.Get(); err != nil {
 				return nil, "PENDING", err
 			}
 			if s.Res != nil && s.Res.LifecycleState == oci_dbmulticloud.OracleDbAzureVaultLifecycleStateActive {
@@ -670,7 +670,7 @@ func (s *DbmulticloudOracleDbAzureVaultResourceCrud) ReplicateOracleDbAzureVault
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(context.Background(), s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
 
