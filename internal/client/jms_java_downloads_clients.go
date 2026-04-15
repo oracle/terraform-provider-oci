@@ -26,6 +26,10 @@ func initJmsjavadownloadsJavaDownloadClient(configProvider oci_common.Configurat
 	if serviceClientOverrides.HostUrlOverride != "" {
 		client.Host = serviceClientOverrides.HostUrlOverride
 	}
+	err = SetDualStackEndpointEnabled(&client)
+	if err != nil {
+		return nil, err
+	}
 	return &client, nil
 }
 
