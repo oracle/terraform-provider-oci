@@ -93,6 +93,12 @@ func (s *FileStorageSnapshotDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.LockDurationDetails != nil {
+		s.D.Set("lock_duration_details", []interface{}{LockDurationDetailsToMap(s.Res.LockDurationDetails)})
+	} else {
+		s.D.Set("lock_duration_details", nil)
+	}
+
 	locks := []interface{}{}
 	for _, item := range s.Res.Locks {
 		locks = append(locks, ResourceLockToMap(item))
@@ -121,6 +127,10 @@ func (s *FileStorageSnapshotDataSourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeLocked != nil {
+		s.D.Set("time_locked", s.Res.TimeLocked.String())
 	}
 
 	return nil

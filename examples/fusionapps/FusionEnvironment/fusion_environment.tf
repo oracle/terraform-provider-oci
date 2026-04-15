@@ -37,7 +37,7 @@ variable "fusion_environment_display_name" {
 }
 
 variable "fusion_environment_dns_prefix" {
-  default = "dnsPrefix"
+  default = "dnsprefix"
 }
 
 variable "fusion_environment_freeform_tags" {
@@ -70,6 +70,22 @@ variable "fusion_environment_rules_conditions_attribute_value" {
 
 variable "fusion_environment_rules_description" {
   default = "description"
+}
+
+variable "fusion_environment_additional_egress_rules_description" {
+  default = "description"
+}
+
+variable "fusion_environment_additional_egress_rules_destination_cidr" {
+  default = "203.0.113.5/32"
+}
+
+variable "fusion_environment_additional_egress_rules_min_destination_port" {
+  default = "465"
+}
+
+variable "fusion_environment_additional_egress_rules_max_destination_port" {
+  default = "465"
 }
 
 variable "fusion_environment_state" {
@@ -131,6 +147,14 @@ resource "oci_fusion_apps_fusion_environment" "test_fusion_environment" {
 
     #Optional
     description = var.fusion_environment_rules_description
+  }
+
+  #optional
+  additional_egress_rules {
+    description          = var.fusion_environment_additional_egress_rules_description
+    destination_cidr     = var.fusion_environment_additional_egress_rules_destination_cidr
+    min_destination_port = var.fusion_environment_additional_egress_rules_min_destination_port
+    max_destination_port = var.fusion_environment_additional_egress_rules_max_destination_port
   }
 }
 

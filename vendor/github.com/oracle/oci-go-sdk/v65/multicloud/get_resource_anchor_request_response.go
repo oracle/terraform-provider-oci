@@ -18,10 +18,10 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/multicloud/GetResourceAnchor.go.html to see an example of how to use GetResourceAnchorRequest.
 type GetResourceAnchorRequest struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ResourceAnchor.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource anchor.
 	ResourceAnchorId *string `mandatory:"true" contributesTo:"path" name:"resourceAnchorId"`
 
-	// The subscription service name of the Cloud Service Provider.
+	// The cloud service provider.
 	SubscriptionServiceName GetResourceAnchorSubscriptionServiceNameEnum `mandatory:"true" contributesTo:"query" name:"subscriptionServiceName" omitEmpty:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud subscription in which to list resources.
@@ -33,7 +33,8 @@ type GetResourceAnchorRequest struct {
 	// underscore, and dash.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// Whether to fetch and include the compartment name, setting this field to yes may introduce additional latency.
+	// Whether to fetch and include the compartment name.
+	// Setting this field to `true` might introduce additional latency.
 	ShouldFetchCompartmentName *bool `mandatory:"false" contributesTo:"query" name:"shouldFetchCompartmentName"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

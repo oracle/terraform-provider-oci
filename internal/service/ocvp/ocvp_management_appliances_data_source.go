@@ -6,6 +6,7 @@ package ocvp
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
 
@@ -15,7 +16,7 @@ import (
 
 func OcvpManagementAppliancesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readOcvpManagementAppliances,
+		ReadContext: readOcvpManagementAppliancesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -27,6 +28,10 @@ func OcvpManagementAppliancesDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"management_appliance_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"sddc_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -52,12 +57,12 @@ func OcvpManagementAppliancesDataSource() *schema.Resource {
 	}
 }
 
-func readOcvpManagementAppliances(d *schema.ResourceData, m interface{}) error {
+func readOcvpManagementAppliancesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpManagementAppliancesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementApplianceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OcvpManagementAppliancesDataSourceCrud struct {
@@ -70,7 +75,7 @@ func (s *OcvpManagementAppliancesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OcvpManagementAppliancesDataSourceCrud) Get() error {
+func (s *OcvpManagementAppliancesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ocvp.ListManagementAppliancesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -88,13 +93,18 @@ func (s *OcvpManagementAppliancesDataSourceCrud) Get() error {
 		request.ManagementApplianceId = &tmp
 	}
 
+	if sddcId, ok := s.D.GetOkExists("sddc_id"); ok {
+		tmp := sddcId.(string)
+		request.SddcId = &tmp
+	}
+
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_ocvp.ListManagementAppliancesLifecycleStateEnum(state.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
 
-	response, err := s.Client.ListManagementAppliances(context.Background(), request)
+	response, err := s.Client.ListManagementAppliances(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +113,7 @@ func (s *OcvpManagementAppliancesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListManagementAppliances(context.Background(), request)
+		listResponse, err := s.Client.ListManagementAppliances(ctx, request)
 		if err != nil {
 			return err
 		}

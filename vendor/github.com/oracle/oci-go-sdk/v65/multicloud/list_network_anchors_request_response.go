@@ -19,13 +19,13 @@ import (
 type ListNetworkAnchorsRequest struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud base compartment or sub-compartment in which to list resources.
-	// A Multicloud base compartment is an OCI compartment that maps to a subscription in a Cloud Service Provider (such as Azure, AWS, or Google Cloud).
+	// A Multicloud base compartment is an OCI compartment that maps to a subscription in a cloud service provider (such as Azure or AWS).
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud subscription in which to list resources.
 	SubscriptionId *string `mandatory:"false" contributesTo:"query" name:"subscriptionId"`
 
-	// The subscription service name of the Cloud Service Provider.
+	// The cloud service provider.
 	SubscriptionServiceName ListNetworkAnchorsSubscriptionServiceNameEnum `mandatory:"false" contributesTo:"query" name:"subscriptionServiceName" omitEmpty:"true"`
 
 	// A filter to return only resources that match the given lifecycle state. The
@@ -35,14 +35,11 @@ type ListNetworkAnchorsRequest struct {
 	// A filter to return only resources that match the given display name exactly.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// The Cloud Service Provider region.
+	// The cloud service provider region.
 	ExternalLocation *string `mandatory:"false" contributesTo:"query" name:"externalLocation"`
 
 	// A filter to return only NetworkAnchor resources that match the given OCI subnet Id.
 	NetworkAnchorOciSubnetId *string `mandatory:"false" contributesTo:"query" name:"networkAnchorOciSubnetId"`
-
-	// If set to true, a list operation will return NetworkAnchors from all child compartments in the provided compartmentId parameter.
-	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
 	// A filter to return only NetworkAnchor resources that match the given OCI Vcn Id.
 	NetworkAnchorOciVcnId *string `mandatory:"false" contributesTo:"query" name:"networkAnchorOciVcnId"`
@@ -64,6 +61,7 @@ type ListNetworkAnchorsRequest struct {
 	ShouldFetchVcnName *bool `mandatory:"false" contributesTo:"query" name:"shouldFetchVcnName"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+	// In general, the sort order is `DESC` when sorting by time and `ASC` otherwise.
 	SortOrder ListNetworkAnchorsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The field to sort by. You can provide only one sort order. Default order for `timeCreated`

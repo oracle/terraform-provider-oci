@@ -6,6 +6,7 @@ package ocvp
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
 
@@ -19,15 +20,15 @@ func OcvpManagementApplianceDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(OcvpManagementApplianceResource(), fieldMap, readSingularOcvpManagementAppliance)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(OcvpManagementApplianceResource(), fieldMap, readSingularOcvpManagementApplianceWithContext)
 }
 
-func readSingularOcvpManagementAppliance(d *schema.ResourceData, m interface{}) error {
+func readSingularOcvpManagementApplianceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpManagementApplianceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementApplianceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OcvpManagementApplianceDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *OcvpManagementApplianceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OcvpManagementApplianceDataSourceCrud) Get() error {
+func (s *OcvpManagementApplianceDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ocvp.GetManagementApplianceRequest{}
 
 	if managementApplianceId, ok := s.D.GetOkExists("management_appliance_id"); ok {
@@ -50,7 +51,7 @@ func (s *OcvpManagementApplianceDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
 
-	response, err := s.Client.GetManagementAppliance(context.Background(), request)
+	response, err := s.Client.GetManagementAppliance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -106,6 +107,10 @@ func (s *OcvpManagementApplianceDataSourceCrud) SetData() error {
 
 	if s.Res.ManagementAgentId != nil {
 		s.D.Set("management_agent_id", *s.Res.ManagementAgentId)
+	}
+
+	if s.Res.PluginVersion != nil {
+		s.D.Set("plugin_version", *s.Res.PluginVersion)
 	}
 
 	if s.Res.SddcId != nil {

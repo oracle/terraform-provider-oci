@@ -153,6 +153,12 @@ func (s *FileStorageSnapshotsDataSourceCrud) SetData() error {
 			snapshot["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		if r.LockDurationDetails != nil {
+			snapshot["lock_duration_details"] = []interface{}{LockDurationDetailsToMap(r.LockDurationDetails)}
+		} else {
+			snapshot["lock_duration_details"] = nil
+		}
+
 		locks := []interface{}{}
 		for _, item := range r.Locks {
 			locks = append(locks, ResourceLockToMap(item))

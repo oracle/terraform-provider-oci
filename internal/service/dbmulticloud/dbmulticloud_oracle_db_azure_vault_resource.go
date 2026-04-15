@@ -46,6 +46,10 @@ func DbmulticloudOracleDbAzureVaultResource() *schema.Resource {
 			},
 
 			// Optional
+			"action": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"azure_vault_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -85,6 +89,10 @@ func DbmulticloudOracleDbAzureVaultResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"target_region": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 
 			// Computed
 			"last_modification": {
@@ -94,6 +102,48 @@ func DbmulticloudOracleDbAzureVaultResource() *schema.Resource {
 			"lifecycle_state_details": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"replication_metadata": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"replication_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"replication_state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"target_region": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_created": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_updated": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -403,6 +453,17 @@ func (s *DbmulticloudOracleDbAzureVaultResourceCrud) Get() error {
 }
 
 func (s *DbmulticloudOracleDbAzureVaultResourceCrud) Update() error {
+
+	if s.D.HasChange("action") || s.D.HasChange("target_region") {
+		err := s.ReplicateOracleDbAzureVault()
+		if err != nil {
+			return err
+		}
+		if waitErr := s.waitForAzureVaultActive(context.Background(), s.D.Timeout(schema.TimeoutUpdate)); waitErr != nil {
+			return waitErr
+		}
+		return s.Get()
+	}
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -479,6 +540,26 @@ func (s *DbmulticloudOracleDbAzureVaultResourceCrud) Update() error {
 	return s.getOracleDbAzureVaultFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud"), oci_dbmulticloud.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
+func (s *DbmulticloudOracleDbAzureVaultResourceCrud) waitForAzureVaultActive(ctx context.Context, timeout time.Duration) error {
+	stateConf := &retry.StateChangeConf{
+		Pending: []string{"PENDING"},
+		Target:  []string{"DONE"},
+		Refresh: func() (interface{}, string, error) {
+			if err := s.Get(); err != nil {
+				return nil, "PENDING", err
+			}
+			if s.Res != nil && s.Res.LifecycleState == oci_dbmulticloud.OracleDbAzureVaultLifecycleStateActive {
+				return s.Res, "DONE", nil
+			}
+			return nil, "PENDING", nil
+		},
+		Timeout: timeout,
+	}
+
+	_, err := stateConf.WaitForState()
+	return err
+}
+
 func (s *DbmulticloudOracleDbAzureVaultResourceCrud) Delete() error {
 	request := oci_dbmulticloud.DeleteOracleDbAzureVaultRequest{}
 
@@ -540,6 +621,12 @@ func (s *DbmulticloudOracleDbAzureVaultResourceCrud) SetData() error {
 
 	s.D.Set("properties", s.Res.Properties)
 
+	if s.Res.ReplicationMetadata != nil {
+		s.D.Set("replication_metadata", []interface{}{ReplicationMetadataAzureToMap(s.Res.ReplicationMetadata)})
+	} else {
+		s.D.Set("replication_metadata", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {
@@ -556,6 +643,35 @@ func (s *DbmulticloudOracleDbAzureVaultResourceCrud) SetData() error {
 
 	if s.Res.Type != nil {
 		s.D.Set("type", *s.Res.Type)
+	}
+
+	return nil
+}
+
+func (s *DbmulticloudOracleDbAzureVaultResourceCrud) ReplicateOracleDbAzureVault() error {
+	request := oci_dbmulticloud.ReplicateOracleDbAzureVaultRequest{}
+
+	if action, ok := s.D.GetOkExists("action"); ok {
+		request.Action = oci_dbmulticloud.ReplicationActionsEnum(action.(string))
+	}
+
+	idTmp := s.D.Id()
+	request.OracleDbAzureVaultId = &idTmp
+
+	if targetRegion, ok := s.D.GetOkExists("target_region"); ok {
+		tmp := targetRegion.(string)
+		request.TargetRegion = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
+
+	_, err := s.Client.ReplicateOracleDbAzureVault(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
 	}
 
 	return nil
@@ -608,6 +724,10 @@ func OracleDbAzureVaultSummaryToMap(obj oci_dbmulticloud.OracleDbAzureVaultSumma
 
 	result["properties"] = obj.Properties
 
+	if obj.ReplicationMetadata != nil {
+		result["replication_metadata"] = []interface{}{ReplicationMetadataAzureToMap(obj.ReplicationMetadata)}
+	}
+
 	result["state"] = string(obj.LifecycleState)
 
 	if obj.SystemTags != nil {
@@ -625,6 +745,38 @@ func OracleDbAzureVaultSummaryToMap(obj oci_dbmulticloud.OracleDbAzureVaultSumma
 	if obj.Type != nil {
 		result["type"] = string(*obj.Type)
 	}
+
+	return result
+}
+
+func ReplicationDetailsAzureToMap(obj oci_dbmulticloud.ReplicationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["replication_state"] = string(obj.ReplicationState)
+
+	if obj.TargetRegion != nil {
+		result["target_region"] = string(*obj.TargetRegion)
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeUpdated != nil {
+		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	return result
+}
+
+func ReplicationMetadataAzureToMap(obj *oci_dbmulticloud.ReplicationMetadata) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	replicationDetails := []interface{}{}
+	for _, item := range obj.ReplicationDetails {
+		replicationDetails = append(replicationDetails, ReplicationDetailsAzureToMap(item))
+	}
+	result["replication_details"] = replicationDetails
 
 	return result
 }

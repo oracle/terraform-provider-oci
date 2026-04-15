@@ -10,6 +10,8 @@ import (
 )
 
 func init() {
+	RegisterOracleClient("oci_ocvp.ByolClient", &OracleClient{InitClientFn: initOcvpByolClient})
+	RegisterOracleClient("oci_ocvp.ByolAllocationClient", &OracleClient{InitClientFn: initOcvpByolAllocationClient})
 	RegisterOracleClient("oci_ocvp.ClusterClient", &OracleClient{InitClientFn: initOcvpClusterClient})
 	RegisterOracleClient("oci_ocvp.DatastoreClient", &OracleClient{InitClientFn: initOcvpDatastoreClient})
 	RegisterOracleClient("oci_ocvp.DatastoreClusterClient", &OracleClient{InitClientFn: initOcvpDatastoreClusterClient})
@@ -17,6 +19,46 @@ func init() {
 	RegisterOracleClient("oci_ocvp.ManagementApplianceClient", &OracleClient{InitClientFn: initOcvpManagementApplianceClient})
 	RegisterOracleClient("oci_ocvp.WorkRequestClient", &OracleClient{InitClientFn: initOcvpWorkRequestClient})
 	RegisterOracleClient("oci_ocvp.SddcClient", &OracleClient{InitClientFn: initOcvpSddcClient})
+}
+
+func initOcvpByolClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_ocvp.NewByolClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) ByolClient() *oci_ocvp.ByolClient {
+	return m.GetClient("oci_ocvp.ByolClient").(*oci_ocvp.ByolClient)
+}
+
+func initOcvpByolAllocationClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_ocvp.NewByolAllocationClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) ByolAllocationClient() *oci_ocvp.ByolAllocationClient {
+	return m.GetClient("oci_ocvp.ByolAllocationClient").(*oci_ocvp.ByolAllocationClient)
 }
 
 func initOcvpClusterClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

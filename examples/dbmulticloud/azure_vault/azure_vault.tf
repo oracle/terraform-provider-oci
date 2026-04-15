@@ -31,6 +31,10 @@ oracle_db_connector_id = var.oracle_db_azure_connector_id
 type = "managedHSMs"
 }
 
+data "oci_dbmulticloud_oracle_db_azure_vault" "test_oracle_db_azure_vault" {
+  oracle_db_azure_vault_id = oci_dbmulticloud_oracle_db_azure_vault.test_oracle_db_azure_vault.id
+}
+
 output "azure_vault_id" {
   value = oci_dbmulticloud_oracle_db_azure_vault.test_oracle_db_azure_vault.id
 }

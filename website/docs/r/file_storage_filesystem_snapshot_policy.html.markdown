@@ -51,6 +51,14 @@ resource "oci_file_storage_filesystem_snapshot_policy" "test_filesystem_snapshot
 		day_of_month = var.filesystem_snapshot_policy_schedules_day_of_month
 		day_of_week = var.filesystem_snapshot_policy_schedules_day_of_week
 		hour_of_day = var.filesystem_snapshot_policy_schedules_hour_of_day
+		lock_duration_details {
+			#Required
+			lock_duration = var.filesystem_snapshot_policy_schedules_lock_duration_details_lock_duration
+			lock_mode = var.filesystem_snapshot_policy_schedules_lock_duration_details_lock_mode
+
+			#Optional
+			cool_off_duration = var.filesystem_snapshot_policy_schedules_lock_duration_details_cool_off_duration
+		}
 		month = var.filesystem_snapshot_policy_schedules_month
 		retention_duration_in_seconds = var.filesystem_snapshot_policy_schedules_retention_duration_in_seconds
 		schedule_prefix = var.filesystem_snapshot_policy_schedules_schedule_prefix
@@ -80,6 +88,10 @@ The following arguments are supported:
 	* `day_of_month` - (Optional) (Updatable) The day of the month to create a scheduled snapshot. If the day does not exist for the month, snapshot creation will be skipped. Used for MONTHLY and YEARLY snapshot schedules. If not set, the system chooses a value at creation time. 
 	* `day_of_week` - (Optional) (Updatable) The day of the week to create a scheduled snapshot. Used for WEEKLY snapshot schedules. If not set, the system chooses a value at creation time. 
 	* `hour_of_day` - (Optional) (Updatable) The hour of the day to create a DAILY, WEEKLY, MONTHLY, or YEARLY snapshot. If not set, the system chooses a value at creation time. 
+	* `lock_duration_details` - (Optional) (Updatable) Details for setting a retention date or legal hold.
+		* `cool_off_duration` - (Optional) (Updatable) For snapshots in compliance mode, a cooling-off period (measured in days) begins. During this time, you can still edit or remove the lock. Once this period ends, the snapshot becomes immutable until the specified retention date expires, permanently preventing any deletion or modification. The cool off duration can be set for a minimum of 0 days and a maximum of 365. It defaults to 14 days if not set. 
+		* `lock_duration` - (Required) (Updatable) The retention period (measured in days) defines how long a snapshot remains locked, preventing user modifications or deletions. In governance mode this period can be adjusted, but in compliance mode it becomes permanent after a cool-off period. Snapshots can be locked for a minimum of 0 days and a maximum of 36,500 days. A value of 0 days stands for an indefinite retention period and it is used for a legal hold. 
+		* `lock_mode` - (Required) (Updatable) Can be GOVERNANCE or COMPLIANCE. GOVERNANCE MODE: locks snapshots based on either a retention period or a legal hold. COMPLIANCE MODE: the customer can only remove the snapshot during its cooling-off period. Once that time ends, the snapshot becomes immutable; customers cannot delete or modify it until its set retention date passes. After the snapshot is locked, customers can only increase its retention period. 
 	* `month` - (Optional) (Updatable) The month to create a scheduled snapshot. Used only for YEARLY snapshot schedules. If not set, the system chooses a value at creation time. 
 	* `period` - (Required) (Updatable) The frequency of scheduled snapshots.
 	* `retention_duration_in_seconds` - (Optional) (Updatable) The number of seconds to retain snapshots created with this schedule. Snapshot expiration time will not be set if this value is empty. 
@@ -112,6 +124,10 @@ The following attributes are exported:
 	* `day_of_month` - The day of the month to create a scheduled snapshot. If the day does not exist for the month, snapshot creation will be skipped. Used for MONTHLY and YEARLY snapshot schedules. If not set, the system chooses a value at creation time. 
 	* `day_of_week` - The day of the week to create a scheduled snapshot. Used for WEEKLY snapshot schedules. If not set, the system chooses a value at creation time. 
 	* `hour_of_day` - The hour of the day to create a DAILY, WEEKLY, MONTHLY, or YEARLY snapshot. If not set, the system chooses a value at creation time. 
+	* `lock_duration_details` - Details for setting a retention date or legal hold.
+		* `cool_off_duration` - For snapshots in compliance mode, a cooling-off period (measured in days) begins. During this time, you can still edit or remove the lock. Once this period ends, the snapshot becomes immutable until the specified retention date expires, permanently preventing any deletion or modification. The cool off duration can be set for a minimum of 0 days and a maximum of 365. It defaults to 14 days if not set. 
+		* `lock_duration` - The retention period (measured in days) defines how long a snapshot remains locked, preventing user modifications or deletions. In governance mode this period can be adjusted, but in compliance mode it becomes permanent after a cool-off period. Snapshots can be locked for a minimum of 0 days and a maximum of 36,500 days. A value of 0 days stands for an indefinite retention period and it is used for a legal hold. 
+		* `lock_mode` - Can be GOVERNANCE or COMPLIANCE. GOVERNANCE MODE: locks snapshots based on either a retention period or a legal hold. COMPLIANCE MODE: the customer can only remove the snapshot during its cooling-off period. Once that time ends, the snapshot becomes immutable; customers cannot delete or modify it until its set retention date passes. After the snapshot is locked, customers can only increase its retention period. 
 	* `month` - The month to create a scheduled snapshot. Used only for YEARLY snapshot schedules. If not set, the system chooses a value at creation time. 
 	* `period` - The frequency of scheduled snapshots.
 	* `retention_duration_in_seconds` - The number of seconds to retain snapshots created with this schedule. Snapshot expiration time will not be set if this value is empty. 

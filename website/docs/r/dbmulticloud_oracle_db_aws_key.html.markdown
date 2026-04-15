@@ -73,6 +73,12 @@ The following attributes are exported:
 * `location` - AWS Key resource location.
 * `oracle_db_connector_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Connector resource.
 * `properties` - AWS Key resource's properties.
+* `replication_metadata` - Replication metadata, it has information about replication and target region. 
+	* `replication_details` - List of all regions and their respective resource ID.
+		* `replication_state` - The lifecycle state of the Oracle DB Azure Vault resource.
+		* `target_region` - The target region, where resource is replicated.
+		* `time_created` - Time when the Replication was created in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format, e.g. '2020-05-23T21:10:29.600Z' 
+		* `time_updated` - Time when the Replication was last modified, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format, e.g. '2020-05-23T21:10:29.600Z' 
 * `state` - The lifecycle state of the Oracle DB AWS Key resource.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - Time when the DB AWS Key resource was created in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format, e.g. '2020-05-23T21:10:29.600Z'. 

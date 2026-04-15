@@ -23,9 +23,10 @@ provider "oci" {
 
 resource "oci_dbmulticloud_oracle_db_aws_key" "test_oracle_db_aws_key" {
   compartment_id         = var.compartment_ocid
-  display_name           = "AWS_Key_Tersi_Test"
+  display_name           = "MockResourceName"
   oracle_db_connector_id = var.oracle_db_aws_connector_id
-  aws_key_arn            = "arn:aws:iam::867344470629:role/OracleDatabaseKMS"
+  # aws_key_arn            = "arn:aws:iam::867344470629:role/OracleDatabaseKMS"
+  aws_key_arn            = "arn:aws:kms:us-east-2:895395310091:key/mrk-276f7f63c95046e88797b19d8949f814"
   is_aws_key_enabled     = false
 }  
 

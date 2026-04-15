@@ -764,6 +764,23 @@ func addIpv6CidrToVcn(clients *tf_client.OracleClients, vcnId string, ipv6Cidr s
 	return nil
 }
 
+func removeIpv6CidrFromVcn(clients *tf_client.OracleClients, vcnId string, ipv6Cidr string, expectedByoipv6Count int) error {
+	removeIpv6VcnCidrRequest := oci_core.RemoveIpv6VcnCidrRequest{}
+	removeVcnIpv6CidrDetails := oci_core.RemoveVcnIpv6CidrDetails{}
+	removeIpv6VcnCidrRequest.VcnId = &vcnId
+	removeIpv6VcnCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
+	removeVcnIpv6CidrDetails.Ipv6CidrBlock = &ipv6Cidr
+	removeIpv6VcnCidrRequest.RemoveVcnIpv6CidrDetails = removeVcnIpv6CidrDetails
+	_, err := clients.VirtualNetworkClient().RemoveIpv6VcnCidr(context.Background(), removeIpv6VcnCidrRequest)
+	if err != nil {
+		return err
+	}
+
+	acctest.WaitTillCondition(acctest.TestAccProvider, &vcnId, CoreVcnByoipv6CountWaitCondition(expectedByoipv6Count), time.Duration(3*time.Minute),
+		CoreVcnSweepResponseFetchOperation, "core", true)
+	return nil
+}
+
 func CoreVcnAddByoipv6WaitCondition(response oci_common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if vcnResponse, ok := response.Response.(oci_core.GetVcnResponse); ok {
@@ -771,6 +788,16 @@ func CoreVcnAddByoipv6WaitCondition(response oci_common.OCIOperationResponse) bo
 		return len(vcnResponse.Byoipv6CidrBlocks) == 2
 	}
 	return false
+}
+
+func CoreVcnByoipv6CountWaitCondition(expectedCount int) func(response oci_common.OCIOperationResponse) bool {
+	return func(response oci_common.OCIOperationResponse) bool {
+		if vcnResponse, ok := response.Response.(oci_core.GetVcnResponse); ok {
+			log.Printf("Response from get VCN is : %v", response)
+			return len(vcnResponse.Byoipv6CidrBlocks) == expectedCount
+		}
+		return false
+	}
 }
 
 func bootVolumeAvailableWaitCondition(response oci_common.OCIOperationResponse) bool {

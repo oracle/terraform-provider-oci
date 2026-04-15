@@ -21,11 +21,12 @@ func CoreVcnResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCoreVcn,
-		Read:     readCoreVcn,
-		Update:   updateCoreVcn,
-		Delete:   deleteCoreVcn,
+		CustomizeDiff: suppressMatchingByoipv6CidrDetailsDiff,
+		Timeouts:      tfresource.DefaultTimeout,
+		Create:        createCoreVcn,
+		Read:          readCoreVcn,
+		Update:        updateCoreVcn,
+		Delete:        deleteCoreVcn,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -650,22 +651,45 @@ func (s *CoreVcnResourceCrud) SetData() error {
 }
 
 /*
-Given a list of byoipv6 cidr blocks fetched from the provider, this function does the following:
-1. Fetch current state of the config byoipv6cidr_details
-2. Perform state update
-2.a. Add any missing CIDR to the missing CIDRs list
-2.b. Patch the state for byoipv6cidr_details with the missing values
+setBYOIPv6Details reconciles byoipv6cidr_details in state with the BYOIPv6
+blocks returned by the service.
 
-This helps us catch a drift / prevent unnecessary drifts in case the subnet resource was updated with ipv6 blocks outside terraform
+1. Fetch the current byoipv6cidr_details state.
+2. Keep configured detail entries whose blocks still exist remotely.
+3. Add any server blocks that are missing from the state-backed details.
+
+This helps us catch drift and keep the details aligned with the BYOIPv6 blocks
+currently returned by the service.
 */
 func (s *CoreVcnResourceCrud) setBYOIPv6Details(byoipv6cidrBlocks []interface{}) {
 	byoipV6DetailsFromConfig, _ := s.D.GetOk("byoipv6cidr_details")
 
 	if byoipV6DetailsFromConfig != nil {
 		byoIPv6BlocksFromConfig := computeIPv6BlocksFromBYOIPv6Details(byoipV6DetailsFromConfig)
+		configuredByoipv6Details, _ := byoipV6DetailsFromConfig.([]interface{})
+		consolidatedByoipv6Details := make([]interface{}, 0, len(byoipv6cidrBlocks))
 
-		// Compute CIDRs that are missing from data fetched from the server
-		consolidatedByoipv6Details, _ := byoipV6DetailsFromConfig.([]interface{})
+		// Keep only details whose blocks are still present on the server.
+		for _, detail := range configuredByoipv6Details {
+			detailMap, ok := detail.(map[string]interface{})
+			if !ok {
+				continue
+			}
+
+			detailBlock, ok := detailMap["ipv6cidr_block"].(string)
+			if !ok || detailBlock == "" {
+				continue
+			}
+
+			if slices.ContainsFunc(byoipv6cidrBlocks, func(currentElement interface{}) bool {
+				currentBlock, ok := currentElement.(string)
+				return ok && isIPv6CidrIdentical(detailBlock)(currentBlock)
+			}) {
+				consolidatedByoipv6Details = append(consolidatedByoipv6Details, detail)
+			}
+		}
+
+		// Add any server blocks that are missing from the config-backed details.
 		for i := 0; i < len(byoipv6cidrBlocks); i++ {
 			elementToFind := byoipv6cidrBlocks[i].(string)
 			if !slices.ContainsFunc(byoIPv6BlocksFromConfig, isIPv6CidrIdentical(elementToFind)) {
@@ -875,4 +899,20 @@ func compareByoipv6CidrDetails(left oci_core.Byoipv6CidrDetails, right oci_core.
 		return true
 	}
 	return false
+}
+
+// suppressMatchingByoipv6CidrDetailsDiff reuses stored detail entries when the
+// config matches existing BYOIPv6 blocks after canonicalization.
+func suppressMatchingByoipv6CidrDetailsDiff(ctx context.Context, diff *schema.ResourceDiff, meta interface{}) error {
+	if diff.Id() == "" {
+		return nil
+	}
+
+	oldValue, newValue := diff.GetChange("byoipv6cidr_details")
+	normalizedNewDetails, changed := normalizeByoipv6CidrDetailsForDiff(oldValue, newValue)
+	if !changed {
+		return nil
+	}
+
+	return diff.SetNew("byoipv6cidr_details", normalizedNewDetails)
 }

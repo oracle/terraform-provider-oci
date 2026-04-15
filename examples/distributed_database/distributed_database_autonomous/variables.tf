@@ -10,7 +10,8 @@ variable "user_ocid" {
 
 variable "fingerprint" {
   type        = string
-  description = "Fingerprint of the OCI API signing key associated with the user."
+  description = "Fingerprint of the OCI API signing key associated with the user when auth = ApiKey."
+  default     = null
 }
 
 variable "private_key_path" {
@@ -235,6 +236,18 @@ variable "state" {
   default     = null
 }
 
+variable "ca_bundle_id" {
+  type        = string
+  description = "Optional CA bundle OCID passed to Configure Sharding. Required when configure_sharding_trigger is incremented."
+  default     = null
+}
+
+variable "certificate_id" {
+  type        = string
+  description = "Optional certificate OCID passed to Configure Sharding. Required when configure_sharding_trigger is incremented."
+  default     = null
+}
+
 # Triggers (optional)
 variable "configure_sharding_trigger" {
   type        = number
@@ -288,35 +301,5 @@ variable "generate_wallet_password" {
 variable "change_db_backup_config_trigger" {
   type        = number
   description = "Optional trigger to change db backup config."
-  default     = null
-}
-
-variable "upload_signed_certificate_and_generate_wallet_trigger" {
-  type        = number
-  description = "Optional trigger to upload signed certificate and generate wallet."
-  default     = null
-}
-
-variable "upload_ca_signed_certificate" {
-  type        = string
-  description = "Optional CA-signed certificate payload used by upload signed certificate action."
-  default     = null
-}
-
-variable "download_gsm_certificate_signing_request_trigger" {
-  type        = number
-  description = "Optional trigger to download GSM certificate signing request."
-  default     = null
-}
-
-variable "generate_gsm_certificate_signing_request_trigger" {
-  type        = number
-  description = "Optional trigger to generate GSM certificate signing request."
-  default     = null
-}
-
-variable "generate_gsm_certificate_signing_request_trigger_ca_bundle_id" {
-  type        = string
-  description = "Optional CA bundle OCID used during GSM CSR generation."
   default     = null
 }
