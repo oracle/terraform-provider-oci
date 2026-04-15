@@ -4,7 +4,7 @@
 
 // Oracle Multicloud API
 //
-// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see <link to docs>.
+// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see Oracle Multicloud Hub (https://docs.oracle.com/iaas/Content/multicloud-hub/home.htm).
 //
 
 package multicloud
@@ -91,7 +91,9 @@ func (client *OmhubNetworkAnchorClient) ConfigurationProvider() *common.Configur
 	return client.config
 }
 
-// GetNetworkAnchor Gets information about a NetworkAnchor.
+// GetNetworkAnchor Gets details for the specified network anchor. The subscription OCID and service name are required.
+// For more information, see
+// Getting a Network Anchor's Details (https://docs.oracle.com/iaas/Content/multicloud-hub/get-network-anchor.htm).
 //
 // # See also
 //
@@ -149,7 +151,10 @@ func (client OmhubNetworkAnchorClient) getNetworkAnchor(ctx context.Context, req
 	return response, err
 }
 
-// ListNetworkAnchors Gets a list of NetworkAnchors.
+// ListNetworkAnchors Lists network anchors in the specified Multicloud subscription, Multicloud compartment, and partner cloud region.
+// Details listed for each resource include name, state, VCN, and ODB network ID.
+// For more information, see
+// Listing Network Anchors (https://docs.oracle.com/iaas/Content/multicloud-hub/list-network-anchors.htm).
 //
 // # See also
 //

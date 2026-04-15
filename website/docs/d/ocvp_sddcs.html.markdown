@@ -72,6 +72,9 @@ The following attributes are exported:
 * `initial_configuration` - Details of SDDC initial configuration
 	* `initial_cluster_configurations` - The configurations for Clusters initially created in the SDDC. 
 		* `capacity_reservation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Capacity Reservation. 
+		* `cluster_byol_allocation_details` - The BYOL allocations used for VMware Cluster provisioning. 
+			* `firewall_byol_allocation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VMware BYOL Allocation used to deploy VMware vDefend Firewall. 
+			* `vsan_byol_allocation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VMware BYOL Allocation used to deploy VMware vSAN. 
 		* `compute_availability_domain` - The availability domain to create the Cluster's ESXi hosts in. For multi-AD Cluster deployment, set to `multi-AD`. 
 		* `datastore_cluster_ids` - A list of datastore clusters. 
 		* `datastores` - A list of datastore info for the Cluster. This value is required only when `initialHostShapeName` is a standard shape. 
@@ -84,6 +87,7 @@ The following attributes are exported:
 		* `initial_commitment` - The billing option selected during Cluster creation. [ListSupportedCommitments](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedCommitmentSummary/ListSupportedCommitments). 
 		* `initial_host_ocpu_count` - The initial OCPU count of the Cluster's ESXi hosts. 
 		* `initial_host_shape_name` - The initial compute shape of the Cluster's ESXi hosts. [ListSupportedHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedHostShapes/ListSupportedHostShapes). 
+		* `initial_vcf_byol_allocation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the initial VMware BYOL Allocation used to deploy VMware Cloud Foundation. 
 		* `instance_display_name_prefix` - A prefix used in the name of each ESXi host and Compute instance in the Cluster. If this isn't set, the Cluster's `displayName` is used as the prefix.
 
 			For example, if the value is `myCluster`, the ESXi hosts are named `myCluster-1`, `myCluster-2`, and so on. 
@@ -141,8 +145,11 @@ The following attributes are exported:
 * `is_hcx_pending_downgrade` - Indicates whether SDDC is pending downgrade from HCX Enterprise to HCX Advanced.
 * `is_shielded_instance_enabled` - (**Deprecated**) Indicates whether shielded instance is enabled at the SDDC level.
 * `is_single_host_sddc` - Indicates whether this SDDC is designated for only single ESXi host.
-* `nsx_manager_fqdn` - The FQDN for NSX Manager.  Example: `nsx-my-sddc.sddc.us-phoenix-1.oraclecloud.com`
-* `nsx_manager_username` - The SDDC includes an administrator username and initial password for NSX Manager. You can change this initial username to a different value in NSX Manager.
+* `nsx_manager_fqdn` - The FQDN for NSX Manager.  Example: `nsx-my-sddc.sddc.us-phoenix-1.oraclecloud.com` 
+* `nsx_manager_username` - The SDDC includes an administrator username and initial password for NSX Manager. You can change this initial username to a different value in NSX Manager. 
+* `sddc_byol_allocation_details` - The BYOL allocations used for VMware SDDC provisioning. 
+	* `load_balancer_byol_allocation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VMware BYOL Allocation used to deploy VMware Avi Load Balancer. 
+	* `load_balancer_instance_count` - The number of VMware Avi Load Balancer instances to be deployed on VMware SDDC.
 * `state` - The current state of the SDDC.
 * `time_created` - The date and time the SDDC was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `time_updated` - The date and time the SDDC was updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).

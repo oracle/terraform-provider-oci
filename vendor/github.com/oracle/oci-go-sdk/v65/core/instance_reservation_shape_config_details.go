@@ -36,6 +36,9 @@ type InstanceReservationShapeConfigDetails struct {
 
 	// The total amount of memory available to the instance, in gigabytes.
 	MemoryInGBs *float32 `mandatory:"false" json:"memoryInGBs"`
+
+	// This field is reserved for internal use.
+	ResourceManagement InstanceReservationShapeConfigDetailsResourceManagementEnum `mandatory:"false" json:"resourceManagement,omitempty"`
 }
 
 func (m InstanceReservationShapeConfigDetails) String() string {
@@ -48,8 +51,53 @@ func (m InstanceReservationShapeConfigDetails) String() string {
 func (m InstanceReservationShapeConfigDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingInstanceReservationShapeConfigDetailsResourceManagementEnum(string(m.ResourceManagement)); !ok && m.ResourceManagement != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceManagement: %s. Supported values are: %s.", m.ResourceManagement, strings.Join(GetInstanceReservationShapeConfigDetailsResourceManagementEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// InstanceReservationShapeConfigDetailsResourceManagementEnum Enum with underlying type: string
+type InstanceReservationShapeConfigDetailsResourceManagementEnum string
+
+// Set of constants representing the allowable values for InstanceReservationShapeConfigDetailsResourceManagementEnum
+const (
+	InstanceReservationShapeConfigDetailsResourceManagementDynamic InstanceReservationShapeConfigDetailsResourceManagementEnum = "DYNAMIC"
+	InstanceReservationShapeConfigDetailsResourceManagementStatic  InstanceReservationShapeConfigDetailsResourceManagementEnum = "STATIC"
+)
+
+var mappingInstanceReservationShapeConfigDetailsResourceManagementEnum = map[string]InstanceReservationShapeConfigDetailsResourceManagementEnum{
+	"DYNAMIC": InstanceReservationShapeConfigDetailsResourceManagementDynamic,
+	"STATIC":  InstanceReservationShapeConfigDetailsResourceManagementStatic,
+}
+
+var mappingInstanceReservationShapeConfigDetailsResourceManagementEnumLowerCase = map[string]InstanceReservationShapeConfigDetailsResourceManagementEnum{
+	"dynamic": InstanceReservationShapeConfigDetailsResourceManagementDynamic,
+	"static":  InstanceReservationShapeConfigDetailsResourceManagementStatic,
+}
+
+// GetInstanceReservationShapeConfigDetailsResourceManagementEnumValues Enumerates the set of values for InstanceReservationShapeConfigDetailsResourceManagementEnum
+func GetInstanceReservationShapeConfigDetailsResourceManagementEnumValues() []InstanceReservationShapeConfigDetailsResourceManagementEnum {
+	values := make([]InstanceReservationShapeConfigDetailsResourceManagementEnum, 0)
+	for _, v := range mappingInstanceReservationShapeConfigDetailsResourceManagementEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetInstanceReservationShapeConfigDetailsResourceManagementEnumStringValues Enumerates the set of values in String for InstanceReservationShapeConfigDetailsResourceManagementEnum
+func GetInstanceReservationShapeConfigDetailsResourceManagementEnumStringValues() []string {
+	return []string{
+		"DYNAMIC",
+		"STATIC",
+	}
+}
+
+// GetMappingInstanceReservationShapeConfigDetailsResourceManagementEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingInstanceReservationShapeConfigDetailsResourceManagementEnum(val string) (InstanceReservationShapeConfigDetailsResourceManagementEnum, bool) {
+	enum, ok := mappingInstanceReservationShapeConfigDetailsResourceManagementEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

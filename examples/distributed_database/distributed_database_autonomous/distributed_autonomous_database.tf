@@ -73,18 +73,15 @@ resource "oci_distributed_database_distributed_autonomous_database" "dadb" {
 
   state         = var.state
   freeform_tags = var.freeform_tags
+  ca_bundle_id  = var.ca_bundle_id
+  certificate_id = var.certificate_id
 
   configure_sharding_trigger                                    = var.configure_sharding_trigger
   configure_sharding_is_rebalance_required                      = var.configure_sharding_is_rebalance_required
-  download_gsm_certificate_signing_request_trigger              = var.download_gsm_certificate_signing_request_trigger
-  generate_gsm_certificate_signing_request_trigger              = var.generate_gsm_certificate_signing_request_trigger
-  generate_gsm_certificate_signing_request_trigger_ca_bundle_id = var.generate_gsm_certificate_signing_request_trigger_ca_bundle_id
   start_database_trigger                                        = var.start_database_trigger
   stop_database_trigger                                         = var.stop_database_trigger
   validate_network_trigger                                      = var.validate_network_trigger
   generate_wallet_trigger                                       = var.generate_wallet_trigger
   generate_wallet_password                                      = var.generate_wallet_password
   change_db_backup_config_trigger                               = var.change_db_backup_config_trigger
-  upload_signed_certificate_and_generate_wallet_trigger         = var.upload_signed_certificate_and_generate_wallet_trigger
-  upload_ca_signed_certificate                                  = var.upload_ca_signed_certificate
 }

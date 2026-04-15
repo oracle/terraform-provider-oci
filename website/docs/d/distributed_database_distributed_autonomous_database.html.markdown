@@ -49,12 +49,14 @@ The following attributes are exported:
 	* `metadata` - Additional metadata related to Globally distributed autonomous database resources.
 		* `map` - The map containing key-value pair of additional metadata.
 	* `name` - The name of catalog.
+	* `okv_end_point_group` - The OKV endpoint name.
+	* `okv_key_store_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store used to create the shard.
 	* `peer_cloud_autonomous_vm_cluster_ids` - This field is deprecated. For catalog peer details please refer peerDetails attribute.
 	* `peer_details` - Peer details for the catalog with dedicated infrastructure.
 		* `cloud_autonomous_vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloudAutonomousVmCluster.
 		* `container_database_id` - the identifier of the container database for underlying supporting resource.
 		* `fast_start_fail_over_lag_limit_in_seconds` - The lag time for my preference based on data loss tolerance in seconds.
-		* `is_automatic_failover_enabled` - Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association 
+		* `is_automatic_failover_enabled` - This field is deprecated. Support for this field will be removed after one year of deprecation cycle. 
 		* `metadata` - Additional metadata related to Globally distributed autonomous database resources.
 			* `map` - The map containing key-value pair of additional metadata.
 		* `protection_mode` - The protectionMode for the shard peer.
@@ -135,12 +137,14 @@ The following attributes are exported:
 	* `metadata` - Additional metadata related to Globally distributed autonomous database resources.
 		* `map` - The map containing key-value pair of additional metadata.
 	* `name` - Name of the shard.
+	* `okv_end_point_group` - The OKV endpoint name.
+	* `okv_key_store_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store used to create the shard.
 	* `peer_cloud_autonomous_vm_cluster_ids` - This field is deprecated. For shard peer details please refer peerDetails attribute.
 	* `peer_details` - Peer details for the shard with dedicated infrastructure.
 		* `cloud_autonomous_vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloudAutonomousVmCluster.
 		* `container_database_id` - the identifier of the container database for underlying supporting resource.
 		* `fast_start_fail_over_lag_limit_in_seconds` - The lag time for my preference based on data loss tolerance in seconds.
-		* `is_automatic_failover_enabled` - Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association 
+		* `is_automatic_failover_enabled` - This field is deprecated. Support for this field will be removed after one year of deprecation cycle. 
 		* `metadata` - Additional metadata related to Globally distributed autonomous database resources.
 			* `map` - The map containing key-value pair of additional metadata.
 		* `protection_mode` - The protectionMode for the shard peer.

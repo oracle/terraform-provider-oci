@@ -1,3 +1,21 @@
+## 8.10.0 (April 15, 2026)
+
+### Added
+- Support for Support VMware BYOL with VCF 5.2
+- Support for Build resiliency for Globally Distributed Database Services
+- Support for Compute
+- Support for Implement Customer self-service feature to add egress ports
+- Support for OCI IoT service: Flexible Domain Group Resourcing Bug Fixes (non breaking changes API ONLY)
+- Support for Cross-region Data Guard for Azure/GCP/AWS KMS-based databases
+- Support for OCI FSS Ransomware Protection - Snapshot Lock
+- OCI Control Center Alarm and Notifications feature terraform integrations
+- Support for ADB-S: Adding Spatial Studio to Database Tools on the OCI console
+
+### Bug Fix
+- OIC3 : Trying To Update OIC Allowlisting Using Terraform script Fails
+- Support for on demand bootstrap script execution
+- Mend remaining inconsistencies between VCN IPv6 CIDR config and Terraform States
+
 ## 8.9.0 (April 8, 2026)
 
 ### Added

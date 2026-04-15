@@ -70,6 +70,12 @@ func (s *OcvpClusterDataSourceCrud) SetData() error {
 		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
 	}
 
+	if s.Res.ClusterByolAllocationDetails != nil {
+		s.D.Set("cluster_byol_allocation_details", []interface{}{ClusterByolAllocationDetailsToMap(s.Res.ClusterByolAllocationDetails)})
+	} else {
+		s.D.Set("cluster_byol_allocation_details", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -117,6 +123,10 @@ func (s *OcvpClusterDataSourceCrud) SetData() error {
 
 	if s.Res.InitialHostShapeName != nil {
 		s.D.Set("initial_host_shape_name", *s.Res.InitialHostShapeName)
+	}
+
+	if s.Res.InitialVcfByolAllocationId != nil {
+		s.D.Set("initial_vcf_byol_allocation_id", *s.Res.InitialVcfByolAllocationId)
 	}
 
 	if s.Res.InstanceDisplayNamePrefix != nil {

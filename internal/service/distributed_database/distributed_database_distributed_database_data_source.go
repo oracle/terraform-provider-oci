@@ -243,6 +243,10 @@ func (s *DistributedDatabaseDistributedDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("replication_unit", *s.Res.ReplicationUnit)
 	}
 
+	if s.Res.ScanListenerPort != nil {
+		s.D.Set("scan_listener_port", *s.Res.ScanListenerPort)
+	}
+
 	shardDetails := []interface{}{}
 	for _, item := range s.Res.ShardDetails {
 		shardDetails = append(shardDetails, DistributedDatabaseShardToMap(item))

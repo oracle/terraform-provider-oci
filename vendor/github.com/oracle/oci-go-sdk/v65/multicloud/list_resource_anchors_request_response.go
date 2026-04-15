@@ -19,7 +19,7 @@ import (
 type ListResourceAnchorsRequest struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud base compartment or sub-compartment in which to list resources.
-	// A Multicloud base compartment is an OCI compartment that maps to a subscription in a Cloud Service Provider (such as Azure, AWS, or Google Cloud).
+	// A Multicloud base compartment is an OCI compartment that maps to a subscription in a cloud service provider (such as Azure or AWS).
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment linked to the resource.
@@ -32,7 +32,7 @@ type ListResourceAnchorsRequest struct {
 	// A filter to return only resources that match the given display name exactly.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ResourceAnchor.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource anchor.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a
@@ -46,19 +46,21 @@ type ListResourceAnchorsRequest struct {
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+	// In general, the sort order is `DESC` when sorting by time and `ASC` otherwise.
 	SortOrder ListResourceAnchorsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The field to sort by. You can provide only one sort order. Default order for `timeCreated`
 	// is descending. Default order for `displayName` is ascending.
 	SortBy ListResourceAnchorsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// Check the sub-compartments of a given compartmentId
+	// Check the sub-compartments of a given `compartmentId`.
 	IsCompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"isCompartmentIdInSubtree"`
 
-	// Whether to fetch and include the compartment name, setting this field to yes may introduce additional latency.
+	// Whether to fetch and include the compartment name.
+	// Setting this field to `true` might introduce additional latency.
 	ShouldFetchCompartmentName *bool `mandatory:"false" contributesTo:"query" name:"shouldFetchCompartmentName"`
 
-	// The subscription service name of the Cloud Service Provider.
+	// The cloud service provider.
 	SubscriptionServiceName ListResourceAnchorsSubscriptionServiceNameEnum `mandatory:"false" contributesTo:"query" name:"subscriptionServiceName" omitEmpty:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud subscription in which to list resources.

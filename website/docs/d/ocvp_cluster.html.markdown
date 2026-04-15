@@ -33,6 +33,9 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `capacity_reservation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Capacity Reservation. 
+* `cluster_byol_allocation_details` - The BYOL allocations used for VMware Cluster provisioning. 
+	* `firewall_byol_allocation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VMware BYOL Allocation used to deploy VMware vDefend Firewall. 
+	* `vsan_byol_allocation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VMware BYOL Allocation used to deploy VMware vSAN. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the Cluster. 
 * `compute_availability_domain` - The availability domain the ESXi hosts are running in. For Multi-AD Cluster, it is `multi-AD`.  Example: `Uocm:PHX-AD-1`, `multi-AD` 
 * `datastore_cluster_ids` - A list of datastore clusters. 
@@ -54,6 +57,7 @@ The following attributes are exported:
 * `initial_commitment` - The billing option selected during Cluster creation. [ListSupportedCommitments](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedCommitmentSummary/ListSupportedCommitments). 
 * `initial_host_ocpu_count` - The initial OCPU count of the Cluster's ESXi hosts. 
 * `initial_host_shape_name` - The initial compute shape of the Cluster's ESXi hosts. [ListSupportedHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/vmware/20200501/SupportedHostShapes/ListSupportedHostShapes). 
+* `initial_vcf_byol_allocation_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the initial VMware BYOL Allocation used to deploy VMware Cloud Foundation. 
 * `instance_display_name_prefix` - A prefix used in the name of each ESXi host and Compute instance in the Cluster. If this isn't set, the Cluster's `displayName` is used as the prefix.
 
 	For example, if the value is `MyCluster`, the ESXi hosts are named `MyCluster-1`, `MyCluster-2`, and so on. 

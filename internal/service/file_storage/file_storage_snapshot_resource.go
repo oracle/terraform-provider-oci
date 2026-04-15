@@ -60,6 +60,33 @@ func FileStorageSnapshotResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"lock_duration_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"lock_duration": {
+							Type:     schema.TypeInt,
+							Required: true,
+						},
+						"lock_mode": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"cool_off_duration": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"locks": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -139,6 +166,10 @@ func FileStorageSnapshotResource() *schema.Resource {
 				Elem:     schema.TypeString,
 			},
 			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_locked": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -242,6 +273,21 @@ func (s *FileStorageSnapshotResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if lockDurationDetails, ok := s.D.GetOkExists("lock_duration_details"); ok {
+		if tmpList := lockDurationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "lock_duration_details", 0)
+			tmp, err := s.mapToLockDurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.LockDurationDetails = &tmp
+		} else {
+			request.LockDurationDetails = nil
+		}
+	} else {
+		request.LockDurationDetails = nil
+	}
+
 	if locks, ok := s.D.GetOkExists("locks"); ok {
 		interfaces := locks.([]interface{})
 		tmp := make([]oci_file_storage.ResourceLock, len(interfaces))
@@ -324,6 +370,21 @@ func (s *FileStorageSnapshotResourceCrud) Update() error {
 		request.IsLockOverride = &tmp
 	}
 
+	if lockDurationDetails, ok := s.D.GetOkExists("lock_duration_details"); ok {
+		if tmpList := lockDurationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "lock_duration_details", 0)
+			tmp, err := s.mapToLockDurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.LockDurationDetails = &tmp
+		} else {
+			request.LockDurationDetails = nil
+		}
+	} else {
+		request.LockDurationDetails = nil
+	}
+
 	tmp := s.D.Id()
 	request.SnapshotId = &tmp
 
@@ -382,6 +443,12 @@ func (s *FileStorageSnapshotResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.LockDurationDetails != nil {
+		s.D.Set("lock_duration_details", []interface{}{LockDurationDetailsToMap(s.Res.LockDurationDetails)})
+	} else {
+		s.D.Set("lock_duration_details", []interface{}{})
+	}
+
 	locks := []interface{}{}
 	for _, item := range s.Res.Locks {
 		locks = append(locks, ResourceLockToMap(item))
@@ -397,7 +464,7 @@ func (s *FileStorageSnapshotResourceCrud) SetData() error {
 	}
 
 	if s.Res.SnapshotTime != nil {
-		s.D.Set("snapshot_time", s.Res.SnapshotTime.String())
+		s.D.Set("snapshot_time", s.Res.SnapshotTime.Format(time.RFC3339))
 	}
 
 	s.D.Set("snapshot_type", s.Res.SnapshotType)
@@ -409,10 +476,50 @@ func (s *FileStorageSnapshotResourceCrud) SetData() error {
 	}
 
 	if s.Res.TimeCreated != nil {
-		s.D.Set("time_created", s.Res.TimeCreated.String())
+		s.D.Set("time_created", s.Res.TimeCreated.Format(time.RFC3339))
+	}
+
+	if s.Res.TimeLocked != nil {
+		s.D.Set("time_locked", s.Res.TimeLocked.Format(time.RFC3339))
 	}
 
 	return nil
+}
+
+func (s *FileStorageSnapshotResourceCrud) mapToLockDurationDetails(fieldKeyFormat string) (oci_file_storage.LockDurationDetails, error) {
+	result := oci_file_storage.LockDurationDetails{}
+
+	if coolOffDuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cool_off_duration")); ok {
+		tmp := coolOffDuration.(int)
+		result.CoolOffDuration = &tmp
+	}
+
+	if lockDuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lock_duration")); ok {
+		tmp := lockDuration.(int)
+		result.LockDuration = &tmp
+	}
+
+	if lockMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lock_mode")); ok {
+		result.LockMode = oci_file_storage.LockDurationDetailsLockModeEnum(lockMode.(string))
+	}
+
+	return result, nil
+}
+
+func LockDurationDetailsToMap(obj *oci_file_storage.LockDurationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CoolOffDuration != nil {
+		result["cool_off_duration"] = int(*obj.CoolOffDuration)
+	}
+
+	if obj.LockDuration != nil {
+		result["lock_duration"] = int(*obj.LockDuration)
+	}
+
+	result["lock_mode"] = string(obj.LockMode)
+
+	return result
 }
 
 func (s *FileStorageSnapshotResourceCrud) mapToResourceLock(fieldKeyFormat string) (oci_file_storage.ResourceLock, error) {

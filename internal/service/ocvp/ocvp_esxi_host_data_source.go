@@ -150,11 +150,19 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 		s.D.Set("is_billing_swapping_in_progress", *s.Res.IsBillingSwappingInProgress)
 	}
 
+	if s.Res.IsVsanByolEnabled != nil {
+		s.D.Set("is_vsan_byol_enabled", *s.Res.IsVsanByolEnabled)
+	}
+
 	s.D.Set("next_commitment", s.Res.NextCommitment)
 	s.D.Set("next_sku", s.Res.NextCommitment)
 
 	if s.Res.NonUpgradedEsxiHostId != nil {
 		s.D.Set("non_upgraded_esxi_host_id", *s.Res.NonUpgradedEsxiHostId)
+	}
+
+	if s.Res.PrimaryVnicMacAddress != nil {
+		s.D.Set("primary_vnic_mac_address", *s.Res.PrimaryVnicMacAddress)
 	}
 
 	if s.Res.ReplacementEsxiHostId != nil {
@@ -181,6 +189,10 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 
 	if s.Res.UpgradedReplacementEsxiHostId != nil {
 		s.D.Set("upgraded_replacement_esxi_host_id", *s.Res.UpgradedReplacementEsxiHostId)
+	}
+
+	if s.Res.VcfByolAllocationId != nil {
+		s.D.Set("vcf_byol_allocation_id", *s.Res.VcfByolAllocationId)
 	}
 
 	if s.Res.VmwareSoftwareVersion != nil {

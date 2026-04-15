@@ -33,6 +33,8 @@ type UpdateSnapshotDetails struct {
 	// The UTC time when this snapshot will be deleted. To remove the expiration time, set this field to the minimum date-time value using Date(0).
 	// Example: `Thu Jan 01 01:00:00 GMT 1970`
 	ExpirationTime *common.SDKTime `mandatory:"false" json:"expirationTime"`
+
+	LockDurationDetails *LockDurationDetails `mandatory:"false" json:"lockDurationDetails"`
 }
 
 func (m UpdateSnapshotDetails) String() string {

@@ -4,7 +4,7 @@
 
 // Oracle Multicloud API
 //
-// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see <link to docs>.
+// Use the Oracle Multicloud API to retrieve resource anchors and network anchors, and the metadata mappings related a Cloud Service Provider. For more information, see Oracle Multicloud Hub (https://docs.oracle.com/iaas/Content/multicloud-hub/home.htm).
 //
 
 package multicloud
@@ -15,10 +15,12 @@ import (
 	"strings"
 )
 
-// MulticloudSubscriptionCollection Results of a multicloud subscription. Contains both MulticloudSubscription information.
+// MulticloudSubscriptionCollection Properties that define activated Multicloud subscriptions in the indicated compartment.
+// For more information, see
+// Listing Multicloud Subscriptions (https://docs.oracle.com/iaas/Content/multicloud-hub/list-subscriptions.htm).
 type MulticloudSubscriptionCollection struct {
 
-	// List of MulticloudSubscriptions.
+	// List of Multicloud subscriptions.
 	Items []MulticloudSubscriptionSummary `mandatory:"true" json:"items"`
 }
 

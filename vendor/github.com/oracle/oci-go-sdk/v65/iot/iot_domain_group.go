@@ -29,8 +29,10 @@ type IotDomainGroup struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment corresponding to the resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Type of the domain group. LIGHTWEIGHT uses fewer resources and has a higher Recovery Time Objective (RTO),
-	// making it suitable for development and testing. STANDARD is recommended for production.
+	// Type of domain group. DEVELOPMENT uses fewer resources and has a higher Recovery Time Objective (RTO),
+	// making it suitable for development and testing. PRODUCTION is recommended for production workloads.
+	// LIGHTWEIGHT and STANDARD are deprecated aliases for DEVELOPMENT and PRODUCTION respectively and will be removed
+	// in a future release.
 	Type IotDomainGroupTypeEnum `mandatory:"true" json:"type"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
@@ -104,16 +106,22 @@ type IotDomainGroupTypeEnum string
 
 // Set of constants representing the allowable values for IotDomainGroupTypeEnum
 const (
+	IotDomainGroupTypeProduction  IotDomainGroupTypeEnum = "PRODUCTION"
+	IotDomainGroupTypeDevelopment IotDomainGroupTypeEnum = "DEVELOPMENT"
 	IotDomainGroupTypeStandard    IotDomainGroupTypeEnum = "STANDARD"
 	IotDomainGroupTypeLightweight IotDomainGroupTypeEnum = "LIGHTWEIGHT"
 )
 
 var mappingIotDomainGroupTypeEnum = map[string]IotDomainGroupTypeEnum{
+	"PRODUCTION":  IotDomainGroupTypeProduction,
+	"DEVELOPMENT": IotDomainGroupTypeDevelopment,
 	"STANDARD":    IotDomainGroupTypeStandard,
 	"LIGHTWEIGHT": IotDomainGroupTypeLightweight,
 }
 
 var mappingIotDomainGroupTypeEnumLowerCase = map[string]IotDomainGroupTypeEnum{
+	"production":  IotDomainGroupTypeProduction,
+	"development": IotDomainGroupTypeDevelopment,
 	"standard":    IotDomainGroupTypeStandard,
 	"lightweight": IotDomainGroupTypeLightweight,
 }
@@ -130,6 +138,8 @@ func GetIotDomainGroupTypeEnumValues() []IotDomainGroupTypeEnum {
 // GetIotDomainGroupTypeEnumStringValues Enumerates the set of values in String for IotDomainGroupTypeEnum
 func GetIotDomainGroupTypeEnumStringValues() []string {
 	return []string{
+		"PRODUCTION",
+		"DEVELOPMENT",
 		"STANDARD",
 		"LIGHTWEIGHT",
 	}

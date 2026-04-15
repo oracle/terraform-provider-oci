@@ -34,6 +34,13 @@ resource "oci_fusion_apps_fusion_environment" "test_fusion_environment" {
 	fusion_environment_type = var.fusion_environment_fusion_environment_type
 
 	#Optional
+	additional_egress_rules {
+		#Required
+		description = var.fusion_environment_additional_egress_rules_description
+		destination_cidr = var.fusion_environment_additional_egress_rules_destination_cidr
+		max_destination_port = var.fusion_environment_additional_egress_rules_max_destination_port
+		min_destination_port = var.fusion_environment_additional_egress_rules_min_destination_port
+	}
 	additional_language_packs = var.fusion_environment_additional_language_packs
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	dns_prefix = var.fusion_environment_dns_prefix
@@ -65,6 +72,11 @@ resource "oci_fusion_apps_fusion_environment" "test_fusion_environment" {
 
 The following arguments are supported:
 
+* `additional_egress_rules` - (Optional) (Updatable) Additional egress rules that should be applied to the environment. Some standard ports are open for general use; see [Securing Network Access to a Fusion Applications Environment][iaas/Content/fusion-applications/plan-environment.htm#internet-cache]. If access to a non-standard port is required, however, they can be listed here.
+	* `description` - (Required) (Updatable) Rule description.
+	* `destination_cidr` - (Required) (Updatable) Specifies the destination CIDR block the port should be opened for. Must be IPv4 only, and cannot be part of any private range from [RFC 1918](https://datatracker.ietf.org/doc/html/rfc1918).
+	* `max_destination_port` - (Required) (Updatable) The maximum port number, which must not be less than the minimum port number. To specify a single port number, set both the min and max to the same value.
+	* `min_destination_port` - (Required) (Updatable) The minimum port number, which must not be greater than the maximum port number.
 * `additional_language_packs` - (Optional) (Updatable) Language packs.
 * `compartment_id` - (Required) (Updatable) The unique identifier (OCID) of the compartment where the Fusion Environment is located.
 * `create_fusion_environment_admin_user_details` - (Required) The credentials for the Fusion Applications service administrator.
@@ -78,6 +90,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `fusion_environment_family_id` - (Required) The unique identifier (OCID) of the Fusion Environment Family that the Fusion Environment belongs to.
 * `fusion_environment_type` - (Required) The type of environment. Valid values are Production, Test, or Development.
+* `is_ipv6dual_stack_enabled` - (Optional) (Updatable) Enable IPv4/IPv6 dual stack support for the environment (where available). Setting to true will assign an IPv6 address to the environment in addition to an IPv4 address. The default value is false.
 * `kms_key_id` - (Optional) (Updatable) byok kms keyId
 * `maintenance_policy` - (Optional) (Updatable) The policy that specifies the maintenance and upgrade preferences for an environment. For more information about the options, see [Understanding Environment Maintenance](https://docs.cloud.oracle.com/iaas/Content/fusion-applications/plan-environment-family.htm#about-env-maintenance).
 	* `environment_maintenance_override` - (Optional) (Updatable) User choice to upgrade both test and prod pods at the same time. Overrides fusion environment families'.
@@ -97,6 +110,11 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `additional_egress_rules` - Additional egress rules that should be applied to the environment. Some standard ports are open for general use; see [Securing Network Access to a Fusion Applications Environment][iaas/Content/fusion-applications/plan-environment.htm#internet-cache]. If access to a non-standard port is required, however, they can be listed here.
+	* `description` - Rule description.
+	* `destination_cidr` - Specifies the destination CIDR block the port should be opened for. Must be IPv4 only, and cannot be part of any private range from [RFC 1918](https://datatracker.ietf.org/doc/html/rfc1918).
+	* `max_destination_port` - The maximum port number, which must not be less than the minimum port number. To specify a single port number, set both the min and max to the same value.
+	* `min_destination_port` - The minimum port number, which must not be greater than the maximum port number.
 * `additional_language_packs` - Language packs
 * `applied_patch_bundles` - Patch bundle names
 * `compartment_id` - Compartment Identifier
@@ -110,7 +128,7 @@ The following attributes are exported:
 * `id` - Unique identifier that is immutable on creation
 * `idcs_domain_url` - The IDCS Domain URL
 * `is_break_glass_enabled` - If it's true, then the Break Glass feature is enabled
-* `is_ipv6dual_stack_enabled` - Enable IPv4/IPv6 dual stack support for the environment.  Setting to true will assign an IPv6 address to the environment in addition to an IPv4 address.
+* `is_ipv6dual_stack_enabled` - Enable IPv4/IPv6 dual stack support for the environment (where available). Setting to true will assign an IPv6 address to the environment in addition to an IPv4 address.
 * `kms_key_id` - BYOK key id
 * `kms_key_info` - BYOK key info
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

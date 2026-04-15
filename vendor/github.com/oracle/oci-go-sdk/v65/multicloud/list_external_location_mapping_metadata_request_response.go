@@ -18,11 +18,11 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/multicloud/ListExternalLocationMappingMetadata.go.html to see an example of how to use ListExternalLocationMappingMetadataRequest.
 type ListExternalLocationMappingMetadataRequest struct {
 
-	// The subscription type of the Cloud Service Provider.
+	// The cloud service provider.
 	SubscriptionServiceName []SubscriptionTypeEnum `contributesTo:"query" name:"subscriptionServiceName" omitEmpty:"true" collectionFormat:"multi"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud base compartment in which to list resources.
-	// A Multicloud base compartment is an OCI compartment that maps to a subscription in a Cloud Service Provider (such as Azure, AWS, or Google Cloud).
+	// A Multicloud base compartment is an OCI compartment that maps to a subscription in a cloud service provider (such as Azure or AWS).
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud subscription in which to list resources.
@@ -39,6 +39,7 @@ type ListExternalLocationMappingMetadataRequest struct {
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
+	// In general, the sort order is `DESC` when sorting by time and `ASC` otherwise.
 	SortOrder ListExternalLocationMappingMetadataSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The field to sort by. You can provide only one sort order. Default order for `timeCreated`

@@ -136,6 +136,11 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_vsan_byol_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"next_sku": {
 				Type:          schema.TypeString,
 				Optional:      true,
@@ -159,6 +164,11 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"vcf_byol_allocation_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"detach_datastore_cluster_ids": {
 				Type:     schema.TypeList,
@@ -238,6 +248,10 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Computed: true,
 			},
 			"next_commitment": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"primary_vnic_mac_address": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -443,6 +457,11 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 		request.HostShapeName = &tmp
 	}
 
+	if isVsanByolEnabled, ok := s.D.GetOkExists("is_vsan_byol_enabled"); ok {
+		tmp := isVsanByolEnabled.(bool)
+		request.IsVsanByolEnabled = &tmp
+	}
+
 	if nextCommitment, ok := s.D.GetOkExists("next_commitment"); ok {
 		request.NextCommitment = oci_ocvp.CommitmentEnum(nextCommitment.(string))
 	}
@@ -482,6 +501,11 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 		if request.ClusterId == nil {
 			return fmt.Errorf("cannot find management cluster for sddc %s", sddcId)
 		}
+	}
+
+	if vcfByolAllocationId, ok := s.D.GetOkExists("vcf_byol_allocation_id"); ok {
+		tmp := vcfByolAllocationId.(string)
+		request.VcfByolAllocationId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
@@ -686,8 +710,22 @@ func (s *OcvpEsxiHostResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isVsanByolEnabled, ok := s.D.GetOkExists("is_vsan_byol_enabled"); ok {
+		tmp := isVsanByolEnabled.(bool)
+		request.IsVsanByolEnabled = &tmp
+	}
+
+	if nextCommitment, ok := s.D.GetOkExists("next_commitment"); ok {
+		request.NextCommitment = oci_ocvp.CommitmentEnum(nextCommitment.(string))
+	}
+
 	if nextSku, ok := s.D.GetOkExists("next_sku"); ok {
 		request.NextCommitment = oci_ocvp.CommitmentEnum(nextSku.(string))
+	}
+
+	if vcfByolAllocationId, ok := s.D.GetOkExists("vcf_byol_allocation_id"); ok {
+		tmp := vcfByolAllocationId.(string)
+		request.VcfByolAllocationId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
@@ -819,8 +857,18 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 		s.D.Set("is_billing_swapping_in_progress", *s.Res.IsBillingSwappingInProgress)
 	}
 
+	if s.Res.IsVsanByolEnabled != nil {
+		s.D.Set("is_vsan_byol_enabled", *s.Res.IsVsanByolEnabled)
+	}
+
+	s.D.Set("next_commitment", s.Res.NextCommitment)
+
 	if s.Res.NonUpgradedEsxiHostId != nil {
 		s.D.Set("non_upgraded_esxi_host_id", *s.Res.NonUpgradedEsxiHostId)
+	}
+
+	if s.Res.PrimaryVnicMacAddress != nil {
+		s.D.Set("primary_vnic_mac_address", *s.Res.PrimaryVnicMacAddress)
 	}
 
 	if s.Res.ReplacementEsxiHostId != nil {
@@ -847,6 +895,10 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 
 	if s.Res.UpgradedReplacementEsxiHostId != nil {
 		s.D.Set("upgraded_replacement_esxi_host_id", *s.Res.UpgradedReplacementEsxiHostId)
+	}
+
+	if s.Res.VcfByolAllocationId != nil {
+		s.D.Set("vcf_byol_allocation_id", *s.Res.VcfByolAllocationId)
 	}
 
 	if s.Res.VmwareSoftwareVersion != nil {
@@ -1061,11 +1113,19 @@ func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 		result["is_billing_swapping_in_progress"] = bool(*obj.IsBillingSwappingInProgress)
 	}
 
+	if obj.IsVsanByolEnabled != nil {
+		result["is_vsan_byol_enabled"] = bool(*obj.IsVsanByolEnabled)
+	}
+
 	result["next_commitment"] = string(obj.NextCommitment)
 	result["next_sku"] = string(obj.NextCommitment)
 
 	if obj.NonUpgradedEsxiHostId != nil {
 		result["non_upgraded_esxi_host_id"] = string(*obj.NonUpgradedEsxiHostId)
+	}
+
+	if obj.PrimaryVnicMacAddress != nil {
+		result["primary_vnic_mac_address"] = string(*obj.PrimaryVnicMacAddress)
 	}
 
 	if obj.ReplacementEsxiHostId != nil {
@@ -1092,6 +1152,10 @@ func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 
 	if obj.UpgradedReplacementEsxiHostId != nil {
 		result["upgraded_replacement_esxi_host_id"] = string(*obj.UpgradedReplacementEsxiHostId)
+	}
+
+	if obj.VcfByolAllocationId != nil {
+		result["vcf_byol_allocation_id"] = string(*obj.VcfByolAllocationId)
 	}
 
 	if obj.VmwareSoftwareVersion != nil {

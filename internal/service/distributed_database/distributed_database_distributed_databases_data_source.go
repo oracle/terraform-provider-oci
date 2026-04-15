@@ -76,6 +76,10 @@ func DistributedDatabaseDistributedDatabasesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"private_endpoint_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -172,6 +176,11 @@ func (s *DistributedDatabaseDistributedDatabasesDataSourceCrud) GetWithContext(c
 			request.Metadata = &tmp
 		}
 	}*/
+
+	if privateEndpointId, ok := s.D.GetOkExists("private_endpoint_id"); ok {
+		tmp := privateEndpointId.(string)
+		request.PrivateEndpointId = &tmp
+	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_distributed_database.DistributedDatabaseLifecycleStateEnum(state.(string))

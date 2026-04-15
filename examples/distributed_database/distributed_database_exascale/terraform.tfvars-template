@@ -70,10 +70,7 @@ generate_wallet_trigger                               = null
 generate_wallet_password                              = null
 
 change_db_backup_config_trigger                       = null
-upload_signed_certificate_and_generate_wallet_trigger = null
 
-generate_gsm_certificate_signing_request_trigger      = null
-download_gsm_certificate_signing_request_trigger      = null
 
 # Optional validate-network action payload
 # validate_network_details = {
