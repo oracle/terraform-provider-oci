@@ -80,6 +80,7 @@ const (
 	AutonomousDatabaseInternalSummaryLifecycleStateInaccessible            AutonomousDatabaseInternalSummaryLifecycleStateEnum = "INACCESSIBLE"
 	AutonomousDatabaseInternalSummaryLifecycleStateStandby                 AutonomousDatabaseInternalSummaryLifecycleStateEnum = "STANDBY"
 	AutonomousDatabaseInternalSummaryLifecycleStateTransporting            AutonomousDatabaseInternalSummaryLifecycleStateEnum = "TRANSPORTING"
+	AutonomousDatabaseInternalSummaryLifecycleStateArchived                AutonomousDatabaseInternalSummaryLifecycleStateEnum = "ARCHIVED"
 )
 
 var mappingAutonomousDatabaseInternalSummaryLifecycleStateEnum = map[string]AutonomousDatabaseInternalSummaryLifecycleStateEnum{
@@ -105,6 +106,7 @@ var mappingAutonomousDatabaseInternalSummaryLifecycleStateEnum = map[string]Auto
 	"INACCESSIBLE":              AutonomousDatabaseInternalSummaryLifecycleStateInaccessible,
 	"STANDBY":                   AutonomousDatabaseInternalSummaryLifecycleStateStandby,
 	"TRANSPORTING":              AutonomousDatabaseInternalSummaryLifecycleStateTransporting,
+	"ARCHIVED":                  AutonomousDatabaseInternalSummaryLifecycleStateArchived,
 }
 
 var mappingAutonomousDatabaseInternalSummaryLifecycleStateEnumLowerCase = map[string]AutonomousDatabaseInternalSummaryLifecycleStateEnum{
@@ -130,6 +132,7 @@ var mappingAutonomousDatabaseInternalSummaryLifecycleStateEnumLowerCase = map[st
 	"inaccessible":              AutonomousDatabaseInternalSummaryLifecycleStateInaccessible,
 	"standby":                   AutonomousDatabaseInternalSummaryLifecycleStateStandby,
 	"transporting":              AutonomousDatabaseInternalSummaryLifecycleStateTransporting,
+	"archived":                  AutonomousDatabaseInternalSummaryLifecycleStateArchived,
 }
 
 // GetAutonomousDatabaseInternalSummaryLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseInternalSummaryLifecycleStateEnum
@@ -166,6 +169,7 @@ func GetAutonomousDatabaseInternalSummaryLifecycleStateEnumStringValues() []stri
 		"INACCESSIBLE",
 		"STANDBY",
 		"TRANSPORTING",
+		"ARCHIVED",
 	}
 }
 

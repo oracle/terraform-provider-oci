@@ -25,6 +25,9 @@ type DigitalTwinInstanceSummary struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IoT domain.
 	IotDomainId *string `mandatory:"true" json:"iotDomainId"`
 
+	// Connectivity type of the digital twin instance
+	ConnectivityType DigitalTwinInstanceConnectivityTypeEnum `mandatory:"true" json:"connectivityType"`
+
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
@@ -55,6 +58,9 @@ type DigitalTwinInstanceSummary struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the digital twin adapter.
 	DigitalTwinAdapterId *string `mandatory:"false" json:"digitalTwinAdapterId"`
 
+	// An array of unique ids (OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the IoT digital twin instances with connectivityType equals to GATEWAY.
+	Gateways []string `mandatory:"false" json:"gateways"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -83,6 +89,9 @@ func (m DigitalTwinInstanceSummary) String() string {
 // Not recommended for calling this function directly
 func (m DigitalTwinInstanceSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingDigitalTwinInstanceConnectivityTypeEnum(string(m.ConnectivityType)); !ok && m.ConnectivityType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConnectivityType: %s. Supported values are: %s.", m.ConnectivityType, strings.Join(GetDigitalTwinInstanceConnectivityTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
 	}

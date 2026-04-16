@@ -32,7 +32,7 @@ type LogPipelineSummary struct {
 	Inputs []LogPipelineInput `mandatory:"true" json:"inputs"`
 
 	// Routes for the Log Pipeline
-	Routes []LogPipelineRoute `mandatory:"true" json:"routes"`
+	Routes []LogPipelineRouteResponse `mandatory:"true" json:"routes"`
 
 	// The pipeline state.
 	LifecycleState LogPipelineLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -99,7 +99,7 @@ func (m *LogPipelineSummary) UnmarshalJSON(data []byte) (e error) {
 		Id               *string                           `json:"id"`
 		DisplayName      *string                           `json:"displayName"`
 		Inputs           []logpipelineinput                `json:"inputs"`
-		Routes           []LogPipelineRoute                `json:"routes"`
+		Routes           []LogPipelineRouteResponse        `json:"routes"`
 		LifecycleState   LogPipelineLifecycleStateEnum     `json:"lifecycleState"`
 		IsEnabled        *bool                             `json:"isEnabled"`
 	}{}
@@ -139,7 +139,7 @@ func (m *LogPipelineSummary) UnmarshalJSON(data []byte) (e error) {
 			m.Inputs[i] = nil
 		}
 	}
-	m.Routes = make([]LogPipelineRoute, len(model.Routes))
+	m.Routes = make([]LogPipelineRouteResponse, len(model.Routes))
 	copy(m.Routes, model.Routes)
 	m.LifecycleState = model.LifecycleState
 

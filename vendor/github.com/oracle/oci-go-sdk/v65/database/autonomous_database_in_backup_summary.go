@@ -74,6 +74,7 @@ const (
 	AutonomousDatabaseInBackupSummaryLifecycleStateInaccessible            AutonomousDatabaseInBackupSummaryLifecycleStateEnum = "INACCESSIBLE"
 	AutonomousDatabaseInBackupSummaryLifecycleStateStandby                 AutonomousDatabaseInBackupSummaryLifecycleStateEnum = "STANDBY"
 	AutonomousDatabaseInBackupSummaryLifecycleStateTransporting            AutonomousDatabaseInBackupSummaryLifecycleStateEnum = "TRANSPORTING"
+	AutonomousDatabaseInBackupSummaryLifecycleStateArchived                AutonomousDatabaseInBackupSummaryLifecycleStateEnum = "ARCHIVED"
 )
 
 var mappingAutonomousDatabaseInBackupSummaryLifecycleStateEnum = map[string]AutonomousDatabaseInBackupSummaryLifecycleStateEnum{
@@ -99,6 +100,7 @@ var mappingAutonomousDatabaseInBackupSummaryLifecycleStateEnum = map[string]Auto
 	"INACCESSIBLE":              AutonomousDatabaseInBackupSummaryLifecycleStateInaccessible,
 	"STANDBY":                   AutonomousDatabaseInBackupSummaryLifecycleStateStandby,
 	"TRANSPORTING":              AutonomousDatabaseInBackupSummaryLifecycleStateTransporting,
+	"ARCHIVED":                  AutonomousDatabaseInBackupSummaryLifecycleStateArchived,
 }
 
 var mappingAutonomousDatabaseInBackupSummaryLifecycleStateEnumLowerCase = map[string]AutonomousDatabaseInBackupSummaryLifecycleStateEnum{
@@ -124,6 +126,7 @@ var mappingAutonomousDatabaseInBackupSummaryLifecycleStateEnumLowerCase = map[st
 	"inaccessible":              AutonomousDatabaseInBackupSummaryLifecycleStateInaccessible,
 	"standby":                   AutonomousDatabaseInBackupSummaryLifecycleStateStandby,
 	"transporting":              AutonomousDatabaseInBackupSummaryLifecycleStateTransporting,
+	"archived":                  AutonomousDatabaseInBackupSummaryLifecycleStateArchived,
 }
 
 // GetAutonomousDatabaseInBackupSummaryLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseInBackupSummaryLifecycleStateEnum
@@ -160,6 +163,7 @@ func GetAutonomousDatabaseInBackupSummaryLifecycleStateEnumStringValues() []stri
 		"INACCESSIBLE",
 		"STANDBY",
 		"TRANSPORTING",
+		"ARCHIVED",
 	}
 }
 

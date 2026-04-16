@@ -55,31 +55,6 @@ func (request GetAristaDeviceConfigRequest) BinaryRequestBody() (*common.OCIRead
 
 }
 
-// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
-// Not all services are supporting this feature and this method will be a no-op for those services.
-func (request GetAristaDeviceConfigRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
-	if mandatoryParamMap["deviceName"] != nil {
-		templateParam := mandatoryParamMap["deviceName"]
-		for _, template := range templateParam {
-			replacementParam := *request.DeviceName
-			if template.EndsWithDot {
-				replacementParam = replacementParam + "."
-			}
-			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
-		}
-	}
-	if mandatoryParamMap["jobId"] != nil {
-		templateParam := mandatoryParamMap["jobId"]
-		for _, template := range templateParam {
-			replacementParam := *request.JobId
-			if template.EndsWithDot {
-				replacementParam = replacementParam + "."
-			}
-			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
-		}
-	}
-}
-
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetAristaDeviceConfigRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

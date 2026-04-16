@@ -24,6 +24,7 @@ const (
 	LogPipelineDestinationTypesObjectStorage LogPipelineDestinationTypesEnum = "OBJECT_STORAGE"
 	LogPipelineDestinationTypesLoggingSearch LogPipelineDestinationTypesEnum = "LOGGING_SEARCH"
 	LogPipelineDestinationTypesStreamingOss  LogPipelineDestinationTypesEnum = "STREAMING_OSS"
+	LogPipelineDestinationTypesManagedKafka  LogPipelineDestinationTypesEnum = "MANAGED_KAFKA"
 )
 
 var mappingLogPipelineDestinationTypesEnum = map[string]LogPipelineDestinationTypesEnum{
@@ -31,6 +32,7 @@ var mappingLogPipelineDestinationTypesEnum = map[string]LogPipelineDestinationTy
 	"OBJECT_STORAGE": LogPipelineDestinationTypesObjectStorage,
 	"LOGGING_SEARCH": LogPipelineDestinationTypesLoggingSearch,
 	"STREAMING_OSS":  LogPipelineDestinationTypesStreamingOss,
+	"MANAGED_KAFKA":  LogPipelineDestinationTypesManagedKafka,
 }
 
 var mappingLogPipelineDestinationTypesEnumLowerCase = map[string]LogPipelineDestinationTypesEnum{
@@ -38,6 +40,7 @@ var mappingLogPipelineDestinationTypesEnumLowerCase = map[string]LogPipelineDest
 	"object_storage": LogPipelineDestinationTypesObjectStorage,
 	"logging_search": LogPipelineDestinationTypesLoggingSearch,
 	"streaming_oss":  LogPipelineDestinationTypesStreamingOss,
+	"managed_kafka":  LogPipelineDestinationTypesManagedKafka,
 }
 
 // GetLogPipelineDestinationTypesEnumValues Enumerates the set of values for LogPipelineDestinationTypesEnum
@@ -56,6 +59,7 @@ func GetLogPipelineDestinationTypesEnumStringValues() []string {
 		"OBJECT_STORAGE",
 		"LOGGING_SEARCH",
 		"STREAMING_OSS",
+		"MANAGED_KAFKA",
 	}
 }
 

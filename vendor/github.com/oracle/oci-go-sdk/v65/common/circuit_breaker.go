@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/sony/gobreaker"
+	"github.com/sony/gobreaker/v2"
 )
 
 const (
@@ -130,16 +130,16 @@ func (ocb *OciCircuitBreaker) GetHistory() string {
 	return getHistoryString
 }
 
-// OciCircuitBreaker wraps all exposed configurable params of circuit breaker and 3P gobreaker CircuirBreaker
+// OciCircuitBreaker wraps all exposed configurable params of circuit breaker and 3P gobreaker CircuitBreaker
 type OciCircuitBreaker struct {
 	Cbst              *CircuitBreakerSetting
-	Cb                *gobreaker.CircuitBreaker
+	Cb                *gobreaker.CircuitBreaker[any]
 	historyQueue      []ResponseHistory
 	historyQueueMutex sync.Mutex
 }
 
 // NewOciCircuitBreaker is used for initializing specified oci circuit breaker configuration with circuit breaker settings
-func NewOciCircuitBreaker(cbst *CircuitBreakerSetting, gbcb *gobreaker.CircuitBreaker) *OciCircuitBreaker {
+func NewOciCircuitBreaker(cbst *CircuitBreakerSetting, gbcb *gobreaker.CircuitBreaker[any]) *OciCircuitBreaker {
 	ocb := new(OciCircuitBreaker)
 	ocb.Cbst = cbst
 	if ocb.Cbst.numberOfRecordedHistoryResponse == 0 {
@@ -156,8 +156,8 @@ type CircuitBreakerOption func(cbst *CircuitBreakerSetting)
 
 // NewGoCircuitBreaker is a function to initialize a CircuitBreaker object with the specified configuration
 // Add the interface, to allow the user directly use the 3P gobreaker.Setting's params.
-func NewGoCircuitBreaker(st gobreaker.Settings) *gobreaker.CircuitBreaker {
-	return gobreaker.NewCircuitBreaker(st)
+func NewGoCircuitBreaker(st gobreaker.Settings) *gobreaker.CircuitBreaker[any] {
+	return gobreaker.NewCircuitBreaker[any](st)
 }
 
 // DefaultCircuitBreakerSetting is used for set circuit breaker with default config
@@ -238,7 +238,7 @@ func NewCircuitBreaker(cbst *CircuitBreakerSetting) *OciCircuitBreaker {
 	}
 	st := gobreaker.Settings{}
 	customizeGoBreakerSetting(&st, cbst)
-	gbcb := gobreaker.NewCircuitBreaker(st)
+	gbcb := gobreaker.NewCircuitBreaker[any](st)
 
 	return NewOciCircuitBreaker(cbst, gbcb)
 }

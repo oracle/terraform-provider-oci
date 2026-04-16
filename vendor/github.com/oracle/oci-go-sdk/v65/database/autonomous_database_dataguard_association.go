@@ -308,6 +308,7 @@ const (
 	AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateInaccessible            AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum = "INACCESSIBLE"
 	AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateStandby                 AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum = "STANDBY"
 	AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateTransporting            AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum = "TRANSPORTING"
+	AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateArchived                AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum = "ARCHIVED"
 )
 
 var mappingAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum = map[string]AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum{
@@ -333,6 +334,7 @@ var mappingAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycle
 	"INACCESSIBLE":              AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateInaccessible,
 	"STANDBY":                   AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateStandby,
 	"TRANSPORTING":              AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateTransporting,
+	"ARCHIVED":                  AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateArchived,
 }
 
 var mappingAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnumLowerCase = map[string]AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum{
@@ -358,6 +360,7 @@ var mappingAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycle
 	"inaccessible":              AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateInaccessible,
 	"standby":                   AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateStandby,
 	"transporting":              AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateTransporting,
+	"archived":                  AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateArchived,
 }
 
 // GetAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnumValues Enumerates the set of values for AutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleStateEnum
@@ -394,6 +397,7 @@ func GetAutonomousDatabaseDataguardAssociationPeerAutonomousDatabaseLifeCycleSta
 		"INACCESSIBLE",
 		"STANDBY",
 		"TRANSPORTING",
+		"ARCHIVED",
 	}
 }
 

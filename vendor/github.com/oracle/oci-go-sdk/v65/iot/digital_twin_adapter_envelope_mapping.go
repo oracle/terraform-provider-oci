@@ -25,6 +25,12 @@ type DigitalTwinAdapterEnvelopeMapping struct {
 	// Example: For payload `{"time": "<timestamp>","temp": 65,"hum": 55}`
 	// 'timeObserved' can be mapped as JQ Expression (https://jqplay.org/) `$.time`.
 	TimeObserved *string `mandatory:"false" json:"timeObserved"`
+
+	// Optional. JQ expression to map the target resource, which is externalKey of digital twin instance, the incoming data belongs to.
+	Target *string `mandatory:"false" json:"target"`
+
+	// JSON Path string to override the context root before delegating to the adapter of the target digital twin instance.
+	ContentRoot *string `mandatory:"false" json:"contentRoot"`
 }
 
 func (m DigitalTwinAdapterEnvelopeMapping) String() string {

@@ -10,6 +10,7 @@
 package batch
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -41,6 +42,8 @@ type UpdateBatchContextDetails struct {
 
 	// Mapping of concurrent/shared resources used in job tasks to their limits.
 	Entitlements map[string]int `mandatory:"false" json:"entitlements"`
+
+	LoggingConfiguration UpdateLoggingConfigurationDetails `mandatory:"false" json:"loggingConfiguration"`
 }
 
 func (m UpdateBatchContextDetails) String() string {
@@ -57,4 +60,46 @@ func (m UpdateBatchContextDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateBatchContextDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName               *string                           `json:"displayName"`
+		Description               *string                           `json:"description"`
+		FreeformTags              map[string]string                 `json:"freeformTags"`
+		DefinedTags               map[string]map[string]interface{} `json:"definedTags"`
+		JobPriorityConfigurations []JobPriorityConfiguration        `json:"jobPriorityConfigurations"`
+		Entitlements              map[string]int                    `json:"entitlements"`
+		LoggingConfiguration      updateloggingconfigurationdetails `json:"loggingConfiguration"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.Description = model.Description
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.JobPriorityConfigurations = make([]JobPriorityConfiguration, len(model.JobPriorityConfigurations))
+	copy(m.JobPriorityConfigurations, model.JobPriorityConfigurations)
+	m.Entitlements = model.Entitlements
+
+	nn, e = model.LoggingConfiguration.UnmarshalPolymorphicJSON(model.LoggingConfiguration.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.LoggingConfiguration = nn.(UpdateLoggingConfigurationDetails)
+	} else {
+		m.LoggingConfiguration = nil
+	}
+
+	return
 }

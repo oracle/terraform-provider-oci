@@ -74,6 +74,10 @@ func (m *logpipelinedestination) UnmarshalPolymorphicJSON(data []byte) (interfac
 		mm := LogPipelineDestinationLoggingSearch{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MANAGED_KAFKA":
+		mm := LogPipelineDestinationManagedKafka{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for LogPipelineDestination: %s.", m.PipelineDestinationType)
 		return *m, nil

@@ -107,9 +107,6 @@ type Shape struct {
 	// The list of of compartment quotas for the shape.
 	QuotaNames []string `mandatory:"false" json:"quotaNames"`
 
-	// Whether the shape supports CNIC networking.
-	IsCnic *bool `mandatory:"false" json:"isCnic"`
-
 	// Whether the shape supports creating subcore or burstable instances. A burstable instance (https://docs.oracle.com/iaas/Content/Compute/References/burstable-instances.htm)
 	// is a virtual machine (VM) instance that provides a baseline level of CPU performance with the ability to burst to a higher level to support occasional
 	// spikes in usage.

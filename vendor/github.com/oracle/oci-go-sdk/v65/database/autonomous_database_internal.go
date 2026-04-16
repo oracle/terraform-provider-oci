@@ -80,6 +80,7 @@ const (
 	AutonomousDatabaseInternalLifecycleStateInaccessible            AutonomousDatabaseInternalLifecycleStateEnum = "INACCESSIBLE"
 	AutonomousDatabaseInternalLifecycleStateStandby                 AutonomousDatabaseInternalLifecycleStateEnum = "STANDBY"
 	AutonomousDatabaseInternalLifecycleStateTransporting            AutonomousDatabaseInternalLifecycleStateEnum = "TRANSPORTING"
+	AutonomousDatabaseInternalLifecycleStateArchived                AutonomousDatabaseInternalLifecycleStateEnum = "ARCHIVED"
 )
 
 var mappingAutonomousDatabaseInternalLifecycleStateEnum = map[string]AutonomousDatabaseInternalLifecycleStateEnum{
@@ -105,6 +106,7 @@ var mappingAutonomousDatabaseInternalLifecycleStateEnum = map[string]AutonomousD
 	"INACCESSIBLE":              AutonomousDatabaseInternalLifecycleStateInaccessible,
 	"STANDBY":                   AutonomousDatabaseInternalLifecycleStateStandby,
 	"TRANSPORTING":              AutonomousDatabaseInternalLifecycleStateTransporting,
+	"ARCHIVED":                  AutonomousDatabaseInternalLifecycleStateArchived,
 }
 
 var mappingAutonomousDatabaseInternalLifecycleStateEnumLowerCase = map[string]AutonomousDatabaseInternalLifecycleStateEnum{
@@ -130,6 +132,7 @@ var mappingAutonomousDatabaseInternalLifecycleStateEnumLowerCase = map[string]Au
 	"inaccessible":              AutonomousDatabaseInternalLifecycleStateInaccessible,
 	"standby":                   AutonomousDatabaseInternalLifecycleStateStandby,
 	"transporting":              AutonomousDatabaseInternalLifecycleStateTransporting,
+	"archived":                  AutonomousDatabaseInternalLifecycleStateArchived,
 }
 
 // GetAutonomousDatabaseInternalLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseInternalLifecycleStateEnum
@@ -166,6 +169,7 @@ func GetAutonomousDatabaseInternalLifecycleStateEnumStringValues() []string {
 		"INACCESSIBLE",
 		"STANDBY",
 		"TRANSPORTING",
+		"ARCHIVED",
 	}
 }
 

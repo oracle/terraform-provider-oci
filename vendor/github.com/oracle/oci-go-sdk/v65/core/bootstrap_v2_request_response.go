@@ -57,21 +57,6 @@ func (request BootstrapV2Request) BinaryRequestBody() (*common.OCIReadSeekCloser
 
 }
 
-// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
-// Not all services are supporting this feature and this method will be a no-op for those services.
-func (request BootstrapV2Request) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
-	if mandatoryParamMap["identity"] != nil {
-		templateParam := mandatoryParamMap["identity"]
-		for _, template := range templateParam {
-			replacementParam := *request.Identity
-			if template.EndsWithDot {
-				replacementParam = replacementParam + "."
-			}
-			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
-		}
-	}
-}
-
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request BootstrapV2Request) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

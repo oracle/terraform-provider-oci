@@ -89,6 +89,7 @@ const (
 	AutonomousDatabaseStandbySummaryLifecycleStateInaccessible            AutonomousDatabaseStandbySummaryLifecycleStateEnum = "INACCESSIBLE"
 	AutonomousDatabaseStandbySummaryLifecycleStateStandby                 AutonomousDatabaseStandbySummaryLifecycleStateEnum = "STANDBY"
 	AutonomousDatabaseStandbySummaryLifecycleStateTransporting            AutonomousDatabaseStandbySummaryLifecycleStateEnum = "TRANSPORTING"
+	AutonomousDatabaseStandbySummaryLifecycleStateArchived                AutonomousDatabaseStandbySummaryLifecycleStateEnum = "ARCHIVED"
 )
 
 var mappingAutonomousDatabaseStandbySummaryLifecycleStateEnum = map[string]AutonomousDatabaseStandbySummaryLifecycleStateEnum{
@@ -114,6 +115,7 @@ var mappingAutonomousDatabaseStandbySummaryLifecycleStateEnum = map[string]Auton
 	"INACCESSIBLE":              AutonomousDatabaseStandbySummaryLifecycleStateInaccessible,
 	"STANDBY":                   AutonomousDatabaseStandbySummaryLifecycleStateStandby,
 	"TRANSPORTING":              AutonomousDatabaseStandbySummaryLifecycleStateTransporting,
+	"ARCHIVED":                  AutonomousDatabaseStandbySummaryLifecycleStateArchived,
 }
 
 var mappingAutonomousDatabaseStandbySummaryLifecycleStateEnumLowerCase = map[string]AutonomousDatabaseStandbySummaryLifecycleStateEnum{
@@ -139,6 +141,7 @@ var mappingAutonomousDatabaseStandbySummaryLifecycleStateEnumLowerCase = map[str
 	"inaccessible":              AutonomousDatabaseStandbySummaryLifecycleStateInaccessible,
 	"standby":                   AutonomousDatabaseStandbySummaryLifecycleStateStandby,
 	"transporting":              AutonomousDatabaseStandbySummaryLifecycleStateTransporting,
+	"archived":                  AutonomousDatabaseStandbySummaryLifecycleStateArchived,
 }
 
 // GetAutonomousDatabaseStandbySummaryLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseStandbySummaryLifecycleStateEnum
@@ -175,6 +178,7 @@ func GetAutonomousDatabaseStandbySummaryLifecycleStateEnumStringValues() []strin
 		"INACCESSIBLE",
 		"STANDBY",
 		"TRANSPORTING",
+		"ARCHIVED",
 	}
 }
 

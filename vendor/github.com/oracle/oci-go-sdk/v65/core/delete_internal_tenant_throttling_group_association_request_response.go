@@ -55,31 +55,6 @@ func (request DeleteInternalTenantThrottlingGroupAssociationRequest) BinaryReque
 
 }
 
-// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
-// Not all services are supporting this feature and this method will be a no-op for those services.
-func (request DeleteInternalTenantThrottlingGroupAssociationRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
-	if mandatoryParamMap["tenantThrottlingGroupName"] != nil {
-		templateParam := mandatoryParamMap["tenantThrottlingGroupName"]
-		for _, template := range templateParam {
-			replacementParam := *request.TenantThrottlingGroupName
-			if template.EndsWithDot {
-				replacementParam = replacementParam + "."
-			}
-			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
-		}
-	}
-	if mandatoryParamMap["tenantId"] != nil {
-		templateParam := mandatoryParamMap["tenantId"]
-		for _, template := range templateParam {
-			replacementParam := *request.TenantId
-			if template.EndsWithDot {
-				replacementParam = replacementParam + "."
-			}
-			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
-		}
-	}
-}
-
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request DeleteInternalTenantThrottlingGroupAssociationRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

@@ -24,6 +24,9 @@ type OciLoggingConfiguration struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.
 	LogId *string `mandatory:"true" json:"logId"`
+
+	// A switch to enable or disable propagation of job and task events to the customer's logs in OCI logging service.
+	IsJobTaskEventsPropagationEnabled *bool `mandatory:"false" json:"isJobTaskEventsPropagationEnabled"`
 }
 
 func (m OciLoggingConfiguration) String() string {
