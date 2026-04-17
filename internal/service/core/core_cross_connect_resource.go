@@ -439,14 +439,18 @@ func (s *CoreCrossConnectResourceCrud) Update() error {
 		}
 	}
 
-	if macsecProperties, ok := s.D.GetOkExists("macsec_properties"); ok {
-		if tmpList := macsecProperties.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "macsec_properties", 0)
-			tmp, err := s.mapToUpdateMacsecProperties(fieldKeyFormat)
-			if err != nil {
-				return err
+	if macsecProperties, ok := s.D.GetOk("macsec_properties"); ok {
+		if s.shouldIncludeMacsecPropertiesInUpdate() {
+			if tmpList := macsecProperties.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "macsec_properties", 0)
+				tmp, err := s.mapToUpdateMacsecProperties(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				request.MacsecProperties = &tmp
 			}
-			request.MacsecProperties = &tmp
+		} else {
+			log.Printf("[DEBUG] omitting macsec_properties from UpdateCrossConnect request because cross_connect_group_id is set and macsec_properties is not explicitly configured")
 		}
 	}
 
@@ -706,4 +710,45 @@ func (s *CoreCrossConnectResourceCrud) updateCompartment(compartment interface{}
 	}
 
 	return nil
+}
+
+func (s *CoreCrossConnectResourceCrud) shouldIncludeMacsecPropertiesInUpdate() bool {
+	if !s.isPartOfCrossConnectGroup() {
+		return true
+	}
+
+	if isAttributeExplicitlyConfiguredInRawConfig(s.D, "macsec_properties") {
+		return true
+	}
+
+	return false
+}
+
+func (s *CoreCrossConnectResourceCrud) isPartOfCrossConnectGroup() bool {
+	if crossConnectGroupId, ok := s.D.GetOkExists("cross_connect_group_id"); ok {
+		return crossConnectGroupId.(string) != ""
+	}
+	return false
+}
+
+func isAttributeExplicitlyConfiguredInRawConfig(d *schema.ResourceData, attributeName string) bool {
+	rawConfig := d.GetRawConfig()
+	if !rawConfig.IsKnown() || rawConfig.IsNull() || !rawConfig.Type().IsObjectType() {
+		return false
+	}
+
+	rawAttribute := rawConfig.GetAttr(attributeName)
+	if !rawAttribute.IsKnown() || rawAttribute.IsNull() {
+		return false
+	}
+
+	if rawAttribute.Type().IsListType() || rawAttribute.Type().IsSetType() || rawAttribute.Type().IsTupleType() {
+		return rawAttribute.LengthInt() > 0
+	}
+
+	if rawAttribute.Type().IsMapType() || rawAttribute.Type().IsObjectType() {
+		return len(rawAttribute.AsValueMap()) > 0
+	}
+
+	return true
 }
