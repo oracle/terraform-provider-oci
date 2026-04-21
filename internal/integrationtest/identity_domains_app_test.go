@@ -359,7 +359,29 @@ var (
 		"format":                    acctest.Representation{RepType: acctest.Optional, Create: `Basic`},
 	}
 
-	IdentityDomainsAppResourceDependencies = DefinedTagsDependencies + TestDomainDependencies + acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_identity_provider", "test_identity_provider", acctest.Required, acctest.Update, IdentityDomainsIdentityProviderRepresentation) + acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_group", "test_group", acctest.Required, acctest.Create, IdentityDomainsGroupRepresentation) + SamlServiceProviderDependencies
+	IdentityDomainsAppResourceDependencies             = DefinedTagsDependencies + TestDomainDependencies + acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_identity_provider", "test_identity_provider", acctest.Required, acctest.Update, IdentityDomainsIdentityProviderRepresentation) + acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_group", "test_group", acctest.Required, acctest.Create, IdentityDomainsGroupRepresentation) + SamlServiceProviderDependencies
+	ignoreChangeForIdentityDomainsAppIgnoredOracleTags = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`schemas`}},
+	}
+	IdentityDomainsAppIgnoredOracleTagsOciTagsRepresentation = map[string]interface{}{
+		"defined_tags":  acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDomainsAppUrnietfparamsscimschemasoracleidcsextensionOCITagsDefinedTagsRepresentation},
+		"freeform_tags": acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDomainsAppUrnietfparamsscimschemasoracleidcsextensionOCITagsFreeformTagsRepresentation},
+	}
+	IdentityDomainsAppIgnoredOracleTagsOciTagsWithoutCustomDefinedTagRepresentation = map[string]interface{}{
+		"freeform_tags": acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDomainsAppUrnietfparamsscimschemasoracleidcsextensionOCITagsFreeformTagsRepresentation},
+	}
+	IdentityDomainsAppIgnoredOracleTagsRepresentation = map[string]interface{}{
+		"based_on_template": acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDomainsAppBasedOnTemplateRepresentation},
+		"display_name":      acctest.Representation{RepType: acctest.Required, Create: `ignoreDefinedTagsApp`},
+		"idcs_endpoint":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_domain.test_domain.url}`},
+		"schemas":           acctest.Representation{RepType: acctest.Required, Create: []string{`urn:ietf:params:scim:schemas:oracle:idcs:App`, `urn:ietf:params:scim:schemas:oracle:idcs:extension:OCITags`}},
+		"urnietfparamsscimschemasoracleidcsextension_oci_tags": acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDomainsAppIgnoredOracleTagsOciTagsRepresentation},
+		"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangeForIdentityDomainsAppIgnoredOracleTags},
+	}
+	IdentityDomainsAppIgnoredOracleTagsWithoutCustomDefinedTagRepresentation = acctest.RepresentationCopyWithNewProperties(IdentityDomainsAppIgnoredOracleTagsRepresentation, map[string]interface{}{
+		"urnietfparamsscimschemasoracleidcsextension_oci_tags": acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDomainsAppIgnoredOracleTagsOciTagsWithoutCustomDefinedTagRepresentation},
+	})
+	IdentityDomainsAppIgnoredOracleTagsResourceDependencies = DefinedTagsDependencies + TestDomainDependencies
 )
 
 // issue-routing-tag: identity_domains/default
@@ -1152,6 +1174,77 @@ func TestIdentityDomainsAppResource_basic(t *testing.T) {
 		// delete the test_app resource before clean up the dependencies
 		{
 			Config: config + IdentityDomainsAppResourceDependencies,
+		},
+	})
+}
+
+// issue-routing-tag: identity_domains/default
+func TestIdentityDomainsAppResource_ignoreDefinedTags(t *testing.T) {
+	httpreplay.SetScenario("TestIdentityDomainsAppResource_ignoreDefinedTags")
+	defer httpreplay.SaveScenario()
+
+	config := IdentityDomainsProviderConfigWithIgnoredOracleTags()
+	resourceName := "oci_identity_domains_app.test_app"
+
+	dependenciesConfig := config + IdentityDomainsAppIgnoredOracleTagsResourceDependencies
+	createConfig := config + IdentityDomainsAppIgnoredOracleTagsResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_app", "test_app", acctest.Required, acctest.Create, IdentityDomainsAppIgnoredOracleTagsRepresentation)
+	removeCustomTagConfig := config + IdentityDomainsAppIgnoredOracleTagsResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_app", "test_app", acctest.Required, acctest.Create, IdentityDomainsAppIgnoredOracleTagsWithoutCustomDefinedTagRepresentation)
+
+	acctest.ResourceTest(t, testAccCheckIdentityDomainsAppDestroy, []resource.TestStep{
+		{
+			Config: dependenciesConfig,
+		},
+		{
+			PreConfig: waitForIdentityDomainsDefinedTagPropagation,
+			Config:    createConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "display_name", "ignoreDefinedTagsApp"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.0.freeform_tags.#", "1"),
+			),
+		},
+		{
+			Config:   createConfig,
+			PlanOnly: true,
+		},
+		{
+			Config:             removeCustomTagConfig,
+			PlanOnly:           true,
+			ExpectNonEmptyPlan: true,
+		},
+	})
+}
+
+// issue-routing-tag: identity_domains/default
+func TestIdentityDomainsAppResource_withoutIgnoreDefinedTagsShowsPlanDiff(t *testing.T) {
+	httpreplay.SetScenario("TestIdentityDomainsAppResource_withoutIgnoreDefinedTagsShowsPlanDiff")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	dependenciesConfig := config + IdentityDomainsAppIgnoredOracleTagsResourceDependencies
+	createConfig := config + IdentityDomainsAppIgnoredOracleTagsResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_app", "test_app", acctest.Required, acctest.Create, IdentityDomainsAppIgnoredOracleTagsRepresentation)
+
+	acctest.ResourceTest(t, testAccCheckIdentityDomainsAppDestroy, []resource.TestStep{
+		{
+			Config: dependenciesConfig,
+		},
+		{
+			PreConfig: waitForIdentityDomainsDefinedTagPropagation,
+			Config:    createConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr("oci_identity_domains_app.test_app", "display_name", "ignoreDefinedTagsApp"),
+				resource.TestCheckResourceAttrSet("oci_identity_domains_app.test_app", "id"),
+			),
+			ExpectNonEmptyPlan: true,
+		},
+		{
+			Config:             createConfig,
+			PlanOnly:           true,
+			ExpectNonEmptyPlan: true,
 		},
 	})
 }
