@@ -564,24 +564,17 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify multi-detach in a single update (3 -> 1)
+		// verify multi-detach in a single update (3 -> 0)
 		{
 			Config: config + compartmentIdVariableStr + CoreInstancePoolResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Update, CoreInstancePoolRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithRemovedProperties(CoreInstancePoolRepresentation, []string{"load_balancers"})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
-				resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.backend_set_name"),
-				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
-				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.instance_pool_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.load_balancer_id"),
-				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.port", "10"),
-				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.state"),
-				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
