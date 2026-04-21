@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
@@ -19,15 +20,15 @@ func DatabaseExadataInfrastructureDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseExadataInfrastructureResource(), fieldMap, readSingularDatabaseExadataInfrastructure)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseExadataInfrastructureResource(), fieldMap, readSingularDatabaseExadataInfrastructureWithContext)
 }
 
-func readSingularDatabaseExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseExadataInfrastructureWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExadataInfrastructureDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseExadataInfrastructureDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseExadataInfrastructureDataSourceCrud) Get() error {
+func (s *DatabaseExadataInfrastructureDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetExadataInfrastructureRequest{}
 
 	if exadataInfrastructureId, ok := s.D.GetOkExists("exadata_infrastructure_id"); ok {
@@ -52,7 +53,7 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.GetExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}

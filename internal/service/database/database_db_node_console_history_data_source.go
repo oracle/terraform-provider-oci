@@ -7,6 +7,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -24,15 +25,15 @@ func DatabaseDbNodeConsoleHistoryDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseDbNodeConsoleHistoryResource(), fieldMap, readSingularDatabaseDbNodeConsoleHistory)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseDbNodeConsoleHistoryResource(), fieldMap, readSingularDatabaseDbNodeConsoleHistoryWithContext)
 }
 
-func readSingularDatabaseDbNodeConsoleHistory(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseDbNodeConsoleHistoryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbNodeConsoleHistoryDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseDbNodeConsoleHistoryDataSourceCrud struct {
@@ -45,7 +46,7 @@ func (s *DatabaseDbNodeConsoleHistoryDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseDbNodeConsoleHistoryDataSourceCrud) Get() error {
+func (s *DatabaseDbNodeConsoleHistoryDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetConsoleHistoryRequest{}
 
 	if dbNodeId, ok := s.D.GetOkExists("db_node_id"); ok {
@@ -69,7 +70,7 @@ func (s *DatabaseDbNodeConsoleHistoryDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetConsoleHistory(context.Background(), request)
+	response, err := s.Client.GetConsoleHistory(ctx, request)
 	if err != nil {
 		return err
 	}

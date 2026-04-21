@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -19,15 +20,15 @@ func DatabaseDbNodeDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseDbNodeResource(), fieldMap, readSingularDatabaseDbNode)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseDbNodeResource(), fieldMap, readSingularDatabaseDbNodeWithContext)
 }
 
-func readSingularDatabaseDbNode(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseDbNodeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbNodeDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseDbNodeDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseDbNodeDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseDbNodeDataSourceCrud) Get() error {
+func (s *DatabaseDbNodeDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetDbNodeRequest{}
 
 	if dbNodeId, ok := s.D.GetOkExists("db_node_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseDbNodeDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetDbNode(context.Background(), request)
+	response, err := s.Client.GetDbNode(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -10,16 +10,15 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 )
 
 func DatabaseDbSystemResource() *schema.Resource {
@@ -32,10 +31,10 @@ func DatabaseDbSystemResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("2h"),
 			Delete: tfresource.GetTimeoutDuration("2h"),
 		},
-		Create: createDatabaseDbSystem,
-		Read:   readDatabaseDbSystem,
-		Update: updateDatabaseDbSystem,
-		Delete: deleteDatabaseDbSystem,
+		CreateContext: createDatabaseDbSystemWithContext,
+		ReadContext:   readDatabaseDbSystemWithContext,
+		UpdateContext: updateDatabaseDbSystemWithContext,
+		DeleteContext: deleteDatabaseDbSystemWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -1112,25 +1111,25 @@ func DatabaseDbSystemResource() *schema.Resource {
 	}
 }
 
-func createDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
+func createDatabaseDbSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return createDBSystemResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
+func readDatabaseDbSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseDbSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
@@ -1142,32 +1141,33 @@ func updateDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
 		newValue := newRaw.(int)
 
 		if oldValue < newValue {
-			err := sync.ExecuteDbSystemOsPatch()
+			err := sync.ExecuteDbSystemOsPatch(ctx)
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 
 			//Do not proceed if the only os patch execution is requested
 			if !sync.D.HasChangesExcept("os_patch_trigger", "os_patch_action", "os_patch_db_node_id") {
-				return tfresource.ReadResource(sync)
+				return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 			}
 		} else {
 			sync.D.Set("os_patch_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			err := fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseDbSystem(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseDbSystemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbSystemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseDbSystemResourceCrud struct {
@@ -1231,7 +1231,7 @@ func (s *DatabaseDbSystemResourceCrud) UpdatedTarget() []string {
 	}
 }
 
-func (s *DatabaseDbSystemResourceCrud) Create() error {
+func (s *DatabaseDbSystemResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.LaunchDbSystemRequest{}
 	err := s.populateTopLevelPolymorphicLaunchDbSystemRequest(&request)
 	if err != nil {
@@ -1240,7 +1240,7 @@ func (s *DatabaseDbSystemResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.LaunchDbSystem(context.Background(), request)
+	response, err := s.Client.LaunchDbSystem(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1255,7 +1255,7 @@ func (s *DatabaseDbSystemResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dbSystem", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "dbSystem", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -1269,7 +1269,7 @@ func (s *DatabaseDbSystemResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatabaseDbSystemResourceCrud) Get() error {
+func (s *DatabaseDbSystemResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetDbSystemRequest{}
 
 	tmp := s.D.Id()
@@ -1277,7 +1277,7 @@ func (s *DatabaseDbSystemResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetDbSystem(context.Background(), request)
+	response, err := s.Client.GetDbSystem(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1292,11 +1292,11 @@ func (s *DatabaseDbSystemResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseDbSystemResourceCrud) Update() error {
+func (s *DatabaseDbSystemResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -1364,7 +1364,7 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 	}
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok && s.D.HasChange("license_model") {
-		if err := s.sendUpdateForLicenseModel(s.D.Id(), licenseModel); err != nil {
+		if err := s.sendUpdateForLicenseModel(ctx, s.D.Id(), licenseModel); err != nil {
 			return err
 		}
 	}
@@ -1424,14 +1424,14 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateDbSystem(context.Background(), request)
+	response, err := s.Client.UpdateDbSystem(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dbSystem", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "dbSystem", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -1440,7 +1440,7 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 	s.Res = &response.DbSystem
 
 	// Check lifecycle state of db system
-	getDbSystemResponse, err := waitForDbSystemIfItIsUpdating(s.Res.Id, s.Client, s.D.Timeout(schema.TimeoutUpdate))
+	getDbSystemResponse, err := waitForDbSystemIfItIsUpdating(ctx, s.Res.Id, s.Client, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		err = s.SetData()
 		if err != nil {
@@ -1456,10 +1456,10 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 		return fmt.Errorf("[ERROR] error setting data after dbsystem update but before database Update: %v", err)
 	}
 
-	return s.UpdateDatabaseOperation()
+	return s.UpdateDatabaseOperation(ctx)
 }
 
-func (s *DatabaseDbSystemResourceCrud) Delete() error {
+func (s *DatabaseDbSystemResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.TerminateDbSystemRequest{}
 
 	tmp := s.D.Id()
@@ -1467,7 +1467,7 @@ func (s *DatabaseDbSystemResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.TerminateDbSystem(context.Background(), request)
+	_, err := s.Client.TerminateDbSystem(ctx, request)
 	return err
 }
 
@@ -1698,7 +1698,7 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DatabaseDbSystemResourceCrud) ExecuteDbSystemOsPatch() error {
+func (s *DatabaseDbSystemResourceCrud) ExecuteDbSystemOsPatch(ctx context.Context) error {
 	request := oci_database.ExecuteDbSystemOsPatchRequest{}
 
 	if action, ok := s.D.GetOkExists("os_patch_action"); ok {
@@ -1715,14 +1715,15 @@ func (s *DatabaseDbSystemResourceCrud) ExecuteDbSystemOsPatch() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	resp, err := s.Client.ExecuteDbSystemOsPatch(context.Background(), request)
+	resp, err := s.Client.ExecuteDbSystemOsPatch(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	// Operation is asynchronous; wait for work request to complete.
 	if resp.OpcWorkRequestId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(
+			ctx,
 			s.WorkRequestClient,
 			resp.OpcWorkRequestId,
 			"dbSystem",
@@ -1735,7 +1736,7 @@ func (s *DatabaseDbSystemResourceCrud) ExecuteDbSystemOsPatch() error {
 		}
 	} else {
 		// Fallback: poll lifecycle state if no work request id is returned.
-		if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 			return waitErr
 		}
 	}
@@ -3934,7 +3935,7 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 	return nil
 }
 
-func (s *DatabaseDbSystemResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseDbSystemResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database.ChangeDbSystemCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -3945,12 +3946,12 @@ func (s *DatabaseDbSystemResourceCrud) updateCompartment(compartment interface{}
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.ChangeDbSystemCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeDbSystemCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -4114,7 +4115,7 @@ func (s *DatabaseDbSystemResourceCrud) getDbHomeInfo() error {
 	return nil
 }
 
-func waitForDbSystemIfItIsUpdating(dbSystemID *string, client *oci_database.DatabaseClient, timeout time.Duration) (*oci_database.GetDbSystemResponse, error) {
+func waitForDbSystemIfItIsUpdating(ctx context.Context, dbSystemID *string, client *oci_database.DatabaseClient, timeout time.Duration) (*oci_database.GetDbSystemResponse, error) {
 	getDbSystemRequest := oci_database.GetDbSystemRequest{}
 
 	getDbSystemRequest.DbSystemId = dbSystemID
@@ -4129,11 +4130,11 @@ func waitForDbSystemIfItIsUpdating(dbSystemID *string, client *oci_database.Data
 	}
 
 	getDbSystemRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicyWithAdditionalRetryCondition(timeout, dbSystemUpdating, "database")
-	getDbSystemResponse, err := client.GetDbSystem(context.Background(), getDbSystemRequest)
+	getDbSystemResponse, err := client.GetDbSystem(ctx, getDbSystemRequest)
 	return &getDbSystemResponse, err
 }
 
-func (s *DatabaseDbSystemResourceCrud) UpdateDatabaseOperation() error {
+func (s *DatabaseDbSystemResourceCrud) UpdateDatabaseOperation(ctx context.Context) error {
 	err := s.getDbHomeInfo()
 	if err != nil {
 		return err
@@ -4150,14 +4151,14 @@ func (s *DatabaseDbSystemResourceCrud) UpdateDatabaseOperation() error {
 	}
 
 	updateDatabaseRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
-	updateDatabaseResponse, err := s.Client.UpdateDatabase(context.Background(), updateDatabaseRequest)
+	updateDatabaseResponse, err := s.Client.UpdateDatabase(ctx, updateDatabaseRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := updateDatabaseResponse.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -4168,7 +4169,7 @@ func (s *DatabaseDbSystemResourceCrud) UpdateDatabaseOperation() error {
 	getDatabaseRequest.DatabaseId = s.Database.Id
 
 	getDatabaseRequest.RequestMetadata.RetryPolicy = waitForDatabaseUpdateRetryPolicy(s.D.Timeout(schema.TimeoutUpdate))
-	getDatabaseResponse, err := s.Client.GetDatabase(context.Background(), getDatabaseRequest)
+	getDatabaseResponse, err := s.Client.GetDatabase(ctx, getDatabaseRequest)
 	if err != nil {
 		s.Database = &updateDatabaseResponse.Database
 		err = s.SetData()
@@ -4178,7 +4179,7 @@ func (s *DatabaseDbSystemResourceCrud) UpdateDatabaseOperation() error {
 		return fmt.Errorf("[ERROR] unable to get database after the Update: %v", err)
 	}
 
-	errKms := s.setDbKeyVersion()
+	errKms := s.setDbKeyVersion(ctx)
 	if errKms != nil {
 		return errKms
 	}
@@ -4187,7 +4188,7 @@ func (s *DatabaseDbSystemResourceCrud) UpdateDatabaseOperation() error {
 	return nil
 }
 
-func (s *DatabaseDbSystemResourceCrud) setDbKeyVersion() error {
+func (s *DatabaseDbSystemResourceCrud) setDbKeyVersion(ctx context.Context) error {
 	setDbKeyVersionRequest := oci_database.SetDbKeyVersionRequest{}
 	setDbKeyVersionRequest.DatabaseId = s.Database.Id
 	setDbKeyVersionRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -4204,34 +4205,34 @@ func (s *DatabaseDbSystemResourceCrud) setDbKeyVersion() error {
 		return nil
 	}
 
-	response, err := s.Client.SetDbKeyVersion(context.Background(), setDbKeyVersionRequest)
+	response, err := s.Client.SetDbKeyVersion(ctx, setDbKeyVersionRequest)
 	if err != nil {
 		return err
 	}
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 		}
 	}
 	return nil
 }
 
-func (s *DatabaseDbSystemResourceCrud) sendUpdateForLicenseModel(dbSystemId string, licenseModel interface{}) error {
+func (s *DatabaseDbSystemResourceCrud) sendUpdateForLicenseModel(ctx context.Context, dbSystemId string, licenseModel interface{}) error {
 	request := oci_database.UpdateDbSystemRequest{}
 	request.LicenseModel = oci_database.UpdateDbSystemDetailsLicenseModelEnum(licenseModel.(string))
 
 	request.DbSystemId = &dbSystemId
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateDbSystem(context.Background(), request)
+	response, err := s.Client.UpdateDbSystem(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dbSystem", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "dbSystem", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -4239,7 +4240,7 @@ func (s *DatabaseDbSystemResourceCrud) sendUpdateForLicenseModel(dbSystemId stri
 
 	s.Res = &response.DbSystem
 
-	getDbSystemResponse, err := waitForDbSystemIfItIsUpdating(s.Res.Id, s.Client, s.D.Timeout(schema.TimeoutUpdate))
+	getDbSystemResponse, err := waitForDbSystemIfItIsUpdating(ctx, s.Res.Id, s.Client, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		err = s.SetData()
 		if err != nil {

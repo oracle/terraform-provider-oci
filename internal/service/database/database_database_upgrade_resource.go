@@ -13,19 +13,19 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 )
 
 func DatabaseDatabaseUpgradeResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseDatabaseUpgrade,
-		Read:     readDatabaseDatabaseUpgrade,
-		Delete:   deleteDatabaseDatabaseUpgrade,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseDatabaseUpgradeWithContext,
+		ReadContext:   readDatabaseDatabaseUpgradeWithContext,
+		DeleteContext: deleteDatabaseDatabaseUpgradeWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"action": {
@@ -417,24 +417,24 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 	}
 }
 
-func createDatabaseDatabaseUpgrade(d *schema.ResourceData, m interface{}) error {
+func createDatabaseDatabaseUpgradeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDatabaseUpgradeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseDatabaseUpgrade(d *schema.ResourceData, m interface{}) error {
+func readDatabaseDatabaseUpgradeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDatabaseUpgradeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteDatabaseDatabaseUpgrade(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseDatabaseUpgradeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -462,7 +462,7 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) CreatedTarget() []string {
 	}
 }
 
-func (s *DatabaseDatabaseUpgradeResourceCrud) Create() error {
+func (s *DatabaseDatabaseUpgradeResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.UpgradeDatabaseRequest{}
 
 	if action, ok := s.D.GetOkExists("action"); ok {
@@ -487,7 +487,7 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpgradeDatabase(context.Background(), request)
+	response, err := s.Client.UpgradeDatabase(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -496,10 +496,10 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) Create() error {
 
 	workId := response.OpcWorkRequestId
 
-	return s.getDatabaseUpgradeFromWorkRequest(workId, oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDatabaseUpgradeFromWorkRequestWithContext(ctx, workId, oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatabaseDatabaseUpgradeResourceCrud) getDatabaseUpgradeFromWorkRequest(workId *string, actionTypeEnum oci_work_requests.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
+func (s *DatabaseDatabaseUpgradeResourceCrud) getDatabaseUpgradeFromWorkRequestWithContext(ctx context.Context, workId *string, actionTypeEnum oci_work_requests.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 	databaseUpgradeId, err := tfresource.WaitForWorkRequest(s.WorkRequestClient, workId, "database", actionTypeEnum, timeout, s.DisableNotFoundRetries, true)
 	log.Printf("[DEBUG] WaitForWorkRequest finished. databaseUpgradeId: %v err: %v for workId: %v, actionTypeEnum: %v\n", *databaseUpgradeId, err, *workId, actionTypeEnum)
 	if err != nil {
@@ -509,7 +509,7 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) getDatabaseUpgradeFromWorkRequest(
 
 	s.D.SetId(*databaseUpgradeId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func (s *DatabaseDatabaseUpgradeResourceCrud) SetData() error {
@@ -640,7 +640,7 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DatabaseDatabaseUpgradeResourceCrud) Get() error {
+func (s *DatabaseDatabaseUpgradeResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetDatabaseRequest{}
 
 	tmp := s.D.Id()
@@ -648,7 +648,7 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetDatabase(context.Background(), request)
+	response, err := s.Client.GetDatabase(ctx, request)
 	if err != nil {
 		return err
 	}

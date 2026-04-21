@@ -8,6 +8,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
@@ -16,17 +17,16 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
 func DatabaseExadataIormConfigResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseExadataIormConfig,
-		Read:     readDatabaseExadataIormConfig,
-		Update:   updateDatabaseExadataIormConfig,
-		Delete:   deleteDatabaseExadataIormConfig,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseExadataIormConfigWithContext,
+		ReadContext:   readDatabaseExadataIormConfigWithContext,
+		UpdateContext: updateDatabaseExadataIormConfigWithContext,
+		DeleteContext: deleteDatabaseExadataIormConfigWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"db_plans": {
@@ -90,40 +90,40 @@ func DatabaseExadataIormConfigResource() *schema.Resource {
 	}
 }
 
-func createDatabaseExadataIormConfig(d *schema.ResourceData, m interface{}) error {
+func createDatabaseExadataIormConfigWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExadataIormConfigResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseExadataIormConfig(d *schema.ResourceData, m interface{}) error {
+func readDatabaseExadataIormConfigWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExadataIormConfigResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseExadataIormConfig(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseExadataIormConfigWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExadataIormConfigResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseExadataIormConfig(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseExadataIormConfigWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExadataIormConfigResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseExadataIormConfigResourceCrud struct {
@@ -163,7 +163,7 @@ func (s *DatabaseExadataIormConfigResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatabaseExadataIormConfigResourceCrud) Create() error {
+func (s *DatabaseExadataIormConfigResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.GetExadataIormConfigRequest{}
 
 	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
@@ -173,21 +173,21 @@ func (s *DatabaseExadataIormConfigResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	if _, err := s.Client.GetExadataIormConfig(context.Background(), request); err != nil {
+	if _, err := s.Client.GetExadataIormConfig(ctx, request); err != nil {
 		return err
 	}
 
 	retentionPolicyFunc := func() bool {
 		return s.Res.LifecycleState == oci_database.ExadataIormConfigLifecycleStateDisabled || s.Res.LifecycleState == oci_database.ExadataIormConfigLifecycleStateEnabled
 	}
-	if err := tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate)); err != nil {
+	if err := tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate)); err != nil {
 		return err
 	}
 
-	return s.Update()
+	return s.UpdateWithContext(ctx)
 }
 
-func (s *DatabaseExadataIormConfigResourceCrud) Get() error {
+func (s *DatabaseExadataIormConfigResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetExadataIormConfigRequest{}
 
 	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
@@ -197,7 +197,7 @@ func (s *DatabaseExadataIormConfigResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetExadataIormConfig(context.Background(), request)
+	response, err := s.Client.GetExadataIormConfig(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -206,7 +206,7 @@ func (s *DatabaseExadataIormConfigResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseExadataIormConfigResourceCrud) Update() error {
+func (s *DatabaseExadataIormConfigResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database.UpdateExadataIormConfigRequest{}
 
 	if dbPlans, ok := s.D.GetOkExists("db_plans"); ok {
@@ -238,21 +238,21 @@ func (s *DatabaseExadataIormConfigResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateExadataIormConfig(context.Background(), request)
+	response, err := s.Client.UpdateExadataIormConfig(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dbSystem", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "dbSystem", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_database.ExadataIormConfigLifecycleStateEnabled }
-	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DatabaseExadataIormConfigResourceCrud) SetData() error {
@@ -330,7 +330,7 @@ func dbPlansHashCodeForSets(v interface{}) int {
 	return utils.GetStringHashcode(buf.String())
 }
 
-func (s *DatabaseExadataIormConfigResourceCrud) Delete() error {
+func (s *DatabaseExadataIormConfigResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.UpdateExadataIormConfigRequest{}
 
 	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
@@ -340,14 +340,14 @@ func (s *DatabaseExadataIormConfigResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateExadataIormConfig(context.Background(), request)
+	response, err := s.Client.UpdateExadataIormConfig(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dbSystem", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "dbSystem", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

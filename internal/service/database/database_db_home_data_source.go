@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
@@ -19,15 +20,15 @@ func DatabaseDbHomeDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseDbHomeResource(), fieldMap, readSingularDatabaseDbHome)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseDbHomeResource(), fieldMap, readSingularDatabaseDbHomeWithContext)
 }
 
-func readSingularDatabaseDbHome(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseDbHomeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbHomeDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseDbHomeDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseDbHomeDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseDbHomeDataSourceCrud) Get() error {
+func (s *DatabaseDbHomeDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetDbHomeRequest{}
 
 	if dbHomeId, ok := s.D.GetOkExists("db_home_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseDbHomeDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetDbHome(context.Background(), request)
+	response, err := s.Client.GetDbHome(ctx, request)
 	if err != nil {
 		return err
 	}

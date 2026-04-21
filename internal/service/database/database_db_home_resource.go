@@ -15,6 +15,7 @@ import (
 
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -32,10 +33,10 @@ func DatabaseDbHomeResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("2h"),
 			Delete: tfresource.GetTimeoutDuration("2h"),
 		},
-		Create: createDatabaseDbHome,
-		Read:   readDatabaseDbHome,
-		Update: updateDatabaseDbHome,
-		Delete: deleteDatabaseDbHome,
+		CreateContext: createDatabaseDbHomeWithContext,
+		ReadContext:   readDatabaseDbHomeWithContext,
+		UpdateContext: updateDatabaseDbHomeWithContext,
+		DeleteContext: deleteDatabaseDbHomeWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"database": {
@@ -553,32 +554,32 @@ func DatabaseDbHomeResource() *schema.Resource {
 	}
 }
 
-func createDatabaseDbHome(d *schema.ResourceData, m interface{}) error {
+func createDatabaseDbHomeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbHomeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseDbHome(d *schema.ResourceData, m interface{}) error {
+func readDatabaseDbHomeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbHomeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteDatabaseDbHome(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseDbHomeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbHomeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseDbHomeResourceCrud struct {
@@ -630,7 +631,7 @@ func (s *DatabaseDbHomeResourceCrud) UpdatedTarget() []string {
 	}
 }
 
-func (s *DatabaseDbHomeResourceCrud) Create() error {
+func (s *DatabaseDbHomeResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateDbHomeRequest{}
 	err := s.populateTopLevelPolymorphicCreateDbHomeRequest(&request)
 	if err != nil {
@@ -643,7 +644,7 @@ func (s *DatabaseDbHomeResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database", createDbHomeRetryDurationFn)
 
-	response, err := s.Client.CreateDbHome(context.Background(), request)
+	response, err := s.Client.CreateDbHome(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -653,7 +654,7 @@ func (s *DatabaseDbHomeResourceCrud) Create() error {
 	if database, ok := s.D.GetOkExists("database"); ok {
 		if tmpList := database.([]interface{}); len(tmpList) > 0 {
 			if workId != nil {
-				_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+				_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 				if err != nil {
 					return err
 				}
@@ -675,7 +676,7 @@ func (s *DatabaseDbHomeResourceCrud) Create() error {
 			if identifier != nil {
 				s.D.SetId(*identifier)
 			}
-			_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dbHome", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+			_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "dbHome", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 			if err != nil {
 				return err
 			}
@@ -686,7 +687,7 @@ func (s *DatabaseDbHomeResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatabaseDbHomeResourceCrud) Get() error {
+func (s *DatabaseDbHomeResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetDbHomeRequest{}
 
 	tmp := s.D.Id()
@@ -694,7 +695,7 @@ func (s *DatabaseDbHomeResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetDbHome(context.Background(), request)
+	response, err := s.Client.GetDbHome(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -704,7 +705,7 @@ func (s *DatabaseDbHomeResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseDbHomeResourceCrud) Update() error {
+func (s *DatabaseDbHomeResourceCrud) UpdateWithContext(ctx context.Context) error {
 	updateDbHomeRequest := oci_database.UpdateDbHomeRequest{}
 
 	tmp := s.D.Id()
@@ -740,7 +741,7 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 			return fmt.Errorf("[ERROR] no support for oldVal = '%s', confVal = '%s' now", oldVal.(string), confVal.(string))
 		}
 		if oldVal.(string) == "" {
-			errExaCC := s.ChangeKeyStoreType()
+			errExaCC := s.ChangeKeyStoreType(ctx)
 			if errExaCC != nil {
 				return errExaCC
 			}
@@ -750,14 +751,14 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 		}
 	}
 
-	response, err := s.Client.UpdateDbHome(context.Background(), updateDbHomeRequest)
+	response, err := s.Client.UpdateDbHome(ctx, updateDbHomeRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dbHome", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "dbHome", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -774,7 +775,7 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 	newList := newRaw.([]interface{})
 
 	if len(newList) > 0 {
-		err = s.Get()
+		err = s.GetWithContext(ctx)
 		if err != nil {
 			log.Printf("[ERROR] error refreshing the dbHome information before an update: %v", err)
 		}
@@ -789,14 +790,14 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 			}
 
 			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
-			createDatabaseResponse, err := s.Client.CreateDatabase(context.Background(), request)
+			createDatabaseResponse, err := s.Client.CreateDatabase(ctx, request)
 			if err != nil {
 				return err
 			}
 			workId := createDatabaseResponse.OpcWorkRequestId
 
 			if workId != nil {
-				_, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+				_, err := tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 				if err != nil {
 					return err
 				}
@@ -812,7 +813,7 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 					return fmt.Errorf("could not perform an Update as we could not get the databaseId in the dbHome: %v", err)
 				}
 			}
-			errKms := s.setDbKeyVersion(s.Database.Id)
+			errKms := s.setDbKeyVersion(ctx, s.Database.Id)
 			if errKms != nil {
 				return errKms
 			}
@@ -823,7 +824,7 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 
 			if len(newList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
-				tmp, err := s.mapToUpdateDatabaseDetails(fieldKeyFormat)
+				tmp, err := s.mapToUpdateDatabaseDetails(ctx, fieldKeyFormat)
 				if err != nil {
 					return err
 				}
@@ -831,14 +832,14 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 			}
 
 			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
-			updateDatabaseResponse, err := s.Client.UpdateDatabase(context.Background(), request)
+			updateDatabaseResponse, err := s.Client.UpdateDatabase(ctx, request)
 			if err != nil {
 				return err
 			}
 
 			workId = updateDatabaseResponse.OpcWorkRequestId
 			if workId != nil {
-				_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+				_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 				if err != nil {
 					return err
 				}
@@ -849,7 +850,7 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 			getDatabaseRequest.DatabaseId = s.Database.Id
 
 			getDatabaseRequest.RequestMetadata.RetryPolicy = waitForDatabaseUpdateRetryPolicy(s.D.Timeout(schema.TimeoutUpdate))
-			getDatabaseResponse, err := s.Client.GetDatabase(context.Background(), getDatabaseRequest)
+			getDatabaseResponse, err := s.Client.GetDatabase(ctx, getDatabaseRequest)
 			if err != nil {
 				s.Database = &updateDatabaseResponse.Database
 				err = s.SetData()
@@ -887,7 +888,7 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 			deleteDatabaseRetryDurationFn := getdatabaseRetryDurationFunction(s.D.Timeout(schema.TimeoutDelete))
 			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database", deleteDatabaseRetryDurationFn)
 
-			_, err = s.Client.DeleteDatabase(context.Background(), request)
+			_, err = s.Client.DeleteDatabase(ctx, request)
 
 			// fail on non 404 errors
 			if failure, _ := oci_common.IsServiceError(err); failure.GetHTTPStatusCode() == 404 {
@@ -900,7 +901,7 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 	return err
 }
 
-func (s *DatabaseDbHomeResourceCrud) setDbKeyVersion(databaseId *string) error {
+func (s *DatabaseDbHomeResourceCrud) setDbKeyVersion(ctx context.Context, databaseId *string) error {
 	if kmsKeyVersionId, ok := s.D.GetOkExists("kms_key_version_id"); ok && s.D.HasChange("kms_key_version_id") {
 		oldRaw, newRaw := s.D.GetChange("kms_key_version_id")
 		if oldRaw == "" && newRaw != "" {
@@ -913,13 +914,13 @@ func (s *DatabaseDbHomeResourceCrud) setDbKeyVersion(databaseId *string) error {
 			details.KmsKeyVersionId = &temp
 			setDbKeyVersionRequest.SetKeyVersionDetails = details
 
-			response, err := s.Client.SetDbKeyVersion(context.Background(), setDbKeyVersionRequest)
+			response, err := s.Client.SetDbKeyVersion(ctx, setDbKeyVersionRequest)
 			if err != nil {
 				return err
 			}
 			workId := response.OpcWorkRequestId
 			if workId != nil {
-				_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+				_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 				if err != nil {
 				}
 			}
@@ -939,7 +940,7 @@ func (s *DatabaseDbHomeResourceCrud) getDatabaseId(fieldKeyFormat string) (strin
 	return "", fmt.Errorf("No databaseId found in state")
 }
 
-func (s *DatabaseDbHomeResourceCrud) Delete() error {
+func (s *DatabaseDbHomeResourceCrud) DeleteWithContext(ctx context.Context) error {
 	oldRaw, _ := s.D.GetChange("database")
 	oldList := oldRaw.([]interface{})
 
@@ -962,7 +963,7 @@ func (s *DatabaseDbHomeResourceCrud) Delete() error {
 		deleteDatabaseRetryDurationFn := getdatabaseRetryDurationFunction(s.D.Timeout(schema.TimeoutDelete))
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database", deleteDatabaseRetryDurationFn)
 
-		response, err := s.Client.DeleteDatabase(context.Background(), request)
+		response, err := s.Client.DeleteDatabase(ctx, request)
 
 		if err != nil {
 			return err
@@ -970,7 +971,7 @@ func (s *DatabaseDbHomeResourceCrud) Delete() error {
 
 		workId := response.OpcWorkRequestId
 		if workId != nil {
-			_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+			_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 			if err != nil {
 				return err
 			}
@@ -992,7 +993,7 @@ func (s *DatabaseDbHomeResourceCrud) Delete() error {
 	deleteDbHomeRetryDurationFn := tfresource.GetDbHomeRetryDurationFunction(s.D.Timeout(schema.TimeoutDelete))
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database", deleteDbHomeRetryDurationFn)
 
-	_, err := s.Client.DeleteDbHome(context.Background(), request)
+	_, err := s.Client.DeleteDbHome(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1074,7 +1075,7 @@ func (s *DatabaseDbHomeResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DatabaseDbHomeResourceCrud) ChangeKeyStoreType() error {
+func (s *DatabaseDbHomeResourceCrud) ChangeKeyStoreType(ctx context.Context) error {
 	if _, ok := s.D.GetOkExists("key_store_id"); ok && s.D.HasChange("key_store_id") {
 		request := oci_database.ChangeKeyStoreTypeRequest{}
 
@@ -1088,12 +1089,12 @@ func (s *DatabaseDbHomeResourceCrud) ChangeKeyStoreType() error {
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-		_, err := s.Client.ChangeKeyStoreType(context.Background(), request)
+		_, err := s.Client.ChangeKeyStoreType(ctx, request)
 		if err != nil {
 			return err
 		}
 
-		if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 			return waitErr
 		}
 
@@ -1102,7 +1103,7 @@ func (s *DatabaseDbHomeResourceCrud) ChangeKeyStoreType() error {
 	return nil
 }
 
-func (s *DatabaseDbHomeResourceCrud) ChangeEncryptionKeyLocation(fieldKeyFormat string) error {
+func (s *DatabaseDbHomeResourceCrud) ChangeEncryptionKeyLocation(ctx context.Context, fieldKeyFormat string) error {
 	request := oci_database.ChangeEncryptionKeyLocationRequest{}
 
 	request.DatabaseId = s.Database.Id
@@ -1120,12 +1121,12 @@ func (s *DatabaseDbHomeResourceCrud) ChangeEncryptionKeyLocation(fieldKeyFormat 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.ChangeEncryptionKeyLocation(context.Background(), request)
+	_, err := s.Client.ChangeEncryptionKeyLocation(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -1902,16 +1903,16 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 	return nil
 }
 
-func updateDatabaseDbHome(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseDbHomeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbHomeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func (s *DatabaseDbHomeResourceCrud) deleteNestedDB() error {
+func (s *DatabaseDbHomeResourceCrud) deleteNestedDB(ctx context.Context) error {
 
 	request := oci_database.DeleteDatabaseRequest{}
 
@@ -1929,7 +1930,7 @@ func (s *DatabaseDbHomeResourceCrud) deleteNestedDB() error {
 	listDBRequest.SortBy = oci_database.ListDatabasesSortByTimecreated
 	listDBRequest.SortOrder = oci_database.ListDatabasesSortOrderAsc
 	listDBRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
-	listDatabasesResponse, err := s.Client.ListDatabases(context.Background(), listDBRequest)
+	listDatabasesResponse, err := s.Client.ListDatabases(ctx, listDBRequest)
 	if err != nil {
 		return err
 	}
@@ -1959,11 +1960,11 @@ func (s *DatabaseDbHomeResourceCrud) deleteNestedDB() error {
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-		response, err := s.Client.DeleteDatabase(context.Background(), request)
+		response, err := s.Client.DeleteDatabase(ctx, request)
 
 		workId := response.OpcWorkRequestId
 		if workId != nil {
-			_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+			_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 			if err != nil {
 				return err
 			}
@@ -2194,7 +2195,7 @@ func (s *DatabaseDbHomeResourceCrud) BackupDestinationDetailsToMap(obj oci_datab
 	return result
 }
 
-func (s *DatabaseDbHomeResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat string) (oci_database.UpdateDatabaseDetails, error) {
+func (s *DatabaseDbHomeResourceCrud) mapToUpdateDatabaseDetails(ctx context.Context, fieldKeyFormat string) (oci_database.UpdateDatabaseDetails, error) {
 	result := oci_database.UpdateDatabaseDetails{}
 
 	if _, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details")) {
@@ -2206,7 +2207,7 @@ func (s *DatabaseDbHomeResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat s
 			return result, fmt.Errorf("[ERROR] no support for updating External HSM now")
 		}
 		if len(oldList) == 0 {
-			err := s.ChangeEncryptionKeyLocation(fieldKeyFormat)
+			err := s.ChangeEncryptionKeyLocation(ctx, fieldKeyFormat)
 			if err != nil {
 				return result, err
 			}

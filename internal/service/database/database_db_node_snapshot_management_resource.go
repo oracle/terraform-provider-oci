@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
@@ -18,10 +19,10 @@ func DatabaseDbNodeSnapshotManagementResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseDbNodeSnapshotManagement,
-		Read:     readDatabaseDbNodeSnapshotManagement,
-		Delete:   deleteDatabaseDbNodeSnapshotManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseDbNodeSnapshotManagementWithContext,
+		ReadContext:   readDatabaseDbNodeSnapshotManagementWithContext,
+		DeleteContext: deleteDatabaseDbNodeSnapshotManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"exadb_vm_cluster_id": {
@@ -168,14 +169,14 @@ func DatabaseDbNodeSnapshotManagementResource() *schema.Resource {
 	}
 }
 
-func createDatabaseDbNodeSnapshotManagement(d *schema.ResourceData, m interface{}) error {
+func createDatabaseDbNodeSnapshotManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbNodeSnapshotManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	if err := tfresource.CreateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.CreateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	// lifecycleState becomes AVAILABLE after work request succeeds
@@ -191,11 +192,11 @@ func createDatabaseDbNodeSnapshotManagement(d *schema.ResourceData, m interface{
 	return nil
 }
 
-func readDatabaseDbNodeSnapshotManagement(d *schema.ResourceData, m interface{}) error {
+func readDatabaseDbNodeSnapshotManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDatabaseDbNodeSnapshotManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseDbNodeSnapshotManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -211,7 +212,7 @@ func (s *DatabaseDbNodeSnapshotManagementResourceCrud) ID() string {
 	return tfresource.GenerateDataSourceHashID("DatabaseDbNodeSnapshotManagementResource-", DatabaseDbNodeSnapshotManagementResource(), s.D)
 }
 
-func (s *DatabaseDbNodeSnapshotManagementResourceCrud) Create() error {
+func (s *DatabaseDbNodeSnapshotManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.AddDbnodeSnapshotsForExadbVmClusterRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -252,7 +253,7 @@ func (s *DatabaseDbNodeSnapshotManagementResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.AddDbnodeSnapshotsForExadbVmCluster(context.Background(), request)
+	response, err := s.Client.AddDbnodeSnapshotsForExadbVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -261,7 +262,7 @@ func (s *DatabaseDbNodeSnapshotManagementResourceCrud) Create() error {
 	s.Res = &response
 
 	if workId != nil {
-		_, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dbnodesnapshot", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err := tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "dbnodesnapshot", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

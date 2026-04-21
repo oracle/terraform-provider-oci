@@ -9,13 +9,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
 func DatabaseDatabasesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseDatabases,
+		ReadContext: readDatabaseDatabasesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -47,12 +48,12 @@ func DatabaseDatabasesDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseDatabases(d *schema.ResourceData, m interface{}) error {
+func readDatabaseDatabasesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDatabasesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseDatabasesDataSourceCrud struct {
@@ -65,7 +66,7 @@ func (s *DatabaseDatabasesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseDatabasesDataSourceCrud) Get() error {
+func (s *DatabaseDatabasesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListDatabasesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *DatabaseDatabasesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListDatabases(context.Background(), request)
+	response, err := s.Client.ListDatabases(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *DatabaseDatabasesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDatabases(context.Background(), request)
+		listResponse, err := s.Client.ListDatabases(ctx, request)
 		if err != nil {
 			return err
 		}

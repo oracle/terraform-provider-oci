@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -19,15 +20,15 @@ func DatabaseExascaleDbStorageVaultDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseExascaleDbStorageVaultResource(), fieldMap, readSingularDatabaseExascaleDbStorageVault)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseExascaleDbStorageVaultResource(), fieldMap, readSingularDatabaseExascaleDbStorageVaultWithContext)
 }
 
-func readSingularDatabaseExascaleDbStorageVault(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseExascaleDbStorageVaultWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExascaleDbStorageVaultDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseExascaleDbStorageVaultDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseExascaleDbStorageVaultDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseExascaleDbStorageVaultDataSourceCrud) Get() error {
+func (s *DatabaseExascaleDbStorageVaultDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetExascaleDbStorageVaultRequest{}
 
 	if exascaleDbStorageVaultId, ok := s.D.GetOkExists("exascale_db_storage_vault_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseExascaleDbStorageVaultDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetExascaleDbStorageVault(context.Background(), request)
+	response, err := s.Client.GetExascaleDbStorageVault(ctx, request)
 	if err != nil {
 		return err
 	}

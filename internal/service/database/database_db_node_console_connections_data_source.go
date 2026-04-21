@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -15,7 +16,7 @@ import (
 
 func DatabaseDbNodeConsoleConnectionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseDbNodeConsoleConnections,
+		ReadContext: readDatabaseDbNodeConsoleConnectionsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"db_node_id": {
@@ -31,12 +32,12 @@ func DatabaseDbNodeConsoleConnectionsDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseDbNodeConsoleConnections(d *schema.ResourceData, m interface{}) error {
+func readDatabaseDbNodeConsoleConnectionsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbNodeConsoleConnectionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseDbNodeConsoleConnectionsDataSourceCrud struct {
@@ -49,7 +50,7 @@ func (s *DatabaseDbNodeConsoleConnectionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseDbNodeConsoleConnectionsDataSourceCrud) Get() error {
+func (s *DatabaseDbNodeConsoleConnectionsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListConsoleConnectionsRequest{}
 
 	if dbNodeId, ok := s.D.GetOkExists("db_node_id"); ok {
@@ -59,7 +60,7 @@ func (s *DatabaseDbNodeConsoleConnectionsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListConsoleConnections(context.Background(), request)
+	response, err := s.Client.ListConsoleConnections(ctx, request)
 	if err != nil {
 		return err
 	}
