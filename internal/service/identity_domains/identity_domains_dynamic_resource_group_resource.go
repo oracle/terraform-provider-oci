@@ -24,11 +24,12 @@ func IdentityDomainsDynamicResourceGroupResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createIdentityDomainsDynamicResourceGroup,
-		Read:     readIdentityDomainsDynamicResourceGroup,
-		Update:   updateIdentityDomainsDynamicResourceGroup,
-		Delete:   deleteIdentityDomainsDynamicResourceGroup,
+		Timeouts:      tfresource.DefaultTimeout,
+		Create:        createIdentityDomainsDynamicResourceGroup,
+		Read:          readIdentityDomainsDynamicResourceGroup,
+		Update:        updateIdentityDomainsDynamicResourceGroup,
+		Delete:        deleteIdentityDomainsDynamicResourceGroup,
+		CustomizeDiff: suppressIgnoredStructuredDefinedTagsForOciTags(identityDomainsOciTagsField),
 		Schema: map[string]*schema.Schema{
 			// Required
 			"display_name": {

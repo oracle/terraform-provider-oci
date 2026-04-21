@@ -2,9 +2,11 @@ package integrationtest
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
@@ -20,6 +22,21 @@ var testDomainDataSourceStr = `
 
 var TestDomainDependencies = domainIdVariableStr + testDomainDataSourceStr
 var TestDomainForMyEndpointDependencies = domainIdForMyEndpointVariableStr + testDomainDataSourceStr
+
+func waitForIdentityDomainsDefinedTagPropagation() {
+	time.Sleep(15 * time.Second)
+}
+
+func IdentityDomainsProviderConfigWithIgnoredOracleTags() string {
+	return acctest.ProviderTestConfig() + `
+provider "oci" {
+	ignore_defined_tags = [
+		"Oracle-Tags.CreatedBy",
+		"Oracle-Tags.CreatedOn",
+	]
+}
+`
+}
 
 // User dependency
 var IdentityDomainsUserManager = `

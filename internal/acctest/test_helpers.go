@@ -853,6 +853,10 @@ func GetTestClients(data *schema.ResourceData) *tf_client.OracleClients {
 		d.Set("auth", getEnvSettingWithDefaultVar("auth", auth))
 	}
 
+	if ignoreDefinedTags, ok := data.GetOkExists(globalvar.DefinedTagsToIgnore); ok {
+		d.Set(globalvar.DefinedTagsToIgnore, ignoreDefinedTags)
+	}
+
 	tf_provider.TerraformCLIVersion = globalvar.TestTerraformCLIVersion
 	client, err := tfProviderConfigVar(d)
 	if err != nil {

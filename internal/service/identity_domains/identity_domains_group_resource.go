@@ -27,11 +27,12 @@ func IdentityDomainsGroupResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createIdentityDomainsGroup,
-		Read:     readIdentityDomainsGroup,
-		Update:   updateIdentityDomainsGroup,
-		Delete:   deleteIdentityDomainsGroup,
+		Timeouts:      tfresource.DefaultTimeout,
+		Create:        createIdentityDomainsGroup,
+		Read:          readIdentityDomainsGroup,
+		Update:        updateIdentityDomainsGroup,
+		Delete:        deleteIdentityDomainsGroup,
+		CustomizeDiff: suppressIgnoredStructuredDefinedTagsForOciTags(identityDomainsOciTagsField),
 		Schema: map[string]*schema.Schema{
 			// Required
 			"display_name": {

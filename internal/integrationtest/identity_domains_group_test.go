@@ -108,6 +108,28 @@ var (
 
 	IdentityDomainsGroupResourceDependencies = DefinedTagsDependencies + TestDomainDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_user", "test_user", acctest.Required, acctest.Create, IdentityDomainsUserRepresentation)
+
+	ignoreChangeForIdentityDomainsGroupIgnoredOracleTags = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`schemas`}},
+	}
+	IdentityDomainsGroupIgnoredOracleTagsOciTagsRepresentation = map[string]interface{}{
+		"defined_tags":  acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDomainsGroupUrnietfparamsscimschemasoracleidcsextensionOCITagsDefinedTagsRepresentation},
+		"freeform_tags": acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDomainsGroupUrnietfparamsscimschemasoracleidcsextensionOCITagsFreeformTagsRepresentation},
+	}
+	IdentityDomainsGroupIgnoredOracleTagsOciTagsWithoutCustomDefinedTagRepresentation = map[string]interface{}{
+		"freeform_tags": acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDomainsGroupUrnietfparamsscimschemasoracleidcsextensionOCITagsFreeformTagsRepresentation},
+	}
+	IdentityDomainsGroupIgnoredOracleTagsRepresentation = map[string]interface{}{
+		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `ignoreDefinedTagsGroup`},
+		"idcs_endpoint": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_domain.test_domain.url}`},
+		"schemas":       acctest.Representation{RepType: acctest.Required, Create: []string{`urn:ietf:params:scim:schemas:core:2.0:Group`, `urn:ietf:params:scim:schemas:oracle:idcs:extension:OCITags`}},
+		"urnietfparamsscimschemasoracleidcsextension_oci_tags": acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDomainsGroupIgnoredOracleTagsOciTagsRepresentation},
+		"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangeForIdentityDomainsGroupIgnoredOracleTags},
+	}
+	IdentityDomainsGroupIgnoredOracleTagsWithoutCustomDefinedTagRepresentation = acctest.RepresentationCopyWithNewProperties(IdentityDomainsGroupIgnoredOracleTagsRepresentation, map[string]interface{}{
+		"urnietfparamsscimschemasoracleidcsextension_oci_tags": acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDomainsGroupIgnoredOracleTagsOciTagsWithoutCustomDefinedTagRepresentation},
+	})
+	IdentityDomainsGroupIgnoredOracleTagsResourceDependencies = DefinedTagsDependencies + TestDomainDependencies
 )
 
 // issue-routing-tag: identity_domains/default
@@ -313,8 +335,83 @@ func TestIdentityDomainsGroupResource_basic(t *testing.T) {
 				"force_delete",
 				"external_id",
 				"non_unique_display_name",
+				"urnietfparamsscimschemasoracleidcsextensiondynamic_group.#",
+				"urnietfparamsscimschemasoracleidcsextensiondynamic_group.0.%",
+				"urnietfparamsscimschemasoracleidcsextensiondynamic_group.0.membership_rule",
+				"urnietfparamsscimschemasoracleidcsextensiondynamic_group.0.membership_type",
 			},
 			ResourceName: resourceName,
+		},
+	})
+}
+
+// issue-routing-tag: identity_domains/default
+func TestIdentityDomainsGroupResource_ignoreDefinedTags(t *testing.T) {
+	httpreplay.SetScenario("TestIdentityDomainsGroupResource_ignoreDefinedTags")
+	defer httpreplay.SaveScenario()
+
+	config := IdentityDomainsProviderConfigWithIgnoredOracleTags()
+	resourceName := "oci_identity_domains_group.test_group"
+
+	dependenciesConfig := config + IdentityDomainsGroupIgnoredOracleTagsResourceDependencies
+	createConfig := config + IdentityDomainsGroupIgnoredOracleTagsResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_group", "test_group", acctest.Required, acctest.Create, IdentityDomainsGroupIgnoredOracleTagsRepresentation)
+	removeCustomTagConfig := config + IdentityDomainsGroupIgnoredOracleTagsResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_group", "test_group", acctest.Required, acctest.Create, IdentityDomainsGroupIgnoredOracleTagsWithoutCustomDefinedTagRepresentation)
+
+	acctest.ResourceTest(t, testAccCheckIdentityDomainsGroupDestroy, []resource.TestStep{
+		{
+			Config: dependenciesConfig,
+		},
+		{
+			PreConfig: waitForIdentityDomainsDefinedTagPropagation,
+			Config:    createConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "display_name", "ignoreDefinedTagsGroup"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.0.freeform_tags.#", "1"),
+			),
+		},
+		{
+			Config:   createConfig,
+			PlanOnly: true,
+		},
+		{
+			Config:             removeCustomTagConfig,
+			PlanOnly:           true,
+			ExpectNonEmptyPlan: true,
+		},
+	})
+}
+
+// issue-routing-tag: identity_domains/default
+func TestIdentityDomainsGroupResource_withoutIgnoreDefinedTagsShowsPlanDiff(t *testing.T) {
+	httpreplay.SetScenario("TestIdentityDomainsGroupResource_withoutIgnoreDefinedTagsShowsPlanDiff")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	dependenciesConfig := config + IdentityDomainsGroupIgnoredOracleTagsResourceDependencies
+	createConfig := config + IdentityDomainsGroupIgnoredOracleTagsResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_group", "test_group", acctest.Required, acctest.Create, IdentityDomainsGroupIgnoredOracleTagsRepresentation)
+
+	acctest.ResourceTest(t, testAccCheckIdentityDomainsGroupDestroy, []resource.TestStep{
+		{
+			Config: dependenciesConfig,
+		},
+		{
+			PreConfig: waitForIdentityDomainsDefinedTagPropagation,
+			Config:    createConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr("oci_identity_domains_group.test_group", "display_name", "ignoreDefinedTagsGroup"),
+				resource.TestCheckResourceAttrSet("oci_identity_domains_group.test_group", "id"),
+			),
+			ExpectNonEmptyPlan: true,
+		},
+		{
+			Config:             createConfig,
+			PlanOnly:           true,
+			ExpectNonEmptyPlan: true,
 		},
 	})
 }

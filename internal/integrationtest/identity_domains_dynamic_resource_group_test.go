@@ -84,7 +84,28 @@ var (
 		"value": acctest.Representation{RepType: acctest.Required, Create: `freeformValue`, Update: `freeformValue2`},
 	}
 
-	IdentityDomainsDynamicResourceGroupResourceDependencies = DefinedTagsDependencies + TestDomainDependencies
+	IdentityDomainsDynamicResourceGroupResourceDependencies             = DefinedTagsDependencies + TestDomainDependencies
+	ignoreChangeForIdentityDomainsDynamicResourceGroupIgnoredOracleTags = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`schemas`}},
+	}
+	IdentityDomainsDynamicResourceGroupIgnoredOracleTagsOciTagsRepresentation = map[string]interface{}{
+		"defined_tags":  acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDomainsDynamicResourceGroupUrnietfparamsscimschemasoracleidcsextensionOCITagsDefinedTagsRepresentation},
+		"freeform_tags": acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDomainsDynamicResourceGroupUrnietfparamsscimschemasoracleidcsextensionOCITagsFreeformTagsRepresentation},
+	}
+	IdentityDomainsDynamicResourceGroupIgnoredOracleTagsOciTagsWithoutCustomDefinedTagRepresentation = map[string]interface{}{
+		"freeform_tags": acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDomainsDynamicResourceGroupUrnietfparamsscimschemasoracleidcsextensionOCITagsFreeformTagsRepresentation},
+	}
+	IdentityDomainsDynamicResourceGroupIgnoredOracleTagsRepresentation = map[string]interface{}{
+		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `ignoreDefinedTagsDynamicResourceGroup`},
+		"idcs_endpoint": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_domain.test_domain.url}`},
+		"matching_rule": acctest.Representation{RepType: acctest.Required, Create: `Any {Any {instance.id = \"instance.id\", instance.compartment.id = \"instance.compartment.id\"}}`},
+		"schemas":       acctest.Representation{RepType: acctest.Required, Create: []string{`urn:ietf:params:scim:schemas:oracle:idcs:DynamicResourceGroup`, `urn:ietf:params:scim:schemas:oracle:idcs:extension:OCITags`}},
+		"urnietfparamsscimschemasoracleidcsextension_oci_tags": acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDomainsDynamicResourceGroupIgnoredOracleTagsOciTagsRepresentation},
+		"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangeForIdentityDomainsDynamicResourceGroupIgnoredOracleTags},
+	}
+	IdentityDomainsDynamicResourceGroupIgnoredOracleTagsWithoutCustomDefinedTagRepresentation = acctest.RepresentationCopyWithNewProperties(IdentityDomainsDynamicResourceGroupIgnoredOracleTagsRepresentation, map[string]interface{}{
+		"urnietfparamsscimschemasoracleidcsextension_oci_tags": acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDomainsDynamicResourceGroupIgnoredOracleTagsOciTagsWithoutCustomDefinedTagRepresentation},
+	})
 )
 
 // issue-routing-tag: identity_domains/default
@@ -260,6 +281,77 @@ func TestIdentityDomainsDynamicResourceGroupResource_basic(t *testing.T) {
 				"matching_rule",
 			},
 			ResourceName: resourceName,
+		},
+	})
+}
+
+// issue-routing-tag: identity_domains/default
+func TestIdentityDomainsDynamicResourceGroupResource_ignoreDefinedTags(t *testing.T) {
+	httpreplay.SetScenario("TestIdentityDomainsDynamicResourceGroupResource_ignoreDefinedTags")
+	defer httpreplay.SaveScenario()
+
+	config := IdentityDomainsProviderConfigWithIgnoredOracleTags()
+	resourceName := "oci_identity_domains_dynamic_resource_group.test_dynamic_resource_group"
+
+	dependenciesConfig := config + IdentityDomainsDynamicResourceGroupResourceDependencies
+	createConfig := config + IdentityDomainsDynamicResourceGroupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_dynamic_resource_group", "test_dynamic_resource_group", acctest.Required, acctest.Create, IdentityDomainsDynamicResourceGroupIgnoredOracleTagsRepresentation)
+	removeCustomTagConfig := config + IdentityDomainsDynamicResourceGroupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_dynamic_resource_group", "test_dynamic_resource_group", acctest.Required, acctest.Create, IdentityDomainsDynamicResourceGroupIgnoredOracleTagsWithoutCustomDefinedTagRepresentation)
+
+	acctest.ResourceTest(t, testAccCheckIdentityDomainsDynamicResourceGroupDestroy, []resource.TestStep{
+		{
+			Config: dependenciesConfig,
+		},
+		{
+			PreConfig: waitForIdentityDomainsDefinedTagPropagation,
+			Config:    createConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "display_name", "ignoreDefinedTagsDynamicResourceGroup"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "urnietfparamsscimschemasoracleidcsextension_oci_tags.0.freeform_tags.#", "1"),
+			),
+		},
+		{
+			Config:   createConfig,
+			PlanOnly: true,
+		},
+		{
+			Config:             removeCustomTagConfig,
+			PlanOnly:           true,
+			ExpectNonEmptyPlan: true,
+		},
+	})
+}
+
+// issue-routing-tag: identity_domains/default
+func TestIdentityDomainsDynamicResourceGroupResource_withoutIgnoreDefinedTagsShowsPlanDiff(t *testing.T) {
+	httpreplay.SetScenario("TestIdentityDomainsDynamicResourceGroupResource_withoutIgnoreDefinedTagsShowsPlanDiff")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	dependenciesConfig := config + IdentityDomainsDynamicResourceGroupResourceDependencies
+	createConfig := config + IdentityDomainsDynamicResourceGroupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_dynamic_resource_group", "test_dynamic_resource_group", acctest.Required, acctest.Create, IdentityDomainsDynamicResourceGroupIgnoredOracleTagsRepresentation)
+
+	acctest.ResourceTest(t, testAccCheckIdentityDomainsDynamicResourceGroupDestroy, []resource.TestStep{
+		{
+			Config: dependenciesConfig,
+		},
+		{
+			PreConfig: waitForIdentityDomainsDefinedTagPropagation,
+			Config:    createConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr("oci_identity_domains_dynamic_resource_group.test_dynamic_resource_group", "display_name", "ignoreDefinedTagsDynamicResourceGroup"),
+				resource.TestCheckResourceAttrSet("oci_identity_domains_dynamic_resource_group.test_dynamic_resource_group", "id"),
+			),
+			ExpectNonEmptyPlan: true,
+		},
+		{
+			Config:             createConfig,
+			PlanOnly:           true,
+			ExpectNonEmptyPlan: true,
 		},
 	})
 }

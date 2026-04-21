@@ -27,11 +27,12 @@ func IdentityDomainsAppResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createIdentityDomainsApp,
-		Read:     readIdentityDomainsApp,
-		Update:   updateIdentityDomainsApp,
-		Delete:   deleteIdentityDomainsApp,
+		Timeouts:      tfresource.DefaultTimeout,
+		Create:        createIdentityDomainsApp,
+		Read:          readIdentityDomainsApp,
+		Update:        updateIdentityDomainsApp,
+		Delete:        deleteIdentityDomainsApp,
+		CustomizeDiff: suppressIgnoredStructuredDefinedTagsForOciTags(identityDomainsOciTagsField),
 		Schema: map[string]*schema.Schema{
 			// Required
 			"based_on_template": {
