@@ -67,6 +67,10 @@ func CoreShapesDataSource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"is_cnic": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"is_flexible": {
 							Type:     schema.TypeBool,
 							Computed: true,
