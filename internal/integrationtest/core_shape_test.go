@@ -126,6 +126,7 @@ func TestCoreShapeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.billing_type"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.gpus"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.is_billed_for_stopped_instance"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.is_cnic"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.is_flexible"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.is_live_migration_supported"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shapes.0.is_subcore"),
