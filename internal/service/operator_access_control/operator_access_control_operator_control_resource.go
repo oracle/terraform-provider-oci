@@ -86,6 +86,11 @@ func OperatorAccessControlOperatorControlResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"notification_topic_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"number_of_approvers": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -276,6 +281,11 @@ func (s *OperatorAccessControlOperatorControlResourceCrud) Create() error {
 		request.IsFullyPreApproved = &tmp
 	}
 
+	if notificationTopicId, ok := s.D.GetOkExists("notification_topic_id"); ok {
+		tmp := notificationTopicId.(string)
+		request.NotificationTopicId = &tmp
+	}
+
 	if numberOfApprovers, ok := s.D.GetOkExists("number_of_approvers"); ok {
 		tmp := numberOfApprovers.(int)
 		request.NumberOfApprovers = &tmp
@@ -409,6 +419,11 @@ func (s *OperatorAccessControlOperatorControlResourceCrud) Update() error {
 		request.IsFullyPreApproved = &tmp
 	}
 
+	if notificationTopicId, ok := s.D.GetOkExists("notification_topic_id"); ok {
+		tmp := notificationTopicId.(string)
+		request.NotificationTopicId = &tmp
+	}
+
 	if numberOfApprovers, ok := s.D.GetOkExists("number_of_approvers"); ok {
 		tmp := numberOfApprovers.(int)
 		request.NumberOfApprovers = &tmp
@@ -501,6 +516,10 @@ func (s *OperatorAccessControlOperatorControlResourceCrud) SetData() error {
 
 	if s.Res.LastModifiedInfo != nil {
 		s.D.Set("last_modified_info", *s.Res.LastModifiedInfo)
+	}
+
+	if s.Res.NotificationTopicId != nil {
+		s.D.Set("notification_topic_id", *s.Res.NotificationTopicId)
 	}
 
 	if s.Res.NumberOfApprovers != nil {
