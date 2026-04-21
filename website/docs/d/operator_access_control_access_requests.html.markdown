@@ -34,6 +34,7 @@ data "oci_operator_access_control_access_requests" "test_access_requests" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The ID of the compartment in which to list resources.
+* `num_days` - (Optional) The number of days since when the user wants to search .
 * `resource_name` - (Optional) A filter to return only resources that match the given ResourceName.
 * `resource_type` - (Optional) A filter to return only lists of resources that match the entire given service type.
 * `state` - (Optional) A filter to return only resources whose lifecycleState matches the given AccessRequest lifecycleState.

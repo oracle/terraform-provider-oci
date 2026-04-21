@@ -27,7 +27,7 @@ import (
 )
 
 var (
-	opctlName = `opctl-tf-` + utils.RandomString(5, utils.CharsetWithoutDigits)
+	opctlName = `OPCTL-Tersi` + utils.RandomString(5, utils.CharsetWithoutDigits)
 
 	approverGroupOCID = "use_iam_policy" //getGroupOCID()
 
@@ -161,6 +161,8 @@ func TestOperatorAccessControlOperatorControlResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "email_id_list.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_fully_pre_approved", "true"),
+				// resource.TestCheckResourceAttrSet(resourceName, "notification_topic_id"),
 				resource.TestCheckResourceAttr(resourceName, "number_of_approvers", "10"),
 
 				resource.TestCheckResourceAttr(resourceName, "is_fully_pre_approved", "true"),
@@ -198,7 +200,8 @@ func TestOperatorAccessControlOperatorControlResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "email_id_list.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-
+				resource.TestCheckResourceAttr(resourceName, "is_fully_pre_approved", "true"),
+				// resource.TestCheckResourceAttrSet(resourceName, "notification_topic_id"),
 				resource.TestCheckResourceAttr(resourceName, "number_of_approvers", "10"),
 
 				resource.TestCheckResourceAttr(resourceName, "is_fully_pre_approved", "true"),
@@ -232,6 +235,7 @@ func TestOperatorAccessControlOperatorControlResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_fully_pre_approved", "true"),
+				// resource.TestCheckResourceAttrSet(resourceName, "notification_topic_id"),
 				resource.TestCheckResourceAttr(resourceName, "number_of_approvers", "11"),
 
 				resource.TestCheckResourceAttr(resourceName, "is_default_operator_control", "false"),
