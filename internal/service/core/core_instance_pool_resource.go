@@ -291,10 +291,8 @@ func CoreInstancePoolResource() *schema.Resource {
 				},
 			},
 			"load_balancers": {
-				Type:             schema.TypeSet,
-				Optional:         true,
-				Computed:         true,
-				DiffSuppressFunc: tfresource.LoadBalancersSuppressDiff,
+				Type:     schema.TypeSet,
+				Optional: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -617,12 +615,16 @@ func (s *CoreInstancePoolResourceCrud) Update() error {
 		request.DisplayName = &tmp
 	}
 
-	if _, ok := s.D.GetOkExists("load_balancers"); ok && s.D.HasChange("load_balancers") {
+	if s.D.HasChange("load_balancers") {
 		oldPoint, newPoint := s.D.GetChange("load_balancers")
-		oldSet := oldPoint.(*schema.Set)
-		oldRaw := oldSet.List()
-		newSet := newPoint.(*schema.Set)
-		newRaw := newSet.List()
+		oldRaw := []interface{}{}
+		if oldSet, ok := oldPoint.(*schema.Set); ok && oldSet != nil {
+			oldRaw = oldSet.List()
+		}
+		newRaw := []interface{}{}
+		if newSet, ok := newPoint.(*schema.Set); ok && newSet != nil {
+			newRaw = newSet.List()
+		}
 
 		err := s.updateLoadBalancers(oldRaw, newRaw)
 		if err != nil {
@@ -1303,14 +1305,20 @@ func (s *CoreInstancePoolResourceCrud) updateCompartment(compartment interface{}
 }
 
 func (s *CoreInstancePoolResourceCrud) updateLoadBalancers(oldRaw interface{}, newRaw interface{}) error {
-	interfaces := oldRaw.([]interface{})
+	interfaces, ok := oldRaw.([]interface{})
+	if !ok || interfaces == nil {
+		interfaces = []interface{}{}
+	}
 	oldBalancers := make([]oci_core.AttachLoadBalancerDetails, len(interfaces))
 	for i, item := range interfaces {
 		converted := mapToAttachLoadBalancerDetails(item.(map[string]interface{}))
 		oldBalancers[i] = converted
 	}
 
-	interfaces = newRaw.([]interface{})
+	interfaces, ok = newRaw.([]interface{})
+	if !ok || interfaces == nil {
+		interfaces = []interface{}{}
+	}
 	newBalancers, err := mapToUniqueAttachLoadBalancerDetailsList(interfaces)
 	if err != nil {
 		return err
@@ -1461,7 +1469,7 @@ func (s *CoreInstancePoolResourceCrud) attachLoadBalancer(id string, newLoadBala
 		return err
 	}
 
-	_, err = s.pollForLbOperationCompletion(&id, &attachLoadBalancerRequest.AttachLoadBalancerDetails)
+	_, err = s.pollForLbOperationCompletion(&id, &attachLoadBalancerRequest.AttachLoadBalancerDetails, false)
 	if err != nil {
 		return err
 	}
@@ -1482,7 +1490,7 @@ func (s *CoreInstancePoolResourceCrud) detachLoadBalancer(id string, oldLoadbala
 		return err
 	}
 
-	_, err = s.pollForLbOperationCompletion(&id, &oldLoadbalancer)
+	_, err = s.pollForLbOperationCompletion(&id, &oldLoadbalancer, true)
 	if err != nil {
 		return err
 	}
@@ -1505,17 +1513,22 @@ func mapToAttachLoadBalancerDetails(item map[string]interface{}) oci_core.Attach
 	return result
 }
 
-func (s *CoreInstancePoolResourceCrud) pollForLbOperationCompletion(poolId *string, lbToTrack *oci_core.AttachLoadBalancerDetails) (*oci_core.InstancePool, error) {
+func (s *CoreInstancePoolResourceCrud) pollForLbOperationCompletion(poolId *string, lbToTrack *oci_core.AttachLoadBalancerDetails, isDetachOperation bool) (*oci_core.InstancePool, error) {
 	response := oci_core.GetInstancePoolResponse{}
+	pendingStates := []string{
+		string(oci_core.InstancePoolLoadBalancerAttachmentLifecycleStateAttaching),
+		string(oci_core.InstancePoolLoadBalancerAttachmentLifecycleStateDetaching),
+	}
+	targetState := string(oci_core.InstancePoolLoadBalancerAttachmentLifecycleStateAttached)
+	if isDetachOperation {
+		targetState = string(oci_core.InstancePoolLoadBalancerAttachmentLifecycleStateDetached)
+		// During detach, attachment can stay attached for a while before transitioning.
+		pendingStates = append(pendingStates, string(oci_core.InstancePoolLoadBalancerAttachmentLifecycleStateAttached))
+	}
+
 	stateConf := &retry.StateChangeConf{
-		Pending: []string{
-			string(oci_core.InstancePoolLoadBalancerAttachmentLifecycleStateAttaching),
-			string(oci_core.InstancePoolLoadBalancerAttachmentLifecycleStateDetaching),
-		},
-		Target: []string{
-			string(oci_core.InstancePoolLoadBalancerAttachmentLifecycleStateAttached),
-			string(oci_core.InstancePoolLoadBalancerAttachmentLifecycleStateDetached),
-		},
+		Pending: pendingStates,
+		Target:  []string{targetState},
 		Refresh: func() (interface{}, string, error) {
 			var err error
 
