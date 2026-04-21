@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -15,7 +16,7 @@ import (
 
 func DatabaseExascaleDbStorageVaultsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseExascaleDbStorageVaults,
+		ReadContext: readDatabaseExascaleDbStorageVaultsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"attached_shape_attributes": {
@@ -63,12 +64,12 @@ func DatabaseExascaleDbStorageVaultsDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseExascaleDbStorageVaults(d *schema.ResourceData, m interface{}) error {
+func readDatabaseExascaleDbStorageVaultsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExascaleDbStorageVaultsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseExascaleDbStorageVaultsDataSourceCrud struct {
@@ -81,7 +82,7 @@ func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) Get() error {
+func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListExascaleDbStorageVaultsRequest{}
 
 	if attachedShapeAttributes, ok := s.D.GetOkExists("attached_shape_attributes"); ok {
@@ -130,7 +131,7 @@ func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListExascaleDbStorageVaults(context.Background(), request)
+	response, err := s.Client.ListExascaleDbStorageVaults(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -139,7 +140,7 @@ func (s *DatabaseExascaleDbStorageVaultsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListExascaleDbStorageVaults(context.Background(), request)
+		listResponse, err := s.Client.ListExascaleDbStorageVaults(ctx, request)
 		if err != nil {
 			return err
 		}

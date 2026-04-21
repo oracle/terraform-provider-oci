@@ -13,6 +13,7 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -32,10 +33,10 @@ func DatabaseExadbVmClusterResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("12h"),
 			Delete: tfresource.GetTimeoutDuration("12h"),
 		},
-		Create:        createDatabaseExadbVmCluster,
-		Read:          readDatabaseExadbVmCluster,
-		Update:        updateDatabaseExadbVmCluster,
-		Delete:        deleteDatabaseExadbVmCluster,
+		CreateContext: createDatabaseExadbVmClusterWithContext,
+		ReadContext:   readDatabaseExadbVmClusterWithContext,
+		UpdateContext: updateDatabaseExadbVmClusterWithContext,
+		DeleteContext: deleteDatabaseExadbVmClusterWithContext,
 		CustomizeDiff: customValidationOnNodeResources,
 		Schema: map[string]*schema.Schema{
 			// Required
@@ -402,40 +403,40 @@ func DatabaseExadbVmClusterResource() *schema.Resource {
 	}
 }
 
-func createDatabaseExadbVmCluster(d *schema.ResourceData, m interface{}) error {
+func createDatabaseExadbVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExadbVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseExadbVmCluster(d *schema.ResourceData, m interface{}) error {
+func readDatabaseExadbVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExadbVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseExadbVmCluster(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseExadbVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExadbVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseExadbVmCluster(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseExadbVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExadbVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseExadbVmClusterResourceCrud struct {
@@ -486,7 +487,7 @@ func (s *DatabaseExadbVmClusterResourceCrud) UpdateTarget() []string {
 	}
 }
 
-func (s *DatabaseExadbVmClusterResourceCrud) Create() error {
+func (s *DatabaseExadbVmClusterResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateExadbVmClusterRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -656,7 +657,7 @@ func (s *DatabaseExadbVmClusterResourceCrud) Create() error {
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
-	response, err := s.Client.CreateExadbVmCluster(context.Background(), request)
+	response, err := s.Client.CreateExadbVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -671,7 +672,7 @@ func (s *DatabaseExadbVmClusterResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "exadbvmcluster", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "exadbvmcluster", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
@@ -679,10 +680,10 @@ func (s *DatabaseExadbVmClusterResourceCrud) Create() error {
 			return err
 		}
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseExadbVmClusterResourceCrud) Get() error {
+func (s *DatabaseExadbVmClusterResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetExadbVmClusterRequest{}
 
 	tmp := s.D.Id()
@@ -690,7 +691,7 @@ func (s *DatabaseExadbVmClusterResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetExadbVmCluster(context.Background(), request)
+	response, err := s.Client.GetExadbVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -699,11 +700,11 @@ func (s *DatabaseExadbVmClusterResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseExadbVmClusterResourceCrud) Update() error {
+func (s *DatabaseExadbVmClusterResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -724,7 +725,7 @@ func (s *DatabaseExadbVmClusterResourceCrud) Update() error {
 		oldNodeCount = len(oldNodeList)
 		newNodeCount = len(newNodeList)
 		if newNodeCount < oldNodeCount {
-			err := s.removeVirtualMachineFromExadbVmCluster(oldNodeList, newNodeList)
+			err := s.removeVirtualMachineFromExadbVmCluster(ctx, oldNodeList, newNodeList)
 			if err != nil {
 				return err
 			}
@@ -885,23 +886,23 @@ func (s *DatabaseExadbVmClusterResourceCrud) Update() error {
 	if updateRequired {
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-		response, err := s.Client.UpdateExadbVmCluster(context.Background(), request)
+		response, err := s.Client.UpdateExadbVmCluster(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
 		if workId != nil {
-			_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "exadbvmcluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+			_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "exadbvmcluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 			if err != nil {
 				return err
 			}
 		}
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseExadbVmClusterResourceCrud) Delete() error {
+func (s *DatabaseExadbVmClusterResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteExadbVmClusterRequest{}
 
 	tmp := s.D.Id()
@@ -909,14 +910,14 @@ func (s *DatabaseExadbVmClusterResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DeleteExadbVmCluster(context.Background(), request)
+	response, err := s.Client.DeleteExadbVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "exadbvmcluster", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "exadbvmcluster", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -1174,7 +1175,7 @@ func (s *DatabaseExadbVmClusterResourceCrud) mapToDataCollectionOptions(fieldKey
 	return result, nil
 }
 
-func (s *DatabaseExadbVmClusterResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseExadbVmClusterResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database.ChangeExadbVmClusterCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1185,14 +1186,14 @@ func (s *DatabaseExadbVmClusterResourceCrud) updateCompartment(compartment inter
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ChangeExadbVmClusterCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeExadbVmClusterCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "exadbvmcluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "exadbvmcluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -1236,7 +1237,7 @@ func (s *DatabaseExadbVmClusterResourceCrud) setNodeConfigInCreateExaDbVmCluster
 	return nil
 }
 
-func (s *DatabaseExadbVmClusterResourceCrud) removeVirtualMachineFromExadbVmCluster(oldNodeResourceList []interface{}, newNodeResourceList []interface{}) error {
+func (s *DatabaseExadbVmClusterResourceCrud) removeVirtualMachineFromExadbVmCluster(ctx context.Context, oldNodeResourceList []interface{}, newNodeResourceList []interface{}) error {
 	if len(oldNodeResourceList) <= len(newNodeResourceList) {
 		// this method is only applicable for removeVM use case
 		return nil
@@ -1274,14 +1275,14 @@ func (s *DatabaseExadbVmClusterResourceCrud) removeVirtualMachineFromExadbVmClus
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.RemoveVirtualMachineFromExadbVmCluster(context.Background(), request)
+	response, err := s.Client.RemoveVirtualMachineFromExadbVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "exadbvmcluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "exadbvmcluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

@@ -9,13 +9,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
 func DatabaseDbHomesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseDbHomes,
+		ReadContext: readDatabaseDbHomesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"backup_id": {
@@ -55,12 +56,12 @@ func DatabaseDbHomesDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseDbHomes(d *schema.ResourceData, m interface{}) error {
+func readDatabaseDbHomesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbHomesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseDbHomesDataSourceCrud struct {
@@ -73,7 +74,7 @@ func (s *DatabaseDbHomesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseDbHomesDataSourceCrud) Get() error {
+func (s *DatabaseDbHomesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListDbHomesRequest{}
 
 	if backupId, ok := s.D.GetOkExists("backup_id"); ok {
@@ -112,7 +113,7 @@ func (s *DatabaseDbHomesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListDbHomes(context.Background(), request)
+	response, err := s.Client.ListDbHomes(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -121,7 +122,7 @@ func (s *DatabaseDbHomesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDbHomes(context.Background(), request)
+		listResponse, err := s.Client.ListDbHomes(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -7,6 +7,7 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -16,7 +17,7 @@ import (
 
 func DatabaseExadbVmClustersDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseExadbVmClusters,
+		ReadContext: readDatabaseExadbVmClustersWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"cluster_placement_group_id": {
@@ -48,12 +49,12 @@ func DatabaseExadbVmClustersDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseExadbVmClusters(d *schema.ResourceData, m interface{}) error {
+func readDatabaseExadbVmClustersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExadbVmClustersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseExadbVmClustersDataSourceCrud struct {
@@ -66,7 +67,7 @@ func (s *DatabaseExadbVmClustersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseExadbVmClustersDataSourceCrud) Get() error {
+func (s *DatabaseExadbVmClustersDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListExadbVmClustersRequest{}
 
 	if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
@@ -95,7 +96,7 @@ func (s *DatabaseExadbVmClustersDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListExadbVmClusters(context.Background(), request)
+	response, err := s.Client.ListExadbVmClusters(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -104,7 +105,7 @@ func (s *DatabaseExadbVmClustersDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListExadbVmClusters(context.Background(), request)
+		listResponse, err := s.Client.ListExadbVmClusters(ctx, request)
 		if err != nil {
 			return err
 		}
