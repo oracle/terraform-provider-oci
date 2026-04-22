@@ -6,12 +6,14 @@ package batch
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	oci_batch "github.com/oracle/oci-go-sdk/v65/batch"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -35,16 +37,6 @@ func BatchBatchTaskProfileResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"min_memory_in_gbs": {
-				Type:     schema.TypeInt,
-				Required: true,
-				ForceNew: true,
-			},
-			"min_ocpus": {
-				Type:     schema.TypeInt,
-				Required: true,
-				ForceNew: true,
-			},
 
 			// Optional
 			"defined_tags": {
@@ -64,11 +56,69 @@ func BatchBatchTaskProfileResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"extended_information": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"CPU_ARCHITECTURE_TASK_PROFILE_EXTENDED_INFORMATION",
+								"CPU_SHAPE_TASK_PROFILE_EXTENDED_INFORMATION",
+								"GPU_SHAPE_TASK_PROFILE_EXTENDED_INFORMATION",
+							}, true),
+						},
+
+						// Optional
+						"architecture": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"shape_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"min_disk_size_in_gbs": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"min_memory_in_gbs": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"min_ocpus": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 
 			// Computed
@@ -183,17 +233,40 @@ func (s *BatchBatchTaskProfileResourceCrud) CreateWithContext(ctx context.Contex
 		request.DisplayName = &tmp
 	}
 
+	if extendedInformation, ok := s.D.GetOkExists("extended_information"); ok {
+		if tmpList := extendedInformation.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "extended_information", 0)
+			tmp, err := s.mapToCreateBatchTaskProfileExtendedInformationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ExtendedInformation = tmp
+		}
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if minDiskSizeInGBs, ok := s.D.GetOkExists("min_disk_size_in_gbs"); ok {
+		tmp := minDiskSizeInGBs.(int)
+		request.MinDiskSizeInGBs = &tmp
 	}
 
 	if minMemoryInGBs, ok := s.D.GetOkExists("min_memory_in_gbs"); ok {
 		tmp := minMemoryInGBs.(int)
 		request.MinMemoryInGBs = &tmp
+	} else {
+		// The service currently rejects null here even though the spec declares a default of 0.
+		tmp := 0
+		request.MinMemoryInGBs = &tmp
 	}
 
 	if minOcpus, ok := s.D.GetOkExists("min_ocpus"); ok {
 		tmp := minOcpus.(int)
+		request.MinOcpus = &tmp
+	} else {
+		tmp := 0
 		request.MinOcpus = &tmp
 	}
 
@@ -417,7 +490,19 @@ func (s *BatchBatchTaskProfileResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.ExtendedInformation != nil {
+		extendedInformationArray := []interface{}{}
+		if extendedInformationMap := BatchTaskProfileExtendedInformationToMap(&s.Res.ExtendedInformation); extendedInformationMap != nil {
+			extendedInformationArray = append(extendedInformationArray, extendedInformationMap)
+		}
+		s.D.Set("extended_information", extendedInformationArray)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.MinDiskSizeInGBs != nil {
+		s.D.Set("min_disk_size_in_gbs", *s.Res.MinDiskSizeInGBs)
+	}
 
 	if s.Res.MinMemoryInGBs != nil {
 		s.D.Set("min_memory_in_gbs", *s.Res.MinMemoryInGBs)
@@ -444,6 +529,33 @@ func (s *BatchBatchTaskProfileResourceCrud) SetData() error {
 	return nil
 }
 
+func BatchTaskProfileExtendedInformationToMap(obj *oci_batch.BatchTaskProfileExtendedInformation) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_batch.CpuArchitectureTaskProfileExtendedInformation:
+		result["type"] = "CPU_ARCHITECTURE_TASK_PROFILE_EXTENDED_INFORMATION"
+
+		result["architecture"] = string(v.Architecture)
+	case oci_batch.CpuShapeTaskProfileExtendedInformation:
+		result["type"] = "CPU_SHAPE_TASK_PROFILE_EXTENDED_INFORMATION"
+
+		if v.ShapeName != nil {
+			result["shape_name"] = string(*v.ShapeName)
+		}
+	case oci_batch.GpuShapeTaskProfileExtendedInformation:
+		result["type"] = "GPU_SHAPE_TASK_PROFILE_EXTENDED_INFORMATION"
+
+		if v.ShapeName != nil {
+			result["shape_name"] = string(*v.ShapeName)
+		}
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func BatchTaskProfileSummaryToMap(obj oci_batch.BatchTaskProfileSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -463,10 +575,22 @@ func BatchTaskProfileSummaryToMap(obj oci_batch.BatchTaskProfileSummary) map[str
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
+	if obj.ExtendedInformation != nil {
+		extendedInformationArray := []interface{}{}
+		if extendedInformationMap := BatchTaskProfileExtendedInformationToMap(&obj.ExtendedInformation); extendedInformationMap != nil {
+			extendedInformationArray = append(extendedInformationArray, extendedInformationMap)
+		}
+		result["extended_information"] = extendedInformationArray
+	}
+
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.MinDiskSizeInGBs != nil {
+		result["min_disk_size_in_gbs"] = int(*obj.MinDiskSizeInGBs)
 	}
 
 	if obj.MinMemoryInGBs != nil {
@@ -492,6 +616,43 @@ func BatchTaskProfileSummaryToMap(obj oci_batch.BatchTaskProfileSummary) map[str
 	}
 
 	return result
+}
+
+func (s *BatchBatchTaskProfileResourceCrud) mapToCreateBatchTaskProfileExtendedInformationDetails(fieldKeyFormat string) (oci_batch.CreateBatchTaskProfileExtendedInformationDetails, error) {
+	var baseObject oci_batch.CreateBatchTaskProfileExtendedInformationDetails
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("CPU_ARCHITECTURE_TASK_PROFILE_EXTENDED_INFORMATION"):
+		details := oci_batch.CreateCpuArchitectureTaskProfileExtendedInformationDetails{}
+		if architecture, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "architecture")); ok {
+			details.Architecture = oci_batch.CreateCpuArchitectureTaskProfileExtendedInformationDetailsArchitectureEnum(architecture.(string))
+		}
+		baseObject = details
+	case strings.ToLower("CPU_SHAPE_TASK_PROFILE_EXTENDED_INFORMATION"):
+		details := oci_batch.CreateCpuShapeTaskProfileExtendedInformationDetails{}
+		if shapeName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape_name")); ok {
+			tmp := shapeName.(string)
+			details.ShapeName = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("GPU_SHAPE_TASK_PROFILE_EXTENDED_INFORMATION"):
+		details := oci_batch.CreateGpuShapeTaskProfileExtendedInformationDetails{}
+		if shapeName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape_name")); ok {
+			tmp := shapeName.(string)
+			details.ShapeName = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
 }
 
 func (s *BatchBatchTaskProfileResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
