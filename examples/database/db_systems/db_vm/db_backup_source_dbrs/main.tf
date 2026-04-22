@@ -1,0 +1,69 @@
+# $Header$
+#
+# Copyright (c) 2026, Oracle and/or its affiliates. All rights reserved.
+#    NAME
+#      main.tf - Resources file
+#
+#    USAGE
+#      Example & Backward Compatibility Path: database/db_systems/db_vm/db_backup_source_dbrs
+#    NOTES
+#      Mirrors the DBRS-backed db_home.database.db_backup_config shape used by current db system tests.
+#      For DBRS destinations, recovery_window_in_days is intentionally omitted.
+
+resource "oci_recovery_protection_policy" "test_protection_policy" {
+  display_name                    = "tfRecoveryServiceSubnetProtectionPolicySourceExample"
+  backup_retention_period_in_days = "14"
+  compartment_id                  = var.compartment_id
+}
+
+resource "oci_recovery_recovery_service_subnet" "test_recovery_service_subnet_registration" {
+  display_name   = "tfRecoveryServiceSubnetRegistrationSourceExample"
+  compartment_id = var.compartment_id
+  subnets        = [oci_core_subnet.test_private_subnet.id]
+  vcn_id         = oci_core_vcn.test_vcn.id
+}
+
+resource "oci_database_db_system" "test_db_system" {
+  display_name         = "tfDbSystemSourceWithDBRSBackupExample"
+  availability_domain  = data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name
+  compartment_id       = var.compartment_id
+  cpu_core_count       = "2"
+  data_storage_size_in_gb = "256"
+  database_edition     = "ENTERPRISE_EDITION"
+  disk_redundancy      = "NORMAL"
+  domain               = oci_core_subnet.test_subnet.subnet_domain_name
+  hostname             = "tf-source-db"
+  license_model        = "LICENSE_INCLUDED"
+  node_count           = "1"
+  shape                = "VM.Standard2.2"
+  ssh_public_keys      = [var.ssh_public_key]
+  subnet_id            = oci_core_subnet.test_subnet.id
+
+  db_home {
+    database {
+      admin_password = "BEstrO0ng_#11"
+      character_set  = "AL32UTF8"
+      db_name        = "tfDb"
+      db_workload    = "OLTP"
+      ncharacter_set = "AL16UTF16"
+      pdb_name       = "tfPdb"
+
+      db_backup_config {
+        auto_backup_enabled    = true
+        backup_deletion_policy = "DELETE_IMMEDIATELY"
+        run_immediate_full_backup = true
+
+        backup_destination_details {
+          dbrs_policy_id            = oci_recovery_protection_policy.test_protection_policy.id
+          is_zero_data_loss_enabled = true
+          type                      = "DBRS"
+        }
+      }
+    }
+
+    db_version   = "19.25.0.0"
+    display_name = "tfDbHome"
+  }
+
+  depends_on = [oci_recovery_recovery_service_subnet.test_recovery_service_subnet_registration]
+}

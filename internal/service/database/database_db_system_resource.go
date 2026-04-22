@@ -152,7 +152,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
-													ForceNew: true,
 												},
 												"backup_destination_details": {
 													Type:     schema.TypeList,
@@ -167,37 +166,36 @@ func DatabaseDbSystemResource() *schema.Resource {
 																Type:     schema.TypeString,
 																Optional: true,
 																Computed: true,
-																ForceNew: true,
 															},
 															"dbrs_policy_id": {
 																Type:     schema.TypeString,
 																Optional: true,
 																Computed: true,
-																ForceNew: true,
 															},
 															"id": {
 																Type:     schema.TypeString,
 																Optional: true,
 																Computed: true,
-																ForceNew: true,
 															},
 															"is_remote": {
 																Type:     schema.TypeBool,
 																Optional: true,
 																Computed: true,
-																ForceNew: true,
 															},
 															"is_retention_lock_enabled": {
 																Type:     schema.TypeBool,
 																Optional: true,
 																Computed: true,
-																ForceNew: true,
+															},
+															"is_zero_data_loss_enabled": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
 															},
 															"remote_region": {
 																Type:     schema.TypeString,
 																Optional: true,
 																Computed: true,
-																ForceNew: true,
 															},
 															"type": {
 																Type:     schema.TypeString,
@@ -1456,7 +1454,30 @@ func (s *DatabaseDbSystemResourceCrud) UpdateWithContext(ctx context.Context) er
 		return fmt.Errorf("[ERROR] error setting data after dbsystem update but before database Update: %v", err)
 	}
 
+	if !s.hasDatabaseLevelChanges() {
+		return nil
+	}
+
 	return s.UpdateDatabaseOperation(ctx)
+}
+
+func (s *DatabaseDbSystemResourceCrud) hasDatabaseLevelChanges() bool {
+	databaseFieldKeys := []string{
+		"db_home.0.database.0.db_backup_config",
+		"db_home.0.database.0.defined_tags",
+		"db_home.0.database.0.freeform_tags",
+		"db_home.0.database.0.admin_password",
+		"db_home.0.database.0.tde_wallet_password",
+		"db_home.0.database.0.kms_key_version_id",
+	}
+
+	for _, key := range databaseFieldKeys {
+		if s.D.HasChange(key) {
+			return true
+		}
+	}
+
+	return false
 }
 
 func (s *DatabaseDbSystemResourceCrud) DeleteWithContext(ctx context.Context) error {
@@ -1777,6 +1798,11 @@ func (s *DatabaseDbSystemResourceCrud) mapToBackupDestinationDetails(fieldKeyFor
 	if isRetentionLockEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_retention_lock_enabled")); ok {
 		tmp := isRetentionLockEnabled.(bool)
 		result.IsRetentionLockEnabled = &tmp
+	}
+
+	if isZeroDataLossEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_zero_data_loss_enabled")); ok {
+		tmp := isZeroDataLossEnabled.(bool)
+		result.IsZeroDataLossEnabled = &tmp
 	}
 
 	if remoteRegion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "remote_region")); ok {
@@ -4000,6 +4026,27 @@ func (s *DatabaseDbSystemResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat 
 		result.AutoFullBackupWindow = oci_database.DbBackupConfigAutoFullBackupWindowEnum(autoFullBackupWindow.(string))
 	}
 
+	if backupDeletionPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_deletion_policy")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "backup_deletion_policy")) {
+		result.BackupDeletionPolicy = oci_database.DbBackupConfigBackupDeletionPolicyEnum(backupDeletionPolicy.(string))
+	}
+
+	if backupDestinationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")); ok {
+		interfaces := backupDestinationDetails.([]interface{})
+		tmp := make([]oci_database.BackupDestinationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "backup_destination_details"), stateDataIndex)
+			converted, err := s.mapToBackupDestinationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")) {
+			result.BackupDestinationDetails = tmp
+		}
+	}
+
 	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")) {
 		tmp := recoveryWindowInDays.(int)
 		result.RecoveryWindowInDays = &tmp
@@ -4135,6 +4182,10 @@ func waitForDbSystemIfItIsUpdating(ctx context.Context, dbSystemID *string, clie
 }
 
 func (s *DatabaseDbSystemResourceCrud) UpdateDatabaseOperation(ctx context.Context) error {
+	if !s.hasDatabaseLevelChanges() {
+		return nil
+	}
+
 	err := s.getDbHomeInfo()
 	if err != nil {
 		return err

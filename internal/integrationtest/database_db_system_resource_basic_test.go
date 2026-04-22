@@ -70,6 +70,97 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 	}
+
+	DbSystemRecoveryServiceServiceDatasourceRepresentation = map[string]interface{}{
+		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: DbSystemRecoveryServiceRegexFilterGroup},
+	}
+
+	DbSystemRecoveryServiceRegexFilterGroup = map[string]interface{}{
+		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`.*Oracle.*Services.*Network`}},
+		"regex":  acctest.Representation{RepType: acctest.Required, Create: `true`},
+	}
+
+	DbSystemRecoveryServiceGatewayRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `tfRecoveryServiceServiceGateway`},
+		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"services":       acctest.RepresentationGroup{RepType: acctest.Required, Group: DbSystemRecoveryServiceGatewayServicesGroup},
+	}
+
+	DbSystemRecoveryServiceGatewayServicesGroup = map[string]interface{}{
+		"service_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_services.test_services.services.0.id}`},
+	}
+
+	DbSystemRecoveryServiceRouteTableRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `tfRecoveryServicePrivateSubnetRouteTable`},
+		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"route_rules":    acctest.RepresentationGroup{RepType: acctest.Required, Group: DbSystemRecoveryServiceRouteRuleGroup},
+	}
+
+	DbSystemRecoveryServiceRouteRuleGroup = map[string]interface{}{
+		"network_entity_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_service_gateway.test_service_gateway.id}`},
+		"description":       acctest.Representation{RepType: acctest.Required, Create: `Recovery Service traffic for OCI Services`},
+		"destination":       acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_services.test_services.services[0].cidr_block}`},
+		"destination_type":  acctest.Representation{RepType: acctest.Required, Create: `SERVICE_CIDR_BLOCK`},
+	}
+
+	DbSystemRecoveryServicePrivateSubnetRepresentation = map[string]interface{}{
+		"display_name":               acctest.Representation{RepType: acctest.Required, Create: `tfPrivateSubnet`},
+		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"cidr_block":                 acctest.Representation{RepType: acctest.Required, Create: `10.1.21.0/24`},
+		"vcn_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"route_table_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_private_subnet_route_table.id}`},
+		"security_list_ids":          acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_private_subnet_security_list.id}`}},
+		"dhcp_options_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.default_dhcp_options_id}`},
+		"dns_label":                  acctest.Representation{RepType: acctest.Required, Create: `tfprivatesubnet`},
+		"prohibit_public_ip_on_vnic": acctest.Representation{RepType: acctest.Required, Create: `true`},
+	}
+
+	DbSystemRecoveryServiceSecurityListRepresentation = map[string]interface{}{
+		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `tfRecoveryServiceSecurityList`},
+		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"vcn_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"ingress_security_rules": []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DbSystemRecoveryServiceIngressRule1Group}, {RepType: acctest.Required, Group: DbSystemRecoveryServiceIngressRule2Group}},
+		"egress_security_rules":  []acctest.RepresentationGroup{{RepType: acctest.Required, Group: DbSystemRecoveryServiceEgressRulesGroup}},
+	}
+
+	DbSystemRecoveryServiceIngressRule1Group = map[string]interface{}{
+		"source":      acctest.Representation{RepType: acctest.Required, Create: `10.1.0.0/16`},
+		"source_type": acctest.Representation{RepType: acctest.Required, Create: `CIDR_BLOCK`},
+		"protocol":    acctest.Representation{RepType: acctest.Required, Create: `6`},
+		"tcp_options": acctest.RepresentationGroup{RepType: acctest.Required, Group: DbSystemRecoveryServiceTcpOptions1Group},
+	}
+
+	DbSystemRecoveryServiceTcpOptions1Group = map[string]interface{}{
+		"min": acctest.Representation{RepType: acctest.Required, Create: `8005`},
+		"max": acctest.Representation{RepType: acctest.Required, Create: `8005`},
+	}
+
+	DbSystemRecoveryServiceIngressRule2Group = map[string]interface{}{
+		"source":      acctest.Representation{RepType: acctest.Required, Create: `10.1.0.0/16`},
+		"source_type": acctest.Representation{RepType: acctest.Required, Create: `CIDR_BLOCK`},
+		"protocol":    acctest.Representation{RepType: acctest.Required, Create: `6`},
+		"tcp_options": acctest.RepresentationGroup{RepType: acctest.Required, Group: DbSystemRecoveryServiceTcpOptions2Group},
+	}
+
+	DbSystemRecoveryServiceTcpOptions2Group = map[string]interface{}{
+		"min": acctest.Representation{RepType: acctest.Required, Create: `2484`},
+		"max": acctest.Representation{RepType: acctest.Required, Create: `2484`},
+	}
+
+	DbSystemRecoveryServiceEgressRulesGroup = map[string]interface{}{
+		"destination": acctest.Representation{RepType: acctest.Required, Create: `0.0.0.0/0`},
+		"protocol":    acctest.Representation{RepType: acctest.Required, Create: `all`},
+	}
+
+	DbSystemRecoveryServiceSubnetRegistrationRepresentation = map[string]interface{}{
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `tfRecoveryServiceSubnetRegistration`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"subnets":        acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_subnet.test_private_subnet.id}`}},
+		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+	}
 	// Upstream Dependencies End
 
 	// 1. Main Db System Resource Representation: Start
@@ -90,13 +181,13 @@ var (
 		"subnet_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"shape":               acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.2`},
 		"ssh_public_keys":     acctest.Representation{RepType: acctest.Required, Create: []string{`ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`}},
-		"hostname":            acctest.Representation{RepType: acctest.Required, Create: `tfOracleDb`},
+		"hostname":            acctest.Representation{RepType: acctest.Required, Create: `tforacledb`},
 		"db_home":             acctest.RepresentationGroup{RepType: acctest.Required, Group: DbSystemDbHomeGroup},
 	}
 
 	DbSystemDbHomeGroup = map[string]interface{}{
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `tfDbHome`},
-		"db_version":   acctest.Representation{RepType: acctest.Optional, Create: `19.25.0.0`},
+		"db_version":   acctest.Representation{RepType: acctest.Optional, Create: `19.0.0.0`},
 		"database":     acctest.RepresentationGroup{RepType: acctest.Required, Group: DbSystemDatabaseGroup},
 	}
 
@@ -131,13 +222,13 @@ var (
 		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"shape":                   acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.2`},
 		"ssh_public_keys":         acctest.Representation{RepType: acctest.Required, Create: []string{`ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`}},
-		"hostname":                acctest.Representation{RepType: acctest.Required, Create: `tfOracleDb`},
+		"hostname":                acctest.Representation{RepType: acctest.Required, Create: `tforacledb`},
 		"db_home":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: DbSystemSourceDbHomeGroup},
 	}
 
 	DbSystemSourceDbHomeGroup = map[string]interface{}{
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `tfDbHome`},
-		"db_version":   acctest.Representation{RepType: acctest.Optional, Create: `19.25.0.0`},
+		"db_version":   acctest.Representation{RepType: acctest.Optional, Create: `19.0.0.0`},
 		"database":     acctest.RepresentationGroup{RepType: acctest.Required, Group: DbSystemSourceDatabaseGroup},
 	}
 
@@ -175,24 +266,25 @@ var (
 		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"shape":                   acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.2`},
 		"ssh_public_keys":         acctest.Representation{RepType: acctest.Required, Create: []string{`ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`}},
-		"hostname":                acctest.Representation{RepType: acctest.Required, Create: `tfOracleDb`},
+		"hostname":                acctest.Representation{RepType: acctest.Required, Create: `tforacledb`},
 		"source":                  acctest.Representation{RepType: acctest.Required, Create: `DATABASE`},
 		"db_home":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: DbSystemFromDatabaseDbHomeGroup},
 	}
 
 	DbSystemFromDatabaseDbHomeGroup = map[string]interface{}{
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `tfDbHome`},
-		"db_version":   acctest.Representation{RepType: acctest.Optional, Create: `19.25.0.0`},
+		"db_version":   acctest.Representation{RepType: acctest.Optional, Create: `19.0.0.0`},
 		"database":     acctest.RepresentationGroup{RepType: acctest.Required, Group: DbSystemFromDatabaseDatabaseGroup},
 	}
 
 	DbSystemFromDatabaseDatabaseGroup = map[string]interface{}{
-		"db_name":            acctest.Representation{RepType: acctest.Optional, Create: `tfDb`},
-		"kms_key_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`},
-		"vault_id":           acctest.Representation{RepType: acctest.Optional, Create: `${var.vault_id}`},
-		"kms_key_version_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_version_id}`},
-		"database_id":        acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_database_databases.test_source_db_system.databases.0.id}`},
-		"admin_password":     acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"db_name":             acctest.Representation{RepType: acctest.Optional, Create: `tfDb`},
+		"kms_key_id":          acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`},
+		"vault_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.vault_id}`},
+		"kms_key_version_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_version_id}`},
+		"database_id":         acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_database_databases.test_source_db_system.databases.0.id}`},
+		"admin_password":      acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"backup_tde_password": acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 	}
 	// 3. FromDatabase End
 
@@ -207,13 +299,22 @@ var (
 	}
 
 	// Database Upstream Resource Dependencies Configs
-	DbSystemCoreVcnConfig         = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, DbSystemCoreVcnRepresentation)
-	DbSystemRouteTableConfig      = acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, DbSystemRouteTableResourceRepresentation)
-	DbSystemInternetGatewayConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, DbSystemCoreInternetGatewayResourceRepresentation)
-	DbSystemSubnetConfig          = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, DbSystemSubnetResourceRepresentation)
+	DbSystemRecoveryServiceDatasourceConfig         = acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Required, acctest.Create, DbSystemRecoveryServiceServiceDatasourceRepresentation)
+	DbSystemCoreVcnConfig                           = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, DbSystemCoreVcnRepresentation)
+	DbSystemRouteTableConfig                        = acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, DbSystemRouteTableResourceRepresentation)
+	DbSystemInternetGatewayConfig                   = acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, DbSystemCoreInternetGatewayResourceRepresentation)
+	DbSystemSubnetConfig                            = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, DbSystemSubnetResourceRepresentation)
+	DbSystemRecoveryServiceGatewayConfig            = acctest.GenerateResourceFromRepresentationMap("oci_core_service_gateway", "test_service_gateway", acctest.Required, acctest.Create, DbSystemRecoveryServiceGatewayRepresentation)
+	DbSystemRecoveryServiceRouteTableConfig         = acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_private_subnet_route_table", acctest.Required, acctest.Create, DbSystemRecoveryServiceRouteTableRepresentation)
+	DbSystemRecoveryServiceSecurityListConfig       = acctest.GenerateResourceFromRepresentationMap("oci_core_security_list", "test_private_subnet_security_list", acctest.Required, acctest.Create, DbSystemRecoveryServiceSecurityListRepresentation)
+	DbSystemRecoveryServicePrivateSubnetConfig      = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_private_subnet", acctest.Required, acctest.Create, DbSystemRecoveryServicePrivateSubnetRepresentation)
+	DbSystemRecoveryServiceSubnetRegistrationConfig = acctest.GenerateResourceFromRepresentationMap("oci_recovery_recovery_service_subnet", "test_recovery_service_subnet_registration", acctest.Required, acctest.Create, DbSystemRecoveryServiceSubnetRegistrationRepresentation)
 
-	// Base configuration for Db System - Tags, ADs, Vcn, Route Tables, Internet Gateway, Subnet
+	// Base configuration for plain DB System tests. Keep backup/recovery plumbing out of this shared default.
 	DbSystemBaseConfig = DefinedTagsDependencies + AvailabilityDomainConfig + DbSystemCoreVcnConfig + DbSystemRouteTableConfig + DbSystemInternetGatewayConfig + DbSystemSubnetConfig
+
+	// DBRS-specific base configuration used by tests that exercise DBRS destinations.
+	DbSystemDbrsBaseConfig = DbSystemBaseConfig + DbSystemRecoveryServiceDatasourceConfig + DbSystemRecoveryServiceGatewayConfig + DbSystemRecoveryServiceRouteTableConfig + DbSystemRecoveryServiceSecurityListConfig + DbSystemRecoveryServicePrivateSubnetConfig + DbSystemRecoveryServiceSubnetRegistrationConfig
 
 	DbSystemResourceName             = "oci_database_db_system.test_db_system"
 	DbSystemSourceResourceName       = "oci_database_db_system.test_source_db_system"
@@ -222,8 +323,10 @@ var (
 	// Downstream dependencies only (Not used in current file)
 	ResourceDatabaseResourceName                   = "oci_database_db_system.t"
 	ResourceDatabaseBaseConfig                     = acctest.LegacyTestProviderConfig() + DbSystemBaseConfig
+	ResourceDatabaseDbrsBaseConfig                 = acctest.LegacyTestProviderConfig() + DbSystemDbrsBaseConfig
 	DbSystemResourceConfig                         = acctest.GenerateResourceFromRepresentationMap("oci_database_db_system", "test_db_system", acctest.Required, acctest.Create, DbSystemResourceRepresentation)
 	DbSystemResourceDependencies                   = DbSystemBaseConfig
+	DbSystemDbrsResourceDependencies               = DbSystemDbrsBaseConfig
 	ResourceDatabaseToken, ResourceDatabaseTokenFn = acctest.TokenizeWithHttpReplay("database_db")
 )
 
@@ -234,7 +337,6 @@ func TestResourceDatabaseDBSystemFromDatabase(t *testing.T) {
 	}
 
 	config := acctest.LegacyTestProviderConfig()
-
 	kmsKeyId := utils.GetEnvSettingWithBlankDefault("kms_key_id")
 	kmsKeyIdVariableStr := fmt.Sprintf("variable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
 
@@ -292,7 +394,7 @@ func TestResourceDatabaseDBSystemFromDatabase(t *testing.T) {
 				resource.TestCheckResourceAttr(DbSystemFromDatabaseResourceName, "data_storage_size_in_gb", "256"),
 				resource.TestCheckResourceAttr(DbSystemFromDatabaseResourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(DbSystemFromDatabaseResourceName, "node_count", "1"),
-				resource.TestCheckResourceAttr(DbSystemFromDatabaseResourceName, "db_home.0.db_version", "19.25.0.0"),
+				resource.TestCheckResourceAttrSet(DbSystemFromDatabaseResourceName, "db_home.0.db_version"),
 				resource.TestCheckResourceAttrSet(DbSystemFromDatabaseResourceName, "db_home.0.display_name"),
 				resource.TestCheckResourceAttr(DbSystemFromDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(DbSystemFromDatabaseResourceName, "db_home.0.database.0.db_name", "tfDb"),
