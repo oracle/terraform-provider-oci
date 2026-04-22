@@ -45,12 +45,18 @@ var (
 	}
 
 	BatchBatchTaskProfileRepresentation = map[string]interface{}{
-		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"min_memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `10`},
-		"min_ocpus":         acctest.Representation{RepType: acctest.Required, Create: `10`},
-		"description":       acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":      acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"description":          acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"extended_information": acctest.RepresentationGroup{RepType: acctest.Optional, Group: BatchBatchTaskProfileExtendedInformationRepresentation},
+		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"min_disk_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"min_memory_in_gbs":    acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"min_ocpus":            acctest.Representation{RepType: acctest.Optional, Create: `10`},
+	}
+	BatchBatchTaskProfileExtendedInformationRepresentation = map[string]interface{}{
+		"type":         acctest.Representation{RepType: acctest.Required, Create: `CPU_ARCHITECTURE_TASK_PROFILE_EXTENDED_INFORMATION`},
+		"architecture": acctest.Representation{RepType: acctest.Optional, Create: `GENERIC_X86`},
 	}
 
 	BatchBatchTaskProfileResourceDependencies = ""
@@ -85,8 +91,6 @@ func TestBatchBatchTaskProfileResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_batch_batch_task_profile", "test_batch_task_profile", acctest.Required, acctest.Create, BatchBatchTaskProfileRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "min_memory_in_gbs", "10"),
-				resource.TestCheckResourceAttr(resourceName, "min_ocpus", "10"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -107,8 +111,12 @@ func TestBatchBatchTaskProfileResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "extended_information.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "extended_information.0.architecture", "GENERIC_X86"),
+				resource.TestCheckResourceAttr(resourceName, "extended_information.0.type", "CPU_ARCHITECTURE_TASK_PROFILE_EXTENDED_INFORMATION"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "min_disk_size_in_gbs", "10"),
 				resource.TestCheckResourceAttr(resourceName, "min_memory_in_gbs", "10"),
 				resource.TestCheckResourceAttr(resourceName, "min_ocpus", "10"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -132,8 +140,12 @@ func TestBatchBatchTaskProfileResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "extended_information.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "extended_information.0.architecture", "GENERIC_X86"),
+				resource.TestCheckResourceAttr(resourceName, "extended_information.0.type", "CPU_ARCHITECTURE_TASK_PROFILE_EXTENDED_INFORMATION"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "min_disk_size_in_gbs", "10"),
 				resource.TestCheckResourceAttr(resourceName, "min_memory_in_gbs", "10"),
 				resource.TestCheckResourceAttr(resourceName, "min_ocpus", "10"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -157,8 +169,12 @@ func TestBatchBatchTaskProfileResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "extended_information.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "extended_information.0.architecture", "GENERIC_X86"),
+				resource.TestCheckResourceAttr(resourceName, "extended_information.0.type", "CPU_ARCHITECTURE_TASK_PROFILE_EXTENDED_INFORMATION"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "min_disk_size_in_gbs", "10"),
 				resource.TestCheckResourceAttr(resourceName, "min_memory_in_gbs", "10"),
 				resource.TestCheckResourceAttr(resourceName, "min_ocpus", "10"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -214,7 +230,7 @@ func TestBatchBatchTaskProfileResource_basic(t *testing.T) {
 			Config:                  config + BatchBatchTaskProfileRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
+			ImportStateVerifyIgnore: []string{"extended_information", "min_disk_size_in_gbs"},
 			ResourceName:            resourceName,
 		},
 	})

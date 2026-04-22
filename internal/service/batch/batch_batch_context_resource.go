@@ -78,13 +78,30 @@ func BatchBatchContextResource() *schema.Resource {
 										Required: true,
 										ForceNew: true,
 									},
-									"shape_name": {
-										Type:     schema.TypeString,
-										Required: true,
-										ForceNew: true,
+									"type": {
+										Type:             schema.TypeString,
+										Optional:         true,
+										Computed:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"FIXED_GPU_FLEET_SHAPE",
+										}, true),
 									},
 
 									// Optional
+									"disk_size_in_gbs": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"shape_name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 
 									// Computed
 								},
@@ -97,6 +114,7 @@ func BatchBatchContextResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"SERVICE_MANAGED_FLEET",
+								"SERVICE_MANAGED_GPU_FLEET",
 							}, true),
 						},
 
@@ -235,7 +253,6 @@ func BatchBatchContextResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -254,7 +271,6 @@ func BatchBatchContextResource() *schema.Resource {
 						"type": {
 							Type:             schema.TypeString,
 							Required:         true,
-							ForceNew:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"OCI_LOGGING",
@@ -262,6 +278,11 @@ func BatchBatchContextResource() *schema.Resource {
 						},
 
 						// Optional
+						"is_job_task_events_propagation_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 					},
@@ -674,21 +695,6 @@ func batchContextWaitForWorkRequest(ctx context.Context, wId *string, resourceId
 					},
 				})
 
-			// For DELETE operations, check resource state more frequently (every 5 polls = ~2.5 minutes)
-			// This helps detect if resource is already deleted even if work request is stuck
-			// For CREATE operations, check less frequently (every 20 polls = ~10 minutes)
-			checkInterval := 20
-			if action == oci_batch.ActionTypeDeleted {
-				checkInterval = 5
-			}
-			if resourceId != nil && *resourceId != "" && pollCount%checkInterval == 0 {
-				if wr, status, checkErr := checkBatchContextStateForWorkRequest(ctx, resourceId, action, retryPolicy, client); checkErr != nil {
-					return nil, "", checkErr
-				} else if status != "" {
-					return wr, status, nil
-				}
-			}
-
 			// If work request succeeds, use it
 			if err == nil {
 				wr := &response.WorkRequest
@@ -889,6 +895,17 @@ func (s *BatchBatchContextResourceCrud) UpdateWithContext(ctx context.Context) e
 		}
 		if len(tmp) != 0 || s.D.HasChange("job_priority_configurations") {
 			request.JobPriorityConfigurations = tmp
+		}
+	}
+
+	if loggingConfiguration, ok := s.D.GetOkExists("logging_configuration"); ok {
+		if tmpList := loggingConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "logging_configuration", 0)
+			tmp, err := s.mapToUpdateLoggingConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.LoggingConfiguration = tmp
 		}
 	}
 
@@ -1136,6 +1153,27 @@ func (s *BatchBatchContextResourceCrud) mapToCreateFleetDetails(fieldKeyFormat s
 			}
 		}
 		baseObject = details
+	case strings.ToLower("SERVICE_MANAGED_GPU_FLEET"):
+		details := oci_batch.CreateServiceManagedGpuFleetDetails{}
+		if maxConcurrentTasks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_concurrent_tasks")); ok {
+			tmp := maxConcurrentTasks.(int)
+			details.MaxConcurrentTasks = &tmp
+		}
+		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+			tmp := name.(string)
+			details.Name = &tmp
+		}
+		if shape, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape")); ok {
+			if tmpList := shape.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "shape"), 0)
+				tmp, err := s.mapToCreateGpuFleetShapeDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert shape, encountered error: %v", err)
+				}
+				details.Shape = tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
 	}
@@ -1172,11 +1210,133 @@ func FleetToMap(obj oci_batch.Fleet) map[string]interface{} {
 			result["name"] = string(*v.Name)
 		}
 
+		if v.Details != nil {
+			result["details"] = string(*v.Details)
+		}
+
 		if v.Shape != nil {
 			result["shape"] = []interface{}{FleetShapeToMap(v.Shape)}
 		}
+
+		if v.State != nil {
+			result["state"] = string(*v.State)
+		}
+	case oci_batch.CreateServiceManagedGpuFleetDetails:
+		result["type"] = "SERVICE_MANAGED_GPU_FLEET"
+
+		if v.MaxConcurrentTasks != nil {
+			result["max_concurrent_tasks"] = int(*v.MaxConcurrentTasks)
+		}
+
+		if v.Name != nil {
+			result["name"] = string(*v.Name)
+		}
+
+		if v.Shape != nil {
+			shapeArray := []interface{}{}
+			if shapeMap := CreateGpuFleetShapeDetailsToMap(&v.Shape); shapeMap != nil {
+				shapeArray = append(shapeArray, shapeMap)
+			}
+			result["shape"] = shapeArray
+		}
+	case oci_batch.ServiceManagedGpuFleet:
+		result["type"] = "SERVICE_MANAGED_GPU_FLEET"
+
+		if v.MaxConcurrentTasks != nil {
+			result["max_concurrent_tasks"] = int(*v.MaxConcurrentTasks)
+		}
+
+		if v.Name != nil {
+			result["name"] = string(*v.Name)
+		}
+
+		if v.Details != nil {
+			result["details"] = string(*v.Details)
+		}
+
+		if v.Shape != nil {
+			shapeArray := []interface{}{}
+			if shapeMap := GpuFleetShapeToMap(&v.Shape); shapeMap != nil {
+				shapeArray = append(shapeArray, shapeMap)
+			}
+			result["shape"] = shapeArray
+		}
+
+		if v.State != nil {
+			result["state"] = string(*v.State)
+		}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *BatchBatchContextResourceCrud) mapToCreateGpuFleetShapeDetails(fieldKeyFormat string) (oci_batch.CreateGpuFleetShapeDetails, error) {
+	var baseObject oci_batch.CreateGpuFleetShapeDetails
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("FIXED_GPU_FLEET_SHAPE"):
+		details := oci_batch.CreateFixedGpuFleetShapeDetails{}
+		if diskSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "disk_size_in_gbs")); ok {
+			tmp := diskSizeInGBs.(int)
+			details.DiskSizeInGBs = &tmp
+		}
+		if shapeName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape_name")); ok {
+			tmp := shapeName.(string)
+			details.ShapeName = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func CreateGpuFleetShapeDetailsToMap(obj *oci_batch.CreateGpuFleetShapeDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_batch.CreateFixedGpuFleetShapeDetails:
+		result["type"] = "FIXED_GPU_FLEET_SHAPE"
+
+		if v.DiskSizeInGBs != nil {
+			result["disk_size_in_gbs"] = int(*v.DiskSizeInGBs)
+		}
+
+		if v.ShapeName != nil {
+			result["shape_name"] = string(*v.ShapeName)
+		}
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func GpuFleetShapeToMap(obj *oci_batch.GpuFleetShape) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_batch.FixedGpuFleetShape:
+		result["type"] = "FIXED_GPU_FLEET_SHAPE"
+
+		if v.DiskSizeInGBs != nil {
+			result["disk_size_in_gbs"] = int(*v.DiskSizeInGBs)
+		}
+
+		if v.ShapeName != nil {
+			result["shape_name"] = string(*v.ShapeName)
+		}
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
 		return nil
 	}
 
@@ -1237,6 +1397,11 @@ func NetworkToMap(obj *oci_batch.Network, datasource bool) map[string]interface{
 func (s *BatchBatchContextResourceCrud) mapToFleetShape(fieldKeyFormat string) (oci_batch.FleetShape, error) {
 	result := oci_batch.FleetShape{}
 
+	if diskSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "disk_size_in_gbs")); ok {
+		tmp := diskSizeInGBs.(int)
+		result.DiskSizeInGBs = &tmp
+	}
+
 	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
 		tmp := memoryInGBs.(int)
 		result.MemoryInGBs = &tmp
@@ -1257,6 +1422,10 @@ func (s *BatchBatchContextResourceCrud) mapToFleetShape(fieldKeyFormat string) (
 
 func FleetShapeToMap(obj *oci_batch.FleetShape) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.DiskSizeInGBs != nil {
+		result["disk_size_in_gbs"] = int(*obj.DiskSizeInGBs)
+	}
 
 	if obj.MemoryInGBs != nil {
 		result["memory_in_gbs"] = int(*obj.MemoryInGBs)
@@ -1371,6 +1540,34 @@ func (s *BatchBatchContextResourceCrud) mapToLoggingConfiguration(fieldKeyFormat
 			tmp := logId.(string)
 			details.LogId = &tmp
 		}
+		if isJobTaskEventsPropagationEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_job_task_events_propagation_enabled")); ok {
+			tmp := isJobTaskEventsPropagationEnabled.(bool)
+			details.IsJobTaskEventsPropagationEnabled = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func (s *BatchBatchContextResourceCrud) mapToUpdateLoggingConfigurationDetails(fieldKeyFormat string) (oci_batch.UpdateLoggingConfigurationDetails, error) {
+	var baseObject oci_batch.UpdateLoggingConfigurationDetails
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("OCI_LOGGING"):
+		details := oci_batch.UpdateOciLoggingConfiguration{}
+		if isJobTaskEventsPropagationEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_job_task_events_propagation_enabled")); ok {
+			tmp := isJobTaskEventsPropagationEnabled.(bool)
+			details.IsJobTaskEventsPropagationEnabled = &tmp
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
@@ -1390,6 +1587,10 @@ func LoggingConfigurationToMap(obj *oci_batch.LoggingConfiguration) map[string]i
 
 		if v.LogId != nil {
 			result["log_id"] = string(*v.LogId)
+		}
+
+		if v.IsJobTaskEventsPropagationEnabled != nil {
+			result["is_job_task_events_propagation_enabled"] = bool(*v.IsJobTaskEventsPropagationEnabled)
 		}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)

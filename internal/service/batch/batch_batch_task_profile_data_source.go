@@ -83,7 +83,21 @@ func (s *BatchBatchTaskProfileDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.ExtendedInformation != nil {
+		extendedInformationArray := []interface{}{}
+		if extendedInformationMap := BatchTaskProfileExtendedInformationToMap(&s.Res.ExtendedInformation); extendedInformationMap != nil {
+			extendedInformationArray = append(extendedInformationArray, extendedInformationMap)
+		}
+		s.D.Set("extended_information", extendedInformationArray)
+	} else {
+		s.D.Set("extended_information", nil)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.MinDiskSizeInGBs != nil {
+		s.D.Set("min_disk_size_in_gbs", *s.Res.MinDiskSizeInGBs)
+	}
 
 	if s.Res.MinMemoryInGBs != nil {
 		s.D.Set("min_memory_in_gbs", *s.Res.MinMemoryInGBs)

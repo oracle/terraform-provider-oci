@@ -27,6 +27,10 @@ func BatchBatchContextShapesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"shape_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"batch_context_shape_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -173,6 +177,10 @@ func (s *BatchBatchContextShapesDataSourceCrud) GetWithContext(ctx context.Conte
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if shapeType, ok := s.D.GetOkExists("shape_type"); ok {
+		request.ShapeType = oci_batch.ListBatchContextShapesShapeTypeEnum(shapeType.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "batch")
