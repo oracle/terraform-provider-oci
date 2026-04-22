@@ -16,9 +16,15 @@ import (
 )
 
 var (
-	BatchBatchContextShapeDataSourceRepresentation = map[string]interface{}{
+	BatchBatchContextShapeCpuDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"shape_type":          acctest.Representation{RepType: acctest.Required, Create: `CPU`},
+	}
+	BatchBatchContextShapeGpuDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"shape_type":          acctest.Representation{RepType: acctest.Required, Create: `GPU`},
 	}
 
 	BatchBatchContextShapeResourceConfig = AvailabilityDomainConfig
@@ -39,13 +45,27 @@ func TestBatchBatchContextShapeResource_basic(t *testing.T) {
 	acctest.SaveConfigContent("", "", "", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
-		// verify datasource
+		// verify CPU datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_batch_batch_context_shapes", "test_batch_context_shapes", acctest.Required, acctest.Create, BatchBatchContextShapeDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_batch_batch_context_shapes", "test_batch_context_shapes", acctest.Required, acctest.Create, BatchBatchContextShapeCpuDataSourceRepresentation) +
 				compartmentIdVariableStr + BatchBatchContextShapeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "shape_type", "CPU"),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "batch_context_shape_collection.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "batch_context_shape_collection.0.items.#"),
+			),
+		},
+		// verify GPU datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_batch_batch_context_shapes", "test_batch_context_shapes", acctest.Required, acctest.Create, BatchBatchContextShapeGpuDataSourceRepresentation) +
+				compartmentIdVariableStr + BatchBatchContextShapeResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "shape_type", "GPU"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "batch_context_shape_collection.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "batch_context_shape_collection.0.items.#"),

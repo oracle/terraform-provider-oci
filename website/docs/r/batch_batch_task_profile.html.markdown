@@ -21,14 +21,22 @@ Creates a batch task profile.
 resource "oci_batch_batch_task_profile" "test_batch_task_profile" {
 	#Required
 	compartment_id = var.compartment_id
-	min_memory_in_gbs = var.batch_task_profile_min_memory_in_gbs
-	min_ocpus = var.batch_task_profile_min_ocpus
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
 	description = var.batch_task_profile_description
 	display_name = var.batch_task_profile_display_name
+	extended_information {
+		#Required
+		type = var.batch_task_profile_extended_information_type
+
+		#Optional
+		architecture = var.batch_task_profile_extended_information_architecture
+	}
 	freeform_tags = {"Department"= "Finance"}
+	min_disk_size_in_gbs = var.batch_task_profile_min_disk_size_in_gbs
+	min_memory_in_gbs = var.batch_task_profile_min_memory_in_gbs
+	min_ocpus = var.batch_task_profile_min_ocpus
 }
 ```
 
@@ -40,9 +48,14 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) The batch task profile description.
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. If not specified or provided as null or empty string, it be generated as "<resourceType><timeCreated>", where timeCreated corresponds with the resource creation time in ISO 8601 basic format, i.e. omitting separating punctuation, at second-level precision and no UTC offset. Example: batchtaskprofile20250914115623. 
+* `extended_information` - (Optional) Extended information for the task profile.
+	* `architecture` - (Required when type=CPU_ARCHITECTURE_TASK_PROFILE_EXTENDED_INFORMATION) Type of CPU architecture.
+	* `shape_name` - (Required when type=CPU_SHAPE_TASK_PROFILE_EXTENDED_INFORMATION | GPU_SHAPE_TASK_PROFILE_EXTENDED_INFORMATION) A name of the CPU shape.
+	* `type` - (Required) Type of extended information.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `min_memory_in_gbs` - (Required) The minimum required memory.
-* `min_ocpus` - (Required) The minimum required OCPUs.
+* `min_disk_size_in_gbs` - (Optional) The minimum required size of disk space in GBs.
+* `min_memory_in_gbs` - (Optional) The minimum required memory.
+* `min_ocpus` - (Optional) The minimum required OCPUs.
 
 
 ** IMPORTANT **
@@ -56,8 +69,13 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The batch task profile description.
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
+* `extended_information` - Extended information for the task profile.
+	* `architecture` - Type of CPU architecture.
+	* `shape_name` - A name of the CPU shape.
+	* `type` - Type of extended information.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the batch task profile.
+* `min_disk_size_in_gbs` - The minimum required size of disk space in GBs.
 * `min_memory_in_gbs` - The minimum required memory.
 * `min_ocpus` - The minimum required OCPUs.
 * `state` - The current state of the batch task profile. 
@@ -80,4 +98,3 @@ BatchTaskProfiles can be imported using the `id`, e.g.
 ```
 $ terraform import oci_batch_batch_task_profile.test_batch_task_profile "id"
 ```
-

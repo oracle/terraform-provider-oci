@@ -38,14 +38,16 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
 * `entitlements` - Mapping of concurrent/shared resources used in job tasks to their limits.
 * `fleets` - List of fleet configurations related to the batch context.
-	* `details` - A message that describes the current state of the service manage fleet configuration in more detail.
+	* `details` - A message that describes the current state of the service managed fleet configuration in more detail.
 	* `max_concurrent_tasks` - Maximum number of concurrent tasks for the service managed fleet.
 	* `name` - Name of the service managed fleet.
 	* `shape` - Shape of the fleet. Describes hardware resources of each node in the fleet.
-		* `memory_in_gbs` - Amount of memory in GBs required by the shape.
-		* `ocpus` - Number of OCPUs required by the shape.
+		* `disk_size_in_gbs` - Amount of disk space in GBs required for the shape.
+		* `memory_in_gbs` - Amount of memory in GBs required for the shape.
+		* `ocpus` - Number of OCPUs required for the shape.
 		* `shape_name` - The name of the shape.
-	* `state` - Current state of the service manage fleet configuration.
+		* `type` - Type of the GPU fleet shape when the fleet is GPU-backed. Also serves as a discriminator for sub-entities.
+	* `state` - Current state of the service managed fleet configuration.
 	* `type` - Type of the fleet. Also serves as a discriminator for sub-entities.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the batch context.
@@ -54,11 +56,12 @@ The following attributes are exported:
 	* `tag_namespace` - Name of the corresponding tag namespace.
 	* `values` - Mapping of tag value to its priority.
 	* `weight` - Weight associated with the tag key. Percentage point is the unit of measurement.
-* `lifecycle_details` - A message that describes the current state in more detail. For example,   can be used to provide actionable information for a resource in the Failed state. 
-* `logging_configuration` - Logging configuration for batch context.
+* `lifecycle_details` - A message that describes the current state in more detail. For example, can be used to provide actionable information for a resource in the Failed state. 
+* `logging_configuration` - Logging configuration of the batch context.
+	* `is_job_task_events_propagation_enabled` - A switch to enable or disable propagation of job and task events to the customer's logs in Oracle Cloud Infrastructure logging service.
 	* `log_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
 	* `log_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.
-	* `type` - Discriminator for sub-entities.
+	* `type` - Type of the logging configuration. Discriminator for sub-entities.
 * `network` - Network configuration of the batch context.
 	* `nsg_ids` - A list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of associated network security groups. 
 	* `subnet_id` - [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of associated subnet. 
@@ -69,4 +72,3 @@ The following attributes are exported:
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the batch context was created, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `time_updated` - The date and time the batch context was updated, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
-

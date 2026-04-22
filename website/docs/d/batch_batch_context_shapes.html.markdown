@@ -21,6 +21,7 @@ data "oci_batch_batch_context_shapes" "test_batch_context_shapes" {
 
 	#Optional
 	availability_domain = var.batch_context_shape_availability_domain
+	shape_type = var.batch_context_shape_shape_type
 }
 ```
 
@@ -30,6 +31,7 @@ The following arguments are supported:
 
 * `availability_domain` - (Optional) The name of the availability domain.
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
+* `shape_type` - (Optional) The type of a shape.
 
 
 ## Attributes Reference
