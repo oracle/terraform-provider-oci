@@ -4,9 +4,11 @@
 package integrationtest
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
@@ -46,6 +48,7 @@ var (
 	DbSystemDatabaseGroupx86 = map[string]interface{}{
 		"admin_password":   acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: nil},
 		"db_name":          acctest.Representation{RepType: acctest.Required, Create: `tfDb`},
+		"db_domain":        acctest.Representation{RepType: acctest.Optional, Create: `vmbm.example.com`},
 		"character_set":    acctest.Representation{RepType: acctest.Required, Create: `AL32UTF8`},
 		"ncharacter_set":   acctest.Representation{RepType: acctest.Required, Create: `AL16UTF16`},
 		"db_workload":      acctest.Representation{RepType: acctest.Required, Create: `OLTP`},
@@ -74,6 +77,7 @@ func TestResourceDatabaseDBSystemVMStdx86(t *testing.T) {
 
 	resourceName := "oci_database_db_system.test_vm_std_x86_db_system"
 	datasourceName := "data.oci_database_db_systems.test_vm_std_x86_db_systems"
+	var resId, resId2 string
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 
@@ -98,7 +102,12 @@ func TestResourceDatabaseDBSystemVMStdx86(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "node_count", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_home.0.db_version"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_home.0.display_name"),
+				resource.TestCheckResourceAttr(resourceName, "db_home.0.database.0.db_domain", "vmbm.example.com"),
 				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
 			),
 		},
 		// verify update
@@ -122,7 +131,18 @@ func TestResourceDatabaseDBSystemVMStdx86(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "node_count", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_home.0.db_version"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_home.0.display_name"),
+				resource.TestCheckResourceAttr(resourceName, "db_home.0.database.0.db_domain", "vmbm.example.com"),
 				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if err != nil {
+						return err
+					}
+					if resId != resId2 {
+						return fmt.Errorf("expected same ocids, got different")
+					}
+					return nil
+				},
 			),
 		},
 		//verify datasource

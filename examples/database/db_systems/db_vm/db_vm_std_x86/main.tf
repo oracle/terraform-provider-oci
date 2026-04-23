@@ -25,6 +25,7 @@ resource "oci_database_db_system" "test_db_system" {
     database {
       admin_password = var.db_admin_password
       db_name        = "aTFdbVm"
+      db_domain      = var.db_domain
       character_set  = var.character_set
       ncharacter_set = var.n_character_set
       db_workload    = var.db_workload
@@ -61,4 +62,3 @@ resource "oci_database_db_system" "test_db_system" {
     "Department" = "Finance"
   }
 }
-

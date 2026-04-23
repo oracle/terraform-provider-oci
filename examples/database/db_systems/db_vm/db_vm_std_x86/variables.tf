@@ -100,6 +100,10 @@ variable "db_workload" {
   default = "OLTP"
 }
 
+variable "db_domain" {
+  default = "vmbm.example.com"
+}
+
 variable "pdb_name" {
   default = "pdbName"
 }
