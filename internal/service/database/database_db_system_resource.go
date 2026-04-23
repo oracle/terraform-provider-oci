@@ -4400,6 +4400,10 @@ func (s *DatabaseDbSystemResourceCrud) DatabaseToMap(obj *oci_database.Database)
 		result["db_name"] = string(*obj.DbName)
 	}
 
+	if dbDomain, ok := s.D.GetOkExists("db_home.0.database.0.db_domain"); ok && dbDomain != nil {
+		result["db_domain"] = dbDomain.(string)
+	}
+
 	if obj.DbUniqueName != nil {
 		result["db_unique_name"] = string(*obj.DbUniqueName)
 	}
