@@ -29661,6 +29661,67 @@ func (client VirtualNetworkClient) listPrivateIps(ctx context.Context, request c
 	return response, err
 }
 
+// ListProviderRemoteRegions The operation lists available OCI's FastConnect MultiCloud Provider/Partner remote region names associated with an OCI region.
+// A default retry strategy applies to this operation ListProviderRemoteRegions()
+func (client VirtualNetworkClient) ListProviderRemoteRegions(ctx context.Context, request ListProviderRemoteRegionsRequest) (response ListProviderRemoteRegionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listProviderRemoteRegions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListProviderRemoteRegionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListProviderRemoteRegionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListProviderRemoteRegionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListProviderRemoteRegionsResponse")
+	}
+	return
+}
+
+// listProviderRemoteRegions implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listProviderRemoteRegions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fastConnectProviderServices/{providerServiceId}/providerRemoteRegions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListProviderRemoteRegionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListProviderRemoteRegions")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ProviderRemoteRegionName/ListProviderRemoteRegions"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListProviderRemoteRegions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListPublicIpCapacity List available public IPv4 capacity in owned by VCN CP. This is temporarily used by VCN IP team during
 // a migration process.
 func (client VirtualNetworkClient) ListPublicIpCapacity(ctx context.Context, request ListPublicIpCapacityRequest) (response ListPublicIpCapacityResponse, err error) {
@@ -31853,6 +31914,163 @@ func (client VirtualNetworkClient) modifyVcnCidr(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/ModifyVcnCidr"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ModifyVcnCidr", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PatchSubnet Updates a Subnet by evaluating a sequence of patch instructions (JSON List Patch).
+// This operation is restricted to IPv6 CIDR-related fields only.
+// Supported selections (exact match) are:
+//   - ipv6CidrBlock
+//   - ipv6CidrBlocks
+//
+// Only the REPLACE operation is supported.
+// The request must include the If-Match header for optimistic concurrency control.
+// This is an asynchronous operation. The subnet’s lifecycleState is set to UPDATING while the patch work request
+// is in progress, and changes back to AVAILABLE after the patch operation is complete.
+// All patch instructions are applied atomically as a single operation; either all succeed or none are applied.
+// A default retry strategy applies to this operation PatchSubnet()
+func (client VirtualNetworkClient) PatchSubnet(ctx context.Context, request PatchSubnetRequest) (response PatchSubnetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.patchSubnet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PatchSubnetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PatchSubnetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PatchSubnetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PatchSubnetResponse")
+	}
+	return
+}
+
+// patchSubnet implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) patchSubnet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/subnets/{subnetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response PatchSubnetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "PatchSubnet")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Subnet/PatchSubnet"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "PatchSubnet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PatchVcn Updates a VCN by evaluating a sequence of patch instructions (JSON List Patch).
+// This operation is restricted to IPv6 CIDR-related fields only.
+// Supported selections (exact match) are:
+//   - ipv6CidrBlock
+//   - ipv6PublicCidrBlock
+//   - ipv6PrivateCidrBlocks
+//   - byoipv6CidrDetails
+//
+// Only the REPLACE operation is supported.
+// The request must include the If-Match header for optimistic concurrency control.
+// This is an asynchronous operation. The VCN’s lifecycleState is set to UPDATING while the patch work request
+// is in progress, and changes back to AVAILABLE after the patch operation is complete.
+// All patch instructions are applied atomically as a single operation; either all succeed or none are applied.
+// NOTE:
+// `ipv6PublicCidrBlock` represents Oracle provided GUA on VCN. With PATCH API, customer can only remove it if present.
+// Since this is Oracle provided CIDR, there is no concept of replacing with customer provided CIDR.
+// A default retry strategy applies to this operation PatchVcn()
+func (client VirtualNetworkClient) PatchVcn(ctx context.Context, request PatchVcnRequest) (response PatchVcnResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.patchVcn, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PatchVcnResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PatchVcnResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PatchVcnResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PatchVcnResponse")
+	}
+	return
+}
+
+// patchVcn implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) patchVcn(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/vcns/{vcnId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response PatchVcnResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "PatchVcn")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/PatchVcn"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "PatchVcn", apiReferenceLink)
 		return response, err
 	}
 
@@ -35564,6 +35782,67 @@ func (client VirtualNetworkClient) updateCrossConnectGroup(ctx context.Context, 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnectGroup/UpdateCrossConnectGroup"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateCrossConnectGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCrossConnectLetterOfAuthority Updates the Letter of Authority for the specified cross-connect.
+// A default retry strategy applies to this operation UpdateCrossConnectLetterOfAuthority()
+func (client VirtualNetworkClient) UpdateCrossConnectLetterOfAuthority(ctx context.Context, request UpdateCrossConnectLetterOfAuthorityRequest) (response UpdateCrossConnectLetterOfAuthorityResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateCrossConnectLetterOfAuthority, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCrossConnectLetterOfAuthorityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCrossConnectLetterOfAuthorityResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCrossConnectLetterOfAuthorityResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCrossConnectLetterOfAuthorityResponse")
+	}
+	return
+}
+
+// updateCrossConnectLetterOfAuthority implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateCrossConnectLetterOfAuthority(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/crossConnects/{crossConnectId}/letterOfAuthority", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UpdateCrossConnectLetterOfAuthorityResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateCrossConnectLetterOfAuthority")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/LetterOfAuthority/UpdateCrossConnectLetterOfAuthority"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateCrossConnectLetterOfAuthority", apiReferenceLink)
 		return response, err
 	}
 

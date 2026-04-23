@@ -48,6 +48,12 @@ type UpdateCrossConnectDetails struct {
 	CustomerReferenceName *string `mandatory:"false" json:"customerReferenceName"`
 
 	MacsecProperties *UpdateMacsecProperties `mandatory:"false" json:"macsecProperties"`
+
+	// The flag to enable or disable the down timer for the interface.
+	IsInterfaceHoldTimerEnabled *bool `mandatory:"false" json:"isInterfaceHoldTimerEnabled"`
+
+	// The duration of the interface down timer in milliseconds between 0 and 3000 in multiples of 500.
+	InterfaceDownTimerValueInMilliseconds *int `mandatory:"false" json:"interfaceDownTimerValueInMilliseconds"`
 }
 
 func (m UpdateCrossConnectDetails) String() string {

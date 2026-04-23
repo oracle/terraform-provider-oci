@@ -48,6 +48,10 @@ type ResolverVnicEndpoint struct {
 	// The canonical absolute URL of the resource.
 	Self *string `mandatory:"true" json:"self"`
 
+	FreeformTags map[string]string `mandatory:"true" json:"freeformTags"`
+
+	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
+
 	// An IP address from which forwarded queries may be sent. For VNIC endpoints, this IP address must be part
 	// of the subnet and will be assigned by the system if unspecified when isForwarding is true.
 	ForwardingAddress *string `mandatory:"false" json:"forwardingAddress"`
@@ -123,6 +127,16 @@ func (m ResolverVnicEndpoint) GetLifecycleState() ResolverEndpointLifecycleState
 // GetSelf returns Self
 func (m ResolverVnicEndpoint) GetSelf() *string {
 	return m.Self
+}
+
+// GetFreeformTags returns FreeformTags
+func (m ResolverVnicEndpoint) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+// GetDefinedTags returns DefinedTags
+func (m ResolverVnicEndpoint) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
 }
 
 func (m ResolverVnicEndpoint) String() string {

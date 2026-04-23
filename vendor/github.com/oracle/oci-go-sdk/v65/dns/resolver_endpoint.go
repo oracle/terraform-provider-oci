@@ -50,6 +50,10 @@ type ResolverEndpoint interface {
 	// The canonical absolute URL of the resource.
 	GetSelf() *string
 
+	GetFreeformTags() map[string]string
+
+	GetDefinedTags() map[string]map[string]interface{}
+
 	// An IP address from which forwarded queries may be sent. For VNIC endpoints, this IP address must be part
 	// of the subnet and will be assigned by the system if unspecified when isForwarding is true.
 	GetForwardingAddress() *string
@@ -71,6 +75,8 @@ type resolverendpoint struct {
 	TimeUpdated       *common.SDKTime                    `mandatory:"true" json:"timeUpdated"`
 	LifecycleState    ResolverEndpointLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 	Self              *string                            `mandatory:"true" json:"self"`
+	FreeformTags      map[string]string                  `mandatory:"true" json:"freeformTags"`
+	DefinedTags       map[string]map[string]interface{}  `mandatory:"true" json:"definedTags"`
 	EndpointType      string                             `json:"endpointType"`
 }
 
@@ -93,6 +99,8 @@ func (m *resolverendpoint) UnmarshalJSON(data []byte) error {
 	m.TimeUpdated = s.Model.TimeUpdated
 	m.LifecycleState = s.Model.LifecycleState
 	m.Self = s.Model.Self
+	m.FreeformTags = s.Model.FreeformTags
+	m.DefinedTags = s.Model.DefinedTags
 	m.ForwardingAddress = s.Model.ForwardingAddress
 	m.ListeningAddress = s.Model.ListeningAddress
 	m.EndpointType = s.Model.EndpointType
@@ -167,6 +175,16 @@ func (m resolverendpoint) GetLifecycleState() ResolverEndpointLifecycleStateEnum
 // GetSelf returns Self
 func (m resolverendpoint) GetSelf() *string {
 	return m.Self
+}
+
+// GetFreeformTags returns FreeformTags
+func (m resolverendpoint) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+// GetDefinedTags returns DefinedTags
+func (m resolverendpoint) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
 }
 
 func (m resolverendpoint) String() string {

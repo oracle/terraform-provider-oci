@@ -16784,7 +16784,7 @@ func (client DatabaseClient) listAvailableCommunicationLanguageLocales(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AvailableCommunicationLanguageLocaleCollection/ListAvailableCommunicationLanguageLocales"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/ListAvailableCommunicationLanguageLocales"
 		err = common.PostProcessServiceError(err, "Database", "ListAvailableCommunicationLanguageLocales", apiReferenceLink)
 		return response, err
 	}
@@ -21525,6 +21525,64 @@ func (client DatabaseClient) moveExecutionActionMember(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExecutionAction/MoveExecutionActionMember"
 		err = common.PostProcessServiceError(err, "Database", "MoveExecutionActionMember", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// NotifyBulkJobStart This operation should be called by broker team, broker team requests this operation to notify DBaaS CP that there are multiple jobs started for this Autonomous AI Database Serverless database.
+func (client DatabaseClient) NotifyBulkJobStart(ctx context.Context, request NotifyBulkJobStartRequest) (response NotifyBulkJobStartResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.notifyBulkJobStart, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = NotifyBulkJobStartResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = NotifyBulkJobStartResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(NotifyBulkJobStartResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into NotifyBulkJobStartResponse")
+	}
+	return
+}
+
+// notifyBulkJobStart implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) notifyBulkJobStart(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/actions/notifyBulkJobStart", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response NotifyBulkJobStartResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "NotifyBulkJobStart")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/NotifyBulkJobStart"
+		err = common.PostProcessServiceError(err, "Database", "NotifyBulkJobStart", apiReferenceLink)
 		return response, err
 	}
 

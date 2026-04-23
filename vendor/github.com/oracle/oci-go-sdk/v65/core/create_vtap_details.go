@@ -163,6 +163,7 @@ const (
 	CreateVtapDetailsSourceTypeDbSystem                CreateVtapDetailsSourceTypeEnum = "DB_SYSTEM"
 	CreateVtapDetailsSourceTypeExadataVmCluster        CreateVtapDetailsSourceTypeEnum = "EXADATA_VM_CLUSTER"
 	CreateVtapDetailsSourceTypeAutonomousDataWarehouse CreateVtapDetailsSourceTypeEnum = "AUTONOMOUS_DATA_WAREHOUSE"
+	CreateVtapDetailsSourceTypeNetworkFirewall         CreateVtapDetailsSourceTypeEnum = "NETWORK_FIREWALL"
 )
 
 var mappingCreateVtapDetailsSourceTypeEnum = map[string]CreateVtapDetailsSourceTypeEnum{
@@ -172,6 +173,7 @@ var mappingCreateVtapDetailsSourceTypeEnum = map[string]CreateVtapDetailsSourceT
 	"DB_SYSTEM":                 CreateVtapDetailsSourceTypeDbSystem,
 	"EXADATA_VM_CLUSTER":        CreateVtapDetailsSourceTypeExadataVmCluster,
 	"AUTONOMOUS_DATA_WAREHOUSE": CreateVtapDetailsSourceTypeAutonomousDataWarehouse,
+	"NETWORK_FIREWALL":          CreateVtapDetailsSourceTypeNetworkFirewall,
 }
 
 var mappingCreateVtapDetailsSourceTypeEnumLowerCase = map[string]CreateVtapDetailsSourceTypeEnum{
@@ -181,6 +183,7 @@ var mappingCreateVtapDetailsSourceTypeEnumLowerCase = map[string]CreateVtapDetai
 	"db_system":                 CreateVtapDetailsSourceTypeDbSystem,
 	"exadata_vm_cluster":        CreateVtapDetailsSourceTypeExadataVmCluster,
 	"autonomous_data_warehouse": CreateVtapDetailsSourceTypeAutonomousDataWarehouse,
+	"network_firewall":          CreateVtapDetailsSourceTypeNetworkFirewall,
 }
 
 // GetCreateVtapDetailsSourceTypeEnumValues Enumerates the set of values for CreateVtapDetailsSourceTypeEnum
@@ -201,6 +204,7 @@ func GetCreateVtapDetailsSourceTypeEnumStringValues() []string {
 		"DB_SYSTEM",
 		"EXADATA_VM_CLUSTER",
 		"AUTONOMOUS_DATA_WAREHOUSE",
+		"NETWORK_FIREWALL",
 	}
 }
 

@@ -87,6 +87,9 @@ type Byol struct {
 
 	// A description of the BYOL.
 	Description *string `mandatory:"false" json:"description"`
+
+	// The hyperscaler identifier in Broadcom systems.
+	SiteId *string `mandatory:"false" json:"siteId"`
 }
 
 func (m Byol) String() string {

@@ -2,12 +2,13 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Data Flow API
+// Oracle Cloud VMware Solution API
 //
-// Use the Data Flow APIs to run any Apache Spark application at any scale without deploying or managing any infrastructure.
+// Use the Oracle Cloud VMware API to create SDDCs and manage ESXi hosts and software.
+// For more information, see Oracle Cloud VMware Solution (https://docs.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
 //
 
-package dataflow
+package ocvp
 
 import (
 	"fmt"
@@ -15,22 +16,21 @@ import (
 	"strings"
 )
 
-// UpdateDeploymentMetadataDetails Details for updating a Deployment's OAuth configuration.
-type UpdateDeploymentMetadataDetails struct {
-	OauthConfiguration *OAuthConfiguration `mandatory:"false" json:"oauthConfiguration"`
+// InplaceUpgradeDetails The details for upgrading ESXi host.
+type InplaceUpgradeDetails struct {
 
-	// JSON string representation of AgentCard.
-	AgentCardJson *string `mandatory:"false" json:"agentCardJson"`
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Byol Allocation for VCF (VMware Cloud Foundation) deployment.
+	VcfByolAllocationId *string `mandatory:"false" json:"vcfByolAllocationId"`
 }
 
-func (m UpdateDeploymentMetadataDetails) String() string {
+func (m InplaceUpgradeDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UpdateDeploymentMetadataDetails) ValidateEnumValue() (bool, error) {
+func (m InplaceUpgradeDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

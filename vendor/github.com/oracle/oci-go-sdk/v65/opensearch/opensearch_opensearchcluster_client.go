@@ -482,6 +482,62 @@ func (client OpensearchClusterClient) getOpensearchClusterInternalDetails(ctx co
 	return response, err
 }
 
+// GetResourcePrincipalToken Returns a Resource Principal Token (RPT) that allows child resources (e.g., block volumes)
+// to assume the identity of the OpenSearch cluster for KMS operations in BYOK scenarios.
+// This endpoint implements the Nested Resource Principal (NRP) pattern for cross-tenancy
+// encryption key management.
+func (client OpensearchClusterClient) GetResourcePrincipalToken(ctx context.Context, request GetResourcePrincipalTokenRequest) (response GetResourcePrincipalTokenResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getResourcePrincipalToken, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetResourcePrincipalTokenResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetResourcePrincipalTokenResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetResourcePrincipalTokenResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetResourcePrincipalTokenResponse")
+	}
+	return
+}
+
+// getResourcePrincipalToken implements the OCIOperation interface (enables retrying operations)
+func (client OpensearchClusterClient) getResourcePrincipalToken(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/opensearchClusters/{opensearchClusterId}/resourcePrincipalToken", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetResourcePrincipalTokenResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "opensearchCluster", "GetResourcePrincipalToken")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/ResourcePrincipalTokenResponse/GetResourcePrincipalToken"
+		err = common.PostProcessServiceError(err, "OpensearchCluster", "GetResourcePrincipalToken", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetWorkRequest Gets the status of the work request with the given ID.
 func (client OpensearchClusterClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse

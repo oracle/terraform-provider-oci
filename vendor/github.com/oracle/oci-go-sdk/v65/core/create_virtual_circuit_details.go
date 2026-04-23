@@ -127,6 +127,17 @@ type CreateVirtualCircuitDetails struct {
 	// the  ListQosBandwidthReservationTemplateShapes operation.
 	// Example: `FC_QoS_25_25_25_20`.
 	QosBandwidthReservationTemplateShapeName *string `mandatory:"false" json:"qosBandwidthReservationTemplateShapeName"`
+
+	// The OCI's FastConnect MultiCloud Provider/Partner remote region name associated with the OCI region.
+	// To get the list of associated provider remote region use the ListProviderRemoteRegions operation
+	ProviderRemoteRegion *string `mandatory:"false" json:"providerRemoteRegion"`
+
+	// The ID of the customer's provider (AWS, GCP or any other) account
+	RemoteAccountId *string `mandatory:"false" json:"remoteAccountId"`
+
+	// The traffic mode to be set with this Virtual Circuit. This controls whether the traffic is to be drained
+	// for the associated Virtual Circuit or not.
+	TrafficMode CreateVirtualCircuitDetailsTrafficModeEnum `mandatory:"false" json:"trafficMode,omitempty"`
 }
 
 func (m CreateVirtualCircuitDetails) String() string {
@@ -153,6 +164,9 @@ func (m CreateVirtualCircuitDetails) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingVirtualCircuitIpMtuEnum(string(m.IpMtu)); !ok && m.IpMtu != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpMtu: %s. Supported values are: %s.", m.IpMtu, strings.Join(GetVirtualCircuitIpMtuEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCreateVirtualCircuitDetailsTrafficModeEnum(string(m.TrafficMode)); !ok && m.TrafficMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TrafficMode: %s. Supported values are: %s.", m.TrafficMode, strings.Join(GetCreateVirtualCircuitDetailsTrafficModeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -291,5 +305,47 @@ func GetCreateVirtualCircuitDetailsTypeEnumStringValues() []string {
 // GetMappingCreateVirtualCircuitDetailsTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCreateVirtualCircuitDetailsTypeEnum(val string) (CreateVirtualCircuitDetailsTypeEnum, bool) {
 	enum, ok := mappingCreateVirtualCircuitDetailsTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CreateVirtualCircuitDetailsTrafficModeEnum Enum with underlying type: string
+type CreateVirtualCircuitDetailsTrafficModeEnum string
+
+// Set of constants representing the allowable values for CreateVirtualCircuitDetailsTrafficModeEnum
+const (
+	CreateVirtualCircuitDetailsTrafficModeNormal CreateVirtualCircuitDetailsTrafficModeEnum = "NORMAL"
+	CreateVirtualCircuitDetailsTrafficModeDrain  CreateVirtualCircuitDetailsTrafficModeEnum = "DRAIN"
+)
+
+var mappingCreateVirtualCircuitDetailsTrafficModeEnum = map[string]CreateVirtualCircuitDetailsTrafficModeEnum{
+	"NORMAL": CreateVirtualCircuitDetailsTrafficModeNormal,
+	"DRAIN":  CreateVirtualCircuitDetailsTrafficModeDrain,
+}
+
+var mappingCreateVirtualCircuitDetailsTrafficModeEnumLowerCase = map[string]CreateVirtualCircuitDetailsTrafficModeEnum{
+	"normal": CreateVirtualCircuitDetailsTrafficModeNormal,
+	"drain":  CreateVirtualCircuitDetailsTrafficModeDrain,
+}
+
+// GetCreateVirtualCircuitDetailsTrafficModeEnumValues Enumerates the set of values for CreateVirtualCircuitDetailsTrafficModeEnum
+func GetCreateVirtualCircuitDetailsTrafficModeEnumValues() []CreateVirtualCircuitDetailsTrafficModeEnum {
+	values := make([]CreateVirtualCircuitDetailsTrafficModeEnum, 0)
+	for _, v := range mappingCreateVirtualCircuitDetailsTrafficModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateVirtualCircuitDetailsTrafficModeEnumStringValues Enumerates the set of values in String for CreateVirtualCircuitDetailsTrafficModeEnum
+func GetCreateVirtualCircuitDetailsTrafficModeEnumStringValues() []string {
+	return []string{
+		"NORMAL",
+		"DRAIN",
+	}
+}
+
+// GetMappingCreateVirtualCircuitDetailsTrafficModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateVirtualCircuitDetailsTrafficModeEnum(val string) (CreateVirtualCircuitDetailsTrafficModeEnum, bool) {
+	enum, ok := mappingCreateVirtualCircuitDetailsTrafficModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

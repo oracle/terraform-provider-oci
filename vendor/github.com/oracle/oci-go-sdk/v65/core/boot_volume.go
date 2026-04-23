@@ -80,6 +80,9 @@ type BootVolume struct {
 	// The clusterPlacementGroup Id of the volume for volume placement.
 	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
 
+	// The list of buildings the volume is placed.
+	BuildingList []string `mandatory:"false" json:"buildingList"`
+
 	// The number of volume performance units (VPUs) that will be applied to this boot volume per GB,
 	// representing the Block Volume service's elastic performance options.
 	// See Block Volume Performance Levels (https://docs.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
@@ -144,6 +147,7 @@ func (m *BootVolume) UnmarshalJSON(data []byte) (e error) {
 		ImageId                 *string                           `json:"imageId"`
 		IsHydrated              *bool                             `json:"isHydrated"`
 		ClusterPlacementGroupId *string                           `json:"clusterPlacementGroupId"`
+		BuildingList            []string                          `json:"buildingList"`
 		VpusPerGB               *int64                            `json:"vpusPerGB"`
 		SizeInGBs               *int64                            `json:"sizeInGBs"`
 		SourceDetails           bootvolumesourcedetails           `json:"sourceDetails"`
@@ -180,6 +184,8 @@ func (m *BootVolume) UnmarshalJSON(data []byte) (e error) {
 
 	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
 
+	m.BuildingList = make([]string, len(model.BuildingList))
+	copy(m.BuildingList, model.BuildingList)
 	m.VpusPerGB = model.VpusPerGB
 
 	m.SizeInGBs = model.SizeInGBs

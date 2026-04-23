@@ -24,6 +24,9 @@ type NotifyJobStart struct {
 	// The broker job type in the notification.
 	JobType *string `mandatory:"false" json:"jobType"`
 
+	// The Autonomous Database OCID associated with the broker job notification.
+	ResourceId *string `mandatory:"false" json:"resourceId"`
+
 	// Optional. The broker job sub type in the notification.
 	JobSubType *string `mandatory:"false" json:"jobSubType"`
 }

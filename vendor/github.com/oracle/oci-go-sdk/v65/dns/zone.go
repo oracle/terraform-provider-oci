@@ -44,7 +44,7 @@ type Zone struct {
 	// **Example:** `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 
-	// The resolution mode of a zone defines behavior related to how query responses can be handled.
+	// The resolution mode of a zone defines behavior related to how query responses can be handled. See Private DNS Zone Transparency (https://docs.oracle.com/iaas/Content/DNS/Tasks/privatedns.htm#use-cases__resolution) for more information.
 	ResolutionMode ZoneResolutionModeEnum `mandatory:"true" json:"resolutionMode"`
 
 	// The state of DNSSEC on the zone.

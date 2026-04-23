@@ -46,6 +46,11 @@ type LetterOfAuthority struct {
 	// The date and time the Letter of Authority was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeIssued *common.SDKTime `mandatory:"false" json:"timeIssued"`
+
+	// Name of a customer authorized agent which will be appended to the LOA as 'Authorized Agent'.
+	AuthorizedAgent *string `mandatory:"false" json:"authorizedAgent"`
+
+	ExtensionDetails *LoaExtensionData `mandatory:"false" json:"extensionDetails"`
 }
 
 func (m LetterOfAuthority) String() string {

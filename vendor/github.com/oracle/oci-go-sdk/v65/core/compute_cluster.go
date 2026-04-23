@@ -21,12 +21,14 @@ import (
 	"strings"
 )
 
-// ComputeCluster A remote direct memory access (RDMA) network group.
-// A cluster network on a compute cluster (https://docs.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) is a group of
-// high performance computing (HPC), GPU, or optimized instances that are connected with an ultra low-latency network.
+// ComputeCluster The data for creating a compute cluster (https://docs.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm). A compute cluster
+// is an empty remote direct memory access (RDMA) network group
+// After the compute cluster is created, you can use the compute cluster's OCID with the
+// LaunchInstance operation to create instances in the compute cluster.
+// The instances must be created in the same compartment and availability domain as the cluster.
 // Use compute clusters when you want to manage instances in the cluster individually in the RDMA network group.
-// For details about cluster networks that use instance pools to manage groups of identical instances,
-// see ClusterNetwork.
+// For details about creating a cluster network that uses instance pools to manage groups of identical instances,
+// see CreateClusterNetworkDetails.
 type ComputeCluster struct {
 
 	// The availability domain the compute cluster is running in.

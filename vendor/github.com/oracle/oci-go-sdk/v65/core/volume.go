@@ -93,6 +93,9 @@ type Volume struct {
 	// The clusterPlacementGroup Id of the volume for volume placement.
 	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
 
+	// The list of buildings the volume is placed.
+	BuildingList []string `mandatory:"false" json:"buildingList"`
+
 	// The size of the volume in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 
@@ -162,6 +165,7 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 		VpusPerGB               *int64                            `json:"vpusPerGB"`
 		IoAlignmentSizeInBytes  *int                              `json:"ioAlignmentSizeInBytes"`
 		ClusterPlacementGroupId *string                           `json:"clusterPlacementGroupId"`
+		BuildingList            []string                          `json:"buildingList"`
 		SizeInGBs               *int64                            `json:"sizeInGBs"`
 		SourceDetails           volumesourcedetails               `json:"sourceDetails"`
 		VolumeGroupId           *string                           `json:"volumeGroupId"`
@@ -203,6 +207,8 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 
 	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
 
+	m.BuildingList = make([]string, len(model.BuildingList))
+	copy(m.BuildingList, model.BuildingList)
 	m.SizeInGBs = model.SizeInGBs
 
 	nn, e = model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)

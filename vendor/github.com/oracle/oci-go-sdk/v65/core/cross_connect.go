@@ -89,6 +89,15 @@ type CrossConnect struct {
 	// This device might be different than the device that terminates the physical connection.
 	OciLogicalDeviceName *string `mandatory:"false" json:"ociLogicalDeviceName"`
 
+	// The flag to enable or disable the down timer for the interface.
+	IsInterfaceHoldTimerEnabled *bool `mandatory:"false" json:"isInterfaceHoldTimerEnabled"`
+
+	// The duration of the interface down timer in milliseconds between 0 and 3000 in multiples of 500.
+	InterfaceDownTimerValueInMilliseconds *int `mandatory:"false" json:"interfaceDownTimerValueInMilliseconds"`
+
+	// The flag to enable or disable the Qos for the cross-connect.
+	IsQosEnabled *bool `mandatory:"false" json:"isQosEnabled"`
+
 	// The name of the FastConnect interface where this cross-connect is installed.
 	InterfaceName *string `mandatory:"false" json:"interfaceName"`
 }

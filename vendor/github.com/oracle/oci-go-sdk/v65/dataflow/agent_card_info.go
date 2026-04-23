@@ -15,22 +15,24 @@ import (
 	"strings"
 )
 
-// UpdateDeploymentMetadataDetails Details for updating a Deployment's OAuth configuration.
-type UpdateDeploymentMetadataDetails struct {
-	OauthConfiguration *OAuthConfiguration `mandatory:"false" json:"oauthConfiguration"`
+// AgentCardInfo Agent card response details.
+type AgentCardInfo struct {
 
 	// JSON string representation of AgentCard.
 	AgentCardJson *string `mandatory:"false" json:"agentCardJson"`
+
+	// Well-known AgentCard URL.
+	AgentCardUrl *string `mandatory:"false" json:"agentCardUrl"`
 }
 
-func (m UpdateDeploymentMetadataDetails) String() string {
+func (m AgentCardInfo) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UpdateDeploymentMetadataDetails) ValidateEnumValue() (bool, error) {
+func (m AgentCardInfo) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

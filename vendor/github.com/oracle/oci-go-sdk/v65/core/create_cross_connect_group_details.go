@@ -46,6 +46,23 @@ type CreateCrossConnectGroupDetails struct {
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	MacsecProperties *CreateMacsecProperties `mandatory:"false" json:"macsecProperties"`
+
+	// (Optional) Minimum number of active cross-connects required for the cross-connect group to be considered
+	// operational. During create cross-connect-group operation this value can only be set to 1 (If not specified,
+	// this value defaults to 1) and can be edited using the update cross-connect group operation. Value must not
+	// exceed the total number of cross-connects in the cross-connect group.
+	MinimumLinks *int `mandatory:"false" json:"minimumLinks"`
+
+	// The flag to enable or disable the down timer for the interface.
+	IsInterfaceHoldTimerEnabled *bool `mandatory:"false" json:"isInterfaceHoldTimerEnabled"`
+
+	// The duration of the interface down timer in milliseconds between 0 and 3000 in multiples of 500.
+	InterfaceDownTimerValueInMilliseconds *int `mandatory:"false" json:"interfaceDownTimerValueInMilliseconds"`
+
+	// (Optional) When true, restricts placement so cross-connects lands only on QoS-capable devices.
+	// When false (default), placement may use any supported device. If no QoS-capable devices are available
+	// in the selected location, the request fails.
+	IsQosEnabled *bool `mandatory:"false" json:"isQosEnabled"`
 }
 
 func (m CreateCrossConnectGroupDetails) String() string {

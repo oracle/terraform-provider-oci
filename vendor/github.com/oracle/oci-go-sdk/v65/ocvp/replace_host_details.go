@@ -24,6 +24,9 @@ type ReplaceHostDetails struct {
 	// To get a list of the available versions, use
 	// ListSupportedVmwareSoftwareVersions.
 	EsxiSoftwareVersion *string `mandatory:"false" json:"esxiSoftwareVersion"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Byol Allocation for VCF (VMware Cloud Foundation) deployment.
+	VcfByolAllocationId *string `mandatory:"false" json:"vcfByolAllocationId"`
 }
 
 func (m ReplaceHostDetails) String() string {

@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Data Flow API
+// Database Service API
 //
-// Use the Data Flow APIs to run any Apache Spark application at any scale without deploying or managing any infrastructure.
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
-package dataflow
+package database
 
 import (
 	"fmt"
@@ -15,22 +15,21 @@ import (
 	"strings"
 )
 
-// UpdateDeploymentMetadataDetails Details for updating a Deployment's OAuth configuration.
-type UpdateDeploymentMetadataDetails struct {
-	OauthConfiguration *OAuthConfiguration `mandatory:"false" json:"oauthConfiguration"`
+// NotifyBulkJobStartDetails The representation of NotifyBulkJobStartDetails
+type NotifyBulkJobStartDetails struct {
 
-	// JSON string representation of AgentCard.
-	AgentCardJson *string `mandatory:"false" json:"agentCardJson"`
+	// The list of broker jobs in the notification.
+	Items []NotifyJobStartDetails `mandatory:"true" json:"items"`
 }
 
-func (m UpdateDeploymentMetadataDetails) String() string {
+func (m NotifyBulkJobStartDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UpdateDeploymentMetadataDetails) ValidateEnumValue() (bool, error) {
+func (m NotifyBulkJobStartDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

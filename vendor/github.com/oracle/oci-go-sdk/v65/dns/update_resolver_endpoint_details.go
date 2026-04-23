@@ -20,11 +20,16 @@ import (
 // UpdateResolverEndpointDetails The body for updating an existing resolver endpoint.
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type UpdateResolverEndpointDetails interface {
+	GetFreeformTags() map[string]string
+
+	GetDefinedTags() map[string]map[string]interface{}
 }
 
 type updateresolverendpointdetails struct {
 	JsonData     []byte
-	EndpointType string `json:"endpointType"`
+	FreeformTags map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags  map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	EndpointType string                            `json:"endpointType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -38,6 +43,8 @@ func (m *updateresolverendpointdetails) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.FreeformTags = s.Model.FreeformTags
+	m.DefinedTags = s.Model.DefinedTags
 	m.EndpointType = s.Model.EndpointType
 
 	return err
@@ -60,6 +67,16 @@ func (m *updateresolverendpointdetails) UnmarshalPolymorphicJSON(data []byte) (i
 		common.Logf("Received unsupported enum value for UpdateResolverEndpointDetails: %s.", m.EndpointType)
 		return *m, nil
 	}
+}
+
+// GetFreeformTags returns FreeformTags
+func (m updateresolverendpointdetails) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+// GetDefinedTags returns DefinedTags
+func (m updateresolverendpointdetails) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
 }
 
 func (m updateresolverendpointdetails) String() string {

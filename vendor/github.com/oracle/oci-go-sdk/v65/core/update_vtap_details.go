@@ -245,6 +245,7 @@ const (
 	UpdateVtapDetailsSourceTypeDbSystem                UpdateVtapDetailsSourceTypeEnum = "DB_SYSTEM"
 	UpdateVtapDetailsSourceTypeExadataVmCluster        UpdateVtapDetailsSourceTypeEnum = "EXADATA_VM_CLUSTER"
 	UpdateVtapDetailsSourceTypeAutonomousDataWarehouse UpdateVtapDetailsSourceTypeEnum = "AUTONOMOUS_DATA_WAREHOUSE"
+	UpdateVtapDetailsSourceTypeNetworkFirewall         UpdateVtapDetailsSourceTypeEnum = "NETWORK_FIREWALL"
 )
 
 var mappingUpdateVtapDetailsSourceTypeEnum = map[string]UpdateVtapDetailsSourceTypeEnum{
@@ -254,6 +255,7 @@ var mappingUpdateVtapDetailsSourceTypeEnum = map[string]UpdateVtapDetailsSourceT
 	"DB_SYSTEM":                 UpdateVtapDetailsSourceTypeDbSystem,
 	"EXADATA_VM_CLUSTER":        UpdateVtapDetailsSourceTypeExadataVmCluster,
 	"AUTONOMOUS_DATA_WAREHOUSE": UpdateVtapDetailsSourceTypeAutonomousDataWarehouse,
+	"NETWORK_FIREWALL":          UpdateVtapDetailsSourceTypeNetworkFirewall,
 }
 
 var mappingUpdateVtapDetailsSourceTypeEnumLowerCase = map[string]UpdateVtapDetailsSourceTypeEnum{
@@ -263,6 +265,7 @@ var mappingUpdateVtapDetailsSourceTypeEnumLowerCase = map[string]UpdateVtapDetai
 	"db_system":                 UpdateVtapDetailsSourceTypeDbSystem,
 	"exadata_vm_cluster":        UpdateVtapDetailsSourceTypeExadataVmCluster,
 	"autonomous_data_warehouse": UpdateVtapDetailsSourceTypeAutonomousDataWarehouse,
+	"network_firewall":          UpdateVtapDetailsSourceTypeNetworkFirewall,
 }
 
 // GetUpdateVtapDetailsSourceTypeEnumValues Enumerates the set of values for UpdateVtapDetailsSourceTypeEnum
@@ -283,6 +286,7 @@ func GetUpdateVtapDetailsSourceTypeEnumStringValues() []string {
 		"DB_SYSTEM",
 		"EXADATA_VM_CLUSTER",
 		"AUTONOMOUS_DATA_WAREHOUSE",
+		"NETWORK_FIREWALL",
 	}
 }
 

@@ -277,6 +277,9 @@ type AutonomousDatabase struct {
 	// Specifies if Telemetry Streaming is enabled or disabled for this Autonomous AI Database.
 	IsTelemetryStreamingEnabled *bool `mandatory:"false" json:"isTelemetryStreamingEnabled"`
 
+	// Specifies if Autonomous Data Timehouse is enabled or disabled for this Autonomous AI Database.
+	IsTimehouseEnabled *bool `mandatory:"false" json:"isTimehouseEnabled"`
+
 	// Indicates if the database-level access control is enabled.
 	// If disabled, database access is defined by the network security rules.
 	// If enabled, database access is restricted to the IP addresses defined by the rules specified with the `whitelistedIps` property. While specifying `whitelistedIps` rules is optional,
@@ -711,6 +714,7 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 		DbWorkload                              AutonomousDatabaseDbWorkloadEnum                        `json:"dbWorkload"`
 		IsDevTier                               *bool                                                   `json:"isDevTier"`
 		IsTelemetryStreamingEnabled             *bool                                                   `json:"isTelemetryStreamingEnabled"`
+		IsTimehouseEnabled                      *bool                                                   `json:"isTimehouseEnabled"`
 		IsAccessControlEnabled                  *bool                                                   `json:"isAccessControlEnabled"`
 		WhitelistedIps                          []string                                                `json:"whitelistedIps"`
 		ArePrimaryWhitelistedIpsUsed            *bool                                                   `json:"arePrimaryWhitelistedIpsUsed"`
@@ -953,6 +957,8 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 	m.IsDevTier = model.IsDevTier
 
 	m.IsTelemetryStreamingEnabled = model.IsTelemetryStreamingEnabled
+
+	m.IsTimehouseEnabled = model.IsTimehouseEnabled
 
 	m.IsAccessControlEnabled = model.IsAccessControlEnabled
 
@@ -2066,16 +2072,19 @@ type AutonomousDatabaseNetServicesArchitectureEnum string
 const (
 	AutonomousDatabaseNetServicesArchitectureDedicated AutonomousDatabaseNetServicesArchitectureEnum = "DEDICATED"
 	AutonomousDatabaseNetServicesArchitectureShared    AutonomousDatabaseNetServicesArchitectureEnum = "SHARED"
+	AutonomousDatabaseNetServicesArchitectureDrcp      AutonomousDatabaseNetServicesArchitectureEnum = "DRCP"
 )
 
 var mappingAutonomousDatabaseNetServicesArchitectureEnum = map[string]AutonomousDatabaseNetServicesArchitectureEnum{
 	"DEDICATED": AutonomousDatabaseNetServicesArchitectureDedicated,
 	"SHARED":    AutonomousDatabaseNetServicesArchitectureShared,
+	"DRCP":      AutonomousDatabaseNetServicesArchitectureDrcp,
 }
 
 var mappingAutonomousDatabaseNetServicesArchitectureEnumLowerCase = map[string]AutonomousDatabaseNetServicesArchitectureEnum{
 	"dedicated": AutonomousDatabaseNetServicesArchitectureDedicated,
 	"shared":    AutonomousDatabaseNetServicesArchitectureShared,
+	"drcp":      AutonomousDatabaseNetServicesArchitectureDrcp,
 }
 
 // GetAutonomousDatabaseNetServicesArchitectureEnumValues Enumerates the set of values for AutonomousDatabaseNetServicesArchitectureEnum
@@ -2092,6 +2101,7 @@ func GetAutonomousDatabaseNetServicesArchitectureEnumStringValues() []string {
 	return []string{
 		"DEDICATED",
 		"SHARED",
+		"DRCP",
 	}
 }
 

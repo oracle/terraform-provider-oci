@@ -84,6 +84,9 @@ type ByolAllocation struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"true" json:"systemTags"`
+
+	// The hyperscaler identifier in Broadcom systems.
+	SiteId *string `mandatory:"false" json:"siteId"`
 }
 
 func (m ByolAllocation) String() string {

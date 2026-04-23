@@ -72,6 +72,17 @@ type CreateCrossConnectDetails struct {
 
 	MacsecProperties *CreateMacsecProperties `mandatory:"false" json:"macsecProperties"`
 
+	// The flag to enable or disable the down timer for the interface.
+	IsInterfaceHoldTimerEnabled *bool `mandatory:"false" json:"isInterfaceHoldTimerEnabled"`
+
+	// The duration of the interface down timer in milliseconds between 0 and 3000 in multiples of 500.
+	InterfaceDownTimerValueInMilliseconds *int `mandatory:"false" json:"interfaceDownTimerValueInMilliseconds"`
+
+	// When true, restricts placement so cross-connects lands only on QoS-capable devices.
+	// When false (default), placement may use any supported device. If no QoS-capable devices are available
+	// in the selected location, the request fails.
+	IsQosEnabled *bool `mandatory:"false" json:"isQosEnabled"`
+
 	// The name of the FastConnect device where this cross-connect is installed.
 	OciPhysicalDeviceName *string `mandatory:"false" json:"ociPhysicalDeviceName"`
 

@@ -48,6 +48,10 @@ type ResolverVnicEndpointSummary struct {
 	// The canonical absolute URL of the resource.
 	Self *string `mandatory:"true" json:"self"`
 
+	FreeformTags map[string]string `mandatory:"true" json:"freeformTags"`
+
+	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
+
 	// The OCID of a subnet. Must be part of the VCN that the resolver is attached to.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
@@ -119,6 +123,16 @@ func (m ResolverVnicEndpointSummary) GetLifecycleState() ResolverEndpointSummary
 // GetSelf returns Self
 func (m ResolverVnicEndpointSummary) GetSelf() *string {
 	return m.Self
+}
+
+// GetFreeformTags returns FreeformTags
+func (m ResolverVnicEndpointSummary) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+// GetDefinedTags returns DefinedTags
+func (m ResolverVnicEndpointSummary) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
 }
 
 func (m ResolverVnicEndpointSummary) String() string {

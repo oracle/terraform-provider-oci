@@ -86,6 +86,9 @@ type BlockVolumeReplica struct {
 	// Overview of Vault service (https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and
 	// Using Keys (https://docs.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm).
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// The list of buildings the volume replica is placed.
+	BuildingList []string `mandatory:"false" json:"buildingList"`
 }
 
 func (m BlockVolumeReplica) String() string {

@@ -47,6 +47,8 @@ type Deployment struct {
 	Configuration *string `mandatory:"false" json:"configuration"`
 
 	OauthConfiguration *OAuthConfiguration `mandatory:"false" json:"oauthConfiguration"`
+
+	AgentCardInfo *AgentCardInfo `mandatory:"false" json:"agentCardInfo"`
 }
 
 func (m Deployment) String() string {

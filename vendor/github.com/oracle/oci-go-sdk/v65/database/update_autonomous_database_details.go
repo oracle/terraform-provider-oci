@@ -55,6 +55,9 @@ type UpdateAutonomousDatabaseDetails struct {
 	// Specifies if Telemetry Streaming is enabled or disabled for this Autonomous AI Database.
 	IsTelemetryStreamingEnabled *bool `mandatory:"false" json:"isTelemetryStreamingEnabled"`
 
+	// Specifies if Autonomous Data Timehouse is enabled or disabled for this Autonomous AI Database.
+	IsTimehouseEnabled *bool `mandatory:"false" json:"isTimehouseEnabled"`
+
 	// The compute amount (CPUs) available to the database. Minimum and maximum values depend on the compute model and whether the database is an Autonomous AI Database Serverless instance or an Autonomous AI Database on Dedicated Exadata Infrastructure.
 	// The 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
 	// This cannot be updated in parallel with any of the following: licenseModel, databaseEdition, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
@@ -205,6 +208,7 @@ type UpdateAutonomousDatabaseDetails struct {
 
 	// The database OCID(/Content/General/Concepts/identifiers.htm) of the Disaster Recovery peer (source Primary) database, which is located in a different (remote) region from the current peer database.
 	// To create or delete a local (in-region) standby, see the `isDataGuardEnabled` parameter.
+	// When disconnecting a cross-region standby, specify the standby database OCID in this parameter together with `isDisconnectPeer=true`.
 	PeerDbId *string `mandatory:"false" json:"peerDbId"`
 
 	// A valid Oracle AI Database version for Autonomous AI Database.
@@ -333,8 +337,9 @@ type UpdateAutonomousDatabaseDetails struct {
 
 	EncryptionKey AutonomousDatabaseEncryptionKeyDetails `mandatory:"false" json:"encryptionKey"`
 
-	// If true, this will disconnect the Autonomous AI Database from its peer and the Autonomous AI Database can work permanently as a standalone database.
-	// To disconnect a cross region standby, please also provide the OCID of the standby database in the `peerDbId` parameter.
+	// If true, this disconnects the Autonomous AI Database from its peer. After the disconnect completes, the Autonomous AI Database works permanently as a standalone database.
+	// **Warning:** A disconnected standby is no longer part of the disaster recovery configuration. Operations and restrictions that apply to a connected standby do not apply in the same way after the database has been disconnected.
+	// To disconnect a cross region standby, also provide the OCID of the standby database in the `peerDbId` parameter.
 	IsDisconnectPeer *bool `mandatory:"false" json:"isDisconnectPeer"`
 
 	// The included compute amount (CPUs) available for FAW provisioned database.
@@ -407,6 +412,7 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		LongTermBackupSchedule               *LongTermBackUpScheduleDetails                                       `json:"longTermBackupSchedule"`
 		IsDevTier                            *bool                                                                `json:"isDevTier"`
 		IsTelemetryStreamingEnabled          *bool                                                                `json:"isTelemetryStreamingEnabled"`
+		IsTimehouseEnabled                   *bool                                                                `json:"isTimehouseEnabled"`
 		ComputeCount                         *float32                                                             `json:"computeCount"`
 		OcpuCount                            *float32                                                             `json:"ocpuCount"`
 		DataStorageSizeInTBs                 *int                                                                 `json:"dataStorageSizeInTBs"`
@@ -497,6 +503,8 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	m.IsDevTier = model.IsDevTier
 
 	m.IsTelemetryStreamingEnabled = model.IsTelemetryStreamingEnabled
+
+	m.IsTimehouseEnabled = model.IsTimehouseEnabled
 
 	m.ComputeCount = model.ComputeCount
 
