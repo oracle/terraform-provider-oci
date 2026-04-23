@@ -226,6 +226,18 @@ var exportDatascienceModelGroupHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDatascienceComputeTargetHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_datascience_compute_target",
+	DatasourceClass:        "oci_datascience_compute_targets",
+	DatasourceItemsAttr:    "compute_targets",
+	ResourceAbbreviation:   "compute_target",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_datascience.ComputeTargetLifecycleStateActive),
+		string(oci_datascience.ComputeTargetLifecycleStateNeedsAttention),
+	},
+}
+
 var datascienceResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatascienceProjectHints},
@@ -245,6 +257,7 @@ var datascienceResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDatascienceMlApplicationHints},
 		{TerraformResourceHints: exportDatascienceModelGroupVersionHistoryHints},
 		{TerraformResourceHints: exportDatascienceModelGroupHints},
+		{TerraformResourceHints: exportDatascienceComputeTargetHints},
 	},
 	"oci_datascience_model": {
 		{
