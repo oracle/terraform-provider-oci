@@ -59,11 +59,20 @@ The following attributes are exported:
 	* `job_environment_type` - The environment configuration type used for job runtime.
 * `job_infrastructure_configuration_details` - The job infrastructure configuration details (shape, block storage, etc.) 
 	* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance running the job 
+	* `compute_target_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute target.
 	* `job_infrastructure_type` - The infrastructure type used for job run.
 	* `job_shape_config_details` - Details for the job run shape configuration. Specify only when a flex shape is selected.
 		* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 		* `memory_in_gbs` - The total amount of memory available to the job run instance, in gigabytes. 
 		* `ocpus` - The total number of OCPUs available to the job run instance. 
+	* `resource_configuration` - Details for the compute target job resource configuration.
+		* `resource_limit_configuration` - Resource limit configuration details for workload on managed compute cluster type compute target
+			* `memory_in_gbs` - Burstable limit for memory. 
+			* `ocpus` - Burstable limit for cpu. 
+		* `resource_request_configuration` - Resource request configuration to run workload on managed compute cluster type compute target compute target.
+			* `gpus` - The total number of gpus required to be allocated to the workload. 
+			* `memory_in_gbs` - The memory in Gbs required to be allocated to run the workload. 
+			* `ocpus` - The ocpus required to be allocated to run the workload. 
 	* `shape_name` - The name that corresponds to the JobShapeSummary to use for the job node
 	* `subnet_id` - The subnet to create a secondary vnic in to attach to the instance running the job 
 * `job_log_configuration_details` - Logging configuration for resource. 
@@ -96,10 +105,19 @@ The following attributes are exported:
 			* `job_environment_type` - The environment configuration type used for job runtime.
 		* `job_infrastructure_configuration_details` - The job infrastructure configuration details (shape, block storage, etc.) 
 			* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance running the job 
+			* `compute_target_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute target.
 			* `job_infrastructure_type` - The infrastructure type used for job run.
 			* `job_shape_config_details` - Details for the job run shape configuration. Specify only when a flex shape is selected.
 				* `memory_in_gbs` - The total amount of memory available to the job run instance, in gigabytes. 
 				* `ocpus` - The total number of OCPUs available to the job run instance. 
+			* `resource_configuration` - Details for the compute target job resource configuration.
+				* `resource_limit_configuration` - Resource limit configuration details for workload on managed compute cluster type compute target
+					* `memory_in_gbs` - Burstable limit for memory. 
+					* `ocpus` - Burstable limit for cpu. 
+				* `resource_request_configuration` - Resource request configuration to run workload on managed compute cluster type compute target compute target.
+					* `gpus` - The total number of gpus required to be allocated to the workload. 
+					* `memory_in_gbs` - The memory in Gbs required to be allocated to run the workload. 
+					* `ocpus` - The ocpus required to be allocated to run the workload. 
 			* `shape_name` - The name that corresponds to the JobShapeSummary to use for the job node
 			* `subnet_id` - The subnet to create a secondary vnic in to attach to the instance running the job 
 		* `minimum_success_replicas` - The minimum threshold of successful replicas for node group to be successful. All replicas need to succeed if this is not specified.

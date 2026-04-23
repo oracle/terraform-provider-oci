@@ -219,6 +219,166 @@ resource "oci_datascience_model_deployment" "test_model_deployment" {
 }
 ```
 
+Example terraform config for `deployment_type = "SINGLE_MODEL_FLEX"` with `infrastructure_type = "MANAGED_COMPUTE_CLUSTER"` and autoscaling:
+
+```hcl
+resource "oci_datascience_model_deployment" "test_single_model_flex_model_deployment" {
+	#Required
+	compartment_id = var.compartment_id
+	model_deployment_configuration_details {
+		#Required
+		deployment_type = "SINGLE_MODEL_FLEX"
+
+		#Optional
+		environment_configuration_details {
+			#Required
+			environment_configuration_type = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_environment_configuration_type
+
+			#Optional
+			cmd = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_cmd
+			default_environment_variables = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_default_environment_variables
+			entrypoint = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_entrypoint
+			environment_variables = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_environment_variables
+			health_check_port = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_health_check_port
+			image = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_image
+			image_digest = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_image_digest
+			image_signature_id = oci_datascience_image_signature.test_image_signature.id
+			server_port = var.model_deployment_model_deployment_configuration_details_environment_configuration_details_server_port
+		}
+		infrastructure_configuration_details {
+			#Required
+			compute_target_id = oci_datascience_compute_target.test_compute_target.id
+			infrastructure_type = "MANAGED_COMPUTE_CLUSTER"
+
+			#Optional
+			model_deployment_resource_configuration {
+				#Required
+				resource_request_configuration {
+					#Required
+					memory_in_gbs = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_model_deployment_resource_configuration_resource_request_configuration_memory_in_gbs
+					ocpus = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_model_deployment_resource_configuration_resource_request_configuration_ocpus
+
+					#Optional
+					gpus = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_model_deployment_resource_configuration_resource_request_configuration_gpus
+				}
+
+				#Optional
+				resource_limit_configuration {
+					#Required
+					memory_in_gbs = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_model_deployment_resource_configuration_resource_limit_configuration_memory_in_gbs
+					ocpus = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_model_deployment_resource_configuration_resource_limit_configuration_ocpus
+				}
+			}
+			scaling_policy {
+				#Required
+				policy_type = "AUTOSCALING"
+
+				#Optional
+				auto_scaling_policies {
+					#Required
+					auto_scaling_policy_type = "THRESHOLD"
+					initial_instance_count = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_scaling_policy_auto_scaling_policies_initial_instance_count
+					maximum_instance_count = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_scaling_policy_auto_scaling_policies_maximum_instance_count
+					minimum_instance_count = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_scaling_policy_auto_scaling_policies_minimum_instance_count
+					rules {
+						#Required
+						metric_expression_rule_type = "TARGET_PREDEFINED_EXPRESSION"
+						metric_type = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_scaling_policy_auto_scaling_policies_rules_metric_type
+						scale_configuration {
+							#Required
+							target_scaling_configuration_type = "THRESHOLD"
+							threshold = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_scaling_policy_auto_scaling_policies_rules_scale_configuration_threshold
+						}
+					}
+					rules {
+						#Required
+						metric_expression_rule_type = "TARGET_CUSTOM_EXPRESSION"
+						scale_configuration {
+							#Required
+							query = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_scaling_policy_auto_scaling_policies_rules_scale_configuration_query
+							target_scaling_configuration_type = "QUERY"
+							threshold = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_scaling_policy_auto_scaling_policies_rules_scale_configuration_threshold
+
+							#Optional
+							metric_namespace = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_scaling_policy_auto_scaling_policies_rules_scale_configuration_metric_namespace
+						}
+					}
+					scale_in_policy {
+						#Optional
+						cool_down_in_seconds = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_scaling_policy_auto_scaling_policies_scale_in_policy_cool_down_in_seconds
+						instance_count_adjustment = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_scaling_policy_auto_scaling_policies_scale_in_policy_instance_count_adjustment
+						pending_duration = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_scaling_policy_auto_scaling_policies_scale_in_policy_pending_duration
+					}
+					scale_out_policy {
+						#Optional
+						cool_down_in_seconds = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_scaling_policy_auto_scaling_policies_scale_out_policy_cool_down_in_seconds
+						instance_count_adjustment = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_scaling_policy_auto_scaling_policies_scale_out_policy_instance_count_adjustment
+						pending_duration = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_scaling_policy_auto_scaling_policies_scale_out_policy_pending_duration
+					}
+				}
+				is_enabled = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_scaling_policy_is_enabled
+			}
+		}
+		model_configuration_details {
+			#Required
+			model_id = oci_datascience_model.test_model.id
+		}
+	}
+	#Required
+	project_id = oci_datascience_project.test_project.id
+
+	#Optional
+	category_log_details {
+
+		#Optional
+		access {
+			#Required
+			log_group_id = oci_logging_log_group.test_log_group.id
+			log_id = oci_logging_log.test_log.id
+		}
+		predict {
+			#Required
+			log_group_id = oci_logging_log_group.test_log_group.id
+			log_id = oci_logging_log.test_log.id
+		}
+	}
+	defined_tags = {"Operations.CostCenter"= "42"}
+	description = var.model_deployment_description
+	display_name = var.model_deployment_display_name
+	freeform_tags = {"Department"= "Finance"}
+	opc_parent_rpt_url = var.model_deployment_opc_parent_rpt_url
+}
+```
+
+Example terraform config for `deployment_type = "SINGLE_MODEL_FLEX"` with `infrastructure_type = "MANAGED_COMPUTE_CLUSTER"` and fixed size scaling:
+
+```hcl
+resource "oci_datascience_model_deployment" "test_single_model_flex_fixed_size_model_deployment" {
+	#Required
+	compartment_id = var.compartment_id
+	model_deployment_configuration_details {
+		#Required
+		deployment_type = "SINGLE_MODEL_FLEX"
+		infrastructure_configuration_details {
+			#Required
+			compute_target_id = oci_datascience_compute_target.test_compute_target.id
+			infrastructure_type = "MANAGED_COMPUTE_CLUSTER"
+			scaling_policy {
+				#Required
+				instance_count = var.model_deployment_model_deployment_configuration_details_infrastructure_configuration_details_scaling_policy_instance_count
+				policy_type = "FIXED_SIZE"
+			}
+		}
+		model_configuration_details {
+			#Required
+			model_id = oci_datascience_model.test_model.id
+		}
+	}
+	#Required
+	project_id = oci_datascience_project.test_project.id
+}
+```
+
 ## Argument Reference
 
 The following arguments are supported:
@@ -555,6 +715,51 @@ The following attributes are exported:
 * `project_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project associated with the model deployment.
 * `state` - The state of the model deployment.
 * `time_created` - The date and time the resource was created, in the timestamp format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: 2019-08-25T21:10:29.41Z
+
+## SINGLE_MODEL_FLEX Exported Attributes
+
+The following attributes are exported for `deployment_type = SINGLE_MODEL_FLEX`.
+
+* `model_deployment_configuration_details`
+	* `deployment_type` - `SINGLE_MODEL_FLEX`
+	* `model_configuration_details` - The single model configuration details.
+		* `model_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a model.
+	* `infrastructure_configuration_details` - The infrastructure configuration details for managed compute cluster type compute target.
+		* `infrastructure_type` - `MANAGED_COMPUTE_CLUSTER`
+		* `compute_target_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Compute Target.
+		* `model_deployment_resource_configuration` - Resource configuration details for model deploy on managed compute cluster type compute target.
+			* `resource_request_configuration` - Resource request configuration to run workload on managed compute cluster type compute target compute target.
+				* `gpus` - The total number of gpus required to be allocated to the workload.
+				* `memory_in_gbs` - The memory in Gbs required to be allocated to run the workload.
+				* `ocpus` - The ocpus required to be allocated to run the workload.
+			* `resource_limit_configuration` - Resource limit configuration details for workload on managed compute cluster type compute target.
+				* `memory_in_gbs` - Burstable limit for memory.
+				* `ocpus` - Burstable limit for cpu.
+		* `scaling_policy` - The scaling policy to apply to workloads on managed compute cluster type compute target.
+			* `policy_type` - The type of scaling policy. Supported values are `FIXED_SIZE` and `AUTOSCALING`.
+			* `instance_count` - Returned for `policy_type=FIXED_SIZE`. The number of instances for the workload.
+			* `is_enabled` - Returned for `policy_type=AUTOSCALING`. Whether the autoscaling policy is enabled.
+			* `auto_scaling_policies` - Returned for `policy_type=AUTOSCALING`. The list of autoscaling policy details.
+				* `auto_scaling_policy_type` - The type of autoscaling policy. The supported value is `THRESHOLD`.
+				* `initial_instance_count` - For a threshold-based autoscaling policy, this value is the initial number of workload instances to launch immediately after autoscaling is enabled.
+				* `maximum_instance_count` - For a threshold-based autoscaling policy, this value is the maximum number of workload instances allowed to increase to (scale out).
+				* `minimum_instance_count` - For a threshold-based autoscaling policy, this value is the minimum number of workload instances allowed to decrease to (scale in). This should be zero for scale-to-zero.
+				* `rules` - The list of autoscaling policy rules.
+					* `metric_expression_rule_type` - The metric expression for creating the alarm used to trigger autoscaling actions for workload. Supported values are `TARGET_PREDEFINED_EXPRESSION` and `TARGET_CUSTOM_EXPRESSION`.
+					* `metric_type` - Returned for `TARGET_PREDEFINED_EXPRESSION`. Metric type.
+					* `scale_configuration` - The scaling configuration for the target-based workload rule.
+						* `target_scaling_configuration_type` - The type of target scaling configuration. Supported values are `THRESHOLD` and `QUERY`.
+						* `threshold` - A metric value at which the scaling operation will be triggered.
+						* `query` - Returned for `TARGET_CUSTOM_EXPRESSION`. The Monitoring Query Language (MQL) expression to evaluate for the alarm.
+						* `metric_namespace` - Returned for `TARGET_CUSTOM_EXPRESSION`. Namespace to read the metrics from.
+				* `scale_in_policy` - Workload scaling policy configuration for workloads on managed compute cluster type compute target.
+					* `cool_down_in_seconds` - The duration of time window used to restrict flapping of instance count when the metrics used for scaling keep fluctuating.
+					* `instance_count_adjustment` - The value used for adjusting the count of instances.
+					* `pending_duration` - The period of time that the alarm condition must persist before the alarm state changes.
+				* `scale_out_policy` - Workload scaling policy configuration for workloads on managed compute cluster type compute target.
+					* `cool_down_in_seconds` - The duration of time window used to restrict flapping of instance count when the metrics used for scaling keep fluctuating.
+					* `instance_count_adjustment` - The value used for adjusting the count of instances.
+					* `pending_duration` - The period of time that the alarm condition must persist before the alarm state changes.
 
 ## Timeouts
 

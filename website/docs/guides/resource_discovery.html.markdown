@@ -785,6 +785,7 @@ datascience
 * oci\_datascience\_model\_group\_version\_history
 * oci\_datascience\_model\_group\_artifact
 * oci\_datascience\_model\_group
+* oci\_datascience\_compute\_target
 
 dblm
 
