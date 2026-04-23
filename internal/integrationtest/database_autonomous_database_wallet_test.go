@@ -67,6 +67,7 @@ func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_wallet", "test_autonomous_database_wallet", acctest.Required, acctest.Create, DatabaseAutonomousDatabaseWalletRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "autonomous_database_id"),
+				resource.TestCheckNoResourceAttr(resourceName, "generate_type"),
 				resource.TestCheckResourceAttr(resourceName, "password", "BEstrO0ng_#11"),
 			),
 		},
@@ -93,7 +94,7 @@ func TestDatabaseAutonomousDatabaseWalletResource_basic(t *testing.T) {
 				compartmentIdVariableStr + DatabaseAutonomousDatabaseWalletResourceDependencies,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "generate_type", "SINGLE"),
+				resource.TestCheckNoResourceAttr(singularDatasourceName, "generate_type"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "base64_encode_content", "false"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "content"),

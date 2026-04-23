@@ -7,6 +7,7 @@ import (
 	"context"
 	"encoding/base64"
 	"io/ioutil"
+	"strings"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -33,7 +34,6 @@ func DatabaseAutonomousDatabaseWalletDataSource() *schema.Resource {
 			"generate_type": {
 				Type:             schema.TypeString,
 				Optional:         true,
-				Default:          "SINGLE",
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 			},
 			"password": {
@@ -76,7 +76,9 @@ func (s *DatabaseAutonomousDatabaseWalletDataSourceCrud) Get() error {
 		request.AutonomousDatabaseId = &tmp
 	}
 
-	if generateType, ok := s.D.GetOkExists("generate_type"); ok {
+	// Dedicated ADB wallet download rejects any explicit generateType value, so only
+	// send the field when the user actually provided a non-empty value.
+	if generateType, ok := s.D.GetOkExists("generate_type"); ok && strings.TrimSpace(generateType.(string)) != "" {
 		request.GenerateType = oci_database.GenerateAutonomousDatabaseWalletDetailsGenerateTypeEnum(generateType.(string))
 	}
 

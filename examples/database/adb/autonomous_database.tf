@@ -248,6 +248,12 @@ resource "oci_database_autonomous_database" "test_autonomous_database_db_tools" 
                 compute_count = 0
                 max_idle_time_in_minutes = 0
               }
+              db_tools_details {
+                name = "SPATIAL_STUDIO"
+                is_enabled = false
+                compute_count = 0
+                max_idle_time_in_minutes = 0
+              }
     }
 
 resource "oci_database_autonomous_database" "test_autonomous_database_actions" {
