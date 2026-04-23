@@ -36,6 +36,7 @@ resource "oci_ocvp_byol" "test_byol" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	description = var.byol_description
 	freeform_tags = {"Department"= "Finance"}
+	site_id = oci_ocvp_site.test_site.id
 }
 ```
 
@@ -49,6 +50,7 @@ The following arguments are supported:
 * `display_name` - (Required) (Updatable) A descriptive name for the BYOL. 
 * `entitlement_key` - (Required) (Updatable) The Broadcom-supplied identifier of a BYOL license. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `site_id` - (Optional) (Updatable) The hyperscaler identifier in Broadcom systems. 
 * `software_type` - (Required) (Updatable) The type of VMware software the BYOL applies to.  Supported values:
 	* VCF (VMware Cloud Foundation)
 	* VSAN (VMware vSAN)
@@ -77,6 +79,7 @@ The following attributes are exported:
 * `entitlement_key` - The Broadcom-supplied identifier of a BYOL license. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the BYOL. 
+* `site_id` - The hyperscaler identifier in Broadcom systems. 
 * `software_type` - The type of VMware software the BYOL applies to.  Supported values:
 	* VCF (VMware Cloud Foundation)
 	* VSAN (VMware vSAN)

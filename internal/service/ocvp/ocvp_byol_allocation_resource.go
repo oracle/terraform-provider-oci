@@ -73,6 +73,10 @@ func OcvpByolAllocationResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"site_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"software_type": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -471,6 +475,10 @@ func (s *OcvpByolAllocationResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.SiteId != nil {
+		s.D.Set("site_id", *s.Res.SiteId)
+	}
 
 	s.D.Set("software_type", s.Res.SoftwareType)
 
