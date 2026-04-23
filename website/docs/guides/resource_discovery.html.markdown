@@ -751,6 +751,12 @@ datacatalog
 * oci\_datacatalog\_catalog\_private\_endpoint
 * oci\_datacatalog\_metastore
 
+datacc
+    
+* oci\_datacc\_vm\_instance
+* oci\_datacc\_vm\_cluster\_network
+* oci\_datacc\_infrastructure
+
 dataflow
 
 * oci\_dataflow\_application
@@ -1384,7 +1390,7 @@ security_attribute
 * oci\_security\_attribute\_security\_attribute
 
 self
-
+    
 * oci\_self\_subscription
 
 stack_monitoring
