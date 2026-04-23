@@ -69,6 +69,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `description` - User defined description of the cloud Autonomous VM cluster.
 * `display_name` - The user-friendly name for the cloud Autonomous VM cluster. The name does not need to be unique.
+* `distribution_algorithm` - The distribution algorithm used for the Autonomous VM cluster.
 * `domain` - The domain name for the cloud Autonomous VM cluster.
 * `exadata_storage_in_tbs_lowest_scaled_value` - The lowest value to which exadataStorage (in TBs) can be scaled down.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
@@ -120,6 +121,7 @@ The following attributes are exported:
 * `scan_listener_port_non_tls` - The SCAN Listener Non TLS port. Default is 1521.
 * `scan_listener_port_tls` - The SCAN Listenenr TLS port. Default is 2484.
 * `security_attributes` - Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
+* `sga_percentage` - Percentage of ECPU memory allocated for SGA(System Global Area).
 * `shape` - The model name of the Exadata hardware running the cloud Autonomous VM cluster. 
 * `state` - The current state of the cloud Autonomous VM cluster.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the cloud Autonomous VM Cluster is associated with.

@@ -5,7 +5,6 @@ package database
 
 import (
 	"context"
-
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -87,6 +86,11 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
+			"distribution_algorithm": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -103,7 +107,6 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"license_model": {
 				Type:     schema.TypeString,
@@ -224,10 +227,14 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"scan_listener_port_tls": {
 				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"sga_percentage": {
+				Type:     schema.TypeFloat,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
@@ -236,7 +243,6 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"total_container_databases": {
 				Type:     schema.TypeInt,
@@ -603,6 +609,10 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) CreateWithContext(ctx context.
 		request.DisplayName = &tmp
 	}
 
+	if distributionAlgorithm, ok := s.D.GetOkExists("distribution_algorithm"); ok {
+		request.DistributionAlgorithm = oci_database.CreateAutonomousVmClusterDetailsDistributionAlgorithmEnum(distributionAlgorithm.(string))
+	}
+
 	if exadataInfrastructureId, ok := s.D.GetOkExists("exadata_infrastructure_id"); ok {
 		tmp := exadataInfrastructureId.(string)
 		request.ExadataInfrastructureId = &tmp
@@ -650,6 +660,11 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) CreateWithContext(ctx context.
 	if scanListenerPortTls, ok := s.D.GetOkExists("scan_listener_port_tls"); ok {
 		tmp := scanListenerPortTls.(int)
 		request.ScanListenerPortTls = &tmp
+	}
+
+	if sgaPercentage, ok := s.D.GetOkExists("sga_percentage"); ok {
+		tmp := float32(sgaPercentage.(float64))
+		request.SgaPercentage = &tmp
 	}
 
 	if timeZone, ok := s.D.GetOkExists("time_zone"); ok {
@@ -728,8 +743,17 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) UpdateWithContext(ctx context.
 		request.DefinedTags = convertedDefinedTags
 	}
 
+	if distributionAlgorithm, ok := s.D.GetOkExists("distribution_algorithm"); ok {
+		request.DistributionAlgorithm = oci_database.UpdateAutonomousVmClusterDetailsDistributionAlgorithmEnum(distributionAlgorithm.(string))
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if isMtlsEnabled, ok := s.D.GetOkExists("is_mtls_enabled"); ok {
+		tmp := isMtlsEnabled.(bool)
+		request.IsMtlsEnabled = &tmp
 	}
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok && s.D.HasChange("license_model") {
@@ -745,6 +769,21 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) UpdateWithContext(ctx context.
 			}
 			request.MaintenanceWindowDetails = &tmp
 		}
+	}
+
+	if scanListenerPortNonTls, ok := s.D.GetOkExists("scan_listener_port_non_tls"); ok {
+		tmp := scanListenerPortNonTls.(int)
+		request.ScanListenerPortNonTls = &tmp
+	}
+
+	if scanListenerPortTls, ok := s.D.GetOkExists("scan_listener_port_tls"); ok {
+		tmp := scanListenerPortTls.(int)
+		request.ScanListenerPortTls = &tmp
+	}
+
+	if timeZone, ok := s.D.GetOkExists("time_zone"); ok {
+		tmp := timeZone.(string)
+		request.TimeZone = &tmp
 	}
 
 	if totalContainerDatabases, ok := s.D.GetOkExists("total_container_databases"); ok {
@@ -844,6 +883,8 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	s.D.Set("distribution_algorithm", s.Res.DistributionAlgorithm)
+
 	if s.Res.ExadataInfrastructureId != nil {
 		s.D.Set("exadata_infrastructure_id", *s.Res.ExadataInfrastructureId)
 	}
@@ -936,6 +977,10 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) SetData() error {
 
 	if s.Res.ScanListenerPortTls != nil {
 		s.D.Set("scan_listener_port_tls", *s.Res.ScanListenerPortTls)
+	}
+
+	if s.Res.SgaPercentage != nil {
+		s.D.Set("sga_percentage", *s.Res.SgaPercentage)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

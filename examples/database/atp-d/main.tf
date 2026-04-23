@@ -90,8 +90,12 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
       backup_retention_policy_on_terminate = "RETAIN_FOR_72_HOURS"
       is_retention_lock_enabled = false
     }
+
   }
 
+  # depends_on =  [
+  #   oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster_standby
+  # ]
   #Optional
   db_split_threshold           = 12
   vm_failover_reservation      = 25
@@ -148,7 +152,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 
 resource "oci_database_autonomous_database_software_image" "autonomous_database_software_image" {
   compartment_id = var.compartment_ocid
-  display_name = "ADSI-TFTest"
+  display_name = "ADSI-TFTest-123"
   image_shape_family = "EXADATA_SHAPE"
   source_cdb_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
   freeform_tags = {
@@ -223,7 +227,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
   #Optional
   autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
   db_workload                      = "OLTP"
-  display_name                     = "example_autonomous_db-1"
+  display_name                     = "example_autonomous_db-123"
   freeform_tags                    = var.autonomous_database_freeform_tags
   is_dedicated                     = "true"
   rotate_key_trigger               = "true"
@@ -369,7 +373,7 @@ resource "oci_database_autonomous_container_database_add_standby" "example_acd_a
 
 # Example for oci_database_autonomous_container_database_snapshot_standby resource.
 # This creates a snapshot standby for the standby ACD created above.
-resource "oci_database_autonomous_container_database_snapshot_standby" "example_acd_snapshot_standby" {
-  autonomous_container_database_id = oci_database_autonomous_container_database_add_standby.example_acd_add_standby.dataguard_group_members[1].autonomous_container_database_id
-  role = "STANDBY"
-}
+# resource "oci_database_autonomous_container_database_snapshot_standby" "example_acd_snapshot_standby" {
+#   autonomous_container_database_id = oci_database_autonomous_container_database_add_standby.example_acd_add_standby.dataguard_group_members[1].autonomous_container_database_id
+#   role = "STANDBY"
+# }

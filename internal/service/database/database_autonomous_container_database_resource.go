@@ -212,7 +212,6 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"db_unique_name": {
 				Type:     schema.TypeString,
@@ -237,7 +236,6 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"encryption_key_location_details": {
 				Type:     schema.TypeList,
@@ -432,7 +430,6 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"okv_end_point_group_name": {
 				Type:     schema.TypeString,
@@ -614,7 +611,6 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"failover_trigger": {
 				Type:     schema.TypeInt,
@@ -1451,7 +1447,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) UpdateWithContext(ctx 
 		}
 	}
 
-	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok && s.D.HasChange("defined_tags") {
+	if dbSplitThreshold, ok := s.D.GetOkExists("db_split_threshold"); ok {
+		tmp := dbSplitThreshold.(int)
+		request.DbSplitThreshold = &tmp
+	}
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
@@ -1464,7 +1464,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) UpdateWithContext(ctx 
 		request.DisplayName = &tmp
 	}
 
-	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
+	if distributionAffinity, ok := s.D.GetOkExists("distribution_affinity"); ok {
+		request.DistributionAffinity = oci_database.UpdateAutonomousContainerDatabaseDetailsDistributionAffinityEnum(distributionAffinity.(string))
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
@@ -1484,6 +1488,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) UpdateWithContext(ctx 
 		}
 	}
 
+	if netServicesArchitecture, ok := s.D.GetOkExists("net_services_architecture"); ok {
+		request.NetServicesArchitecture = oci_database.UpdateAutonomousContainerDatabaseDetailsNetServicesArchitectureEnum(netServicesArchitecture.(string))
+	}
+
 	if patchModel, ok := s.D.GetOkExists("patch_model"); ok && s.D.HasChange("patch_model") {
 		request.PatchModel = oci_database.UpdateAutonomousContainerDatabaseDetailsPatchModelEnum(patchModel.(string))
 	}
@@ -1500,6 +1508,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) UpdateWithContext(ctx 
 
 	if versionPreference, ok := s.D.GetOkExists("version_preference"); ok && s.D.HasChange("version_preference") {
 		request.VersionPreference = oci_database.UpdateAutonomousContainerDatabaseDetailsVersionPreferenceEnum(versionPreference.(string))
+	}
+
+	if vmFailoverReservation, ok := s.D.GetOkExists("vm_failover_reservation"); ok {
+		tmp := vmFailoverReservation.(int)
+		request.VmFailoverReservation = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")

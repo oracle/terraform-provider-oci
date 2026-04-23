@@ -34,6 +34,7 @@ resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cl
 	db_servers = var.cloud_autonomous_vm_cluster_db_servers
 	defined_tags = var.cloud_autonomous_vm_cluster_defined_tags
 	description = var.cloud_autonomous_vm_cluster_description
+	distribution_algorithm = var.cloud_autonomous_vm_cluster_distribution_algorithm
 	freeform_tags = {"Department"= "Finance"}
 	is_mtls_enabled_vm_cluster = var.cloud_autonomous_vm_cluster_is_mtls_enabled_vm_cluster
 	license_model = var.cloud_autonomous_vm_cluster_license_model
@@ -64,6 +65,7 @@ resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cl
 	scan_listener_port_non_tls = var.cloud_autonomous_vm_cluster_scan_listener_port_non_tls
 	scan_listener_port_tls = var.cloud_autonomous_vm_cluster_scan_listener_port_tls
 	security_attributes = var.cloud_autonomous_vm_cluster_security_attributes
+	sga_percentage = var.cloud_autonomous_vm_cluster_sga_percentage
 	subscription_id = oci_onesubscription_subscription.test_subscription.id
 	total_container_databases = var.cloud_autonomous_vm_cluster_total_container_databases
 }
@@ -75,7 +77,7 @@ The following arguments are supported:
 
 * `autonomous_data_storage_size_in_tbs` - (Optional) (Updatable) The data disk group size to be allocated for Autonomous AI Databases, in TBs.
 * `cloud_exadata_infrastructure_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Exadata infrastructure.
-* `cluster_time_zone` - (Optional) The time zone to use for the Cloud Autonomous VM cluster. For details, see [DB System Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
+* `cluster_time_zone` - (Optional) (Updatable) The time zone to use for the Cloud Autonomous VM cluster. For details, see [DB System Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `compute_model` - (Optional) The compute model of the Cloud Autonomous VM Cluster. ECPU compute model is the recommended model and OCPU compute model is legacy. 
 * `cpu_core_count_per_node` - (Optional) (Updatable) The number of CPU cores to be enabled per VM cluster node.
@@ -84,8 +86,9 @@ The following arguments are supported:
 * `compute_model` - (Optional) The compute model of the Cloud Autonomous VM Cluster.
 * `description` - (Optional) (Updatable) User defined description of the cloud Autonomous VM cluster.
 * `display_name` - (Required) (Updatable) The user-friendly name for the cloud Autonomous VM cluster. The name does not need to be unique.
+* `distribution_algorithm` - (Optional) (Updatable) The distribution algorithm used for the Autonomous VM cluster.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `is_mtls_enabled_vm_cluster` - (Optional) Enable mutual TLS(mTLS) authentication for database at time of provisioning a VMCluster. This is applicable to database TLS Certificates only. Default is TLS
+* `is_mtls_enabled_vm_cluster` - (Optional) (Updatable) Enable mutual TLS(mTLS) authentication for database at time of provisioning a VMCluster. This is applicable to database TLS Certificates only. Default is TLS
 * `license_model` - (Optional) (Updatable) The Oracle license model that applies to the Oracle Autonomous AI Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle services in the cloud. License Included allows you to subscribe to new Oracle AI Database software licenses and the Oracle AI Database service. Note that when provisioning an [Autonomous AI Database on dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null. It is already set at the Autonomous Exadata Infrastructure level. When provisioning an [Autonomous AI Database Serverless] (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) database, if a value is not specified, the system defaults the value to `BRING_YOUR_OWN_LICENSE`. Bring your own license (BYOL) also allows you to select the DB edition using the optional parameter.
 
 	This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, maxCpuCoreCount, dataStorageSizeInTBs, adminPassword, isMTLSConnectionRequired, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, or isFreeTier. 
@@ -108,11 +111,12 @@ The following arguments are supported:
 	* `weeks_of_month` - (Optional) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `memory_per_oracle_compute_unit_in_gbs` - (Optional) The amount of memory (in GBs) to be enabled per OCPU or ECPU.  
 * `nsg_ids` - (Optional) (Updatable) The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the network security groups (NSGs) to which this resource belongs. Setting this to an empty list removes all resources from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). **NsgIds restrictions:**
-	* A network security group (NSG) is optional for Autonomous AI Databases with private access. The nsgIds list can be empty. 
-* `opc_dry_run` - (Optional) (Updatable) Indicates that the request is a dry run, if set to "true". A dry run request does not actually  creating or updating a resource and is used only to perform validation on the submitted data.
-* `scan_listener_port_non_tls` - (Optional) The SCAN Listener Non TLS port. Default is 1521.
-* `scan_listener_port_tls` - (Optional) The SCAN Listener TLS port. Default is 2484.
+	* A network security group (NSG) is optional for Autonomous AI Databases with private access. The nsgIds list can be empty.
+* `opc_dry_run` - (Optional) (Updatable) Indicates that the request is a dry run, if set to "true". A dry run request does not actually  creating or updating a resource and is used only to perform validation on the submitted data. 
+* `scan_listener_port_non_tls` - (Optional) (Updatable) The SCAN Listener Non TLS port. Default is 1521.
+* `scan_listener_port_tls` - (Optional) (Updatable) The SCAN Listener TLS port. Default is 2484.
 * `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
+* `sga_percentage` - (Optional) Percentage of ECPU memory allocated for SGA(System Global Area).
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the cloud Autonomous VM Cluster is associated with. 
 * `subscription_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 * `total_container_databases` - (Optional) (Updatable) The total number of Autonomous Container Databases that can be created.
@@ -146,6 +150,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `description` - User defined description of the cloud Autonomous VM cluster.
 * `display_name` - The user-friendly name for the cloud Autonomous VM cluster. The name does not need to be unique.
+* `distribution_algorithm` - The distribution algorithm used for the Autonomous VM cluster.
 * `domain` - The domain name for the cloud Autonomous VM cluster.
 * `exadata_storage_in_tbs_lowest_scaled_value` - The lowest value to which exadataStorage (in TBs) can be scaled down.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
@@ -197,6 +202,7 @@ The following attributes are exported:
 * `scan_listener_port_non_tls` - The SCAN Listener Non TLS port. Default is 1521.
 * `scan_listener_port_tls` - The SCAN Listenenr TLS port. Default is 2484.
 * `security_attributes` - Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
+* `sga_percentage` - Percentage of ECPU memory allocated for SGA(System Global Area).
 * `shape` - The model name of the Exadata hardware running the cloud Autonomous VM cluster. 
 * `state` - The current state of the cloud Autonomous VM cluster.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the cloud Autonomous VM Cluster is associated with.

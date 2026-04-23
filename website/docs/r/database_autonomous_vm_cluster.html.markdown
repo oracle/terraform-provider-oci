@@ -32,6 +32,7 @@ resource "oci_database_autonomous_vm_cluster" "test_autonomous_vm_cluster" {
 	cpu_core_count_per_node = var.autonomous_vm_cluster_cpu_core_count_per_node
 	db_servers = var.autonomous_vm_cluster_db_servers
 	defined_tags = var.autonomous_vm_cluster_defined_tags
+	distribution_algorithm = var.autonomous_vm_cluster_distribution_algorithm
 	freeform_tags = {"Department"= "Finance"}
 	is_local_backup_enabled = var.autonomous_vm_cluster_is_local_backup_enabled
 	is_mtls_enabled = var.autonomous_vm_cluster_is_mtls_enabled
@@ -57,6 +58,7 @@ resource "oci_database_autonomous_vm_cluster" "test_autonomous_vm_cluster" {
 	memory_per_oracle_compute_unit_in_gbs = var.autonomous_vm_cluster_memory_per_oracle_compute_unit_in_gbs
 	scan_listener_port_non_tls = var.autonomous_vm_cluster_scan_listener_port_non_tls
 	scan_listener_port_tls = var.autonomous_vm_cluster_scan_listener_port_tls
+	sga_percentage = var.autonomous_vm_cluster_sga_percentage
 	time_zone = var.autonomous_vm_cluster_time_zone
 	total_container_databases = var.autonomous_vm_cluster_total_container_databases
 }
@@ -73,10 +75,11 @@ The following arguments are supported:
 * `db_servers` - (Optional) The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Db servers.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) The user-friendly name for the Autonomous VM cluster. The name does not need to be unique.
+* `distribution_algorithm` - (Optional) (Updatable) The distribution algorithm used for the Autonomous VM cluster.
 * `exadata_infrastructure_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `is_local_backup_enabled` - (Optional) If true, database backup on local Exadata storage is configured for the Autonomous VM cluster. If false, database backup on local Exadata storage is not available in the Autonomous VM cluster. 
-* `is_mtls_enabled` - (Optional) Enable mutual TLS(mTLS) authentication for database while provisioning a VMCluster. Default is TLS.
+* `is_mtls_enabled` - (Optional) (Updatable) Enable mutual TLS(mTLS) authentication for database while provisioning a VMCluster. Default is TLS.
 * `license_model` - (Optional) (Updatable) The Oracle license model that applies to the Autonomous VM cluster. The default is BRING_YOUR_OWN_LICENSE. 
 * `maintenance_window_details` - (Optional) (Updatable) The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window. 
 	* `days_of_week` - (Optional) (Updatable) Days during the week when maintenance should be performed.
@@ -92,9 +95,10 @@ The following arguments are supported:
 	* `preference` - (Optional) (Updatable) The maintenance window scheduling preference.
 	* `weeks_of_month` - (Optional) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `memory_per_oracle_compute_unit_in_gbs` - (Optional) The amount of memory (in GBs) to be enabled per OCPU or ECPU. 
-* `scan_listener_port_non_tls` - (Optional) The SCAN Listener Non TLS port number. Default value is 1521.
-* `scan_listener_port_tls` - (Optional) The SCAN Listener TLS port number. Default value is 2484.
-* `time_zone` - (Optional) The time zone to use for the Autonomous VM cluster. For details, see [DB System Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
+* `scan_listener_port_non_tls` - (Optional) (Updatable) The SCAN Listener Non TLS port number. Default value is 1521.
+* `scan_listener_port_tls` - (Optional) (Updatable) The SCAN Listener TLS port number. Default value is 2484.
+* `sga_percentage` - (Optional) Percentage of ECPU memory allocated for SGA(System Global Area).
+* `time_zone` - (Optional) (Updatable) The time zone to use for the Autonomous VM cluster. For details, see [DB System Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
 * `total_container_databases` - (Optional) (Updatable) The total number of Autonomous Container Databases that can be created.
 * `vm_cluster_network_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster network.
 
@@ -120,6 +124,7 @@ The following attributes are exported:
 * `db_servers` - The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Db servers.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the Autonomous VM cluster. The name does not need to be unique.
+* `distribution_algorithm` - The distribution algorithm used for the Autonomous VM cluster.
 * `exadata_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 * `exadata_storage_in_tbs_lowest_scaled_value` - The lowest value to which exadataStorage(in TBs) can be scaled down.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
@@ -155,6 +160,7 @@ The following attributes are exported:
 	* The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.
 * `scan_listener_port_non_tls` - The SCAN Listener Non TLS port number. Default value is 1521.
 * `scan_listener_port_tls` - The SCAN Listener TLS port number. Default value is 2484.
+* `sga_percentage` - Percentage of ECPU memory allocated for SGA(System Global Area).
 * `state` - The current state of the Autonomous VM cluster.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `time_created` - The date and time that the Autonomous VM cluster was created.

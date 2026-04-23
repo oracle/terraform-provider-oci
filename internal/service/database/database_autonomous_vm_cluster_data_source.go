@@ -136,6 +136,8 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	s.D.Set("distribution_algorithm", s.Res.DistributionAlgorithm)
+
 	if s.Res.ExadataInfrastructureId != nil {
 		s.D.Set("exadata_infrastructure_id", *s.Res.ExadataInfrastructureId)
 	}
@@ -228,6 +230,10 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 
 	if s.Res.ScanListenerPortTls != nil {
 		s.D.Set("scan_listener_port_tls", *s.Res.ScanListenerPortTls)
+	}
+
+	if s.Res.SgaPercentage != nil {
+		s.D.Set("sga_percentage", *s.Res.SgaPercentage)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
