@@ -200,6 +200,8 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 			cloudAutonomousVmCluster["display_name"] = *r.DisplayName
 		}
 
+		cloudAutonomousVmCluster["distribution_algorithm"] = r.DistributionAlgorithm
+
 		if r.Domain != nil {
 			cloudAutonomousVmCluster["domain"] = *r.Domain
 		}
@@ -315,6 +317,10 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 		}
 
 		cloudAutonomousVmCluster["security_attributes"] = tfresource.SecurityAttributesToMap(r.SecurityAttributes)
+
+		if r.SgaPercentage != nil {
+			cloudAutonomousVmCluster["sga_percentage"] = *r.SgaPercentage
+		}
 
 		if r.Shape != nil {
 			cloudAutonomousVmCluster["shape"] = *r.Shape

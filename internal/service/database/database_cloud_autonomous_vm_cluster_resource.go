@@ -58,7 +58,6 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"cpu_core_count_per_node": {
 				Type:     schema.TypeInt,
@@ -92,6 +91,11 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"distribution_algorithm": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -102,7 +106,6 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"license_model": {
 				Type:     schema.TypeString,
@@ -242,19 +245,23 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"scan_listener_port_tls": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"security_attributes": {
 				Type:     schema.TypeMap,
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"sga_percentage": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"subscription_id": {
 				Type:     schema.TypeString,
@@ -786,6 +793,10 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
+	if distributionAlgorithm, ok := s.D.GetOkExists("distribution_algorithm"); ok {
+		request.DistributionAlgorithm = oci_database.CreateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum(distributionAlgorithm.(string))
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -846,6 +857,11 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Create() error {
 
 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
 		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
+	if sgaPercentage, ok := s.D.GetOkExists("sga_percentage"); ok {
+		tmp := float32(sgaPercentage.(float64))
+		request.SgaPercentage = &tmp
 	}
 
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
@@ -929,6 +945,11 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.CloudAutonomousVmClusterId = &tmp
 
+	if clusterTimeZone, ok := s.D.GetOkExists("cluster_time_zone"); ok {
+		tmp := clusterTimeZone.(string)
+		request.ClusterTimeZone = &tmp
+	}
+
 	if cpuCoreCountPerNode, ok := s.D.GetOkExists("cpu_core_count_per_node"); ok {
 		tmp := cpuCoreCountPerNode.(int)
 		request.CpuCoreCountPerNode = &tmp
@@ -952,8 +973,17 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Update() error {
 		request.DisplayName = &tmp
 	}
 
+	if distributionAlgorithm, ok := s.D.GetOkExists("distribution_algorithm"); ok {
+		request.DistributionAlgorithm = oci_database.UpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum(distributionAlgorithm.(string))
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if isMtlsEnabledVmCluster, ok := s.D.GetOkExists("is_mtls_enabled_vm_cluster"); ok {
+		tmp := isMtlsEnabledVmCluster.(bool)
+		request.IsMtlsEnabledVmCluster = &tmp
 	}
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
@@ -988,6 +1018,16 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Update() error {
 	if opcDryRun, ok := s.D.GetOkExists("opc_dry_run"); ok {
 		tmp := opcDryRun.(bool)
 		request.OpcDryRun = &tmp
+	}
+
+	if scanListenerPortNonTls, ok := s.D.GetOkExists("scan_listener_port_non_tls"); ok {
+		tmp := scanListenerPortNonTls.(int)
+		request.ScanListenerPortNonTls = &tmp
+	}
+
+	if scanListenerPortTls, ok := s.D.GetOkExists("scan_listener_port_tls"); ok {
+		tmp := scanListenerPortTls.(int)
+		request.ScanListenerPortTls = &tmp
 	}
 
 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
@@ -1119,6 +1159,8 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	s.D.Set("distribution_algorithm", s.Res.DistributionAlgorithm)
+
 	if s.Res.Domain != nil {
 		s.D.Set("domain", *s.Res.Domain)
 	}
@@ -1235,6 +1277,10 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 
 	if s.Res.SecurityAttributes != nil {
 		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+	}
+
+	if s.Res.SgaPercentage != nil {
+		s.D.Set("sga_percentage", *s.Res.SgaPercentage)
 	}
 
 	if s.Res.Shape != nil {
