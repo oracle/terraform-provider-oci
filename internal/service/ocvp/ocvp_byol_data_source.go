@@ -94,6 +94,10 @@ func (s *OcvpByolDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.SiteId != nil {
+		s.D.Set("site_id", *s.Res.SiteId)
+	}
+
 	s.D.Set("software_type", s.Res.SoftwareType)
 
 	s.D.Set("state", s.Res.LifecycleState)

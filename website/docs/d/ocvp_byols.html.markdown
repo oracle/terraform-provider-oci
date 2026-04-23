@@ -60,6 +60,7 @@ The following attributes are exported:
 * `entitlement_key` - The Broadcom-supplied identifier of a BYOL license. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the BYOL. 
+* `site_id` - The hyperscaler identifier in Broadcom systems. 
 * `software_type` - The type of VMware software the BYOL applies to.  Supported values:
 	* VCF (VMware Cloud Foundation)
 	* VSAN (VMware vSAN)

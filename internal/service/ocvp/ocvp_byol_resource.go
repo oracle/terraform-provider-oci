@@ -81,6 +81,11 @@ func OcvpByolResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"site_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"available_units": {
@@ -213,6 +218,11 @@ func (s *OcvpByolResourceCrud) CreateWithContext(ctx context.Context) error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if siteId, ok := s.D.GetOkExists("site_id"); ok {
+		tmp := siteId.(string)
+		request.SiteId = &tmp
 	}
 
 	if softwareType, ok := s.D.GetOkExists("software_type"); ok {
@@ -442,6 +452,11 @@ func (s *OcvpByolResourceCrud) UpdateWithContext(ctx context.Context) error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if siteId, ok := s.D.GetOkExists("site_id"); ok {
+		tmp := siteId.(string)
+		request.SiteId = &tmp
+	}
+
 	if softwareType, ok := s.D.GetOkExists("software_type"); ok {
 		request.SoftwareType = oci_ocvp.ByolSoftwareTypeEnum(softwareType.(string))
 	}
@@ -524,6 +539,10 @@ func (s *OcvpByolResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.SiteId != nil {
+		s.D.Set("site_id", *s.Res.SiteId)
+	}
 
 	s.D.Set("software_type", s.Res.SoftwareType)
 
