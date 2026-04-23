@@ -39,6 +39,7 @@ import (
 	tf_container_instances "github.com/oracle/terraform-provider-oci/internal/service/container_instances"
 	tf_containerengine "github.com/oracle/terraform-provider-oci/internal/service/containerengine"
 	tf_core "github.com/oracle/terraform-provider-oci/internal/service/core"
+	tf_costad "github.com/oracle/terraform-provider-oci/internal/service/costad"
 	tf_data_labeling_service "github.com/oracle/terraform-provider-oci/internal/service/data_labeling_service"
 	tf_data_safe "github.com/oracle/terraform-provider-oci/internal/service/data_safe"
 	tf_database "github.com/oracle/terraform-provider-oci/internal/service/database"
@@ -249,6 +250,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("core") {
 		tf_core.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("costad") {
+		tf_costad.RegisterDatasource()
 	}
 	if common.CheckForEnabledServices("datalabelingservice") {
 		tf_data_labeling_service.RegisterDatasource()
