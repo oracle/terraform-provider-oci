@@ -65,6 +65,7 @@ func DatabaseToolsDatabaseToolsDatabaseApiGatewayConfigResource() *schema.Resour
 			},
 			"locks": {
 				Type:     schema.TypeList,
+				Optional: true,
 				Computed: true,
 				ForceNew: true,
 				Elem: &schema.Resource{
@@ -74,10 +75,6 @@ func DatabaseToolsDatabaseToolsDatabaseApiGatewayConfigResource() *schema.Resour
 							Type:     schema.TypeString,
 							Required: true,
 							ForceNew: true,
-						},
-						"compartment_id": {
-							Type:     schema.TypeString,
-							Required: true,
 						},
 
 						// Optional
@@ -358,11 +355,6 @@ func DatabaseToolsDatabaseApiGatewayConfigSummaryToMap(obj oci_database_tools.Da
 func (s *DatabaseToolsDatabaseToolsDatabaseApiGatewayConfigResourceCrud) mapToResourceLock(fieldKeyFormat string) (oci_database_tools.ResourceLock, error) {
 	result := oci_database_tools.ResourceLock{}
 
-	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
-		tmp := compartmentId.(string)
-		result.CompartmentId = &tmp
-	}
-
 	if message, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "message")); ok {
 		tmp := message.(string)
 		result.Message = &tmp
@@ -390,10 +382,6 @@ func (s *DatabaseToolsDatabaseToolsDatabaseApiGatewayConfigResourceCrud) mapToRe
 
 func DbtoolsDbApiGatewayConfigResourceLockToMap(obj oci_database_tools.ResourceLock) map[string]interface{} {
 	result := map[string]interface{}{}
-
-	if obj.CompartmentId != nil {
-		result["compartment_id"] = *obj.CompartmentId
-	}
 
 	if obj.Message != nil {
 		result["message"] = string(*obj.Message)
