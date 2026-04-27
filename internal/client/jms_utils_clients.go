@@ -26,10 +26,6 @@ func initJmsutilsJmsUtilsClient(configProvider oci_common.ConfigurationProvider,
 	if serviceClientOverrides.HostUrlOverride != "" {
 		client.Host = serviceClientOverrides.HostUrlOverride
 	}
-	err = SetDualStackEndpointEnabled(&client)
-	if err != nil {
-		return nil, err
-	}
 	return &client, nil
 }
 
