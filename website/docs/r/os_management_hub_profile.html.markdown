@@ -58,7 +58,7 @@ The following arguments are supported:
 * `os_family` - (Required when profile_type=SOFTWARESOURCE | STATION | UBUNTU_STANDALONE | WINDOWS_STANDALONE) The operating system family.
 * `profile_type` - (Required) The type of profile.
 * `registration_type` - (Optional) The type of instance to register.
-* `software_source_ids` - (Required when profile_type=SOFTWARESOURCE) The list of software source [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that the registration profile will use.
+* `software_source_ids` - (Applicable when profile_type=SOFTWARESOURCE) The list of software source [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that the registration profile will use.
 * `vendor_name` - (Required when profile_type=SOFTWARESOURCE | STATION | UBUNTU_STANDALONE | WINDOWS_STANDALONE) The vendor of the operating system for the instance.
 
 
