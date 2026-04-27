@@ -712,9 +712,6 @@ func BuildConfigureClientFn(configProvider oci_common.ConfigurationProvider, htt
 
 			return nil
 		}
-		if err := tf_client.SetDualStackEndpointEnabled(client); err != nil {
-			return err
-		}
 
 		domainNameOverride := utils.GetEnvSettingWithBlankDefault(globalvar.DomainNameOverrideEnv)
 
