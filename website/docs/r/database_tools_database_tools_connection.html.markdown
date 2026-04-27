@@ -33,6 +33,7 @@ resource "oci_database_tools_database_tools_connection" "test_database_tools_con
 
 	#Optional
 	advanced_properties = var.database_tools_connection_advanced_properties
+	authentication_type = var.database_tools_connection_authentication_type
 	connection_string = var.database_tools_connection_connection_string
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
@@ -75,7 +76,6 @@ resource "oci_database_tools_database_tools_connection" "test_database_tools_con
 			value_type = var.database_tools_connection_proxy_client_user_password_value_type
 		}		
 	}
-	private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
 	related_resource {
 		entity_type = var.database_tools_connection_related_resource_entity_type
 		identifier = var.database_tools_connection_related_resource_identifier
@@ -91,6 +91,7 @@ resource "oci_database_tools_database_tools_connection" "test_database_tools_con
 The following arguments are supported:
 
 * `advanced_properties` - (Optional) (Updatable) The advanced connection properties key-value pair (e.g., `oracle.net.ssl_server_dn_match`).
+* `authentication_type` - (Applicable when type=ORACLE_DATABASE) Specifies the authentication type used by the Database Tools service to authenticate with the database.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools connection.
 * `connection_string` - (Required when type=MYSQL | ORACLE_DATABASE | POSTGRESQL) (Updatable) The connect descriptor or Easy Connect Naming method use to connect to the database.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
@@ -112,7 +113,7 @@ The following arguments are supported:
 * `private_endpoint_id` - (Applicable when type=MYSQL | ORACLE_DATABASE | POSTGRESQL) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Tools private endpoint used to access the database in the customer VCN.
 * `proxy_client` - (Applicable when type=ORACLE_DATABASE) (Updatable) The proxy client information.
 	* `proxy_authentication_type` - (Required) (Updatable) The proxy authentication type.
-	* `roles` - (Applicable when proxy_authentication_type=USER_NAME) (Updatable) A list of database roles for the client. These roles are enabled if the proxy is authorized to use the roles on behalf of the client.
+	* `roles` - (Applicable when proxy_authentication_type=USER_NAME | USER_NAME_AUTO_DETECT) (Updatable) A list of database roles for the client. These roles are enabled if the proxy is authorized to use the roles on behalf of the client.
 	* `user_name` - (Required when proxy_authentication_type=USER_NAME) (Updatable) The user name.
 	* `user_password` - (Applicable when proxy_authentication_type=USER_NAME) (Updatable) The database user password.
 		* `secret_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
@@ -120,7 +121,7 @@ The following arguments are supported:
 * `related_resource` - (Applicable when type=MYSQL | ORACLE_DATABASE | POSTGRESQL) (Updatable) The related resource
 	* `entity_type` - (Required when type=MYSQL | ORACLE_DATABASE | POSTGRESQL) (Updatable) The resource entity type.
 	* `identifier` - (Required when type=MYSQL | ORACLE_DATABASE | POSTGRESQL) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related resource.
-* `runtime_identity` - (Optional) Specifies the identity used by the Database Tools service to issue requests to other Oracle Cloud Infrastructure services (e.g., Secrets in Vault).
+* `runtime_identity` - (Optional) Specifies the identity used when accessing Oracle Cloud Infrastructure resources at runtime. AUTHENTICATED_PRINCIPAL to use the caller’s identity (On-Behalf-Of token), or RESOURCE_PRINCIPAL to use the connection’s resource principal (RPST). 
 * `runtime_support` - (Optional) Specifies whether this connection is supported by the Database Tools Runtime.
 * `type` - (Required) (Updatable) The Database Tools connection type.
 * `url` - (Required when type=GENERIC_JDBC) (Updatable) The JDBC URL used to connect to the Generic JDBC database system.
@@ -138,6 +139,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `advanced_properties` - The advanced connection properties key-value pair (for example, `oracle.net.ssl_server_dn_match`).
+* `authentication_type` - Specifies the authentication type used to connect to the database.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools connection.
 * `connection_string` - The connect descriptor or Easy Connect Naming method used to connect to the database.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
@@ -170,7 +172,7 @@ The following attributes are exported:
 	* `entity_type` - The resource entity type.
 	* `identifier` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related resource.
 * `runtime_endpoint` - Specifies the Database Tools Runtime endpoint.
-* `runtime_identity` - Specifies the identity used by the Database Tools service to issue requests to other Oracle Cloud Infrastructure services (e.g., Secrets in Vault).
+* `runtime_identity` - Specifies the identity used when accessing Oracle Cloud Infrastructure resources at runtime. AUTHENTICATED_PRINCIPAL to use the caller’s identity (On-Behalf-Of token), or RESOURCE_PRINCIPAL to use the connection’s resource principal (RPST). 
 * `runtime_support` - Specifies whether this connection is supported by the Database Tools Runtime.
 * `state` - The current state of the Database Tools connection.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
@@ -178,7 +180,7 @@ The following attributes are exported:
 * `time_updated` - The time the Database Tools connection was updated. An RFC3339 formatted datetime string.
 * `type` - The Database Tools connection type.
 * `url` - The JDBC URL used to connect to the Generic JDBC database system.
-* `user_name` - The database user name.
+* `user_name` - The database user name. When authenticationType is TOKEN, if provided, userName must be in square brackets (for example, [proxyClient]).
 * `user_password` - The database user password.
 	* `secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
 	* `value_type` - The value type of the user password.

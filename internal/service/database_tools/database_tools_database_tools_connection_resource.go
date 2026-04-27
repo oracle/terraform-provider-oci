@@ -55,11 +55,11 @@ func DatabaseToolsDatabaseToolsConnectionResource() *schema.Resource {
 			},
 			"user_name": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"user_password": {
 				Type:     schema.TypeList,
-				Required: true,
+				Optional: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -91,6 +91,12 @@ func DatabaseToolsDatabaseToolsConnectionResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"authentication_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"connection_string": {
 				Type:     schema.TypeString,
@@ -247,6 +253,7 @@ func DatabaseToolsDatabaseToolsConnectionResource() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{
 								"NO_PROXY",
 								"USER_NAME",
+								"USER_NAME_AUTO_DETECT",
 							}, true),
 						},
 
@@ -812,6 +819,8 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) SetData() error {
 
 		s.D.Set("advanced_properties", v.AdvancedProperties)
 
+		s.D.Set("authentication_type", v.AuthenticationType)
+
 		if v.ConnectionString != nil {
 			s.D.Set("connection_string", *v.ConnectionString)
 		}
@@ -1120,6 +1129,21 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsCon
 			}
 		}
 		baseObject = details
+	case strings.ToLower("USER_NAME_AUTO_DETECT"):
+		details := oci_database_tools.DatabaseToolsConnectionOracleDatabaseProxyClientUserNameAutoDetect{}
+		if roles, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "roles")); ok {
+			interfaces := roles.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "roles")) {
+				details.Roles = tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown proxy_authentication_type '%v' was specified", proxyAuthenticationType)
 	}
@@ -1147,6 +1171,10 @@ func DatabaseToolsConnectionOracleDatabaseProxyClientToMap(obj *oci_database_too
 			}
 			result["user_password"] = userPasswordArray
 		}
+	case oci_database_tools.DatabaseToolsConnectionOracleDatabaseProxyClientUserNameAutoDetect:
+		result["proxy_authentication_type"] = "USER_NAME_AUTO_DETECT"
+
+		result["roles"] = v.Roles
 	default:
 		log.Printf("[WARN] Received 'proxy_authentication_type' of unknown type %v", *obj)
 		return nil
@@ -1198,6 +1226,21 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsCon
 			}
 		}
 		baseObject = details
+	case strings.ToLower("USER_NAME_AUTO_DETECT"):
+		details := oci_database_tools.DatabaseToolsConnectionOracleDatabaseProxyClientUserNameAutoDetectDetails{}
+		if roles, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "roles")); ok {
+			interfaces := roles.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "roles")) {
+				details.Roles = tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown proxy_authentication_type '%v' was specified", proxyAuthenticationType)
 	}
@@ -1226,6 +1269,10 @@ func DatabaseToolsConnectionOracleDatabaseProxyClientDetailsToMap(obj *oci_datab
 			}
 			result["user_password"] = userPasswordArray
 		}
+	case oci_database_tools.DatabaseToolsConnectionOracleDatabaseProxyClientUserNameAutoDetectDetails:
+		result["proxy_authentication_type"] = "USER_NAME_AUTO_DETECT"
+
+		result["roles"] = v.Roles
 	default:
 		log.Printf("[WARN] Received 'proxy_authentication_type' of unknown type %v", *obj)
 		return nil
@@ -1277,6 +1324,21 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) mapToDatabaseToolsCon
 			}
 		}
 		baseObject = details
+	case strings.ToLower("USER_NAME_AUTO_DETECT"):
+		details := oci_database_tools.DatabaseToolsConnectionOracleDatabaseProxyClientUserNameAutoDetectSummary{}
+		if roles, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "roles")); ok {
+			interfaces := roles.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "roles")) {
+				details.Roles = tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown proxy_authentication_type '%v' was specified", proxyAuthenticationType)
 	}
@@ -1301,6 +1363,10 @@ func DatabaseToolsConnectionOracleDatabaseProxyClientSummaryToMap(obj *oci_datab
 			}
 			result["user_password"] = userPasswordArray
 		}
+	case oci_database_tools.DatabaseToolsConnectionOracleDatabaseProxyClientUserNameAutoDetectSummary:
+		result["proxy_authentication_type"] = "USER_NAME_AUTO_DETECT"
+
+		result["roles"] = v.Roles
 	default:
 		log.Printf("[WARN] Received 'proxy_authentication_type' of unknown type %v", *obj)
 		return nil
@@ -1460,6 +1526,8 @@ func DatabaseToolsConnectionSummaryToMap(obj oci_database_tools.DatabaseToolsCon
 	case oci_database_tools.DatabaseToolsConnectionOracleDatabaseSummary:
 		result["type"] = "ORACLE_DATABASE"
 		result["advanced_properties"] = v.AdvancedProperties
+
+		result["authentication_type"] = string(v.AuthenticationType)
 
 		if v.ConnectionString != nil {
 			result["connection_string"] = string(*v.ConnectionString)
@@ -3832,6 +3900,9 @@ func (s *DatabaseToolsDatabaseToolsConnectionResourceCrud) populateTopLevelPolym
 		details := oci_database_tools.CreateDatabaseToolsConnectionOracleDatabaseDetails{}
 		if advancedProperties, ok := s.D.GetOkExists("advanced_properties"); ok {
 			details.AdvancedProperties = tfresource.ObjectMapToStringMap(advancedProperties.(map[string]interface{}))
+		}
+		if authenticationType, ok := s.D.GetOkExists("authentication_type"); ok {
+			details.AuthenticationType = oci_database_tools.AuthenticationTypeEnum(authenticationType.(string))
 		}
 		if connectionString, ok := s.D.GetOkExists("connection_string"); ok {
 			tmp := connectionString.(string)

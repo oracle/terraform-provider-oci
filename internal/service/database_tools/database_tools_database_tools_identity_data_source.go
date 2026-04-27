@@ -98,7 +98,7 @@ func (s *DatabaseToolsDatabaseToolsIdentityDataSourceCrud) SetData() error {
 
 		locks := []interface{}{}
 		for _, item := range v.Locks {
-			locks = append(locks, ResourceLockToMap(item))
+			locks = append(locks, DbtoolsIdentityResourceLockToMap(item))
 		}
 		s.D.Set("locks", locks)
 

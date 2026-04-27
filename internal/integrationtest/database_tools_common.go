@@ -41,7 +41,8 @@ func databaseToolsStandardVariables() string {
 	compartmentId := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", utils.GetEnvSettingWithBlankDefault("compartment_ocid"))
 	walletSecretId := fmt.Sprintf("variable \"wallet_secret_id\" { default = \"%s\" }\n", utils.GetEnvSettingWithBlankDefault("wallet_secret_id"))
 	connectionString := fmt.Sprintf("variable \"connection_string\" { default = \"%s\" }\n", utils.GetEnvSettingWithBlankDefault("connection_string"))
-	return secretId + relatedResourceId + compartmentId + walletSecretId + connectionString
+	domainId := fmt.Sprintf("variable \"domain_id\" { default = \"%s\" }\n", utils.GetEnvSettingWithBlankDefault("domain_id"))
+	return secretId + relatedResourceId + compartmentId + walletSecretId + connectionString + domainId
 }
 
 func testAccCheckDatabaseToolsDatabaseToolsConnectionDestroy(s *terraform.State) error {
