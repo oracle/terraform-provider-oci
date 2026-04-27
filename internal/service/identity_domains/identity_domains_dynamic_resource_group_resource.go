@@ -20,15 +20,17 @@ import (
 )
 
 func IdentityDomainsDynamicResourceGroupResource() *schema.Resource {
+	log.Printf("[DEBUG] Identity Domains DynamicResourceGroup resource initialized with ignore_defined_tags CustomizeDiff: field=%q", identityDomainsOciTagsField)
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createIdentityDomainsDynamicResourceGroup,
-		Read:     readIdentityDomainsDynamicResourceGroup,
-		Update:   updateIdentityDomainsDynamicResourceGroup,
-		Delete:   deleteIdentityDomainsDynamicResourceGroup,
+		Timeouts:      tfresource.DefaultTimeout,
+		Create:        createIdentityDomainsDynamicResourceGroup,
+		Read:          readIdentityDomainsDynamicResourceGroup,
+		Update:        updateIdentityDomainsDynamicResourceGroup,
+		Delete:        deleteIdentityDomainsDynamicResourceGroup,
+		CustomizeDiff: identityDomainsIgnoreDefinedTagsCustomizeDiff("oci_identity_domains_dynamic_resource_group", identityDomainsOciTagsField),
 		Schema: map[string]*schema.Schema{
 			// Required
 			"display_name": {

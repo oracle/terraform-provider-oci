@@ -23,15 +23,17 @@ import (
 )
 
 func IdentityDomainsUserResource() *schema.Resource {
+	log.Printf("[DEBUG] Identity Domains User resource initialized with ignore_defined_tags CustomizeDiff: field=%q", identityDomainsOciTagsField)
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createIdentityDomainsUser,
-		Read:     readIdentityDomainsUser,
-		Update:   updateIdentityDomainsUser,
-		Delete:   deleteIdentityDomainsUser,
+		Timeouts:      tfresource.DefaultTimeout,
+		Create:        createIdentityDomainsUser,
+		Read:          readIdentityDomainsUser,
+		Update:        updateIdentityDomainsUser,
+		Delete:        deleteIdentityDomainsUser,
+		CustomizeDiff: identityDomainsIgnoreDefinedTagsCustomizeDiff("oci_identity_domains_user", identityDomainsOciTagsField),
 		Schema: map[string]*schema.Schema{
 			// Required
 			"idcs_endpoint": {
