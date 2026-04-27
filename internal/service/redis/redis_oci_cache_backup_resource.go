@@ -605,7 +605,10 @@ func (s *RedisOciCacheBackupResourceCrud) ExportOciCacheBackupToObjectStorage(ct
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "redis")
 
-	s.Client.ExportOciCacheBackupToObjectStorage(ctx, request)
+	_, exportErr := s.Client.ExportOciCacheBackupToObjectStorage(ctx, request)
+	if exportErr != nil {
+		return exportErr
+	}
 	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
