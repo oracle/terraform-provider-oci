@@ -19,6 +19,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/globalvar"
+	tf_resource "github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 	"github.com/stretchr/testify/assert"
 )
@@ -107,6 +108,36 @@ func TestUnitBuildClientConfigureFn(t *testing.T) {
 	assert.NotNil(t, tr.TLSClientConfig)
 	assert.Equal(t, uint16(tls.VersionTLS12), tr.TLSClientConfig.MinVersion, "expected min tls 1.2")
 	assert.NotNil(t, tr.Proxy, "expected http.ProxyFromEnvironment fn")
+}
+
+// ensure dual stack settings are applied through the shared client configure path
+// issue-routing-tag: terraform/default
+func TestUnitBuildClientConfigureFn_withDualStackEnabled(t *testing.T) {
+	originalDualStack := tf_resource.DualStackEndpointTemplateEnabled
+	t.Cleanup(func() {
+		tf_resource.DualStackEndpointTemplateEnabled = originalDualStack
+	})
+
+	tf_resource.DualStackEndpointTemplateEnabled = "true"
+
+	configProvider := oci_common.DefaultConfigProvider()
+	httpClient := BuildHttpClient()
+	configureClientFn, err := BuildConfigureClientFn(configProvider, httpClient)
+	assert.NoError(t, err)
+
+	serviceUsesDualStackByDefault := true
+	baseClient := &oci_common.BaseClient{}
+	baseClient.Configuration.ServiceUsesDualStackByDefault = &serviceUsesDualStackByDefault
+
+	err = configureClientFn(baseClient)
+	assert.NoError(t, err)
+
+	if assert.NotNil(t, baseClient.Configuration.EnableDualStackEndpoints) {
+		assert.True(t, *baseClient.Configuration.EnableDualStackEndpoints)
+	}
+	if assert.NotNil(t, baseClient.Configuration.ServiceUsesDualStackByDefault) {
+		assert.True(t, *baseClient.Configuration.ServiceUsesDualStackByDefault)
+	}
 }
 
 // ensure custom certs can be added to the cert pool and expected http client settings are preserved

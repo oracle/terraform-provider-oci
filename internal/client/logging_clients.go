@@ -18,10 +18,6 @@ func initLoggingLoggingManagementClient(configProvider oci_common.ConfigurationP
 	if err != nil {
 		return nil, err
 	}
-	err = SetDualStackEndpointEnabled(&client.BaseClient)
-	if err != nil {
-		return nil, err
-	}
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err

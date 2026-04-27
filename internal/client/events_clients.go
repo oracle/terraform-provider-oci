@@ -18,10 +18,6 @@ func initEventsEventsClient(configProvider oci_common.ConfigurationProvider, con
 	if err != nil {
 		return nil, err
 	}
-	err = SetDualStackEndpointEnabled(&client.BaseClient)
-	if err != nil {
-		return nil, err
-	}
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
