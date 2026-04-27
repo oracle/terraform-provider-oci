@@ -720,6 +720,10 @@ database_tools
 * oci\_database\_tools\_database\_tools\_private\_endpoint
 * oci\_database\_tools\_database\_tools\_connection
 * oci\_database\_tools\_database\_tools\_identity
+* oci\_database\_tools\_database\_tools\_database\_api\_gateway\_config
+* oci\_database\_tools\_database\_tools\_mcp\_toolset
+* oci\_database\_tools\_database\_tools\_sql\_report
+* oci\_database\_tools\_database\_tools\_mcp\_server
 
 database_tools_runtime
     

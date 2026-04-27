@@ -443,7 +443,7 @@ func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) SetData() error {
 
 		locks := []interface{}{}
 		for _, item := range v.Locks {
-			locks = append(locks, ResourceLockToMap(item))
+			locks = append(locks, DbtoolsIdentityResourceLockToMap(item))
 		}
 		s.D.Set("locks", locks)
 
@@ -554,7 +554,7 @@ func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) mapToResourceLock(field
 	return result, nil
 }
 
-func ResourceLockToMap(obj oci_database_tools.ResourceLock) map[string]interface{} {
+func DbtoolsIdentityResourceLockToMap(obj oci_database_tools.ResourceLock) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Message != nil {
