@@ -181,28 +181,13 @@ func setCustomConfiguration(oClient interface {
 	return nil
 }
 
-func SetDualStackEndpointEnabled(oClient interface {
-	SetCustomClientConfiguration(config common.CustomClientConfiguration)
-}) error {
+func SetDualStackEndpointEnabled(oClient *oci_common.BaseClient) error {
 	if tfresource.DualStackEndpointTemplateEnabled != "" {
-		value, err := strconv.ParseBool(tfresource.DualStackEndpointTemplateEnabled)
+		dualStack, err := strconv.ParseBool(tfresource.DualStackEndpointTemplateEnabled)
 		if err != nil {
 			return err
 		}
-
-		var customEndpoint = value
-		var dualStackEnabled = value
-		if tfresource.RealmSpecificServiceEndpointTemplateEnabled != "" {
-			dualStackEnabled, err := strconv.ParseBool(tfresource.RealmSpecificServiceEndpointTemplateEnabled)
-			if err != nil {
-				return err
-			}
-			customEndpoint = dualStackEnabled
-		}
-		oClient.SetCustomClientConfiguration(oci_common.CustomClientConfiguration{
-			RealmSpecificServiceEndpointTemplateEnabled: oci_common.Bool(customEndpoint),
-			EnableDualStackEndpoints:                    oci_common.Bool(dualStackEnabled),
-		})
+		oClient.EnableDualStackEndpoints(dualStack)
 	}
 	return nil
 }
