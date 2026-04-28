@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -15,7 +16,7 @@ import (
 
 func DataSafeReportDefinitionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDataSafeReportDefinitions,
+		ReadContext: readDataSafeReportDefinitionsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"access_level": {
@@ -68,12 +69,12 @@ func DataSafeReportDefinitionsDataSource() *schema.Resource {
 	}
 }
 
-func readDataSafeReportDefinitions(d *schema.ResourceData, m interface{}) error {
+func readDataSafeReportDefinitionsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeReportDefinitionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeReportDefinitionsDataSourceCrud struct {
@@ -86,7 +87,7 @@ func (s *DataSafeReportDefinitionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeReportDefinitionsDataSourceCrud) Get() error {
+func (s *DataSafeReportDefinitionsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.ListReportDefinitionsRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
@@ -127,7 +128,7 @@ func (s *DataSafeReportDefinitionsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.ListReportDefinitions(context.Background(), request)
+	response, err := s.Client.ListReportDefinitions(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -136,7 +137,7 @@ func (s *DataSafeReportDefinitionsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListReportDefinitions(context.Background(), request)
+		listResponse, err := s.Client.ListReportDefinitions(ctx, request)
 		if err != nil {
 			return err
 		}

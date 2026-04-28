@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -19,15 +20,15 @@ func DataSafeAttributeSetDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeAttributeSetResource(), fieldMap, readSingularDataSafeAttributeSet)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeAttributeSetResource(), fieldMap, readSingularDataSafeAttributeSetWithContext)
 }
 
-func readSingularDataSafeAttributeSet(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeAttributeSetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAttributeSetDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeAttributeSetDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DataSafeAttributeSetDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeAttributeSetDataSourceCrud) Get() error {
+func (s *DataSafeAttributeSetDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetAttributeSetRequest{}
 
 	if attributeSetId, ok := s.D.GetOkExists("attribute_set_id"); ok {
@@ -50,7 +51,7 @@ func (s *DataSafeAttributeSetDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetAttributeSet(context.Background(), request)
+	response, err := s.Client.GetAttributeSet(ctx, request)
 	if err != nil {
 		return err
 	}

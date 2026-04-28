@@ -12,6 +12,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -25,11 +26,11 @@ func DataSafeAuditTrailResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeAuditTrail,
-		Read:     readDataSafeAuditTrail,
-		Update:   updateDataSafeAuditTrail,
-		Delete:   deleteDataSafeAuditTrail,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeAuditTrailWithContext,
+		ReadContext:   readDataSafeAuditTrailWithContext,
+		UpdateContext: updateDataSafeAuditTrailWithContext,
+		DeleteContext: deleteDataSafeAuditTrailWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"audit_trail_id": {
@@ -161,7 +162,7 @@ func DataSafeAuditTrailResource() *schema.Resource {
 	}
 }
 
-func createDataSafeAuditTrail(d *schema.ResourceData, m interface{}) error {
+func createDataSafeAuditTrailWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAuditTrailResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
@@ -177,14 +178,14 @@ func createDataSafeAuditTrail(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
+	if e := tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync)); e != nil {
 		return e
 	}
 
 	if _, ok := sync.D.GetOkExists("resume_trigger"); ok {
-		err := sync.ResumeAuditTrail()
+		err := sync.ResumeAuditTrail(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
@@ -192,15 +193,15 @@ func createDataSafeAuditTrail(d *schema.ResourceData, m interface{}) error {
 	oldValue := oldRaw.(int)
 	newValue := newRaw.(int)
 	if powerOn && !(oldValue < newValue) {
-		if err := sync.StartAuditTrail(); err != nil {
-			return err
+		if err := sync.StartAuditTrail(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_data_safe.AuditTrailLifecycleStateActive)
 	}
 
 	if powerOff {
-		if err := sync.StopAuditTrail(); err != nil {
-			return err
+		if err := sync.StopAuditTrail(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_data_safe.AuditTrailLifecycleStateInactive)
 	}
@@ -208,15 +209,15 @@ func createDataSafeAuditTrail(d *schema.ResourceData, m interface{}) error {
 
 }
 
-func readDataSafeAuditTrail(d *schema.ResourceData, m interface{}) error {
+func readDataSafeAuditTrailWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAuditTrailResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeAuditTrail(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeAuditTrailWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAuditTrailResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
@@ -233,32 +234,32 @@ func updateDataSafeAuditTrail(d *schema.ResourceData, m interface{}) error {
 	oldValue := oldRaw.(int)
 	newValue := newRaw.(int)
 	if powerOn && !(oldValue < newValue) {
-		if err := sync.StartAuditTrail(); err != nil {
-			return err
+		if err := sync.StartAuditTrail(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_data_safe.AuditTrailLifecycleStateActive)
 	}
 
 	if _, ok := sync.D.GetOkExists("resume_trigger"); ok && sync.D.HasChange("resume_trigger") {
 		if oldValue < newValue {
-			err := sync.ResumeAuditTrail()
+			err := sync.ResumeAuditTrail(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("resume_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
+	if err := tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync)); err != nil {
 		return err
 	}
 
 	if powerOff {
-		if err := sync.StopAuditTrail(); err != nil {
-			return err
+		if err := sync.StopAuditTrail(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_data_safe.AuditTrailLifecycleStateInactive)
 	}
@@ -266,13 +267,13 @@ func updateDataSafeAuditTrail(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func deleteDataSafeAuditTrail(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeAuditTrailWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAuditTrailResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataSafeAuditTrailResourceCrud struct {
@@ -308,7 +309,7 @@ func (s *DataSafeAuditTrailResourceCrud) DeletedTarget() []string {
 	return []string{}
 }
 
-func (s *DataSafeAuditTrailResourceCrud) Create() error {
+func (s *DataSafeAuditTrailResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.UpdateAuditTrailRequest{}
 
 	if auditTrailId, ok := s.D.GetOkExists("audit_trail_id"); ok {
@@ -350,14 +351,14 @@ func (s *DataSafeAuditTrailResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateAuditTrail(context.Background(), request)
+	response, err := s.Client.UpdateAuditTrail(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_data_safe.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_data_safe.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -373,14 +374,14 @@ func (s *DataSafeAuditTrailResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getAuditTrailFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getAuditTrailFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeAuditTrailResourceCrud) getAuditTrailFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeAuditTrailResourceCrud) getAuditTrailFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	auditTrailId, err := auditTrailWaitForWorkRequest(workId, "audittrail",
+	auditTrailId, err := auditTrailWaitForWorkRequest(ctx, workId, "audittrail",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -388,7 +389,7 @@ func (s *DataSafeAuditTrailResourceCrud) getAuditTrailFromWorkRequest(workId *st
 	}
 	s.D.SetId(*auditTrailId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func auditTrailWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -414,7 +415,7 @@ func auditTrailWorkRequestShouldRetryFunc(timeout time.Duration) func(response o
 	}
 }
 
-func auditTrailWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func auditTrailWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = auditTrailWorkRequestShouldRetryFunc(timeout)
@@ -433,7 +434,7 @@ func auditTrailWaitForWorkRequest(wId *string, entityType string, action oci_dat
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -445,7 +446,7 @@ func auditTrailWaitForWorkRequest(wId *string, entityType string, action oci_dat
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -462,14 +463,14 @@ func auditTrailWaitForWorkRequest(wId *string, entityType string, action oci_dat
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed || response.Status == oci_data_safe.WorkRequestStatusCanceled {
-		return nil, getErrorFromDataSafeAuditTrailWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeAuditTrailWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeAuditTrailWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeAuditTrailWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -491,7 +492,7 @@ func getErrorFromDataSafeAuditTrailWorkRequest(client *oci_data_safe.DataSafeCli
 	return workRequestErr
 }
 
-func (s *DataSafeAuditTrailResourceCrud) Get() error {
+func (s *DataSafeAuditTrailResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetAuditTrailRequest{}
 
 	tmp := s.D.Id()
@@ -499,7 +500,7 @@ func (s *DataSafeAuditTrailResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetAuditTrail(context.Background(), request)
+	response, err := s.Client.GetAuditTrail(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -508,7 +509,7 @@ func (s *DataSafeAuditTrailResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeAuditTrailResourceCrud) Update() error {
+func (s *DataSafeAuditTrailResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_data_safe.UpdateAuditTrailRequest{}
 
 	tmp := s.D.Id()
@@ -548,16 +549,16 @@ func (s *DataSafeAuditTrailResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateAuditTrail(context.Background(), request)
+	response, err := s.Client.UpdateAuditTrail(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAuditTrailFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAuditTrailFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeAuditTrailResourceCrud) Delete() error {
+func (s *DataSafeAuditTrailResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_data_safe.DeleteAuditTrailRequest{}
 
 	tmp := s.D.Id()
@@ -565,14 +566,14 @@ func (s *DataSafeAuditTrailResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.DeleteAuditTrail(context.Background(), request)
+	response, err := s.Client.DeleteAuditTrail(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := auditTrailWaitForWorkRequest(workId, "audittrail",
+	_, delWorkRequestErr := auditTrailWaitForWorkRequest(ctx, workId, "audittrail",
 		oci_data_safe.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -667,7 +668,7 @@ func (s *DataSafeAuditTrailResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DataSafeAuditTrailResourceCrud) StartAuditTrail() error {
+func (s *DataSafeAuditTrailResourceCrud) StartAuditTrail(ctx context.Context) error {
 	request := oci_data_safe.StartAuditTrailRequest{}
 
 	tmp, err := time.Parse(time.RFC3339, "2025-06-01T00:00:00.000Z")
@@ -691,16 +692,16 @@ func (s *DataSafeAuditTrailResourceCrud) StartAuditTrail() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	_, err = s.Client.StartAuditTrail(context.Background(), request)
+	_, err = s.Client.StartAuditTrail(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_data_safe.AuditTrailLifecycleStateActive }
-	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeAuditTrailResourceCrud) StopAuditTrail() error {
+func (s *DataSafeAuditTrailResourceCrud) StopAuditTrail(ctx context.Context) error {
 	request := oci_data_safe.StopAuditTrailRequest{}
 
 	idTmp := s.D.Id()
@@ -708,16 +709,16 @@ func (s *DataSafeAuditTrailResourceCrud) StopAuditTrail() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	_, err := s.Client.StopAuditTrail(context.Background(), request)
+	_, err := s.Client.StopAuditTrail(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_data_safe.AuditTrailLifecycleStateInactive }
-	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeAuditTrailResourceCrud) ResumeAuditTrail() error {
+func (s *DataSafeAuditTrailResourceCrud) ResumeAuditTrail(ctx context.Context) error {
 	request := oci_data_safe.ResumeAuditTrailRequest{}
 
 	idTmp := s.D.Id()
@@ -725,12 +726,12 @@ func (s *DataSafeAuditTrailResourceCrud) ResumeAuditTrail() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	_, err := s.Client.ResumeAuditTrail(context.Background(), request)
+	_, err := s.Client.ResumeAuditTrail(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -738,7 +739,7 @@ func (s *DataSafeAuditTrailResourceCrud) ResumeAuditTrail() error {
 	s.D.Set("resume_trigger", val)
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_data_safe.AuditTrailLifecycleStateActive }
-	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func AuditTrailSummaryToMap(obj oci_data_safe.AuditTrailSummary) map[string]interface{} {

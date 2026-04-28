@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	"github.com/oracle/oci-go-sdk/v65/datasafe"
@@ -18,7 +19,7 @@ import (
 
 func DataSafeMaskingPoliciesMaskingColumnsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDataSafeMaskingPoliciesMaskingColumns,
+		ReadContext: readDataSafeMaskingPoliciesMaskingColumnsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"column_name": {
@@ -117,12 +118,12 @@ func DataSafeMaskingPoliciesMaskingColumnsDataSource() *schema.Resource {
 	}
 }
 
-func readDataSafeMaskingPoliciesMaskingColumns(d *schema.ResourceData, m interface{}) error {
+func readDataSafeMaskingPoliciesMaskingColumnsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeMaskingPoliciesMaskingColumnsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeMaskingPoliciesMaskingColumnsDataSourceCrud struct {
@@ -135,7 +136,7 @@ func (s *DataSafeMaskingPoliciesMaskingColumnsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeMaskingPoliciesMaskingColumnsDataSourceCrud) Get() error {
+func (s *DataSafeMaskingPoliciesMaskingColumnsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.ListMaskingColumnsRequest{}
 
 	if columnName, ok := s.D.GetOkExists("column_name"); ok {
@@ -274,7 +275,7 @@ func (s *DataSafeMaskingPoliciesMaskingColumnsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.ListMaskingColumns(context.Background(), request)
+	response, err := s.Client.ListMaskingColumns(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -283,7 +284,7 @@ func (s *DataSafeMaskingPoliciesMaskingColumnsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListMaskingColumns(context.Background(), request)
+		listResponse, err := s.Client.ListMaskingColumns(ctx, request)
 		if err != nil {
 			return err
 		}

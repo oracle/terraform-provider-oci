@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -15,7 +16,7 @@ import (
 
 func DataSafeAttributeSetsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDataSafeAttributeSets,
+		ReadContext: readDataSafeAttributeSetsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"access_level": {
@@ -72,12 +73,12 @@ func DataSafeAttributeSetsDataSource() *schema.Resource {
 	}
 }
 
-func readDataSafeAttributeSets(d *schema.ResourceData, m interface{}) error {
+func readDataSafeAttributeSetsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAttributeSetsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeAttributeSetsDataSourceCrud struct {
@@ -90,7 +91,7 @@ func (s *DataSafeAttributeSetsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeAttributeSetsDataSourceCrud) Get() error {
+func (s *DataSafeAttributeSetsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.ListAttributeSetsRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
@@ -136,7 +137,7 @@ func (s *DataSafeAttributeSetsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.ListAttributeSets(context.Background(), request)
+	response, err := s.Client.ListAttributeSets(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -145,7 +146,7 @@ func (s *DataSafeAttributeSetsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListAttributeSets(context.Background(), request)
+		listResponse, err := s.Client.ListAttributeSets(ctx, request)
 		if err != nil {
 			return err
 		}

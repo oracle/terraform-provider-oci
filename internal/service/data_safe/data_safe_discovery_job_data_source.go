@@ -7,6 +7,7 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -20,15 +21,15 @@ func DataSafeDiscoveryJobDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeDiscoveryJobResource(), fieldMap, readSingularDataSafeDiscoveryJob)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeDiscoveryJobResource(), fieldMap, readSingularDataSafeDiscoveryJobWithContext)
 }
 
-func readSingularDataSafeDiscoveryJob(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeDiscoveryJobWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeDiscoveryJobDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeDiscoveryJobDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *DataSafeDiscoveryJobDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeDiscoveryJobDataSourceCrud) Get() error {
+func (s *DataSafeDiscoveryJobDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetDiscoveryJobRequest{}
 
 	if discoveryJobId, ok := s.D.GetOkExists("discovery_job_id"); ok {
@@ -51,7 +52,7 @@ func (s *DataSafeDiscoveryJobDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetDiscoveryJob(context.Background(), request)
+	response, err := s.Client.GetDiscoveryJob(ctx, request)
 	if err != nil {
 		return err
 	}

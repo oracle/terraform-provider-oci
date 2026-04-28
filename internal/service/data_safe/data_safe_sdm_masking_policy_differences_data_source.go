@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -15,7 +16,7 @@ import (
 
 func DataSafeSdmMaskingPolicyDifferencesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDataSafeSdmMaskingPolicyDifferences,
+		ReadContext: readDataSafeSdmMaskingPolicyDifferencesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -64,12 +65,12 @@ func DataSafeSdmMaskingPolicyDifferencesDataSource() *schema.Resource {
 	}
 }
 
-func readDataSafeSdmMaskingPolicyDifferences(d *schema.ResourceData, m interface{}) error {
+func readDataSafeSdmMaskingPolicyDifferencesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSdmMaskingPolicyDifferencesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeSdmMaskingPolicyDifferencesDataSourceCrud struct {
@@ -82,7 +83,7 @@ func (s *DataSafeSdmMaskingPolicyDifferencesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeSdmMaskingPolicyDifferencesDataSourceCrud) Get() error {
+func (s *DataSafeSdmMaskingPolicyDifferencesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.ListSdmMaskingPolicyDifferencesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -120,7 +121,7 @@ func (s *DataSafeSdmMaskingPolicyDifferencesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.ListSdmMaskingPolicyDifferences(context.Background(), request)
+	response, err := s.Client.ListSdmMaskingPolicyDifferences(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -129,7 +130,7 @@ func (s *DataSafeSdmMaskingPolicyDifferencesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListSdmMaskingPolicyDifferences(context.Background(), request)
+		listResponse, err := s.Client.ListSdmMaskingPolicyDifferences(ctx, request)
 		if err != nil {
 			return err
 		}

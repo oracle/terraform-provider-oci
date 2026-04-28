@@ -13,6 +13,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -25,11 +26,11 @@ func DataSafeOnPremConnectorResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeOnPremConnector,
-		Read:     readDataSafeOnPremConnector,
-		Update:   updateDataSafeOnPremConnector,
-		Delete:   deleteDataSafeOnPremConnector,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeOnPremConnectorWithContext,
+		ReadContext:   readDataSafeOnPremConnectorWithContext,
+		UpdateContext: updateDataSafeOnPremConnectorWithContext,
+		DeleteContext: deleteDataSafeOnPremConnectorWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -92,37 +93,37 @@ func DataSafeOnPremConnectorResource() *schema.Resource {
 	}
 }
 
-func createDataSafeOnPremConnector(d *schema.ResourceData, m interface{}) error {
+func createDataSafeOnPremConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeOnPremConnectorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDataSafeOnPremConnector(d *schema.ResourceData, m interface{}) error {
+func readDataSafeOnPremConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeOnPremConnectorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeOnPremConnector(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeOnPremConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeOnPremConnectorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDataSafeOnPremConnector(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeOnPremConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeOnPremConnectorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataSafeOnPremConnectorResourceCrud struct {
@@ -161,7 +162,7 @@ func (s *DataSafeOnPremConnectorResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DataSafeOnPremConnectorResourceCrud) Create() error {
+func (s *DataSafeOnPremConnectorResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.CreateOnPremConnectorRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -193,7 +194,7 @@ func (s *DataSafeOnPremConnectorResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.CreateOnPremConnector(context.Background(), request)
+	response, err := s.Client.CreateOnPremConnector(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -204,14 +205,14 @@ func (s *DataSafeOnPremConnectorResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getOnPremConnectorFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getOnPremConnectorFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeOnPremConnectorResourceCrud) getOnPremConnectorFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeOnPremConnectorResourceCrud) getOnPremConnectorFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	onPremConnectorId, err := onPremConnectorWaitForWorkRequest(workId, "onpremconnectors",
+	onPremConnectorId, err := onPremConnectorWaitForWorkRequest(ctx, workId, "onpremconnectors",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -221,7 +222,7 @@ func (s *DataSafeOnPremConnectorResourceCrud) getOnPremConnectorFromWorkRequest(
 	}
 	s.D.SetId(*onPremConnectorId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func onPremConnectorWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -247,7 +248,7 @@ func onPremConnectorWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 	}
 }
 
-func onPremConnectorWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func onPremConnectorWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = onPremConnectorWorkRequestShouldRetryFunc(timeout)
@@ -264,7 +265,7 @@ func onPremConnectorWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -276,7 +277,7 @@ func onPremConnectorWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -293,14 +294,14 @@ func onPremConnectorWaitForWorkRequest(wId *string, entityType string, action oc
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed {
-		return nil, getErrorFromDataSafeOnPremConnectorWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeOnPremConnectorWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeOnPremConnectorWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeOnPremConnectorWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -322,7 +323,7 @@ func getErrorFromDataSafeOnPremConnectorWorkRequest(client *oci_data_safe.DataSa
 	return workRequestErr
 }
 
-func (s *DataSafeOnPremConnectorResourceCrud) Get() error {
+func (s *DataSafeOnPremConnectorResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetOnPremConnectorRequest{}
 
 	tmp := s.D.Id()
@@ -330,7 +331,7 @@ func (s *DataSafeOnPremConnectorResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetOnPremConnector(context.Background(), request)
+	response, err := s.Client.GetOnPremConnector(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -339,11 +340,11 @@ func (s *DataSafeOnPremConnectorResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeOnPremConnectorResourceCrud) Update() error {
+func (s *DataSafeOnPremConnectorResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -378,15 +379,15 @@ func (s *DataSafeOnPremConnectorResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	_, err := s.Client.UpdateOnPremConnector(context.Background(), request)
+	_, err := s.Client.UpdateOnPremConnector(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DataSafeOnPremConnectorResourceCrud) Delete() error {
+func (s *DataSafeOnPremConnectorResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_data_safe.DeleteOnPremConnectorRequest{}
 
 	tmp := s.D.Id()
@@ -394,14 +395,14 @@ func (s *DataSafeOnPremConnectorResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.DeleteOnPremConnector(context.Background(), request)
+	response, err := s.Client.DeleteOnPremConnector(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := onPremConnectorWaitForWorkRequest(workId, "onpremconnectors",
+	_, delWorkRequestErr := onPremConnectorWaitForWorkRequest(ctx, workId, "onpremconnectors",
 		oci_data_safe.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -448,7 +449,7 @@ func (s *DataSafeOnPremConnectorResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DataSafeOnPremConnectorResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataSafeOnPremConnectorResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_data_safe.ChangeOnPremConnectorCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -459,12 +460,12 @@ func (s *DataSafeOnPremConnectorResourceCrud) updateCompartment(compartment inte
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	_, err := s.Client.ChangeOnPremConnectorCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeOnPremConnectorCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

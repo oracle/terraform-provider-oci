@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -28,11 +29,11 @@ func DataSafeSecurityAssessmentCheckResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeSecurityAssessmentCheck,
-		Read:     readDataSafeSecurityAssessmentCheck,
-		Update:   updateDataSafeSecurityAssessmentCheck,
-		Delete:   deleteDataSafeSecurityAssessmentCheck,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeSecurityAssessmentCheckWithContext,
+		ReadContext:   readDataSafeSecurityAssessmentCheckWithContext,
+		UpdateContext: updateDataSafeSecurityAssessmentCheckWithContext,
+		DeleteContext: deleteDataSafeSecurityAssessmentCheckWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"security_assessment_id": {
@@ -133,31 +134,31 @@ func DataSafeSecurityAssessmentCheckResource() *schema.Resource {
 	}
 }
 
-func createDataSafeSecurityAssessmentCheck(d *schema.ResourceData, m interface{}) error {
+func createDataSafeSecurityAssessmentCheckWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSecurityAssessmentCheckResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDataSafeSecurityAssessmentCheck(d *schema.ResourceData, m interface{}) error {
+func readDataSafeSecurityAssessmentCheckWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSecurityAssessmentCheckResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeSecurityAssessmentCheck(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeSecurityAssessmentCheckWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSecurityAssessmentCheckResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDataSafeSecurityAssessmentCheck(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeSecurityAssessmentCheckWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -173,10 +174,10 @@ func (s *DataSafeSecurityAssessmentCheckResourceCrud) ID() string {
 	return GetSecurityAssessmentCheckCompositeId(s.D.Get("security_assessment_id").(string))
 }
 
-func (s *DataSafeSecurityAssessmentCheckResourceCrud) Create() error {
+func (s *DataSafeSecurityAssessmentCheckResourceCrud) CreateWithContext(ctx context.Context) error {
 	return nil
 }
-func (s *DataSafeSecurityAssessmentCheckResourceCrud) Patch() error {
+func (s *DataSafeSecurityAssessmentCheckResourceCrud) Patch(ctx context.Context) error {
 	request := oci_data_safe.PatchChecksRequest{}
 
 	if patchOperations, ok := s.D.GetOkExists("patch_operations"); ok {
@@ -202,26 +203,26 @@ func (s *DataSafeSecurityAssessmentCheckResourceCrud) Patch() error {
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
-	response, err := s.Client.PatchChecks(context.Background(), request)
+	response, err := s.Client.PatchChecks(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getSecurityAssessmentCheckFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getSecurityAssessmentCheckFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeSecurityAssessmentCheckResourceCrud) getSecurityAssessmentCheckFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeSecurityAssessmentCheckResourceCrud) getSecurityAssessmentCheckFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	securityAssessmentCheckId, err := securityAssessmentCheckWaitForWorkRequest(workId, "securityassessment",
+	securityAssessmentCheckId, err := securityAssessmentCheckWaitForWorkRequest(ctx, workId, "securityassessment",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, securityAssessmentCheckId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_data_safe.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -235,7 +236,7 @@ func (s *DataSafeSecurityAssessmentCheckResourceCrud) getSecurityAssessmentCheck
 	}
 	s.D.SetId(*securityAssessmentCheckId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func securityAssessmentCheckWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -261,7 +262,7 @@ func securityAssessmentCheckWorkRequestShouldRetryFunc(timeout time.Duration) fu
 	}
 }
 
-func securityAssessmentCheckWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func securityAssessmentCheckWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = securityAssessmentCheckWorkRequestShouldRetryFunc(timeout)
@@ -280,7 +281,7 @@ func securityAssessmentCheckWaitForWorkRequest(wId *string, entityType string, a
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -292,7 +293,7 @@ func securityAssessmentCheckWaitForWorkRequest(wId *string, entityType string, a
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -309,14 +310,14 @@ func securityAssessmentCheckWaitForWorkRequest(wId *string, entityType string, a
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed || response.Status == oci_data_safe.WorkRequestStatusCanceled {
-		return nil, getErrorFromDataSafeSecurityAssessmentCheckWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeSecurityAssessmentCheckWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeSecurityAssessmentCheckWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeSecurityAssessmentCheckWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -338,7 +339,7 @@ func getErrorFromDataSafeSecurityAssessmentCheckWorkRequest(client *oci_data_saf
 	return workRequestErr
 }
 
-func (s *DataSafeSecurityAssessmentCheckResourceCrud) Get() error {
+func (s *DataSafeSecurityAssessmentCheckResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.ListChecksRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
@@ -399,7 +400,7 @@ func (s *DataSafeSecurityAssessmentCheckResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.ListChecks(context.Background(), request)
+	response, err := s.Client.ListChecks(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -410,8 +411,8 @@ func (s *DataSafeSecurityAssessmentCheckResourceCrud) Get() error {
 	return err
 }
 
-func (s *DataSafeSecurityAssessmentCheckResourceCrud) Update() error {
-	err := s.Patch()
+func (s *DataSafeSecurityAssessmentCheckResourceCrud) UpdateWithContext(ctx context.Context) error {
+	err := s.Patch(ctx)
 	if err != nil {
 		log.Printf("[ERROR] Failed to execute Patch operation: %v", err)
 		return err

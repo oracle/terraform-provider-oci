@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -19,15 +20,15 @@ func DataSafeAuditTrailDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeAuditTrailResource(), fieldMap, readSingularDataSafeAuditTrail)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeAuditTrailResource(), fieldMap, readSingularDataSafeAuditTrailWithContext)
 }
 
-func readSingularDataSafeAuditTrail(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeAuditTrailWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAuditTrailDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeAuditTrailDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DataSafeAuditTrailDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeAuditTrailDataSourceCrud) Get() error {
+func (s *DataSafeAuditTrailDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetAuditTrailRequest{}
 
 	if auditTrailId, ok := s.D.GetOkExists("audit_trail_id"); ok {
@@ -50,7 +51,7 @@ func (s *DataSafeAuditTrailDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetAuditTrail(context.Background(), request)
+	response, err := s.Client.GetAuditTrail(ctx, request)
 	if err != nil {
 		return err
 	}

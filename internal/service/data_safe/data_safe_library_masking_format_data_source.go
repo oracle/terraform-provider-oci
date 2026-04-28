@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -19,15 +20,15 @@ func DataSafeLibraryMaskingFormatDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeLibraryMaskingFormatResource(), fieldMap, readSingularDataSafeLibraryMaskingFormat)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeLibraryMaskingFormatResource(), fieldMap, readSingularDataSafeLibraryMaskingFormatWithContext)
 }
 
-func readSingularDataSafeLibraryMaskingFormat(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeLibraryMaskingFormatWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeLibraryMaskingFormatDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeLibraryMaskingFormatDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DataSafeLibraryMaskingFormatDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeLibraryMaskingFormatDataSourceCrud) Get() error {
+func (s *DataSafeLibraryMaskingFormatDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetLibraryMaskingFormatRequest{}
 
 	if libraryMaskingFormatId, ok := s.D.GetOkExists("library_masking_format_id"); ok {
@@ -50,7 +51,7 @@ func (s *DataSafeLibraryMaskingFormatDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetLibraryMaskingFormat(context.Background(), request)
+	response, err := s.Client.GetLibraryMaskingFormat(ctx, request)
 	if err != nil {
 		return err
 	}

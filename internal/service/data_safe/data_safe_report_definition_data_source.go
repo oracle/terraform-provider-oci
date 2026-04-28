@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -19,15 +20,15 @@ func DataSafeReportDefinitionDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeReportDefinitionResource(), fieldMap, readSingularDataSafeReportDefinition)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeReportDefinitionResource(), fieldMap, readSingularDataSafeReportDefinitionWithContext)
 }
 
-func readSingularDataSafeReportDefinition(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeReportDefinitionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeReportDefinitionDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeReportDefinitionDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DataSafeReportDefinitionDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeReportDefinitionDataSourceCrud) Get() error {
+func (s *DataSafeReportDefinitionDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetReportDefinitionRequest{}
 
 	if reportDefinitionId, ok := s.D.GetOkExists("report_definition_id"); ok {
@@ -50,7 +51,7 @@ func (s *DataSafeReportDefinitionDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetReportDefinition(context.Background(), request)
+	response, err := s.Client.GetReportDefinition(ctx, request)
 	if err != nil {
 		return err
 	}

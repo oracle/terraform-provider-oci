@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -25,11 +26,11 @@ func DataSafeReportResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeReport,
-		Read:     readDataSafeReport,
-		Update:   updateDataSafeReport,
-		Delete:   deleteDataSafeReport,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeReportWithContext,
+		ReadContext:   readDataSafeReportWithContext,
+		UpdateContext: updateDataSafeReportWithContext,
+		DeleteContext: deleteDataSafeReportWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"report_id": {
@@ -112,25 +113,25 @@ func DataSafeReportResource() *schema.Resource {
 	}
 }
 
-func createDataSafeReport(d *schema.ResourceData, m interface{}) error {
+func createDataSafeReportWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeReportResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	compartment, ok := sync.D.GetOkExists("compartment_id")
 
-	err := tfresource.CreateResource(d, sync)
+	err := tfresource.CreateResourceWithContext(ctx, d, sync)
 	if err != nil {
-		return err
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	if ok && compartment != *sync.Res.CompartmentId {
-		err = sync.updateCompartment(compartment)
+		err = sync.updateCompartment(ctx, compartment)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 		tmp := compartment.(string)
 		sync.Res.CompartmentId = &tmp
-		err := sync.Get()
+		err := sync.GetWithContext(ctx)
 		if err != nil {
 			log.Printf("error doing a Get() after compartment update: %v", err)
 		}
@@ -142,23 +143,23 @@ func createDataSafeReport(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func readDataSafeReport(d *schema.ResourceData, m interface{}) error {
+func readDataSafeReportWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeReportResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeReport(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeReportWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeReportResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDataSafeReport(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeReportWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -193,7 +194,7 @@ func (s *DataSafeReportResourceCrud) DeletedTarget() []string {
 	return []string{}
 }
 
-func (s *DataSafeReportResourceCrud) Create() error {
+func (s *DataSafeReportResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.UpdateReportRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -215,14 +216,14 @@ func (s *DataSafeReportResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateReport(context.Background(), request)
+	response, err := s.Client.UpdateReport(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_data_safe.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_data_safe.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -238,20 +239,20 @@ func (s *DataSafeReportResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getReportFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getReportFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeReportResourceCrud) getReportFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeReportResourceCrud) getReportFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	reportId, err := reportWaitForWorkRequest(workId, "data_safe",
+	reportId, err := reportWaitForWorkRequest(ctx, workId, "data_safe",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, reportId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_data_safe.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -265,7 +266,7 @@ func (s *DataSafeReportResourceCrud) getReportFromWorkRequest(workId *string, re
 	}
 	s.D.SetId(*reportId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func reportWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -291,7 +292,7 @@ func reportWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_c
 	}
 }
 
-func reportWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func reportWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = reportWorkRequestShouldRetryFunc(timeout)
@@ -310,7 +311,7 @@ func reportWaitForWorkRequest(wId *string, entityType string, action oci_data_sa
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -322,7 +323,7 @@ func reportWaitForWorkRequest(wId *string, entityType string, action oci_data_sa
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -339,14 +340,14 @@ func reportWaitForWorkRequest(wId *string, entityType string, action oci_data_sa
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed || response.Status == oci_data_safe.WorkRequestStatusCanceled {
-		return nil, getErrorFromDataSafeReportWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeReportWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeReportWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeReportWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -368,7 +369,7 @@ func getErrorFromDataSafeReportWorkRequest(client *oci_data_safe.DataSafeClient,
 	return workRequestErr
 }
 
-func (s *DataSafeReportResourceCrud) Get() error {
+func (s *DataSafeReportResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetReportRequest{}
 
 	tmp := s.D.Id()
@@ -376,7 +377,7 @@ func (s *DataSafeReportResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetReport(context.Background(), request)
+	response, err := s.Client.GetReport(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -385,11 +386,11 @@ func (s *DataSafeReportResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeReportResourceCrud) Update() error {
+func (s *DataSafeReportResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -414,13 +415,13 @@ func (s *DataSafeReportResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateReport(context.Background(), request)
+	response, err := s.Client.UpdateReport(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getReportFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getReportFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DataSafeReportResourceCrud) SetData() error {
@@ -528,7 +529,7 @@ func ReportSummaryToMap1(obj oci_data_safe.ReportSummary) map[string]interface{}
 	return result
 }
 
-func (s *DataSafeReportResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataSafeReportResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_data_safe.ChangeReportCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -539,11 +540,11 @@ func (s *DataSafeReportResourceCrud) updateCompartment(compartment interface{}) 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.ChangeReportCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeReportCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getReportFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getReportFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

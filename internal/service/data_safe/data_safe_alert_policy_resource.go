@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -25,11 +26,11 @@ func DataSafeAlertPolicyResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeAlertPolicy,
-		Read:     readDataSafeAlertPolicy,
-		Update:   updateDataSafeAlertPolicy,
-		Delete:   deleteDataSafeAlertPolicy,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeAlertPolicyWithContext,
+		ReadContext:   readDataSafeAlertPolicyWithContext,
+		UpdateContext: updateDataSafeAlertPolicyWithContext,
+		DeleteContext: deleteDataSafeAlertPolicyWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"alert_policy_type": {
@@ -133,37 +134,37 @@ func DataSafeAlertPolicyResource() *schema.Resource {
 	}
 }
 
-func createDataSafeAlertPolicy(d *schema.ResourceData, m interface{}) error {
+func createDataSafeAlertPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAlertPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDataSafeAlertPolicy(d *schema.ResourceData, m interface{}) error {
+func readDataSafeAlertPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAlertPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeAlertPolicy(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeAlertPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAlertPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDataSafeAlertPolicy(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeAlertPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAlertPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataSafeAlertPolicyResourceCrud struct {
@@ -201,7 +202,7 @@ func (s *DataSafeAlertPolicyResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DataSafeAlertPolicyResourceCrud) Create() error {
+func (s *DataSafeAlertPolicyResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.CreateAlertPolicyRequest{}
 
 	if alertPolicyRuleDetails, ok := s.D.GetOkExists("alert_policy_rule_details"); ok {
@@ -258,7 +259,7 @@ func (s *DataSafeAlertPolicyResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.CreateAlertPolicy(context.Background(), request)
+	response, err := s.Client.CreateAlertPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -269,20 +270,20 @@ func (s *DataSafeAlertPolicyResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getAlertPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getAlertPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeAlertPolicyResourceCrud) getAlertPolicyFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeAlertPolicyResourceCrud) getAlertPolicyFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	alertPolicyId, err := alertPolicyWaitForWorkRequest(workId, "alertpolicy",
+	alertPolicyId, err := alertPolicyWaitForWorkRequest(ctx, workId, "alertpolicy",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, alertPolicyId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_data_safe.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -296,7 +297,7 @@ func (s *DataSafeAlertPolicyResourceCrud) getAlertPolicyFromWorkRequest(workId *
 	}
 	s.D.SetId(*alertPolicyId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func alertPolicyWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -322,7 +323,7 @@ func alertPolicyWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 	}
 }
 
-func alertPolicyWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func alertPolicyWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = alertPolicyWorkRequestShouldRetryFunc(timeout)
@@ -341,7 +342,7 @@ func alertPolicyWaitForWorkRequest(wId *string, entityType string, action oci_da
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -353,7 +354,7 @@ func alertPolicyWaitForWorkRequest(wId *string, entityType string, action oci_da
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -370,14 +371,14 @@ func alertPolicyWaitForWorkRequest(wId *string, entityType string, action oci_da
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed || response.Status == oci_data_safe.WorkRequestStatusCanceled {
-		return nil, getErrorFromDataSafeAlertPolicyWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeAlertPolicyWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeAlertPolicyWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeAlertPolicyWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -399,7 +400,7 @@ func getErrorFromDataSafeAlertPolicyWorkRequest(client *oci_data_safe.DataSafeCl
 	return workRequestErr
 }
 
-func (s *DataSafeAlertPolicyResourceCrud) Get() error {
+func (s *DataSafeAlertPolicyResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetAlertPolicyRequest{}
 
 	tmp := s.D.Id()
@@ -407,7 +408,7 @@ func (s *DataSafeAlertPolicyResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetAlertPolicy(context.Background(), request)
+	response, err := s.Client.GetAlertPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -416,11 +417,11 @@ func (s *DataSafeAlertPolicyResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeAlertPolicyResourceCrud) Update() error {
+func (s *DataSafeAlertPolicyResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -459,16 +460,16 @@ func (s *DataSafeAlertPolicyResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateAlertPolicy(context.Background(), request)
+	response, err := s.Client.UpdateAlertPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAlertPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAlertPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeAlertPolicyResourceCrud) Delete() error {
+func (s *DataSafeAlertPolicyResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_data_safe.DeleteAlertPolicyRequest{}
 
 	tmp := s.D.Id()
@@ -476,14 +477,14 @@ func (s *DataSafeAlertPolicyResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.DeleteAlertPolicy(context.Background(), request)
+	response, err := s.Client.DeleteAlertPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := alertPolicyWaitForWorkRequest(workId, "alertpolicy",
+	_, delWorkRequestErr := alertPolicyWaitForWorkRequest(ctx, workId, "alertpolicy",
 		oci_data_safe.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -575,7 +576,7 @@ func CreateAlertPolicyRuleDetailsToMap(obj oci_data_safe.CreateAlertPolicyRuleDe
 	return result
 }
 
-func (s *DataSafeAlertPolicyResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataSafeAlertPolicyResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_data_safe.ChangeAlertPolicyCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -586,11 +587,11 @@ func (s *DataSafeAlertPolicyResourceCrud) updateCompartment(compartment interfac
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.ChangeAlertPolicyCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeAlertPolicyCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAlertPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAlertPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
