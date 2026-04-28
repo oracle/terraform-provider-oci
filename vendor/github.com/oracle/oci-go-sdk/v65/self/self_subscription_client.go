@@ -136,7 +136,7 @@ func (client SubscriptionClient) cancelWorkRequest(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/WorkRequest/CancelWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Subscription", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -196,7 +196,7 @@ func (client SubscriptionClient) changeSubscriptionCompartment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/Subscription/ChangeSubscriptionCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Subscription", "ChangeSubscriptionCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -255,7 +255,7 @@ func (client SubscriptionClient) createSubscription(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/Subscription/CreateSubscription"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Subscription", "CreateSubscription", apiReferenceLink)
 		return response, err
 	}
@@ -309,7 +309,7 @@ func (client SubscriptionClient) deleteSubscription(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/Subscription/DeleteSubscription"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Subscription", "DeleteSubscription", apiReferenceLink)
 		return response, err
 	}
@@ -363,7 +363,7 @@ func (client SubscriptionClient) getSubscription(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/Subscription/GetSubscription"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Subscription", "GetSubscription", apiReferenceLink)
 		return response, err
 	}
@@ -417,7 +417,7 @@ func (client SubscriptionClient) getSubscriptionToken(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/SubscriptionToken/GetSubscriptionToken"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Subscription", "GetSubscriptionToken", apiReferenceLink)
 		return response, err
 	}
@@ -471,7 +471,7 @@ func (client SubscriptionClient) getWorkRequest(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Subscription", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -526,7 +526,7 @@ func (client SubscriptionClient) listSubscriptions(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/SubscriptionCollection/ListSubscriptions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Subscription", "ListSubscriptions", apiReferenceLink)
 		return response, err
 	}
@@ -580,7 +580,7 @@ func (client SubscriptionClient) listWorkRequestErrors(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Subscription", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -634,7 +634,7 @@ func (client SubscriptionClient) listWorkRequestLogs(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Subscription", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -688,7 +688,7 @@ func (client SubscriptionClient) listWorkRequests(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Subscription", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -742,7 +742,7 @@ func (client SubscriptionClient) updateSubscription(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/Subscription/UpdateSubscription"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Subscription", "UpdateSubscription", apiReferenceLink)
 		return response, err
 	}

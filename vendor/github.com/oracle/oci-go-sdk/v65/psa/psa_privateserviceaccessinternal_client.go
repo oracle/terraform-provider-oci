@@ -142,7 +142,7 @@ func (client PrivateServiceAccessInternalClient) changePsaEndpointServiceCompart
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/psasvc/20240301/PsaEndpointService/ChangePsaEndpointServiceCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "PrivateServiceAccessInternal", "ChangePsaEndpointServiceCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -201,7 +201,7 @@ func (client PrivateServiceAccessInternalClient) createPsaEndpointService(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/psasvc/20240301/PsaEndpointService/CreatePsaEndpointService"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "PrivateServiceAccessInternal", "CreatePsaEndpointService", apiReferenceLink)
 		return response, err
 	}
@@ -255,7 +255,7 @@ func (client PrivateServiceAccessInternalClient) deletePsaEndpointService(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/psasvc/20240301/PsaEndpointService/DeletePsaEndpointService"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "PrivateServiceAccessInternal", "DeletePsaEndpointService", apiReferenceLink)
 		return response, err
 	}
@@ -309,7 +309,7 @@ func (client PrivateServiceAccessInternalClient) getPsaEndpointService(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/psasvc/20240301/PsaEndpointService/GetPsaEndpointService"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "PrivateServiceAccessInternal", "GetPsaEndpointService", apiReferenceLink)
 		return response, err
 	}
@@ -363,7 +363,7 @@ func (client PrivateServiceAccessInternalClient) listPsaEndpointServices(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/psasvc/20240301/PsaEndpointServiceCollection/ListPsaEndpointServices"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "PrivateServiceAccessInternal", "ListPsaEndpointServices", apiReferenceLink)
 		return response, err
 	}
@@ -417,7 +417,7 @@ func (client PrivateServiceAccessInternalClient) listPsaInternalData(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/psasvc/20240301/PsaInternalDataCollection/ListPsaInternalData"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "PrivateServiceAccessInternal", "ListPsaInternalData", apiReferenceLink)
 		return response, err
 	}
@@ -471,7 +471,7 @@ func (client PrivateServiceAccessInternalClient) updatePsaEndpointService(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/psasvc/20240301/PsaEndpointService/UpdatePsaEndpointService"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "PrivateServiceAccessInternal", "UpdatePsaEndpointService", apiReferenceLink)
 		return response, err
 	}
