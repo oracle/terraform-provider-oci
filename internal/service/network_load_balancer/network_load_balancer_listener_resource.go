@@ -10,6 +10,7 @@ import (
 	"net/url"
 	"regexp"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -128,6 +129,11 @@ type NetworkLoadBalancerListenerResourceCrud struct {
 	Client                 *oci_network_load_balancer.NetworkLoadBalancerClient
 	Res                    *oci_network_load_balancer.Listener
 	DisableNotFoundRetries bool
+}
+
+func (s *NetworkLoadBalancerListenerResourceCrud) GetMutex() *sync.Mutex {
+	log.Printf("[DEBUG] Acquiring lock on NLB Listener CUD operation for %s with id %s", s.D.Get("name"), s.D.Get("network_load_balancer_id"))
+	return nlbMutexes.GetOrCreateNlbMutex(s.D.Get("network_load_balancer_id").(string))
 }
 
 func (s *NetworkLoadBalancerListenerResourceCrud) ID() string {
@@ -347,6 +353,7 @@ func (s *NetworkLoadBalancerListenerResourceCrud) Get() error {
 
 func (s *NetworkLoadBalancerListenerResourceCrud) Update() error {
 	request := oci_network_load_balancer.UpdateListenerRequest{}
+	rawCfg := s.D.GetRawConfig()
 
 	if defaultBackendSetName, ok := s.D.GetOkExists("default_backend_set_name"); ok {
 		tmp := defaultBackendSetName.(string)
@@ -361,9 +368,12 @@ func (s *NetworkLoadBalancerListenerResourceCrud) Update() error {
 		request.IsPpv2Enabled = &tmp
 	}
 
-	if l3IpIdleTimeout, ok := s.D.GetOkExists("l3ip_idle_timeout"); ok {
-		tmp := l3IpIdleTimeout.(int)
-		request.L3IpIdleTimeout = &tmp
+	givenL3ipIdleTimeout := rawCfg.GetAttr("l3ip_idle_timeout")
+	if givenL3ipIdleTimeout.IsKnown() && !givenL3ipIdleTimeout.IsNull() {
+		if l3IpIdleTimeout, ok := s.D.GetOkExists("l3ip_idle_timeout"); ok {
+			tmp := l3IpIdleTimeout.(int)
+			request.L3IpIdleTimeout = &tmp
+		}
 	}
 
 	if listenerName, ok := s.D.GetOkExists("name"); ok {
@@ -385,14 +395,23 @@ func (s *NetworkLoadBalancerListenerResourceCrud) Update() error {
 		request.Protocol = oci_network_load_balancer.ListenerProtocolsEnum(protocol.(string))
 	}
 
-	if tcpIdleTimeout, ok := s.D.GetOkExists("tcp_idle_timeout"); ok {
-		tmp := tcpIdleTimeout.(int)
-		request.TcpIdleTimeout = &tmp
+	// When a listener is created with protocol as UDP then get listener will return default udp idle timeout and this value gets stored in terraform state.
+	// During the update call the same value is added by provider irrespective of the new protocol.
+	// The idle timeout values will be included in update payload only customer specifies it and dont read from state file if the idle timeout is not specified.
+	givenTcpIdleTimeout := rawCfg.GetAttr("tcp_idle_timeout")
+	if givenTcpIdleTimeout.IsKnown() && !givenTcpIdleTimeout.IsNull() {
+		if tcpIdleTimeout, ok := s.D.GetOkExists("tcp_idle_timeout"); ok {
+			tmp := tcpIdleTimeout.(int)
+			request.TcpIdleTimeout = &tmp
+		}
 	}
 
-	if udpIdleTimeout, ok := s.D.GetOkExists("udp_idle_timeout"); ok {
-		tmp := udpIdleTimeout.(int)
-		request.UdpIdleTimeout = &tmp
+	givenUdpIdleTimeout := rawCfg.GetAttr("udp_idle_timeout")
+	if givenUdpIdleTimeout.IsKnown() && !givenUdpIdleTimeout.IsNull() {
+		if udpIdleTimeout, ok := s.D.GetOkExists("udp_idle_timeout"); ok {
+			tmp := udpIdleTimeout.(int)
+			request.UdpIdleTimeout = &tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
@@ -454,6 +473,8 @@ func (s *NetworkLoadBalancerListenerResourceCrud) SetData() error {
 
 	if s.Res.L3IpIdleTimeout != nil {
 		s.D.Set("l3ip_idle_timeout", *s.Res.L3IpIdleTimeout)
+	} else {
+		s.D.Set("l3ip_idle_timeout", nil)
 	}
 
 	if s.Res.Name != nil {
@@ -468,10 +489,14 @@ func (s *NetworkLoadBalancerListenerResourceCrud) SetData() error {
 
 	if s.Res.TcpIdleTimeout != nil {
 		s.D.Set("tcp_idle_timeout", *s.Res.TcpIdleTimeout)
+	} else {
+		s.D.Set("tcp_idle_timeout", nil)
 	}
 
 	if s.Res.UdpIdleTimeout != nil {
 		s.D.Set("udp_idle_timeout", *s.Res.UdpIdleTimeout)
+	} else {
+		s.D.Set("udp_idle_timeout", nil)
 	}
 
 	return nil
