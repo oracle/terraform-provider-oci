@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
@@ -22,11 +23,11 @@ func DataSafeAlertResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeAlert,
-		Read:     readDataSafeAlert,
-		Update:   updateDataSafeAlert,
-		Delete:   deleteDataSafeAlert,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeAlertWithContext,
+		ReadContext:   readDataSafeAlertWithContext,
+		UpdateContext: updateDataSafeAlertWithContext,
+		DeleteContext: deleteDataSafeAlertWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"alert_id": {
@@ -150,25 +151,25 @@ func DataSafeAlertResource() *schema.Resource {
 	}
 }
 
-func createDataSafeAlert(d *schema.ResourceData, m interface{}) error {
+func createDataSafeAlertWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAlertResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	compartment, ok := sync.D.GetOkExists("compartment_id")
 
-	err := tfresource.CreateResource(d, sync)
+	err := tfresource.CreateResourceWithContext(ctx, d, sync)
 	if err != nil {
-		return err
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	if ok && compartment != *sync.Res.CompartmentId {
-		err = sync.updateCompartment(compartment)
+		err = sync.updateCompartment(ctx, compartment)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 		tmp := compartment.(string)
 		sync.Res.CompartmentId = &tmp
-		err := sync.Get()
+		err := sync.GetWithContext(ctx)
 		if err != nil {
 			log.Printf("error doing a Get() after compartment update: %v", err)
 		}
@@ -180,22 +181,22 @@ func createDataSafeAlert(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func readDataSafeAlert(d *schema.ResourceData, m interface{}) error {
+func readDataSafeAlertWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAlertResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeAlert(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeAlertWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAlertResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDataSafeAlert(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeAlertWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -228,7 +229,7 @@ func (s *DataSafeAlertResourceCrud) DeletedTarget() []string {
 	return []string{}
 }
 
-func (s *DataSafeAlertResourceCrud) Create() error {
+func (s *DataSafeAlertResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.UpdateAlertRequest{}
 
 	if alertId, ok := s.D.GetOkExists("alert_id"); ok {
@@ -259,7 +260,7 @@ func (s *DataSafeAlertResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateAlert(context.Background(), request)
+	response, err := s.Client.UpdateAlert(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -268,7 +269,7 @@ func (s *DataSafeAlertResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DataSafeAlertResourceCrud) Get() error {
+func (s *DataSafeAlertResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetAlertRequest{}
 
 	tmp := s.D.Id()
@@ -276,7 +277,7 @@ func (s *DataSafeAlertResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetAlert(context.Background(), request)
+	response, err := s.Client.GetAlert(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -285,11 +286,11 @@ func (s *DataSafeAlertResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeAlertResourceCrud) Update() error {
+func (s *DataSafeAlertResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -325,7 +326,7 @@ func (s *DataSafeAlertResourceCrud) Update() error {
 			request.CompartmentId = &tmp
 			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-			response, err := s.Client.AlertsUpdate(context.Background(), request)
+			response, err := s.Client.AlertsUpdate(ctx, request)
 			if err != nil {
 				return err
 			} else {
@@ -338,7 +339,7 @@ func (s *DataSafeAlertResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateAlert(context.Background(), request)
+	response, err := s.Client.UpdateAlert(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -503,7 +504,7 @@ func AlertSummaryToMap(obj oci_data_safe.AlertSummary) map[string]interface{} {
 	return result
 }
 
-func (s *DataSafeAlertResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataSafeAlertResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_data_safe.ChangeAlertCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -514,12 +515,12 @@ func (s *DataSafeAlertResourceCrud) updateCompartment(compartment interface{}) e
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	_, err := s.Client.ChangeAlertCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeAlertCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

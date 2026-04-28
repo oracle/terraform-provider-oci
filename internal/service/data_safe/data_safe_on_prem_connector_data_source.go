@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 )
@@ -19,15 +20,15 @@ func DataSafeOnPremConnectorDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeOnPremConnectorResource(), fieldMap, readSingularDataSafeOnPremConnector)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeOnPremConnectorResource(), fieldMap, readSingularDataSafeOnPremConnectorWithContext)
 }
 
-func readSingularDataSafeOnPremConnector(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeOnPremConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeOnPremConnectorDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeOnPremConnectorDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DataSafeOnPremConnectorDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeOnPremConnectorDataSourceCrud) Get() error {
+func (s *DataSafeOnPremConnectorDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetOnPremConnectorRequest{}
 
 	if onPremConnectorId, ok := s.D.GetOkExists("on_prem_connector_id"); ok {
@@ -50,7 +51,7 @@ func (s *DataSafeOnPremConnectorDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetOnPremConnector(context.Background(), request)
+	response, err := s.Client.GetOnPremConnector(ctx, request)
 	if err != nil {
 		return err
 	}

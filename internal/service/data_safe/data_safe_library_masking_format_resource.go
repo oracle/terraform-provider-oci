@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -27,11 +28,11 @@ func DataSafeLibraryMaskingFormatResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeLibraryMaskingFormat,
-		Read:     readDataSafeLibraryMaskingFormat,
-		Update:   updateDataSafeLibraryMaskingFormat,
-		Delete:   deleteDataSafeLibraryMaskingFormat,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeLibraryMaskingFormatWithContext,
+		ReadContext:   readDataSafeLibraryMaskingFormatWithContext,
+		UpdateContext: updateDataSafeLibraryMaskingFormatWithContext,
+		DeleteContext: deleteDataSafeLibraryMaskingFormatWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -260,37 +261,37 @@ func DataSafeLibraryMaskingFormatResource() *schema.Resource {
 	}
 }
 
-func createDataSafeLibraryMaskingFormat(d *schema.ResourceData, m interface{}) error {
+func createDataSafeLibraryMaskingFormatWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeLibraryMaskingFormatResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDataSafeLibraryMaskingFormat(d *schema.ResourceData, m interface{}) error {
+func readDataSafeLibraryMaskingFormatWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeLibraryMaskingFormatResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeLibraryMaskingFormat(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeLibraryMaskingFormatWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeLibraryMaskingFormatResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDataSafeLibraryMaskingFormat(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeLibraryMaskingFormatWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeLibraryMaskingFormatResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataSafeLibraryMaskingFormatResourceCrud struct {
@@ -329,7 +330,7 @@ func (s *DataSafeLibraryMaskingFormatResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DataSafeLibraryMaskingFormatResourceCrud) Create() error {
+func (s *DataSafeLibraryMaskingFormatResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.CreateLibraryMaskingFormatRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -391,7 +392,7 @@ func (s *DataSafeLibraryMaskingFormatResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.CreateLibraryMaskingFormat(context.Background(), request)
+	response, err := s.Client.CreateLibraryMaskingFormat(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -402,20 +403,20 @@ func (s *DataSafeLibraryMaskingFormatResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getLibraryMaskingFormatFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, "lmfcreate", s.D.Timeout(schema.TimeoutCreate))
+	return s.getLibraryMaskingFormatFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, "lmfcreate", s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeLibraryMaskingFormatResourceCrud) getLibraryMaskingFormatFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeLibraryMaskingFormatResourceCrud) getLibraryMaskingFormatFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, entityType string, timeout time.Duration) error {
 
 	// Wait until it finishes
-	libraryMaskingFormatId, err := libraryMaskingFormatWaitForWorkRequest(workId, entityType,
+	libraryMaskingFormatId, err := libraryMaskingFormatWaitForWorkRequest(ctx, workId, entityType,
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, libraryMaskingFormatId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_data_safe.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -429,7 +430,7 @@ func (s *DataSafeLibraryMaskingFormatResourceCrud) getLibraryMaskingFormatFromWo
 	}
 	s.D.SetId(*libraryMaskingFormatId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func libraryMaskingFormatWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -455,7 +456,7 @@ func libraryMaskingFormatWorkRequestShouldRetryFunc(timeout time.Duration) func(
 	}
 }
 
-func libraryMaskingFormatWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func libraryMaskingFormatWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = libraryMaskingFormatWorkRequestShouldRetryFunc(timeout)
@@ -474,7 +475,7 @@ func libraryMaskingFormatWaitForWorkRequest(wId *string, entityType string, acti
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -486,7 +487,7 @@ func libraryMaskingFormatWaitForWorkRequest(wId *string, entityType string, acti
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -503,14 +504,14 @@ func libraryMaskingFormatWaitForWorkRequest(wId *string, entityType string, acti
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed || response.Status == oci_data_safe.WorkRequestStatusCanceled {
-		return nil, getErrorFromDataSafeLibraryMaskingFormatWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeLibraryMaskingFormatWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeLibraryMaskingFormatWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeLibraryMaskingFormatWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -532,7 +533,7 @@ func getErrorFromDataSafeLibraryMaskingFormatWorkRequest(client *oci_data_safe.D
 	return workRequestErr
 }
 
-func (s *DataSafeLibraryMaskingFormatResourceCrud) Get() error {
+func (s *DataSafeLibraryMaskingFormatResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetLibraryMaskingFormatRequest{}
 
 	tmp := s.D.Id()
@@ -540,7 +541,7 @@ func (s *DataSafeLibraryMaskingFormatResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetLibraryMaskingFormat(context.Background(), request)
+	response, err := s.Client.GetLibraryMaskingFormat(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -549,11 +550,11 @@ func (s *DataSafeLibraryMaskingFormatResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeLibraryMaskingFormatResourceCrud) Update() error {
+func (s *DataSafeLibraryMaskingFormatResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -618,16 +619,16 @@ func (s *DataSafeLibraryMaskingFormatResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateLibraryMaskingFormat(context.Background(), request)
+	response, err := s.Client.UpdateLibraryMaskingFormat(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getLibraryMaskingFormatFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, "updatelmfwf", s.D.Timeout(schema.TimeoutUpdate))
+	return s.getLibraryMaskingFormatFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, "updatelmfwf", s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeLibraryMaskingFormatResourceCrud) Delete() error {
+func (s *DataSafeLibraryMaskingFormatResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_data_safe.DeleteLibraryMaskingFormatRequest{}
 
 	tmp := s.D.Id()
@@ -635,7 +636,7 @@ func (s *DataSafeLibraryMaskingFormatResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	_, err := s.Client.DeleteLibraryMaskingFormat(context.Background(), request)
+	_, err := s.Client.DeleteLibraryMaskingFormat(ctx, request)
 	return err
 }
 
@@ -1351,7 +1352,7 @@ func LibraryMaskingFormatSummaryToMap(obj oci_data_safe.LibraryMaskingFormatSumm
 	return result
 }
 
-func (s *DataSafeLibraryMaskingFormatResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataSafeLibraryMaskingFormatResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_data_safe.ChangeLibraryMaskingFormatCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1362,12 +1363,12 @@ func (s *DataSafeLibraryMaskingFormatResourceCrud) updateCompartment(compartment
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	_, err := s.Client.ChangeLibraryMaskingFormatCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeLibraryMaskingFormatCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

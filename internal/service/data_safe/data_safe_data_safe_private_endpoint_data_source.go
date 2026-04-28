@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 )
@@ -19,15 +20,15 @@ func DataSafeDataSafePrivateEndpointDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeDataSafePrivateEndpointResource(), fieldMap, readSingularDataSafeDataSafePrivateEndpoint)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeDataSafePrivateEndpointResource(), fieldMap, readSingularDataSafeDataSafePrivateEndpointWithContext)
 }
 
-func readSingularDataSafeDataSafePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeDataSafePrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeDataSafePrivateEndpointDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeDataSafePrivateEndpointDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DataSafeDataSafePrivateEndpointDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeDataSafePrivateEndpointDataSourceCrud) Get() error {
+func (s *DataSafeDataSafePrivateEndpointDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetDataSafePrivateEndpointRequest{}
 
 	if dataSafePrivateEndpointId, ok := s.D.GetOkExists("data_safe_private_endpoint_id"); ok {
@@ -50,7 +51,7 @@ func (s *DataSafeDataSafePrivateEndpointDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetDataSafePrivateEndpoint(context.Background(), request)
+	response, err := s.Client.GetDataSafePrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
