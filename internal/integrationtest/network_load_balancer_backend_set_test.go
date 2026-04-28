@@ -433,6 +433,50 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 			ExpectNonEmptyPlan: true,
 		},
 
+		// Update backendSet while backend exists
+		{
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerBackendSetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", acctest.Optional, acctest.Update, NetworkLoadBalancerBackendSetRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", acctest.Required, acctest.Create, NetworkLoadBalancerNlbBackendRepresentation) +
+				`data "oci_network_load_balancer_backend_sets" "test_backend_sets" {
+						depends_on = ["oci_network_load_balancer_backend_set.test_backend_set", "oci_network_load_balancer_backend.test_backend"]
+						network_load_balancer_id = "${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}"
+					}`,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				// The state file could show either 0 or 1 backends in backend_set; depending on the order of operations.
+				// If UpdateBackendSet happens first, then you will see 0. If CreateBackend happens first, then you will see 1.
+				//resource.TestCheckResourceAttr(resourceName, "backends.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends.0.ip_address", "10.0.0.3"),
+				resource.TestCheckResourceAttr(datasourceName, "backend_set_collection.0.items.0.backends.0.port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "30000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "TCP"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.request_data", "QnllV29ybGQ="),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", ""),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_data", "QnllV29ybGQ="),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "5"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "30000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", ""),
+				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "true"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "THREE_TUPLE"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+			ExpectNonEmptyPlan: true,
+		},
+
 		// Force Create new by changing backend port
 		{
 			Config: config + compartmentIdVariableStr + NetworkLoadBalancerBackendSetResourceDependencies +

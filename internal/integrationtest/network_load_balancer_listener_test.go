@@ -51,6 +51,16 @@ var (
 		"ip_version":               acctest.Representation{RepType: acctest.Optional, Create: `IPV4`},
 	}
 
+	NetworkLoadBalancerListenerRepresentationUpdate = map[string]interface{}{
+		"default_backend_set_name": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_backend_set.test_backend_set.name}`},
+		"name":                     acctest.Representation{RepType: acctest.Required, Create: `example_listener`},
+		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
+		"port":                     acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+		"is_ppv2enabled":           acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"tcp_idle_timeout":         acctest.Representation{RepType: acctest.Optional, Create: `180`, Update: `300`},
+		"protocol":                 acctest.Representation{RepType: acctest.Required, Create: `TCP_AND_UDP`, Update: `TCP`},
+	}
+
 	NetworkLoadBalancerTCPListenerRepresentation = map[string]interface{}{
 		"default_backend_set_name": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_backend_set.test_backend_set.name}`},
 		"name":                     acctest.Representation{RepType: acctest.Required, Create: `example_listener`},
@@ -350,6 +360,31 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 				},
 			),
 		},
+
+		// verify updates protocol
+		{
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerListenerResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Optional, acctest.Update, NetworkLoadBalancerListenerRepresentationUpdate),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "is_ppv2enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "port", "11"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "TCP"),
+				resource.TestCheckResourceAttr(resourceName, "tcp_idle_timeout", "300"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
 		// verify datasource
 		{
 			Config: config +
