@@ -10,10 +10,9 @@
 - new shapes for rerank v4
 - Support for Cloud Guard - Terraform updateTarget API
 - changes to omit macsec from cc update requests if cc is in ccg
-- 
+
 ### Bug Fix
 - Support for ignore_defined_tags in IdentityDomains resources
-- Fixing build errors
 
 ## 8.11.0 (April 22, 2026)
 
