@@ -53,6 +53,9 @@ type UpdateOracleAssessmentDetails struct {
 
 	// The type of assessment creation.
 	CreationType CreationTypeEnum `mandatory:"false" json:"creationType,omitempty"`
+
+	// Assessment migration scope.
+	MigrationScope MigrationScopeOracleEnum `mandatory:"false" json:"migrationScope,omitempty"`
 }
 
 // GetDescription returns Description
@@ -134,6 +137,9 @@ func (m UpdateOracleAssessmentDetails) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingCreationTypeEnum(string(m.CreationType)); !ok && m.CreationType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CreationType: %s. Supported values are: %s.", m.CreationType, strings.Join(GetCreationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingMigrationScopeOracleEnum(string(m.MigrationScope)); !ok && m.MigrationScope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MigrationScope: %s. Supported values are: %s.", m.MigrationScope, strings.Join(GetMigrationScopeOracleEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

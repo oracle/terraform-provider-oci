@@ -50,6 +50,10 @@ func (m *createfleetdetails) UnmarshalPolymorphicJSON(data []byte) (interface{},
 
 	var err error
 	switch m.Type {
+	case "SERVICE_MANAGED_GPU_FLEET":
+		mm := CreateServiceManagedGpuFleetDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "SERVICE_MANAGED_FLEET":
 		mm := CreateServiceManagedFleetDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -81,15 +85,18 @@ type CreateFleetDetailsTypeEnum string
 
 // Set of constants representing the allowable values for CreateFleetDetailsTypeEnum
 const (
-	CreateFleetDetailsTypeServiceManagedFleet CreateFleetDetailsTypeEnum = "SERVICE_MANAGED_FLEET"
+	CreateFleetDetailsTypeFleet    CreateFleetDetailsTypeEnum = "SERVICE_MANAGED_FLEET"
+	CreateFleetDetailsTypeGpuFleet CreateFleetDetailsTypeEnum = "SERVICE_MANAGED_GPU_FLEET"
 )
 
 var mappingCreateFleetDetailsTypeEnum = map[string]CreateFleetDetailsTypeEnum{
-	"SERVICE_MANAGED_FLEET": CreateFleetDetailsTypeServiceManagedFleet,
+	"SERVICE_MANAGED_FLEET":     CreateFleetDetailsTypeFleet,
+	"SERVICE_MANAGED_GPU_FLEET": CreateFleetDetailsTypeGpuFleet,
 }
 
 var mappingCreateFleetDetailsTypeEnumLowerCase = map[string]CreateFleetDetailsTypeEnum{
-	"service_managed_fleet": CreateFleetDetailsTypeServiceManagedFleet,
+	"service_managed_fleet":     CreateFleetDetailsTypeFleet,
+	"service_managed_gpu_fleet": CreateFleetDetailsTypeGpuFleet,
 }
 
 // GetCreateFleetDetailsTypeEnumValues Enumerates the set of values for CreateFleetDetailsTypeEnum
@@ -105,6 +112,7 @@ func GetCreateFleetDetailsTypeEnumValues() []CreateFleetDetailsTypeEnum {
 func GetCreateFleetDetailsTypeEnumStringValues() []string {
 	return []string{
 		"SERVICE_MANAGED_FLEET",
+		"SERVICE_MANAGED_GPU_FLEET",
 	}
 }
 

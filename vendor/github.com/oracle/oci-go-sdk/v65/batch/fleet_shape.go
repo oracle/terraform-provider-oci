@@ -21,11 +21,14 @@ type FleetShape struct {
 	// The name of the shape.
 	ShapeName *string `mandatory:"true" json:"shapeName"`
 
-	// Number of OCPUs required by the shape.
+	// Number of OCPUs required for the shape.
 	Ocpus *int `mandatory:"true" json:"ocpus"`
 
-	// Amount of memory in GBs required by the shape.
+	// Amount of memory in GBs required for the shape.
 	MemoryInGBs *int `mandatory:"true" json:"memoryInGBs"`
+
+	// Amount of disk space in GBs required for the shape.
+	DiskSizeInGBs *int `mandatory:"false" json:"diskSizeInGBs"`
 }
 
 func (m FleetShape) String() string {

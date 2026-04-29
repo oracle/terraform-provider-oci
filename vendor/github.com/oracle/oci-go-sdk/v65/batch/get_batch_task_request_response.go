@@ -21,7 +21,7 @@ type GetBatchTaskRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the batch job.
 	BatchJobId *string `mandatory:"true" contributesTo:"path" name:"batchJobId"`
 
-	// The name of the batch task.
+	// The hierarchical name of the batch task. Mutually exclusive with the task id query parameter: you can't pass both.
 	TaskName *string `mandatory:"true" contributesTo:"path" name:"taskName"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

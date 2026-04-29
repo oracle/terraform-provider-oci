@@ -28,7 +28,7 @@ type CreateFusionEnvironmentDetails struct {
 	// The unique identifier (OCID) of the Fusion Environment Family that the Fusion Environment belongs to.
 	FusionEnvironmentFamilyId *string `mandatory:"true" json:"fusionEnvironmentFamilyId"`
 
-	// The type of environment. Valid values are Production, Test, or Development.
+	// The type of environment. Valid values are Production, Test, Development, or Demo.
 	FusionEnvironmentType FusionEnvironmentFusionEnvironmentTypeEnum `mandatory:"true" json:"fusionEnvironmentType"`
 
 	CreateFusionEnvironmentAdminUserDetails *CreateFusionEnvironmentAdminUserDetails `mandatory:"true" json:"createFusionEnvironmentAdminUserDetails"`
@@ -50,7 +50,7 @@ type CreateFusionEnvironmentDetails struct {
 	// Rules.
 	Rules []Rule `mandatory:"false" json:"rules"`
 
-	// Additional egress rules that should be applied to the environment. Some standard ports are open for general use; see [Securing Network Access to a Fusion Applications Environment][iaas/Content/fusion-applications/plan-environment.htm#internet-cache]. If access to a non-standard port is required, however, they can be listed here.
+	// Additional egress rules that should be applied to the environment. Some standard ports are open for general use; see Securing Network Access to a Fusion Applications Environment (https://docs.oracle.com/iaas/Content/fusion-applications/plan-environment.htm#internet-cache). If access to a non-standard port is required, however, they can be listed here.
 	AdditionalEgressRules []AdditionalEgressRule `mandatory:"false" json:"additionalEgressRules"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

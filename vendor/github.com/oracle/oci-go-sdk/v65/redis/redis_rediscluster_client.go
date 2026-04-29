@@ -275,7 +275,9 @@ func (client RedisClusterClient) changeRedisClusterCompartment(ctx context.Conte
 	return response, err
 }
 
-// CreateRedisCluster Creates a new OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
+// CreateRedisCluster Creates a new OCI Cache cluster. A cluster is a memory-based storage solution.
+// You can optionally initialize the cluster data by restoring from an OCI Cache Backup (backupId) or by importing from Object Storage RDB file(s) (importFromObjectStorageDetails).
+// For more information, see OCI Cache (https://docs.oracle.com/iaas/Content/ocicache/home.htm).
 //
 // # See also
 //

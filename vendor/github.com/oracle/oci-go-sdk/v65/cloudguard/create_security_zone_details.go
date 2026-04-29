@@ -31,6 +31,9 @@ type CreateSecurityZoneDetails struct {
 	// The security zone's description
 	Description *string `mandatory:"false" json:"description"`
 
+	// Indicates if upon deletion of the security zone the comparment should inherit parent security zone
+	IsInheritanceAfterDeleteEnabled *bool `mandatory:"false" json:"isInheritanceAfterDeleteEnabled"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	// Avoid entering confidential information.

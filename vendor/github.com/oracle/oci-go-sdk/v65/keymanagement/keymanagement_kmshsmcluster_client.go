@@ -277,6 +277,68 @@ func (client KmsHsmClusterClient) createHsmCluster(ctx context.Context, request 
 	return response, err
 }
 
+// DisableAuditMgmtLogging Disables management audit logging for the given HSM Cluster resource. This requires the Crypto Officer (CO) password. This operation is idempotent: if audit logging is already disabled, the call is a no-op and returns success.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/DisableAuditMgmtLogging.go.html to see an example of how to use DisableAuditMgmtLogging API.
+func (client KmsHsmClusterClient) DisableAuditMgmtLogging(ctx context.Context, request DisableAuditMgmtLoggingRequest) (response DisableAuditMgmtLoggingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableAuditMgmtLogging, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableAuditMgmtLoggingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableAuditMgmtLoggingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableAuditMgmtLoggingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableAuditMgmtLoggingResponse")
+	}
+	return
+}
+
+// disableAuditMgmtLogging implements the OCIOperation interface (enables retrying operations)
+func (client KmsHsmClusterClient) disableAuditMgmtLogging(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/hsmClusters/{hsmClusterId}/actions/disableAuditMgmtLogging", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableAuditMgmtLoggingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "kmsHsmCluster", "DisableAuditMgmtLogging")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/HsmCluster/DisableAuditMgmtLogging"
+		err = common.PostProcessServiceError(err, "KmsHsmCluster", "DisableAuditMgmtLogging", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DownloadCertificateSigningRequest Retrieves the certificate signing request for the designated HSM Cluster resource.
 //
 // # See also
@@ -332,6 +394,70 @@ func (client KmsHsmClusterClient) downloadCertificateSigningRequest(ctx context.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/HsmCluster/DownloadCertificateSigningRequest"
 		err = common.PostProcessServiceError(err, "KmsHsmCluster", "DownloadCertificateSigningRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableAuditMgmtLogging Validates that the Dynamic Group and bucket policy supplied during EnableAuditLogging / CreateHsmCluster are now in place.
+// If the cluster is in WAITING_FOR_CUSTOMER, and validation is successful, status is progressed and a work request is started.
+// If the cluster has already progressed past that gate, the call is idempotent and returns 202 with the current cluster representation.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/EnableAuditMgmtLogging.go.html to see an example of how to use EnableAuditMgmtLogging API.
+func (client KmsHsmClusterClient) EnableAuditMgmtLogging(ctx context.Context, request EnableAuditMgmtLoggingRequest) (response EnableAuditMgmtLoggingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableAuditMgmtLogging, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableAuditMgmtLoggingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableAuditMgmtLoggingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableAuditMgmtLoggingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableAuditMgmtLoggingResponse")
+	}
+	return
+}
+
+// enableAuditMgmtLogging implements the OCIOperation interface (enables retrying operations)
+func (client KmsHsmClusterClient) enableAuditMgmtLogging(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/hsmClusters/{hsmClusterId}/actions/enableAuditMgmtLogging", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableAuditMgmtLoggingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "kmsHsmCluster", "EnableAuditMgmtLogging")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/HsmCluster/EnableAuditMgmtLogging"
+		err = common.PostProcessServiceError(err, "KmsHsmCluster", "EnableAuditMgmtLogging", apiReferenceLink)
 		return response, err
 	}
 
@@ -524,6 +650,68 @@ func (client KmsHsmClusterClient) getPreCoUserCredentials(ctx context.Context, r
 	return response, err
 }
 
+// InitiateAuditLogging Initiates the process of enabling audit logs for a HSM cluster resource by taking in the required parameters.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/InitiateAuditLogging.go.html to see an example of how to use InitiateAuditLogging API.
+func (client KmsHsmClusterClient) InitiateAuditLogging(ctx context.Context, request InitiateAuditLoggingRequest) (response InitiateAuditLoggingResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.initiateAuditLogging, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = InitiateAuditLoggingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = InitiateAuditLoggingResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(InitiateAuditLoggingResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into InitiateAuditLoggingResponse")
+	}
+	return
+}
+
+// initiateAuditLogging implements the OCIOperation interface (enables retrying operations)
+func (client KmsHsmClusterClient) initiateAuditLogging(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/20180608/hsmClusters/{hsmClusterId}/actions/initiateAuditLogging", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response InitiateAuditLoggingResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "kmsHsmCluster", "InitiateAuditLogging")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/HsmCluster/InitiateAuditLogging"
+		err = common.PostProcessServiceError(err, "KmsHsmCluster", "InitiateAuditLogging", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListHsmClusters Lists all HSM cluster resources contained within the specified compartment.
 // As a provisioning operation, this call is subject to a Key Management limit that applies to
 // the total number of requests across all provisioning read operations. Key Management might
@@ -698,6 +886,68 @@ func (client KmsHsmClusterClient) scheduleHsmClusterDeletion(ctx context.Context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/HsmCluster/ScheduleHsmClusterDeletion"
 		err = common.PostProcessServiceError(err, "KmsHsmCluster", "ScheduleHsmClusterDeletion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateAuditLoggingDestination update bucket details of management audit logs for a HSM cluster resource by hsmClusterId.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/UpdateAuditLoggingDestination.go.html to see an example of how to use UpdateAuditLoggingDestination API.
+func (client KmsHsmClusterClient) UpdateAuditLoggingDestination(ctx context.Context, request UpdateAuditLoggingDestinationRequest) (response UpdateAuditLoggingDestinationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateAuditLoggingDestination, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateAuditLoggingDestinationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateAuditLoggingDestinationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateAuditLoggingDestinationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateAuditLoggingDestinationResponse")
+	}
+	return
+}
+
+// updateAuditLoggingDestination implements the OCIOperation interface (enables retrying operations)
+func (client KmsHsmClusterClient) updateAuditLoggingDestination(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/20180608/hsmClusters/{hsmClusterId}/actions/updateAuditLoggingDestination", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateAuditLoggingDestinationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "kmsHsmCluster", "UpdateAuditLoggingDestination")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/HsmCluster/UpdateAuditLoggingDestination"
+		err = common.PostProcessServiceError(err, "KmsHsmCluster", "UpdateAuditLoggingDestination", apiReferenceLink)
 		return response, err
 	}
 

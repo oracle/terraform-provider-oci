@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// FusionEnvironmentFamily Details of a Fusion environment family. An environment family is a logical grouping of environments. The environment family defines a set of characteristics that are shared across the environments to allow consistent management and maintenance across your production, test, and development environments. For more information, see Planning an Environment Family (https://docs.oracle.com/iaas/Content/fusion-applications/plan-environment-family.htm).
+// FusionEnvironmentFamily Details of a Fusion environment family. An environment family is a logical grouping of environments. The environment family defines a set of characteristics that are shared across the environments to allow consistent management and maintenance across your production, test, development, and demo environments. For more information, see Planning an Environment Family (https://docs.oracle.com/iaas/Content/fusion-applications/plan-environment-family.htm).
 type FusionEnvironmentFamily struct {
 
 	// The unique identifier (OCID) of the environment family. Can't be changed after creation.
