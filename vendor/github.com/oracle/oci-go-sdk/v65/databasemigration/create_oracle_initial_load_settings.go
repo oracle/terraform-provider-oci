@@ -18,10 +18,6 @@ import (
 
 // CreateOracleInitialLoadSettings Optional settings for Data Pump Export and Import jobs
 type CreateOracleInitialLoadSettings struct {
-
-	// Oracle Job Mode
-	JobMode JobModeOracleEnum `mandatory:"true" json:"jobMode"`
-
 	DataPumpParameters *CreateDataPumpParameters `mandatory:"false" json:"dataPumpParameters"`
 
 	TablespaceDetails CreateTargetTypeTablespaceDetails `mandatory:"false" json:"tablespaceDetails"`
@@ -29,6 +25,9 @@ type CreateOracleInitialLoadSettings struct {
 	ExportDirectoryObject *CreateDirectoryObject `mandatory:"false" json:"exportDirectoryObject"`
 
 	ImportDirectoryObject *CreateDirectoryObject `mandatory:"false" json:"importDirectoryObject"`
+
+	// Oracle Job Mode
+	JobMode JobModeOracleEnum `mandatory:"false" json:"jobMode,omitempty"`
 
 	// Defines remapping to be applied to objects as they are processed.
 	MetadataRemaps []MetadataRemap `mandatory:"false" json:"metadataRemaps"`
@@ -43,10 +42,10 @@ func (m CreateOracleInitialLoadSettings) String() string {
 // Not recommended for calling this function directly
 func (m CreateOracleInitialLoadSettings) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+
 	if _, ok := GetMappingJobModeOracleEnum(string(m.JobMode)); !ok && m.JobMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for JobMode: %s. Supported values are: %s.", m.JobMode, strings.Join(GetJobModeOracleEnumStringValues(), ",")))
 	}
-
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -60,8 +59,8 @@ func (m *CreateOracleInitialLoadSettings) UnmarshalJSON(data []byte) (e error) {
 		TablespaceDetails     createtargettypetablespacedetails `json:"tablespaceDetails"`
 		ExportDirectoryObject *CreateDirectoryObject            `json:"exportDirectoryObject"`
 		ImportDirectoryObject *CreateDirectoryObject            `json:"importDirectoryObject"`
-		MetadataRemaps        []MetadataRemap                   `json:"metadataRemaps"`
 		JobMode               JobModeOracleEnum                 `json:"jobMode"`
+		MetadataRemaps        []MetadataRemap                   `json:"metadataRemaps"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -85,9 +84,9 @@ func (m *CreateOracleInitialLoadSettings) UnmarshalJSON(data []byte) (e error) {
 
 	m.ImportDirectoryObject = model.ImportDirectoryObject
 
-	m.MetadataRemaps = make([]MetadataRemap, len(model.MetadataRemaps))
-	copy(m.MetadataRemaps, model.MetadataRemaps)
 	m.JobMode = model.JobMode
 
+	m.MetadataRemaps = make([]MetadataRemap, len(model.MetadataRemaps))
+	copy(m.MetadataRemaps, model.MetadataRemaps)
 	return
 }

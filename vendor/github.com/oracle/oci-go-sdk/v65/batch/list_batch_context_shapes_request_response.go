@@ -34,6 +34,9 @@ type ListBatchContextShapesRequest struct {
 	// List Pagination (https://docs.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
+	// The type of a shape.
+	ShapeType ListBatchContextShapesShapeTypeEnum `mandatory:"false" contributesTo:"query" name:"shapeType" omitEmpty:"true"`
+
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	// The only valid characters for request IDs are letters, numbers,
@@ -76,6 +79,9 @@ func (request ListBatchContextShapesRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListBatchContextShapesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListBatchContextShapesShapeTypeEnum(string(request.ShapeType)); !ok && request.ShapeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ShapeType: %s. Supported values are: %s.", request.ShapeType, strings.Join(GetListBatchContextShapesShapeTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -107,4 +113,46 @@ func (response ListBatchContextShapesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListBatchContextShapesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListBatchContextShapesShapeTypeEnum Enum with underlying type: string
+type ListBatchContextShapesShapeTypeEnum string
+
+// Set of constants representing the allowable values for ListBatchContextShapesShapeTypeEnum
+const (
+	ListBatchContextShapesShapeTypeCpu ListBatchContextShapesShapeTypeEnum = "CPU"
+	ListBatchContextShapesShapeTypeGpu ListBatchContextShapesShapeTypeEnum = "GPU"
+)
+
+var mappingListBatchContextShapesShapeTypeEnum = map[string]ListBatchContextShapesShapeTypeEnum{
+	"CPU": ListBatchContextShapesShapeTypeCpu,
+	"GPU": ListBatchContextShapesShapeTypeGpu,
+}
+
+var mappingListBatchContextShapesShapeTypeEnumLowerCase = map[string]ListBatchContextShapesShapeTypeEnum{
+	"cpu": ListBatchContextShapesShapeTypeCpu,
+	"gpu": ListBatchContextShapesShapeTypeGpu,
+}
+
+// GetListBatchContextShapesShapeTypeEnumValues Enumerates the set of values for ListBatchContextShapesShapeTypeEnum
+func GetListBatchContextShapesShapeTypeEnumValues() []ListBatchContextShapesShapeTypeEnum {
+	values := make([]ListBatchContextShapesShapeTypeEnum, 0)
+	for _, v := range mappingListBatchContextShapesShapeTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListBatchContextShapesShapeTypeEnumStringValues Enumerates the set of values in String for ListBatchContextShapesShapeTypeEnum
+func GetListBatchContextShapesShapeTypeEnumStringValues() []string {
+	return []string{
+		"CPU",
+		"GPU",
+	}
+}
+
+// GetMappingListBatchContextShapesShapeTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListBatchContextShapesShapeTypeEnum(val string) (ListBatchContextShapesShapeTypeEnum, bool) {
+	enum, ok := mappingListBatchContextShapesShapeTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

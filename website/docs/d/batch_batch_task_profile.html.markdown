@@ -36,8 +36,13 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The batch task profile description.
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
+* `extended_information` - Extended information for the task profile.
+	* `architecture` - Type of CPU architecture.
+	* `shape_name` - A name of the CPU shape.
+	* `type` - Type of extended information.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the batch task profile.
+* `min_disk_size_in_gbs` - The minimum required size of disk space in GBs.
 * `min_memory_in_gbs` - The minimum required memory.
 * `min_ocpus` - The minimum required OCPUs.
 * `state` - The current state of the batch task profile. 

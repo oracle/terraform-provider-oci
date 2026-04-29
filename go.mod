@@ -14,7 +14,7 @@ require (
 	github.com/hashicorp/terraform-plugin-mux v0.21.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.38.1
 	github.com/hashicorp/terraform-plugin-testing v1.13.3
-	github.com/oracle/oci-go-sdk/v65 v65.113.0
+	github.com/oracle/oci-go-sdk/v65 v65.114.0
 	github.com/stretchr/testify v1.11.1
 	golang.org/x/mod v0.30.0
 	gopkg.in/yaml.v2 v2.4.0
@@ -54,7 +54,7 @@ require (
 	github.com/mitchellh/reflectwalk v1.0.2 // indirect
 	github.com/oklog/run v1.2.0 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
-	github.com/sony/gobreaker v1.0.0 // indirect
+	github.com/sony/gobreaker/v2 v2.4.0 // indirect
 	github.com/vmihailenco/msgpack v4.0.4+incompatible // indirect
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect

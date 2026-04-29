@@ -29,7 +29,7 @@ type LoggingQueryDataSourceDetails struct {
 	// Interval in minutes that query is run periodically.
 	IntervalInMinutes *int `mandatory:"false" json:"intervalInMinutes"`
 
-	// The integer value that must be exceeded, fall below or equal to (depending on the operator), for the query result to trigger an event
+	// DEPRECATED - The integer value that must be exceeded, fall below or equal to (depending on the operator), for the query result to trigger an event
 	Threshold *int `mandatory:"false" json:"threshold"`
 
 	QueryStartTime ContinuousQueryStartPolicy `mandatory:"false" json:"queryStartTime"`
@@ -39,7 +39,7 @@ type LoggingQueryDataSourceDetails struct {
 
 	LoggingQueryDetails LoggingQueryDetails `mandatory:"false" json:"loggingQueryDetails"`
 
-	// Operator used in data source
+	// DEPRECATED - Operator used in data source
 	Operator LoggingQueryOperatorTypeEnum `mandatory:"false" json:"operator,omitempty"`
 
 	// Type of logging query for data source (Sighting/Insight)

@@ -1335,6 +1335,7 @@ redis
 * oci\_redis\_redis\_cluster
 * oci\_redis\_oci\_cache\_user
 * oci\_redis\_oci\_cache\_config\_set
+* oci\_redis\_oci\_cache\_backup
 
 resource_scheduler
 

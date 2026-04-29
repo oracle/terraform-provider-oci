@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// LoggingConfiguration Logging configuration for batch context.
+// LoggingConfiguration Logging configuration of the batch context.
 type LoggingConfiguration interface {
 }
 

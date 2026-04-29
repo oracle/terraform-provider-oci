@@ -37,6 +37,8 @@ func NewJmsUtilsClientWithConfigurationProvider(configProvider common.Configurat
 	if e != nil {
 		return client, e
 	}
+	// This client should use Dual Stack Endpoints by default
+	baseClient.UseDualStackEndpointsByDefault(true)
 	return newJmsUtilsClientFromBaseClient(baseClient, provider)
 }
 
@@ -49,7 +51,8 @@ func NewJmsUtilsClientWithOboToken(configProvider common.ConfigurationProvider, 
 	if err != nil {
 		return client, err
 	}
-
+	// This client should use Dual Stack Endpoints by default
+	baseClient.UseDualStackEndpointsByDefault(true)
 	return newJmsUtilsClientFromBaseClient(baseClient, configProvider)
 }
 
@@ -67,7 +70,7 @@ func newJmsUtilsClientFromBaseClient(baseClient common.BaseClient, configProvide
 
 // SetRegion overrides the region of this client.
 func (client *JmsUtilsClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("jmsutils", "https://javamanagement-utils.{region}.oci.{secondLevelDomain}")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("jmsutils", "https://utils.javamanagement.{region}.{dualStack?ds.:}oci.{secondLevelDomain}", "utils.javamanagement")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -89,6 +92,12 @@ func (client *JmsUtilsClient) setConfigurationProvider(configProvider common.Con
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *JmsUtilsClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
+// Default value is false
+func (client *JmsUtilsClient) EnableDualStackEndpoints(enableDualStack bool) {
+	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
 }
 
 // CancelWorkRequest Cancels a work request.
@@ -133,6 +142,13 @@ func (client JmsUtilsClient) cancelWorkRequest(ctx context.Context, request comm
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
@@ -192,6 +208,13 @@ func (client JmsUtilsClient) deleteJavaMigrationAnalysis(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteJavaMigrationAnalysisResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "DeleteJavaMigrationAnalysis")
@@ -249,6 +272,13 @@ func (client JmsUtilsClient) deletePerformanceTuningAnalysis(ctx context.Context
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeletePerformanceTuningAnalysisResponse
 	var httpResponse *http.Response
@@ -308,6 +338,13 @@ func (client JmsUtilsClient) getAnalyzeApplicationsConfiguration(ctx context.Con
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetAnalyzeApplicationsConfigurationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "GetAnalyzeApplicationsConfiguration")
@@ -365,6 +402,13 @@ func (client JmsUtilsClient) getJavaMigrationAnalysis(ctx context.Context, reque
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetJavaMigrationAnalysisResponse
 	var httpResponse *http.Response
@@ -424,6 +468,13 @@ func (client JmsUtilsClient) getPerformanceTuningAnalysis(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetPerformanceTuningAnalysisResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "GetPerformanceTuningAnalysis")
@@ -481,6 +532,13 @@ func (client JmsUtilsClient) getSubscriptionAcknowledgmentConfiguration(ctx cont
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetSubscriptionAcknowledgmentConfigurationResponse
 	var httpResponse *http.Response
@@ -540,6 +598,13 @@ func (client JmsUtilsClient) getWorkRequest(ctx context.Context, request common.
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "GetWorkRequest")
@@ -597,6 +662,13 @@ func (client JmsUtilsClient) listJavaMigrationAnalysis(ctx context.Context, requ
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListJavaMigrationAnalysisResponse
 	var httpResponse *http.Response
@@ -656,6 +728,13 @@ func (client JmsUtilsClient) listPerformanceTuningAnalysis(ctx context.Context, 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListPerformanceTuningAnalysisResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "ListPerformanceTuningAnalysis")
@@ -713,6 +792,13 @@ func (client JmsUtilsClient) listWorkItems(ctx context.Context, request common.O
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListWorkItemsResponse
 	var httpResponse *http.Response
@@ -772,6 +858,13 @@ func (client JmsUtilsClient) listWorkRequestErrors(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "ListWorkRequestErrors")
@@ -830,6 +923,13 @@ func (client JmsUtilsClient) listWorkRequestLogs(ctx context.Context, request co
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "ListWorkRequestLogs")
@@ -887,6 +987,13 @@ func (client JmsUtilsClient) listWorkRequests(ctx context.Context, request commo
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
@@ -951,6 +1058,13 @@ func (client JmsUtilsClient) requestJavaMigrationAnalysis(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response RequestJavaMigrationAnalysisResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "RequestJavaMigrationAnalysis")
@@ -1014,6 +1128,13 @@ func (client JmsUtilsClient) requestPerformanceTuningAnalysis(ctx context.Contex
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response RequestPerformanceTuningAnalysisResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "RequestPerformanceTuningAnalysis")
@@ -1072,6 +1193,13 @@ func (client JmsUtilsClient) updateAnalyzeApplicationsConfiguration(ctx context.
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateAnalyzeApplicationsConfigurationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "jmsUtils", "UpdateAnalyzeApplicationsConfiguration")
@@ -1129,6 +1257,13 @@ func (client JmsUtilsClient) updateSubscriptionAcknowledgmentConfiguration(ctx c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateSubscriptionAcknowledgmentConfigurationResponse
 	var httpResponse *http.Response

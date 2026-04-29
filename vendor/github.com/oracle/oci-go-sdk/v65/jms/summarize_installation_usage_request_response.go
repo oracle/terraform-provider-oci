@@ -74,6 +74,9 @@ type SummarizeInstallationUsageRequest struct {
 	// Filter the list with path contains the given value.
 	PathContains *string `mandatory:"false" contributesTo:"query" name:"pathContains"`
 
+	// The security status of the Java Runtime.
+	JreSecurityStatus SummarizeInstallationUsageJreSecurityStatusEnum `mandatory:"false" contributesTo:"query" name:"jreSecurityStatus" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -128,6 +131,9 @@ func (request SummarizeInstallationUsageRequest) ValidateEnumValue() (bool, erro
 		}
 	}
 
+	if _, ok := GetMappingSummarizeInstallationUsageJreSecurityStatusEnum(string(request.JreSecurityStatus)); !ok && request.JreSecurityStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for JreSecurityStatus: %s. Supported values are: %s.", request.JreSecurityStatus, strings.Join(GetSummarizeInstallationUsageJreSecurityStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -275,5 +281,59 @@ func GetSummarizeInstallationUsageSortByEnumStringValues() []string {
 // GetMappingSummarizeInstallationUsageSortByEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingSummarizeInstallationUsageSortByEnum(val string) (SummarizeInstallationUsageSortByEnum, bool) {
 	enum, ok := mappingSummarizeInstallationUsageSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// SummarizeInstallationUsageJreSecurityStatusEnum Enum with underlying type: string
+type SummarizeInstallationUsageJreSecurityStatusEnum string
+
+// Set of constants representing the allowable values for SummarizeInstallationUsageJreSecurityStatusEnum
+const (
+	SummarizeInstallationUsageJreSecurityStatusEarlyAccess     SummarizeInstallationUsageJreSecurityStatusEnum = "EARLY_ACCESS"
+	SummarizeInstallationUsageJreSecurityStatusUnknown         SummarizeInstallationUsageJreSecurityStatusEnum = "UNKNOWN"
+	SummarizeInstallationUsageJreSecurityStatusUpToDate        SummarizeInstallationUsageJreSecurityStatusEnum = "UP_TO_DATE"
+	SummarizeInstallationUsageJreSecurityStatusUpdateRequired  SummarizeInstallationUsageJreSecurityStatusEnum = "UPDATE_REQUIRED"
+	SummarizeInstallationUsageJreSecurityStatusUpgradeRequired SummarizeInstallationUsageJreSecurityStatusEnum = "UPGRADE_REQUIRED"
+)
+
+var mappingSummarizeInstallationUsageJreSecurityStatusEnum = map[string]SummarizeInstallationUsageJreSecurityStatusEnum{
+	"EARLY_ACCESS":     SummarizeInstallationUsageJreSecurityStatusEarlyAccess,
+	"UNKNOWN":          SummarizeInstallationUsageJreSecurityStatusUnknown,
+	"UP_TO_DATE":       SummarizeInstallationUsageJreSecurityStatusUpToDate,
+	"UPDATE_REQUIRED":  SummarizeInstallationUsageJreSecurityStatusUpdateRequired,
+	"UPGRADE_REQUIRED": SummarizeInstallationUsageJreSecurityStatusUpgradeRequired,
+}
+
+var mappingSummarizeInstallationUsageJreSecurityStatusEnumLowerCase = map[string]SummarizeInstallationUsageJreSecurityStatusEnum{
+	"early_access":     SummarizeInstallationUsageJreSecurityStatusEarlyAccess,
+	"unknown":          SummarizeInstallationUsageJreSecurityStatusUnknown,
+	"up_to_date":       SummarizeInstallationUsageJreSecurityStatusUpToDate,
+	"update_required":  SummarizeInstallationUsageJreSecurityStatusUpdateRequired,
+	"upgrade_required": SummarizeInstallationUsageJreSecurityStatusUpgradeRequired,
+}
+
+// GetSummarizeInstallationUsageJreSecurityStatusEnumValues Enumerates the set of values for SummarizeInstallationUsageJreSecurityStatusEnum
+func GetSummarizeInstallationUsageJreSecurityStatusEnumValues() []SummarizeInstallationUsageJreSecurityStatusEnum {
+	values := make([]SummarizeInstallationUsageJreSecurityStatusEnum, 0)
+	for _, v := range mappingSummarizeInstallationUsageJreSecurityStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSummarizeInstallationUsageJreSecurityStatusEnumStringValues Enumerates the set of values in String for SummarizeInstallationUsageJreSecurityStatusEnum
+func GetSummarizeInstallationUsageJreSecurityStatusEnumStringValues() []string {
+	return []string{
+		"EARLY_ACCESS",
+		"UNKNOWN",
+		"UP_TO_DATE",
+		"UPDATE_REQUIRED",
+		"UPGRADE_REQUIRED",
+	}
+}
+
+// GetMappingSummarizeInstallationUsageJreSecurityStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSummarizeInstallationUsageJreSecurityStatusEnum(val string) (SummarizeInstallationUsageJreSecurityStatusEnum, bool) {
+	enum, ok := mappingSummarizeInstallationUsageJreSecurityStatusEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

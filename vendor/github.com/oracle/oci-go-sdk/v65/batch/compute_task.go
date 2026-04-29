@@ -28,7 +28,7 @@ type ComputeTask struct {
 	// A list of resources (for example licences) this task needs for its execution.
 	EntitlementClaims []string `mandatory:"true" json:"entitlementClaims"`
 
-	// A list of tasks from the same job this task depends on referenced by name.
+	// A list of tasks on which this tasks depends, referenced by name. Dependencies must be within the same parent (job or group task). For tasks within a group task, all dependencies must also be within that same group task.
 	Dependencies []string `mandatory:"true" json:"dependencies"`
 
 	// Environment variables to use for the task execution.
@@ -36,6 +36,12 @@ type ComputeTask struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the BatchTaskEnvironment.
 	BatchTaskEnvironmentId *string `mandatory:"true" json:"batchTaskEnvironmentId"`
+
+	// The hierarchical name of the task, which incorporates names of all parent group tasks, separated by "." (dot symbol). Maximum nesting depth is 4 levels. Example: groupTaskA.nestedGroupTaskB.thisTaskName
+	HierarchicalName *string `mandatory:"false" json:"hierarchicalName"`
+
+	// The hierarchical name of the group task. Null for top-level tasks.
+	GroupTaskName *string `mandatory:"false" json:"groupTaskName"`
 
 	// An optional description that provides additional context next to the displayName.
 	Description *string `mandatory:"false" json:"description"`
@@ -54,6 +60,9 @@ type ComputeTask struct {
 
 	FleetAssignmentPolicy FleetAssignmentPolicy `mandatory:"false" json:"fleetAssignmentPolicy"`
 
+	// List of up to 30 most recent execution history entries, from newest to oldest. Be aware that the maximum number of items returned may change in the future.
+	MostRecentExecutionHistory []BatchTaskExecutionDetails `mandatory:"false" json:"mostRecentExecutionHistory"`
+
 	// The current state of the batch task.
 	LifecycleState BatchTaskLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
@@ -66,6 +75,16 @@ func (m ComputeTask) GetId() *string {
 // GetName returns Name
 func (m ComputeTask) GetName() *string {
 	return m.Name
+}
+
+// GetHierarchicalName returns HierarchicalName
+func (m ComputeTask) GetHierarchicalName() *string {
+	return m.HierarchicalName
+}
+
+// GetGroupTaskName returns GroupTaskName
+func (m ComputeTask) GetGroupTaskName() *string {
+	return m.GroupTaskName
 }
 
 // GetDescription returns Description
@@ -134,19 +153,22 @@ func (m ComputeTask) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *ComputeTask) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description            *string                     `json:"description"`
-		LifecycleState         BatchTaskLifecycleStateEnum `json:"lifecycleState"`
-		LifecycleDetails       *string                     `json:"lifecycleDetails"`
-		BatchTaskProfileId     *string                     `json:"batchTaskProfileId"`
-		Command                []string                    `json:"command"`
-		Arguments              []string                    `json:"arguments"`
-		FleetAssignmentPolicy  fleetassignmentpolicy       `json:"fleetAssignmentPolicy"`
-		Id                     *string                     `json:"id"`
-		Name                   *string                     `json:"name"`
-		EntitlementClaims      []string                    `json:"entitlementClaims"`
-		Dependencies           []string                    `json:"dependencies"`
-		EnvironmentVariables   []EnvironmentVariable       `json:"environmentVariables"`
-		BatchTaskEnvironmentId *string                     `json:"batchTaskEnvironmentId"`
+		HierarchicalName           *string                     `json:"hierarchicalName"`
+		GroupTaskName              *string                     `json:"groupTaskName"`
+		Description                *string                     `json:"description"`
+		LifecycleState             BatchTaskLifecycleStateEnum `json:"lifecycleState"`
+		LifecycleDetails           *string                     `json:"lifecycleDetails"`
+		BatchTaskProfileId         *string                     `json:"batchTaskProfileId"`
+		Command                    []string                    `json:"command"`
+		Arguments                  []string                    `json:"arguments"`
+		FleetAssignmentPolicy      fleetassignmentpolicy       `json:"fleetAssignmentPolicy"`
+		MostRecentExecutionHistory []batchtaskexecutiondetails `json:"mostRecentExecutionHistory"`
+		Id                         *string                     `json:"id"`
+		Name                       *string                     `json:"name"`
+		EntitlementClaims          []string                    `json:"entitlementClaims"`
+		Dependencies               []string                    `json:"dependencies"`
+		EnvironmentVariables       []EnvironmentVariable       `json:"environmentVariables"`
+		BatchTaskEnvironmentId     *string                     `json:"batchTaskEnvironmentId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -154,6 +176,10 @@ func (m *ComputeTask) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.HierarchicalName = model.HierarchicalName
+
+	m.GroupTaskName = model.GroupTaskName
+
 	m.Description = model.Description
 
 	m.LifecycleState = model.LifecycleState
@@ -176,6 +202,18 @@ func (m *ComputeTask) UnmarshalJSON(data []byte) (e error) {
 		m.FleetAssignmentPolicy = nil
 	}
 
+	m.MostRecentExecutionHistory = make([]BatchTaskExecutionDetails, len(model.MostRecentExecutionHistory))
+	for i, n := range model.MostRecentExecutionHistory {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.MostRecentExecutionHistory[i] = nn.(BatchTaskExecutionDetails)
+		} else {
+			m.MostRecentExecutionHistory[i] = nil
+		}
+	}
 	m.Id = model.Id
 
 	m.Name = model.Name

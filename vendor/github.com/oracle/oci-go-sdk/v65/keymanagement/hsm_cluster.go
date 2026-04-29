@@ -56,6 +56,10 @@ type HsmCluster struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	AuditLogConfig *HsmClusterAuditLoggingInfo `mandatory:"false" json:"auditLogConfig"`
+
+	PendingInstructions *HsmClusterPendingInstructions `mandatory:"false" json:"pendingInstructions"`
 }
 
 func (m HsmCluster) String() string {

@@ -18,9 +18,6 @@ import (
 // UpdateMySqlInitialLoadSettings Optional dump settings
 type UpdateMySqlInitialLoadSettings struct {
 
-	// MySql Job Mode
-	JobMode JobModeMySqlEnum `mandatory:"true" json:"jobMode"`
-
 	// Enable (true) or disable (false) consistent data dumps by locking the instance for backup during the dump.
 	IsConsistent *bool `mandatory:"false" json:"isConsistent"`
 
@@ -39,6 +36,9 @@ type UpdateMySqlInitialLoadSettings struct {
 
 	// The action taken in the event of errors related to GRANT or REVOKE errors.
 	HandleGrantErrors HandleGrantErrorsEnum `mandatory:"false" json:"handleGrantErrors,omitempty"`
+
+	// MySql Job Mode
+	JobMode JobModeMySqlEnum `mandatory:"false" json:"jobMode,omitempty"`
 }
 
 func (m UpdateMySqlInitialLoadSettings) String() string {
@@ -50,15 +50,15 @@ func (m UpdateMySqlInitialLoadSettings) String() string {
 // Not recommended for calling this function directly
 func (m UpdateMySqlInitialLoadSettings) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingJobModeMySqlEnum(string(m.JobMode)); !ok && m.JobMode != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for JobMode: %s. Supported values are: %s.", m.JobMode, strings.Join(GetJobModeMySqlEnumStringValues(), ",")))
-	}
 
 	if _, ok := GetMappingPrimaryKeyCompatibilityEnum(string(m.PrimaryKeyCompatibility)); !ok && m.PrimaryKeyCompatibility != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PrimaryKeyCompatibility: %s. Supported values are: %s.", m.PrimaryKeyCompatibility, strings.Join(GetPrimaryKeyCompatibilityEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingHandleGrantErrorsEnum(string(m.HandleGrantErrors)); !ok && m.HandleGrantErrors != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HandleGrantErrors: %s. Supported values are: %s.", m.HandleGrantErrors, strings.Join(GetHandleGrantErrorsEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingJobModeMySqlEnum(string(m.JobMode)); !ok && m.JobMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for JobMode: %s. Supported values are: %s.", m.JobMode, strings.Join(GetJobModeMySqlEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

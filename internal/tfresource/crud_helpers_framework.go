@@ -86,7 +86,8 @@ func (s *BaseCrudFW) setState(sync StatefulResource) error {
 		}
 	}
 
-	return nil
+	return fmt.Errorf("Could not set resource state, sync did not have a valid .Res.State, .Resource.State, or .WorkRequest.State")
+
 }
 
 func GenerateFrameworkDataSourceHashID(idPrefix string, ctx context.Context, state tfsdk.State) string {

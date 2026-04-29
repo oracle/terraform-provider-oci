@@ -37,6 +37,8 @@ func NewJavaManagementServiceClientWithConfigurationProvider(configProvider comm
 	if e != nil {
 		return client, e
 	}
+	// This client should use Dual Stack Endpoints by default
+	baseClient.UseDualStackEndpointsByDefault(true)
 	return newJavaManagementServiceClientFromBaseClient(baseClient, provider)
 }
 
@@ -49,7 +51,8 @@ func NewJavaManagementServiceClientWithOboToken(configProvider common.Configurat
 	if err != nil {
 		return client, err
 	}
-
+	// This client should use Dual Stack Endpoints by default
+	baseClient.UseDualStackEndpointsByDefault(true)
 	return newJavaManagementServiceClientFromBaseClient(baseClient, configProvider)
 }
 
@@ -67,7 +70,7 @@ func newJavaManagementServiceClientFromBaseClient(baseClient common.BaseClient, 
 
 // SetRegion overrides the region of this client.
 func (client *JavaManagementServiceClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("jms", "https://javamanagement.{region}.oci.{secondLevelDomain}")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("jms", "https://javamanagement.{region}.{dualStack?ds.:}oci.{secondLevelDomain}", "javamanagement")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -89,6 +92,12 @@ func (client *JavaManagementServiceClient) setConfigurationProvider(configProvid
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *JavaManagementServiceClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
+// Default value is false
+func (client *JavaManagementServiceClient) EnableDualStackEndpoints(enableDualStack bool) {
+	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
 }
 
 // AddFleetInstallationSites Add Java installation sites in a Fleet.
@@ -138,6 +147,13 @@ func (client JavaManagementServiceClient) addFleetInstallationSites(ctx context.
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response AddFleetInstallationSitesResponse
 	var httpResponse *http.Response
@@ -196,6 +212,13 @@ func (client JavaManagementServiceClient) cancelWorkRequest(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
@@ -260,6 +283,13 @@ func (client JavaManagementServiceClient) changeFleetCompartment(ctx context.Con
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeFleetCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ChangeFleetCompartment")
@@ -323,6 +353,13 @@ func (client JavaManagementServiceClient) createBlocklist(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateBlocklistResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "CreateBlocklist")
@@ -385,6 +422,13 @@ func (client JavaManagementServiceClient) createDrsFile(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateDrsFileResponse
 	var httpResponse *http.Response
@@ -454,6 +498,13 @@ func (client JavaManagementServiceClient) createFleet(ctx context.Context, reque
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateFleetResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "CreateFleet")
@@ -519,6 +570,13 @@ func (client JavaManagementServiceClient) createJmsPlugin(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateJmsPluginResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "CreateJmsPlugin")
@@ -582,6 +640,13 @@ func (client JavaManagementServiceClient) createTaskSchedule(ctx context.Context
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateTaskScheduleResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "CreateTaskSchedule")
@@ -639,6 +704,13 @@ func (client JavaManagementServiceClient) deleteBlocklist(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteBlocklistResponse
 	var httpResponse *http.Response
@@ -698,6 +770,13 @@ func (client JavaManagementServiceClient) deleteCryptoAnalysisResult(ctx context
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteCryptoAnalysisResultResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "DeleteCryptoAnalysisResult")
@@ -755,6 +834,13 @@ func (client JavaManagementServiceClient) deleteDrsFile(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteDrsFileResponse
 	var httpResponse *http.Response
@@ -814,6 +900,13 @@ func (client JavaManagementServiceClient) deleteFleet(ctx context.Context, reque
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteFleetResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "DeleteFleet")
@@ -871,6 +964,13 @@ func (client JavaManagementServiceClient) deleteJavaMigrationAnalysisResult(ctx 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteJavaMigrationAnalysisResultResponse
 	var httpResponse *http.Response
@@ -931,6 +1031,13 @@ func (client JavaManagementServiceClient) deleteJmsPlugin(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteJmsPluginResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "DeleteJmsPlugin")
@@ -989,6 +1096,13 @@ func (client JavaManagementServiceClient) deletePerformanceTuningAnalysisResult(
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeletePerformanceTuningAnalysisResultResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "DeletePerformanceTuningAnalysisResult")
@@ -1046,6 +1160,13 @@ func (client JavaManagementServiceClient) deleteTaskSchedule(ctx context.Context
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteTaskScheduleResponse
 	var httpResponse *http.Response
@@ -1110,6 +1231,13 @@ func (client JavaManagementServiceClient) disableDrs(ctx context.Context, reques
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DisableDrsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "DisableDrs")
@@ -1173,6 +1301,13 @@ func (client JavaManagementServiceClient) enableDrs(ctx context.Context, request
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response EnableDrsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "EnableDrs")
@@ -1231,6 +1366,13 @@ func (client JavaManagementServiceClient) generateAgentDeployScript(ctx context.
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GenerateAgentDeployScriptResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GenerateAgentDeployScript")
@@ -1287,6 +1429,13 @@ func (client JavaManagementServiceClient) generateAgentInstallerConfiguration(ct
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GenerateAgentInstallerConfigurationResponse
 	var httpResponse *http.Response
@@ -1345,6 +1494,13 @@ func (client JavaManagementServiceClient) generateLoadPipelineScript(ctx context
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GenerateLoadPipelineScriptResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GenerateLoadPipelineScript")
@@ -1401,6 +1557,13 @@ func (client JavaManagementServiceClient) getCryptoAnalysisResult(ctx context.Co
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetCryptoAnalysisResultResponse
 	var httpResponse *http.Response
@@ -1460,6 +1623,13 @@ func (client JavaManagementServiceClient) getDrsFile(ctx context.Context, reques
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetDrsFileResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetDrsFile")
@@ -1517,6 +1687,13 @@ func (client JavaManagementServiceClient) getExportSetting(ctx context.Context, 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetExportSettingResponse
 	var httpResponse *http.Response
@@ -1576,6 +1753,13 @@ func (client JavaManagementServiceClient) getExportStatus(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetExportStatusResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetExportStatus")
@@ -1633,6 +1817,13 @@ func (client JavaManagementServiceClient) getFleet(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetFleetResponse
 	var httpResponse *http.Response
@@ -1692,6 +1883,13 @@ func (client JavaManagementServiceClient) getFleetAdvancedFeatureConfiguration(c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetFleetAdvancedFeatureConfigurationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetFleetAdvancedFeatureConfiguration")
@@ -1749,6 +1947,13 @@ func (client JavaManagementServiceClient) getFleetAgentConfiguration(ctx context
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetFleetAgentConfigurationResponse
 	var httpResponse *http.Response
@@ -1808,6 +2013,13 @@ func (client JavaManagementServiceClient) getJavaFamily(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetJavaFamilyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetJavaFamily")
@@ -1865,6 +2077,13 @@ func (client JavaManagementServiceClient) getJavaMigrationAnalysisResult(ctx con
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetJavaMigrationAnalysisResultResponse
 	var httpResponse *http.Response
@@ -1924,6 +2143,13 @@ func (client JavaManagementServiceClient) getJavaRelease(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetJavaReleaseResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetJavaRelease")
@@ -1981,6 +2207,13 @@ func (client JavaManagementServiceClient) getJmsPlugin(ctx context.Context, requ
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetJmsPluginResponse
 	var httpResponse *http.Response
@@ -2040,6 +2273,13 @@ func (client JavaManagementServiceClient) getPerformanceTuningAnalysisResult(ctx
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetPerformanceTuningAnalysisResultResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetPerformanceTuningAnalysisResult")
@@ -2097,6 +2337,13 @@ func (client JavaManagementServiceClient) getTaskSchedule(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetTaskScheduleResponse
 	var httpResponse *http.Response
@@ -2156,6 +2403,13 @@ func (client JavaManagementServiceClient) getWorkRequest(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "GetWorkRequest")
@@ -2213,6 +2467,13 @@ func (client JavaManagementServiceClient) listAgentInstallers(ctx context.Contex
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListAgentInstallersResponse
 	var httpResponse *http.Response
@@ -2272,6 +2533,13 @@ func (client JavaManagementServiceClient) listAnnouncements(ctx context.Context,
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListAnnouncementsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListAnnouncements")
@@ -2329,6 +2597,13 @@ func (client JavaManagementServiceClient) listBlocklists(ctx context.Context, re
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListBlocklistsResponse
 	var httpResponse *http.Response
@@ -2388,6 +2663,13 @@ func (client JavaManagementServiceClient) listContainers(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListContainersResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListContainers")
@@ -2445,6 +2727,13 @@ func (client JavaManagementServiceClient) listCryptoAnalysisResults(ctx context.
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListCryptoAnalysisResultsResponse
 	var httpResponse *http.Response
@@ -2504,6 +2793,13 @@ func (client JavaManagementServiceClient) listDrsFiles(ctx context.Context, requ
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListDrsFilesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListDrsFiles")
@@ -2562,6 +2858,13 @@ func (client JavaManagementServiceClient) listFleetDiagnoses(ctx context.Context
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListFleetDiagnosesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListFleetDiagnoses")
@@ -2619,6 +2922,13 @@ func (client JavaManagementServiceClient) listFleetErrors(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListFleetErrorsResponse
 	var httpResponse *http.Response
@@ -2679,6 +2989,13 @@ func (client JavaManagementServiceClient) listFleets(ctx context.Context, reques
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListFleetsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListFleets")
@@ -2736,6 +3053,13 @@ func (client JavaManagementServiceClient) listInstallationSites(ctx context.Cont
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListInstallationSitesResponse
 	var httpResponse *http.Response
@@ -2796,6 +3120,13 @@ func (client JavaManagementServiceClient) listJavaFamilies(ctx context.Context, 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListJavaFamiliesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListJavaFamilies")
@@ -2853,6 +3184,13 @@ func (client JavaManagementServiceClient) listJavaMigrationAnalysisResults(ctx c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListJavaMigrationAnalysisResultsResponse
 	var httpResponse *http.Response
@@ -2912,6 +3250,13 @@ func (client JavaManagementServiceClient) listJavaReleases(ctx context.Context, 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListJavaReleasesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListJavaReleases")
@@ -2969,6 +3314,13 @@ func (client JavaManagementServiceClient) listJmsPlugins(ctx context.Context, re
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListJmsPluginsResponse
 	var httpResponse *http.Response
@@ -3028,6 +3380,13 @@ func (client JavaManagementServiceClient) listJreUsage(ctx context.Context, requ
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListJreUsageResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListJreUsage")
@@ -3085,6 +3444,13 @@ func (client JavaManagementServiceClient) listLibraryApplicationUsage(ctx contex
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListLibraryApplicationUsageResponse
 	var httpResponse *http.Response
@@ -3144,6 +3510,13 @@ func (client JavaManagementServiceClient) listLibraryManagedInstanceUsage(ctx co
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListLibraryManagedInstanceUsageResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListLibraryManagedInstanceUsage")
@@ -3201,6 +3574,13 @@ func (client JavaManagementServiceClient) listPerformanceTuningAnalysisResults(c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListPerformanceTuningAnalysisResultsResponse
 	var httpResponse *http.Response
@@ -3260,6 +3640,13 @@ func (client JavaManagementServiceClient) listPluginErrors(ctx context.Context, 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListPluginErrorsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListPluginErrors")
@@ -3317,6 +3704,13 @@ func (client JavaManagementServiceClient) listTaskSchedules(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListTaskSchedulesResponse
 	var httpResponse *http.Response
@@ -3376,6 +3770,13 @@ func (client JavaManagementServiceClient) listUncorrelatedPackageApplicationUsag
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListUncorrelatedPackageApplicationUsageResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListUncorrelatedPackageApplicationUsage")
@@ -3433,6 +3834,13 @@ func (client JavaManagementServiceClient) listUncorrelatedPackageManagedInstance
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListUncorrelatedPackageManagedInstanceUsageResponse
 	var httpResponse *http.Response
@@ -3492,6 +3900,13 @@ func (client JavaManagementServiceClient) listUncorrelatedPackageUsage(ctx conte
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListUncorrelatedPackageUsageResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListUncorrelatedPackageUsage")
@@ -3549,6 +3964,13 @@ func (client JavaManagementServiceClient) listWorkItems(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListWorkItemsResponse
 	var httpResponse *http.Response
@@ -3608,6 +4030,13 @@ func (client JavaManagementServiceClient) listWorkRequestErrors(ctx context.Cont
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListWorkRequestErrors")
@@ -3666,6 +4095,13 @@ func (client JavaManagementServiceClient) listWorkRequestLogs(ctx context.Contex
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ListWorkRequestLogs")
@@ -3723,6 +4159,13 @@ func (client JavaManagementServiceClient) listWorkRequests(ctx context.Context, 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
@@ -3787,6 +4230,13 @@ func (client JavaManagementServiceClient) removeFleetInstallationSites(ctx conte
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response RemoveFleetInstallationSitesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "RemoveFleetInstallationSites")
@@ -3844,6 +4294,13 @@ func (client JavaManagementServiceClient) requestCryptoAnalyses(ctx context.Cont
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response RequestCryptoAnalysesResponse
 	var httpResponse *http.Response
@@ -3904,6 +4361,13 @@ func (client JavaManagementServiceClient) requestDeployedApplicationMigrationAna
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response RequestDeployedApplicationMigrationAnalysesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "RequestDeployedApplicationMigrationAnalyses")
@@ -3963,6 +4427,13 @@ func (client JavaManagementServiceClient) requestJavaMigrationAnalyses(ctx conte
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response RequestJavaMigrationAnalysesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "RequestJavaMigrationAnalyses")
@@ -4020,6 +4491,13 @@ func (client JavaManagementServiceClient) requestJfrRecordings(ctx context.Conte
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response RequestJfrRecordingsResponse
 	var httpResponse *http.Response
@@ -4079,6 +4557,13 @@ func (client JavaManagementServiceClient) requestPerformanceTuningAnalyses(ctx c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response RequestPerformanceTuningAnalysesResponse
 	var httpResponse *http.Response
@@ -4143,6 +4628,13 @@ func (client JavaManagementServiceClient) scanJavaServerUsage(ctx context.Contex
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ScanJavaServerUsageResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ScanJavaServerUsage")
@@ -4206,6 +4698,13 @@ func (client JavaManagementServiceClient) scanLibraryUsage(ctx context.Context, 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ScanLibraryUsageResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "ScanLibraryUsage")
@@ -4263,6 +4762,13 @@ func (client JavaManagementServiceClient) summarizeApplicationInstallationUsage(
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response SummarizeApplicationInstallationUsageResponse
 	var httpResponse *http.Response
@@ -4322,6 +4828,13 @@ func (client JavaManagementServiceClient) summarizeApplicationUsage(ctx context.
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response SummarizeApplicationUsageResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizeApplicationUsage")
@@ -4379,6 +4892,13 @@ func (client JavaManagementServiceClient) summarizeDeployedApplicationInstallati
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response SummarizeDeployedApplicationInstallationUsageResponse
 	var httpResponse *http.Response
@@ -4438,6 +4958,13 @@ func (client JavaManagementServiceClient) summarizeDeployedApplicationUsage(ctx 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response SummarizeDeployedApplicationUsageResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizeDeployedApplicationUsage")
@@ -4495,6 +5022,13 @@ func (client JavaManagementServiceClient) summarizeFleetErrors(ctx context.Conte
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response SummarizeFleetErrorsResponse
 	var httpResponse *http.Response
@@ -4554,6 +5088,13 @@ func (client JavaManagementServiceClient) summarizeInstallationUsage(ctx context
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response SummarizeInstallationUsageResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizeInstallationUsage")
@@ -4611,6 +5152,13 @@ func (client JavaManagementServiceClient) summarizeJavaServerInstanceUsage(ctx c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response SummarizeJavaServerInstanceUsageResponse
 	var httpResponse *http.Response
@@ -4670,6 +5218,13 @@ func (client JavaManagementServiceClient) summarizeJavaServerUsage(ctx context.C
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response SummarizeJavaServerUsageResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizeJavaServerUsage")
@@ -4727,6 +5282,13 @@ func (client JavaManagementServiceClient) summarizeJreUsage(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response SummarizeJreUsageResponse
 	var httpResponse *http.Response
@@ -4786,6 +5348,13 @@ func (client JavaManagementServiceClient) summarizeLibraryInventory(ctx context.
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response SummarizeLibraryInventoryResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizeLibraryInventory")
@@ -4843,6 +5412,13 @@ func (client JavaManagementServiceClient) summarizeLibraryUsage(ctx context.Cont
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response SummarizeLibraryUsageResponse
 	var httpResponse *http.Response
@@ -4902,6 +5478,13 @@ func (client JavaManagementServiceClient) summarizeManagedInstanceUsage(ctx cont
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response SummarizeManagedInstanceUsageResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizeManagedInstanceUsage")
@@ -4960,6 +5543,13 @@ func (client JavaManagementServiceClient) summarizePluginErrors(ctx context.Cont
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response SummarizePluginErrorsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "SummarizePluginErrors")
@@ -5017,6 +5607,13 @@ func (client JavaManagementServiceClient) summarizeResourceInventory(ctx context
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response SummarizeResourceInventoryResponse
 	var httpResponse *http.Response
@@ -5081,6 +5678,13 @@ func (client JavaManagementServiceClient) updateDrsFile(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateDrsFileResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "UpdateDrsFile")
@@ -5139,6 +5743,13 @@ func (client JavaManagementServiceClient) updateExportSetting(ctx context.Contex
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateExportSettingResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "UpdateExportSetting")
@@ -5196,6 +5807,13 @@ func (client JavaManagementServiceClient) updateFleet(ctx context.Context, reque
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateFleetResponse
 	var httpResponse *http.Response
@@ -5261,6 +5879,13 @@ func (client JavaManagementServiceClient) updateFleetAdvancedFeatureConfiguratio
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateFleetAdvancedFeatureConfigurationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "UpdateFleetAdvancedFeatureConfiguration")
@@ -5319,6 +5944,13 @@ func (client JavaManagementServiceClient) updateFleetAgentConfiguration(ctx cont
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateFleetAgentConfigurationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "javaManagementService", "UpdateFleetAgentConfiguration")
@@ -5376,6 +6008,13 @@ func (client JavaManagementServiceClient) updateJmsPlugin(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateJmsPluginResponse
 	var httpResponse *http.Response
@@ -5439,6 +6078,13 @@ func (client JavaManagementServiceClient) updateTaskSchedule(ctx context.Context
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateTaskScheduleResponse
 	var httpResponse *http.Response

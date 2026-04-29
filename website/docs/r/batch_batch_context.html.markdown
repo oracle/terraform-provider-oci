@@ -29,7 +29,13 @@ resource "oci_batch_batch_context" "test_batch_context" {
 			#Required
 			memory_in_gbs = var.batch_context_fleets_shape_memory_in_gbs
 			ocpus = var.batch_context_fleets_shape_ocpus
-			shape_name = oci_core_shape.test_shape.name
+			shape_name = data.oci_batch_batch_context_shapes.test_batch_context_shapes.batch_context_shape_collection.0.items.0.name
+
+			#Applicable when type = SERVICE_MANAGED_GPU_FLEET
+			type = var.batch_context_fleets_shape_type
+
+			#Optional
+			disk_size_in_gbs = var.batch_context_fleets_shape_disk_size_in_gbs
 		}
 		type = var.batch_context_fleets_type
 	}
@@ -57,8 +63,11 @@ resource "oci_batch_batch_context" "test_batch_context" {
 	logging_configuration {
 		#Required
 		log_group_id = oci_logging_log_group.test_log_group.id
-		log_id = oci_apm_traces_log.test_log.id
+		log_id = oci_logging_log.test_log.id
 		type = var.batch_context_logging_configuration_type
+
+		#Optional
+		is_job_task_events_propagation_enabled = var.batch_context_logging_configuration_is_job_task_events_propagation_enabled
 	}
 }
 ```
@@ -75,21 +84,24 @@ The following arguments are supported:
 * `fleets` - (Required) List of fleet configurations related to the batch context.
 	* `max_concurrent_tasks` - (Required) Maximum number of concurrent tasks for the service managed fleet.
 	* `name` - (Required) Name of the service managed fleet.
-	* `shape` - (Required) Shape of the fleet. Describes hardware resources of each node in the fleet.
-		* `memory_in_gbs` - (Required) Amount of memory in GBs required by the shape.
-		* `ocpus` - (Required) Number of OCPUs required by the shape.
-		* `shape_name` - (Required) The name of the shape.
-	* `type` - (Required) Type of the fleet. Also serves as a discriminator for sub-entities.
+	* `shape` - (Required) Shape of the fleet. For `SERVICE_MANAGED_FLEET`, provide the CPU fleet shape fields. For `SERVICE_MANAGED_GPU_FLEET`, provide the GPU fleet shape fields.
+		* `disk_size_in_gbs` - (Applicable when `fleets.type=SERVICE_MANAGED_GPU_FLEET` and `type=FIXED_GPU_FLEET_SHAPE`) Amount of disk space in GBs required for the shape.
+		* `memory_in_gbs` - (Required) Amount of memory in GBs required for the shape.
+		* `ocpus` - (Required) Number of OCPUs required for the shape.
+		* `shape_name` - (Required when `fleets.type=SERVICE_MANAGED_FLEET` or `type=FIXED_GPU_FLEET_SHAPE`) The name of the shape.
+		* `type` - (Optional) Type of the GPU fleet shape. Required when `fleets.type=SERVICE_MANAGED_GPU_FLEET`. Also serves as a discriminator for sub-entities.
+	* `type` - (Required) Type of the fleet. Supported values are `SERVICE_MANAGED_FLEET` and `SERVICE_MANAGED_GPU_FLEET`.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `job_priority_configurations` - (Optional) (Updatable) List of job priority configurations related to the batch context.
 	* `tag_key` - (Required) (Updatable) Name of the tag key.
 	* `tag_namespace` - (Required) (Updatable) Name of the corresponding tag namespace.
 	* `values` - (Required) (Updatable) Mapping of tag value to its priority.
 	* `weight` - (Required) (Updatable) Weight associated with the tag key. Percentage point is the unit of measurement.
-* `logging_configuration` - (Optional) Logging configuration for batch context.
+* `logging_configuration` - (Optional) (Updatable) Logging configuration of the batch context.
+	* `is_job_task_events_propagation_enabled` - (Optional) (Updatable) A switch to enable or disable propagation of job and task events to the customer's logs in Oracle Cloud Infrastructure logging service.
 	* `log_group_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
 	* `log_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.
-	* `type` - (Required) Discriminator for sub-entities.
+	* `type` - (Required) (Updatable) Type of the logging configuration. Discriminator for sub-entities.
 * `network` - (Required) Network configuration of the batch context.
 	* `nsg_ids` - (Optional) A list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of associated network security groups. 
 	* `subnet_id` - (Required) [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of associated subnet. 
@@ -109,14 +121,16 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
 * `entitlements` - Mapping of concurrent/shared resources used in job tasks to their limits.
 * `fleets` - List of fleet configurations related to the batch context.
-	* `details` - A message that describes the current state of the service manage fleet configuration in more detail.
+	* `details` - A message that describes the current state of the service managed fleet configuration in more detail.
 	* `max_concurrent_tasks` - Maximum number of concurrent tasks for the service managed fleet.
 	* `name` - Name of the service managed fleet.
 	* `shape` - Shape of the fleet. Describes hardware resources of each node in the fleet.
-		* `memory_in_gbs` - Amount of memory in GBs required by the shape.
-		* `ocpus` - Number of OCPUs required by the shape.
+		* `disk_size_in_gbs` - Amount of disk space in GBs required for the shape.
+		* `memory_in_gbs` - Amount of memory in GBs required for the shape.
+		* `ocpus` - Number of OCPUs required for the shape.
 		* `shape_name` - The name of the shape.
-	* `state` - Current state of the service manage fleet configuration.
+		* `type` - Type of the GPU fleet shape when the fleet is GPU-backed. Also serves as a discriminator for sub-entities.
+	* `state` - Current state of the service managed fleet configuration.
 	* `type` - Type of the fleet. Also serves as a discriminator for sub-entities.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the batch context.
@@ -125,11 +139,12 @@ The following attributes are exported:
 	* `tag_namespace` - Name of the corresponding tag namespace.
 	* `values` - Mapping of tag value to its priority.
 	* `weight` - Weight associated with the tag key. Percentage point is the unit of measurement.
-* `lifecycle_details` - A message that describes the current state in more detail. For example,   can be used to provide actionable information for a resource in the Failed state. 
-* `logging_configuration` - Logging configuration for batch context.
+* `lifecycle_details` - A message that describes the current state in more detail. For example, can be used to provide actionable information for a resource in the Failed state. 
+* `logging_configuration` - Logging configuration of the batch context.
+	* `is_job_task_events_propagation_enabled` - A switch to enable or disable propagation of job and task events to the customer's logs in Oracle Cloud Infrastructure logging service.
 	* `log_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log group.
 	* `log_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.
-	* `type` - Discriminator for sub-entities.
+	* `type` - Type of the logging configuration. Discriminator for sub-entities.
 * `network` - Network configuration of the batch context.
 	* `nsg_ids` - A list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of associated network security groups. 
 	* `subnet_id` - [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of associated subnet. 
@@ -156,4 +171,3 @@ BatchContexts can be imported using the `id`, e.g.
 ```
 $ terraform import oci_batch_batch_context.test_batch_context "id"
 ```
-

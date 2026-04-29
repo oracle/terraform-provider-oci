@@ -93,18 +93,19 @@ func (s *RedisRedisClusterCreateIdentityTokenResourceCrud) ID() string {
 func (s *RedisRedisClusterCreateIdentityTokenResourceCrud) Create() error {
 	request := oci_redis.CreateIdentityTokenRequest{}
 
-	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
-		if err != nil {
-			return err
+	/*
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			request.DefinedTags = convertedDefinedTags
 		}
-		request.DefinedTags = convertedDefinedTags
-	}
 
-	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
-	}
-
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+	*/
 	if publicKey, ok := s.D.GetOkExists("public_key"); ok {
 		tmp := publicKey.(string)
 		request.PublicKey = &tmp
