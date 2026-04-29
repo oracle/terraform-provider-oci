@@ -28,8 +28,11 @@ type ListBatchTasksRequest struct {
 	// state value is case-insensitive.
 	LifecycleState BatchTaskLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// The name of the task.
+	// The hierarchical name of the batch task. Mutually exclusive with the task id query parameter: you can't pass both.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
+
+	// The UUID of the batch task. Mutually exclusive with the task name and group task name query parameters: you can't pass both.
+	TaskId *string `mandatory:"false" contributesTo:"query" name:"taskId"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a
 	// paginated "List" call. For important details about how pagination works, see

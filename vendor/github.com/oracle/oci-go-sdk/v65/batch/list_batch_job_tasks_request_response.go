@@ -25,8 +25,20 @@ type ListBatchJobTasksRequest struct {
 	// state value is case-insensitive.
 	LifecycleState BatchTaskLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// The name of the task.
+	// The hierarchical name of the batch task. Mutually exclusive with the task id query parameter: you can't pass both.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
+
+	// The UUID of the batch task. Mutually exclusive with the task name and group task name query parameters: you can't pass both.
+	TaskId *string `mandatory:"false" contributesTo:"query" name:"taskId"`
+
+	// Hierarchical name of the group task. A filter to return only tasks contained within the selected group task. Omit to return top-level tasks only. Can be combined with task name query parameter, in which case task name becomes a hierarchical name relative to the selected group task, e.g. ?groupTaskName=A.B&taskName=C.D is equal to ?taskName=A.B.C.D. Mutually exclusive with the task id query parameter: you can't pass both.
+	GroupTaskName *string `mandatory:"false" contributesTo:"query" name:"groupTaskName"`
+
+	// Filter tasks by type. Valid values are: COMPUTE, GROUP.
+	Type BatchTaskTypeEnum `mandatory:"false" contributesTo:"query" name:"type" omitEmpty:"true"`
+
+	// Defines the hierarchical scope of the tasks to be returned. When set to SHALLOW, which is default, only tasks contained directly (non-recursively) within current hierarchy entry are returned. When set to DEEP, tasks contained within current hierarchy entry and all its descendants recursively are returned. The default hierarchy entry is root, i.e. batch job itself. To use a different hierarchy entry, provide the group task name as a query parameter.  The specified group task becomes the entry point instead of the batch job.
+	HierarchyView ListBatchJobTasksHierarchyViewEnum `mandatory:"false" contributesTo:"query" name:"hierarchyView" omitEmpty:"true"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a
 	// paginated "List" call. For important details about how pagination works, see
@@ -89,6 +101,12 @@ func (request ListBatchJobTasksRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingBatchTaskLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetBatchTaskLifecycleStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingBatchTaskTypeEnum(string(request.Type)); !ok && request.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", request.Type, strings.Join(GetBatchTaskTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListBatchJobTasksHierarchyViewEnum(string(request.HierarchyView)); !ok && request.HierarchyView != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HierarchyView: %s. Supported values are: %s.", request.HierarchyView, strings.Join(GetListBatchJobTasksHierarchyViewEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingListBatchJobTasksSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListBatchJobTasksSortOrderEnumStringValues(), ",")))
 	}
@@ -126,6 +144,48 @@ func (response ListBatchJobTasksResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListBatchJobTasksResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListBatchJobTasksHierarchyViewEnum Enum with underlying type: string
+type ListBatchJobTasksHierarchyViewEnum string
+
+// Set of constants representing the allowable values for ListBatchJobTasksHierarchyViewEnum
+const (
+	ListBatchJobTasksHierarchyViewShallow ListBatchJobTasksHierarchyViewEnum = "SHALLOW"
+	ListBatchJobTasksHierarchyViewDeep    ListBatchJobTasksHierarchyViewEnum = "DEEP"
+)
+
+var mappingListBatchJobTasksHierarchyViewEnum = map[string]ListBatchJobTasksHierarchyViewEnum{
+	"SHALLOW": ListBatchJobTasksHierarchyViewShallow,
+	"DEEP":    ListBatchJobTasksHierarchyViewDeep,
+}
+
+var mappingListBatchJobTasksHierarchyViewEnumLowerCase = map[string]ListBatchJobTasksHierarchyViewEnum{
+	"shallow": ListBatchJobTasksHierarchyViewShallow,
+	"deep":    ListBatchJobTasksHierarchyViewDeep,
+}
+
+// GetListBatchJobTasksHierarchyViewEnumValues Enumerates the set of values for ListBatchJobTasksHierarchyViewEnum
+func GetListBatchJobTasksHierarchyViewEnumValues() []ListBatchJobTasksHierarchyViewEnum {
+	values := make([]ListBatchJobTasksHierarchyViewEnum, 0)
+	for _, v := range mappingListBatchJobTasksHierarchyViewEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListBatchJobTasksHierarchyViewEnumStringValues Enumerates the set of values in String for ListBatchJobTasksHierarchyViewEnum
+func GetListBatchJobTasksHierarchyViewEnumStringValues() []string {
+	return []string{
+		"SHALLOW",
+		"DEEP",
+	}
+}
+
+// GetMappingListBatchJobTasksHierarchyViewEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListBatchJobTasksHierarchyViewEnum(val string) (ListBatchJobTasksHierarchyViewEnum, bool) {
+	enum, ok := mappingListBatchJobTasksHierarchyViewEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ListBatchJobTasksSortOrderEnum Enum with underlying type: string

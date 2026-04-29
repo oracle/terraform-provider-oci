@@ -67,6 +67,9 @@ type CreateMySqlAssessmentDetails struct {
 
 	// The type of assessment creation.
 	CreationType CreationTypeEnum `mandatory:"false" json:"creationType,omitempty"`
+
+	// Assessment migration scope.
+	MigrationScope MigrationScopeMySqlEnum `mandatory:"true" json:"migrationScope"`
 }
 
 // GetDescription returns Description
@@ -153,6 +156,9 @@ func (m CreateMySqlAssessmentDetails) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingCreationTypeEnum(string(m.CreationType)); !ok && m.CreationType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CreationType: %s. Supported values are: %s.", m.CreationType, strings.Join(GetCreationTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingMigrationScopeMySqlEnum(string(m.MigrationScope)); !ok && m.MigrationScope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MigrationScope: %s. Supported values are: %s.", m.MigrationScope, strings.Join(GetMigrationScopeMySqlEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

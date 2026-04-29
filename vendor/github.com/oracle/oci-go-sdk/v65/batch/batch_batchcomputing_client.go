@@ -1625,7 +1625,7 @@ func (client BatchComputingClient) listBatchJobTasks(ctx context.Context, reques
 	return response, err
 }
 
-// ListBatchJobs Lists the batch jobs by compartment or job OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). You can filter and sort them by various properties like lifecycle state, display name and also ocid. All properties require an exact match.  List operation only provides a summary information, use GetBatchJob to get the full details on a specific context
+// ListBatchJobs Lists the batch jobs by compartment or job OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). You can filter and sort them by various properties like lifecycle state, display name and also ocid. All properties require an exact match. List operation only provides a summary information, use GetBatchJob to get the full details on a specific context
 //
 // # See also
 //

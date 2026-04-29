@@ -23,7 +23,7 @@ type UpdateTargetResponderRecipe struct {
 	TargetResponderRecipeId *string `mandatory:"true" json:"targetResponderRecipeId"`
 
 	// List of responder rules to be updated in the target responder recipe
-	ResponderRules []UpdateTargetRecipeResponderRuleDetails `mandatory:"true" json:"responderRules"`
+	ResponderRules []UpdateTargetRecipeResponderRuleDetails `mandatory:"false" json:"responderRules"`
 }
 
 func (m UpdateTargetResponderRecipe) String() string {

@@ -939,6 +939,63 @@ func (client KmsVaultClient) scheduleVaultDeletion(ctx context.Context, request 
 	return response, err
 }
 
+// UpdateRegisteredVaultForMtls Update fleet ids for the registered mTLS vault.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/UpdateRegisteredVaultForMtls.go.html to see an example of how to use UpdateRegisteredVaultForMtls API.
+func (client KmsVaultClient) UpdateRegisteredVaultForMtls(ctx context.Context, request UpdateRegisteredVaultForMtlsRequest) (response UpdateRegisteredVaultForMtlsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateRegisteredVaultForMtls, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateRegisteredVaultForMtlsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateRegisteredVaultForMtlsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateRegisteredVaultForMtlsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateRegisteredVaultForMtlsResponse")
+	}
+	return
+}
+
+// updateRegisteredVaultForMtls implements the OCIOperation interface (enables retrying operations)
+func (client KmsVaultClient) updateRegisteredVaultForMtls(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/20180608/vaults/{vaultId}/updateRegisteredVaultForMtls", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateRegisteredVaultForMtlsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "kmsVault", "UpdateRegisteredVaultForMtls")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/UpdateRegisteredVaultForMtlsDetails/UpdateRegisteredVaultForMtls"
+		err = common.PostProcessServiceError(err, "KmsVault", "UpdateRegisteredVaultForMtls", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateVault Updates the properties of a vault. Specifically, you can update the
 // `displayName`, `freeformTags`, and `definedTags` properties. Furthermore,
 // the vault must be in an ACTIVE or CREATING state to be updated.

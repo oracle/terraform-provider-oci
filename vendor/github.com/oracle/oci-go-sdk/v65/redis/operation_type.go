@@ -39,6 +39,11 @@ const (
 	OperationTypeDeleteOciCacheConfigSet            OperationTypeEnum = "DELETE_OCI_CACHE_CONFIG_SET"
 	OperationTypeChangeOciCacheConfigSetCompartment OperationTypeEnum = "CHANGE_OCI_CACHE_CONFIG_SET_COMPARTMENT"
 	OperationTypeChangeOciCacheUserCompartment      OperationTypeEnum = "CHANGE_OCI_CACHE_USER_COMPARTMENT"
+	OperationTypeCreateOciCacheBackup               OperationTypeEnum = "CREATE_OCI_CACHE_BACKUP"
+	OperationTypeUpdateOciCacheBackup               OperationTypeEnum = "UPDATE_OCI_CACHE_BACKUP"
+	OperationTypeDeleteOciCacheBackup               OperationTypeEnum = "DELETE_OCI_CACHE_BACKUP"
+	OperationTypeMoveOciCacheBackup                 OperationTypeEnum = "MOVE_OCI_CACHE_BACKUP"
+	OperationTypeExportOciCacheBackupToOs           OperationTypeEnum = "EXPORT_OCI_CACHE_BACKUP_TO_OS"
 	OperationTypePatchOciCacheCluster               OperationTypeEnum = "PATCH_OCI_CACHE_CLUSTER"
 	OperationTypeReplaceOciCacheNode                OperationTypeEnum = "REPLACE_OCI_CACHE_NODE"
 )
@@ -65,6 +70,11 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"DELETE_OCI_CACHE_CONFIG_SET":             OperationTypeDeleteOciCacheConfigSet,
 	"CHANGE_OCI_CACHE_CONFIG_SET_COMPARTMENT": OperationTypeChangeOciCacheConfigSetCompartment,
 	"CHANGE_OCI_CACHE_USER_COMPARTMENT":       OperationTypeChangeOciCacheUserCompartment,
+	"CREATE_OCI_CACHE_BACKUP":                 OperationTypeCreateOciCacheBackup,
+	"UPDATE_OCI_CACHE_BACKUP":                 OperationTypeUpdateOciCacheBackup,
+	"DELETE_OCI_CACHE_BACKUP":                 OperationTypeDeleteOciCacheBackup,
+	"MOVE_OCI_CACHE_BACKUP":                   OperationTypeMoveOciCacheBackup,
+	"EXPORT_OCI_CACHE_BACKUP_TO_OS":           OperationTypeExportOciCacheBackupToOs,
 	"PATCH_OCI_CACHE_CLUSTER":                 OperationTypePatchOciCacheCluster,
 	"REPLACE_OCI_CACHE_NODE":                  OperationTypeReplaceOciCacheNode,
 }
@@ -91,6 +101,11 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"delete_oci_cache_config_set":             OperationTypeDeleteOciCacheConfigSet,
 	"change_oci_cache_config_set_compartment": OperationTypeChangeOciCacheConfigSetCompartment,
 	"change_oci_cache_user_compartment":       OperationTypeChangeOciCacheUserCompartment,
+	"create_oci_cache_backup":                 OperationTypeCreateOciCacheBackup,
+	"update_oci_cache_backup":                 OperationTypeUpdateOciCacheBackup,
+	"delete_oci_cache_backup":                 OperationTypeDeleteOciCacheBackup,
+	"move_oci_cache_backup":                   OperationTypeMoveOciCacheBackup,
+	"export_oci_cache_backup_to_os":           OperationTypeExportOciCacheBackupToOs,
 	"patch_oci_cache_cluster":                 OperationTypePatchOciCacheCluster,
 	"replace_oci_cache_node":                  OperationTypeReplaceOciCacheNode,
 }
@@ -128,6 +143,11 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_OCI_CACHE_CONFIG_SET",
 		"CHANGE_OCI_CACHE_CONFIG_SET_COMPARTMENT",
 		"CHANGE_OCI_CACHE_USER_COMPARTMENT",
+		"CREATE_OCI_CACHE_BACKUP",
+		"UPDATE_OCI_CACHE_BACKUP",
+		"DELETE_OCI_CACHE_BACKUP",
+		"MOVE_OCI_CACHE_BACKUP",
+		"EXPORT_OCI_CACHE_BACKUP_TO_OS",
 		"PATCH_OCI_CACHE_CLUSTER",
 		"REPLACE_OCI_CACHE_NODE",
 	}

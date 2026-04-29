@@ -83,6 +83,9 @@ type RedisClusterSummary struct {
 	// see Using an NSG for Clusters (https://docs.oracle.com/iaas/Content/ocicache/connecttocluster.htm#connecttocluster__networksecuritygroup).
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
+	// The ID of the OCI Cache Backup from which this cluster was created.
+	BackupId *string `mandatory:"false" json:"backupId"`
+
 	// Security attributes for redis cluster resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`

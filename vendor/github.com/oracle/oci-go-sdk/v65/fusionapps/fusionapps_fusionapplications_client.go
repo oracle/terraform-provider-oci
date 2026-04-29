@@ -786,6 +786,132 @@ func (client FusionApplicationsClient) createServiceAttachment(ctx context.Conte
 	return response, err
 }
 
+// CreateVanityDomain Create a VanityDomain
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/CreateVanityDomain.go.html to see an example of how to use CreateVanityDomain API.
+// A default retry strategy applies to this operation CreateVanityDomain()
+func (client FusionApplicationsClient) CreateVanityDomain(ctx context.Context, request CreateVanityDomainRequest) (response CreateVanityDomainResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createVanityDomain, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateVanityDomainResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateVanityDomainResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateVanityDomainResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateVanityDomainResponse")
+	}
+	return
+}
+
+// createVanityDomain implements the OCIOperation interface (enables retrying operations)
+func (client FusionApplicationsClient) createVanityDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fusionEnvironments/{fusionEnvironmentId}/vanityDomains", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateVanityDomainResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "CreateVanityDomain")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "FusionApplications", "CreateVanityDomain", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateVanityDomainActivity Create a VanityDomainActivity
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/CreateVanityDomainActivity.go.html to see an example of how to use CreateVanityDomainActivity API.
+// A default retry strategy applies to this operation CreateVanityDomainActivity()
+func (client FusionApplicationsClient) CreateVanityDomainActivity(ctx context.Context, request CreateVanityDomainActivityRequest) (response CreateVanityDomainActivityResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createVanityDomainActivity, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateVanityDomainActivityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateVanityDomainActivityResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateVanityDomainActivityResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateVanityDomainActivityResponse")
+	}
+	return
+}
+
+// createVanityDomainActivity implements the OCIOperation interface (enables retrying operations)
+func (client FusionApplicationsClient) createVanityDomainActivity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fusionEnvironments/{fusionEnvironmentId}/vanityDomainActivities", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateVanityDomainActivityResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "CreateVanityDomainActivity")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/VanityDomainActivity/CreateVanityDomainActivity"
+		err = common.PostProcessServiceError(err, "FusionApplications", "CreateVanityDomainActivity", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteEmailSubdomain Delete an email subdomain for a brand
 //
 // # See also
@@ -1243,6 +1369,64 @@ func (client FusionApplicationsClient) deleteServiceAttachment(ctx context.Conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/ServiceAttachment/DeleteServiceAttachment"
 		err = common.PostProcessServiceError(err, "FusionApplications", "DeleteServiceAttachment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteVanityDomainActivity Deletes a VanityDomainActivity
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/DeleteVanityDomainActivity.go.html to see an example of how to use DeleteVanityDomainActivity API.
+// A default retry strategy applies to this operation DeleteVanityDomainActivity()
+func (client FusionApplicationsClient) DeleteVanityDomainActivity(ctx context.Context, request DeleteVanityDomainActivityRequest) (response DeleteVanityDomainActivityResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteVanityDomainActivity, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteVanityDomainActivityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteVanityDomainActivityResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteVanityDomainActivityResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteVanityDomainActivityResponse")
+	}
+	return
+}
+
+// deleteVanityDomainActivity implements the OCIOperation interface (enables retrying operations)
+func (client FusionApplicationsClient) deleteVanityDomainActivity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/fusionEnvironments/{fusionEnvironmentId}/vanityDomainActivities/{vanityDomainActivityId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteVanityDomainActivityResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "DeleteVanityDomainActivity")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/VanityDomainActivity/DeleteVanityDomainActivity"
+		err = common.PostProcessServiceError(err, "FusionApplications", "DeleteVanityDomainActivity", apiReferenceLink)
 		return response, err
 	}
 
@@ -2178,6 +2362,122 @@ func (client FusionApplicationsClient) getServiceAttachment(ctx context.Context,
 	return response, err
 }
 
+// GetVanityDomain Gets a VanityDomain
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/GetVanityDomain.go.html to see an example of how to use GetVanityDomain API.
+// A default retry strategy applies to this operation GetVanityDomain()
+func (client FusionApplicationsClient) GetVanityDomain(ctx context.Context, request GetVanityDomainRequest) (response GetVanityDomainResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getVanityDomain, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVanityDomainResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVanityDomainResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetVanityDomainResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetVanityDomainResponse")
+	}
+	return
+}
+
+// getVanityDomain implements the OCIOperation interface (enables retrying operations)
+func (client FusionApplicationsClient) getVanityDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fusionEnvironments/{fusionEnvironmentId}/vanityDomains/{vanityDomainId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetVanityDomainResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "GetVanityDomain")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/VanityDomain/GetVanityDomain"
+		err = common.PostProcessServiceError(err, "FusionApplications", "GetVanityDomain", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetVanityDomainActivity Gets a VanityDomainActivity
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/GetVanityDomainActivity.go.html to see an example of how to use GetVanityDomainActivity API.
+// A default retry strategy applies to this operation GetVanityDomainActivity()
+func (client FusionApplicationsClient) GetVanityDomainActivity(ctx context.Context, request GetVanityDomainActivityRequest) (response GetVanityDomainActivityResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getVanityDomainActivity, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVanityDomainActivityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVanityDomainActivityResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetVanityDomainActivityResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetVanityDomainActivityResponse")
+	}
+	return
+}
+
+// getVanityDomainActivity implements the OCIOperation interface (enables retrying operations)
+func (client FusionApplicationsClient) getVanityDomainActivity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fusionEnvironments/{fusionEnvironmentId}/vanityDomainActivities/{vanityDomainActivityId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetVanityDomainActivityResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "GetVanityDomainActivity")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/VanityDomainActivity/GetVanityDomainActivity"
+		err = common.PostProcessServiceError(err, "FusionApplications", "GetVanityDomainActivity", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetWorkRequest Gets the status of the work request with the given ID.
 //
 // # See also
@@ -2932,6 +3232,64 @@ func (client FusionApplicationsClient) listTimeAvailableForRefreshes(ctx context
 	return response, err
 }
 
+// ListVanityDomains Lists all VanityDomains.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ListVanityDomains.go.html to see an example of how to use ListVanityDomains API.
+// A default retry strategy applies to this operation ListVanityDomains()
+func (client FusionApplicationsClient) ListVanityDomains(ctx context.Context, request ListVanityDomainsRequest) (response ListVanityDomainsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listVanityDomains, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVanityDomainsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVanityDomainsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListVanityDomainsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListVanityDomainsResponse")
+	}
+	return
+}
+
+// listVanityDomains implements the OCIOperation interface (enables retrying operations)
+func (client FusionApplicationsClient) listVanityDomains(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fusionEnvironments/{fusionEnvironmentId}/vanityDomains", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListVanityDomainsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "ListVanityDomains")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/VanityDomain/ListVanityDomains"
+		err = common.PostProcessServiceError(err, "FusionApplications", "ListVanityDomains", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
 //
 // # See also
@@ -3220,6 +3578,64 @@ func (client FusionApplicationsClient) resetFusionEnvironmentPassword(ctx contex
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/FusionEnvironment/ResetFusionEnvironmentPassword"
 		err = common.PostProcessServiceError(err, "FusionApplications", "ResetFusionEnvironmentPassword", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SubmitVanityDomainValidation Submit Vanity Domain Validation
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/SubmitVanityDomainValidation.go.html to see an example of how to use SubmitVanityDomainValidation API.
+// A default retry strategy applies to this operation SubmitVanityDomainValidation()
+func (client FusionApplicationsClient) SubmitVanityDomainValidation(ctx context.Context, request SubmitVanityDomainValidationRequest) (response SubmitVanityDomainValidationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.submitVanityDomainValidation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SubmitVanityDomainValidationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SubmitVanityDomainValidationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SubmitVanityDomainValidationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SubmitVanityDomainValidationResponse")
+	}
+	return
+}
+
+// submitVanityDomainValidation implements the OCIOperation interface (enables retrying operations)
+func (client FusionApplicationsClient) submitVanityDomainValidation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fusionEnvironments/{fusionEnvironmentId}/vanityDomains/{vanityDomainId}/actions/submitValidation", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SubmitVanityDomainValidationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "SubmitVanityDomainValidation")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/VanityDomain/SubmitVanityDomainValidation"
+		err = common.PostProcessServiceError(err, "FusionApplications", "SubmitVanityDomainValidation", apiReferenceLink)
 		return response, err
 	}
 
@@ -3575,6 +3991,122 @@ func (client FusionApplicationsClient) updateRefreshActivity(ctx context.Context
 	return response, err
 }
 
+// UpdateVanityDomain Updates a VanityDomain
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/UpdateVanityDomain.go.html to see an example of how to use UpdateVanityDomain API.
+// A default retry strategy applies to this operation UpdateVanityDomain()
+func (client FusionApplicationsClient) UpdateVanityDomain(ctx context.Context, request UpdateVanityDomainRequest) (response UpdateVanityDomainResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateVanityDomain, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateVanityDomainResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateVanityDomainResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateVanityDomainResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateVanityDomainResponse")
+	}
+	return
+}
+
+// updateVanityDomain implements the OCIOperation interface (enables retrying operations)
+func (client FusionApplicationsClient) updateVanityDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/fusionEnvironments/{fusionEnvironmentId}/vanityDomains/{vanityDomainId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateVanityDomainResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "UpdateVanityDomain")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/VanityDomain/UpdateVanityDomain"
+		err = common.PostProcessServiceError(err, "FusionApplications", "UpdateVanityDomain", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateVanityDomainActivity Updates a VanityDomainActivity
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/UpdateVanityDomainActivity.go.html to see an example of how to use UpdateVanityDomainActivity API.
+// A default retry strategy applies to this operation UpdateVanityDomainActivity()
+func (client FusionApplicationsClient) UpdateVanityDomainActivity(ctx context.Context, request UpdateVanityDomainActivityRequest) (response UpdateVanityDomainActivityResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateVanityDomainActivity, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateVanityDomainActivityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateVanityDomainActivityResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateVanityDomainActivityResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateVanityDomainActivityResponse")
+	}
+	return
+}
+
+// updateVanityDomainActivity implements the OCIOperation interface (enables retrying operations)
+func (client FusionApplicationsClient) updateVanityDomainActivity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/fusionEnvironments/{fusionEnvironmentId}/vanityDomainActivities/{vanityDomainActivityId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateVanityDomainActivityResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "UpdateVanityDomainActivity")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/VanityDomainActivity/UpdateVanityDomainActivity"
+		err = common.PostProcessServiceError(err, "FusionApplications", "UpdateVanityDomainActivity", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UploadEmailSubdomainCertificate upload certificate for emailSubdomain
 //
 // # See also
@@ -3626,6 +4158,64 @@ func (client FusionApplicationsClient) uploadEmailSubdomainCertificate(ctx conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/EmailSubdomain/UploadEmailSubdomainCertificate"
 		err = common.PostProcessServiceError(err, "FusionApplications", "UploadEmailSubdomainCertificate", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UploadVanityDomainCertificate Upload Vanity Domain certificate
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/UploadVanityDomainCertificate.go.html to see an example of how to use UploadVanityDomainCertificate API.
+// A default retry strategy applies to this operation UploadVanityDomainCertificate()
+func (client FusionApplicationsClient) UploadVanityDomainCertificate(ctx context.Context, request UploadVanityDomainCertificateRequest) (response UploadVanityDomainCertificateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.uploadVanityDomainCertificate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UploadVanityDomainCertificateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UploadVanityDomainCertificateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UploadVanityDomainCertificateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UploadVanityDomainCertificateResponse")
+	}
+	return
+}
+
+// uploadVanityDomainCertificate implements the OCIOperation interface (enables retrying operations)
+func (client FusionApplicationsClient) uploadVanityDomainCertificate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fusionEnvironments/{fusionEnvironmentId}/vanityDomains/{vanityDomainId}/actions/uploadCertificate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UploadVanityDomainCertificateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fusionApplications", "UploadVanityDomainCertificate")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/VanityDomain/UploadVanityDomainCertificate"
+		err = common.PostProcessServiceError(err, "FusionApplications", "UploadVanityDomainCertificate", apiReferenceLink)
 		return response, err
 	}
 

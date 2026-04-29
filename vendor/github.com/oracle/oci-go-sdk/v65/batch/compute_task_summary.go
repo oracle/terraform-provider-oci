@@ -28,6 +28,12 @@ type ComputeTaskSummary struct {
 	// The name of the batch task. It must be unique within its parent batch job.
 	Name *string `mandatory:"true" json:"name"`
 
+	// The hierarchical name of the task, which incorporates names of all parent group tasks, separated by "." (dot symbol). Maximum nesting depth is 4 levels. Example: groupTaskA.nestedGroupTaskB.thisTaskName
+	HierarchicalName *string `mandatory:"false" json:"hierarchicalName"`
+
+	// The hierarchical name of the group task. Null for top-level tasks.
+	GroupTaskName *string `mandatory:"false" json:"groupTaskName"`
+
 	// An optional description that provides additional context next to the displayName.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -51,6 +57,16 @@ func (m ComputeTaskSummary) GetJobId() *string {
 // GetName returns Name
 func (m ComputeTaskSummary) GetName() *string {
 	return m.Name
+}
+
+// GetHierarchicalName returns HierarchicalName
+func (m ComputeTaskSummary) GetHierarchicalName() *string {
+	return m.HierarchicalName
+}
+
+// GetGroupTaskName returns GroupTaskName
+func (m ComputeTaskSummary) GetGroupTaskName() *string {
+	return m.GroupTaskName
 }
 
 // GetDescription returns Description

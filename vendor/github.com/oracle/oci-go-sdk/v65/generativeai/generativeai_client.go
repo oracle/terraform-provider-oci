@@ -70,7 +70,7 @@ func newGenerativeAiClientFromBaseClient(baseClient common.BaseClient, configPro
 
 // SetRegion overrides the region of this client.
 func (client *GenerativeAiClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("generativeai", "https://generativeai.{region}.oci.{secondLevelDomain}")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("generativeai", "https://generativeai.{region}.{dualStack?ds.:}oci.{secondLevelDomain}", "generativeai")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -92,6 +92,12 @@ func (client *GenerativeAiClient) setConfigurationProvider(configProvider common
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *GenerativeAiClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
+// Default value is false
+func (client *GenerativeAiClient) EnableDualStackEndpoints(enableDualStack bool) {
+	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
 }
 
 // AddArtifact add image with isAutoDeploy flag.
@@ -141,6 +147,13 @@ func (client GenerativeAiClient) addArtifact(ctx context.Context, request common
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response AddArtifactResponse
 	var httpResponse *http.Response
@@ -199,6 +212,13 @@ func (client GenerativeAiClient) cancelVectorStoreConnectorFileSync(ctx context.
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CancelVectorStoreConnectorFileSyncResponse
 	var httpResponse *http.Response
@@ -263,6 +283,13 @@ func (client GenerativeAiClient) changeApiKeyCompartment(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeApiKeyCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "ChangeApiKeyCompartment")
@@ -325,6 +352,13 @@ func (client GenerativeAiClient) changeDedicatedAiClusterCompartment(ctx context
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeDedicatedAiClusterCompartmentResponse
 	var httpResponse *http.Response
@@ -389,6 +423,13 @@ func (client GenerativeAiClient) changeEndpointCompartment(ctx context.Context, 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeEndpointCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "ChangeEndpointCompartment")
@@ -451,6 +492,13 @@ func (client GenerativeAiClient) changeGenerativeAiPrivateEndpointCompartment(ct
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeGenerativeAiPrivateEndpointCompartmentResponse
 	var httpResponse *http.Response
@@ -515,6 +563,13 @@ func (client GenerativeAiClient) changeGenerativeAiProjectCompartment(ctx contex
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeGenerativeAiProjectCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "ChangeGenerativeAiProjectCompartment")
@@ -577,6 +632,13 @@ func (client GenerativeAiClient) changeHostedApplicationCompartment(ctx context.
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeHostedApplicationCompartmentResponse
 	var httpResponse *http.Response
@@ -641,6 +703,13 @@ func (client GenerativeAiClient) changeHostedApplicationStorageCompartment(ctx c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeHostedApplicationStorageCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "ChangeHostedApplicationStorageCompartment")
@@ -703,6 +772,13 @@ func (client GenerativeAiClient) changeImportedModelCompartment(ctx context.Cont
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeImportedModelCompartmentResponse
 	var httpResponse *http.Response
@@ -767,6 +843,13 @@ func (client GenerativeAiClient) changeModelCompartment(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeModelCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "ChangeModelCompartment")
@@ -829,6 +912,13 @@ func (client GenerativeAiClient) changeSemanticStoreCompartment(ctx context.Cont
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeSemanticStoreCompartmentResponse
 	var httpResponse *http.Response
@@ -893,6 +983,13 @@ func (client GenerativeAiClient) createApiKey(ctx context.Context, request commo
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateApiKeyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "CreateApiKey")
@@ -955,6 +1052,13 @@ func (client GenerativeAiClient) createDedicatedAiCluster(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateDedicatedAiClusterResponse
 	var httpResponse *http.Response
@@ -1020,6 +1124,13 @@ func (client GenerativeAiClient) createEndpoint(ctx context.Context, request com
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateEndpointResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "CreateEndpoint")
@@ -1082,6 +1193,13 @@ func (client GenerativeAiClient) createGenerativeAiPrivateEndpoint(ctx context.C
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateGenerativeAiPrivateEndpointResponse
 	var httpResponse *http.Response
@@ -1147,6 +1265,13 @@ func (client GenerativeAiClient) createGenerativeAiProject(ctx context.Context, 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateGenerativeAiProjectResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "CreateGenerativeAiProject")
@@ -1209,6 +1334,13 @@ func (client GenerativeAiClient) createHostedApplication(ctx context.Context, re
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateHostedApplicationResponse
 	var httpResponse *http.Response
@@ -1273,6 +1405,13 @@ func (client GenerativeAiClient) createHostedApplicationStorage(ctx context.Cont
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateHostedApplicationStorageResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "CreateHostedApplicationStorage")
@@ -1335,6 +1474,13 @@ func (client GenerativeAiClient) createHostedDeployment(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateHostedDeploymentResponse
 	var httpResponse *http.Response
@@ -1400,6 +1546,13 @@ func (client GenerativeAiClient) createImportedModel(ctx context.Context, reques
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateImportedModelResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "CreateImportedModel")
@@ -1464,6 +1617,13 @@ func (client GenerativeAiClient) createModel(ctx context.Context, request common
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateModelResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "CreateModel")
@@ -1526,6 +1686,13 @@ func (client GenerativeAiClient) createSemanticStore(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateSemanticStoreResponse
 	var httpResponse *http.Response
@@ -1591,6 +1758,13 @@ func (client GenerativeAiClient) createVectorStoreConnector(ctx context.Context,
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateVectorStoreConnectorResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "CreateVectorStoreConnector")
@@ -1655,6 +1829,13 @@ func (client GenerativeAiClient) createVectorStoreConnectorFileSync(ctx context.
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateVectorStoreConnectorFileSyncResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "CreateVectorStoreConnectorFileSync")
@@ -1712,6 +1893,13 @@ func (client GenerativeAiClient) deleteApiKey(ctx context.Context, request commo
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteApiKeyResponse
 	var httpResponse *http.Response
@@ -1772,6 +1960,13 @@ func (client GenerativeAiClient) deleteDedicatedAiCluster(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteDedicatedAiClusterResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "DeleteDedicatedAiCluster")
@@ -1829,6 +2024,13 @@ func (client GenerativeAiClient) deleteEndpoint(ctx context.Context, request com
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteEndpointResponse
 	var httpResponse *http.Response
@@ -1888,6 +2090,13 @@ func (client GenerativeAiClient) deleteGenerativeAiPrivateEndpoint(ctx context.C
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteGenerativeAiPrivateEndpointResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "DeleteGenerativeAiPrivateEndpoint")
@@ -1945,6 +2154,13 @@ func (client GenerativeAiClient) deleteGenerativeAiProject(ctx context.Context, 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteGenerativeAiProjectResponse
 	var httpResponse *http.Response
@@ -2005,6 +2221,13 @@ func (client GenerativeAiClient) deleteHostedApplication(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteHostedApplicationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "DeleteHostedApplication")
@@ -2063,6 +2286,13 @@ func (client GenerativeAiClient) deleteHostedApplicationStorage(ctx context.Cont
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteHostedApplicationStorageResponse
 	var httpResponse *http.Response
@@ -2123,6 +2353,13 @@ func (client GenerativeAiClient) deleteHostedDeployment(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteHostedDeploymentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "DeleteHostedDeployment")
@@ -2180,6 +2417,13 @@ func (client GenerativeAiClient) deleteHostedDeploymentArtifact(ctx context.Cont
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteHostedDeploymentArtifactResponse
 	var httpResponse *http.Response
@@ -2239,6 +2483,13 @@ func (client GenerativeAiClient) deleteImportedModel(ctx context.Context, reques
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteImportedModelResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "DeleteImportedModel")
@@ -2296,6 +2547,13 @@ func (client GenerativeAiClient) deleteModel(ctx context.Context, request common
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteModelResponse
 	var httpResponse *http.Response
@@ -2355,6 +2613,13 @@ func (client GenerativeAiClient) deleteSemanticStore(ctx context.Context, reques
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteSemanticStoreResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "DeleteSemanticStore")
@@ -2412,6 +2677,13 @@ func (client GenerativeAiClient) deleteVectorStoreConnector(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteVectorStoreConnectorResponse
 	var httpResponse *http.Response
@@ -2471,6 +2743,13 @@ func (client GenerativeAiClient) getApiKey(ctx context.Context, request common.O
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetApiKeyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "GetApiKey")
@@ -2528,6 +2807,13 @@ func (client GenerativeAiClient) getDedicatedAiCluster(ctx context.Context, requ
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetDedicatedAiClusterResponse
 	var httpResponse *http.Response
@@ -2587,6 +2873,13 @@ func (client GenerativeAiClient) getEndpoint(ctx context.Context, request common
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetEndpointResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "GetEndpoint")
@@ -2644,6 +2937,13 @@ func (client GenerativeAiClient) getGenerativeAiPrivateEndpoint(ctx context.Cont
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetGenerativeAiPrivateEndpointResponse
 	var httpResponse *http.Response
@@ -2703,6 +3003,13 @@ func (client GenerativeAiClient) getGenerativeAiProject(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetGenerativeAiProjectResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "GetGenerativeAiProject")
@@ -2760,6 +3067,13 @@ func (client GenerativeAiClient) getHostedApplication(ctx context.Context, reque
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetHostedApplicationResponse
 	var httpResponse *http.Response
@@ -2819,6 +3133,13 @@ func (client GenerativeAiClient) getHostedApplicationStorage(ctx context.Context
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetHostedApplicationStorageResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "GetHostedApplicationStorage")
@@ -2876,6 +3197,13 @@ func (client GenerativeAiClient) getHostedDeployment(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetHostedDeploymentResponse
 	var httpResponse *http.Response
@@ -2935,6 +3263,13 @@ func (client GenerativeAiClient) getImportedModel(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetImportedModelResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "GetImportedModel")
@@ -2992,6 +3327,13 @@ func (client GenerativeAiClient) getModel(ctx context.Context, request common.OC
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetModelResponse
 	var httpResponse *http.Response
@@ -3051,6 +3393,13 @@ func (client GenerativeAiClient) getSemanticStore(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetSemanticStoreResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "GetSemanticStore")
@@ -3108,6 +3457,13 @@ func (client GenerativeAiClient) getVectorStoreConnector(ctx context.Context, re
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetVectorStoreConnectorResponse
 	var httpResponse *http.Response
@@ -3167,6 +3523,13 @@ func (client GenerativeAiClient) getVectorStoreConnectorFileSync(ctx context.Con
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetVectorStoreConnectorFileSyncResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "GetVectorStoreConnectorFileSync")
@@ -3224,6 +3587,13 @@ func (client GenerativeAiClient) getVectorStoreConnectorStats(ctx context.Contex
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetVectorStoreConnectorStatsResponse
 	var httpResponse *http.Response
@@ -3283,6 +3653,13 @@ func (client GenerativeAiClient) getWorkRequest(ctx context.Context, request com
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "GetWorkRequest")
@@ -3340,6 +3717,13 @@ func (client GenerativeAiClient) listApiKeys(ctx context.Context, request common
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListApiKeysResponse
 	var httpResponse *http.Response
@@ -3399,6 +3783,13 @@ func (client GenerativeAiClient) listDedicatedAiClusters(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListDedicatedAiClustersResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "ListDedicatedAiClusters")
@@ -3456,6 +3847,13 @@ func (client GenerativeAiClient) listEndpoints(ctx context.Context, request comm
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListEndpointsResponse
 	var httpResponse *http.Response
@@ -3515,6 +3913,13 @@ func (client GenerativeAiClient) listGenerativeAiPrivateEndpoints(ctx context.Co
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListGenerativeAiPrivateEndpointsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "ListGenerativeAiPrivateEndpoints")
@@ -3572,6 +3977,13 @@ func (client GenerativeAiClient) listGenerativeAiProjects(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListGenerativeAiProjectsResponse
 	var httpResponse *http.Response
@@ -3631,6 +4043,13 @@ func (client GenerativeAiClient) listHostedApplicationStorages(ctx context.Conte
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListHostedApplicationStoragesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "ListHostedApplicationStorages")
@@ -3688,6 +4107,13 @@ func (client GenerativeAiClient) listHostedApplications(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListHostedApplicationsResponse
 	var httpResponse *http.Response
@@ -3747,6 +4173,13 @@ func (client GenerativeAiClient) listHostedDeployments(ctx context.Context, requ
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListHostedDeploymentsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "ListHostedDeployments")
@@ -3804,6 +4237,13 @@ func (client GenerativeAiClient) listImportedModels(ctx context.Context, request
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListImportedModelsResponse
 	var httpResponse *http.Response
@@ -3863,6 +4303,13 @@ func (client GenerativeAiClient) listModels(ctx context.Context, request common.
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListModelsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "ListModels")
@@ -3920,6 +4367,13 @@ func (client GenerativeAiClient) listSemanticStores(ctx context.Context, request
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListSemanticStoresResponse
 	var httpResponse *http.Response
@@ -3979,6 +4433,13 @@ func (client GenerativeAiClient) listVectorStoreConnectorFileSyncIngestionLogs(c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListVectorStoreConnectorFileSyncIngestionLogsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "ListVectorStoreConnectorFileSyncIngestionLogs")
@@ -4036,6 +4497,13 @@ func (client GenerativeAiClient) listVectorStoreConnectorFileSyncs(ctx context.C
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListVectorStoreConnectorFileSyncsResponse
 	var httpResponse *http.Response
@@ -4095,6 +4563,13 @@ func (client GenerativeAiClient) listVectorStoreConnectorIngestionLogs(ctx conte
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListVectorStoreConnectorIngestionLogsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "ListVectorStoreConnectorIngestionLogs")
@@ -4152,6 +4627,13 @@ func (client GenerativeAiClient) listVectorStoreConnectors(ctx context.Context, 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListVectorStoreConnectorsResponse
 	var httpResponse *http.Response
@@ -4211,6 +4693,13 @@ func (client GenerativeAiClient) listWorkRequestErrors(ctx context.Context, requ
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "ListWorkRequestErrors")
@@ -4269,6 +4758,13 @@ func (client GenerativeAiClient) listWorkRequestLogs(ctx context.Context, reques
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "ListWorkRequestLogs")
@@ -4326,6 +4822,13 @@ func (client GenerativeAiClient) listWorkRequests(ctx context.Context, request c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
@@ -4390,6 +4893,13 @@ func (client GenerativeAiClient) renewApiKey(ctx context.Context, request common
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response RenewApiKeyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "RenewApiKey")
@@ -4453,6 +4963,13 @@ func (client GenerativeAiClient) setApiKeyState(ctx context.Context, request com
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response SetApiKeyStateResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "SetApiKeyState")
@@ -4510,6 +5027,13 @@ func (client GenerativeAiClient) updateApiKey(ctx context.Context, request commo
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateApiKeyResponse
 	var httpResponse *http.Response
@@ -4569,6 +5093,13 @@ func (client GenerativeAiClient) updateDedicatedAiCluster(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateDedicatedAiClusterResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "UpdateDedicatedAiCluster")
@@ -4626,6 +5157,13 @@ func (client GenerativeAiClient) updateEndpoint(ctx context.Context, request com
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateEndpointResponse
 	var httpResponse *http.Response
@@ -4685,6 +5223,13 @@ func (client GenerativeAiClient) updateGenerativeAiPrivateEndpoint(ctx context.C
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateGenerativeAiPrivateEndpointResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "UpdateGenerativeAiPrivateEndpoint")
@@ -4743,6 +5288,13 @@ func (client GenerativeAiClient) updateGenerativeAiProject(ctx context.Context, 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateGenerativeAiProjectResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "UpdateGenerativeAiProject")
@@ -4800,6 +5352,13 @@ func (client GenerativeAiClient) updateHostedApplication(ctx context.Context, re
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateHostedApplicationResponse
 	var httpResponse *http.Response
@@ -4864,6 +5423,13 @@ func (client GenerativeAiClient) updateHostedDeployment(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateHostedDeploymentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "UpdateHostedDeployment")
@@ -4921,6 +5487,13 @@ func (client GenerativeAiClient) updateImportedModel(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateImportedModelResponse
 	var httpResponse *http.Response
@@ -4980,6 +5553,13 @@ func (client GenerativeAiClient) updateModel(ctx context.Context, request common
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateModelResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "UpdateModel")
@@ -5038,6 +5618,13 @@ func (client GenerativeAiClient) updateSemanticStore(ctx context.Context, reques
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateSemanticStoreResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "UpdateSemanticStore")
@@ -5095,6 +5682,13 @@ func (client GenerativeAiClient) updateVectorStoreConnector(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateVectorStoreConnectorResponse
 	var httpResponse *http.Response
