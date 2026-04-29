@@ -1,3 +1,20 @@
+## 8.12.0 (April 29, 2026)
+
+### Added
+- support to enable dualstack for all service
+- Support for OCI Batch Service – Release Version 1.0.2
+- Support for [Java Management Service] OCA Plugins IPv6 GA readiness - Java Downloads Component (SDKs & TERSI ONLY)
+- Support for [Java Management Service] OCA Plugins IPv6 GA readiness
+- Support for [Java Management Service] OCA Plugins IPv6 GA readiness - Standalone Plane Component (SDKs & TERSI ONLY)
+- Support for OCI Cache - Backup and Restore
+- new shapes for rerank v4
+- Support for Cloud Guard - Terraform updateTarget API
+- changes to omit macsec from cc update requests if cc is in ccg
+- 
+### Bug Fix
+- Support for ignore_defined_tags in IdentityDomains resources
+- Fixing build errors
+
 ## 8.11.0 (April 22, 2026)
 
 ### Added
