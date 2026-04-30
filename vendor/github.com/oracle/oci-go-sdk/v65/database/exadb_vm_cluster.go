@@ -194,8 +194,8 @@ type ExadbVmCluster struct {
 
 	IormConfigCache *ExadataIormConfig `mandatory:"false" json:"iormConfigCache"`
 
-	// Details of the file system configurations of the Exadata VM cluster on Exascale Infrastructure.
-	FileSystemConfigurationDetails []FileSystemConfiguration `mandatory:"false" json:"fileSystemConfigurationDetails"`
+	// Details of the file system configuration of the VM cluster.
+	FileSystemConfigurationDetails []FileSystemConfigurationDetail `mandatory:"false" json:"fileSystemConfigurationDetails"`
 }
 
 func (m ExadbVmCluster) String() string {

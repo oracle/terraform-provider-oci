@@ -83,9 +83,6 @@ type DataGuardGroupMember struct {
 	// Specifies the `DB_UNIQUE_NAME` of the data guard group member databases.
 	FailoverTargets []string `mandatory:"false" json:"failoverTargets"`
 
-	// Specifies readiness of Managed Automatic failover.
-	ManagedAutoFailOverReadiness DataGuardGroupMemberManagedAutoFailOverReadinessEnum `mandatory:"false" json:"managedAutoFailOverReadiness,omitempty"`
-
 	// Represents managed HA type of Exadata VM cluster and database.
 	ManagedHaType DataGuardGroupMemberManagedHaTypeEnum `mandatory:"false" json:"managedHaType,omitempty"`
 }
@@ -114,9 +111,6 @@ func (m DataGuardGroupMember) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingDataGuardGroupMemberManagedAutoFailoverEnum(string(m.ManagedAutoFailover)); !ok && m.ManagedAutoFailover != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagedAutoFailover: %s. Supported values are: %s.", m.ManagedAutoFailover, strings.Join(GetDataGuardGroupMemberManagedAutoFailoverEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingDataGuardGroupMemberManagedAutoFailOverReadinessEnum(string(m.ManagedAutoFailOverReadiness)); !ok && m.ManagedAutoFailOverReadiness != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagedAutoFailOverReadiness: %s. Supported values are: %s.", m.ManagedAutoFailOverReadiness, strings.Join(GetDataGuardGroupMemberManagedAutoFailOverReadinessEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingDataGuardGroupMemberManagedHaTypeEnum(string(m.ManagedHaType)); !ok && m.ManagedHaType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagedHaType: %s. Supported values are: %s.", m.ManagedHaType, strings.Join(GetDataGuardGroupMemberManagedHaTypeEnumStringValues(), ",")))
@@ -354,48 +348,6 @@ func GetDataGuardGroupMemberManagedAutoFailoverEnumStringValues() []string {
 // GetMappingDataGuardGroupMemberManagedAutoFailoverEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDataGuardGroupMemberManagedAutoFailoverEnum(val string) (DataGuardGroupMemberManagedAutoFailoverEnum, bool) {
 	enum, ok := mappingDataGuardGroupMemberManagedAutoFailoverEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// DataGuardGroupMemberManagedAutoFailOverReadinessEnum Enum with underlying type: string
-type DataGuardGroupMemberManagedAutoFailOverReadinessEnum string
-
-// Set of constants representing the allowable values for DataGuardGroupMemberManagedAutoFailOverReadinessEnum
-const (
-	DataGuardGroupMemberManagedAutoFailOverReadinessHealthy  DataGuardGroupMemberManagedAutoFailOverReadinessEnum = "HEALTHY"
-	DataGuardGroupMemberManagedAutoFailOverReadinessCritical DataGuardGroupMemberManagedAutoFailOverReadinessEnum = "CRITICAL"
-)
-
-var mappingDataGuardGroupMemberManagedAutoFailOverReadinessEnum = map[string]DataGuardGroupMemberManagedAutoFailOverReadinessEnum{
-	"HEALTHY":  DataGuardGroupMemberManagedAutoFailOverReadinessHealthy,
-	"CRITICAL": DataGuardGroupMemberManagedAutoFailOverReadinessCritical,
-}
-
-var mappingDataGuardGroupMemberManagedAutoFailOverReadinessEnumLowerCase = map[string]DataGuardGroupMemberManagedAutoFailOverReadinessEnum{
-	"healthy":  DataGuardGroupMemberManagedAutoFailOverReadinessHealthy,
-	"critical": DataGuardGroupMemberManagedAutoFailOverReadinessCritical,
-}
-
-// GetDataGuardGroupMemberManagedAutoFailOverReadinessEnumValues Enumerates the set of values for DataGuardGroupMemberManagedAutoFailOverReadinessEnum
-func GetDataGuardGroupMemberManagedAutoFailOverReadinessEnumValues() []DataGuardGroupMemberManagedAutoFailOverReadinessEnum {
-	values := make([]DataGuardGroupMemberManagedAutoFailOverReadinessEnum, 0)
-	for _, v := range mappingDataGuardGroupMemberManagedAutoFailOverReadinessEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetDataGuardGroupMemberManagedAutoFailOverReadinessEnumStringValues Enumerates the set of values in String for DataGuardGroupMemberManagedAutoFailOverReadinessEnum
-func GetDataGuardGroupMemberManagedAutoFailOverReadinessEnumStringValues() []string {
-	return []string{
-		"HEALTHY",
-		"CRITICAL",
-	}
-}
-
-// GetMappingDataGuardGroupMemberManagedAutoFailOverReadinessEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingDataGuardGroupMemberManagedAutoFailOverReadinessEnum(val string) (DataGuardGroupMemberManagedAutoFailOverReadinessEnum, bool) {
-	enum, ok := mappingDataGuardGroupMemberManagedAutoFailOverReadinessEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

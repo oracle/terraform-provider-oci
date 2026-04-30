@@ -17,6 +17,9 @@ type GetAssignedSubscriptionRequest struct {
 	// OCID of the assigned Oracle Cloud Subscription.
 	AssignedSubscriptionId *string `mandatory:"true" contributesTo:"path" name:"assignedSubscriptionId"`
 
+	// The ID of the compartment in which to list resources.
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 

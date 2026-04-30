@@ -395,6 +395,65 @@ func (client SddcClient) downgradeHcx(ctx context.Context, request common.OCIReq
 	return response, err
 }
 
+// GenerateVmwareBinaryDownloadInfo Generate the VMware binary download information.
+// A default retry strategy applies to this operation GenerateVmwareBinaryDownloadInfo()
+func (client SddcClient) GenerateVmwareBinaryDownloadInfo(ctx context.Context, request GenerateVmwareBinaryDownloadInfoRequest) (response GenerateVmwareBinaryDownloadInfoResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.generateVmwareBinaryDownloadInfo, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GenerateVmwareBinaryDownloadInfoResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GenerateVmwareBinaryDownloadInfoResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateVmwareBinaryDownloadInfoResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateVmwareBinaryDownloadInfoResponse")
+	}
+	return
+}
+
+// generateVmwareBinaryDownloadInfo implements the OCIOperation interface (enables retrying operations)
+func (client SddcClient) generateVmwareBinaryDownloadInfo(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sddcs/{sddcId}/actions/generateVmwareBinaryDownloadInfo", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateVmwareBinaryDownloadInfoResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "sddc", "GenerateVmwareBinaryDownloadInfo")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/Sddc/GenerateVmwareBinaryDownloadInfo"
+		err = common.PostProcessServiceError(err, "Sddc", "GenerateVmwareBinaryDownloadInfo", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetSddc Gets the specified SDDC's information.
 // A default retry strategy applies to this operation GetSddc()
 func (client SddcClient) GetSddc(ctx context.Context, request GetSddcRequest) (response GetSddcResponse, err error) {
@@ -778,6 +837,65 @@ func (client SddcClient) retrievePassword(ctx context.Context, request common.OC
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/Sddc/RetrievePassword"
 		err = common.PostProcessServiceError(err, "Sddc", "RetrievePassword", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RetrieveVmwareBinaries Retrieve the list of available VMware binaries for the SDDC.
+// A default retry strategy applies to this operation RetrieveVmwareBinaries()
+func (client SddcClient) RetrieveVmwareBinaries(ctx context.Context, request RetrieveVmwareBinariesRequest) (response RetrieveVmwareBinariesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.retrieveVmwareBinaries, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RetrieveVmwareBinariesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RetrieveVmwareBinariesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RetrieveVmwareBinariesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RetrieveVmwareBinariesResponse")
+	}
+	return
+}
+
+// retrieveVmwareBinaries implements the OCIOperation interface (enables retrying operations)
+func (client SddcClient) retrieveVmwareBinaries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sddcs/{sddcId}/actions/retrieveVmwareBinaries", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RetrieveVmwareBinariesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "sddc", "RetrieveVmwareBinaries")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/Sddc/RetrieveVmwareBinaries"
+		err = common.PostProcessServiceError(err, "Sddc", "RetrieveVmwareBinaries", apiReferenceLink)
 		return response, err
 	}
 

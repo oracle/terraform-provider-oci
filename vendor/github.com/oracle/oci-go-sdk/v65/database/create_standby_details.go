@@ -68,8 +68,7 @@ type CreateStandbyDetails struct {
 
 	AutoFailoverConfiguration *AutoFailoverConfiguration `mandatory:"false" json:"autoFailoverConfiguration"`
 
-	// When set to true, Datasafe will be registered
-	IsDataSafeRegistered *bool `mandatory:"false" json:"isDataSafeRegistered"`
+	DataSafeRegistrationDetails *DataSafeRegistrationRequestDetails `mandatory:"false" json:"dataSafeRegistrationDetails"`
 }
 
 func (m CreateStandbyDetails) String() string {
@@ -105,7 +104,7 @@ func (m *CreateStandbyDetails) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags                       map[string]string                      `json:"freeformTags"`
 		DefinedTags                        map[string]map[string]interface{}      `json:"definedTags"`
 		AutoFailoverConfiguration          *AutoFailoverConfiguration             `json:"autoFailoverConfiguration"`
-		IsDataSafeRegistered               *bool                                  `json:"isDataSafeRegistered"`
+		DataSafeRegistrationDetails        *DataSafeRegistrationRequestDetails    `json:"dataSafeRegistrationDetails"`
 		SourceDatabaseId                   *string                                `json:"sourceDatabaseId"`
 		DatabaseAdminPassword              *string                                `json:"databaseAdminPassword"`
 		SourceTdeWalletPassword            *string                                `json:"sourceTdeWalletPassword"`
@@ -142,7 +141,7 @@ func (m *CreateStandbyDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.AutoFailoverConfiguration = model.AutoFailoverConfiguration
 
-	m.IsDataSafeRegistered = model.IsDataSafeRegistered
+	m.DataSafeRegistrationDetails = model.DataSafeRegistrationDetails
 
 	m.SourceDatabaseId = model.SourceDatabaseId
 

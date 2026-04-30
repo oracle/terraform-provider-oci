@@ -147,6 +147,11 @@ type Database struct {
 
 	// Represents HA status of Exadata VM cluster and database. If either of the VMCluster in a pair is down then state will be NEEDS_ATTENTION.
 	ManagedHaStatus DatabaseManagedHaStatusEnum `mandatory:"false" json:"managedHaStatus,omitempty"`
+
+	// The Data Safe status of the database.
+	DataSafeState DatabaseDataSafeStateEnum `mandatory:"false" json:"dataSafeState,omitempty"`
+
+	DataSafeRegistrationDetails *DataSafeRegistrationDetails `mandatory:"false" json:"dataSafeRegistrationDetails"`
 }
 
 func (m Database) String() string {
@@ -170,6 +175,9 @@ func (m Database) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingDatabaseManagedHaStatusEnum(string(m.ManagedHaStatus)); !ok && m.ManagedHaStatus != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagedHaStatus: %s. Supported values are: %s.", m.ManagedHaStatus, strings.Join(GetDatabaseManagedHaStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDatabaseDataSafeStateEnum(string(m.DataSafeState)); !ok && m.DataSafeState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataSafeState: %s. Supported values are: %s.", m.DataSafeState, strings.Join(GetDatabaseDataSafeStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -218,6 +226,8 @@ func (m *Database) UnmarshalJSON(data []byte) (e error) {
 		ManagedHaType                              DatabaseManagedHaTypeEnum           `json:"managedHaType"`
 		PeerResourceId                             *string                             `json:"peerResourceId"`
 		ManagedHaStatus                            DatabaseManagedHaStatusEnum         `json:"managedHaStatus"`
+		DataSafeState                              DatabaseDataSafeStateEnum           `json:"dataSafeState"`
+		DataSafeRegistrationDetails                *DataSafeRegistrationDetails        `json:"dataSafeRegistrationDetails"`
 		Id                                         *string                             `json:"id"`
 		CompartmentId                              *string                             `json:"compartmentId"`
 		DbName                                     *string                             `json:"dbName"`
@@ -313,6 +323,10 @@ func (m *Database) UnmarshalJSON(data []byte) (e error) {
 	m.PeerResourceId = model.PeerResourceId
 
 	m.ManagedHaStatus = model.ManagedHaStatus
+
+	m.DataSafeState = model.DataSafeState
+
+	m.DataSafeRegistrationDetails = model.DataSafeRegistrationDetails
 
 	m.Id = model.Id
 
@@ -524,5 +538,51 @@ func GetDatabaseManagedHaStatusEnumStringValues() []string {
 // GetMappingDatabaseManagedHaStatusEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDatabaseManagedHaStatusEnum(val string) (DatabaseManagedHaStatusEnum, bool) {
 	enum, ok := mappingDatabaseManagedHaStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DatabaseDataSafeStateEnum Enum with underlying type: string
+type DatabaseDataSafeStateEnum string
+
+// Set of constants representing the allowable values for DatabaseDataSafeStateEnum
+const (
+	DatabaseDataSafeStateEnabled  DatabaseDataSafeStateEnum = "ENABLED"
+	DatabaseDataSafeStateDisabled DatabaseDataSafeStateEnum = "DISABLED"
+	DatabaseDataSafeStateFailed   DatabaseDataSafeStateEnum = "FAILED"
+)
+
+var mappingDatabaseDataSafeStateEnum = map[string]DatabaseDataSafeStateEnum{
+	"ENABLED":  DatabaseDataSafeStateEnabled,
+	"DISABLED": DatabaseDataSafeStateDisabled,
+	"FAILED":   DatabaseDataSafeStateFailed,
+}
+
+var mappingDatabaseDataSafeStateEnumLowerCase = map[string]DatabaseDataSafeStateEnum{
+	"enabled":  DatabaseDataSafeStateEnabled,
+	"disabled": DatabaseDataSafeStateDisabled,
+	"failed":   DatabaseDataSafeStateFailed,
+}
+
+// GetDatabaseDataSafeStateEnumValues Enumerates the set of values for DatabaseDataSafeStateEnum
+func GetDatabaseDataSafeStateEnumValues() []DatabaseDataSafeStateEnum {
+	values := make([]DatabaseDataSafeStateEnum, 0)
+	for _, v := range mappingDatabaseDataSafeStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDatabaseDataSafeStateEnumStringValues Enumerates the set of values in String for DatabaseDataSafeStateEnum
+func GetDatabaseDataSafeStateEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+		"FAILED",
+	}
+}
+
+// GetMappingDatabaseDataSafeStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDatabaseDataSafeStateEnum(val string) (DatabaseDataSafeStateEnum, bool) {
+	enum, ok := mappingDatabaseDataSafeStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

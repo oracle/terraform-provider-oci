@@ -58,6 +58,11 @@ type CreateVnicDetails struct {
 
 	// Whether the source/destination check is disabled on the VNIC
 	SkipSourceDestCheck *bool `mandatory:"false" json:"skipSourceDestCheck"`
+
+	// Security attributes (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels
+	//         for a resource that can be referenced in a Zero Trust Packet Routing (https://docs.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm)
+	//         (ZPR) policy to control access to ZPR-supported resources.
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 }
 
 func (m CreateVnicDetails) String() string {

@@ -122,8 +122,8 @@ type CreateExadbVmClusterDetails struct {
 	// The type of Exascale storage used for Exadata VM cluster. The default is SMART_STORAGE which supports Oracle Database 23ai and later
 	ShapeAttribute CreateExadbVmClusterDetailsShapeAttributeEnum `mandatory:"false" json:"shapeAttribute,omitempty"`
 
-	// Details of the file system configurations of the Exadata VM cluster on Exascale Infrastructure.
-	FileSystemConfigurationDetails []FileSystemConfiguration `mandatory:"false" json:"fileSystemConfigurationDetails"`
+	// Details of the file system configuration of the VM cluster.
+	FileSystemConfigurationDetails []FileSystemConfigurationDetail `mandatory:"false" json:"fileSystemConfigurationDetails"`
 
 	// If set to true, a managed HA VM cluster is created for the Exadata VM cluster. If set to false, a managed HA VM cluster is not created.
 	IsManagedHaEnabled *bool `mandatory:"false" json:"isManagedHaEnabled"`

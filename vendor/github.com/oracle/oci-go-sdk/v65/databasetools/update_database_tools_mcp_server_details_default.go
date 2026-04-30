@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Database Tools
+// Database Tools API
 //
 // Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
@@ -19,7 +19,7 @@ import (
 // UpdateDatabaseToolsMcpServerDetailsDefault Database Tools MCP server information to be updated for the default type.
 type UpdateDatabaseToolsMcpServerDetailsDefault struct {
 
-	// A user-friendly name. Does not have to be unique and can be updated. Avoid entering confidential information.
+	// A meaningful, human-readable label displayed to end users. Not required to be unique and can be changed after creation. Do not include confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// A human-readable description of the Database Tools MCP server.

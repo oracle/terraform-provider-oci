@@ -83,6 +83,9 @@ type PluggableDatabase struct {
 
 	// Indicates whether the Pluggable Database has opted in for RP support.
 	IsResourcePrincipalEnabled *bool `mandatory:"false" json:"isResourcePrincipalEnabled"`
+
+	// The Data Safe status of the pluggable database.
+	DataSafeState PluggableDatabaseDataSafeStateEnum `mandatory:"false" json:"dataSafeState,omitempty"`
 }
 
 func (m PluggableDatabase) String() string {
@@ -101,6 +104,9 @@ func (m PluggableDatabase) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OpenMode: %s. Supported values are: %s.", m.OpenMode, strings.Join(GetPluggableDatabaseOpenModeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingPluggableDatabaseDataSafeStateEnum(string(m.DataSafeState)); !ok && m.DataSafeState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataSafeState: %s. Supported values are: %s.", m.DataSafeState, strings.Join(GetPluggableDatabaseDataSafeStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -240,5 +246,51 @@ func GetPluggableDatabaseOpenModeEnumStringValues() []string {
 // GetMappingPluggableDatabaseOpenModeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingPluggableDatabaseOpenModeEnum(val string) (PluggableDatabaseOpenModeEnum, bool) {
 	enum, ok := mappingPluggableDatabaseOpenModeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// PluggableDatabaseDataSafeStateEnum Enum with underlying type: string
+type PluggableDatabaseDataSafeStateEnum string
+
+// Set of constants representing the allowable values for PluggableDatabaseDataSafeStateEnum
+const (
+	PluggableDatabaseDataSafeStateEnabled  PluggableDatabaseDataSafeStateEnum = "ENABLED"
+	PluggableDatabaseDataSafeStateDisabled PluggableDatabaseDataSafeStateEnum = "DISABLED"
+	PluggableDatabaseDataSafeStateFailed   PluggableDatabaseDataSafeStateEnum = "FAILED"
+)
+
+var mappingPluggableDatabaseDataSafeStateEnum = map[string]PluggableDatabaseDataSafeStateEnum{
+	"ENABLED":  PluggableDatabaseDataSafeStateEnabled,
+	"DISABLED": PluggableDatabaseDataSafeStateDisabled,
+	"FAILED":   PluggableDatabaseDataSafeStateFailed,
+}
+
+var mappingPluggableDatabaseDataSafeStateEnumLowerCase = map[string]PluggableDatabaseDataSafeStateEnum{
+	"enabled":  PluggableDatabaseDataSafeStateEnabled,
+	"disabled": PluggableDatabaseDataSafeStateDisabled,
+	"failed":   PluggableDatabaseDataSafeStateFailed,
+}
+
+// GetPluggableDatabaseDataSafeStateEnumValues Enumerates the set of values for PluggableDatabaseDataSafeStateEnum
+func GetPluggableDatabaseDataSafeStateEnumValues() []PluggableDatabaseDataSafeStateEnum {
+	values := make([]PluggableDatabaseDataSafeStateEnum, 0)
+	for _, v := range mappingPluggableDatabaseDataSafeStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetPluggableDatabaseDataSafeStateEnumStringValues Enumerates the set of values in String for PluggableDatabaseDataSafeStateEnum
+func GetPluggableDatabaseDataSafeStateEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+		"FAILED",
+	}
+}
+
+// GetMappingPluggableDatabaseDataSafeStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingPluggableDatabaseDataSafeStateEnum(val string) (PluggableDatabaseDataSafeStateEnum, bool) {
+	enum, ok := mappingPluggableDatabaseDataSafeStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

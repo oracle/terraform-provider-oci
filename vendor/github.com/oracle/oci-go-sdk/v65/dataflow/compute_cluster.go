@@ -184,6 +184,9 @@ type ComputeCluster struct {
 
 	// URL to give callback.
 	CallbackUrl *string `mandatory:"false" json:"callbackUrl"`
+
+	// The current state of the Compute Cluster.
+	ArtifactUpgradeState ArtifactUpgradeStateEnum `mandatory:"false" json:"artifactUpgradeState,omitempty"`
 }
 
 func (m ComputeCluster) String() string {
@@ -201,6 +204,9 @@ func (m ComputeCluster) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingDelegationTokenTypeEnum(string(m.DelegationTokenType)); !ok && m.DelegationTokenType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DelegationTokenType: %s. Supported values are: %s.", m.DelegationTokenType, strings.Join(GetDelegationTokenTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingArtifactUpgradeStateEnum(string(m.ArtifactUpgradeState)); !ok && m.ArtifactUpgradeState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ArtifactUpgradeState: %s. Supported values are: %s.", m.ArtifactUpgradeState, strings.Join(GetArtifactUpgradeStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

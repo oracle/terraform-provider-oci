@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Database Tools
+// Database Tools API
 //
 // Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
@@ -43,7 +43,7 @@ type DatabaseToolsConnection interface {
 	// Specifies the Database Tools Runtime endpoint.
 	GetRuntimeEndpoint() *string
 
-	// Specifies the identity used by the Database Tools service to issue requests to other OCI services (e.g., Secrets in Vault).
+	// Specifies the identity used when accessing OCI resources at runtime. AUTHENTICATED_PRINCIPAL to use the caller’s identity (On-Behalf-Of token), or RESOURCE_PRINCIPAL to use the connection’s resource principal (RPST).
 	GetRuntimeIdentity() RuntimeIdentityEnum
 
 	// A message describing the current state in more detail. For example, this message can be used to provide actionable information for a resource in the Failed state.

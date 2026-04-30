@@ -86,8 +86,7 @@ type CreateDatabaseDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
 	VmClusterId *string `mandatory:"false" json:"vmClusterId"`
 
-	// Specifies whether to register the database with Data Safe.
-	IsDataSafeRegistered *bool `mandatory:"false" json:"isDataSafeRegistered"`
+	DataSafeRegistrationDetails *DataSafeRegistrationRequestDetails `mandatory:"false" json:"dataSafeRegistrationDetails"`
 }
 
 func (m CreateDatabaseDetails) String() string {
@@ -131,7 +130,7 @@ func (m *CreateDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		StorageSizeDetails           *DatabaseStorageSizeDetails         `json:"storageSizeDetails"`
 		ManagedSoftwareUpdateDetails *ManagedSoftwareUpdateInputDetails  `json:"managedSoftwareUpdateDetails"`
 		VmClusterId                  *string                             `json:"vmClusterId"`
-		IsDataSafeRegistered         *bool                               `json:"isDataSafeRegistered"`
+		DataSafeRegistrationDetails  *DataSafeRegistrationRequestDetails `json:"dataSafeRegistrationDetails"`
 		DbName                       *string                             `json:"dbName"`
 		AdminPassword                *string                             `json:"adminPassword"`
 	}{}
@@ -187,7 +186,7 @@ func (m *CreateDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.VmClusterId = model.VmClusterId
 
-	m.IsDataSafeRegistered = model.IsDataSafeRegistered
+	m.DataSafeRegistrationDetails = model.DataSafeRegistrationDetails
 
 	m.DbName = model.DbName
 

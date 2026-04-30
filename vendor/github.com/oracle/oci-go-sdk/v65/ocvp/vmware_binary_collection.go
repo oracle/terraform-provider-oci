@@ -2,12 +2,13 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Database Service API
+// Oracle Cloud VMware Solution API
 //
-// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
+// Use the Oracle Cloud VMware API to create SDDCs and manage ESXi hosts and software.
+// For more information, see Oracle Cloud VMware Solution (https://docs.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
 //
 
-package database
+package ocvp
 
 import (
 	"fmt"
@@ -15,24 +16,21 @@ import (
 	"strings"
 )
 
-// FileSystemConfiguration Details of the file system configuration of the Exadata VM cluster.
-type FileSystemConfiguration struct {
+// VmwareBinaryCollection A list of third party VMware binary files.
+type VmwareBinaryCollection struct {
 
-	// The mount point of file system.
-	MountPoint *string `mandatory:"false" json:"mountPoint"`
-
-	// The file system size to be allocated in GBs.
-	FileSystemSizeGBs *int `mandatory:"false" json:"fileSystemSizeGBs"`
+	// A list of third party VMware binary files.
+	Items []VmwareBinary `mandatory:"true" json:"items"`
 }
 
-func (m FileSystemConfiguration) String() string {
+func (m VmwareBinaryCollection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m FileSystemConfiguration) ValidateEnumValue() (bool, error) {
+func (m VmwareBinaryCollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

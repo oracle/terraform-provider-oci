@@ -79,8 +79,7 @@ type CloneDatabaseDetails struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Specifies whether to register the database with Data Safe.
-	IsDataSafeRegistered *bool `mandatory:"false" json:"isDataSafeRegistered"`
+	DataSafeRegistrationDetails *DataSafeRegistrationRequestDetails `mandatory:"false" json:"dataSafeRegistrationDetails"`
 }
 
 func (m CloneDatabaseDetails) String() string {
@@ -102,27 +101,27 @@ func (m CloneDatabaseDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CloneDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		IsThinClone                        *bool                              `json:"isThinClone"`
-		SourceTdePassword                  *string                            `json:"sourceTdePassword"`
-		SourceAdminPassword                *string                            `json:"sourceAdminPassword"`
-		SourceEncryptionKeyLocationDetails encryptionkeylocationdetails       `json:"sourceEncryptionKeyLocationDetails"`
-		DbBackupConfig                     *DbBackupConfig                    `json:"dbBackupConfig"`
-		DbUniqueName                       *string                            `json:"dbUniqueName"`
-		CharacterSet                       *string                            `json:"characterSet"`
-		NcharacterSet                      *string                            `json:"ncharacterSet"`
-		SidPrefix                          *string                            `json:"sidPrefix"`
-		KeyStoreId                         *string                            `json:"keyStoreId"`
-		EncryptionKeyLocationDetails       encryptionkeylocationdetails       `json:"encryptionKeyLocationDetails"`
-		StorageSizeDetails                 *DatabaseStorageSizeDetails        `json:"storageSizeDetails"`
-		ManagedSoftwareUpdateDetails       *ManagedSoftwareUpdateInputDetails `json:"managedSoftwareUpdateDetails"`
-		VmClusterId                        *string                            `json:"vmClusterId"`
-		FreeformTags                       map[string]string                  `json:"freeformTags"`
-		DefinedTags                        map[string]map[string]interface{}  `json:"definedTags"`
-		IsDataSafeRegistered               *bool                              `json:"isDataSafeRegistered"`
-		SourceDatabaseId                   *string                            `json:"sourceDatabaseId"`
-		TdeWalletPassword                  *string                            `json:"tdeWalletPassword"`
-		AdminPassword                      *string                            `json:"adminPassword"`
-		DbName                             *string                            `json:"dbName"`
+		IsThinClone                        *bool                               `json:"isThinClone"`
+		SourceTdePassword                  *string                             `json:"sourceTdePassword"`
+		SourceAdminPassword                *string                             `json:"sourceAdminPassword"`
+		SourceEncryptionKeyLocationDetails encryptionkeylocationdetails        `json:"sourceEncryptionKeyLocationDetails"`
+		DbBackupConfig                     *DbBackupConfig                     `json:"dbBackupConfig"`
+		DbUniqueName                       *string                             `json:"dbUniqueName"`
+		CharacterSet                       *string                             `json:"characterSet"`
+		NcharacterSet                      *string                             `json:"ncharacterSet"`
+		SidPrefix                          *string                             `json:"sidPrefix"`
+		KeyStoreId                         *string                             `json:"keyStoreId"`
+		EncryptionKeyLocationDetails       encryptionkeylocationdetails        `json:"encryptionKeyLocationDetails"`
+		StorageSizeDetails                 *DatabaseStorageSizeDetails         `json:"storageSizeDetails"`
+		ManagedSoftwareUpdateDetails       *ManagedSoftwareUpdateInputDetails  `json:"managedSoftwareUpdateDetails"`
+		VmClusterId                        *string                             `json:"vmClusterId"`
+		FreeformTags                       map[string]string                   `json:"freeformTags"`
+		DefinedTags                        map[string]map[string]interface{}   `json:"definedTags"`
+		DataSafeRegistrationDetails        *DataSafeRegistrationRequestDetails `json:"dataSafeRegistrationDetails"`
+		SourceDatabaseId                   *string                             `json:"sourceDatabaseId"`
+		TdeWalletPassword                  *string                             `json:"tdeWalletPassword"`
+		AdminPassword                      *string                             `json:"adminPassword"`
+		DbName                             *string                             `json:"dbName"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -178,7 +177,7 @@ func (m *CloneDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.DefinedTags = model.DefinedTags
 
-	m.IsDataSafeRegistered = model.IsDataSafeRegistered
+	m.DataSafeRegistrationDetails = model.DataSafeRegistrationDetails
 
 	m.SourceDatabaseId = model.SourceDatabaseId
 
