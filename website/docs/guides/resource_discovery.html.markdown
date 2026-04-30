@@ -467,6 +467,7 @@ bds
 * oci\_bds\_bds\_instance\_node\_backup\_configuration
 * oci\_bds\_bds\_capacity\_report
 * oci\_bds\_bds\_instance\_identity\_configuration
+* oci\_bds\_bds\_instance\_bds\_certificate\_configuration
 
 blockchain
 
