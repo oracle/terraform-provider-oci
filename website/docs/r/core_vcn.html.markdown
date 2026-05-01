@@ -87,6 +87,8 @@ The following arguments are supported:
 * `byoipv6cidr_details` - (Optional) The list of BYOIPv6 OCIDs and BYOIPv6 prefixes required to create a VCN that uses BYOIPv6 address ranges. 
 	* `byoipv6range_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `ByoipRange` resource to which the CIDR block belongs.
 	* `ipv6cidr_block` - (Required) An IPv6 prefix required to create a VCN with a BYOIP prefix. It could be the whole prefix identified in `byoipv6RangeId`, or a subrange. Example: `2001:0db8:0123::/48` 
+
+	When updating `byoipv6cidr_details`, Terraform can add, remove, or replace multiple BYO IPv6 CIDR entries in a single `terraform apply`. This means you can update several BYO IPv6 prefixes at once instead of being limited to a single list edit per apply.
 * `cidr_block` - (Optional) **Deprecated.** Do *not* set this value. Use `cidr_blocks` instead. Example: `10.0.0.0/16` 
 * `cidr_blocks` - (Optional) (Updatable) The list of one or more IPv4 CIDR blocks for the VCN that meet the following criteria:
 	* The CIDR blocks must be valid.
@@ -109,6 +111,8 @@ The following arguments are supported:
 	* The number of CIDR blocks must not exceed the limit of IPv6 prefixes allowed to a VCN.
 
 	**Important:** Do *not* specify a value for `ipv6cidr_block`. Use this parameter instead. 
+
+	When updating `ipv6private_cidr_blocks`, Terraform can add, remove, or replace multiple IPv6 private CIDR blocks in a single `terraform apply`. You can also mix several list changes together in the same update instead of applying them one at a time.
 * `is_ipv6enabled` - (Optional) Whether IPv6 is enabled for the VCN. Default is `false`. If enabled, Oracle will assign the VCN a IPv6 /56 CIDR block. You may skip having Oracle allocate the VCN a IPv6 /56 CIDR block by setting isOracleGuaAllocationEnabled to `false`. For important details about IPv6 addressing in a VCN, see [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).  Example: `true` 
 * `is_oracle_gua_allocation_enabled` - (Optional) Specifies whether to skip Oracle allocated IPv6 GUA. By default, Oracle will allocate one GUA of /56 size for an IPv6 enabled VCN.
 * `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}`
