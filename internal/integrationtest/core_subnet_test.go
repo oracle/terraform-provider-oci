@@ -13,6 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/plancheck"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
@@ -543,6 +544,409 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreSubnetResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, CoreSubnetRepresentation), "core", "subnet", t)
 	acctest.ResourceTest(t, testAccCheckCoreSubnetDestroy, testSteps)
+}
+
+// issue-routing-tag: core/virtualNetwork
+func TestCoreSubnetResource_SubnetPatch(t *testing.T) {
+	httpreplay.SetScenario("TestCoreSubnetResource_SubnetPatch")
+	defer httpreplay.SaveScenario()
+	acctest.PreCheck(t)
+
+	byoipv6RangeId := acctest.GetEnvSettingWithDefaultVar("byoipv6_range_id", "unknown")
+	if byoipv6RangeId == "unknown" {
+		t.Skip("TF_VAR_byoipv6_range_id must be set for BYO IPv6 subnet patch acceptance tests")
+	}
+
+	resourceName := "oci_core_subnet.patch_subnet"
+	vcnResourceName := "oci_core_virtual_network.patch_vcn"
+
+	vcnByoIpv6Cidrs := coreSubnetPatchTestByoIpv6Cidrs()
+	initialByoBlock := vcnByoIpv6Cidrs[0]
+	firstListBlock := vcnByoIpv6Cidrs[1]
+	elevenAdditionalBlocks := append([]string{}, vcnByoIpv6Cidrs[2:13]...)
+	blocksAfterBulkAdd := append([]string{firstListBlock}, elevenAdditionalBlocks...)
+	beginningReplacementBlock := vcnByoIpv6Cidrs[13]
+	blocksAfterBeginningReplace := append([]string{beginningReplacementBlock}, blocksAfterBulkAdd[1:]...)
+	middleReplacementBlock := vcnByoIpv6Cidrs[14]
+	blocksAfterMiddleReplace := append([]string{}, blocksAfterBeginningReplace...)
+	blocksAfterMiddleReplace[len(blocksAfterMiddleReplace)/2] = middleReplacementBlock
+	blocksAfterEndReplace := append([]string{}, blocksAfterMiddleReplace[:len(blocksAfterMiddleReplace)-1]...)
+	blocksAfterEndReplace = append(blocksAfterEndReplace, firstListBlock)
+	blocksAfterMultiReplace := append([]string{}, blocksAfterEndReplace...)
+	blocksAfterMultiReplace[0] = vcnByoIpv6Cidrs[0]
+	blocksAfterMultiReplace[len(blocksAfterMultiReplace)/2-1] = vcnByoIpv6Cidrs[7]
+	blocksAfterMultiReplace[len(blocksAfterMultiReplace)/2] = vcnByoIpv6Cidrs[12]
+	blocksAfterReorder := append([]string{blocksAfterMultiReplace[1], blocksAfterMultiReplace[2], blocksAfterMultiReplace[0]}, blocksAfterMultiReplace[3:]...)
+	//removedBeginningBlock := blocksAfterReorder[0]
+	blocksAfterBeginningRemoval := append([]string{}, blocksAfterReorder[1:]...)
+	lastBlockAfterBeginningRemoval := blocksAfterBeginningRemoval[len(blocksAfterBeginningRemoval)-1]
+	middleRemovalIndex := len(blocksAfterBeginningRemoval) / 2
+	blocksAfterMiddleRemoval := append([]string{}, blocksAfterBeginningRemoval[:middleRemovalIndex]...)
+	blocksAfterMiddleRemoval = append(blocksAfterMiddleRemoval, blocksAfterBeginningRemoval[middleRemovalIndex+1:]...)
+	blocksAfterEndRemoval := append([]string{}, blocksAfterMiddleRemoval[:len(blocksAfterMiddleRemoval)-1]...)
+
+	acctest.ResourceTest(t, testAccCheckCoreSubnetDestroy, []resource.TestStep{
+		// Step 1 - Create a VCN with 15 byoipv6 cidrs and an Oracle-assigned GUA.
+		{
+			Config: coreSubnetPatchByoIpv6Config(byoipv6RangeId, vcnByoIpv6Cidrs, "", nil, false),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(vcnResourceName, "is_oracle_gua_allocation_enabled", "true"),
+				resource.TestCheckResourceAttr(vcnResourceName, "ipv6cidr_blocks.#", "1"),
+				resource.TestCheckResourceAttrSet(vcnResourceName, "ipv6cidr_blocks.0"),
+				resource.TestCheckResourceAttr(vcnResourceName, "byoipv6cidr_details.#", strconv.Itoa(len(vcnByoIpv6Cidrs))),
+				resource.TestCheckResourceAttr(vcnResourceName, "byoipv6cidr_blocks.#", strconv.Itoa(len(vcnByoIpv6Cidrs))),
+				testCheckCanonicalTypeSetContains(vcnResourceName, "byoipv6cidr_blocks", []string{initialByoBlock}),
+			),
+		},
+		// Step 2 - Create a SUBNET under the VCN with 0 ipv6 cidrs.
+		{
+			Config: coreSubnetPatchByoIpv6Config(byoipv6RangeId, vcnByoIpv6Cidrs, "", nil, true),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				testCheckMissingOrZeroResourceAttr(resourceName, "ipv6cidr_blocks.#"),
+			),
+		},
+		// Step 3 - Add 12 ipv6 cidrs to the Subnet via the ipv6cidr_blocks field.
+		{
+			Config: coreSubnetPatchByoIpv6Config(byoipv6RangeId, vcnByoIpv6Cidrs, "", blocksAfterBulkAdd, true),
+			ConfigPlanChecks: resource.ConfigPlanChecks{
+				PreApply: []plancheck.PlanCheck{
+					plancheck.ExpectResourceAction(resourceName, plancheck.ResourceActionUpdate),
+					subnetIpv6PlanCheck{
+						resourceAddress: resourceName,
+						expectation: subnetIpv6PlanExpectation{
+							blocksFieldChanges: 1,
+							blocksAdditions:    12,
+						},
+					},
+				},
+			},
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", strconv.Itoa(len(blocksAfterBulkAdd))),
+				testCheckCanonicalTypeSetContains(resourceName, "ipv6cidr_blocks", blocksAfterBulkAdd),
+				testCheckCanonicalListEquals(resourceName, "ipv6cidr_blocks", blocksAfterBulkAdd),
+			),
+		},
+		// Step 4
+		{
+			Config:             coreSubnetPatchByoIpv6Config(byoipv6RangeId, vcnByoIpv6Cidrs, "", blocksAfterBulkAdd, true),
+			PlanOnly:           true,
+			ExpectNonEmptyPlan: false,
+		},
+		// Step 5 - Replace a cidr block at the beginning of the Subnet's ipv6cidr_blocks field.
+		{
+			Config: coreSubnetPatchByoIpv6Config(byoipv6RangeId, vcnByoIpv6Cidrs, "", blocksAfterBeginningReplace, true),
+			ConfigPlanChecks: resource.ConfigPlanChecks{
+				PreApply: []plancheck.PlanCheck{
+					plancheck.ExpectResourceAction(resourceName, plancheck.ResourceActionUpdate),
+					subnetIpv6PlanCheck{
+						resourceAddress: resourceName,
+						expectation: subnetIpv6PlanExpectation{
+							blocksFieldChanges:      1,
+							blocksAdditions:         1,
+							blocksRemovals:          1,
+							blocksReplacementGroups: 1,
+						},
+					},
+				},
+			},
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", strconv.Itoa(len(blocksAfterBeginningReplace))),
+				testCheckCanonicalTypeSetContains(resourceName, "ipv6cidr_blocks", blocksAfterBeginningReplace),
+				testCheckCanonicalListEquals(resourceName, "ipv6cidr_blocks", blocksAfterBeginningReplace),
+			),
+		},
+		// Step 6 - Replace a cidr block in the middle of the Subnet's ipv6cidr_blocks field.
+		{
+			Config: coreSubnetPatchByoIpv6Config(byoipv6RangeId, vcnByoIpv6Cidrs, "", blocksAfterMiddleReplace, true),
+			ConfigPlanChecks: resource.ConfigPlanChecks{
+				PreApply: []plancheck.PlanCheck{
+					plancheck.ExpectResourceAction(resourceName, plancheck.ResourceActionUpdate),
+					subnetIpv6PlanCheck{
+						resourceAddress: resourceName,
+						expectation: subnetIpv6PlanExpectation{
+							blocksFieldChanges:      1,
+							blocksAdditions:         1,
+							blocksRemovals:          1,
+							blocksReplacementGroups: 1,
+						},
+					},
+				},
+			},
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", strconv.Itoa(len(blocksAfterMiddleReplace))),
+				testCheckCanonicalTypeSetContains(resourceName, "ipv6cidr_blocks", blocksAfterMiddleReplace),
+				testCheckCanonicalListEquals(resourceName, "ipv6cidr_blocks", blocksAfterMiddleReplace),
+			),
+		},
+		// Step 7 - Replace a cidr block at the end of the Subnet's ipv6cidr_blocks field.
+		{
+			Config: coreSubnetPatchByoIpv6Config(byoipv6RangeId, vcnByoIpv6Cidrs, "", blocksAfterEndReplace, true),
+			ConfigPlanChecks: resource.ConfigPlanChecks{
+				PreApply: []plancheck.PlanCheck{
+					plancheck.ExpectResourceAction(resourceName, plancheck.ResourceActionUpdate),
+					subnetIpv6PlanCheck{
+						resourceAddress: resourceName,
+						expectation: subnetIpv6PlanExpectation{
+							blocksFieldChanges:      1,
+							blocksAdditions:         1,
+							blocksRemovals:          1,
+							blocksReplacementGroups: 1,
+						},
+					},
+				},
+			},
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", strconv.Itoa(len(blocksAfterEndReplace))),
+				testCheckCanonicalTypeSetContains(resourceName, "ipv6cidr_blocks", blocksAfterEndReplace),
+				testCheckCanonicalListEquals(resourceName, "ipv6cidr_blocks", blocksAfterEndReplace),
+			),
+		},
+		// Step 8 - Replace three cidr blocks in the Subnet's ipv6cidr_blocks field with entirely new cidrs.
+		{
+			Config: coreSubnetPatchByoIpv6Config(byoipv6RangeId, vcnByoIpv6Cidrs, "", blocksAfterMultiReplace, true),
+			ConfigPlanChecks: resource.ConfigPlanChecks{
+				PreApply: []plancheck.PlanCheck{
+					plancheck.ExpectResourceAction(resourceName, plancheck.ResourceActionUpdate),
+					subnetIpv6PlanCheck{
+						resourceAddress: resourceName,
+						expectation: subnetIpv6PlanExpectation{
+							blocksFieldChanges:      1,
+							blocksAdditions:         3,
+							blocksRemovals:          3,
+							blocksReplacementGroups: 3,
+						},
+					},
+				},
+			},
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", strconv.Itoa(len(blocksAfterMultiReplace))),
+				testCheckCanonicalTypeSetContains(resourceName, "ipv6cidr_blocks", blocksAfterMultiReplace),
+				testCheckCanonicalListEquals(resourceName, "ipv6cidr_blocks", blocksAfterMultiReplace),
+			),
+		},
+		// Step 9 - Reorder cidr blocks in the Subnet's ipv6cidr_blocks field without changing membership.
+		{
+			Config: coreSubnetPatchByoIpv6Config(byoipv6RangeId, vcnByoIpv6Cidrs, "", blocksAfterReorder, true),
+			ConfigPlanChecks: resource.ConfigPlanChecks{
+				PreApply: []plancheck.PlanCheck{
+					plancheck.ExpectResourceAction(resourceName, plancheck.ResourceActionUpdate),
+					subnetIpv6PlanCheck{
+						resourceAddress: resourceName,
+						expectation:     subnetIpv6PlanExpectation{},
+					},
+				},
+			},
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", strconv.Itoa(len(blocksAfterReorder))),
+				testCheckCanonicalTypeSetContains(resourceName, "ipv6cidr_blocks", blocksAfterReorder),
+				testCheckCanonicalListEquals(resourceName, "ipv6cidr_blocks", blocksAfterReorder),
+			),
+		},
+		// Step 10 - Remove block A from ipv6cidr_blocks while ipv6cidr_block still
+		// points at A. State should replace ipv6cidr_block with the last remaining
+		// cidr from ipv6cidr_blocks.
+		{
+			Config: coreSubnetPatchByoIpv6Config(byoipv6RangeId, vcnByoIpv6Cidrs, "", blocksAfterBeginningRemoval, true),
+			ConfigPlanChecks: resource.ConfigPlanChecks{
+				PreApply: []plancheck.PlanCheck{
+					plancheck.ExpectResourceAction(resourceName, plancheck.ResourceActionUpdate),
+					subnetIpv6PlanCheck{
+						resourceAddress: resourceName,
+						expectation: subnetIpv6PlanExpectation{
+							blocksFieldChanges: 1,
+							blocksRemovals:     1,
+						},
+					},
+				},
+			},
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", strconv.Itoa(len(blocksAfterBeginningRemoval))),
+				testCheckCanonicalTypeSetContains(resourceName, "ipv6cidr_blocks", blocksAfterBeginningRemoval),
+				testCheckCanonicalListEquals(resourceName, "ipv6cidr_blocks", blocksAfterBeginningRemoval),
+				testCheckCanonicalResourceAttrEqualsLiteral(resourceName, "ipv6cidr_block", lastBlockAfterBeginningRemoval),
+			),
+		},
+		// Step 11 - Remove a cidr block from the middle of the Subnet's ipv6cidr_blocks field.
+		{
+			Config: coreSubnetPatchByoIpv6Config(byoipv6RangeId, vcnByoIpv6Cidrs, "", blocksAfterMiddleRemoval, true),
+			ConfigPlanChecks: resource.ConfigPlanChecks{
+				PreApply: []plancheck.PlanCheck{
+					plancheck.ExpectResourceAction(resourceName, plancheck.ResourceActionUpdate),
+					subnetIpv6PlanCheck{
+						resourceAddress: resourceName,
+						expectation: subnetIpv6PlanExpectation{
+							blocksFieldChanges: 1,
+							blocksRemovals:     1,
+						},
+					},
+				},
+			},
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", strconv.Itoa(len(blocksAfterMiddleRemoval))),
+				testCheckCanonicalTypeSetContains(resourceName, "ipv6cidr_blocks", blocksAfterMiddleRemoval),
+				testCheckCanonicalListEquals(resourceName, "ipv6cidr_blocks", blocksAfterMiddleRemoval),
+			),
+		},
+		// Step 12 - Verify no diff after removing the middle cidr block.
+		{
+			Config:             coreSubnetPatchByoIpv6Config(byoipv6RangeId, vcnByoIpv6Cidrs, "", blocksAfterMiddleRemoval, true),
+			PlanOnly:           true,
+			ExpectNonEmptyPlan: false,
+			ConfigPlanChecks: resource.ConfigPlanChecks{
+				PostApplyPreRefresh: []plancheck.PlanCheck{
+					plancheck.ExpectEmptyPlan(),
+				},
+			},
+		},
+		// Step 13 - Remove a cidr block from the end of the Subnet's ipv6cidr_blocks field.
+		{
+			Config: coreSubnetPatchByoIpv6Config(byoipv6RangeId, vcnByoIpv6Cidrs, "", blocksAfterEndRemoval, true),
+			ConfigPlanChecks: resource.ConfigPlanChecks{
+				PreApply: []plancheck.PlanCheck{
+					plancheck.ExpectResourceAction(resourceName, plancheck.ResourceActionUpdate),
+					subnetIpv6PlanCheck{
+						resourceAddress: resourceName,
+						expectation: subnetIpv6PlanExpectation{
+							blocksFieldChanges: 1,
+							blocksRemovals:     1,
+						},
+					},
+				},
+			},
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", strconv.Itoa(len(blocksAfterEndRemoval))),
+				testCheckCanonicalTypeSetContains(resourceName, "ipv6cidr_blocks", blocksAfterEndRemoval),
+				testCheckCanonicalListEquals(resourceName, "ipv6cidr_blocks", blocksAfterEndRemoval),
+			),
+		},
+	})
+}
+
+func coreSubnetPatchTestByoIpv6Cidrs() []string {
+	cidrs := make([]string, 0, 15)
+	for i := 0; i < 15; i++ {
+		cidrs = append(cidrs, fmt.Sprintf("2607:f590:0000:%04x::/64", 0x2200+i))
+	}
+	return cidrs
+}
+
+func coreSubnetPatchByoIpv6Config(byoipv6RangeId string, vcnByoIpv6Cidrs []string, subnetIpv6Block string, subnetIpv6Blocks []string, includeSubnet bool) string {
+	var config strings.Builder
+
+	config.WriteString(acctest.LegacyTestProviderConfig())
+	config.WriteString(`
+		data "oci_identity_availability_domains" "patch_ads" {
+			compartment_id = "${var.compartment_id}"
+		}
+
+		resource "oci_core_virtual_network" "patch_vcn" {
+			cidr_block                      = "10.0.0.0/16"
+			compartment_id                  = "${var.compartment_id}"
+			display_name                    = "patch-vcn"
+			dns_label                       = "patchvcn"
+			is_ipv6enabled                  = true
+			is_oracle_gua_allocation_enabled = true
+`)
+
+	for _, cidr := range vcnByoIpv6Cidrs {
+		fmt.Fprintf(&config, `
+			byoipv6cidr_details {
+				byoipv6range_id = %q
+				ipv6cidr_block  = %q
+			}
+`, byoipv6RangeId, cidr)
+	}
+
+	config.WriteString(`
+		}
+`)
+
+	if includeSubnet {
+		config.WriteString(`
+		resource "oci_core_subnet" "patch_subnet" {
+			availability_domain = "${data.oci_identity_availability_domains.patch_ads.availability_domains.0.name}"
+			compartment_id      = "${var.compartment_id}"
+			vcn_id              = "${oci_core_virtual_network.patch_vcn.id}"
+			route_table_id      = "${oci_core_virtual_network.patch_vcn.default_route_table_id}"
+			dhcp_options_id     = "${oci_core_virtual_network.patch_vcn.default_dhcp_options_id}"
+			security_list_ids   = ["${oci_core_virtual_network.patch_vcn.default_security_list_id}"]
+			cidr_block          = "10.0.2.0/24"
+			display_name        = "patch-subnet"
+`)
+
+		if subnetIpv6Block != "" {
+			fmt.Fprintf(&config, "			ipv6cidr_block = %q\n", subnetIpv6Block)
+		}
+
+		if subnetIpv6Blocks != nil {
+			config.WriteString("			ipv6cidr_blocks = [")
+			for i, cidr := range subnetIpv6Blocks {
+				if i > 0 {
+					config.WriteString(", ")
+				}
+				fmt.Fprintf(&config, "%q", cidr)
+			}
+			config.WriteString("]\n")
+		}
+
+		config.WriteString(`
+		}
+`)
+	}
+
+	return config.String()
+}
+
+func coreSubnetPatchPrivateIpv6Config(subnetIpv6Blocks []string, includeSubnet bool) string {
+	var config strings.Builder
+
+	config.WriteString(acctest.LegacyTestProviderConfig())
+	config.WriteString(`
+		data "oci_identity_availability_domains" "patch_ads" {
+			compartment_id = "${var.compartment_id}"
+		}
+
+		resource "oci_core_virtual_network" "patch_vcn" {
+			cidr_block                       = "10.0.0.0/16"
+			compartment_id                   = "${var.compartment_id}"
+			display_name                     = "patch-vcn-private"
+			dns_label                        = "patchvcnp"
+			is_ipv6enabled                   = true
+			is_oracle_gua_allocation_enabled = false
+			ipv6private_cidr_blocks          = ["fc00:1000::/56"]
+		}
+`)
+
+	if includeSubnet {
+		config.WriteString(`
+		resource "oci_core_subnet" "patch_subnet" {
+			availability_domain = "${data.oci_identity_availability_domains.patch_ads.availability_domains.0.name}"
+			compartment_id      = "${var.compartment_id}"
+			vcn_id              = "${oci_core_virtual_network.patch_vcn.id}"
+			route_table_id      = "${oci_core_virtual_network.patch_vcn.default_route_table_id}"
+			dhcp_options_id     = "${oci_core_virtual_network.patch_vcn.default_dhcp_options_id}"
+			security_list_ids   = ["${oci_core_virtual_network.patch_vcn.default_security_list_id}"]
+			cidr_block          = "10.0.2.0/24"
+			display_name        = "patch-subnet-private"
+`)
+
+		if subnetIpv6Blocks != nil {
+			config.WriteString("			ipv6cidr_blocks = [")
+			for i, cidr := range subnetIpv6Blocks {
+				if i > 0 {
+					config.WriteString(", ")
+				}
+				fmt.Fprintf(&config, "%q", cidr)
+			}
+			config.WriteString("]\n")
+		}
+
+		config.WriteString(`
+		}
+`)
+	}
+
+	return config.String()
 }
 
 func convertToCanonical(block string) string {

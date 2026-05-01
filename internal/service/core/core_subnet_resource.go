@@ -390,15 +390,36 @@ func (s *CoreSubnetResourceCrud) Update() error {
 			}
 		}
 	}
-	request := oci_core.UpdateSubnetRequest{}
+	ipv6PatchChanges := buildSubnetIpv6PatchChangeSet(s.D)
 
-	if _, ok := s.D.GetOkExists("ipv6cidr_blocks"); ok && s.D.HasChange("ipv6cidr_blocks") {
-		oldRaw, newRaw := s.D.GetChange("ipv6cidr_blocks")
-		if newRaw != "" && oldRaw != "" {
-			err := s.updateIpv6CidrBlocks(oldRaw, newRaw)
-			if err != nil {
-				return err
-			}
+	usePatch, err := ipv6PatchChanges.shouldUsePatch()
+	if err != nil {
+		return err
+	}
+
+	didPatch := false
+	// IPv6 CIDR updates are split from the normal UpdateSubnet payload because this
+	// resource now has two valid execution strategies for subnet cidr changes viz. UpdateSubnet and PatchSubnet
+	//
+	// The default path is still the legacy behavior:
+	// - simple one-step ipv6cidr_blocks edits remain on the legacy IPv6 APIs
+	// - a single "empty -> value" ipv6cidr_block add remains part of UpdateSubnet
+	// - Update to any field excluding ipv6cidr_block and ipv6cidr_blocks remain part of UpdateSubnet
+	//
+	// PatchSubnet is reserved for the IPv6 cases that cannot be modeled safely as
+	// one legacy operation: updating ipv6cidr_block and ipv6cidr_blocks together,
+	// replacing ipv6cidr_block, or applying an ipv6cidr_blocks diff that implies
+	// multiple effective edits.
+	// Once that decision is made, the later UpdateSubnet request must avoid
+	// re-sending the IPv6 fields already handled by patch.
+	if usePatch {
+		if err := s.patchSubnet(ipv6PatchChanges); err != nil {
+			return err
+		}
+		didPatch = true
+	} else {
+		if err := s.applyLegacySubnetIpv6Changes(ipv6PatchChanges); err != nil {
+			return err
 		}
 	}
 
@@ -412,72 +433,25 @@ func (s *CoreSubnetResourceCrud) Update() error {
 		}
 	}
 
-	if _, ok := s.D.GetOkExists("cidr_block"); ok && s.D.HasChange("cidr_block") {
-		_, cidrBlock := s.D.GetChange("cidr_block")
-		tmp := cidrBlock.(string)
-		request.CidrBlock = &tmp
-	}
-
-	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
-		if err != nil {
-			return err
-		}
-		request.DefinedTags = convertedDefinedTags
-	}
-
-	if dhcpOptionsId, ok := s.D.GetOkExists("dhcp_options_id"); ok {
-		tmp := dhcpOptionsId.(string)
-		request.DhcpOptionsId = &tmp
-	}
-
-	if displayName, ok := s.D.GetOkExists("display_name"); ok {
-		tmp := displayName.(string)
-		request.DisplayName = &tmp
-	}
-
-	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
-	}
-
-	if ipv6CidrBlock, ok := s.D.GetOkExists("ipv6cidr_block"); ok && s.D.HasChange("ipv6cidr_block") {
-		oldRaw, newRaw := s.D.GetChange("ipv6cidr_block")
-		if newRaw != "" && oldRaw == "" {
-			tmp := ipv6CidrBlock.(string)
-			request.Ipv6CidrBlock = &tmp
-		}
-	}
-
-	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
-		tmp := routeTableId.(string)
-		request.RouteTableId = &tmp
-	}
-
-	if securityListIds, ok := s.D.GetOkExists("security_list_ids"); ok {
-		set := securityListIds.(*schema.Set)
-		interfaces := set.List()
-		tmp := make([]string, len(interfaces))
-		for i := range interfaces {
-			if interfaces[i] != nil {
-				tmp[i] = interfaces[i].(string)
-			}
-		}
-		if len(tmp) != 0 || s.D.HasChange("security_list_ids") {
-			request.SecurityListIds = tmp
-		}
-	}
-
-	tmp := s.D.Id()
-	request.SubnetId = &tmp
-
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
-
-	response, err := s.Client.UpdateSubnet(context.Background(), request)
+	request, shouldUpdateSubnet, err := s.buildUpdateSubnetRequest(ipv6PatchChanges, usePatch)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.Subnet
+	if shouldUpdateSubnet {
+		response, err := s.Client.UpdateSubnet(context.Background(), request)
+		if err != nil {
+			return err
+		}
+
+		s.Res = &response.Subnet
+		return nil
+	}
+
+	if didPatch || s.Res == nil {
+		return s.Get()
+	}
+
 	return nil
 }
 
@@ -532,8 +506,9 @@ func (s *CoreSubnetResourceCrud) SetData() error {
 
 	s.D.Set("ipv6cidr_blocks", s.Res.Ipv6CidrBlocks)
 
-	if len(s.Res.Ipv6CidrBlocks) > 0 && isEmptyString(s.D.Get("ipv6cidr_block").(string)) {
-		err := s.D.Set("ipv6cidr_block", s.Res.Ipv6CidrBlocks[0])
+	ipv6CidrBlock := s.D.Get("ipv6cidr_block").(string)
+	if len(s.Res.Ipv6CidrBlocks) > 0 && (isEmptyString(ipv6CidrBlock) || !isIpv6CidrBlockInList(ipv6CidrBlock, s.Res.Ipv6CidrBlocks)) {
+		err := s.D.Set("ipv6cidr_block", s.Res.Ipv6CidrBlocks[len(s.Res.Ipv6CidrBlocks)-1])
 		if err != nil {
 			return err
 		}
@@ -586,6 +561,25 @@ func (s *CoreSubnetResourceCrud) SetData() error {
 	return nil
 }
 
+func isIpv6CidrBlockInList(ipv6CidrBlock string, ipv6CidrBlocks []string) bool {
+	ipv6CidrBlock = strings.TrimSpace(ipv6CidrBlock)
+	if ipv6CidrBlock == "" {
+		return false
+	}
+
+	for _, currentBlock := range ipv6CidrBlocks {
+		currentBlock = strings.TrimSpace(currentBlock)
+		if currentBlock == "" {
+			continue
+		}
+		if ipv6CidrBlock == currentBlock || ipv6CompressionDiffSuppressFunction("", ipv6CidrBlock, currentBlock, nil) {
+			return true
+		}
+	}
+
+	return false
+}
+
 func (s *CoreSubnetResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_core.ChangeSubnetCompartmentRequest{}
 
@@ -609,23 +603,7 @@ func (s *CoreSubnetResourceCrud) updateCompartment(compartment interface{}) erro
 	return nil
 }
 
-func (s *CoreSubnetResourceCrud) updateIpv6CidrBlocks(oldRaw interface{}, newRaw interface{}) error {
-	interfaces := oldRaw.([]interface{})
-	oldBlocks := make([]string, len(interfaces))
-	for i := range interfaces {
-		if interfaces[i] != nil {
-			oldBlocks[i] = interfaces[i].(string)
-		}
-	}
-
-	interfaces = newRaw.([]interface{})
-	newBlocks := make([]string, len(interfaces))
-	for i := range interfaces {
-		if interfaces[i] != nil {
-			newBlocks[i] = interfaces[i].(string)
-		}
-	}
-
+func (s *CoreSubnetResourceCrud) updateIpv6CidrBlocks(oldBlocks []string, newBlocks []string) error {
 	canEdit, operation, changeCidr := ipv6CidrOneEditAway(oldBlocks, newBlocks)
 	if !canEdit {
 		return fmt.Errorf("only one add/remove or modification is allowed at once, new IPv6 cidr_block must be added at the end of list")
@@ -639,7 +617,11 @@ func (s *CoreSubnetResourceCrud) updateIpv6CidrBlocks(oldRaw interface{}, newRaw
 		addIpv6SubnetCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 		addSubnetIpv6CidrDetails.Ipv6CidrBlock = &changeCidr
 		addIpv6SubnetCidrRequest.AddSubnetIpv6CidrDetails = addSubnetIpv6CidrDetails
-		_, err := s.Client.AddIpv6SubnetCidr(context.Background(), addIpv6SubnetCidrRequest)
+		response, err := s.Client.AddIpv6SubnetCidr(context.Background(), addIpv6SubnetCidrRequest)
+		if err != nil {
+			return err
+		}
+		err = s.waitForWorkRequest(response.OpcWorkRequestId)
 		if err != nil {
 			return err
 		}
@@ -653,7 +635,11 @@ func (s *CoreSubnetResourceCrud) updateIpv6CidrBlocks(oldRaw interface{}, newRaw
 		removeIpv6SubnetCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 		removeSubnetIpv6CidrDetails.Ipv6CidrBlock = &changeCidr
 		removeIpv6SubnetCidrRequest.RemoveSubnetIpv6CidrDetails = removeSubnetIpv6CidrDetails
-		_, err := s.Client.RemoveIpv6SubnetCidr(context.Background(), removeIpv6SubnetCidrRequest)
+		response, err := s.Client.RemoveIpv6SubnetCidr(context.Background(), removeIpv6SubnetCidrRequest)
+		if err != nil {
+			return err
+		}
+		err = s.waitForWorkRequest(response.OpcWorkRequestId)
 		if err != nil {
 			return err
 		}
@@ -865,6 +851,169 @@ func ipv4CidrOneEditAway(oldBlocks []string, newBlocks []string) ([]ipv4CidrEdit
 	}
 
 	return edits, nil
+}
+
+// applyLegacySubnetIpv6Changes executes only the IPv6 mutations that remain on
+// the legacy APIs.
+//
+// This helper exists specifically so the new patch support does not disturb the
+// old IPv4 flow. By the time execution reaches this method, the router has
+// already decided that the requested IPv6 change is simple enough to preserve
+// the old add/remove behavior for ipv6cidr_blocks.
+//
+// The scalar ipv6cidr_block case is handled separately through UpdateSubnet.
+func (s *CoreSubnetResourceCrud) applyLegacySubnetIpv6Changes(changeSet subnetIpv6PatchChangeSet) error {
+	if changeSet.ipv6CidrBlocksChanged {
+		if err := s.updateIpv6CidrBlocks(changeSet.oldIpv6CidrBlocks, changeSet.newIpv6CidrBlocks); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+// buildUpdateSubnetRequest assembles the standard UpdateSubnet payload for every
+// change that should still flow through the existing PUT-style subnet API.
+//
+// The helper has to understand which IPv6 work was already consumed elsewhere:
+//   - cidr_block always belongs here and therefore preserves the original
+//     UpdateSubnet workflow
+//   - ipv6cidr_block belongs here only for the legacy-compatible "empty -> value"
+//     add case; when PatchSubnet owns the IPv6 mutation set, including scalar
+//     replacements, this helper must omit it
+//   - ipv6cidr_blocks never belongs here because it is handled either by the
+//     legacy IPv6 helper or by PatchSubnet
+//
+// For most mutable fields, HasChange + GetChange is the correct update pattern.
+// These fields must honor valid clear-to-empty updates such as removing tags or
+// sending an empty security list set, and GetOkExists would incorrectly suppress
+// those requests because the post-diff value can be empty while still being the
+// user's intended new value.
+//
+// cidr_block remains the exception here because it is Optional + Computed and we
+// only want to send it through UpdateSubnet when the user still has it
+// explicitly configured and changed. This preserves the existing customer-facing
+// behavior for a field that does not support the same clear semantics as tags,
+// route tables, or security lists.
+//
+// Returning both the request and a boolean keeps the caller from issuing a no-op
+// UpdateSubnet after a patch-only or legacy-only CIDR operation.
+func (s *CoreSubnetResourceCrud) buildUpdateSubnetRequest(changeSet subnetIpv6PatchChangeSet, cidrChangesHandledByPatch bool) (oci_core.UpdateSubnetRequest, bool, error) {
+	request := oci_core.UpdateSubnetRequest{}
+	shouldUpdateSubnet := false
+
+	if _, ok := s.D.GetOkExists("cidr_block"); ok && s.D.HasChange("cidr_block") {
+		_, cidrBlock := s.D.GetChange("cidr_block")
+		tmp := cidrBlock.(string)
+		request.CidrBlock = &tmp
+		shouldUpdateSubnet = true
+	}
+
+	if s.D.HasChange("defined_tags") {
+		_, newRaw := s.D.GetChange("defined_tags")
+		definedTags := map[string]interface{}{}
+		if newRaw != nil {
+			definedTags = newRaw.(map[string]interface{})
+		}
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags)
+		if err != nil {
+			return request, false, err
+		}
+		request.DefinedTags = convertedDefinedTags
+		shouldUpdateSubnet = true
+	}
+
+	if s.D.HasChange("dhcp_options_id") {
+		_, newRaw := s.D.GetChange("dhcp_options_id")
+		tmp := newRaw.(string)
+		request.DhcpOptionsId = &tmp
+		shouldUpdateSubnet = true
+	}
+
+	if s.D.HasChange("display_name") {
+		_, newRaw := s.D.GetChange("display_name")
+		tmp := newRaw.(string)
+		request.DisplayName = &tmp
+		shouldUpdateSubnet = true
+	}
+
+	if s.D.HasChange("freeform_tags") {
+		_, newRaw := s.D.GetChange("freeform_tags")
+		freeformTags := map[string]interface{}{}
+		if newRaw != nil {
+			freeformTags = newRaw.(map[string]interface{})
+		}
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags)
+		shouldUpdateSubnet = true
+	}
+
+	if changeSet.ipv6CidrBlockChanged && !cidrChangesHandledByPatch && changeSet.newIpv6CidrBlock != "" {
+		tmp := changeSet.newIpv6CidrBlock
+		request.Ipv6CidrBlock = &tmp
+		shouldUpdateSubnet = true
+	}
+
+	if s.D.HasChange("route_table_id") {
+		_, newRaw := s.D.GetChange("route_table_id")
+		tmp := newRaw.(string)
+		request.RouteTableId = &tmp
+		shouldUpdateSubnet = true
+	}
+
+	if s.D.HasChange("security_list_ids") {
+		_, newRaw := s.D.GetChange("security_list_ids")
+		set := newRaw.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		request.SecurityListIds = tmp
+		shouldUpdateSubnet = true
+	}
+
+	tmp := s.D.Id()
+	request.SubnetId = &tmp
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	return request, shouldUpdateSubnet, nil
+}
+
+// patchSubnet uses GetSubnet first because PatchSubnet is optimistic and
+// asynchronous: the service requires If-Match and only returns a work request id.
+func (s *CoreSubnetResourceCrud) patchSubnet(changeSet subnetIpv6PatchChangeSet) error {
+	instructions, err := changeSet.buildPatchInstructions()
+	if err != nil {
+		return err
+	}
+
+	if len(instructions) == 0 {
+		return nil
+	}
+
+	getResponse, err := s.getSubnet()
+	if err != nil {
+		return err
+	}
+
+	subnetID := s.D.Id()
+	request := oci_core.PatchSubnetRequest{
+		SubnetId: &subnetID,
+		PatchSubnetDetails: oci_core.PatchSubnetDetails{
+			PatchSubnetInstructions: instructions,
+		},
+		IfMatch: getResponse.Etag,
+	}
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	response, err := s.Client.PatchSubnet(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	return s.waitForWorkRequest(response.OpcWorkRequestId)
 }
 
 func (s *CoreSubnetResourceCrud) waitForWorkRequest(workRequestId *string) error {
