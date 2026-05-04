@@ -1,0 +1,125 @@
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
+// This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
+// Code generated. DO NOT EDIT.
+
+// Database Tools Runtime API
+//
+// Use the Database Tools Runtime API to connect to databases through Database Tools Connections.
+//
+
+package databasetoolsruntime
+
+import (
+	"encoding/json"
+	"fmt"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	"strings"
+)
+
+// ValidateDatabaseToolsConnectionOracleDatabaseResult Connection validation result for the Oracle Database.
+type ValidateDatabaseToolsConnectionOracleDatabaseResult struct {
+
+	// A short code that defines the result of the validation, meant for programmatic parsing. The value OK indicates that the validation was successful.
+	Code *string `mandatory:"true" json:"code"`
+
+	// A human-readable message that describes the result of the validation.
+	Message *string `mandatory:"true" json:"message"`
+
+	// The database version.
+	DatabaseVersion *string `mandatory:"true" json:"databaseVersion"`
+
+	// A human-readable message that describes possible causes for the validation error.
+	Cause *string `mandatory:"false" json:"cause"`
+
+	// A human-readable message that suggests a remedial action to resolve the validation error.
+	Action *string `mandatory:"false" json:"action"`
+
+	// The database name.
+	DatabaseName *string `mandatory:"false" json:"databaseName"`
+
+	// The name of the currently active default schema.
+	CurrentSchema *string `mandatory:"false" json:"currentSchema"`
+
+	// The name of the session user (the user who logged on).
+	SessionUser *string `mandatory:"false" json:"sessionUser"`
+
+	// Name of the database user who opened the current session on behalf of sessionUser.
+	ProxyUser *string `mandatory:"false" json:"proxyUser"`
+
+	// Returns the identity used in authentication.
+	AuthenticatedIdentity *string `mandatory:"false" json:"authenticatedIdentity"`
+
+	// Returns the method of authentication.
+	AuthenticationMethod *string `mandatory:"false" json:"authenticationMethod"`
+
+	// Displays the CLOUD_SERVICE value within the USERENV context
+	CloudService *string `mandatory:"false" json:"cloudService"`
+
+	// Status on whether an identity type can be used with this connection or not.
+	DatabaseToolsIdentityStatuses []ValidationIdentityStatus `mandatory:"false" json:"databaseToolsIdentityStatuses"`
+
+	// Displays the enterprise identity value within the USERENV context
+	EnterpriseIdentity *string `mandatory:"false" json:"enterpriseIdentity"`
+
+	// Displays the proxy enterprise identity value within the USERENV context
+	ProxyEnterpriseIdentity *string `mandatory:"false" json:"proxyEnterpriseIdentity"`
+
+	// Status on whether an external authentication can be used with this connection or not.
+	ExternalAuthenticationStatuses []ValidationExternalAuthenticationStatus `mandatory:"false" json:"externalAuthenticationStatuses"`
+
+	// The DBMS_CLOUD package installation status.
+	DbmsCloudStatus DbmsCloudStatusEnum `mandatory:"true" json:"dbmsCloudStatus"`
+}
+
+// GetCode returns Code
+func (m ValidateDatabaseToolsConnectionOracleDatabaseResult) GetCode() *string {
+	return m.Code
+}
+
+// GetMessage returns Message
+func (m ValidateDatabaseToolsConnectionOracleDatabaseResult) GetMessage() *string {
+	return m.Message
+}
+
+// GetCause returns Cause
+func (m ValidateDatabaseToolsConnectionOracleDatabaseResult) GetCause() *string {
+	return m.Cause
+}
+
+// GetAction returns Action
+func (m ValidateDatabaseToolsConnectionOracleDatabaseResult) GetAction() *string {
+	return m.Action
+}
+
+func (m ValidateDatabaseToolsConnectionOracleDatabaseResult) String() string {
+	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m ValidateDatabaseToolsConnectionOracleDatabaseResult) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if _, ok := GetMappingDbmsCloudStatusEnum(string(m.DbmsCloudStatus)); !ok && m.DbmsCloudStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbmsCloudStatus: %s. Supported values are: %s.", m.DbmsCloudStatus, strings.Join(GetDbmsCloudStatusEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m ValidateDatabaseToolsConnectionOracleDatabaseResult) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeValidateDatabaseToolsConnectionOracleDatabaseResult ValidateDatabaseToolsConnectionOracleDatabaseResult
+	s := struct {
+		DiscriminatorParam string `json:"type"`
+		MarshalTypeValidateDatabaseToolsConnectionOracleDatabaseResult
+	}{
+		"ORACLE_DATABASE",
+		(MarshalTypeValidateDatabaseToolsConnectionOracleDatabaseResult)(m),
+	}
+
+	return json.Marshal(&s)
+}

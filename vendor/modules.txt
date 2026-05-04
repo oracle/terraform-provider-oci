@@ -337,6 +337,7 @@ github.com/oracle/oci-go-sdk/v65/database
 github.com/oracle/oci-go-sdk/v65/databasemanagement
 github.com/oracle/oci-go-sdk/v65/databasemigration
 github.com/oracle/oci-go-sdk/v65/databasetools
+github.com/oracle/oci-go-sdk/v65/databasetoolsruntime
 github.com/oracle/oci-go-sdk/v65/datacatalog
 github.com/oracle/oci-go-sdk/v65/dataflow
 github.com/oracle/oci-go-sdk/v65/dataintegration
