@@ -36,6 +36,7 @@ resource "oci_containerengine_cluster" "test_cluster" {
 		#Optional
 		is_public_ip_enabled = var.cluster_endpoint_config_is_public_ip_enabled
 		nsg_ids = var.cluster_endpoint_config_nsg_ids
+		security_attributes = var.cluster_endpoint_config_security_attributes
 		subnet_id = oci_core_subnet.test_subnet.id
 	}
 	freeform_tags = {"Department"= "Finance"}
@@ -127,6 +128,7 @@ The following arguments are supported:
 * `endpoint_config` - (Optional) The network configuration for access to the Cluster control plane. 
 	* `is_public_ip_enabled` - (Optional) Whether the cluster should be assigned a public IP address. Defaults to false. If set to true on a private subnet, the cluster provisioning will fail.
 	* `nsg_ids` - (Optional) A list of the OCIDs of the network security groups (NSGs) to apply to the cluster endpoint. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
+	* `security_attributes` - (Optional) [Security attributes](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels for a resource that can be referenced in a [Zero Trust Packet Routing](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm) (ZPR) policy to control access to ZPR-supported resources. 
 	* `subnet_id` - (Optional) The OCID of the regional subnet in which to place the Cluster endpoint.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `image_policy_config` - (Optional) (Updatable) The image verification policy for signature validation. Once a policy is created and enabled with one or more kms keys, the policy will ensure all images deployed has been signed with the key(s) attached to the policy. 
@@ -189,6 +191,7 @@ The following attributes are exported:
 * `endpoint_config` - The network configuration for access to the Cluster control plane. 
 	* `is_public_ip_enabled` - Whether the cluster should be assigned a public IP address. Defaults to false. If set to true on a private subnet, the cluster provisioning will fail.
 	* `nsg_ids` - A list of the OCIDs of the network security groups (NSGs) to apply to the cluster endpoint. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
+	* `security_attributes` - [Security attributes](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels for a resource that can be referenced in a [Zero Trust Packet Routing](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm) (ZPR) policy to control access to ZPR-supported resources. 
 	* `subnet_id` - The OCID of the regional subnet in which to place the Cluster endpoint.
 * `endpoints` - Endpoints served up by the cluster masters.
 	* `ipv6endpoint` - The IPv6 networking Kubernetes API server endpoint.

@@ -443,6 +443,28 @@ func ContainerengineNodePoolResource() *schema.Resource {
 					},
 				},
 			},
+			"primary_vnic": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"security_attributes": {
+							Type:     schema.TypeMap,
+							Optional: true,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"quantity_per_subnet": {
 				Type:          schema.TypeInt,
 				Optional:      true,
@@ -543,6 +565,12 @@ func ContainerengineNodePoolResource() *schema.Resource {
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
+									},
+									"security_attributes": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem:     schema.TypeString,
 									},
 									"skip_source_dest_check": {
 										Type:     schema.TypeBool,
@@ -912,6 +940,17 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 				return err
 			}
 			request.NodeSourceDetails = tmp
+		}
+	}
+
+	if primaryVnic, ok := s.D.GetOkExists("primary_vnic"); ok {
+		if tmpList := primaryVnic.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "primary_vnic", 0)
+			tmp, err := s.mapToNodePoolPrimaryVnicDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.PrimaryVnic = &tmp
 		}
 	}
 
@@ -1325,6 +1364,17 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 		request.OverrideEvictionGraceDuration = &tmp
 	}
 
+	if primaryVnic, ok := s.D.GetOkExists("primary_vnic"); ok {
+		if tmpList := primaryVnic.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "primary_vnic", 0)
+			tmp, err := s.mapToNodePoolPrimaryVnicDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.PrimaryVnic = &tmp
+		}
+	}
+
 	if quantityPerSubnet, ok := s.D.GetOkExists("quantity_per_subnet"); ok && s.D.HasChange("quantity_per_subnet") {
 		tmp := quantityPerSubnet.(int)
 		request.QuantityPerSubnet = &tmp
@@ -1503,6 +1553,12 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 		nodes = append(nodes, NodeToMap(item))
 	}
 	s.D.Set("nodes", nodes)
+
+	if s.Res.PrimaryVnic != nil {
+		s.D.Set("primary_vnic", []interface{}{NodePoolPrimaryVnicDetailsToMap(s.Res.PrimaryVnic)})
+	} else {
+		s.D.Set("primary_vnic", nil)
+	}
 
 	if s.Res.QuantityPerSubnet != nil {
 		s.D.Set("quantity_per_subnet", *s.Res.QuantityPerSubnet)
@@ -1800,6 +1856,10 @@ func (s *ContainerengineNodePoolResourceCrud) mapToCreateVnicDetails(fieldKeyFor
 		}
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
+		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if skipSourceDestCheck, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_source_dest_check")); ok {
 		tmp := skipSourceDestCheck.(bool)
 		result.SkipSourceDestCheck = &tmp
@@ -1855,6 +1915,8 @@ func CreateVnicDetailsToMap(obj *oci_containerengine.CreateVnicDetails, datasour
 	} else {
 		result["nsg_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds)
 	}
+
+	result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
 
 	if obj.SkipSourceDestCheck != nil {
 		result["skip_source_dest_check"] = bool(*obj.SkipSourceDestCheck)
@@ -2224,6 +2286,24 @@ func NodePoolPodNetworkOptionDetailsToMap(obj *oci_containerengine.NodePoolPodNe
 		log.Printf("[WARN] Received 'cni_type' of unknown type %v", *obj)
 		return nil
 	}
+
+	return result
+}
+
+func (s *ContainerengineNodePoolResourceCrud) mapToNodePoolPrimaryVnicDetails(fieldKeyFormat string) (oci_containerengine.NodePoolPrimaryVnicDetails, error) {
+	result := oci_containerengine.NodePoolPrimaryVnicDetails{}
+
+	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
+		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
+	return result, nil
+}
+
+func NodePoolPrimaryVnicDetailsToMap(obj *oci_containerengine.NodePoolPrimaryVnicDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
 
 	return result
 }

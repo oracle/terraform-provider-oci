@@ -140,6 +140,33 @@ resource "oci_containerengine_cluster" "test_npn_cluster" {
   }
 }
 
+resource "oci_containerengine_cluster" "test_zpr_cluster" {
+  #Required
+  compartment_id     = var.compartment_ocid
+  kubernetes_version = reverse(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)[0]
+  name               = "tfTestCluster"
+  vcn_id             = oci_core_vcn.test_vcn.id
+
+  cluster_pod_network_options {
+    #Required
+    cni_type = var.cluster_cluster_pod_network_options_cni_type
+  }
+
+  #Optional
+  options {
+    service_lb_subnet_ids = [oci_core_subnet.clusterSubnet_1.id]
+  }
+
+  # required regional subnet for Native Pod Networking
+  endpoint_config {
+    subnet_id = oci_core_subnet.clusterSubnet_1.id
+    security_attributes = {
+      "oracle-zpr.sensitivity.value": "false",
+      "oracle-zpr.sensitivity.mode":  "enforce",
+    }
+  }
+}
+
 resource "oci_containerengine_node_pool" "test_node_pool" {
   #Required
   cluster_id         = oci_containerengine_cluster.test_npn_cluster.id
@@ -225,6 +252,10 @@ resource "oci_containerengine_node_pool" "test_node_pool_secondary_vnics" {
       ip_count  = 8
       application_resources = ["blue"]
       display_name = "vnic1"
+      security_attributes = {
+        "oracle-zpr.sensitivity.value": "false",
+        "oracle-zpr.sensitivity.mode":  "enforce",
+      }
     }
     display_name = "vnic-attachment-1"
     nic_index = 1
@@ -236,9 +267,20 @@ resource "oci_containerengine_node_pool" "test_node_pool_secondary_vnics" {
       ip_count  = 8
       application_resources = ["blue"]
       display_name = "vnic2"
+      security_attributes = {
+        "oracle-zpr.sensitivity.value": "false",
+        "oracle-zpr.sensitivity.mode":  "enforce",
+      }
     }
     display_name = "vnic-attachment2"
     nic_index = 0
+  }
+
+  primary_vnic {
+    security_attributes = {
+      "oracle-zpr.sensitivity.value": "false",
+      "oracle-zpr.sensitivity.mode":  "enforce",
+    }
   }
 
   node_metadata = {

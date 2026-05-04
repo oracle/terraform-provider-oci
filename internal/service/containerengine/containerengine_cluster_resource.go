@@ -112,7 +112,12 @@ func ContainerengineClusterResource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
-
+						"security_attributes": {
+							Type:     schema.TypeMap,
+							Optional: true,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 						// Computed
 					},
 				},
@@ -1611,6 +1616,11 @@ func (s *ContainerengineClusterResourceCrud) mapToUpdateClusterEndpointConfigDet
 			result.NsgIds = tmp
 		}
 	}
+
+	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
+		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	return result, nil
 }
 
@@ -1672,6 +1682,10 @@ func (s *ContainerengineClusterResourceCrud) mapToCreateClusterEndpointConfigDet
 		}
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
+		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
 		tmp := subnetId.(string)
 		result.SubnetId = &tmp
@@ -1696,6 +1710,8 @@ func ClusterEndpointConfigToMap(obj *oci_containerengine.ClusterEndpointConfig, 
 	} else {
 		result["nsg_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds)
 	}
+
+	result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
 
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
