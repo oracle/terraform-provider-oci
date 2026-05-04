@@ -84,10 +84,26 @@ func (s *CoreCrossConnectGroupDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.InterfaceDownTimerValueInMilliseconds != nil {
+		s.D.Set("interface_down_timer_value_in_milliseconds", *s.Res.InterfaceDownTimerValueInMilliseconds)
+	}
+
+	if s.Res.IsInterfaceHoldTimerEnabled != nil {
+		s.D.Set("is_interface_hold_timer_enabled", *s.Res.IsInterfaceHoldTimerEnabled)
+	}
+
+	if s.Res.IsQosEnabled != nil {
+		s.D.Set("is_qos_enabled", *s.Res.IsQosEnabled)
+	}
+
 	if s.Res.MacsecProperties != nil {
 		s.D.Set("macsec_properties", []interface{}{MacsecPropertiesToMap(s.Res.MacsecProperties)})
 	} else {
 		s.D.Set("macsec_properties", nil)
+	}
+
+	if s.Res.MinimumLinks != nil {
+		s.D.Set("minimum_links", *s.Res.MinimumLinks)
 	}
 
 	if s.Res.OciLogicalDeviceName != nil {

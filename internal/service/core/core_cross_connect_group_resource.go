@@ -57,6 +57,22 @@ func CoreCrossConnectGroupResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"interface_down_timer_value_in_milliseconds": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"is_interface_hold_timer_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"is_qos_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"macsec_properties": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -118,6 +134,11 @@ func CoreCrossConnectGroupResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"minimum_links": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
 			},
 
 			// Computed
@@ -253,6 +274,21 @@ func (s *CoreCrossConnectGroupResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if interfaceDownTimerValueInMilliseconds, ok := s.D.GetOkExists("interface_down_timer_value_in_milliseconds"); ok {
+		tmp := interfaceDownTimerValueInMilliseconds.(int)
+		request.InterfaceDownTimerValueInMilliseconds = &tmp
+	}
+
+	if isInterfaceHoldTimerEnabled, ok := s.D.GetOkExists("is_interface_hold_timer_enabled"); ok {
+		tmp := isInterfaceHoldTimerEnabled.(bool)
+		request.IsInterfaceHoldTimerEnabled = &tmp
+	}
+
+	if isQosEnabled, ok := s.D.GetOkExists("is_qos_enabled"); ok {
+		tmp := isQosEnabled.(bool)
+		request.IsQosEnabled = &tmp
+	}
+
 	if macsecProperties, ok := s.D.GetOkExists("macsec_properties"); ok {
 		if tmpList := macsecProperties.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "macsec_properties", 0)
@@ -262,6 +298,11 @@ func (s *CoreCrossConnectGroupResourceCrud) Create() error {
 			}
 			request.MacsecProperties = &tmp
 		}
+	}
+
+	if minimumLinks, ok := s.D.GetOkExists("minimum_links"); ok {
+		tmp := minimumLinks.(int)
+		request.MinimumLinks = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
@@ -329,6 +370,16 @@ func (s *CoreCrossConnectGroupResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if interfaceDownTimerValueInMilliseconds, ok := s.D.GetOkExists("interface_down_timer_value_in_milliseconds"); ok {
+		tmp := interfaceDownTimerValueInMilliseconds.(int)
+		request.InterfaceDownTimerValueInMilliseconds = &tmp
+	}
+
+	if isInterfaceHoldTimerEnabled, ok := s.D.GetOkExists("is_interface_hold_timer_enabled"); ok {
+		tmp := isInterfaceHoldTimerEnabled.(bool)
+		request.IsInterfaceHoldTimerEnabled = &tmp
+	}
+
 	if macsecProperties, ok := s.D.GetOkExists("macsec_properties"); ok {
 		if tmpList := macsecProperties.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "macsec_properties", 0)
@@ -338,6 +389,11 @@ func (s *CoreCrossConnectGroupResourceCrud) Update() error {
 			}
 			request.MacsecProperties = &tmp
 		}
+	}
+
+	if minimumLinks, ok := s.D.GetOkExists("minimum_links"); ok {
+		tmp := minimumLinks.(int)
+		request.MinimumLinks = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
@@ -382,10 +438,26 @@ func (s *CoreCrossConnectGroupResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.InterfaceDownTimerValueInMilliseconds != nil {
+		s.D.Set("interface_down_timer_value_in_milliseconds", *s.Res.InterfaceDownTimerValueInMilliseconds)
+	}
+
+	if s.Res.IsInterfaceHoldTimerEnabled != nil {
+		s.D.Set("is_interface_hold_timer_enabled", *s.Res.IsInterfaceHoldTimerEnabled)
+	}
+
+	if s.Res.IsQosEnabled != nil {
+		s.D.Set("is_qos_enabled", *s.Res.IsQosEnabled)
+	}
+
 	if s.Res.MacsecProperties != nil {
 		s.D.Set("macsec_properties", []interface{}{MacsecPropertiesToMap(s.Res.MacsecProperties)})
 	} else {
 		s.D.Set("macsec_properties", nil)
+	}
+
+	if s.Res.MinimumLinks != nil {
+		s.D.Set("minimum_links", *s.Res.MinimumLinks)
 	}
 
 	if s.Res.OciLogicalDeviceName != nil {

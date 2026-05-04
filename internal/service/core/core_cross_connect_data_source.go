@@ -34,6 +34,7 @@ type CoreCrossConnectDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_core.VirtualNetworkClient
 	Res    *oci_core.GetCrossConnectResponse
+	Loa    *oci_core.LetterOfAuthority
 }
 
 func (s *CoreCrossConnectDataSourceCrud) VoidState() {
@@ -56,6 +57,11 @@ func (s *CoreCrossConnectDataSourceCrud) Get() error {
 	}
 
 	s.Res = &response
+	loa, err := getCrossConnectLetterOfAuthority(s.Client, *request.CrossConnectId, false)
+	if err != nil {
+		return err
+	}
+	s.Loa = loa
 	return nil
 }
 
@@ -88,6 +94,22 @@ func (s *CoreCrossConnectDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.InterfaceDownTimerValueInMilliseconds != nil {
+		s.D.Set("interface_down_timer_value_in_milliseconds", *s.Res.InterfaceDownTimerValueInMilliseconds)
+	}
+
+	if s.Res.InterfaceName != nil {
+		s.D.Set("interface_name", *s.Res.InterfaceName)
+	}
+
+	if s.Res.IsInterfaceHoldTimerEnabled != nil {
+		s.D.Set("is_interface_hold_timer_enabled", *s.Res.IsInterfaceHoldTimerEnabled)
+	}
+
+	if s.Res.IsQosEnabled != nil {
+		s.D.Set("is_qos_enabled", *s.Res.IsQosEnabled)
+	}
+
 	if s.Res.LocationName != nil {
 		s.D.Set("location_name", *s.Res.LocationName)
 	}
@@ -118,6 +140,12 @@ func (s *CoreCrossConnectDataSourceCrud) SetData() error {
 		s.D.Set("port_speed_shape_name", *s.Res.PortSpeedShapeName)
 	}
 
+	if hasMeaningfulLetterOfAuthorityProperties(s.Loa) {
+		s.D.Set("loa_properties", []interface{}{LetterOfAuthorityPropertiesToMap(s.Loa)})
+	} else {
+		s.D.Set("loa_properties", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
@@ -125,4 +153,17 @@ func (s *CoreCrossConnectDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func getCrossConnectLetterOfAuthority(client *oci_core.VirtualNetworkClient, crossConnectId string, disableNotFoundRetries bool) (*oci_core.LetterOfAuthority, error) {
+	request := oci_core.GetCrossConnectLetterOfAuthorityRequest{}
+	request.CrossConnectId = &crossConnectId
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(disableNotFoundRetries, "core")
+
+	response, err := client.GetCrossConnectLetterOfAuthority(context.Background(), request)
+	if err != nil {
+		return nil, err
+	}
+
+	return &response.LetterOfAuthority, nil
 }

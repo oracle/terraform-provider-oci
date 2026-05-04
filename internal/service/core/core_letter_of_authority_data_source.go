@@ -5,6 +5,7 @@ package core
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
@@ -21,7 +22,12 @@ func CoreLetterOfAuthorityDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+
 			// Computed
+			"authorized_agent": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"authorized_entity_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -29,6 +35,25 @@ func CoreLetterOfAuthorityDataSource() *schema.Resource {
 			"circuit_type": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"extension_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"history": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"remaining_extensions": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"facility_location": {
 				Type:     schema.TypeString,
@@ -87,6 +112,18 @@ func (s *CoreLetterOfAuthorityDataSourceCrud) Get() error {
 	return nil
 }
 
+func LoaExtensionDataToMap(obj *oci_core.LoaExtensionData) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["history"] = obj.History
+
+	if obj.RemainingExtensions != nil {
+		result["remaining_extensions"] = strconv.FormatInt(*obj.RemainingExtensions, 10)
+	}
+
+	return result
+}
+
 func (s *CoreLetterOfAuthorityDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
@@ -94,11 +131,21 @@ func (s *CoreLetterOfAuthorityDataSourceCrud) SetData() error {
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("CoreLetterOfAuthorityDataSource-", CoreLetterOfAuthorityDataSource(), s.D))
 
+	if s.Res.AuthorizedAgent != nil {
+		s.D.Set("authorized_agent", *s.Res.AuthorizedAgent)
+	}
+
 	if s.Res.AuthorizedEntityName != nil {
 		s.D.Set("authorized_entity_name", *s.Res.AuthorizedEntityName)
 	}
 
 	s.D.Set("circuit_type", s.Res.CircuitType)
+
+	if s.Res.ExtensionDetails != nil {
+		s.D.Set("extension_details", []interface{}{LoaExtensionDataToMap(s.Res.ExtensionDetails)})
+	} else {
+		s.D.Set("extension_details", nil)
+	}
 
 	if s.Res.FacilityLocation != nil {
 		s.D.Set("facility_location", *s.Res.FacilityLocation)

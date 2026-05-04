@@ -38,6 +38,9 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The cross-connect group's Oracle ID (OCID).
+* `interface_down_timer_value_in_milliseconds` - The duration of the interface down timer in milliseconds between 0 and 3000 in multiples of 500.
+* `is_interface_hold_timer_enabled` - The flag to enable or disable the down timer for the interface.
+* `is_qos_enabled` - The flag to enable or disable the Qos for the cross-connect-group.
 * `macsec_properties` - Properties used for MACsec (if capable).
 	* `encryption_cipher` - Type of encryption cipher suite to use for the MACsec connection.
 	* `is_unprotected_traffic_allowed` - Indicates whether unencrypted traffic is allowed if MACsec Key Agreement protocol (MKA) fails.
@@ -47,6 +50,7 @@ The following attributes are exported:
 		* `connectivity_association_name_secret_id` - Secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) containing the Connectivity association Key Name (CKN) of this MACsec key.
 		* `connectivity_association_name_secret_version` - The secret version of the connectivity association name secret in Vault.
 	* `state` - Indicates whether or not MACsec is enabled.
+* `minimum_links` - Minimum number of active cross-connects required for the cross-connect group to be considered operational. If the number of active cross-connects falls below this value, the group is not considered operational. If this value was not explicitly set when the group was created or updated, it defaults to 1. 
 * `oci_logical_device_name` - The FastConnect device that terminates the logical connection. This device might be different than the device that terminates the physical connection. 
 * `oci_physical_device_name` - The FastConnect device that terminates the physical connection. 
 * `state` - The cross-connect group's current state.

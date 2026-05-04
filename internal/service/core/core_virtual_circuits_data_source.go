@@ -203,6 +203,8 @@ func (s *CoreVirtualCircuitsDataSourceCrud) SetData() error {
 			virtualCircuit["time_created"] = r.TimeCreated.String()
 		}
 
+		virtualCircuit["traffic_mode"] = r.TrafficMode
+
 		virtualCircuit["type"] = r.Type
 
 		if r.VirtualCircuitRedundancyMetadata != nil {

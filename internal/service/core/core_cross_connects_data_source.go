@@ -141,8 +141,20 @@ func (s *CoreCrossConnectsDataSourceCrud) SetData() error {
 			crossConnect["id"] = *r.Id
 		}
 
+		if r.InterfaceDownTimerValueInMilliseconds != nil {
+			crossConnect["interface_down_timer_value_in_milliseconds"] = *r.InterfaceDownTimerValueInMilliseconds
+		}
+
 		if r.InterfaceName != nil {
 			crossConnect["interface_name"] = *r.InterfaceName
+		}
+
+		if r.IsInterfaceHoldTimerEnabled != nil {
+			crossConnect["is_interface_hold_timer_enabled"] = *r.IsInterfaceHoldTimerEnabled
+		}
+
+		if r.IsQosEnabled != nil {
+			crossConnect["is_qos_enabled"] = *r.IsQosEnabled
 		}
 
 		if r.LocationName != nil {
@@ -153,6 +165,16 @@ func (s *CoreCrossConnectsDataSourceCrud) SetData() error {
 			crossConnect["macsec_properties"] = []interface{}{MacsecPropertiesToMap(r.MacsecProperties)}
 		} else {
 			crossConnect["macsec_properties"] = nil
+		}
+
+		if r.Id != nil {
+			loa, err := getCrossConnectLetterOfAuthority(s.Client, *r.Id, false)
+			if err != nil {
+				return err
+			}
+			if hasMeaningfulLetterOfAuthorityProperties(loa) {
+				crossConnect["loa_properties"] = []interface{}{LetterOfAuthorityPropertiesToMap(loa)}
+			}
 		}
 
 		if r.OciLogicalDeviceName != nil {

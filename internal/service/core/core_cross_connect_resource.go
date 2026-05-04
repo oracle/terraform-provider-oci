@@ -10,6 +10,7 @@ import (
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -80,11 +81,47 @@ func CoreCrossConnectResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"interface_down_timer_value_in_milliseconds": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"interface_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"is_interface_hold_timer_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"is_qos_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"loa_properties": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"authorized_agent": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"expiry_extension_count": {
+							Type:         schema.TypeInt,
+							Optional:     true,
+							ValidateFunc: validation.IntAtLeast(0),
+						},
+					},
+				},
 			},
 			"macsec_properties": {
 				Type:     schema.TypeList,
@@ -202,10 +239,12 @@ func createCoreCrossConnect(d *schema.ResourceData, m interface{}) error {
 	// Issue an Update if 'is_active' is set to true
 	if _, ok := sync.D.GetOkExists("is_active"); ok {
 		log.Printf("[DEBUG] CrossConnect resource is set to be active, calling 'Update' for the resource")
-		return tfresource.UpdateResource(d, sync)
+		if err := tfresource.UpdateResource(d, sync); err != nil {
+			return err
+		}
 	}
 
-	return nil
+	return readCoreCrossConnect(d, m)
 }
 
 func readCoreCrossConnect(d *schema.ResourceData, m interface{}) error {
@@ -235,9 +274,11 @@ func deleteCoreCrossConnect(d *schema.ResourceData, m interface{}) error {
 
 type CoreCrossConnectResourceCrud struct {
 	tfresource.BaseCrud
-	Client                 *oci_core.VirtualNetworkClient
-	Res                    *oci_core.CrossConnect
-	DisableNotFoundRetries bool
+	Client                               *oci_core.VirtualNetworkClient
+	Res                                  *oci_core.CrossConnect
+	Loa                                  *oci_core.LetterOfAuthority
+	DisableNotFoundRetries               bool
+	letterOfAuthorityUpdatedDuringCreate bool
 }
 
 func (s *CoreCrossConnectResourceCrud) ID() string {
@@ -329,9 +370,24 @@ func (s *CoreCrossConnectResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if interfaceDownTimerValueInMilliseconds, ok := s.D.GetOkExists("interface_down_timer_value_in_milliseconds"); ok {
+		tmp := interfaceDownTimerValueInMilliseconds.(int)
+		request.InterfaceDownTimerValueInMilliseconds = &tmp
+	}
+
 	if interfaceName, ok := s.D.GetOkExists("interface_name"); ok {
 		tmp := interfaceName.(string)
 		request.InterfaceName = &tmp
+	}
+
+	if isInterfaceHoldTimerEnabled, ok := s.D.GetOkExists("is_interface_hold_timer_enabled"); ok {
+		tmp := isInterfaceHoldTimerEnabled.(bool)
+		request.IsInterfaceHoldTimerEnabled = &tmp
+	}
+
+	if isQosEnabled, ok := s.D.GetOkExists("is_qos_enabled"); ok {
+		tmp := isQosEnabled.(bool)
+		request.IsQosEnabled = &tmp
 	}
 
 	if locationName, ok := s.D.GetOkExists("location_name"); ok {
@@ -373,6 +429,18 @@ func (s *CoreCrossConnectResourceCrud) Create() error {
 	}
 
 	s.Res = &response.CrossConnect
+	if isAttributeExplicitlyConfiguredInRawConfig(s.D, "loa_properties") {
+		if err := s.updateLetterOfAuthorityPropertiesForCrossConnectId(*response.CrossConnect.Id, false); err != nil {
+			return err
+		}
+		s.letterOfAuthorityUpdatedDuringCreate = true
+	} else {
+		if loa, err := s.getLetterOfAuthority(*response.CrossConnect.Id); err != nil {
+			return err
+		} else {
+			s.Loa = loa
+		}
+	}
 	return nil
 }
 
@@ -390,6 +458,11 @@ func (s *CoreCrossConnectResourceCrud) Get() error {
 	}
 
 	s.Res = &response.CrossConnect
+	if loa, err := s.getLetterOfAuthority(*request.CrossConnectId); err != nil {
+		return err
+	} else {
+		s.Loa = loa
+	}
 	return nil
 }
 
@@ -430,6 +503,11 @@ func (s *CoreCrossConnectResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if interfaceDownTimerValueInMilliseconds, ok := s.D.GetOkExists("interface_down_timer_value_in_milliseconds"); ok {
+		tmp := interfaceDownTimerValueInMilliseconds.(int)
+		request.InterfaceDownTimerValueInMilliseconds = &tmp
+	}
+
 	// Cross Connect Resource can be set to 'Active' only once when the resource is 'PENDING_CUSTOMER' and not 'PROVISIONED'
 	if isActive, ok := s.D.GetOkExists("is_active"); ok {
 		if state, ok := s.D.GetOkExists("state"); ok && state.(string) == string(oci_core.CrossConnectLifecycleStatePendingCustomer) {
@@ -437,6 +515,11 @@ func (s *CoreCrossConnectResourceCrud) Update() error {
 			tmp := isActive.(bool)
 			request.IsActive = &tmp
 		}
+	}
+
+	if isInterfaceHoldTimerEnabled, ok := s.D.GetOkExists("is_interface_hold_timer_enabled"); ok {
+		tmp := isInterfaceHoldTimerEnabled.(bool)
+		request.IsInterfaceHoldTimerEnabled = &tmp
 	}
 
 	if macsecProperties, ok := s.D.GetOk("macsec_properties"); ok {
@@ -462,6 +545,11 @@ func (s *CoreCrossConnectResourceCrud) Update() error {
 	}
 
 	s.Res = &response.CrossConnect
+	if s.D.HasChange("loa_properties") && !s.letterOfAuthorityUpdatedDuringCreate {
+		if err := s.updateLetterOfAuthorityProperties(true); err != nil {
+			return err
+		}
+	}
 	return nil
 }
 
@@ -500,8 +588,20 @@ func (s *CoreCrossConnectResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.InterfaceDownTimerValueInMilliseconds != nil {
+		s.D.Set("interface_down_timer_value_in_milliseconds", *s.Res.InterfaceDownTimerValueInMilliseconds)
+	}
+
 	if s.Res.InterfaceName != nil {
 		s.D.Set("interface_name", *s.Res.InterfaceName)
+	}
+
+	if s.Res.IsInterfaceHoldTimerEnabled != nil {
+		s.D.Set("is_interface_hold_timer_enabled", *s.Res.IsInterfaceHoldTimerEnabled)
+	}
+
+	if s.Res.IsQosEnabled != nil {
+		s.D.Set("is_qos_enabled", *s.Res.IsQosEnabled)
 	}
 
 	if s.Res.LocationName != nil {
@@ -528,6 +628,12 @@ func (s *CoreCrossConnectResourceCrud) SetData() error {
 
 	if s.Res.PortSpeedShapeName != nil {
 		s.D.Set("port_speed_shape_name", *s.Res.PortSpeedShapeName)
+	}
+
+	if s.Loa != nil && (isAttributeExplicitlyConfiguredInRawConfig(s.D, "loa_properties") || hasMeaningfulLetterOfAuthorityProperties(s.Loa)) {
+		s.D.Set("loa_properties", []interface{}{s.letterOfAuthorityPropertiesToMap(s.Loa)})
+	} else {
+		s.D.Set("loa_properties", nil)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -710,6 +816,146 @@ func (s *CoreCrossConnectResourceCrud) updateCompartment(compartment interface{}
 	}
 
 	return nil
+}
+
+func (s *CoreCrossConnectResourceCrud) getLetterOfAuthority(crossConnectId string) (*oci_core.LetterOfAuthority, error) {
+	return getCrossConnectLetterOfAuthority(s.Client, crossConnectId, s.DisableNotFoundRetries)
+}
+
+func (s *CoreCrossConnectResourceCrud) updateLetterOfAuthorityProperties(requireChange bool) error {
+	return s.updateLetterOfAuthorityPropertiesForCrossConnectId(s.D.Id(), requireChange)
+}
+
+func (s *CoreCrossConnectResourceCrud) updateLetterOfAuthorityPropertiesForCrossConnectId(crossConnectId string, requireChange bool) error {
+	if !s.hasLetterOfAuthorityPropertiesBlock() {
+		return nil
+	}
+
+	currentExtensionCount := 0
+	if requireChange {
+		oldRaw, _ := s.D.GetChange("loa_properties.0.expiry_extension_count")
+		if oldRaw != nil {
+			currentExtensionCount = oldRaw.(int)
+		}
+	}
+	desiredExtensionCount := currentExtensionCount
+	desiredExtensionCountRaw, desiredExtensionCountOk := s.D.GetOkExists("loa_properties.0.expiry_extension_count")
+	if requireChange && !s.D.HasChange("loa_properties.0.expiry_extension_count") {
+		desiredExtensionCountOk = false
+	}
+	if desiredExtensionCountOk {
+		desiredExtensionCount = desiredExtensionCountRaw.(int)
+	}
+
+	if desiredExtensionCount < currentExtensionCount {
+		return fmt.Errorf("loa_properties.expiry_extension_count cannot be decreased from %d to %d", currentExtensionCount, desiredExtensionCount)
+	}
+
+	extensionDelta := desiredExtensionCount - currentExtensionCount
+	if extensionDelta > 1 {
+		return fmt.Errorf("loa_properties.expiry_extension_count can only be increased by 1 per update, got increase from %d to %d", currentExtensionCount, desiredExtensionCount)
+	}
+
+	var authorizedAgentRaw interface{}
+	var hasAuthorizedAgent bool
+	if requireChange {
+		authorizedAgentRaw, hasAuthorizedAgent = s.D.GetOkExists("loa_properties.0.authorized_agent")
+		if !s.D.HasChange("loa_properties.0.authorized_agent") {
+			hasAuthorizedAgent = false
+		}
+	} else {
+		authorizedAgentRaw, hasAuthorizedAgent = s.D.GetOk("loa_properties.0.authorized_agent")
+	}
+	authorizedAgent := ""
+	if hasAuthorizedAgent {
+		authorizedAgent = authorizedAgentRaw.(string)
+	}
+	removeAuthorizedAgent := hasAuthorizedAgent && authorizedAgent == ""
+
+	if extensionDelta == 0 && !hasAuthorizedAgent {
+		return nil
+	}
+
+	if extensionDelta > 0 || hasAuthorizedAgent {
+		request := s.newUpdateLetterOfAuthorityRequest(crossConnectId)
+		if extensionDelta > 0 {
+			shouldExtend := true
+			request.ShouldExtend = &shouldExtend
+		}
+		if hasAuthorizedAgent {
+			if removeAuthorizedAgent {
+				shouldRemoveAuthorizedAgent := true
+				request.ShouldRemoveAuthorizedAgent = &shouldRemoveAuthorizedAgent
+			} else {
+				request.AuthorizedAgent = &authorizedAgent
+			}
+		}
+		if _, err := s.Client.UpdateCrossConnectLetterOfAuthority(context.Background(), request); err != nil {
+			return err
+		}
+	}
+
+	updatedLoa, err := s.getLetterOfAuthority(crossConnectId)
+	if err != nil {
+		return err
+	}
+	s.Loa = updatedLoa
+
+	return nil
+}
+
+func (s *CoreCrossConnectResourceCrud) newUpdateLetterOfAuthorityRequest(crossConnectId string) oci_core.UpdateCrossConnectLetterOfAuthorityRequest {
+	request := oci_core.UpdateCrossConnectLetterOfAuthorityRequest{}
+	request.CrossConnectId = &crossConnectId
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+	return request
+}
+
+func (s *CoreCrossConnectResourceCrud) hasLetterOfAuthorityPropertiesBlock() bool {
+	loaProperties, ok := s.D.GetOkExists("loa_properties")
+	if !ok {
+		return false
+	}
+
+	tmpList := loaProperties.([]interface{})
+	if len(tmpList) == 0 || tmpList[0] == nil {
+		return false
+	}
+
+	_, ok = tmpList[0].(map[string]interface{})
+	return ok
+}
+
+func LetterOfAuthorityPropertiesToMap(obj *oci_core.LetterOfAuthority) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AuthorizedAgent != nil {
+		result["authorized_agent"] = string(*obj.AuthorizedAgent)
+	}
+
+	return result
+}
+
+func (s *CoreCrossConnectResourceCrud) letterOfAuthorityPropertiesToMap(obj *oci_core.LetterOfAuthority) map[string]interface{} {
+	result := LetterOfAuthorityPropertiesToMap(obj)
+
+	if expiryExtensionCount, ok := s.D.GetOkExists("loa_properties.0.expiry_extension_count"); ok {
+		result["expiry_extension_count"] = expiryExtensionCount.(int)
+	}
+
+	return result
+}
+
+func hasMeaningfulLetterOfAuthorityProperties(obj *oci_core.LetterOfAuthority) bool {
+	if obj == nil {
+		return false
+	}
+
+	if obj.AuthorizedAgent != nil && *obj.AuthorizedAgent != "" {
+		return true
+	}
+
+	return false
 }
 
 func (s *CoreCrossConnectResourceCrud) shouldIncludeMacsecPropertiesInUpdate() bool {

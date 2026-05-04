@@ -128,10 +128,26 @@ func (s *CoreCrossConnectGroupsDataSourceCrud) SetData() error {
 			crossConnectGroup["id"] = *r.Id
 		}
 
+		if r.InterfaceDownTimerValueInMilliseconds != nil {
+			crossConnectGroup["interface_down_timer_value_in_milliseconds"] = *r.InterfaceDownTimerValueInMilliseconds
+		}
+
+		if r.IsInterfaceHoldTimerEnabled != nil {
+			crossConnectGroup["is_interface_hold_timer_enabled"] = *r.IsInterfaceHoldTimerEnabled
+		}
+
+		if r.IsQosEnabled != nil {
+			crossConnectGroup["is_qos_enabled"] = *r.IsQosEnabled
+		}
+
 		if r.MacsecProperties != nil {
 			crossConnectGroup["macsec_properties"] = []interface{}{MacsecPropertiesToMap(r.MacsecProperties)}
 		} else {
 			crossConnectGroup["macsec_properties"] = nil
+		}
+
+		if r.MinimumLinks != nil {
+			crossConnectGroup["minimum_links"] = *r.MinimumLinks
 		}
 
 		if r.OciLogicalDeviceName != nil {
