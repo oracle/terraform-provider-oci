@@ -322,12 +322,12 @@ func waitForHydrationWorkRequest(listWorkRequestsRequest oci_devops.ListWorkRequ
 
 				workRequestCollection := listWorkRequestsResponse.WorkRequestCollection
 				if len(workRequestCollection.Items) > 0 {
-					common.Debugf("checkForHydrationWorkRequest: workRequestCollection.Items= %i\n", len(workRequestCollection.Items))
+					common.Debugf("checkForHydrationWorkRequest: workRequestCollection.Items= %d\n", len(workRequestCollection.Items))
 					for i, summary := range workRequestCollection.Items {
 						if !(summary.Status == "SUCCEEDED" || summary.Status == "FAILED" ||
 							summary.Status == "CANCELED" || summary.Status == "NEEDS_ATTENTION") {
 							workRequestInProgress = true
-							common.Debugf("checkForHydrationWorkRequest: WorkRequestSummary found in progress= %i %v\n", i, summary)
+							common.Debugf("checkForHydrationWorkRequest: WorkRequestSummary found in progress= %d %v\n", i, summary)
 							break
 						}
 					}
