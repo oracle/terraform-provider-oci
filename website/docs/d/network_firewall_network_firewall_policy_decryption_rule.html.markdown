@@ -38,8 +38,8 @@ The following attributes are exported:
 	* NO_DECRYPT - Matching traffic is not decrypted.
 	* DECRYPT - Matching traffic is decrypted with the specified `secret` according to the specified `decryptionProfile`. 
 * `condition` - Match criteria used in Decryption Rule used on the firewall policy rules.
-	* `destination_address` - An array of IP address list names to be evaluated against the traffic destination address.
-	* `source_address` - An array of IP address list names to be evaluated against the traffic source address.
+	* `destination_address` - An array of address list names to be evaluated against the traffic destination address.
+	* `source_address` - An array of address list names to be evaluated against the traffic source address.
 * `decryption_profile` - The name of the decryption profile to use.
 * `description` - The description of the decryption rule. This field can be used to add additional info.
 * `name` - Name for the decryption rule, must be unique within the policy.
@@ -48,4 +48,5 @@ The following attributes are exported:
 	* `after_rule` - Identifier for rule after which this rule lies.
 	* `before_rule` - Identifier for rule before which this rule lies.
 * `secret` - The name of a mapped secret. Its `type` must match that of the specified decryption profile.
+* `secrets` - An array of mapped secrets. Its `type` must match that of the specified decryption profile.
 

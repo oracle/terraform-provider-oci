@@ -57,9 +57,9 @@ var (
 		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `MyFirewall`, Update: `displayName2`},
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"ipv4address":                acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.3`},
-		"ipv6address":                acctest.Representation{RepType: acctest.Optional, Create: `ipv6Address`},
 		"nat_configuration":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: NetworkFirewallNetworkFirewallNatConfigurationRepresentation},
-		"network_security_group_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, Update: []string{`networkSecurityGroupIds2`}},
+		"network_security_group_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
+		"security_attributes":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.fleet-update.value": "42", "oracle-zpr.fleet-update.mode": "enforce"}, Update: map[string]string{"oracle-zpr.fleet-update.value": "43", "oracle-zpr.fleet-update.mode": "enforce"}},
 		"shape":                      acctest.Representation{RepType: acctest.Optional, Create: `SMALL`, Update: `SMALL`},
 	}
 	NetworkFirewallNetworkFirewallNatConfigurationRepresentation = map[string]interface{}{
@@ -68,6 +68,8 @@ var (
 
 	NetworkFirewallResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
 		AvailabilityDomainConfig +
 		acctest.GenerateResourceFromRepresentationMap("oci_network_firewall_network_firewall_policy", "test_network_firewall_policy", acctest.Required, acctest.Create, networkFirewallPolicyRepresentation)
 )
@@ -111,10 +113,12 @@ func TestNetworkFirewallNetworkFirewallResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "ipv4address"),
-				resource.TestCheckResourceAttrSet(resourceName, "ipv6address"),
 				resource.TestCheckResourceAttr(resourceName, "nat_configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "nat_configuration.0.must_enable_private_nat", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.fleet-update.value", "42"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.fleet-update.mode", "enforce"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "SMALL"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
@@ -146,10 +150,12 @@ func TestNetworkFirewallNetworkFirewallResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "ipv4address"),
-				resource.TestCheckResourceAttrSet(resourceName, "ipv6address"),
 				resource.TestCheckResourceAttr(resourceName, "nat_configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "nat_configuration.0.must_enable_private_nat", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.fleet-update.value", "42"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.fleet-update.mode", "enforce"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "SMALL"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
@@ -177,10 +183,12 @@ func TestNetworkFirewallNetworkFirewallResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "ipv4address"),
-				resource.TestCheckResourceAttrSet(resourceName, "ipv6address"),
 				resource.TestCheckResourceAttr(resourceName, "nat_configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "nat_configuration.0.must_enable_private_nat", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.fleet-update.value", "43"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.fleet-update.mode", "enforce"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "SMALL"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
@@ -226,10 +234,12 @@ func TestNetworkFirewallNetworkFirewallResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ipv4address"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "ipv6address"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "nat_configuration.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "nat_configuration.0.must_enable_private_nat", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "nat_configuration.0.nat_ip_address_list.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_attributes.oracle-zpr.fleet-update.value", "43"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_attributes.oracle-zpr.fleet-update.mode", "enforce"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "shape", "SMALL"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

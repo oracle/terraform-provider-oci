@@ -84,6 +84,47 @@ var (
 	decryptionRuleComponentDependencies = createAddressListResource + createMappedSecretResource + vaultSecretResource + createDecryptionProfileResource
 )
 
+// Additional configs to validate 'secrets' list without changing existing basic test
+var (
+	createDecryptionRuleResourceConfigSecrets = decryptionRuleResourceDependencies + acctest.GenerateResourceFromRepresentationMap(
+		"oci_network_firewall_network_firewall_policy_decryption_rule",
+		"test_network_firewall_policy_decryption_rule_secrets",
+		acctest.Required, acctest.Create,
+		decryptionRuleCreateRepresentationSecrets,
+	)
+
+	decryptionRuleResourceConfigSecrets = decryptionRuleResourceDependencies + acctest.GenerateResourceFromRepresentationMap(
+		"oci_network_firewall_network_firewall_policy_decryption_rule",
+		"test_network_firewall_policy_decryption_rule_secrets",
+		acctest.Optional, acctest.Update,
+		decryptionRuleRepresentationSecrets,
+	)
+
+	decryptionRuleCreateRepresentationSecrets = map[string]interface{}{
+		"action":                     acctest.Representation{RepType: acctest.Required, Create: `DECRYPT`, Update: `NO_DECRYPT`},
+		"condition":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: decryptionRuleConditionRepresentation},
+		"name":                       acctest.Representation{RepType: acctest.Required, Create: `decryption_rule_secrets_1`},
+		"network_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
+		"decryption_profile":         acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy_decryption_profile.test_network_firewall_policy_decryption_profile.name}`, Update: nil},
+		"secrets":                    acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_network_firewall_network_firewall_policy_mapped_secret.test_network_firewall_policy_mapped_secret.name}`}, Update: nil},
+		"description":                acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
+	}
+
+	decryptionRuleRepresentationSecrets = map[string]interface{}{
+		"action":                     acctest.Representation{RepType: acctest.Required, Create: `DECRYPT`, Update: `NO_DECRYPT`},
+		"condition":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: decryptionRuleConditionRepresentation},
+		"name":                       acctest.Representation{RepType: acctest.Required, Create: `decryption_rule_secrets_1`},
+		"network_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
+		"description":                acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"position":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: decryptionRulePositionRepresentation},
+	}
+
+	decryptionRuleSingularDataSourceRepresentationSecrets = map[string]interface{}{
+		"name":                       acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy_decryption_rule.test_network_firewall_policy_decryption_rule_secrets.name}`},
+		"network_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
+	}
+)
+
 // issue-routing-tag: network_firewall/default
 func TestNetworkFirewallNetworkFirewallPolicyDecryptionRuleResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestNetworkFirewallNetworkFirewallPolicyDecryptionRuleResource_basic")
@@ -192,6 +233,123 @@ func TestNetworkFirewallNetworkFirewallPolicyDecryptionRuleResource_basic(t *tes
 		// verify resource import
 		{
 			Config:                  config + createDecryptionRuleResourceConfig,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
+		},
+	})
+}
+
+// Validates 'secrets' list usage independent of the basic test
+func TestNetworkFirewallNetworkFirewallPolicyDecryptionRuleResource_secrets_basic(t *testing.T) {
+	httpreplay.SetScenario("TestNetworkFirewallNetworkFirewallPolicyDecryptionRuleResource_secrets_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	vaultId := utils.GetEnvSettingWithBlankDefault("kms_vault_id")
+	vaultIdVariableStr := fmt.Sprintf("variable \"vault_id\" { default = \"%s\" }\n", vaultId)
+
+	keyId := utils.GetEnvSettingWithBlankDefault("kms_key_id")
+	keyIdVariableStr := fmt.Sprintf("variable \"key_id\" { default = \"%s\" }\n", keyId)
+
+	variablesConfig := compartmentIdVariableStr + vaultIdVariableStr + keyIdVariableStr
+
+	resourceName := "oci_network_firewall_network_firewall_policy_decryption_rule.test_network_firewall_policy_decryption_rule_secrets"
+	datasourceName := "data.oci_network_firewall_network_firewall_policy_decryption_rules.test_network_firewall_policy_decryption_rules_secrets"
+	singularDatasourceName := "data.oci_network_firewall_network_firewall_policy_decryption_rule.test_network_firewall_policy_decryption_rule_secrets"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+variablesConfig+createDecryptionRuleResourceConfigSecrets, "networkfirewall", "networkFirewallPolicyDecryptionRuleSecrets", t)
+
+	acctest.ResourceTest(t, testAccCheckNetworkFirewallNetworkFirewallPolicyDecryptionRuleDestroy, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + variablesConfig + createDecryptionRuleResourceConfigSecrets,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "action", "DECRYPT"),
+				resource.TestCheckResourceAttr(resourceName, "condition.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "name", "decryption_rule_secrets_1"),
+				resource.TestCheckResourceAttr(resourceName, "condition.0.destination_address.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "condition.0.source_address.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
+				resource.TestCheckResourceAttr(resourceName, "decryption_profile", "decryption_profile_1"),
+				resource.TestCheckResourceAttr(resourceName, "secrets.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "secrets.0", "mapped_secret_1"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify updates to updatable parameters
+		{
+			Config: config + variablesConfig + decryptionRuleResourceConfigSecrets,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "action", "NO_DECRYPT"),
+				resource.TestCheckResourceAttr(resourceName, "condition.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "name", "decryption_rule_secrets_1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "parent_resource_id"),
+				resource.TestCheckResourceAttr(resourceName, "position.#", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config + variablesConfig + decryptionRuleResourceConfigSecrets +
+				acctest.GenerateDataSourceFromRepresentationMap(
+					"oci_network_firewall_network_firewall_policy_decryption_rules",
+					"test_network_firewall_policy_decryption_rules_secrets",
+					acctest.Optional, acctest.Update,
+					decryptionRuleDataSourceRepresentation,
+				),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "network_firewall_policy_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "decryption_rule_summary_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "decryption_rule_summary_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config + variablesConfig + decryptionRuleResourceConfigSecrets +
+				acctest.GenerateDataSourceFromRepresentationMap(
+					"oci_network_firewall_network_firewall_policy_decryption_rule",
+					"test_network_firewall_policy_decryption_rule_secrets",
+					acctest.Required, acctest.Create,
+					decryptionRuleSingularDataSourceRepresentationSecrets,
+				),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_firewall_policy_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "action", "NO_DECRYPT"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "condition.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "condition.0.destination_address.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "condition.0.source_address.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "decryption_rule_secrets_1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "parent_resource_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "position.#", "1"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config + createDecryptionRuleResourceConfigSecrets,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

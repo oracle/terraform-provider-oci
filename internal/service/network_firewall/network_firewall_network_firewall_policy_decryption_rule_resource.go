@@ -112,6 +112,13 @@ func NetworkFirewallNetworkFirewallPolicyDecryptionRuleResource() *schema.Resour
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"secrets": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 
 			// Computed
 			"parent_resource_id": {
@@ -220,6 +227,19 @@ func (s *NetworkFirewallNetworkFirewallPolicyDecryptionRuleResourceCrud) Create(
 		request.Secret = &tmp
 	}
 
+	if secrets, ok := s.D.GetOkExists("secrets"); ok {
+		interfaces := secrets.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("secrets") {
+			request.Secrets = tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_firewall")
 
 	response, err := s.Client.CreateDecryptionRule(context.Background(), request)
@@ -316,6 +336,19 @@ func (s *NetworkFirewallNetworkFirewallPolicyDecryptionRuleResourceCrud) Update(
 		request.Secret = &tmp
 	}
 
+	if secrets, ok := s.D.GetOkExists("secrets"); ok {
+		interfaces := secrets.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("secrets") {
+			request.Secrets = tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_firewall")
 
 	response, err := s.Client.UpdateDecryptionRule(context.Background(), request)
@@ -389,6 +422,8 @@ func (s *NetworkFirewallNetworkFirewallPolicyDecryptionRuleResourceCrud) SetData
 	if s.Res.Secret != nil {
 		s.D.Set("secret", *s.Res.Secret)
 	}
+
+	s.D.Set("secrets", s.Res.Secrets)
 
 	return nil
 }

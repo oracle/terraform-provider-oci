@@ -40,6 +40,7 @@ resource "oci_network_firewall_network_firewall_policy_decryption_rule" "test_ne
 		after_rule = var.network_firewall_policy_decryption_rule_position_after_rule
 		before_rule = var.network_firewall_policy_decryption_rule_position_before_rule
 	}
+	secrets = var.network_firewall_policy_decryption_rule_secrets
 }
 ```
 
@@ -55,6 +56,7 @@ The following arguments are supported:
 	* `source_address` - (Optional) (Updatable) An array of IP address list names to be evaluated against the traffic source address.
 * `decryption_profile` - (Required only when action is `DECRYPT`) (Updatable) The name of the decryption profile to use.
 * `secret` - (Required only when action is `DECRYPT`) (Updatable) The name of a mapped secret. Its `type` must match that of the specified decryption profile.
+* `secrets` - (Required only when action is `DECRYPT`) (Updatable) An array of mapped secrets. Its `type` must match that of the specified decryption profile.
 * `description` - (Optional) (Updatable) The description of the decryption rule. This field can be used to add additional info.
 * `name` - (Required) Name for the decryption rule, must be unique within the policy.
 * `network_firewall_policy_id` - (Required) Unique Network Firewall Policy identifier
@@ -79,6 +81,7 @@ The following attributes are exported:
 * `decryption_profile` - The name of the decryption profile to use.
 * `description` - The description of the decryption rule. This field can be used to add additional info.
 * `secret` - The name of a mapped secret. Its `type` must match that of the specified decryption profile.
+* `secrets` - An array of mapped secrets.
 * `name` - Name for the decryption rule, must be unique within the policy.
 * `parent_resource_id` - OCID of the Network Firewall Policy this decryption rule belongs to.
 * `position` - An object which defines the position of the rule.
