@@ -41,9 +41,9 @@ The following attributes are exported:
 	* INSPECT - Inspects traffic for vulnerability as specified in `inspection`, which may result in rejection. 
 * `condition` - Criteria to evaluate against network traffic. A match occurs when at least one item in the array associated with each specified property corresponds with the relevant aspect of the traffic. 
 	* `application` - An array of application list names to be evaluated against the traffic protocol and protocol-specific parameters.
-	* `destination_address` - An array of IP address list names to be evaluated against the traffic destination address.
+	* `destination_address` - An array of address list names to be evaluated against the traffic destination address.
 	* `service` - An array of service list names to be evaluated against the traffic protocol and protocol-specific parameters.
-	* `source_address` - An array of IP address list names to be evaluated against the traffic source address.
+	* `source_address` - An array of address list names to be evaluated against the traffic source address.
 	* `url` - An array of URL pattern list names to be evaluated against the HTTP(S) request target.
 * `description` - The description of the security rule. This field can be used to add additional info.
 * `inspection` - Type of inspection to affect the Traffic flow. This is only applicable if action is INSPECT.

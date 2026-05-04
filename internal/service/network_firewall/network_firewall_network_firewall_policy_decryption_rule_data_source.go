@@ -109,5 +109,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyDecryptionRuleDataSourceCrud) SetDa
 		s.D.Set("secret", *s.Res.Secret)
 	}
 
+	s.D.Set("secrets", s.Res.Secrets)
+
 	return nil
 }

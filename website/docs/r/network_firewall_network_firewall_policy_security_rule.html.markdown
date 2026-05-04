@@ -55,8 +55,8 @@ The following arguments are supported:
 	* ALLOW - Allows the traffic.
 	* DROP - Silently drops the traffic, e.g. without sending a TCP reset.
 	* REJECT - Rejects the traffic, sending a TCP reset to client and/or server as applicable.
-	* INSPECT - Inspects traffic for vulnerability as specified in `inspection`, which may result in rejection. 
-* `condition` - (Required) (Updatable) Criteria to evaluate against network traffic. A match occurs when at least one item in the array associated with each specified property corresponds with the relevant aspect of the traffic. The resources mentioned must already be present in the policy before being referenced in the rule. 
+	* INSPECT - Inspects traffic for vulnerability as specified in `inspection`, which may result in rejection.
+* `condition` - (Required) (Updatable) Criteria to evaluate against network traffic. A match occurs when at least one item in the array associated with each specified property corresponds with the relevant aspect of the traffic. The resources mentioned must already be present in the policy before being referenced in the rule.
 	* `application` - (Optional) (Updatable) An array of application group names to be evaluated against the traffic protocol and protocol-specific parameters.
 	* `destination_address` - (Optional) (Updatable) An array of address list names to be evaluated against the traffic destination address.
 	* `service` - (Optional) (Updatable) An array of service list names to be evaluated against the traffic protocol and protocol-specific parameters.
@@ -90,7 +90,7 @@ The following attributes are exported:
 	* `destination_address` - An array of address list names to be evaluated against the traffic destination address.
 	* `service` - An array of service list names to be evaluated against the traffic protocol and protocol-specific parameters.
 	* `source_address` - An array of address list names to be evaluated against the traffic source address.
-	* `url` - An array of URL list names to be evaluated against the HTTP(S) request target.
+	* `url` - An array of URL pattern list names to be evaluated against the HTTP(S) request target.
 * `description` - The description of the security rule. This field can be used to add additional info.
 * `inspection` - Type of inspection to affect the traffic flow. This is only applicable if action is INSPECT.
 	* INTRUSION_DETECTION - Intrusion Detection.

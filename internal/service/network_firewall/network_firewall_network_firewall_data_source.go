@@ -108,6 +108,9 @@ func (s *NetworkFirewallNetworkFirewallDataSourceCrud) SetData() error {
 
 	s.D.Set("network_security_group_ids", s.Res.NetworkSecurityGroupIds)
 
+	if s.Res.SecurityAttributes != nil {
+		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+	}
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}
