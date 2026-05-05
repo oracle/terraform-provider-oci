@@ -43,6 +43,10 @@ resource "oci_objectstorage_private_endpoint" "testPe1" {
     compartment_id = "*"
     bucket = "*"
   }
+  security_attributes = {
+    "oracle-zpr.fleet-update.value" = "42"
+    "oracle-zpr.fleet-update.mode"  = "enforce"
+  }
 }
 
 data "oci_objectstorage_private_endpoint_summaries" "testlist" {
@@ -52,5 +56,18 @@ data "oci_objectstorage_private_endpoint_summaries" "testlist" {
     name   = "name"
     values = [oci_objectstorage_private_endpoint.testPe1.name]
   }
+}
+
+data "oci_objectstorage_private_endpoint" "pe" {
+  namespace = data.oci_objectstorage_namespace.t1.namespace
+  name = oci_objectstorage_private_endpoint.testPe1.name
+}
+
+output "pe_list" {
+  value = data.oci_objectstorage_private_endpoint_summaries.testlist
+}
+
+output "pe" {
+  value = data.oci_objectstorage_private_endpoint.pe
 }
 

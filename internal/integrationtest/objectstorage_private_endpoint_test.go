@@ -124,6 +124,10 @@ func TestObjectStoragePrivateEndpointResource_basic(t *testing.T) {
 					compartment_id = "*"
 					bucket = "*"
 				  }
+				security_attributes = {
+					"oracle-zpr.fleet-update.value" = "42"
+					"oracle-zpr.fleet-update.mode"  = "enforce"
+				}
 			}
 	
 			resource "oci_core_subnet" "test_subnet_1" {
@@ -166,6 +170,10 @@ func TestObjectStoragePrivateEndpointResource_basic(t *testing.T) {
 					compartment_id = "${var.compartment_id}"
 					bucket = "b1"
 				  }
+				security_attributes = {
+					"oracle-zpr.fleet-update.value" = "updatedValue"
+					"oracle-zpr.fleet-update.mode"  = "enforce"
+				}
 			}
 	
 			resource "oci_core_subnet" "test_subnet_1" {
@@ -250,6 +258,9 @@ func TestObjectStoragePrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "prefix", testPrefix),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.fleet-update.value", "42"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.fleet-update.mode", "enforce"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "access_targets",
 					map[string]string{
 						"namespace":      "*",
@@ -273,6 +284,9 @@ func TestObjectStoragePrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "prefix", testPrefix),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.fleet-update.value", "updatedValue"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.fleet-update.mode", "enforce"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "access_targets",
 					map[string]string{
 						"namespace":      "n1",
