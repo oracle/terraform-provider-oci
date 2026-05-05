@@ -1,30 +1,24 @@
 ---
 subcategory: "Database"
 layout: "oci"
-page_title: "Oracle Cloud Infrastructure: oci_database_autonomous_container_database_backups"
-sidebar_current: "docs-oci-datasource-database-autonomous_container_database_backups"
+page_title: "Oracle Cloud Infrastructure: oci_database_autonomous_container_database_backup"
+sidebar_current: "docs-oci-datasource-database-autonomous_container_database_backup"
 description: |-
-  Provides the list of Autonomous Container Database Backups in Oracle Cloud Infrastructure Database service
+  Provides details about a specific Autonomous Container Database Backup in Oracle Cloud Infrastructure Database service
 ---
 
-# Data Source: oci_database_autonomous_container_database_backups
-This data source provides the list of Autonomous Container Database Backups in Oracle Cloud Infrastructure Database service.
+# Data Source: oci_database_autonomous_container_database_backup
+This data source provides details about a specific Autonomous Container Database Backup resource in Oracle Cloud Infrastructure Database service.
 
-Gets a list of Autonomous Container Database backups by using either the 'autonomousDatabaseId' or 'compartmentId' as your query parameter.
+Gets information about the specified Autonomous Container Database backup.
 
 
 ## Example Usage
 
 ```hcl
-data "oci_database_autonomous_container_database_backups" "test_autonomous_container_database_backups" {
-
-	#Optional
-	autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
-	compartment_id = var.compartment_id
-	display_name = var.autonomous_container_database_backup_display_name
-	infrastructure_type = var.autonomous_container_database_backup_infrastructure_type
-	is_remote = var.autonomous_container_database_backup_is_remote
-	state = var.autonomous_container_database_backup_state
+data "oci_database_autonomous_container_database_backup" "test_autonomous_container_database_backup" {
+	#Required
+	autonomous_container_database_backup_id = oci_database_autonomous_container_database_backup.test_autonomous_container_database_backup.id
 }
 ```
 
@@ -32,21 +26,10 @@ data "oci_database_autonomous_container_database_backups" "test_autonomous_conta
 
 The following arguments are supported:
 
-* `autonomous_container_database_id` - (Optional) The Autonomous Container Database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-* `compartment_id` - (Optional) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-* `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
-* `infrastructure_type` - (Optional) A filter to return only resources that match the given Infrastructure Type.
-* `is_remote` - (Optional) call for all remote backups
-* `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
+* `autonomous_container_database_backup_id` - (Required) The Autonomous Container Database backup [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 
 ## Attributes Reference
-
-The following attributes are exported:
-
-* `autonomous_container_database_backup_collection` - The list of autonomous_container_database_backup_collection.
-
-### AutonomousContainerDatabaseBackup Reference
 
 The following attributes are exported:
 

@@ -41,6 +41,23 @@ var (
 		"autonomous_database_backup_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_database_backup.test_autonomous_database_backup.id}`},
 	}
 
+	/* TODO : do we need this generic representation as we are not adding any ?
+	DatabaseAutonomousDatabaseBackupDataSourceRepresentation = map[string]interface{}{
+		"autonomous_database_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
+		"backup_destination_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_backup_destination.test_backup_destination.id}`},
+		"compartment_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `Monthly Backup`},
+		"infrastructure_type":    acctest.Representation{RepType: acctest.Optional, Create: `CLOUD`},
+		"is_pitr_eligible":       acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"key_store_id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_key_store.test_key_store.id}`},
+		"state":                  acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"type":                   acctest.Representation{RepType: acctest.Optional, Create: `type`},
+		"filter":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseBackupDataSourceFilterRepresentation}}
+	DatabaseAutonomousDatabaseBackupDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_autonomous_database_backup.test_autonomous_database_backup.id}`}},
+
+	*/
 	DatabaseAutonomousExaccDatabaseBackupResourceConfigForLongTermBackup = DatabaseAutonomousExaccDatabaseBackupResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", acctest.Optional, acctest.Update, DatabaseExaccAutonomousDatabaseBackupRepresentationForLongTermBackup)
 
@@ -232,6 +249,7 @@ func TestDatabaseAutonomousExaccBackupResource_basic(t *testing.T) {
 
 	resourceName := "oci_database_autonomous_database_backup.test_autonomous_database_backup"
 	singularDatasourceName := "data.oci_database_autonomous_database_backup.test_autonomous_database_backup"
+	dataSourceName := "data.oci_database_autonomous_database_backups.test_autonomous_database_backups"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
@@ -318,6 +336,42 @@ func TestDatabaseAutonomousExaccBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_ended"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_started"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
+			),
+		},
+		/*
+			verify isPitrEligible filter in a list backups call
+			the expectation is to list adb backups based on adb id and the filter
+			the explicitly created backup is long term and should not be returned for isPitrEligible=true
+			ADB creation creates an automatic PITR-eligible backup, so the list api should return that backup
+		*/
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap(
+					"oci_database_autonomous_database_backups",
+					"test_autonomous_database_backups",
+					acctest.Optional,
+					acctest.Create,
+					map[string]interface{}{
+						"autonomous_database_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
+						"compartment_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+						"is_pitr_eligible":       acctest.Representation{RepType: acctest.Optional, Create: `true`},
+					},
+				) +
+				compartmentIdVariableStr + DatabaseAutonomousExaccDatabaseBackupResourceConfigForLongTermBackup,
+			/*
+					the following assertions are from the .tfstate - which will have input and output
+				    i.e, the query param even if not part of the response will still be part of the tfstate
+				    because of its presence in the config file in the "data" block
+
+				    so assertion should still hold
+			*/
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(dataSourceName, "autonomous_database_id"),
+				resource.TestCheckResourceAttr(dataSourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(dataSourceName, "is_pitr_eligible", "true"),
+				resource.TestCheckResourceAttr(dataSourceName, "autonomous_database_backups.#", "1"),
+				resource.TestCheckResourceAttr(dataSourceName, "autonomous_database_backups.0.display_name", "Automatic Backup"),
+				resource.TestCheckResourceAttr(dataSourceName, "autonomous_database_backups.0.is_automatic", "true"),
 			),
 		},
 		// verify resource import

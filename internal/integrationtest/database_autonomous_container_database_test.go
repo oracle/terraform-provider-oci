@@ -33,6 +33,103 @@ var (
 	DatabaseAutonomousContainerDatabaseResourceConfig = ATPDAutonomousContainerDatabaseResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, DatabaseAutonomousContainerDatabaseRepresentation)
 
+	DatabaseAutonomousContainerDatabaseCloneFromBackupSourceRepresentation = acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousContainerDatabaseRepresentation, []string{"source"})
+
+	DatabaseAutonomousContainerDatabaseCloneFromBackupPeerCloudAvmRepresentation = acctest.RepresentationCopyWithNewProperties(DatabaseCloudAutonomousVmClusterRepresentation, map[string]interface{}{
+		"cloud_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_exadata_infrastructure.peer_cloud_exadata_infrastructure.id}`},
+		"display_name":                    acctest.Representation{RepType: acctest.Required, Create: `PeerCloudAutonomousVmCluster`},
+	})
+
+	DatabaseAutonomousContainerDatabaseCloneFromBackupRepresentation = map[string]interface{}{
+		"source": acctest.Representation{RepType: acctest.Required, Create: `BACKUP_FROM_ID`},
+		"autonomous_container_database_backup_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_autonomous_container_database_backups.test_autonomous_container_database_backups.autonomous_container_database_backup_collection.0.items.0.id}`},
+		"cloud_autonomous_vm_cluster_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_autonomous_vm_cluster.peer_cloud_autonomous_vm_cluster.id}`},
+		"backup_config":                           acctest.RepresentationGroup{RepType: acctest.Required, Group: ACDatabaseBackupConfigRepresentation},
+		"clone_type":                              acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+		"compartment_id":                          acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"display_name":                            acctest.Representation{RepType: acctest.Required, Create: `acdCloneFromBackup`},
+		"lifecycle":                               acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousContainerDatabaseCloneFromBackupIgnoreChangesRepresentation},
+		"patch_model":                             acctest.Representation{RepType: acctest.Required, Create: `RELEASE_UPDATES`},
+		"service_level_agreement_type":            acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
+	}
+
+	DatabaseAutonomousContainerDatabaseCloneFromBackupIgnoreChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`source`,
+			`clone_type`,
+			`autonomous_container_database_backup_id`}},
+	}
+
+	DatabaseAutonomousContainerDatabaseCloneFromBackupTimestampRepresentation = map[string]interface{}{
+		"source": acctest.Representation{RepType: acctest.Required, Create: `BACKUP_FROM_TIMESTAMP`},
+		"source_autonomous_container_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
+		"time_stamp_to_use_for_cloning":           acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_autonomous_container_database_backups.test_autonomous_container_database_backups.autonomous_container_database_backup_collection.0.items.0.time_ended}`},
+		"autonomous_databases_to_clone":           acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_autonomous_database.test_autonomous_database.display_name}`}},
+		"cloud_autonomous_vm_cluster_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_autonomous_vm_cluster.peer_cloud_autonomous_vm_cluster.id}`},
+		"backup_config":                           acctest.RepresentationGroup{RepType: acctest.Required, Group: ACDatabaseBackupConfigRepresentation},
+		"clone_type":                              acctest.Representation{RepType: acctest.Required, Create: `PARTIAL`},
+		"compartment_id":                          acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"display_name":                            acctest.Representation{RepType: acctest.Required, Create: `acdCloneFromBackupTimestamp`},
+		"lifecycle":                               acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousContainerDatabaseCloneFromBackupTimestampIgnoreChangesRepresentation},
+		"patch_model":                             acctest.Representation{RepType: acctest.Required, Create: `RELEASE_UPDATES`},
+		"service_level_agreement_type":            acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
+	}
+
+	DatabaseAutonomousContainerDatabaseCloneFromBackupTimestampIgnoreChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`source`,
+			`clone_type`,
+			`source_autonomous_container_database_id`,
+			`time_stamp_to_use_for_cloning`,
+			`autonomous_databases_to_clone`}},
+	}
+
+	DatabaseAutonomousContainerDatabaseCloneFromBackupAutonomousDatabasesDataSourceRepresentation = map[string]interface{}{
+		"autonomous_container_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_container_database.acd_clone_from_backup.id}`},
+		"compartment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_database.test_autonomous_database.display_name}`},
+		"depends_on":                       acctest.Representation{RepType: acctest.Required, Create: []string{`oci_database_autonomous_container_database.acd_clone_from_backup`}},
+	}
+
+	DatabaseAutonomousContainerDatabaseCloneFromBackupAllAutonomousDatabasesDataSourceRepresentation = map[string]interface{}{
+		"autonomous_container_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_container_database.acd_clone_from_backup.id}`},
+		"compartment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"depends_on":                       acctest.Representation{RepType: acctest.Required, Create: []string{`oci_database_autonomous_container_database.acd_clone_from_backup`}},
+	}
+
+	DatabaseAutonomousContainerDatabaseCloneFromBackupResourceConfig = DatabaseCloudAutonomousVmClusterRequiredOnlyResource +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "peer_cloud_exadata_infrastructure", acctest.Required, acctest.Create, PeerCeiRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_autonomous_vm_cluster", "peer_cloud_autonomous_vm_cluster", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseCloneFromBackupPeerCloudAvmRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseCloneFromBackupSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseForAcdBackupRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_backups", "test_autonomous_container_database_backups", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseBackupDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "acd_clone_from_backup", acctest.Optional, acctest.Create, DatabaseAutonomousContainerDatabaseCloneFromBackupRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_databases", "cloned_autonomous_databases", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseCloneFromBackupAutonomousDatabasesDataSourceRepresentation)
+
+	DatabaseAutonomousContainerDatabaseCloneFromBackupResourceConfigWithoutClonedAdbDataSource = DatabaseCloudAutonomousVmClusterRequiredOnlyResource +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "peer_cloud_exadata_infrastructure", acctest.Required, acctest.Create, PeerCeiRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_autonomous_vm_cluster", "peer_cloud_autonomous_vm_cluster", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseCloneFromBackupPeerCloudAvmRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseCloneFromBackupSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseForAcdBackupRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_backups", "test_autonomous_container_database_backups", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseBackupDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "acd_clone_from_backup", acctest.Optional, acctest.Create, DatabaseAutonomousContainerDatabaseCloneFromBackupRepresentation)
+
+	DatabaseAutonomousContainerDatabaseCloneFromBackupTimestampResourceConfig = DatabaseCloudAutonomousVmClusterRequiredOnlyResource +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "peer_cloud_exadata_infrastructure", acctest.Required, acctest.Create, PeerCeiRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_autonomous_vm_cluster", "peer_cloud_autonomous_vm_cluster", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseCloneFromBackupPeerCloudAvmRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseCloneFromBackupSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseForAcdBackupRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_backups", "test_autonomous_container_database_backups", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseBackupDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "acd_clone_from_backup", acctest.Optional, acctest.Create, DatabaseAutonomousContainerDatabaseCloneFromBackupTimestampRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_databases", "cloned_autonomous_databases", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseCloneFromBackupAutonomousDatabasesDataSourceRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_databases", "all_cloned_autonomous_databases", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseCloneFromBackupAllAutonomousDatabasesDataSourceRepresentation)
+
+	DatabaseAutonomousContainerDatabaseCloneFromBackupTimestampResourceConfigWithoutClonedAdbDataSource = DatabaseCloudAutonomousVmClusterRequiredOnlyResource +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "peer_cloud_exadata_infrastructure", acctest.Required, acctest.Create, PeerCeiRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_autonomous_vm_cluster", "peer_cloud_autonomous_vm_cluster", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseCloneFromBackupPeerCloudAvmRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseCloneFromBackupSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseForAcdBackupRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_container_database_backups", "test_autonomous_container_database_backups", acctest.Required, acctest.Create, DatabaseAutonomousContainerDatabaseBackupDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "acd_clone_from_backup", acctest.Optional, acctest.Create, DatabaseAutonomousContainerDatabaseCloneFromBackupTimestampRepresentation)
+
 	DatabaseDatabaseAutonomousContainerDatabaseSingularDataSourceRepresentation = map[string]interface{}{
 		"autonomous_container_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
 	}
@@ -61,7 +158,7 @@ var (
 		"version_preference":             acctest.Representation{RepType: acctest.Optional, Create: `LATEST_RELEASE_UPDATE`, Update: `NEXT_RELEASE_UPDATE`},
 		"display_name":                   acctest.Representation{RepType: acctest.Required, Create: `containerDatabase2`, Update: `displayName2`},
 		"patch_model":                    acctest.Representation{RepType: acctest.Required, Create: `RELEASE_UPDATES`, Update: `RELEASE_UPDATE_REVISIONS`},
-		"db_version":                     acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithDefault("acd_db_version", "19.29.0.1.0")},
+		"db_version":                     acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithDefault("acd_db_version", "19.31.0.1.0")},
 		"cloud_autonomous_vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id}`},
 		"backup_config":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ACDatabaseBackupConfigRepresentation},
 		"compartment_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
@@ -464,6 +561,184 @@ func TestDatabaseAdbdAutonomousContainerDatabaseResource_updateDataGuard(t *test
 			),
 		},
 	})
+}
+
+// issue-routing-tag: database/dbaas-atp-d
+func TestDatabaseAutonomousContainerDatabaseCloneFromBackup_basic(t *testing.T) {
+	// Verifies public-cloud ACD full clone from a backup OCID. A FULL clone is
+	// expected to recreate the source ADBs in the cloned target ACD.
+	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabaseCloneFromBackup_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	sourceAcdResourceName := "oci_database_autonomous_container_database.test_autonomous_container_database"
+	autonomousDatabaseResourceName := "oci_database_autonomous_database.test_autonomous_database"
+	backupDatasourceName := "data.oci_database_autonomous_container_database_backups.test_autonomous_container_database_backups"
+	cloneAcdResourceName := "oci_database_autonomous_container_database.acd_clone_from_backup"
+	clonedAutonomousDatabasesDatasourceName := "data.oci_database_autonomous_databases.cloned_autonomous_databases"
+	sourceCloudAvmResourceName := "oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster"
+	targetCloudAvmResourceName := "oci_database_cloud_autonomous_vm_cluster.peer_cloud_autonomous_vm_cluster"
+
+	var clonedAutonomousDatabaseId string
+
+	acctest.SaveConfigContent("", "", "", t)
+
+	var steps []resource.TestStep
+	steps = []resource.TestStep{
+		{
+			// Build source and target Cloud AVMs, create the source ACD/ADB, list
+			// the source ACD backups, then create the cloned ACD on the target AVM.
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousContainerDatabaseCloneFromBackupResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(sourceAcdResourceName, "id"),
+				acctest.TestCheckResourceAttributesEqual(sourceAcdResourceName, "cloud_autonomous_vm_cluster_id", sourceCloudAvmResourceName, "id"),
+				resource.TestCheckResourceAttrSet(autonomousDatabaseResourceName, "id"),
+				acctest.TestCheckResourceAttributesEqual(autonomousDatabaseResourceName, "autonomous_container_database_id", sourceAcdResourceName, "id"),
+				resource.TestCheckResourceAttrSet(backupDatasourceName, "autonomous_container_database_backup_collection.#"),
+				testCheckResourceAttrCountAtLeast(backupDatasourceName, "autonomous_container_database_backup_collection.0.items.#", 1),
+				resource.TestCheckResourceAttrSet(backupDatasourceName, "autonomous_container_database_backup_collection.0.items.0.id"),
+				resource.TestCheckResourceAttrSet(cloneAcdResourceName, "id"),
+				resource.TestCheckResourceAttr(cloneAcdResourceName, "compartment_id", compartmentId),
+				acctest.TestCheckResourceAttributesEqual(cloneAcdResourceName, "cloud_autonomous_vm_cluster_id", targetCloudAvmResourceName, "id"),
+				resource.TestCheckResourceAttr(cloneAcdResourceName, "backup_config.#", "1"),
+				resource.TestCheckResourceAttr(cloneAcdResourceName, "backup_config.0.backup_destination_details.0.type", "OBJECT_STORE"),
+				testCheckResourceAttrCountAtLeast(clonedAutonomousDatabasesDatasourceName, "autonomous_databases.#", 1),
+				testCheckListContainsResourceAttrValue(clonedAutonomousDatabasesDatasourceName, "autonomous_databases", "display_name", autonomousDatabaseResourceName, "display_name"),
+				func(s *terraform.State) (err error) {
+					clonedAutonomousDatabaseId, err = acctest.FromInstanceState(s, clonedAutonomousDatabasesDatasourceName, "autonomous_databases.0.id")
+					return err
+				},
+				func(s *terraform.State) error {
+					sourceCloudAvmId, err := acctest.FromInstanceState(s, sourceCloudAvmResourceName, "id")
+					if err != nil {
+						return err
+					}
+
+					targetCloudAvmId, err := acctest.FromInstanceState(s, targetCloudAvmResourceName, "id")
+					if err != nil {
+						return err
+					}
+
+					if sourceCloudAvmId == targetCloudAvmId {
+						return fmt.Errorf("source and target Cloud AVM clusters must be different, both resolved to %s", sourceCloudAvmId)
+					}
+
+					return nil
+				},
+			),
+		},
+		{
+			// The cloned ADB is removed explicitly so the cloned ACD can be
+			// destroyed without waiting on child database cleanup during destroy.
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousContainerDatabaseCloneFromBackupResourceConfigWithoutClonedAdbDataSource,
+			PreConfig: func() {
+				acctest.GenericTestStepPreConfiguration(steps, 1, t)()
+				deleteClonedAutonomousDatabaseBeforeAcdDestroy(t, clonedAutonomousDatabaseId)
+			},
+			SkipFunc: skipWhenDebugTestStepsShowConfigOnly,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(cloneAcdResourceName, "id"),
+				resource.TestCheckResourceAttr(cloneAcdResourceName, "compartment_id", compartmentId),
+				acctest.TestCheckResourceAttributesEqual(cloneAcdResourceName, "cloud_autonomous_vm_cluster_id", targetCloudAvmResourceName, "id"),
+			),
+		},
+	}
+
+	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousContainerDatabaseDestroy, steps)
+}
+
+// issue-routing-tag: database/dbaas-atp-d
+func TestDatabaseAutonomousContainerDatabaseCloneFromBackupTimestamp_basic(t *testing.T) {
+	// Verifies public-cloud ACD partial clone from a backup timestamp. The test
+	// selects the source ADB by display name and expects exactly that ADB in the clone.
+	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabaseCloneFromBackupTimestamp_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	sourceAcdResourceName := "oci_database_autonomous_container_database.test_autonomous_container_database"
+	autonomousDatabaseResourceName := "oci_database_autonomous_database.test_autonomous_database"
+	backupDatasourceName := "data.oci_database_autonomous_container_database_backups.test_autonomous_container_database_backups"
+	cloneAcdResourceName := "oci_database_autonomous_container_database.acd_clone_from_backup"
+	clonedAutonomousDatabasesDatasourceName := "data.oci_database_autonomous_databases.cloned_autonomous_databases"
+	allClonedAutonomousDatabasesDatasourceName := "data.oci_database_autonomous_databases.all_cloned_autonomous_databases"
+	sourceCloudAvmResourceName := "oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster"
+	targetCloudAvmResourceName := "oci_database_cloud_autonomous_vm_cluster.peer_cloud_autonomous_vm_cluster"
+
+	var clonedAutonomousDatabaseId string
+
+	acctest.SaveConfigContent("", "", "", t)
+
+	var steps []resource.TestStep
+	steps = []resource.TestStep{
+		{
+			// Build source and target Cloud AVMs, create the source ACD/ADB, use
+			// the first backup end timestamp, then partial-clone only the named ADB.
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousContainerDatabaseCloneFromBackupTimestampResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(sourceAcdResourceName, "id"),
+				acctest.TestCheckResourceAttributesEqual(sourceAcdResourceName, "cloud_autonomous_vm_cluster_id", sourceCloudAvmResourceName, "id"),
+				resource.TestCheckResourceAttrSet(autonomousDatabaseResourceName, "id"),
+				acctest.TestCheckResourceAttributesEqual(autonomousDatabaseResourceName, "autonomous_container_database_id", sourceAcdResourceName, "id"),
+				resource.TestCheckResourceAttrSet(backupDatasourceName, "autonomous_container_database_backup_collection.#"),
+				testCheckResourceAttrCountAtLeast(backupDatasourceName, "autonomous_container_database_backup_collection.0.items.#", 1),
+				resource.TestCheckResourceAttrSet(backupDatasourceName, "autonomous_container_database_backup_collection.0.items.0.time_ended"),
+				resource.TestCheckResourceAttrSet(cloneAcdResourceName, "id"),
+				resource.TestCheckResourceAttr(cloneAcdResourceName, "compartment_id", compartmentId),
+				acctest.TestCheckResourceAttributesEqual(cloneAcdResourceName, "cloud_autonomous_vm_cluster_id", targetCloudAvmResourceName, "id"),
+				resource.TestCheckResourceAttr(cloneAcdResourceName, "backup_config.#", "1"),
+				resource.TestCheckResourceAttr(cloneAcdResourceName, "backup_config.0.backup_destination_details.0.type", "OBJECT_STORE"),
+				testCheckResourceAttrCountAtLeast(clonedAutonomousDatabasesDatasourceName, "autonomous_databases.#", 1),
+				testCheckListContainsResourceAttrValue(clonedAutonomousDatabasesDatasourceName, "autonomous_databases", "display_name", autonomousDatabaseResourceName, "display_name"),
+				resource.TestCheckResourceAttr(allClonedAutonomousDatabasesDatasourceName, "autonomous_databases.#", "1"),
+				func(s *terraform.State) (err error) {
+					clonedAutonomousDatabaseId, err = acctest.FromInstanceState(s, clonedAutonomousDatabasesDatasourceName, "autonomous_databases.0.id")
+					return err
+				},
+				func(s *terraform.State) error {
+					sourceCloudAvmId, err := acctest.FromInstanceState(s, sourceCloudAvmResourceName, "id")
+					if err != nil {
+						return err
+					}
+
+					targetCloudAvmId, err := acctest.FromInstanceState(s, targetCloudAvmResourceName, "id")
+					if err != nil {
+						return err
+					}
+
+					if sourceCloudAvmId == targetCloudAvmId {
+						return fmt.Errorf("source and target Cloud AVM clusters must be different, both resolved to %s", sourceCloudAvmId)
+					}
+
+					return nil
+				},
+			),
+		},
+		{
+			// Remove the cloned ADB before destroy so the cloned ACD termination
+			// follows the same cleanup order as the ExaCC timestamp coverage.
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousContainerDatabaseCloneFromBackupTimestampResourceConfigWithoutClonedAdbDataSource,
+			PreConfig: func() {
+				acctest.GenericTestStepPreConfiguration(steps, 1, t)()
+				deleteClonedAutonomousDatabaseBeforeAcdDestroy(t, clonedAutonomousDatabaseId)
+			},
+			SkipFunc: skipWhenDebugTestStepsShowConfigOnly,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(cloneAcdResourceName, "id"),
+				resource.TestCheckResourceAttr(cloneAcdResourceName, "compartment_id", compartmentId),
+				acctest.TestCheckResourceAttributesEqual(cloneAcdResourceName, "cloud_autonomous_vm_cluster_id", targetCloudAvmResourceName, "id"),
+			),
+		},
+	}
+
+	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousContainerDatabaseDestroy, steps)
 }
 
 // issue-routing-tag: database/dbaas-atp-d

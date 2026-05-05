@@ -41,7 +41,7 @@ resource "oci_database_exadata_infrastructure" "test_exadata_infrastructure" {
   infini_band_network_cidr    = "10.31.8.0/21"
   netmask                     = "255.255.255.0"
   ntp_server                  = ["10.231.225.76"]
-  shape                       = "ExadataCC.X7"
+  shape                       = "ExadataCC.X9M"
   time_zone                   = "US/Pacific"
   activation_file             = local_file.activation_file.filename
   storage_count               = 3
