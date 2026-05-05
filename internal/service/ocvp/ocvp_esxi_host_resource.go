@@ -83,8 +83,22 @@ func OcvpEsxiHostResource() *schema.Resource {
 					}
 					return true
 				},
-				ConflictsWith: []string{"cluster_id", "esxi_software_version"},
+				ConflictsWith: []string{"cluster_id", "esxi_software_version", "current_commitment"},
 				Deprecated:    tfresource.FieldDeprecated("current_sku"),
+			},
+			"current_commitment": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				// API may update current_commitment after creation; ignore post-create drift (same behavior as current_sku).
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					if old == "" && new != "" {
+						return false
+					}
+					return true
+				},
+				ConflictsWith: []string{"current_sku"},
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -145,8 +159,14 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Type:          schema.TypeString,
 				Optional:      true,
 				Computed:      true,
-				ConflictsWith: []string{"cluster_id", "esxi_software_version"},
+				ConflictsWith: []string{"cluster_id", "esxi_software_version", "next_commitment"},
 				Deprecated:    tfresource.FieldDeprecated("next_sku"),
+			},
+			"next_commitment": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"next_sku"},
 			},
 			"non_upgraded_esxi_host_id": {
 				Type:          schema.TypeString,
@@ -231,10 +251,6 @@ func OcvpEsxiHostResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
-			"current_commitment": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"grace_period_end_date": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -245,10 +261,6 @@ func OcvpEsxiHostResource() *schema.Resource {
 			},
 			"is_billing_swapping_in_progress": {
 				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"next_commitment": {
-				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"primary_vnic_mac_address": {
