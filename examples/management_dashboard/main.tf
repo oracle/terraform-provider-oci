@@ -45,4 +45,3 @@ output "test_export_data_all" {
 output "test_export_data_dashboards" {
   value = data.oci_management_dashboard_management_dashboards_export.test_export.export_details
 }
-

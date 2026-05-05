@@ -7,4 +7,6 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_management_dashboard_management_dashboards_export", ManagementDashboardManagementDashboardsExportDataSource())
+	tfresource.RegisterDatasource("oci_management_dashboard_management_saved_search", ManagementDashboardManagementSavedSearchDataSource())
+	tfresource.RegisterDatasource("oci_management_dashboard_management_saved_searches", ManagementDashboardManagementSavedSearchesDataSource())
 }
