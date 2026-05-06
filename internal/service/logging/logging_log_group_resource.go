@@ -283,7 +283,7 @@ func logGroupWaitForWorkRequest(ctx context.Context, wId *string, entityType str
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 

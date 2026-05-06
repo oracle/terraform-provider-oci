@@ -293,7 +293,7 @@ func visionPrivateEndpointWaitForWorkRequest(ctx context.Context, wId *string, e
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 

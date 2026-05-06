@@ -1015,7 +1015,7 @@ func webAppFirewallPolicyWaitForWorkRequest(ctx context.Context, wId *string, en
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 

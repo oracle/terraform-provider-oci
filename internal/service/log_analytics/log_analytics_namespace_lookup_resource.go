@@ -438,7 +438,7 @@ func (s *LogAnalyticsNamespaceLookupResourceCrud) CreateWithContext(ctx context.
 	}
 
 	// Wait until GetLookup returns successful status
-	lookup, getLookupErr := s.getNamespaceLookupFromGetLookup(&namespaceName, &lookupName, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), s.D.Timeout(schema.TimeoutDelete))
+	lookup, getLookupErr := s.getNamespaceLookupFromGetLookup(ctx, &namespaceName, &lookupName, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), s.D.Timeout(schema.TimeoutDelete))
 	if getLookupErr != nil {
 		return getLookupErr
 	}
@@ -520,11 +520,11 @@ func (s *LogAnalyticsNamespaceLookupResourceCrud) CreateWithContext(ctx context.
 	return nil
 }
 
-func (s *LogAnalyticsNamespaceLookupResourceCrud) getNamespaceLookupFromGetLookup(namespaceName *string, lookupName *string, retryPolicy *oci_common.RetryPolicy,
+func (s *LogAnalyticsNamespaceLookupResourceCrud) getNamespaceLookupFromGetLookup(ctx context.Context, namespaceName *string, lookupName *string, retryPolicy *oci_common.RetryPolicy,
 	timeout time.Duration) (*oci_log_analytics.LogAnalyticsLookup, error) {
 
 	// Wait until lookup status becomes successful
-	lookup, err := namespaceLookupWaitForGetLookup(namespaceName, lookupName, timeout, s.DisableNotFoundRetries, s.Client)
+	lookup, err := namespaceLookupWaitForGetLookup(ctx, namespaceName, lookupName, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		return nil, err
@@ -533,7 +533,7 @@ func (s *LogAnalyticsNamespaceLookupResourceCrud) getNamespaceLookupFromGetLooku
 	return lookup, nil
 }
 
-func namespaceLookupWaitForGetLookup(namespaceName *string, lookupName *string,
+func namespaceLookupWaitForGetLookup(ctx context.Context, namespaceName *string, lookupName *string,
 	timeout time.Duration, disableFoundRetries bool, client *oci_log_analytics.LogAnalyticsClient) (*oci_log_analytics.LogAnalyticsLookup, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "log_analytics")
 	retryPolicy.ShouldRetryOperation = namespaceLookupWorkRequestShouldRetryFunc(timeout, false)
@@ -563,7 +563,7 @@ func namespaceLookupWaitForGetLookup(namespaceName *string, lookupName *string,
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -653,7 +653,7 @@ func namespaceLookupWaitForWorkRequest(ctx context.Context, namespaceName *strin
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 

@@ -529,7 +529,7 @@ func gdpPipelineWaitForWorkRequest(ctx context.Context, wId *string, action oci_
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 

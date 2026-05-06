@@ -314,7 +314,7 @@ func deploymentCertificateWaitForWorkRequest(ctx context.Context, wId *string, a
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, nil, e
 	}
 

@@ -285,7 +285,7 @@ func (s *ApigatewayApiResourceCrud) CreateWithContext(ctx context.Context) error
 	if err != nil {
 		return err
 	}
-	return apiWaitForValidation(response.Id, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
+	return apiWaitForValidation(ctx, response.Id, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 }
 
 func (s *ApigatewayApiResourceCrud) getApiFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -369,7 +369,7 @@ func apiWaitForWorkRequest(ctx context.Context, wId *string, entityType string, 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -484,7 +484,7 @@ func (s *ApigatewayApiResourceCrud) UpdateWithContext(ctx context.Context) error
 	if err != nil {
 		return err
 	}
-	return apiWaitForValidation(&apiId, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
+	return apiWaitForValidation(ctx, &apiId, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 }
 
 func (s *ApigatewayApiResourceCrud) DeleteWithContext(ctx context.Context) error {
@@ -694,7 +694,7 @@ func apiResourceShouldRetryFunc(timeout time.Duration) func(response oci_common.
 	}
 }
 
-func apiWaitForValidation(apiId *string, timeout time.Duration, disableFoundRetries bool, client *oci_apigateway.ApiGatewayClient) error {
+func apiWaitForValidation(ctx context.Context, apiId *string, timeout time.Duration, disableFoundRetries bool, client *oci_apigateway.ApiGatewayClient) error {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "apigateway")
 	retryPolicy.ShouldRetryOperation = apiResourceShouldRetryFunc(timeout)
 
@@ -725,7 +725,7 @@ func apiWaitForValidation(apiId *string, timeout time.Duration, disableFoundRetr
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return e
 	}
 	return nil

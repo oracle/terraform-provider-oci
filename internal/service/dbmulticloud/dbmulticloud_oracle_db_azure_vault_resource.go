@@ -389,7 +389,7 @@ func oracleDbAzureVaultWaitForWorkRequest(ctx context.Context, wId *string, enti
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -556,7 +556,7 @@ func (s *DbmulticloudOracleDbAzureVaultResourceCrud) waitForAzureVaultActive(ctx
 		Timeout: timeout,
 	}
 
-	_, err := stateConf.WaitForState()
+	_, err := stateConf.WaitForStateContext(ctx)
 	return err
 }
 

@@ -1265,7 +1265,7 @@ func (s *DatascienceModelDeploymentResourceCrud) getModelDeploymentFromWorkReque
 	actionTypeEnum oci_datascience.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	modelDeploymentId, err := modelDeploymentWaitForWorkRequest(workId, "model-deployment",
+	modelDeploymentId, err := modelDeploymentWaitForWorkRequest(ctx, workId, "model-deployment",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -1311,7 +1311,7 @@ func modelDeploymentWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 	}
 }
 
-func modelDeploymentWaitForWorkRequest(wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
+func modelDeploymentWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_datascience.DataScienceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "datascience")
 	retryPolicy.ShouldRetryOperation = modelDeploymentWorkRequestShouldRetryFunc(timeout)
@@ -1342,7 +1342,7 @@ func modelDeploymentWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -1490,7 +1490,7 @@ func (s *DatascienceModelDeploymentResourceCrud) DeleteWithContext(ctx context.C
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := modelDeploymentWaitForWorkRequest(workId, "model-deployment",
+	_, delWorkRequestErr := modelDeploymentWaitForWorkRequest(ctx, workId, "model-deployment",
 		oci_datascience.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

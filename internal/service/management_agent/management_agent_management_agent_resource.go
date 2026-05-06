@@ -496,7 +496,7 @@ func managementAgentWaitForWorkRequest(ctx context.Context, wId *string, entityT
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -522,7 +522,7 @@ func managementAgentWaitForWorkRequest(ctx context.Context, wId *string, entityT
 // Function to wait for a compute instance "host_id" (or instance ocid) to appear in agent list
 // When a compute is created with OCA plugin, it can take up to 10 minutes for the agent to appear in MACS
 // This function waits for the agent to appear.  Used with data source for "host_id" and "wait_for_host_id"
-func managementAgentWaitForInstanceAgent(hostId *string, compartmentId *string,
+func managementAgentWaitForInstanceAgent(ctx context.Context, hostId *string, compartmentId *string,
 	timeout time.Duration, disableFoundRetries bool, client *oci_management_agent.ManagementAgentClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "management_agent")
 	retryPolicy.ShouldRetryOperation = managementAgentWorkRequestShouldRetryFunc(timeout)
@@ -556,7 +556,7 @@ func managementAgentWaitForInstanceAgent(hostId *string, compartmentId *string,
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 

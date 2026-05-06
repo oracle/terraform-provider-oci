@@ -828,7 +828,7 @@ func (s *PsqlDbSystemResourceCrud) getDbSystemFromWorkRequest(ctx context.Contex
 	actionTypeEnum oci_psql.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	dbSystemId, err := dbSystemWaitForWorkRequest(workId, "dbsystem",
+	dbSystemId, err := dbSystemWaitForWorkRequest(ctx, workId, "dbsystem",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -862,7 +862,7 @@ func dbSystemWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci
 	}
 }
 
-func dbSystemWaitForWorkRequest(wId *string, entityType string, action oci_psql.ActionTypeEnum,
+func dbSystemWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_psql.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_psql.PostgresqlClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "psql")
 	retryPolicy.ShouldRetryOperation = dbSystemWorkRequestShouldRetryFunc(timeout)
@@ -893,7 +893,7 @@ func dbSystemWaitForWorkRequest(wId *string, entityType string, action oci_psql.
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -1137,7 +1137,7 @@ func (s *PsqlDbSystemResourceCrud) DeleteWithContext(ctx context.Context) error 
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := dbSystemWaitForWorkRequest(workId, "dbsystem",
+	_, delWorkRequestErr := dbSystemWaitForWorkRequest(ctx, workId, "dbsystem",
 		oci_psql.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

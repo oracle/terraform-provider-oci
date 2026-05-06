@@ -3068,7 +3068,7 @@ func distributedDatabaseWaitForWorkRequest(ctx context.Context, wId *string, ent
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -3122,7 +3122,7 @@ func waitForDistributedDatabaseWorkRequestCompletion(ctx context.Context, wId *s
 		},
 		Timeout: timeout,
 	}
-	if _, err := stateConf.WaitForState(); err != nil {
+	if _, err := stateConf.WaitForStateContext(ctx); err != nil {
 		return err
 	}
 

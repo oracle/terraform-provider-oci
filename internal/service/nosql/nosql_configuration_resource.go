@@ -164,7 +164,7 @@ func (s *NosqlConfigurationResourceCrud) getConfigurationFromWorkRequest(ctx con
 	actionTypeEnum oci_nosql.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	configurationId, err := configurationWaitForWorkRequest(workId, "configuration",
+	configurationId, err := configurationWaitForWorkRequest(ctx, workId, "configuration",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -210,7 +210,7 @@ func configurationWorkRequestShouldRetryFunc(timeout time.Duration) func(respons
 	}
 }
 
-func configurationWaitForWorkRequest(wId *string, entityType string, action oci_nosql.WorkRequestResourceActionTypeEnum,
+func configurationWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_nosql.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_nosql.NosqlClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "nosql")
 	retryPolicy.ShouldRetryOperation = configurationWorkRequestShouldRetryFunc(timeout)
@@ -241,7 +241,7 @@ func configurationWaitForWorkRequest(wId *string, entityType string, action oci_
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 

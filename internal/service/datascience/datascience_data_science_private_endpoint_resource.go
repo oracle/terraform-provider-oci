@@ -263,7 +263,7 @@ func (s *DatascienceDataSciencePrivateEndpointResourceCrud) getDataSciencePrivat
 	actionTypeEnum oci_datascience.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	dataSciencePrivateEndpointId, err := dataSciencePrivateEndpointWaitForWorkRequest(workId, "datascience",
+	dataSciencePrivateEndpointId, err := dataSciencePrivateEndpointWaitForWorkRequest(ctx, workId, "datascience",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -309,7 +309,7 @@ func dataSciencePrivateEndpointWorkRequestShouldRetryFunc(timeout time.Duration)
 	}
 }
 
-func dataSciencePrivateEndpointWaitForWorkRequest(wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
+func dataSciencePrivateEndpointWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_datascience.DataScienceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "datascience")
 	retryPolicy.ShouldRetryOperation = dataSciencePrivateEndpointWorkRequestShouldRetryFunc(timeout)
@@ -340,7 +340,7 @@ func dataSciencePrivateEndpointWaitForWorkRequest(wId *string, entityType string
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 

@@ -766,7 +766,7 @@ func batchContextWaitForWorkRequest(ctx context.Context, wId *string, resourceId
 		Delay:        10 * time.Second,
 		PollInterval: 30 * time.Second,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		// If we have a resource ID and it timed out, check if resource is in acceptable state
 		if resourceId != nil && *resourceId != "" {
 			if action == oci_batch.ActionTypeDeleted && batchContextReachedTerminalDeleteState(ctx, resourceId, retryPolicy, client) {

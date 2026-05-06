@@ -1496,7 +1496,7 @@ func stackWaitForWorkRequest(ctx context.Context, wId *string, entityType string
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 

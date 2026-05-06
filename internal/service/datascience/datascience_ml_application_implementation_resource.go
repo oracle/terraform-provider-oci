@@ -661,7 +661,7 @@ func mlApplicationImplementationWaitForWorkRequest(ctx context.Context, wId *str
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -1349,7 +1349,7 @@ func (s *DatascienceMlApplicationImplementationResourceCrud) getMlApplicationImp
 	actionTypeEnum oci_datascience.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	mlApplicationImplementationMlApplicationPackageId, err := mlApplicationImplementationMlApplicationPackageWaitForWorkRequest(workId, "mlapplicationimplementation",
+	mlApplicationImplementationMlApplicationPackageId, err := mlApplicationImplementationMlApplicationPackageWaitForWorkRequest(ctx, workId, "mlapplicationimplementation",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -1395,7 +1395,7 @@ func mlApplicationImplementationMlApplicationPackageWorkRequestShouldRetryFunc(t
 	}
 }
 
-func mlApplicationImplementationMlApplicationPackageWaitForWorkRequest(wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
+func mlApplicationImplementationMlApplicationPackageWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_datascience.DataScienceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "datascience")
 	retryPolicy.ShouldRetryOperation = mlApplicationImplementationMlApplicationPackageWorkRequestShouldRetryFunc(timeout)
@@ -1426,7 +1426,7 @@ func mlApplicationImplementationMlApplicationPackageWaitForWorkRequest(wId *stri
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 

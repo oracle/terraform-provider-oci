@@ -790,7 +790,7 @@ func (s *DataflowApplicationResourceCrud) DeleteWithContext(ctx context.Context)
 		workRequestId := response.OpcWorkRequestId
 
 		// Wait until the work-request completes
-		_, delWorkRequestErr := cascadingDeleteApplicationWaitForWorkRequest(workRequestId, "application",
+		_, delWorkRequestErr := cascadingDeleteApplicationWaitForWorkRequest(ctx, workRequestId, "application",
 			oci_dataflow.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete),
 			s.DisableNotFoundRetries, s.Client)
 
@@ -806,7 +806,7 @@ func (s *DataflowApplicationResourceCrud) DeleteWithContext(ctx context.Context)
 	return err
 }
 
-func cascadingDeleteApplicationWaitForWorkRequest(wId *string, entityType string,
+func cascadingDeleteApplicationWaitForWorkRequest(ctx context.Context, wId *string, entityType string,
 	action oci_dataflow.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_dataflow.DataFlowClient) (*string, error) {
 
@@ -839,7 +839,7 @@ func cascadingDeleteApplicationWaitForWorkRequest(wId *string, entityType string
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 

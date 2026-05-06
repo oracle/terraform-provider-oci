@@ -956,7 +956,7 @@ func updateGoldenGateConnectionWithContext(ctx context.Context, d *schema.Resour
 
 	var err error
 	if refreshOnly {
-		err = sync.refreshConnection()
+		err = sync.refreshConnection(ctx)
 	} else {
 		err = tfresource.UpdateResourceWithContext(ctx, d, sync)
 	}
@@ -966,7 +966,7 @@ func updateGoldenGateConnectionWithContext(ctx context.Context, d *schema.Resour
 	return tfresource.HandleDiagError(m, err)
 }
 
-func (s *GoldenGateConnectionResourceCrud) refreshConnection() error {
+func (s *GoldenGateConnectionResourceCrud) refreshConnection(ctx context.Context) error {
 	refreshConnectionRequest := oci_golden_gate.RefreshConnectionRequest{}
 
 	idTmp := s.D.Id()
@@ -986,7 +986,7 @@ func (s *GoldenGateConnectionResourceCrud) refreshConnection() error {
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, refreshWorkRequestErr := connectionWaitForWorkRequest(workId, "goldengateconnection",
+	_, refreshWorkRequestErr := connectionWaitForWorkRequest(ctx, workId, "goldengateconnection",
 		oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 	if refreshWorkRequestErr != nil {
 		return refreshWorkRequestErr
@@ -1068,14 +1068,14 @@ func (s *GoldenGateConnectionResourceCrud) CreateWithContext(ctx context.Context
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getConnectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getConnectionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *GoldenGateConnectionResourceCrud) getConnectionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *GoldenGateConnectionResourceCrud) getConnectionFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_golden_gate.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	connectionId, err := connectionWaitForWorkRequest(workId, "goldengateconnection",
+	connectionId, err := connectionWaitForWorkRequest(ctx, workId, "goldengateconnection",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -1083,7 +1083,7 @@ func (s *GoldenGateConnectionResourceCrud) getConnectionFromWorkRequest(workId *
 	}
 	s.D.SetId(*connectionId)
 
-	return s.GetWithContext(context.Background())
+	return s.GetWithContext(ctx)
 }
 
 func connectionWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -1109,7 +1109,7 @@ func connectionWorkRequestShouldRetryFunc(timeout time.Duration) func(response o
 	}
 }
 
-func connectionWaitForWorkRequest(wId *string, entityType string, action oci_golden_gate.ActionTypeEnum,
+func connectionWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_golden_gate.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_golden_gate.GoldenGateClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "golden_gate")
 	retryPolicy.ShouldRetryOperation = connectionWorkRequestShouldRetryFunc(timeout)
@@ -1140,7 +1140,7 @@ func connectionWaitForWorkRequest(wId *string, entityType string, action oci_gol
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -1207,7 +1207,7 @@ func (s *GoldenGateConnectionResourceCrud) UpdateWithContext(ctx context.Context
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -1227,7 +1227,7 @@ func (s *GoldenGateConnectionResourceCrud) UpdateWithContext(ctx context.Context
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getConnectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getConnectionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *GoldenGateConnectionResourceCrud) DeleteWithContext(ctx context.Context) error {
@@ -1250,7 +1250,7 @@ func (s *GoldenGateConnectionResourceCrud) DeleteWithContext(ctx context.Context
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := connectionWaitForWorkRequest(workId, "goldengateconnection",
+	_, delWorkRequestErr := connectionWaitForWorkRequest(ctx, workId, "goldengateconnection",
 		oci_golden_gate.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -13418,7 +13418,7 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 	return nil
 }
 
-func (s *GoldenGateConnectionResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *GoldenGateConnectionResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_golden_gate.ChangeConnectionCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -13434,11 +13434,11 @@ func (s *GoldenGateConnectionResourceCrud) updateCompartment(compartment interfa
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.ChangeConnectionCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeConnectionCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getConnectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getConnectionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"), oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

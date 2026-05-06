@@ -410,7 +410,7 @@ func networkFirewallWaitForWorkRequest(ctx context.Context, wId *string, entityT
 		PollInterval: 150 * time.Second,
 		Timeout:      1 * time.Hour,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 

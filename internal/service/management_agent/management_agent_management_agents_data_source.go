@@ -194,7 +194,7 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) GetWithContext(ctx conte
 			waitForHostIdInt := waitForHostId.(int)
 
 			timeout := time.Duration(waitForHostIdInt) * time.Minute
-			_, err := managementAgentWaitForInstanceAgent(&tmp, request.CompartmentId, timeout, false, s.Client)
+			_, err := managementAgentWaitForInstanceAgent(ctx, &tmp, request.CompartmentId, timeout, false, s.Client)
 			if err != nil {
 				log.Printf("[WARN] timeout waiting for Instance %v agent", &tmp)
 

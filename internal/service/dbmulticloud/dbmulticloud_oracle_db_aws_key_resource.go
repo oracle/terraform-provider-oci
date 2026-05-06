@@ -402,7 +402,7 @@ func oracleDbAwsKeyWaitForWorkRequest(ctx context.Context, wId *string, entityTy
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -535,7 +535,7 @@ func (s *DbmulticloudOracleDbAwsKeyResourceCrud) waitForAwsKeyActive(ctx context
 		Timeout: timeout,
 	}
 
-	_, err := stateConf.WaitForState()
+	_, err := stateConf.WaitForStateContext(ctx)
 	return err
 }
 
