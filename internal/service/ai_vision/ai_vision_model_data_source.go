@@ -6,6 +6,7 @@ package ai_vision
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ai_vision "github.com/oracle/oci-go-sdk/v65/aivision"
 
@@ -19,15 +20,15 @@ func AiVisionModelDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(AiVisionModelResource(), fieldMap, readSingularAiVisionModel)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(AiVisionModelResource(), fieldMap, readSingularAiVisionModelWithContext)
 }
 
-func readSingularAiVisionModel(d *schema.ResourceData, m interface{}) error {
+func readSingularAiVisionModelWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiVisionModelDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceVisionClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type AiVisionModelDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *AiVisionModelDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AiVisionModelDataSourceCrud) Get() error {
+func (s *AiVisionModelDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ai_vision.GetModelRequest{}
 
 	if modelId, ok := s.D.GetOkExists("model_id"); ok {
@@ -50,7 +51,7 @@ func (s *AiVisionModelDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ai_vision")
 
-	response, err := s.Client.GetModel(context.Background(), request)
+	response, err := s.Client.GetModel(ctx, request)
 	if err != nil {
 		return err
 	}

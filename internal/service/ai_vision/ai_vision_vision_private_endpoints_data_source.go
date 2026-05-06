@@ -6,6 +6,7 @@ package ai_vision
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ai_vision "github.com/oracle/oci-go-sdk/v65/aivision"
 
@@ -15,7 +16,7 @@ import (
 
 func AiVisionVisionPrivateEndpointsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAiVisionVisionPrivateEndpoints,
+		ReadContext: readAiVisionVisionPrivateEndpointsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +53,12 @@ func AiVisionVisionPrivateEndpointsDataSource() *schema.Resource {
 	}
 }
 
-func readAiVisionVisionPrivateEndpoints(d *schema.ResourceData, m interface{}) error {
+func readAiVisionVisionPrivateEndpointsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiVisionVisionPrivateEndpointsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceVisionClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type AiVisionVisionPrivateEndpointsDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *AiVisionVisionPrivateEndpointsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AiVisionVisionPrivateEndpointsDataSourceCrud) Get() error {
+func (s *AiVisionVisionPrivateEndpointsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ai_vision.ListVisionPrivateEndpointsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *AiVisionVisionPrivateEndpointsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ai_vision")
 
-	response, err := s.Client.ListVisionPrivateEndpoints(context.Background(), request)
+	response, err := s.Client.ListVisionPrivateEndpoints(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *AiVisionVisionPrivateEndpointsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListVisionPrivateEndpoints(context.Background(), request)
+		listResponse, err := s.Client.ListVisionPrivateEndpoints(ctx, request)
 		if err != nil {
 			return err
 		}

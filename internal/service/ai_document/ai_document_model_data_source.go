@@ -6,6 +6,7 @@ package ai_document
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ai_document "github.com/oracle/oci-go-sdk/v65/aidocument"
 
@@ -19,15 +20,15 @@ func AiDocumentModelDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(AiDocumentModelResource(), fieldMap, readSingularAiDocumentModel)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(AiDocumentModelResource(), fieldMap, readSingularAiDocumentModelWithContext)
 }
 
-func readSingularAiDocumentModel(d *schema.ResourceData, m interface{}) error {
+func readSingularAiDocumentModelWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiDocumentModelDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceDocumentClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type AiDocumentModelDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *AiDocumentModelDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AiDocumentModelDataSourceCrud) Get() error {
+func (s *AiDocumentModelDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ai_document.GetModelRequest{}
 
 	if modelId, ok := s.D.GetOkExists("model_id"); ok {
@@ -50,7 +51,7 @@ func (s *AiDocumentModelDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ai_document")
 
-	response, err := s.Client.GetModel(context.Background(), request)
+	response, err := s.Client.GetModel(ctx, request)
 	if err != nil {
 		return err
 	}

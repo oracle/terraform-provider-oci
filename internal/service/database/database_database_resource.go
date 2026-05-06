@@ -732,6 +732,10 @@ func DatabaseDatabaseResource() *schema.Resource {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
+									"is_zero_data_loss_enabled": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
 									"remote_region": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -1550,8 +1554,8 @@ func BackupDestinationDetailsToMap(obj oci_database.BackupDestinationDetails) ma
 		result["is_retention_lock_enabled"] = bool(*obj.IsRetentionLockEnabled)
 	}
 
-	if obj.IsRetentionLockEnabled != nil {
-		result["is_zero_data_loss_enabled"] = bool(*obj.IsRetentionLockEnabled)
+	if obj.IsZeroDataLossEnabled != nil {
+		result["is_zero_data_loss_enabled"] = bool(*obj.IsZeroDataLossEnabled)
 	}
 
 	if obj.RemoteRegion != nil {

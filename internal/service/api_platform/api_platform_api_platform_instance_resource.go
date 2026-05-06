@@ -9,10 +9,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_api_platform "github.com/oracle/oci-go-sdk/v65/apiplatform"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -29,10 +29,10 @@ func ApiPlatformApiPlatformInstanceResource() *schema.Resource {
 			Create: tfresource.GetTimeoutDuration("2h"),
 			Delete: tfresource.GetTimeoutDuration("2h"),
 		},
-		Create: createApiPlatformApiPlatformInstance,
-		Read:   readApiPlatformApiPlatformInstance,
-		Update: updateApiPlatformApiPlatformInstance,
-		Delete: deleteApiPlatformApiPlatformInstance,
+		CreateContext: createApiPlatformApiPlatformInstanceWithContext,
+		ReadContext:   readApiPlatformApiPlatformInstanceWithContext,
+		UpdateContext: updateApiPlatformApiPlatformInstanceWithContext,
+		DeleteContext: deleteApiPlatformApiPlatformInstanceWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -129,37 +129,37 @@ func ApiPlatformApiPlatformInstanceResource() *schema.Resource {
 	}
 }
 
-func createApiPlatformApiPlatformInstance(d *schema.ResourceData, m interface{}) error {
+func createApiPlatformApiPlatformInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ApiPlatformApiPlatformInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApiPlatformClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readApiPlatformApiPlatformInstance(d *schema.ResourceData, m interface{}) error {
+func readApiPlatformApiPlatformInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ApiPlatformApiPlatformInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApiPlatformClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateApiPlatformApiPlatformInstance(d *schema.ResourceData, m interface{}) error {
+func updateApiPlatformApiPlatformInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ApiPlatformApiPlatformInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApiPlatformClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteApiPlatformApiPlatformInstance(d *schema.ResourceData, m interface{}) error {
+func deleteApiPlatformApiPlatformInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ApiPlatformApiPlatformInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ApiPlatformClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type ApiPlatformApiPlatformInstanceResourceCrud struct {
@@ -197,7 +197,7 @@ func (s *ApiPlatformApiPlatformInstanceResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *ApiPlatformApiPlatformInstanceResourceCrud) Create() error {
+func (s *ApiPlatformApiPlatformInstanceResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_api_platform.CreateApiPlatformInstanceRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -229,7 +229,7 @@ func (s *ApiPlatformApiPlatformInstanceResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "api_platform")
 
-	response, err := s.Client.CreateApiPlatformInstance(context.Background(), request)
+	response, err := s.Client.CreateApiPlatformInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -240,14 +240,14 @@ func (s *ApiPlatformApiPlatformInstanceResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getApiPlatformInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "api_platform"), oci_api_platform.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getApiPlatformInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "api_platform"), oci_api_platform.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *ApiPlatformApiPlatformInstanceResourceCrud) getApiPlatformInstanceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ApiPlatformApiPlatformInstanceResourceCrud) getApiPlatformInstanceFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_api_platform.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	apiPlatformInstanceId, err := apiPlatformInstanceWaitForWorkRequest(workId, "apiplatforminstance",
+	apiPlatformInstanceId, err := apiPlatformInstanceWaitForWorkRequest(ctx, workId, "apiplatforminstance",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -255,7 +255,7 @@ func (s *ApiPlatformApiPlatformInstanceResourceCrud) getApiPlatformInstanceFromW
 	}
 	s.D.SetId(*apiPlatformInstanceId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func apiPlatformInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -281,7 +281,7 @@ func apiPlatformInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(r
 	}
 }
 
-func apiPlatformInstanceWaitForWorkRequest(wId *string, entityType string, action oci_api_platform.ActionTypeEnum,
+func apiPlatformInstanceWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_api_platform.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_api_platform.ApiPlatformClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "api_platform")
 	retryPolicy.ShouldRetryOperation = apiPlatformInstanceWorkRequestShouldRetryFunc(timeout)
@@ -300,7 +300,7 @@ func apiPlatformInstanceWaitForWorkRequest(wId *string, entityType string, actio
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_api_platform.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -329,14 +329,14 @@ func apiPlatformInstanceWaitForWorkRequest(wId *string, entityType string, actio
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_api_platform.OperationStatusFailed || response.Status == oci_api_platform.OperationStatusCanceled {
-		return nil, getErrorFromApiPlatformApiPlatformInstanceWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromApiPlatformApiPlatformInstanceWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromApiPlatformApiPlatformInstanceWorkRequest(client *oci_api_platform.ApiPlatformClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_api_platform.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromApiPlatformApiPlatformInstanceWorkRequest(ctx context.Context, client *oci_api_platform.ApiPlatformClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_api_platform.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_api_platform.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -358,7 +358,7 @@ func getErrorFromApiPlatformApiPlatformInstanceWorkRequest(client *oci_api_platf
 	return workRequestErr
 }
 
-func (s *ApiPlatformApiPlatformInstanceResourceCrud) Get() error {
+func (s *ApiPlatformApiPlatformInstanceResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_api_platform.GetApiPlatformInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -366,7 +366,7 @@ func (s *ApiPlatformApiPlatformInstanceResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "api_platform")
 
-	response, err := s.Client.GetApiPlatformInstance(context.Background(), request)
+	response, err := s.Client.GetApiPlatformInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -375,11 +375,11 @@ func (s *ApiPlatformApiPlatformInstanceResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ApiPlatformApiPlatformInstanceResourceCrud) Update() error {
+func (s *ApiPlatformApiPlatformInstanceResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -409,7 +409,7 @@ func (s *ApiPlatformApiPlatformInstanceResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "api_platform")
 
-	response, err := s.Client.UpdateApiPlatformInstance(context.Background(), request)
+	response, err := s.Client.UpdateApiPlatformInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -418,7 +418,7 @@ func (s *ApiPlatformApiPlatformInstanceResourceCrud) Update() error {
 	return nil
 }
 
-func (s *ApiPlatformApiPlatformInstanceResourceCrud) Delete() error {
+func (s *ApiPlatformApiPlatformInstanceResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_api_platform.DeleteApiPlatformInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -426,14 +426,14 @@ func (s *ApiPlatformApiPlatformInstanceResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "api_platform")
 
-	response, err := s.Client.DeleteApiPlatformInstance(context.Background(), request)
+	response, err := s.Client.DeleteApiPlatformInstance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := apiPlatformInstanceWaitForWorkRequest(workId, "apiplatforminstance",
+	_, delWorkRequestErr := apiPlatformInstanceWaitForWorkRequest(ctx, workId, "apiplatforminstance",
 		oci_api_platform.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -556,7 +556,7 @@ func UrisToMap(obj *oci_api_platform.Uris) map[string]interface{} {
 	return result
 }
 
-func (s *ApiPlatformApiPlatformInstanceResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *ApiPlatformApiPlatformInstanceResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_api_platform.ChangeApiPlatformInstanceCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -567,12 +567,12 @@ func (s *ApiPlatformApiPlatformInstanceResourceCrud) updateCompartment(compartme
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "api_platform")
 
-	_, err := s.Client.ChangeApiPlatformInstanceCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeApiPlatformInstanceCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

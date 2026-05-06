@@ -6,6 +6,7 @@ package apiaccesscontrol
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_apiaccesscontrol "github.com/oracle/oci-go-sdk/v65/apiaccesscontrol"
 
@@ -15,7 +16,7 @@ import (
 
 func ApiaccesscontrolPrivilegedApiRequestsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readApiaccesscontrolPrivilegedApiRequests,
+		ReadContext: readApiaccesscontrolPrivilegedApiRequestsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -60,12 +61,12 @@ func ApiaccesscontrolPrivilegedApiRequestsDataSource() *schema.Resource {
 	}
 }
 
-func readApiaccesscontrolPrivilegedApiRequests(d *schema.ResourceData, m interface{}) error {
+func readApiaccesscontrolPrivilegedApiRequestsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ApiaccesscontrolPrivilegedApiRequestsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PrivilegedApiRequestsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ApiaccesscontrolPrivilegedApiRequestsDataSourceCrud struct {
@@ -78,7 +79,7 @@ func (s *ApiaccesscontrolPrivilegedApiRequestsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ApiaccesscontrolPrivilegedApiRequestsDataSourceCrud) Get() error {
+func (s *ApiaccesscontrolPrivilegedApiRequestsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_apiaccesscontrol.ListPrivilegedApiRequestsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -112,7 +113,7 @@ func (s *ApiaccesscontrolPrivilegedApiRequestsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "apiaccesscontrol")
 
-	response, err := s.Client.ListPrivilegedApiRequests(context.Background(), request)
+	response, err := s.Client.ListPrivilegedApiRequests(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -121,7 +122,7 @@ func (s *ApiaccesscontrolPrivilegedApiRequestsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListPrivilegedApiRequests(context.Background(), request)
+		listResponse, err := s.Client.ListPrivilegedApiRequests(ctx, request)
 		if err != nil {
 			return err
 		}

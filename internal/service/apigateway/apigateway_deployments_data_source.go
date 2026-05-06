@@ -6,6 +6,7 @@ package apigateway
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_apigateway "github.com/oracle/oci-go-sdk/v65/apigateway"
 
@@ -15,7 +16,7 @@ import (
 
 func ApigatewayDeploymentsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readApigatewayDeployments,
+		ReadContext: readApigatewayDeploymentsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -44,12 +45,12 @@ func ApigatewayDeploymentsDataSource() *schema.Resource {
 	}
 }
 
-func readApigatewayDeployments(d *schema.ResourceData, m interface{}) error {
+func readApigatewayDeploymentsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ApigatewayDeploymentsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DeploymentClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ApigatewayDeploymentsDataSourceCrud struct {
@@ -62,7 +63,7 @@ func (s *ApigatewayDeploymentsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ApigatewayDeploymentsDataSourceCrud) Get() error {
+func (s *ApigatewayDeploymentsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_apigateway.ListDeploymentsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -86,7 +87,7 @@ func (s *ApigatewayDeploymentsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "apigateway")
 
-	listResponse, err := s.Client.ListDeployments(context.Background(), request)
+	listResponse, err := s.Client.ListDeployments(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -95,7 +96,7 @@ func (s *ApigatewayDeploymentsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDeployments(context.Background(), request)
+		listResponse, err := s.Client.ListDeployments(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -12,6 +12,7 @@ import (
 	"net/url"
 	"regexp"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
@@ -288,6 +289,11 @@ type NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud struc
 	Client                 *oci_network_load_balancer.NetworkLoadBalancerClient
 	Res                    *oci_network_load_balancer.BackendSet
 	DisableNotFoundRetries bool
+}
+
+func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) GetMutex() *sync.Mutex {
+	log.Printf("[DEBUG] Acquiring lock on NLB BackendSetsUnified CUD operation for %s with id %s", s.D.Get("name"), s.D.Get("network_load_balancer_id"))
+	return nlbMutexes.GetOrCreateNlbMutex(s.D.Get("network_load_balancer_id").(string))
 }
 
 func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) ID() string {
@@ -766,8 +772,9 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 	}
 
 	if targetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_id")); ok {
-		tmp := targetId.(string)
-		result.TargetId = &tmp
+		if tmp := targetId.(string); tmp != "" {
+			result.TargetId = &tmp
+		}
 	}
 
 	if weight, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "weight")); ok {

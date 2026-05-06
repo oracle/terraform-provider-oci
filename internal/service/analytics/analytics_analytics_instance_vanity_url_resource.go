@@ -12,12 +12,12 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_analytics "github.com/oracle/oci-go-sdk/v65/analytics"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 )
@@ -27,11 +27,11 @@ func AnalyticsAnalyticsInstanceVanityUrlResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createAnalyticsAnalyticsInstanceVanityUrl,
-		Read:     readAnalyticsAnalyticsInstanceVanityUrl,
-		Update:   updateAnalyticsAnalyticsInstanceVanityUrl,
-		Delete:   deleteAnalyticsAnalyticsInstanceVanityUrl,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createAnalyticsAnalyticsInstanceVanityUrlWithContext,
+		ReadContext:   readAnalyticsAnalyticsInstanceVanityUrlWithContext,
+		UpdateContext: updateAnalyticsAnalyticsInstanceVanityUrlWithContext,
+		DeleteContext: deleteAnalyticsAnalyticsInstanceVanityUrlWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"analytics_instance_id": {
@@ -79,37 +79,37 @@ func AnalyticsAnalyticsInstanceVanityUrlResource() *schema.Resource {
 	}
 }
 
-func createAnalyticsAnalyticsInstanceVanityUrl(d *schema.ResourceData, m interface{}) error {
+func createAnalyticsAnalyticsInstanceVanityUrlWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AnalyticsAnalyticsInstanceVanityUrlResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AnalyticsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readAnalyticsAnalyticsInstanceVanityUrl(d *schema.ResourceData, m interface{}) error {
+func readAnalyticsAnalyticsInstanceVanityUrlWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AnalyticsAnalyticsInstanceVanityUrlResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AnalyticsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateAnalyticsAnalyticsInstanceVanityUrl(d *schema.ResourceData, m interface{}) error {
+func updateAnalyticsAnalyticsInstanceVanityUrlWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AnalyticsAnalyticsInstanceVanityUrlResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AnalyticsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteAnalyticsAnalyticsInstanceVanityUrl(d *schema.ResourceData, m interface{}) error {
+func deleteAnalyticsAnalyticsInstanceVanityUrlWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AnalyticsAnalyticsInstanceVanityUrlResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AnalyticsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type AnalyticsAnalyticsInstanceVanityUrlResourceCrud struct {
@@ -132,7 +132,7 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) ID() string {
 	return ""
 }
 
-func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) Create() error {
+func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_analytics.CreateVanityUrlRequest{}
 
 	if analyticsInstanceId, ok := s.D.GetOkExists("analytics_instance_id"); ok {
@@ -179,34 +179,34 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) Create() error {
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
-	response, err := s.Client.CreateVanityUrl(context.Background(), request)
+	response, err := s.Client.CreateVanityUrl(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 
-	returnError := s.getAnalyticsInstanceVanityUrlFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultVanityUrlCreated, s.D.Timeout(schema.TimeoutCreate))
+	returnError := s.getAnalyticsInstanceVanityUrlFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultVanityUrlCreated, s.D.Timeout(schema.TimeoutCreate))
 	getWorkRequestRequest := oci_analytics.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workId
 	getWorkRequestRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
-	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
+	workRequestResponse, err := s.Client.GetWorkRequest(ctx, getWorkRequestRequest)
 	s.WorkRequest = &workRequestResponse.WorkRequest
 	return returnError
 }
 
 // TODO:  Make sure this isn't being used anywhere and delete it
-func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) getAnalyticsInstanceVanityUrlFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) getAnalyticsInstanceVanityUrlFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_analytics.WorkRequestActionResultEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	analyticsInstanceId, err := analyticsInstanceVanityUrlWaitForWorkRequest(workId, "analytics",
+	analyticsInstanceId, err := analyticsInstanceVanityUrlWaitForWorkRequest(ctx, workId, "analytics",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, analyticsInstanceId)
-		_, cancelErr := s.Client.DeleteWorkRequest(context.Background(),
+		_, cancelErr := s.Client.DeleteWorkRequest(ctx,
 			oci_analytics.DeleteWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -230,7 +230,7 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) getAnalyticsInstanceVa
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
-	response, err := s.Client.GetAnalyticsInstance(context.Background(), request)
+	response, err := s.Client.GetAnalyticsInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -268,7 +268,7 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) getAnalyticsInstanceVa
 
 	compositeId := getAnalyticsInstanceVanityUrlCompositeId(*analyticsInstanceId, vanityUrlKey)
 	s.D.SetId(compositeId)
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func analyticsInstanceVanityUrlWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -294,7 +294,7 @@ func analyticsInstanceVanityUrlWorkRequestShouldRetryFunc(timeout time.Duration)
 	}
 }
 
-func analyticsInstanceVanityUrlWaitForWorkRequest(wId *string, entityType string, action oci_analytics.WorkRequestActionResultEnum,
+func analyticsInstanceVanityUrlWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_analytics.WorkRequestActionResultEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_analytics.AnalyticsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "analytics")
 	retryPolicy.ShouldRetryOperation = analyticsInstanceVanityUrlWorkRequestShouldRetryFunc(timeout)
@@ -313,7 +313,7 @@ func analyticsInstanceVanityUrlWaitForWorkRequest(wId *string, entityType string
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_analytics.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -343,14 +343,14 @@ func analyticsInstanceVanityUrlWaitForWorkRequest(wId *string, entityType string
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_analytics.WorkRequestStatusFailed || response.Status == oci_analytics.WorkRequestStatusCanceled {
-		return nil, getErrorFromAnalyticsAnalyticsInstanceVanityUrlWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromAnalyticsAnalyticsInstanceVanityUrlWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromAnalyticsAnalyticsInstanceVanityUrlWorkRequest(client *oci_analytics.AnalyticsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_analytics.WorkRequestActionResultEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromAnalyticsAnalyticsInstanceVanityUrlWorkRequest(ctx context.Context, client *oci_analytics.AnalyticsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_analytics.WorkRequestActionResultEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_analytics.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -372,7 +372,7 @@ func getErrorFromAnalyticsAnalyticsInstanceVanityUrlWorkRequest(client *oci_anal
 	return workRequestErr
 }
 
-func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) Get() error {
+func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) GetWithContext(ctx context.Context) error {
 	analyticsInstanceId, vanityUrlKey, err := parseAnalyticsInstanceVanityUrlCompositeId(s.D.Id())
 	if err != nil {
 		return fmt.Errorf("[ERROR] unable to find parse vanity url key from id %v", s.D.Id())
@@ -383,7 +383,7 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
-	response, err := s.Client.GetAnalyticsInstance(context.Background(), request)
+	response, err := s.Client.GetAnalyticsInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -397,7 +397,7 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) Get() error {
 	return nil
 }
 
-func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) Update() error {
+func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_analytics.UpdateVanityUrlRequest{}
 
 	if analyticsInstanceId, ok := s.D.GetOkExists("analytics_instance_id"); ok {
@@ -432,16 +432,16 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
-	response, err := s.Client.UpdateVanityUrl(context.Background(), request)
+	response, err := s.Client.UpdateVanityUrl(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAnalyticsInstanceVanityUrlFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultVanityUrlUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAnalyticsInstanceVanityUrlFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultVanityUrlUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) Delete() error {
+func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_analytics.DeleteVanityUrlRequest{}
 
 	if analyticsInstanceId, ok := s.D.GetOkExists("analytics_instance_id"); ok {
@@ -456,14 +456,14 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
-	response, err := s.Client.DeleteVanityUrl(context.Background(), request)
+	response, err := s.Client.DeleteVanityUrl(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := analyticsInstanceVanityUrlWaitForWorkRequest(workId, "analytics",
+	_, delWorkRequestErr := analyticsInstanceVanityUrlWaitForWorkRequest(ctx, workId, "analytics",
 		oci_analytics.WorkRequestActionResultVanityUrlDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

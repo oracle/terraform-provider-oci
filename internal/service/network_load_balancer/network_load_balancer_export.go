@@ -3,6 +3,7 @@ package network_load_balancer
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
@@ -86,12 +87,22 @@ func findNetworkLoadBalancerListeners(ctx *tf_export.ResourceDiscoveryContext, t
 		d := listenerResource.TestResourceData()
 		d.SetId(GetNlbListenerCompositeId(listenerName, networkLoadBalancerId))
 
+		var readErr error
+
 		// This calls into the listener resource's Read fn which has the unfortunate implementation of
 		// calling GetNetworkLoadBalancer and looping through the listeners to find the expected one. So this entire method
 		// may require O(n^^2) time. However, the benefits of having Read populate the ResourceData struct is better than duplicating it here.
-		if err := listenerResource.Read(d, ctx.Clients); err != nil {
+		// listenerResource.Read is deprecated, so migrated to listenerResource.ReadContext method.
+		if listenerResource.ReadContext != nil {
+			if diags := listenerResource.ReadContext(context.Background(), d, ctx.Clients); diags.HasError() {
+				readErr = fmt.Errorf("%s", strings.Join(tf_export.ParseDiagToError(diags), " | "))
+			}
+		} else {
+			readErr = listenerResource.Read(d, ctx.Clients)
+		}
+		if readErr != nil {
 			// add error to the errorList and continue discovering rest of the resources
-			rdError := &tf_export.ResourceDiscoveryError{ResourceType: tfMeta.ResourceClass, ParentResource: parent.TerraformName, Error: err, ResourceGraph: resourceGraph}
+			rdError := &tf_export.ResourceDiscoveryError{ResourceType: tfMeta.ResourceClass, ParentResource: parent.TerraformName, Error: readErr, ResourceGraph: resourceGraph}
 			ctx.AddErrorToList(rdError)
 			continue
 		}
