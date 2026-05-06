@@ -67,12 +67,37 @@ var (
 		"name":       acctest.Representation{RepType: acctest.Optional, Create: `example_backend`},
 		"weight":     acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
+
+	NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedBackendsRepresentationCreateOnly = map[string]interface{}{
+		"port":       acctest.Representation{RepType: acctest.Required, Create: `10`},
+		"ip_address": acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.3`},
+		"is_backup":  acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"is_drain":   acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"is_offline": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"name":       acctest.Representation{RepType: acctest.Optional, Create: `example_backend`},
+		"weight":     acctest.Representation{RepType: acctest.Optional, Create: `10`},
+	}
+
 	NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerDnsRepresentation = map[string]interface{}{
 		"domain_name":        acctest.Representation{RepType: acctest.Required, Create: `oracle.com`},
 		"query_class":        acctest.Representation{RepType: acctest.Optional, Create: `IN`, Update: `CH`},
 		"query_type":         acctest.Representation{RepType: acctest.Optional, Create: `A`, Update: `TXT`},
 		"rcodes":             acctest.Representation{RepType: acctest.Optional, Create: []string{`rcodes`}, Update: []string{`rcodes2`}},
 		"transport_protocol": acctest.Representation{RepType: acctest.Optional, Create: `UDP`, Update: `TCP`},
+	}
+
+	NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedRepresentationWithoutBackendsUpdate = map[string]interface{}{
+		"health_checker":           acctest.RepresentationGroup{RepType: acctest.Required, Group: NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerRepresentation},
+		"name":                     acctest.Representation{RepType: acctest.Required, Create: `example_backend_set`},
+		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
+		"policy":                   acctest.Representation{RepType: acctest.Required, Create: `FIVE_TUPLE`, Update: `THREE_TUPLE`},
+		"are_operationally_active_backends_preferred": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"backends":                              acctest.RepresentationGroup{RepType: acctest.Optional, Group: NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedBackendsRepresentationCreateOnly},
+		"ip_version":                            acctest.Representation{RepType: acctest.Optional, Create: `IPV4`},
+		"is_fail_open":                          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_instant_failover_enabled":           acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_instant_failover_tcp_reset_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_preserve_source":                    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
 	NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
@@ -155,6 +180,50 @@ func TestNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource_basic
 						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates with update backendSet alone without backends update
+		{
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancers_backend_sets_unified", "test_network_load_balancers_backend_sets_unified", acctest.Optional, acctest.Update,
+					NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedRepresentationWithoutBackendsUpdate),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "are_operationally_active_backends_preferred", "false"),
+				resource.TestCheckResourceAttr(resourceName, "backends.#", "1"),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "backends", map[string]string{
+					"ip_address": "10.0.0.3",
+					"is_backup":  "true",
+					"is_drain":   "true",
+					"is_offline": "true",
+					"name":       "example_backend",
+					"port":       "10",
+					"weight":     "10",
+				}, []string{}),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "30000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "UDP"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.request_data", "QnllV29ybGQ="),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_data", "QnllV29ybGQ="),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "5"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "30000"),
+				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
+				resource.TestCheckResourceAttr(resourceName, "is_fail_open", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_instant_failover_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_instant_failover_tcp_reset_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "true"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "THREE_TUPLE"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
 					return err
 				},

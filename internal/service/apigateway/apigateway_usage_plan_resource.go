@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_apigateway "github.com/oracle/oci-go-sdk/v65/apigateway"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
@@ -25,11 +25,11 @@ func ApigatewayUsagePlanResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createApigatewayUsagePlan,
-		Read:     readApigatewayUsagePlan,
-		Update:   updateApigatewayUsagePlan,
-		Delete:   deleteApigatewayUsagePlan,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createApigatewayUsagePlanWithContext,
+		ReadContext:   readApigatewayUsagePlanWithContext,
+		UpdateContext: updateApigatewayUsagePlanWithContext,
+		DeleteContext: deleteApigatewayUsagePlanWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -215,40 +215,40 @@ func ApigatewayUsagePlanResource() *schema.Resource {
 	}
 }
 
-func createApigatewayUsagePlan(d *schema.ResourceData, m interface{}) error {
+func createApigatewayUsagePlanWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ApigatewayUsagePlanResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).UsagePlansClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).ApigatewayWorkRequestsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readApigatewayUsagePlan(d *schema.ResourceData, m interface{}) error {
+func readApigatewayUsagePlanWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ApigatewayUsagePlanResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).UsagePlansClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateApigatewayUsagePlan(d *schema.ResourceData, m interface{}) error {
+func updateApigatewayUsagePlanWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ApigatewayUsagePlanResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).UsagePlansClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).ApigatewayWorkRequestsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteApigatewayUsagePlan(d *schema.ResourceData, m interface{}) error {
+func deleteApigatewayUsagePlanWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ApigatewayUsagePlanResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).UsagePlansClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).ApigatewayWorkRequestsClient()
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type ApigatewayUsagePlanResourceCrud struct {
@@ -287,7 +287,7 @@ func (s *ApigatewayUsagePlanResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *ApigatewayUsagePlanResourceCrud) Create() error {
+func (s *ApigatewayUsagePlanResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_apigateway.CreateUsagePlanRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -348,7 +348,7 @@ func (s *ApigatewayUsagePlanResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	response, err := s.Client.CreateUsagePlan(context.Background(), request)
+	response, err := s.Client.CreateUsagePlan(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -359,20 +359,20 @@ func (s *ApigatewayUsagePlanResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getUsagePlanFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getUsagePlanFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *ApigatewayUsagePlanResourceCrud) getUsagePlanFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ApigatewayUsagePlanResourceCrud) getUsagePlanFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_apigateway.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	usagePlanId, err := usagePlanWaitForWorkRequest(workId, "usageplan",
+	usagePlanId, err := usagePlanWaitForWorkRequest(ctx, workId, "usageplan",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, usagePlanId)
-		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(ctx,
 			oci_apigateway.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -386,7 +386,7 @@ func (s *ApigatewayUsagePlanResourceCrud) getUsagePlanFromWorkRequest(workId *st
 	}
 	s.D.SetId(*usagePlanId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func usagePlanWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -412,7 +412,7 @@ func usagePlanWorkRequestShouldRetryFunc(timeout time.Duration) func(response oc
 	}
 }
 
-func usagePlanWaitForWorkRequest(wId *string, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum,
+func usagePlanWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_apigateway.WorkRequestsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "apigateway")
 	retryPolicy.ShouldRetryOperation = usagePlanWorkRequestShouldRetryFunc(timeout)
@@ -431,7 +431,7 @@ func usagePlanWaitForWorkRequest(wId *string, entityType string, action oci_apig
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_apigateway.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -460,14 +460,14 @@ func usagePlanWaitForWorkRequest(wId *string, entityType string, action oci_apig
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_apigateway.WorkRequestStatusFailed || response.Status == oci_apigateway.WorkRequestStatusCanceled {
-		return nil, getErrorFromApigatewayUsagePlanWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromApigatewayUsagePlanWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromApigatewayUsagePlanWorkRequest(client *oci_apigateway.WorkRequestsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromApigatewayUsagePlanWorkRequest(ctx context.Context, client *oci_apigateway.WorkRequestsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_apigateway.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_apigateway.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -489,7 +489,7 @@ func getErrorFromApigatewayUsagePlanWorkRequest(client *oci_apigateway.WorkReque
 	return workRequestErr
 }
 
-func (s *ApigatewayUsagePlanResourceCrud) Get() error {
+func (s *ApigatewayUsagePlanResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_apigateway.GetUsagePlanRequest{}
 
 	tmp := s.D.Id()
@@ -497,7 +497,7 @@ func (s *ApigatewayUsagePlanResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	response, err := s.Client.GetUsagePlan(context.Background(), request)
+	response, err := s.Client.GetUsagePlan(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -506,11 +506,11 @@ func (s *ApigatewayUsagePlanResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ApigatewayUsagePlanResourceCrud) Update() error {
+func (s *ApigatewayUsagePlanResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -562,16 +562,16 @@ func (s *ApigatewayUsagePlanResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	response, err := s.Client.UpdateUsagePlan(context.Background(), request)
+	response, err := s.Client.UpdateUsagePlan(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getUsagePlanFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getUsagePlanFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *ApigatewayUsagePlanResourceCrud) Delete() error {
+func (s *ApigatewayUsagePlanResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_apigateway.DeleteUsagePlanRequest{}
 
 	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
@@ -584,14 +584,14 @@ func (s *ApigatewayUsagePlanResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	response, err := s.Client.DeleteUsagePlan(context.Background(), request)
+	response, err := s.Client.DeleteUsagePlan(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := usagePlanWaitForWorkRequest(workId, "usageplan",
+	_, delWorkRequestErr := usagePlanWaitForWorkRequest(ctx, workId, "usageplan",
 		oci_apigateway.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
@@ -903,7 +903,7 @@ func UsagePlanSummaryToMap(obj oci_apigateway.UsagePlanSummary) map[string]inter
 	return result
 }
 
-func (s *ApigatewayUsagePlanResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *ApigatewayUsagePlanResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_apigateway.ChangeUsagePlanCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -919,11 +919,11 @@ func (s *ApigatewayUsagePlanResourceCrud) updateCompartment(compartment interfac
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway")
 
-	response, err := s.Client.ChangeUsagePlanCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeUsagePlanCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getUsagePlanFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getUsagePlanFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "apigateway"), oci_apigateway.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

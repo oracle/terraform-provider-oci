@@ -137,12 +137,9 @@ type NetworkLoadBalancerBackendResourceCrud struct {
 	DisableNotFoundRetries bool
 }
 
-// The Create, Update, and delete operations may implicitly modify the associated backend set resource. This
-// may happen concurrently with an Update to oci_network_load_balancer_backend_set. Use a per-backend set
-// mutex to synchronize accesses to the backend set.
-// This replicates the LBaaS (oci_loadbalancer_backend) behavior.
 func (s *NetworkLoadBalancerBackendResourceCrud) GetMutex() *sync.Mutex {
-	return nlbBackendSetMutexes.GetOrCreateNlbBackendSetMutex(s.D.Get("network_load_balancer_id").(string), s.D.Get("backend_set_name").(string))
+	log.Printf("[DEBUG] Acquiring lock on NLB Backend CUD operation with id %s", s.D.Get("network_load_balancer_id"))
+	return nlbMutexes.GetOrCreateNlbMutex(s.D.Get("network_load_balancer_id").(string))
 }
 
 func (s *NetworkLoadBalancerBackendResourceCrud) ID() string {

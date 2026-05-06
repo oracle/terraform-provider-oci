@@ -15,6 +15,12 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
+const (
+	hydrationWorkRequestPollInterval = 10 * time.Second
+	hydrationWorkRequestTimeout      = 60 * time.Minute
+	hydrationWorkRequestApiTimeout   = 30 * time.Second
+)
+
 // Struct to extract deployment Parameters from the resourceDiff construct
 type DeploymentParams struct {
 	deployPipelineId    string
@@ -292,51 +298,58 @@ func checkForHydrationWorkRequest(d *schema.ResourceData, m interface{}) {
 func waitForHydrationWorkRequest(listWorkRequestsRequest oci_devops.ListWorkRequestsRequest, devOpsClient *oci_devops.DevopsClient) {
 	common.Debugf("checkForHydrationWorkRequest: listWorkRequestsRequest= %v\n", listWorkRequestsRequest)
 	if listWorkRequestsRequest.CompartmentId != nil {
-		workRequestInProgress := true
-		// Wait until all hydration work requests for the pipeline are complete.
-		for workRequestInProgress {
-			workRequestInProgress = false
-		InProgress:
-			log.Printf(" InProgress Block Execution")
-			listWorkRequestsResponse, err := devOpsClient.ListWorkRequests(context.Background(), listWorkRequestsRequest)
-			common.Debugf("checkForHydrationWorkRequest: listWorkRequestsResponse= %v\n", listWorkRequestsResponse)
-			if err != nil {
-				// If we can't list the work requests, we'll just continue with the deployment.
-				common.Debugf("checkForHydrationWorkRequest: listWorkRequestResponse err= %v\n", err)
-			} else {
-				hasMorePages := true
-				for hasMorePages {
+		deadline := time.Now().Add(hydrationWorkRequestTimeout)
+		for {
+			workRequestInProgress := false
+			request := listWorkRequestsRequest
+			request.Page = nil
+
+			for {
+				ctx, cancel := context.WithTimeout(context.Background(), hydrationWorkRequestApiTimeout)
+				listWorkRequestsResponse, err := devOpsClient.ListWorkRequests(ctx, request)
+				cancel()
+
+				common.Debugf("checkForHydrationWorkRequest: listWorkRequestsResponse= %v\n", listWorkRequestsResponse)
+				if err != nil {
+					// If we can't list the work requests, we'll just continue with the deployment.
+					common.Debugf("checkForHydrationWorkRequest: listWorkRequestResponse err= %v\n", err)
+					return
+				}
+
+				if listWorkRequestsResponse.OpcRequestId != nil {
 					common.Debugf("checkForHydrationWorkRequest: listWorkRequestsResponse.OpcRequestId= %v\n", *listWorkRequestsResponse.OpcRequestId)
-					workRequestCollection := listWorkRequestsResponse.WorkRequestCollection
-					if len(workRequestCollection.Items) > 0 {
-						common.Debugf("checkForHydrationWorkRequest: workRequestCollection.Items= %i\n", len(workRequestCollection.Items))
-						for i, summary := range workRequestCollection.Items {
-							if !(summary.Status == "SUCCEEDED" || summary.Status == "FAILED" ||
-								summary.Status == "CANCELED" || summary.Status == "NEEDS_ATTENTION") {
-								workRequestInProgress = true
-								common.Debugf("checkForHydrationWorkRequest: WorkRequestSummary found in progress= %i %v\n", i, summary)
-								goto InProgress
-							}
+				}
+
+				workRequestCollection := listWorkRequestsResponse.WorkRequestCollection
+				if len(workRequestCollection.Items) > 0 {
+					common.Debugf("checkForHydrationWorkRequest: workRequestCollection.Items= %d\n", len(workRequestCollection.Items))
+					for i, summary := range workRequestCollection.Items {
+						if !(summary.Status == "SUCCEEDED" || summary.Status == "FAILED" ||
+							summary.Status == "CANCELED" || summary.Status == "NEEDS_ATTENTION") {
+							workRequestInProgress = true
+							common.Debugf("checkForHydrationWorkRequest: WorkRequestSummary found in progress= %d %v\n", i, summary)
+							break
 						}
-					}
-					// Retrieve the next page of data
-					if listWorkRequestsResponse.OpcNextPage != nil && len(*listWorkRequestsResponse.OpcNextPage) > 0 {
-						common.Debugf("checkForHydrationWorkRequest: listWorkRequestResponse page = %v\n", *listWorkRequestsResponse.OpcNextPage)
-						listWorkRequestsRequest.Page = listWorkRequestsResponse.OpcNextPage
-						listWorkRequestsResponse, err = devOpsClient.ListWorkRequests(context.Background(), listWorkRequestsRequest)
-						if err != nil {
-							common.Debugf("checkForHydrationWorkRequest: listWorkRequestResponse page err= %v\n", err)
-							hasMorePages = false
-						}
-						if listWorkRequestsResponse.OpcNextPage != nil && len(*listWorkRequestsResponse.OpcNextPage) > 0 {
-							common.Debugf("checkForHydrationWorkRequest: listWorkRequestResponse next page = %v\n", *listWorkRequestsResponse.OpcNextPage)
-						}
-					} else {
-						hasMorePages = false
 					}
 				}
 
+				if listWorkRequestsResponse.OpcNextPage == nil || len(*listWorkRequestsResponse.OpcNextPage) == 0 {
+					break
+				}
+				common.Debugf("checkForHydrationWorkRequest: listWorkRequestResponse page = %v\n", *listWorkRequestsResponse.OpcNextPage)
+				request.Page = listWorkRequestsResponse.OpcNextPage
 			}
+
+			if !workRequestInProgress {
+				return
+			}
+
+			if time.Now().After(deadline) {
+				log.Printf("[WARN] Timeout waiting for hydration work requests to complete for resource id %v", listWorkRequestsRequest.ResourceId)
+				return
+			}
+
+			time.Sleep(hydrationWorkRequestPollInterval)
 		}
 	}
 }

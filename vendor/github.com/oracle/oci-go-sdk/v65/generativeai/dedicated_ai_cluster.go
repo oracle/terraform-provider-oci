@@ -293,6 +293,8 @@ const (
 	DedicatedAiClusterUnitShapeLargeGeneric2   DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC_2"
 	DedicatedAiClusterUnitShapeLargeGenericV2  DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC_V2"
 	DedicatedAiClusterUnitShapeLargeGenericV3  DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC_V3"
+	DedicatedAiClusterUnitShapeLargeGenericV4  DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC_V4"
+	DedicatedAiClusterUnitShapeLargeGenericV5  DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC_V5"
 	DedicatedAiClusterUnitShapeCohereH100X1    DedicatedAiClusterUnitShapeEnum = "COHERE_H100_X1"
 	DedicatedAiClusterUnitShapeCohereA10080gX1 DedicatedAiClusterUnitShapeEnum = "COHERE_A100_80G_X1"
 	DedicatedAiClusterUnitShapeCohereA10040gX1 DedicatedAiClusterUnitShapeEnum = "COHERE_A100_40G_X1"
@@ -346,6 +348,8 @@ var mappingDedicatedAiClusterUnitShapeEnum = map[string]DedicatedAiClusterUnitSh
 	"LARGE_GENERIC_2":    DedicatedAiClusterUnitShapeLargeGeneric2,
 	"LARGE_GENERIC_V2":   DedicatedAiClusterUnitShapeLargeGenericV2,
 	"LARGE_GENERIC_V3":   DedicatedAiClusterUnitShapeLargeGenericV3,
+	"LARGE_GENERIC_V4":   DedicatedAiClusterUnitShapeLargeGenericV4,
+	"LARGE_GENERIC_V5":   DedicatedAiClusterUnitShapeLargeGenericV5,
 	"COHERE_H100_X1":     DedicatedAiClusterUnitShapeCohereH100X1,
 	"COHERE_A100_80G_X1": DedicatedAiClusterUnitShapeCohereA10080gX1,
 	"COHERE_A100_40G_X1": DedicatedAiClusterUnitShapeCohereA10040gX1,
@@ -399,6 +403,8 @@ var mappingDedicatedAiClusterUnitShapeEnumLowerCase = map[string]DedicatedAiClus
 	"large_generic_2":    DedicatedAiClusterUnitShapeLargeGeneric2,
 	"large_generic_v2":   DedicatedAiClusterUnitShapeLargeGenericV2,
 	"large_generic_v3":   DedicatedAiClusterUnitShapeLargeGenericV3,
+	"large_generic_v4":   DedicatedAiClusterUnitShapeLargeGenericV4,
+	"large_generic_v5":   DedicatedAiClusterUnitShapeLargeGenericV5,
 	"cohere_h100_x1":     DedicatedAiClusterUnitShapeCohereH100X1,
 	"cohere_a100_80g_x1": DedicatedAiClusterUnitShapeCohereA10080gX1,
 	"cohere_a100_40g_x1": DedicatedAiClusterUnitShapeCohereA10040gX1,
@@ -463,6 +469,8 @@ func GetDedicatedAiClusterUnitShapeEnumStringValues() []string {
 		"LARGE_GENERIC_2",
 		"LARGE_GENERIC_V2",
 		"LARGE_GENERIC_V3",
+		"LARGE_GENERIC_V4",
+		"LARGE_GENERIC_V5",
 		"COHERE_H100_X1",
 		"COHERE_A100_80G_X1",
 		"COHERE_A100_40G_X1",

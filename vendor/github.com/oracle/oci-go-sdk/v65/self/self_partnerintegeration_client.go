@@ -145,7 +145,7 @@ func (client PartnerIntegerationClient) activateSubscription(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/PartnerSubscription/ActivateSubscription"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "PartnerIntegeration", "ActivateSubscription", apiReferenceLink)
 		return response, err
 	}
@@ -203,7 +203,7 @@ func (client PartnerIntegerationClient) listingSubscriptions(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/ListingSubscriptionsCollection/ListingSubscriptions"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "PartnerIntegeration", "ListingSubscriptions", apiReferenceLink)
 		return response, err
 	}
@@ -266,7 +266,7 @@ func (client PartnerIntegerationClient) resolveSubscription(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/PartnerSubscription/ResolveSubscription"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "PartnerIntegeration", "ResolveSubscription", apiReferenceLink)
 		return response, err
 	}

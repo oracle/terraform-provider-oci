@@ -6,6 +6,7 @@ package ai_document
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ai_document "github.com/oracle/oci-go-sdk/v65/aidocument"
 
@@ -19,15 +20,15 @@ func AiDocumentProjectDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(AiDocumentProjectResource(), fieldMap, readSingularAiDocumentProject)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(AiDocumentProjectResource(), fieldMap, readSingularAiDocumentProjectWithContext)
 }
 
-func readSingularAiDocumentProject(d *schema.ResourceData, m interface{}) error {
+func readSingularAiDocumentProjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiDocumentProjectDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceDocumentClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type AiDocumentProjectDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *AiDocumentProjectDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AiDocumentProjectDataSourceCrud) Get() error {
+func (s *AiDocumentProjectDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ai_document.GetProjectRequest{}
 
 	if projectId, ok := s.D.GetOkExists("project_id"); ok {
@@ -50,7 +51,7 @@ func (s *AiDocumentProjectDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ai_document")
 
-	response, err := s.Client.GetProject(context.Background(), request)
+	response, err := s.Client.GetProject(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -290,11 +290,9 @@ type NetworkLoadBalancerBackendSetResourceCrud struct {
 	DisableNotFoundRetries bool
 }
 
-// The oci_network_load_balancer_backend resource may implicitly modify this backend set and this could happen concurrently.
-// Use a per-backend set mutex to synchronize accesses to the backend set.
-// This replicates the LBaaS (oci_loadbalancer_backend) behavior.
 func (s *NetworkLoadBalancerBackendSetResourceCrud) GetMutex() *sync.Mutex {
-	return nlbBackendSetMutexes.GetOrCreateNlbBackendSetMutex(s.D.Get("network_load_balancer_id").(string), s.D.Get("name").(string))
+	log.Printf("[DEBUG] Acquiring lock on NLB BackendSet CUD operation with id %s", s.D.Get("network_load_balancer_id"))
+	return nlbMutexes.GetOrCreateNlbMutex(s.D.Get("network_load_balancer_id").(string))
 }
 
 func (s *NetworkLoadBalancerBackendSetResourceCrud) ID() string {
@@ -785,8 +783,11 @@ func (s *NetworkLoadBalancerBackendSetResourceCrud) mapToNlbBackendDetails(field
 	}
 
 	if targetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_id")); ok {
-		tmp := targetId.(string)
-		result.TargetId = &tmp
+		if tmp := targetId.(string); tmp != "" {
+			result.TargetId = &tmp
+		} else {
+			result.TargetId = nil
+		}
 	}
 
 	if weight, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "weight")); ok {

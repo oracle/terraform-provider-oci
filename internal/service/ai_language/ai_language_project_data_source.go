@@ -6,6 +6,7 @@ package ai_language
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ai_language "github.com/oracle/oci-go-sdk/v65/ailanguage"
 
@@ -19,15 +20,15 @@ func AiLanguageProjectDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(AiLanguageProjectResource(), fieldMap, readSingularAiLanguageProject)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(AiLanguageProjectResource(), fieldMap, readSingularAiLanguageProjectWithContext)
 }
 
-func readSingularAiLanguageProject(d *schema.ResourceData, m interface{}) error {
+func readSingularAiLanguageProjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiLanguageProjectDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceLanguageClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type AiLanguageProjectDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *AiLanguageProjectDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AiLanguageProjectDataSourceCrud) Get() error {
+func (s *AiLanguageProjectDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ai_language.GetProjectRequest{}
 
 	if id, ok := s.D.GetOkExists("id"); ok {
@@ -55,7 +56,7 @@ func (s *AiLanguageProjectDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ai_language")
 
-	response, err := s.Client.GetProject(context.Background(), request)
+	response, err := s.Client.GetProject(ctx, request)
 	if err != nil {
 		return err
 	}

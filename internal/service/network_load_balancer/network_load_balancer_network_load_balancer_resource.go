@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/customdiff"
@@ -478,6 +479,11 @@ type NetworkLoadBalancerNetworkLoadBalancerResourceCrud struct {
 	Client                 *oci_network_load_balancer.NetworkLoadBalancerClient
 	Res                    *oci_network_load_balancer.NetworkLoadBalancer
 	DisableNotFoundRetries bool
+}
+
+func (s *NetworkLoadBalancerNetworkLoadBalancerResourceCrud) GetMutex() *sync.Mutex {
+	log.Printf("[DEBUG] Acquiring lock on NLB CUD operation with id %s", s.D.Id())
+	return nlbMutexes.GetOrCreateNlbMutex(s.D.Id())
 }
 
 func (s *NetworkLoadBalancerNetworkLoadBalancerResourceCrud) ID() string {
