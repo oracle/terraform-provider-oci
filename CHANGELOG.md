@@ -1,3 +1,15 @@
+## 8.13.0 (May 5, 2026)
+
+### Added
+- Support for Backup Config and zero data loss protection fields
+- Support detaching all load balancers from instance pools
+- Support for preserving db_domain on oci_database_db_system updates without recreation
+- Fix pipeline hydration list WR retry logic
+
+### Bug Fix
+- remove default value of generate_type in autonomous database wallet
+- Avoid parallelism in all NLB CP sub resources, Update Backend Set, Update Backend Set Unified and Update Listener bug fixes
+
 ## 8.12.0 (April 29, 2026)
 
 ### Added
