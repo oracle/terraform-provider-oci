@@ -173,6 +173,7 @@ The following attributes are exported:
 			* `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for platform images.
 			* `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
 			* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
+			* `ACCELERATEDPV` - VM instances launch with accelerated paravirtualized networking type.
 			* `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter. 
 		* `launch_options` - Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values. 
 			* `boot_volume_type` - Emulation type for the boot volume.
@@ -189,7 +190,8 @@ The following attributes are exported:
 			* `network_type` - Emulation type for the physical network interface card (NIC).
 				* `E1000` - Emulated Gigabit ethernet controller. Compatible with Linux e1000 network driver.
 				* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
-				* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers. 
+				* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
+				* `ACCELERATEDPV` - VM instances launch with accelerated paravirtualized networking type. 
 			* `remote_data_volume_type` - Emulation type for volume.
 				* `ISCSI` - ISCSI attached block storage device.
 				* `SCSI` - Emulated SCSI disk.
@@ -419,6 +421,7 @@ The following attributes are exported:
 				* `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for platform images.
 				* `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
 				* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
+				* `ACCELERATEDPV` - VM instances launch with accelerated paravirtualized networking type.
 				* `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter. 
 			* `launch_options` - Options for tuning the compatibility and performance of VM shapes. The values that you specify override any default values. 
 				* `boot_volume_type` - Emulation type for the boot volume.
@@ -435,7 +438,8 @@ The following attributes are exported:
 				* `network_type` - Emulation type for the physical network interface card (NIC).
 					* `E1000` - Emulated Gigabit ethernet controller. Compatible with Linux e1000 network driver.
 					* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
-					* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers. 
+					* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
+					* `ACCELERATEDPV` - VM instances launch with accelerated paravirtualized networking type. 
 				* `remote_data_volume_type` - Emulation type for volume.
 					* `ISCSI` - ISCSI attached block storage device.
 					* `SCSI` - Emulated SCSI disk.
