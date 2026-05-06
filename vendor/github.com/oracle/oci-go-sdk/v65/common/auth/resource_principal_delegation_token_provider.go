@@ -38,7 +38,7 @@ func (r resourcePrincipalDelegationTokenConfigurationProvider) KeyFingerprint() 
 
 func (r resourcePrincipalDelegationTokenConfigurationProvider) Region() (string, error) {
 	if r.region == nil {
-		common.Debugf("Region in resource principal delegation token configuration provider is nil. Returning configuration provider region: %s", r.region)
+		common.Debugf("Region in resource principal delegation token configuration provider is nil. Returning configuration provider region: %v", r.region)
 		return r.resourcePrincipalKeyProvider.Region()
 	}
 	return string(*r.region), nil

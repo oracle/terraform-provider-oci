@@ -95,14 +95,12 @@ type token struct {
 // getSecurityToken get security token from Proxymux
 func (c *x509FederationClientForOkeWorkloadIdentity) getSecurityToken() (securityToken, error) {
 	publicKey := string(c.sessionKeySupplier.PublicKeyPemRaw())
-	common.Logf("Public Key for OKE Workload Identity is:", publicKey)
 	rawPayload := workloadIdentityRequestPayload{Podkey: publicKey}
 	payload, err := json.Marshal(rawPayload)
 	if err != nil {
 		return nil, fmt.Errorf("error getting security token%s", err)
 	}
 
-	common.Logf("Payload for OKE Workload Identity is:", string(payload))
 	request, err := http.NewRequest(http.MethodPost, c.proxymuxEndpoint, bytes.NewBuffer(payload))
 
 	if err != nil {
@@ -116,7 +114,6 @@ func (c *x509FederationClientForOkeWorkloadIdentity) getSecurityToken() (securit
 		return nil, fmt.Errorf("error getting service account token %s", err)
 	}
 
-	common.Logf("Service Account Token for OKE Workload Identity is: ", kubernetesServiceAccountToken)
 	request.Header.Add("Authorization", "Bearer "+kubernetesServiceAccountToken)
 	request.Header.Set("Content-Type", "application/json")
 	opcRequestID := utils.GenerateOpcRequestID()
@@ -179,48 +176,44 @@ func (c *x509FederationClientForOkeWorkloadIdentity) getSecurityToken() (securit
 
 func logTokenInfo(token string) {
 	if strings.TrimSpace(token) == "" {
-		common.Logf("Token is null or empty")
+		common.Debugf("Token is null or empty")
 		return
 	}
 
 	parts := strings.Split(token, ".")
 	if len(parts) < 3 {
-		common.Logf("Invalid JWT token")
+		common.Debugf("Invalid JWT token")
 		return
 	}
 
 	// Decode the payload
 	decodedPayload, err := base64.RawURLEncoding.DecodeString(parts[1])
 	if err != nil {
-		common.Logf("Failed to decode payload: %v\n", err)
+		common.Debugf("Failed to decode payload: %v\n", err)
 		return
 	}
 
 	// Parse JSON payload into a map
 	var payload map[string]interface{}
 	if err := json.Unmarshal(decodedPayload, &payload); err != nil {
-		common.Logf("Failed to parse payload JSON: %v\n", err)
+		common.Debugf("Failed to parse payload JSON: %v\n", err)
 		return
 	}
 
 	logData := map[string]interface{}{
-		"sub":                 payload["sub"],
-		"res_id":              payload["res_id"],
-		"res_type":            payload["res_type"],
-		"ttype":               payload["ttype"],
-		"var_service_account": payload["var_service_account"],
-		"var_namespace":       payload["var_namespace"],
-		"iat":                 payload["iat"],
-		"exp":                 payload["exp"],
+		"res_type": payload["res_type"],
+		"ttype":    payload["ttype"],
+		"iat":      payload["iat"],
+		"exp":      payload["exp"],
 	}
 
 	logJson, err := json.MarshalIndent(logData, "", "  ")
 	if err != nil {
-		common.Logf("Failed to serialize log data: %v\n", err)
+		common.Debugf("Failed to serialize log data: %v\n", err)
 		return
 	}
 
-	common.Logf("RPST token details:\n%s\n", string(logJson))
+	common.Debugf("RPST token details:\n%s\n", string(logJson))
 }
 
 func (c *x509FederationClientForOkeWorkloadIdentity) PrivateKey() (*rsa.PrivateKey, error) {

@@ -599,7 +599,7 @@ func addToHeader(request *http.Request, value reflect.Value, field reflect.Struc
 		for i := 0; i < numOfElements; i++ {
 			collectionFormatStringValues[i], e = toStringValue(value.Index(i), field)
 			if e != nil {
-				Debugf("Header element could not be marshalled to a string: %w", e)
+				Debugf("Header element could not be marshalled to a string: %v", e)
 				return
 			}
 		}
