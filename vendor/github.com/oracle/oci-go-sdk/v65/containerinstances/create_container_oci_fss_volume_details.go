@@ -23,13 +23,13 @@ type CreateContainerOciFssVolumeDetails struct {
 	// The name of the volume. This must be unique within a single container instance.
 	Name *string `mandatory:"true" json:"name"`
 
-	MountTarget OciFssMountTarget `mandatory:"true" json:"mountTarget"`
+	MountTarget CreateOciFssMountTargetDetails `mandatory:"true" json:"mountTarget"`
 
-	Export OciFssExport `mandatory:"true" json:"export"`
+	Export CreateOciFssExportDetails `mandatory:"true" json:"export"`
 
-	Security OciFssSecurity `mandatory:"false" json:"security"`
+	Security CreateOciFssSecurityDetails `mandatory:"false" json:"security"`
 
-	MountCommand *OciFssMountCommand `mandatory:"false" json:"mountCommand"`
+	MountCommand *CreateOciFssMountCommandDetails `mandatory:"false" json:"mountCommand"`
 
 	// Specifies the network interface to be used for the OCI File Storage Service (FSS) volume.
 	// This is a required parameter when a Container Instance is attached to more than one subnets.
@@ -74,12 +74,12 @@ func (m CreateContainerOciFssVolumeDetails) MarshalJSON() (buff []byte, e error)
 // UnmarshalJSON unmarshals from json
 func (m *CreateContainerOciFssVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Security     ocifsssecurity      `json:"security"`
-		MountCommand *OciFssMountCommand `json:"mountCommand"`
-		SubnetId     *string             `json:"subnetId"`
-		Name         *string             `json:"name"`
-		MountTarget  ocifssmounttarget   `json:"mountTarget"`
-		Export       ocifssexport        `json:"export"`
+		Security     createocifsssecuritydetails      `json:"security"`
+		MountCommand *CreateOciFssMountCommandDetails `json:"mountCommand"`
+		SubnetId     *string                          `json:"subnetId"`
+		Name         *string                          `json:"name"`
+		MountTarget  createocifssmounttargetdetails   `json:"mountTarget"`
+		Export       createocifssexportdetails        `json:"export"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -92,7 +92,7 @@ func (m *CreateContainerOciFssVolumeDetails) UnmarshalJSON(data []byte) (e error
 		return
 	}
 	if nn != nil {
-		m.Security = nn.(OciFssSecurity)
+		m.Security = nn.(CreateOciFssSecurityDetails)
 	} else {
 		m.Security = nil
 	}
@@ -108,7 +108,7 @@ func (m *CreateContainerOciFssVolumeDetails) UnmarshalJSON(data []byte) (e error
 		return
 	}
 	if nn != nil {
-		m.MountTarget = nn.(OciFssMountTarget)
+		m.MountTarget = nn.(CreateOciFssMountTargetDetails)
 	} else {
 		m.MountTarget = nil
 	}
@@ -118,7 +118,7 @@ func (m *CreateContainerOciFssVolumeDetails) UnmarshalJSON(data []byte) (e error
 		return
 	}
 	if nn != nil {
-		m.Export = nn.(OciFssExport)
+		m.Export = nn.(CreateOciFssExportDetails)
 	} else {
 		m.Export = nil
 	}

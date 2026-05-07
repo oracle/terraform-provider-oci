@@ -84,9 +84,6 @@ type UpdateDrgNatRulesResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The []DrgNatRule instance
-	Items []DrgNatRule `presentIn:"body"`
-
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
 	// Use GetWorkRequest (https://docs.oracle.com/iaas/api/#/en/workrequests/latest/WorkRequest/GetWorkRequest)
 	// with this ID to track the status of the request.

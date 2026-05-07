@@ -67,7 +67,7 @@ func newStreamAdminClientFromBaseClient(baseClient common.BaseClient, configProv
 
 // SetRegion overrides the region of this client.
 func (client *StreamAdminClient) SetRegion(region string) {
-	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("streams", "https://{dualStack?ds.:}streaming.{region}.oci.{secondLevelDomain}", "streaming")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("streams", "https://streaming.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -89,12 +89,6 @@ func (client *StreamAdminClient) setConfigurationProvider(configProvider common.
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *StreamAdminClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
-}
-
-// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
-// Default value is false
-func (client *StreamAdminClient) EnableDualStackEndpoints(enableDualStack bool) {
-	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
 }
 
 // ChangeConnectHarnessCompartment Moves a resource into a different compartment. When provided, If-Match is checked against ETag values of the resource.
@@ -135,13 +129,6 @@ func (client StreamAdminClient) changeConnectHarnessCompartment(ctx context.Cont
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response ChangeConnectHarnessCompartmentResponse
 	var httpResponse *http.Response
@@ -199,13 +186,6 @@ func (client StreamAdminClient) changeStreamCompartment(ctx context.Context, req
 		return nil, err
 	}
 
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response ChangeStreamCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "ChangeStreamCompartment")
@@ -259,13 +239,6 @@ func (client StreamAdminClient) changeStreamPoolCompartment(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response ChangeStreamPoolCompartmentResponse
 	var httpResponse *http.Response
@@ -327,13 +300,6 @@ func (client StreamAdminClient) createConnectHarness(ctx context.Context, reques
 		return nil, err
 	}
 
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response CreateConnectHarnessResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "CreateConnectHarness")
@@ -391,13 +357,6 @@ func (client StreamAdminClient) createStream(ctx context.Context, request common
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response CreateStreamResponse
 	var httpResponse *http.Response
@@ -460,13 +419,6 @@ func (client StreamAdminClient) createStreamPool(ctx context.Context, request co
 		return nil, err
 	}
 
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response CreateStreamPoolResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "CreateStreamPool")
@@ -524,13 +476,6 @@ func (client StreamAdminClient) deleteConnectHarness(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response DeleteConnectHarnessResponse
 	var httpResponse *http.Response
@@ -590,13 +535,6 @@ func (client StreamAdminClient) deleteStream(ctx context.Context, request common
 		return nil, err
 	}
 
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response DeleteStreamResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "DeleteStream")
@@ -652,13 +590,6 @@ func (client StreamAdminClient) deleteStreamPool(ctx context.Context, request co
 		return nil, err
 	}
 
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response DeleteStreamPoolResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "DeleteStreamPool")
@@ -712,13 +643,6 @@ func (client StreamAdminClient) getConnectHarness(ctx context.Context, request c
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response GetConnectHarnessResponse
 	var httpResponse *http.Response
@@ -774,13 +698,6 @@ func (client StreamAdminClient) getStream(ctx context.Context, request common.OC
 		return nil, err
 	}
 
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response GetStreamResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "GetStream")
@@ -835,13 +752,6 @@ func (client StreamAdminClient) getStreamPool(ctx context.Context, request commo
 		return nil, err
 	}
 
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response GetStreamPoolResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "GetStreamPool")
@@ -850,6 +760,60 @@ func (client StreamAdminClient) getStreamPool(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/StreamPool/GetStreamPool"
 		err = common.PostProcessServiceError(err, "StreamAdmin", "GetStreamPool", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetWorkRequest Gets the details of a work request.
+// A default retry strategy applies to this operation GetWorkRequest()
+func (client StreamAdminClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getWorkRequest, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetWorkRequestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetWorkRequestResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetWorkRequestResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetWorkRequestResponse")
+	}
+	return
+}
+
+// getWorkRequest implements the OCIOperation interface (enables retrying operations)
+func (client StreamAdminClient) getWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetWorkRequestResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "GetWorkRequest")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/WorkRequest/GetWorkRequest"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -895,13 +859,6 @@ func (client StreamAdminClient) listConnectHarnesses(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response ListConnectHarnessesResponse
 	var httpResponse *http.Response
@@ -956,13 +913,6 @@ func (client StreamAdminClient) listStreamPools(ctx context.Context, request com
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response ListStreamPoolsResponse
 	var httpResponse *http.Response
@@ -1021,13 +971,6 @@ func (client StreamAdminClient) listStreams(ctx context.Context, request common.
 		return nil, err
 	}
 
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response ListStreamsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "ListStreams")
@@ -1036,6 +979,168 @@ func (client StreamAdminClient) listStreams(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/StreamSummary/ListStreams"
 		err = common.PostProcessServiceError(err, "StreamAdmin", "ListStreams", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListWorkRequestErrors Lists the errors for a work request.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
+func (client StreamAdminClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWorkRequestErrorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWorkRequestErrorsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListWorkRequestErrorsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListWorkRequestErrorsResponse")
+	}
+	return
+}
+
+// listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
+func (client StreamAdminClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListWorkRequestErrorsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "ListWorkRequestErrors")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/WorkRequestErrorCollection/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "ListWorkRequestErrors", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListWorkRequestLogs Lists the logs for a work request.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
+func (client StreamAdminClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestLogs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWorkRequestLogsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWorkRequestLogsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListWorkRequestLogsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListWorkRequestLogsResponse")
+	}
+	return
+}
+
+// listWorkRequestLogs implements the OCIOperation interface (enables retrying operations)
+func (client StreamAdminClient) listWorkRequestLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListWorkRequestLogsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "ListWorkRequestLogs")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/WorkRequestLogEntry/ListWorkRequestLogs"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "ListWorkRequestLogs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListWorkRequests Lists the work requests in a compartment.
+// A default retry strategy applies to this operation ListWorkRequests()
+func (client StreamAdminClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listWorkRequests, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWorkRequestsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWorkRequestsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListWorkRequestsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListWorkRequestsResponse")
+	}
+	return
+}
+
+// listWorkRequests implements the OCIOperation interface (enables retrying operations)
+func (client StreamAdminClient) listWorkRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListWorkRequestsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "ListWorkRequests")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/streaming/20180418/WorkRequestSummaryCollection/ListWorkRequests"
+		err = common.PostProcessServiceError(err, "StreamAdmin", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
 
@@ -1081,13 +1186,6 @@ func (client StreamAdminClient) updateConnectHarness(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response UpdateConnectHarnessResponse
 	var httpResponse *http.Response
@@ -1143,13 +1241,6 @@ func (client StreamAdminClient) updateStream(ctx context.Context, request common
 		return nil, err
 	}
 
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response UpdateStreamResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "streamAdmin", "UpdateStream")
@@ -1203,13 +1294,6 @@ func (client StreamAdminClient) updateStreamPool(ctx context.Context, request co
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response UpdateStreamPoolResponse
 	var httpResponse *http.Response

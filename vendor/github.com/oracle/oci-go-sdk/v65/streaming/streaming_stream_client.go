@@ -77,12 +77,6 @@ func (client *StreamClient) ConfigurationProvider() *common.ConfigurationProvide
 	return client.config
 }
 
-// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
-// Default value is false
-func (client *StreamClient) EnableDualStackEndpoints(enableDualStack bool) {
-	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
-}
-
 // ConsumerCommit Provides a mechanism to manually commit offsets, if not using commit-on-get consumer semantics.
 // This commits offsets assicated with the provided cursor, extends the timeout on each of the affected partitions, and returns an updated cursor.
 // A default retry strategy applies to this operation ConsumerCommit()
@@ -122,13 +116,6 @@ func (client StreamClient) consumerCommit(ctx context.Context, request common.OC
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response ConsumerCommitResponse
 	var httpResponse *http.Response
@@ -183,13 +170,6 @@ func (client StreamClient) consumerHeartbeat(ctx context.Context, request common
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response ConsumerHeartbeatResponse
 	var httpResponse *http.Response
@@ -249,13 +229,6 @@ func (client StreamClient) createCursor(ctx context.Context, request common.OCIR
 		return nil, err
 	}
 
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response CreateCursorResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stream", "CreateCursor")
@@ -310,13 +283,6 @@ func (client StreamClient) createGroupCursor(ctx context.Context, request common
 		return nil, err
 	}
 
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response CreateGroupCursorResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stream", "CreateGroupCursor")
@@ -370,13 +336,6 @@ func (client StreamClient) getGroup(ctx context.Context, request common.OCIReque
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response GetGroupResponse
 	var httpResponse *http.Response
@@ -434,13 +393,6 @@ func (client StreamClient) getMessages(ctx context.Context, request common.OCIRe
 		return nil, err
 	}
 
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response GetMessagesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "stream", "GetMessages")
@@ -496,13 +448,6 @@ func (client StreamClient) putMessages(ctx context.Context, request common.OCIRe
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response PutMessagesResponse
 	var httpResponse *http.Response
@@ -567,13 +512,6 @@ func (client StreamClient) updateGroup(ctx context.Context, request common.OCIRe
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response UpdateGroupResponse
 	var httpResponse *http.Response

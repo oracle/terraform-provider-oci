@@ -33388,6 +33388,72 @@ func (client VirtualNetworkClient) removeVcnCidr(ctx context.Context, request co
 	return response, err
 }
 
+// ReseatNatGateway Reseats a NAT gateway to a target pod and regenerates downstream NAT gateway mappings.
+// A default retry strategy applies to this operation ReseatNatGateway()
+func (client VirtualNetworkClient) ReseatNatGateway(ctx context.Context, request ReseatNatGatewayRequest) (response ReseatNatGatewayResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.reseatNatGateway, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ReseatNatGatewayResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ReseatNatGatewayResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ReseatNatGatewayResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ReseatNatGatewayResponse")
+	}
+	return
+}
+
+// reseatNatGateway implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) reseatNatGateway(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/natGateways/{natGatewayId}/actions/reseatNatGateway", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ReseatNatGatewayResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ReseatNatGateway")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/NatGatewayInternalInfo/ReseatNatGateway"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ReseatNatGateway", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RollbackDrgMigration Migrates batches of V1 DRG from VCN to V2 Drgs in Transit-Hub. Steps include mirroring of V1 Drgs from VCN, migrating them to V2 and updating them as V2 in VCN
 func (client VirtualNetworkClient) RollbackDrgMigration(ctx context.Context, request RollbackDrgMigrationRequest) (response RollbackDrgMigrationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -36281,7 +36347,7 @@ func (client VirtualNetworkClient) updateDrgNatRules(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgNatRule/UpdateDrgNatRules"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateDrgNatRules", apiReferenceLink)
 		return response, err
 	}

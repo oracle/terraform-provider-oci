@@ -20,7 +20,7 @@ import (
 type OciFssExportId struct {
 
 	// The OCID of the OCI File Storage Service (FSS) Export.
-	Id *string `mandatory:"true" json:"id"`
+	Id *string `mandatory:"false" json:"id"`
 }
 
 func (m OciFssExportId) String() string {

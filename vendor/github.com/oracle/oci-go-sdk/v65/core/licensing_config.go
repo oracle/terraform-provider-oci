@@ -30,6 +30,7 @@ type LicensingConfig struct {
 	// License Type for the OS license.
 	// * `OCI_PROVIDED` - OCI provided license (e.g. metered $/OCPU-hour).
 	// * `BRING_YOUR_OWN_LICENSE` - Bring your own license.
+	// * `PARTNER_PROVIDED` - Partner provided license.
 	LicenseType LicensingConfigLicenseTypeEnum `mandatory:"false" json:"licenseType,omitempty"`
 
 	// The Operating System version of the license config.
@@ -103,16 +104,19 @@ type LicensingConfigLicenseTypeEnum string
 const (
 	LicensingConfigLicenseTypeOciProvided         LicensingConfigLicenseTypeEnum = "OCI_PROVIDED"
 	LicensingConfigLicenseTypeBringYourOwnLicense LicensingConfigLicenseTypeEnum = "BRING_YOUR_OWN_LICENSE"
+	LicensingConfigLicenseTypePartnerProvided     LicensingConfigLicenseTypeEnum = "PARTNER_PROVIDED"
 )
 
 var mappingLicensingConfigLicenseTypeEnum = map[string]LicensingConfigLicenseTypeEnum{
 	"OCI_PROVIDED":           LicensingConfigLicenseTypeOciProvided,
 	"BRING_YOUR_OWN_LICENSE": LicensingConfigLicenseTypeBringYourOwnLicense,
+	"PARTNER_PROVIDED":       LicensingConfigLicenseTypePartnerProvided,
 }
 
 var mappingLicensingConfigLicenseTypeEnumLowerCase = map[string]LicensingConfigLicenseTypeEnum{
 	"oci_provided":           LicensingConfigLicenseTypeOciProvided,
 	"bring_your_own_license": LicensingConfigLicenseTypeBringYourOwnLicense,
+	"partner_provided":       LicensingConfigLicenseTypePartnerProvided,
 }
 
 // GetLicensingConfigLicenseTypeEnumValues Enumerates the set of values for LicensingConfigLicenseTypeEnum
@@ -129,6 +133,7 @@ func GetLicensingConfigLicenseTypeEnumStringValues() []string {
 	return []string{
 		"OCI_PROVIDED",
 		"BRING_YOUR_OWN_LICENSE",
+		"PARTNER_PROVIDED",
 	}
 }
 

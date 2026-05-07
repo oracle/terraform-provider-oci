@@ -60,6 +60,9 @@ type UpdateInternalIpv6Details struct {
 	VnicId *string `mandatory:"false" json:"vnicId"`
 
 	NextHop *PrivateIpNextHopConfiguration `mandatory:"false" json:"nextHop"`
+
+	// When the IPv6 Map request was received by VCN-DP, represented in epoch milliseconds (UTC).
+	DpReceptionTime *int64 `mandatory:"false" json:"dpReceptionTime"`
 }
 
 func (m UpdateInternalIpv6Details) String() string {

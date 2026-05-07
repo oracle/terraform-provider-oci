@@ -17,10 +17,8 @@ import (
 
 // UpdateApplicationInternalLoggingDetails Request payload to update (replace) the internal-only Lumberjack logging configuration for an application.
 // Availability Domains must be specified using *physical* AD identifiers.
-// Physical AD name formats vary by region. Example values: `iad-ad-1`, `phx-ad-2`, `ap-hyderabad-1-ad-1`.
-// Example 1: `{"compartmentId": "ocid1.tenancy.oc1..aaaa...xyz", "namespace": "functions-app-logs", "logGroup": "default"}`
-// Example 2: `{"compartmentId": "ocid1.tenancy.oc1..aaaa...xyz", "namespace": "functions-app-logs", "logGroup": "default", "enabledAds": ["iad-ad-1", "iad-ad-3"], "adOverrides": {"iad-ad-3": {"namespace": "functions-app-logs2", "logGroup": "custLogGroup"}}}`
-// Example 3: `{"compartmentId": "ocid1.tenancy.oc1..aaaa...xyz", "namespace": "functions-app-logs", "logGroup": "default", "enabledAds": ["iad-ad-1", "iad-ad-2", "iad-ad-3"], "adOverrides": {"iad-ad-2": {"namespace": "functions-app-logs2", "logGroup": "custLogGroup2"}, "iad-ad-3": {"namespace": "functions-app-logs3", "logGroup": "custLogGroup3"}}}`
+// Physical AD name formats vary by region. Example values: iad-ad-1, phx-ad-2, ap-hyderabad-1-ad-1.
+// For payload examples, see the operation examples on /applications/{applicationId}/internalLogging.
 type UpdateApplicationInternalLoggingDetails struct {
 
 	// OCID of the compartment that owns the Lumberjack namespace and log group.
@@ -37,9 +35,9 @@ type UpdateApplicationInternalLoggingDetails struct {
 	EnabledAds []string `mandatory:"false" json:"enabledAds"`
 
 	// Map of Availability Domain (AD) identifiers to per-AD override settings.
-	// Use this when the Lumberjack `namespace` and/or `logGroup` differs for a specific AD within the region.
-	// The map key is the physical AD identifier. Example values: `iad-ad-1`, `phx-ad-2`, `ap-hyderabad-1-ad-1`.
-	// For any AD not present in this map, the top-level `namespace` and `logGroup` values apply.
+	// Use this when the Lumberjack namespace and/or logGroup differs for a specific AD within the region.
+	// The map key is the physical AD identifier. Example values: iad-ad-1, phx-ad-2, ap-hyderabad-1-ad-1.
+	// For any AD not present in this map, the top-level namespace and logGroup values apply.
 	AdOverrides map[string]ApplicationInternalLoggingAdOverride `mandatory:"false" json:"adOverrides"`
 }
 

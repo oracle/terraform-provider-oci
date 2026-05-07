@@ -192,7 +192,7 @@ func (client FunctionsInternalManagementClient) DeleteApplicationInternalLogging
 // deleteApplicationInternalLogging implements the OCIOperation interface (enables retrying operations)
 func (client FunctionsInternalManagementClient) deleteApplicationInternalLogging(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/applications/{applicationId}/internal/logging", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/applications/{applicationId}/internalLogging", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -254,7 +254,7 @@ func (client FunctionsInternalManagementClient) GetApplicationInternalLogging(ct
 // getApplicationInternalLogging implements the OCIOperation interface (enables retrying operations)
 func (client FunctionsInternalManagementClient) getApplicationInternalLogging(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/applications/{applicationId}/internal/logging", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/applications/{applicationId}/internalLogging", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -321,7 +321,7 @@ func (client FunctionsInternalManagementClient) UpdateApplicationInternalLogging
 // updateApplicationInternalLogging implements the OCIOperation interface (enables retrying operations)
 func (client FunctionsInternalManagementClient) updateApplicationInternalLogging(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/applications/{applicationId}/internal/logging", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/applications/{applicationId}/internalLogging", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

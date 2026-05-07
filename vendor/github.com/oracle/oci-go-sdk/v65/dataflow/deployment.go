@@ -78,6 +78,7 @@ type DeploymentLifecycleStateEnum string
 
 // Set of constants representing the allowable values for DeploymentLifecycleStateEnum
 const (
+	DeploymentLifecycleStateAccepted DeploymentLifecycleStateEnum = "ACCEPTED"
 	DeploymentLifecycleStateCreating DeploymentLifecycleStateEnum = "CREATING"
 	DeploymentLifecycleStateActive   DeploymentLifecycleStateEnum = "ACTIVE"
 	DeploymentLifecycleStateDeleting DeploymentLifecycleStateEnum = "DELETING"
@@ -85,6 +86,7 @@ const (
 )
 
 var mappingDeploymentLifecycleStateEnum = map[string]DeploymentLifecycleStateEnum{
+	"ACCEPTED": DeploymentLifecycleStateAccepted,
 	"CREATING": DeploymentLifecycleStateCreating,
 	"ACTIVE":   DeploymentLifecycleStateActive,
 	"DELETING": DeploymentLifecycleStateDeleting,
@@ -92,6 +94,7 @@ var mappingDeploymentLifecycleStateEnum = map[string]DeploymentLifecycleStateEnu
 }
 
 var mappingDeploymentLifecycleStateEnumLowerCase = map[string]DeploymentLifecycleStateEnum{
+	"accepted": DeploymentLifecycleStateAccepted,
 	"creating": DeploymentLifecycleStateCreating,
 	"active":   DeploymentLifecycleStateActive,
 	"deleting": DeploymentLifecycleStateDeleting,
@@ -110,6 +113,7 @@ func GetDeploymentLifecycleStateEnumValues() []DeploymentLifecycleStateEnum {
 // GetDeploymentLifecycleStateEnumStringValues Enumerates the set of values in String for DeploymentLifecycleStateEnum
 func GetDeploymentLifecycleStateEnumStringValues() []string {
 	return []string{
+		"ACCEPTED",
 		"CREATING",
 		"ACTIVE",
 		"DELETING",

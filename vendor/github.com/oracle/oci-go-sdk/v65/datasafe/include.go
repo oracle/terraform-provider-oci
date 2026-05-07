@@ -16,7 +16,7 @@ import (
 )
 
 // Include Criteria to determine whether a target database should be included in the target database group.
-// If the database satisfies any of compartments, targetDatabaseIds, freeformTags, or definedTags criteria, it qualifies for inclusion in the target database group
+// If the database satisfies any of compartments, targetDatabaseIds, freeformTags, definedTags or systemTags criteria then it qualifies for inclusion in the target database group.
 type Include struct {
 
 	// List of compartment objects, each containing the OCID of the compartment and a boolean value that indicates whether the target databases in the compartments and sub-compartments should also be included in the target database group.
@@ -32,6 +32,9 @@ type Include struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Map of system tag filters. Target database matches when for each specified namespace.key and the tag value equals any of the values in the array.
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m Include) String() string {

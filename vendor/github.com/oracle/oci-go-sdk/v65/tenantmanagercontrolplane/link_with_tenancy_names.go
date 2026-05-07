@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// LinkWithTenancyNames A link between a parent tenancy and a child tenancy with tenancy names.
+// LinkWithTenancyNames A link between a parent tenancy and a child tenancy, including the parent and child tenancy names.
 type LinkWithTenancyNames struct {
 
 	// OCID of the link.
@@ -45,7 +45,7 @@ type LinkWithTenancyNames struct {
 	// Date-time when this link was terminated.
 	TimeTerminated *common.SDKTime `mandatory:"false" json:"timeTerminated"`
 
-	// Type of the feature that the link is supporting. Default value is CORE.
+	// The feature associated with this link. Default value is CORE.
 	Feature *string `mandatory:"false" json:"feature"`
 }
 

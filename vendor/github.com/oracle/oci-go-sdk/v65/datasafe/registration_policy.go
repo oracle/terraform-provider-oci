@@ -71,6 +71,9 @@ type RegistrationPolicy struct {
 	// - DATABASE - The registration policy will be opted in at the Container Database level.
 	ResourceType RegistrationPolicyResourceTypeEnum `mandatory:"false" json:"resourceType,omitempty"`
 
+	// Indicates whether features will be overridden.
+	CanOverrideFeatures *bool `mandatory:"false" json:"canOverrideFeatures"`
+
 	// Details about the lifecycle state of the registration policy
 	LifecycleStateDetails *string `mandatory:"false" json:"lifecycleStateDetails"`
 

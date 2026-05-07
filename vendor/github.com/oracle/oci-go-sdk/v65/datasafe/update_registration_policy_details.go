@@ -25,6 +25,9 @@ type UpdateRegistrationPolicyDetails struct {
 	// A description of the registration policy.
 	Description *string `mandatory:"false" json:"description"`
 
+	// Indicates whether features will be overridden for all targets.
+	CanOverrideFeatures *bool `mandatory:"false" json:"canOverrideFeatures"`
+
 	// The Data Safe features granted to the databases registering under the registration policy.
 	Features []RegistrationPolicyFeaturesEnum `mandatory:"false" json:"features,omitempty"`
 

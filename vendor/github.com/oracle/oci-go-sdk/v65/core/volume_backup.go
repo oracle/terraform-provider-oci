@@ -125,6 +125,9 @@ type VolumeBackup struct {
 
 	// feature that preserves backup data from modification or deletion to ensure it remains available for legal or regulatory investigations or litigation, regardless of standard retention policies. This is an optional field. If it is not specified, it is set to null, no legal hold will be applied to the backups.
 	IsIndefiniteRetentionEnabled *bool `mandatory:"false" json:"isIndefiniteRetentionEnabled"`
+
+	// The OCID of the volume group backup associated with the backup. This is an optional field. If it is not present in the response, the backup does not belong to a volume group.
+	VolumeGroupBackupId *string `mandatory:"false" json:"volumeGroupBackupId"`
 }
 
 func (m VolumeBackup) String() string {

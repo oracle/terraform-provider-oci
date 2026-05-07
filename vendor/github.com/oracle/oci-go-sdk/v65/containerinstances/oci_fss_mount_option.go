@@ -20,7 +20,7 @@ import (
 type OciFssMountOption struct {
 
 	// A generic (https://man7.org/linux/man-pages/man8/mount.8.html) or nfs (https://man7.org/linux/man-pages/man5/nfs.5.html) mount option.
-	Option *string `mandatory:"true" json:"option"`
+	Option *string `mandatory:"false" json:"option"`
 
 	// The value of the mount option.
 	Value *string `mandatory:"false" json:"value"`

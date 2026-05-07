@@ -20,7 +20,7 @@ type ListLinksRequest struct {
 	// The ID of the child tenancy this link is associated with.
 	ChildTenancyId *string `mandatory:"false" contributesTo:"query" name:"childTenancyId"`
 
-	// Type of the feature that the link is supporting.
+	// The feature associated with this link.
 	Feature *string `mandatory:"false" contributesTo:"query" name:"feature"`
 
 	// The lifecycle state of the resource.

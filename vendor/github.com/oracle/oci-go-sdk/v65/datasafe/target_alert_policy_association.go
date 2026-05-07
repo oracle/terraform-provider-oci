@@ -33,6 +33,9 @@ type TargetAlertPolicyAssociation struct {
 	// The current state of the target-alert policy association.
 	LifecycleState AlertPolicyLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// The resource type that is represented by the target alert policy association.
+	TargetType TargetAlertPolicyAssociationTargetTypeEnum `mandatory:"true" json:"targetType"`
+
 	// The display name of the target-alert policy association.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -42,7 +45,7 @@ type TargetAlertPolicyAssociation struct {
 	// The OCID of the alert policy.
 	PolicyId *string `mandatory:"false" json:"policyId"`
 
-	// The OCID of the target on which alert policy is to be applied.
+	// The OCID of the target or target database group on which alert policy is to be applied.
 	TargetId *string `mandatory:"false" json:"targetId"`
 
 	// Indicates if the target-alert policy association is enabled or disabled by user.
@@ -76,9 +79,54 @@ func (m TargetAlertPolicyAssociation) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingAlertPolicyLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAlertPolicyLifecycleStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingTargetAlertPolicyAssociationTargetTypeEnum(string(m.TargetType)); !ok && m.TargetType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", m.TargetType, strings.Join(GetTargetAlertPolicyAssociationTargetTypeEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// TargetAlertPolicyAssociationTargetTypeEnum Enum with underlying type: string
+type TargetAlertPolicyAssociationTargetTypeEnum string
+
+// Set of constants representing the allowable values for TargetAlertPolicyAssociationTargetTypeEnum
+const (
+	TargetAlertPolicyAssociationTargetTypeDatabase      TargetAlertPolicyAssociationTargetTypeEnum = "TARGET_DATABASE"
+	TargetAlertPolicyAssociationTargetTypeDatabaseGroup TargetAlertPolicyAssociationTargetTypeEnum = "TARGET_DATABASE_GROUP"
+)
+
+var mappingTargetAlertPolicyAssociationTargetTypeEnum = map[string]TargetAlertPolicyAssociationTargetTypeEnum{
+	"TARGET_DATABASE":       TargetAlertPolicyAssociationTargetTypeDatabase,
+	"TARGET_DATABASE_GROUP": TargetAlertPolicyAssociationTargetTypeDatabaseGroup,
+}
+
+var mappingTargetAlertPolicyAssociationTargetTypeEnumLowerCase = map[string]TargetAlertPolicyAssociationTargetTypeEnum{
+	"target_database":       TargetAlertPolicyAssociationTargetTypeDatabase,
+	"target_database_group": TargetAlertPolicyAssociationTargetTypeDatabaseGroup,
+}
+
+// GetTargetAlertPolicyAssociationTargetTypeEnumValues Enumerates the set of values for TargetAlertPolicyAssociationTargetTypeEnum
+func GetTargetAlertPolicyAssociationTargetTypeEnumValues() []TargetAlertPolicyAssociationTargetTypeEnum {
+	values := make([]TargetAlertPolicyAssociationTargetTypeEnum, 0)
+	for _, v := range mappingTargetAlertPolicyAssociationTargetTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetTargetAlertPolicyAssociationTargetTypeEnumStringValues Enumerates the set of values in String for TargetAlertPolicyAssociationTargetTypeEnum
+func GetTargetAlertPolicyAssociationTargetTypeEnumStringValues() []string {
+	return []string{
+		"TARGET_DATABASE",
+		"TARGET_DATABASE_GROUP",
+	}
+}
+
+// GetMappingTargetAlertPolicyAssociationTargetTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingTargetAlertPolicyAssociationTargetTypeEnum(val string) (TargetAlertPolicyAssociationTargetTypeEnum, bool) {
+	enum, ok := mappingTargetAlertPolicyAssociationTargetTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

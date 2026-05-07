@@ -31,6 +31,9 @@ type MapInternalPrivateIpDetails struct {
 	IsGarpRequest *bool `mandatory:"false" json:"isGarpRequest"`
 
 	NextHop *PrivateIpNextHopConfiguration `mandatory:"false" json:"nextHop"`
+
+	// When the floating private IP Map request was received by VCN-DP, represented in epoch milliseconds (UTC).
+	DpReceptionTime *int64 `mandatory:"false" json:"dpReceptionTime"`
 }
 
 func (m MapInternalPrivateIpDetails) String() string {

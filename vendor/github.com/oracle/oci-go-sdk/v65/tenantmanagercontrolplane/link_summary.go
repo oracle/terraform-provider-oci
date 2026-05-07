@@ -43,7 +43,7 @@ type LinkSummary struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// Type of the feature that the link is supporting. Default value is CORE.
+	// The feature associated with this link. Default value is CORE.
 	Feature *string `mandatory:"false" json:"feature"`
 }
 

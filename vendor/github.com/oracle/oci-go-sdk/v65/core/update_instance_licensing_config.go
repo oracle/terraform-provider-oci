@@ -28,6 +28,7 @@ type UpdateInstanceLicensingConfig interface {
 	// License Type for the OS license.
 	// * `OCI_PROVIDED` - OCI provided license (e.g. metered $/OCPU-hour).
 	// * `BRING_YOUR_OWN_LICENSE` - Bring your own license.
+	// * `PARTNER_PROVIDED` - Partner provided license.
 	GetLicenseType() UpdateInstanceLicensingConfigLicenseTypeEnum
 }
 
@@ -104,16 +105,19 @@ type UpdateInstanceLicensingConfigLicenseTypeEnum string
 const (
 	UpdateInstanceLicensingConfigLicenseTypeOciProvided         UpdateInstanceLicensingConfigLicenseTypeEnum = "OCI_PROVIDED"
 	UpdateInstanceLicensingConfigLicenseTypeBringYourOwnLicense UpdateInstanceLicensingConfigLicenseTypeEnum = "BRING_YOUR_OWN_LICENSE"
+	UpdateInstanceLicensingConfigLicenseTypePartnerProvided     UpdateInstanceLicensingConfigLicenseTypeEnum = "PARTNER_PROVIDED"
 )
 
 var mappingUpdateInstanceLicensingConfigLicenseTypeEnum = map[string]UpdateInstanceLicensingConfigLicenseTypeEnum{
 	"OCI_PROVIDED":           UpdateInstanceLicensingConfigLicenseTypeOciProvided,
 	"BRING_YOUR_OWN_LICENSE": UpdateInstanceLicensingConfigLicenseTypeBringYourOwnLicense,
+	"PARTNER_PROVIDED":       UpdateInstanceLicensingConfigLicenseTypePartnerProvided,
 }
 
 var mappingUpdateInstanceLicensingConfigLicenseTypeEnumLowerCase = map[string]UpdateInstanceLicensingConfigLicenseTypeEnum{
 	"oci_provided":           UpdateInstanceLicensingConfigLicenseTypeOciProvided,
 	"bring_your_own_license": UpdateInstanceLicensingConfigLicenseTypeBringYourOwnLicense,
+	"partner_provided":       UpdateInstanceLicensingConfigLicenseTypePartnerProvided,
 }
 
 // GetUpdateInstanceLicensingConfigLicenseTypeEnumValues Enumerates the set of values for UpdateInstanceLicensingConfigLicenseTypeEnum
@@ -130,6 +134,7 @@ func GetUpdateInstanceLicensingConfigLicenseTypeEnumStringValues() []string {
 	return []string{
 		"OCI_PROVIDED",
 		"BRING_YOUR_OWN_LICENSE",
+		"PARTNER_PROVIDED",
 	}
 }
 

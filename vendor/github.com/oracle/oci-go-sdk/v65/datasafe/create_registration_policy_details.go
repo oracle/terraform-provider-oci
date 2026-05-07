@@ -34,6 +34,9 @@ type CreateRegistrationPolicyDetails struct {
 	// A description of the registration policy.
 	Description *string `mandatory:"false" json:"description"`
 
+	// Indicates whether features will be overridden for all targets.
+	CanOverrideFeatures *bool `mandatory:"false" json:"canOverrideFeatures"`
+
 	ConnectionOption *PolicyConnectionOption `mandatory:"false" json:"connectionOption"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)

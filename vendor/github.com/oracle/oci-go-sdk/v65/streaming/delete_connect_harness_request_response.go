@@ -50,21 +50,6 @@ func (request DeleteConnectHarnessRequest) BinaryRequestBody() (*common.OCIReadS
 
 }
 
-// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
-// Not all services are supporting this feature and this method will be a no-op for those services.
-func (request DeleteConnectHarnessRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
-	if mandatoryParamMap["connectHarnessId"] != nil {
-		templateParam := mandatoryParamMap["connectHarnessId"]
-		for _, template := range templateParam {
-			replacementParam := *request.ConnectHarnessId
-			if template.EndsWithDot {
-				replacementParam = replacementParam + "."
-			}
-			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
-		}
-	}
-}
-
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request DeleteConnectHarnessRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
@@ -90,6 +75,10 @@ type DeleteConnectHarnessResponse struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
 	// a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// Unique Oracle-assigned identifier for the asynchronous request. You can use this to query
+	// status of the asynchronous operation.
+	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 
 func (response DeleteConnectHarnessResponse) String() string {

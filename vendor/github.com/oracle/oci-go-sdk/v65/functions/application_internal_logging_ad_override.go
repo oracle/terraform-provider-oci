@@ -16,7 +16,7 @@ import (
 )
 
 // ApplicationInternalLoggingAdOverride Per-AD override values for internal Lumberjack logging configuration. Used when a region's ADs have different namespace and/or log group values for the same application.
-// Example: `{"namespace": "functions-app-logs2", "logGroup": "custLogGroup"}`
+// For payload examples, see the operation examples on /applications/{applicationId}/internalLogging.
 type ApplicationInternalLoggingAdOverride struct {
 
 	// Override Lumberjack namespace for this specific AD (only if different from the top-level namespace).

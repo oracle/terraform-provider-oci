@@ -20,7 +20,7 @@ import (
 type OciFssExportPath struct {
 
 	// Path used to access the associated OCI File Storage Service (FSS) File System.
-	Path *string `mandatory:"true" json:"path"`
+	Path *string `mandatory:"false" json:"path"`
 }
 
 func (m OciFssExportPath) String() string {

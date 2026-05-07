@@ -20,7 +20,7 @@ import (
 type OciFssMountTargetHost struct {
 
 	// Either IP Address or FQDN associated with the OCI File Storage Service (FSS) Mount Target.
-	Host *string `mandatory:"true" json:"host"`
+	Host *string `mandatory:"false" json:"host"`
 }
 
 func (m OciFssMountTargetHost) String() string {

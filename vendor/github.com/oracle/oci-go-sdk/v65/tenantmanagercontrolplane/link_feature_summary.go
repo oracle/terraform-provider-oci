@@ -18,7 +18,7 @@ import (
 // LinkFeatureSummary Result of a query request for a list of link features. Contains LinkFeature items.
 type LinkFeatureSummary struct {
 
-	// Type of the feature that the link is supporting. Default value is CORE.
+	// The feature associated with this link. Default value is CORE.
 	Feature *string `mandatory:"true" json:"feature"`
 
 	// Display name of the feature.

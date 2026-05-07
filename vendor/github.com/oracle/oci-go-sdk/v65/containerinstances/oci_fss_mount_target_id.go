@@ -20,7 +20,7 @@ import (
 type OciFssMountTargetId struct {
 
 	// The OCID of the OCI File Storage Service (FSS) Mount Target.
-	Id *string `mandatory:"true" json:"id"`
+	Id *string `mandatory:"false" json:"id"`
 }
 
 func (m OciFssMountTargetId) String() string {
