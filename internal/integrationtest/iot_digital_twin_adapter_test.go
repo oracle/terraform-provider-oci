@@ -78,6 +78,8 @@ var (
 		"reference_payload": acctest.RepresentationGroup{RepType: acctest.Required, Group: IotDigitalTwinAdapterInboundRoutesReferencePayloadRepresentation},
 	}
 	IotDigitalTwinAdapterInboundEnvelopeEnvelopeMappingRepresentation = map[string]interface{}{
+		"content_root":  acctest.Representation{RepType: acctest.Optional, Create: `$`, Update: `$`},
+		"target":        acctest.Representation{RepType: acctest.Optional, Create: `target`, Update: `target2`},
 		"time_observed": acctest.Representation{RepType: acctest.Required, Create: `$.time`, Update: `$.time`},
 	}
 
@@ -150,6 +152,8 @@ func TestIotDigitalTwinAdapterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "inbound_envelope.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "inbound_envelope.0.envelope_mapping.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "inbound_envelope.0.envelope_mapping.0.content_root", "$"),
+				resource.TestCheckResourceAttr(resourceName, "inbound_envelope.0.envelope_mapping.0.target", "target"),
 				resource.TestCheckResourceAttr(resourceName, "inbound_envelope.0.envelope_mapping.0.time_observed", "$.time"),
 				resource.TestCheckResourceAttr(resourceName, "inbound_envelope.0.reference_endpoint", "/"),
 				resource.TestCheckResourceAttr(resourceName, "inbound_envelope.0.reference_payload.#", "1"),
@@ -191,6 +195,8 @@ func TestIotDigitalTwinAdapterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "inbound_envelope.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "inbound_envelope.0.envelope_mapping.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "inbound_envelope.0.envelope_mapping.0.content_root", "$"),
+				resource.TestCheckResourceAttr(resourceName, "inbound_envelope.0.envelope_mapping.0.target", "target2"),
 				resource.TestCheckResourceAttr(resourceName, "inbound_envelope.0.envelope_mapping.0.time_observed", "$.time"),
 				resource.TestCheckResourceAttr(resourceName, "inbound_envelope.0.reference_endpoint", "/test"),
 				resource.TestCheckResourceAttr(resourceName, "inbound_envelope.0.reference_payload.#", "1"),
@@ -249,6 +255,8 @@ func TestIotDigitalTwinAdapterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "inbound_envelope.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "inbound_envelope.0.envelope_mapping.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "inbound_envelope.0.envelope_mapping.0.content_root", "$"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "inbound_envelope.0.envelope_mapping.0.target", "target2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "inbound_envelope.0.envelope_mapping.0.time_observed", "$.time"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "inbound_envelope.0.reference_endpoint", "/test"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "inbound_envelope.0.reference_payload.#", "1"),

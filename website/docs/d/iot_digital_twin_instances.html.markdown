@@ -21,6 +21,7 @@ data "oci_iot_digital_twin_instances" "test_digital_twin_instances" {
 	iot_domain_id = oci_iot_iot_domain.test_iot_domain.id
 
 	#Optional
+	connectivity_type = var.digital_twin_instance_connectivity_type
 	digital_twin_model_id = oci_iot_digital_twin_model.test_digital_twin_model.id
 	digital_twin_model_spec_uri = var.digital_twin_instance_digital_twin_model_spec_uri
 	display_name = var.digital_twin_instance_display_name
@@ -33,6 +34,7 @@ data "oci_iot_digital_twin_instances" "test_digital_twin_instances" {
 
 The following arguments are supported:
 
+* `connectivity_type` - (Optional) Filter resources whose connectivityType matches the specified value. 
 * `digital_twin_model_id` - (Optional) Filter resources that match the specified [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the digital twin model. 
 * `digital_twin_model_spec_uri` - (Optional) Filter resources that match the specified URI (DTMI) of the digital twin model. 
 * `display_name` - (Optional) Filter resources whose display name matches the specified value. 
@@ -52,6 +54,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `auth_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource (like VaultSecret, ClientCertificate etc.,) used to authenticate the digital twin instance.
+* `connectivity_type` - Connectivity type of the digital twin instance
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - A short description of the resource. 
 * `digital_twin_adapter_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the digital twin adapter.
@@ -60,6 +63,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `external_key` - A unique identifier for the physical entity (typically an IoT device) represented by the digital twin instance. This could be a Bluetooth address, Ethernet MAC address, or serial number, depending on the use case. If not provided, the system will automatically generate one. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `gateways` - An array of unique ids ([OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the IoT digital twin instances with connectivityType equals to GATEWAY. 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource.
 * `iot_domain_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IoT domain.
 * `state` - The current state of the digital twin instance.

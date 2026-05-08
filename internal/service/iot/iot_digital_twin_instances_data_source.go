@@ -19,6 +19,10 @@ func IotDigitalTwinInstancesDataSource() *schema.Resource {
 		ReadContext: readIotDigitalTwinInstancesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"connectivity_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"digital_twin_model_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -81,6 +85,10 @@ func (s *IotDigitalTwinInstancesDataSourceCrud) VoidState() {
 
 func (s *IotDigitalTwinInstancesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_iot.ListDigitalTwinInstancesRequest{}
+
+	if connectivityType, ok := s.D.GetOkExists("connectivity_type"); ok {
+		request.ConnectivityType = oci_iot.ListDigitalTwinInstancesConnectivityTypeEnum(connectivityType.(string))
+	}
 
 	if digitalTwinModelId, ok := s.D.GetOkExists("digital_twin_model_id"); ok {
 		tmp := digitalTwinModelId.(string)
