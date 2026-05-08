@@ -54,6 +54,14 @@ variable "digital_twin_instance_content_should_include_metadata" {
   default = true
 }
 
+variable "digital_twin_instance_connectivity_type" {
+  default = "DIRECT"
+}
+
+variable "digital_twin_instance_gateways" {
+  default = []
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -71,9 +79,11 @@ resource "oci_iot_digital_twin_instance" "test_digital_twin_instance" {
   #defined_tags            = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.digital_twin_instance_defined_tags_value)
   description             = var.digital_twin_instance_description
   digital_twin_adapter_id = var.digital_twin_adapter_ocid
+  connectivity_type           = var.digital_twin_instance_connectivity_type
   display_name            = var.digital_twin_instance_display_name
   external_key            = var.digital_twin_instance_external_key
   freeform_tags           = var.digital_twin_instance_freeform_tags
+  gateways                    = var.digital_twin_instance_gateways
 }
 
 data "oci_iot_digital_twin_instances" "test_digital_twin_instances" {
@@ -81,6 +91,7 @@ data "oci_iot_digital_twin_instances" "test_digital_twin_instances" {
   iot_domain_id = var.iot_domain_ocid
 
   #Optional
+  connectivity_type           = var.digital_twin_instance_connectivity_type
   digital_twin_model_id       = var.digital_twin_model_ocid
   digital_twin_model_spec_uri = var.digital_twin_instance_digital_twin_model_spec_uri
   display_name                = var.digital_twin_instance_display_name

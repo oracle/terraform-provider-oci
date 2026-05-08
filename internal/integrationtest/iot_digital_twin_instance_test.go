@@ -41,6 +41,7 @@ var (
 
 	IotDigitalTwinInstanceDataSourceRepresentation = map[string]interface{}{
 		"iot_domain_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.iot_domain_id}`},
+		"connectivity_type":           acctest.Representation{RepType: acctest.Optional, Create: `DIRECT`},
 		"digital_twin_model_id":       acctest.Representation{RepType: acctest.Optional, Create: `${oci_iot_digital_twin_model.test_digital_twin_model.id}`},
 		"digital_twin_model_spec_uri": acctest.Representation{RepType: acctest.Optional, Create: `${oci_iot_digital_twin_model.test_digital_twin_model.spec_uri}`},
 		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
@@ -55,6 +56,7 @@ var (
 	IotDigitalTwinInstanceRepresentation = map[string]interface{}{
 		"auth_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.auth_id}`},
 		"iot_domain_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.iot_domain_id}`},
+		"connectivity_type":       acctest.Representation{RepType: acctest.Optional, Create: `DIRECT`},
 		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":             acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"digital_twin_adapter_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_iot_digital_twin_adapter.test_digital_twin_adapter.id}`},
@@ -119,6 +121,7 @@ func TestIotDigitalTwinInstanceResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_iot_digital_twin_instance", "test_digital_twin_instance", acctest.Optional, acctest.Create, IotDigitalTwinInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "auth_id"),
+				resource.TestCheckResourceAttr(resourceName, "connectivity_type", "DIRECT"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttrSet(resourceName, "digital_twin_adapter_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -147,6 +150,7 @@ func TestIotDigitalTwinInstanceResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_iot_digital_twin_instance", "test_digital_twin_instance", acctest.Optional, acctest.Update, IotDigitalTwinInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "auth_id"),
+				resource.TestCheckResourceAttr(resourceName, "connectivity_type", "DIRECT"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(resourceName, "digital_twin_adapter_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -173,6 +177,7 @@ func TestIotDigitalTwinInstanceResource_basic(t *testing.T) {
 				authIdVariableStr + iotDomainIdVariableStr + IotDigitalTwinInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_iot_digital_twin_instance", "test_digital_twin_instance", acctest.Optional, acctest.Update, IotDigitalTwinInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "connectivity_type", "DIRECT"),
 				resource.TestCheckResourceAttrSet(datasourceName, "digital_twin_model_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "digital_twin_model_spec_uri"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -192,6 +197,7 @@ func TestIotDigitalTwinInstanceResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "digital_twin_instance_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "connectivity_type", "DIRECT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "digital_twin_model_spec_uri"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
