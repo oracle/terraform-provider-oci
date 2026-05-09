@@ -508,7 +508,7 @@ func (s *CoreSubnetResourceCrud) SetData() error {
 
 	ipv6CidrBlock := s.D.Get("ipv6cidr_block").(string)
 	if len(s.Res.Ipv6CidrBlocks) > 0 && (isEmptyString(ipv6CidrBlock) || !isIpv6CidrBlockInList(ipv6CidrBlock, s.Res.Ipv6CidrBlocks)) {
-		err := s.D.Set("ipv6cidr_block", s.Res.Ipv6CidrBlocks[len(s.Res.Ipv6CidrBlocks)-1])
+		err := s.D.Set("ipv6cidr_block", s.Res.Ipv6CidrBlocks[0])
 		if err != nil {
 			return err
 		}
@@ -1017,10 +1017,16 @@ func (s *CoreSubnetResourceCrud) patchSubnet(changeSet subnetIpv6PatchChangeSet)
 }
 
 func (s *CoreSubnetResourceCrud) waitForWorkRequest(workRequestId *string) error {
-	var err error
-	err = nil
 	if workRequestId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workRequestId, "subnet", oci_work_requests.WorkRequestResourceActionTypeInProgress, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workRequestId, "subnet", oci_work_requests.WorkRequestResourceActionTypeInProgress, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+		// Core subnet work requests can reach a terminal top-level status while
+		// the matching work request resource action remains IN_PROGRESS. Re-read
+		// the work request so FAILED/CANCELED is surfaced to Terraform instead of
+		// treating the matching resource action as success.
+		return validateCoreWorkRequestStatus(context.Background(), s.WorkRequestClient, workRequestId, "subnet", s.DisableNotFoundRetries)
 	}
-	return err
+	return nil
 }

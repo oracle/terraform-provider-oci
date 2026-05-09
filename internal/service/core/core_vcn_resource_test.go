@@ -224,6 +224,114 @@ func diffHasByoipv6CidrDetailsIndexChanges(diff *terraform.InstanceDiff, index i
 	return false
 }
 
+func buildCoreVcnResourceDataForDiffTest(t *testing.T, stateAttrs map[string]string, diffAttrs map[string]*terraform.ResourceAttrDiff) *schema.ResourceData {
+	t.Helper()
+
+	schemaMap := schema.InternalMap(CoreVcnResource().Schema)
+	data, err := schemaMap.Data(&terraform.InstanceState{
+		ID:         "ocid1.vcn.oc1..exampleuniqueID",
+		Attributes: stateAttrs,
+	}, &terraform.InstanceDiff{
+		Attributes: diffAttrs,
+	})
+	if err != nil {
+		t.Fatalf("schemaMap.Data() error = %v", err)
+	}
+
+	return data
+}
+
+func TestOracleGuaCidrForRemoval(t *testing.T) {
+	const oracleGuaCidr = "2607:f590:0000:2200::/56"
+
+	tests := []struct {
+		name       string
+		stateAttrs map[string]string
+		diffAttrs  map[string]*terraform.ResourceAttrDiff
+		wantCidr   string
+		wantOK     bool
+	}{
+		{
+			name: "returns the only ipv6cidr_blocks value when oracle GUA is disabled",
+			stateAttrs: map[string]string{
+				"is_oracle_gua_allocation_enabled": "true",
+				"ipv6cidr_blocks.#":                "1",
+				"ipv6cidr_blocks.0":                oracleGuaCidr,
+			},
+			diffAttrs: map[string]*terraform.ResourceAttrDiff{
+				"is_oracle_gua_allocation_enabled": {
+					Old: "true",
+					New: "false",
+				},
+			},
+			wantCidr: oracleGuaCidr,
+			wantOK:   true,
+		},
+		{
+			name: "does not remove when oracle GUA is enabled",
+			stateAttrs: map[string]string{
+				"is_oracle_gua_allocation_enabled": "false",
+				"ipv6cidr_blocks.#":                "1",
+				"ipv6cidr_blocks.0":                oracleGuaCidr,
+			},
+			diffAttrs: map[string]*terraform.ResourceAttrDiff{
+				"is_oracle_gua_allocation_enabled": {
+					Old: "false",
+					New: "true",
+				},
+			},
+		},
+		{
+			name: "does not remove when oracle GUA is unchanged",
+			stateAttrs: map[string]string{
+				"is_oracle_gua_allocation_enabled": "true",
+				"ipv6cidr_blocks.#":                "1",
+				"ipv6cidr_blocks.0":                oracleGuaCidr,
+			},
+			diffAttrs: map[string]*terraform.ResourceAttrDiff{},
+		},
+		{
+			name: "does not remove when more than one ipv6cidr_blocks value exists",
+			stateAttrs: map[string]string{
+				"is_oracle_gua_allocation_enabled": "true",
+				"ipv6cidr_blocks.#":                "2",
+				"ipv6cidr_blocks.0":                oracleGuaCidr,
+				"ipv6cidr_blocks.1":                "2607:f590:0000:2300::/56",
+			},
+			diffAttrs: map[string]*terraform.ResourceAttrDiff{
+				"is_oracle_gua_allocation_enabled": {
+					Old: "true",
+					New: "false",
+				},
+			},
+		},
+		{
+			name: "does not remove when no ipv6cidr_blocks value exists",
+			stateAttrs: map[string]string{
+				"is_oracle_gua_allocation_enabled": "true",
+				"ipv6cidr_blocks.#":                "0",
+			},
+			diffAttrs: map[string]*terraform.ResourceAttrDiff{
+				"is_oracle_gua_allocation_enabled": {
+					Old: "true",
+					New: "false",
+				},
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			d := buildCoreVcnResourceDataForDiffTest(t, tt.stateAttrs, tt.diffAttrs)
+
+			gotCidr, gotOK := oracleGuaCidrForRemoval(d)
+			if gotOK != tt.wantOK || gotCidr != tt.wantCidr {
+				t.Fatalf("oracleGuaCidrForRemoval() = (%q, %v), want (%q, %v)", gotCidr, gotOK, tt.wantCidr, tt.wantOK)
+			}
+		})
+	}
+}
+
 func TestSuppressMatchingByoipv6CidrDetailsDiff(t *testing.T) {
 	type fields struct {
 		stateRaw map[string]interface{}

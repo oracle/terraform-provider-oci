@@ -1,17 +1,117 @@
 package core
 
 import (
+	"context"
 	"reflect"
+	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 )
 
 func testByoipv6Detail(rangeID string, cidr string) oci_core.Byoipv6CidrDetails {
 	return oci_core.Byoipv6CidrDetails{
 		Byoipv6RangeId: &rangeID,
 		Ipv6CidrBlock:  &cidr,
+	}
+}
+
+type mockCoreWorkRequestClient struct {
+	status               oci_work_requests.WorkRequestStatusEnum
+	errorMessages        []string
+	getErr               error
+	listErr              error
+	getRetryPolicySeen   bool
+	listRetryPolicySeen  bool
+	listErrorsWasInvoked bool
+}
+
+func (m *mockCoreWorkRequestClient) GetWorkRequest(_ context.Context, request oci_work_requests.GetWorkRequestRequest) (oci_work_requests.GetWorkRequestResponse, error) {
+	m.getRetryPolicySeen = request.RequestMetadata.RetryPolicy != nil
+	return oci_work_requests.GetWorkRequestResponse{
+		WorkRequest: oci_work_requests.WorkRequest{
+			Status: m.status,
+		},
+	}, m.getErr
+}
+
+func (m *mockCoreWorkRequestClient) ListWorkRequestErrors(_ context.Context, request oci_work_requests.ListWorkRequestErrorsRequest) (oci_work_requests.ListWorkRequestErrorsResponse, error) {
+	m.listErrorsWasInvoked = true
+	m.listRetryPolicySeen = request.RequestMetadata.RetryPolicy != nil
+	items := make([]oci_work_requests.WorkRequestError, 0, len(m.errorMessages))
+	for _, message := range m.errorMessages {
+		msg := message
+		items = append(items, oci_work_requests.WorkRequestError{Message: &msg})
+	}
+	return oci_work_requests.ListWorkRequestErrorsResponse{
+		Items: items,
+	}, m.listErr
+}
+
+func TestValidateCoreWorkRequestStatus(t *testing.T) {
+	workRequestID := "ocid1.coreservicesworkrequest.oc1..example"
+
+	// This covers Core work requests where the generic waiter can find the
+	// expected resource/action even though the top-level work request status is
+	// already FAILED or CANCELED.
+	tests := []struct {
+		name                 string
+		client               *mockCoreWorkRequestClient
+		wantErrContains      string
+		wantListErrorsCalled bool
+	}{
+		{
+			name: "succeeded work request returns nil",
+			client: &mockCoreWorkRequestClient{
+				status: oci_work_requests.WorkRequestStatusSucceeded,
+			},
+		},
+		{
+			name: "failed work request returns listed error",
+			client: &mockCoreWorkRequestClient{
+				status:        oci_work_requests.WorkRequestStatusFailed,
+				errorMessages: []string{"cannot remove IPv6 CIDR while a subnet uses it"},
+			},
+			wantErrContains:      "cannot remove IPv6 CIDR while a subnet uses it",
+			wantListErrorsCalled: true,
+		},
+		{
+			name: "canceled work request returns error without listed details",
+			client: &mockCoreWorkRequestClient{
+				status: oci_work_requests.WorkRequestStatusCanceled,
+			},
+			wantErrContains:      "status: CANCELED",
+			wantListErrorsCalled: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := validateCoreWorkRequestStatus(context.Background(), tt.client, &workRequestID, "vcn", false)
+
+			if tt.wantErrContains == "" && err != nil {
+				t.Fatalf("validateCoreWorkRequestStatus() returned error: %v", err)
+			}
+			if tt.wantErrContains != "" {
+				if err == nil {
+					t.Fatalf("validateCoreWorkRequestStatus() returned nil error, want %q", tt.wantErrContains)
+				}
+				if !strings.Contains(err.Error(), tt.wantErrContains) {
+					t.Fatalf("validateCoreWorkRequestStatus() error = %q, want substring %q", err.Error(), tt.wantErrContains)
+				}
+			}
+			if !tt.client.getRetryPolicySeen {
+				t.Fatal("expected GetWorkRequest to use a retry policy")
+			}
+			if tt.client.listErrorsWasInvoked != tt.wantListErrorsCalled {
+				t.Fatalf("ListWorkRequestErrors called = %v, want %v", tt.client.listErrorsWasInvoked, tt.wantListErrorsCalled)
+			}
+			if tt.wantListErrorsCalled && !tt.client.listRetryPolicySeen {
+				t.Fatal("expected ListWorkRequestErrors to use a retry policy")
+			}
+		})
 	}
 }
 

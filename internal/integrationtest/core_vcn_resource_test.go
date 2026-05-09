@@ -230,6 +230,9 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 					resource "oci_core_virtual_network" "t" {
 						cidr_block = "10.0.0.0/16"
 						compartment_id = "${var.compartment_id}"
+						is_ipv6enabled = true
+						is_oracle_gua_allocation_enabled = false
+						ipv6private_cidr_blocks = ["fc01::/48"]
 					}`,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
@@ -238,7 +241,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VcnLifecycleStateAvailable)),
-					resource.TestCheckResourceAttr(s.ResourceName, "is_ipv6enabled", "false"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_ipv6enabled", "true"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "vcn_domain_name"),
 					func(s *terraform.State) (err error) {
@@ -255,7 +258,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 						compartment_id = "${var.compartment_id}"
 						is_ipv6enabled = true
   						is_oracle_gua_allocation_enabled = false
-						ipv6private_cidr_blocks = ["fc00::/48"]
+						ipv6private_cidr_blocks = ["fc00::/48","fc01::/48"]
 					}`,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
@@ -264,7 +267,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VcnLifecycleStateAvailable)),
-					resource.TestCheckResourceAttr(s.ResourceName, "ipv6private_cidr_blocks.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ipv6private_cidr_blocks.#", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "is_ipv6enabled", "true"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ipv6cidr_blocks.#", "0"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
@@ -286,7 +289,7 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 						compartment_id = "${var.compartment_id}"
 						is_ipv6enabled = true
   						is_oracle_gua_allocation_enabled = true
-						ipv6private_cidr_blocks = ["fc00::/48"]
+						ipv6private_cidr_blocks = ["fc00::/48","fc01::/48"]
 					}`,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
@@ -295,9 +298,41 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VcnLifecycleStateAvailable)),
-					resource.TestCheckResourceAttr(s.ResourceName, "ipv6private_cidr_blocks.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ipv6private_cidr_blocks.#", "2"),
 					resource.TestCheckResourceAttr(s.ResourceName, "ipv6cidr_blocks.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "is_ipv6enabled", "true"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
+					resource.TestCheckNoResourceAttr(s.ResourceName, "vcn_domain_name"),
+					func(s *terraform.State) (err error) {
+						resId2, err := acctest.FromInstanceState(s, "oci_core_virtual_network.t", "id")
+						if resId != resId2 {
+							return fmt.Errorf("expected same vcn ocid, got different")
+						}
+						return err
+					},
+				),
+			},
+			// Step disable Oracle GUA allocation and remove the only Oracle-allocated GUA CIDR.
+			{
+				Config: s.Config + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						is_ipv6enabled = true
+  						is_oracle_gua_allocation_enabled = false
+						ipv6private_cidr_blocks = ["fc00::/48","fc01::/48"]
+					}`,
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", "10.0.0.0/16"),
+					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VcnLifecycleStateAvailable)),
+					resource.TestCheckResourceAttr(s.ResourceName, "ipv6private_cidr_blocks.#", "2"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ipv6cidr_blocks.#", "0"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_ipv6enabled", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_oracle_gua_allocation_enabled", "false"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "vcn_domain_name"),
 					func(s *terraform.State) (err error) {
@@ -316,8 +351,8 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 						cidr_block = "10.0.0.0/16"
 						compartment_id = "${var.compartment_id}"
 						is_ipv6enabled = true
-  						is_oracle_gua_allocation_enabled = true
-						ipv6private_cidr_blocks = []
+  						is_oracle_gua_allocation_enabled = false
+						ipv6private_cidr_blocks = ["fc01::/48"]
 					}`,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
@@ -326,9 +361,10 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", "10.0.0.0/16"),
 					resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VcnLifecycleStateAvailable)),
-					resource.TestCheckResourceAttr(s.ResourceName, "ipv6private_cidr_blocks.#", "0"),
-					resource.TestCheckResourceAttr(s.ResourceName, "ipv6cidr_blocks.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ipv6private_cidr_blocks.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "ipv6cidr_blocks.#", "0"),
 					resource.TestCheckResourceAttr(s.ResourceName, "is_ipv6enabled", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_oracle_gua_allocation_enabled", "false"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
 					resource.TestCheckNoResourceAttr(s.ResourceName, "vcn_domain_name"),
 					func(s *terraform.State) (err error) {
@@ -342,6 +378,80 @@ func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_
 			},
 		},
 	})
+}
+
+func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_GUA_byoipv6() {
+	var resId string
+	byoipv6RangeId := acctest.GetEnvSettingWithDefaultVar("byoipv6_range_id", "unknown")
+	if byoipv6RangeId != "unknown" {
+		resource.Test(s.T(), resource.TestCase{
+			Providers: s.Providers,
+			Steps: []resource.TestStep{
+				// test Create ipv6enabled and GUA allocation enabled
+				{
+					Config: s.Config + `
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						is_ipv6enabled = true
+						is_oracle_gua_allocation_enabled = true
+					}`,
+					Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+						resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
+						resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
+						resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+						resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+						resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", "10.0.0.0/16"),
+						resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VcnLifecycleStateAvailable)),
+						resource.TestCheckResourceAttr(s.ResourceName, "is_ipv6enabled", "true"),
+						resource.TestCheckResourceAttr(s.ResourceName, "ipv6cidr_blocks.#", "1"),
+						resource.TestCheckResourceAttr(s.ResourceName, "is_oracle_gua_allocation_enabled", "true"),
+						resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
+						resource.TestCheckNoResourceAttr(s.ResourceName, "vcn_domain_name"),
+						func(s *terraform.State) (err error) {
+							resId, err = acctest.FromInstanceState(s, "oci_core_virtual_network.t", "id")
+							return err
+						},
+					),
+				},
+				// Test Disable GUA and add a BYOIP prefix
+				{
+					Config: s.Config + fmt.Sprintf(`
+					resource "oci_core_virtual_network" "t" {
+						cidr_block = "10.0.0.0/16"
+						compartment_id = "${var.compartment_id}"
+						is_ipv6enabled = true
+  						is_oracle_gua_allocation_enabled = false
+						byoipv6cidr_details {
+          					byoipv6range_id = %q
+          					ipv6cidr_block  = "2607:f590:0000:2200::/64"
+                        }
+					}`, byoipv6RangeId),
+					Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+						resource.TestCheckResourceAttrSet(s.ResourceName, "default_route_table_id"),
+						resource.TestCheckResourceAttrSet(s.ResourceName, "default_security_list_id"),
+						resource.TestCheckResourceAttrSet(s.ResourceName, "display_name"),
+						resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+						resource.TestCheckResourceAttr(s.ResourceName, "cidr_block", "10.0.0.0/16"),
+						resource.TestCheckResourceAttr(s.ResourceName, "state", string(core.VcnLifecycleStateAvailable)),
+						resource.TestCheckResourceAttr(s.ResourceName, "byoipv6cidr_blocks.#", "1"),
+						resource.TestCheckResourceAttr(s.ResourceName, "is_ipv6enabled", "true"),
+						resource.TestCheckResourceAttr(s.ResourceName, "ipv6cidr_blocks.#", "0"),
+						resource.TestCheckResourceAttr(s.ResourceName, "is_oracle_gua_allocation_enabled", "false"),
+						resource.TestCheckNoResourceAttr(s.ResourceName, "dns_label"),
+						resource.TestCheckNoResourceAttr(s.ResourceName, "vcn_domain_name"),
+						func(s *terraform.State) (err error) {
+							resId2, err := acctest.FromInstanceState(s, "oci_core_virtual_network.t", "id")
+							if resId != resId2 {
+								return fmt.Errorf("expected same vcn ocid, got different")
+							}
+							return err
+						},
+					),
+				},
+			},
+		})
+	}
 }
 
 func (s *ResourceCoreVirtualNetworkTestSuite) TestAccResourceCoreVirtualNetwork_byoipv6() {
