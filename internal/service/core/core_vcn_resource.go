@@ -432,6 +432,14 @@ func (s *CoreVcnResourceCrud) Update() error {
 		}
 	}
 
+	removedOracleGuaCidr := false
+	if cidr, ok := oracleGuaCidrForRemoval(s.D); ok {
+		if err := s.removeIpv6VcnCidr(cidr); err != nil {
+			return err
+		}
+		removedOracleGuaCidr = true
+	}
+
 	if _, ok := s.D.GetOkExists("cidr_blocks"); ok && s.D.HasChange("cidr_blocks") {
 		oldRaw, newRaw := s.D.GetChange("cidr_blocks")
 		if newRaw != "" && oldRaw != "" {
@@ -457,11 +465,50 @@ func (s *CoreVcnResourceCrud) Update() error {
 		return nil
 	}
 
-	if shouldUsePatch || s.Res == nil {
+	if shouldUsePatch || removedOracleGuaCidr || s.Res == nil {
 		return s.Get()
 	}
 
 	return nil
+}
+
+func oracleGuaCidrForRemoval(d *schema.ResourceData) (string, bool) {
+	if d == nil || !d.HasChange("is_oracle_gua_allocation_enabled") {
+		return "", false
+	}
+
+	_, newRaw := d.GetChange("is_oracle_gua_allocation_enabled")
+	newValue, ok := newRaw.(bool)
+	if !ok || newValue {
+		return "", false
+	}
+
+	ipv6CidrBlocksRaw, ok := d.GetOkExists("ipv6cidr_blocks")
+	if !ok {
+		return "", false
+	}
+
+	ipv6CidrBlocks := interfaceSliceToStringSlice(ipv6CidrBlocksRaw)
+	if len(ipv6CidrBlocks) != 1 || ipv6CidrBlocks[0] == "" {
+		return "", false
+	}
+
+	return ipv6CidrBlocks[0], true
+}
+
+func (s *CoreVcnResourceCrud) removeIpv6VcnCidr(cidr string) error {
+	removeIpv6VcnCidrRequest := oci_core.RemoveIpv6VcnCidrRequest{}
+	removeVcnIpv6CidrDetails := oci_core.RemoveVcnIpv6CidrDetails{}
+	idTmp := s.D.Id()
+	removeIpv6VcnCidrRequest.VcnId = &idTmp
+	removeIpv6VcnCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+	removeVcnIpv6CidrDetails.Ipv6CidrBlock = &cidr
+	removeIpv6VcnCidrRequest.RemoveVcnIpv6CidrDetails = removeVcnIpv6CidrDetails
+	response, err := s.Client.RemoveIpv6VcnCidr(context.Background(), removeIpv6VcnCidrRequest)
+	if err != nil {
+		return err
+	}
+	return s.waitForWorkRequest(response.OpcWorkRequestId)
 }
 
 func (s *CoreVcnResourceCrud) updateByoIpv6CidrBlocks(oldByoipCidrDetails []oci_core.Byoipv6CidrDetails, newByoipCidrDetails []oci_core.Byoipv6CidrDetails) error {
@@ -657,11 +704,18 @@ func (s *CoreVcnResourceCrud) buildUpdateVcnRequest() (oci_core.UpdateVcnRequest
 }
 
 func (s *CoreVcnResourceCrud) waitForWorkRequest(workRequestId *string) error {
-	var err error
 	if workRequestId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workRequestId, "vcn", oci_work_requests.WorkRequestResourceActionTypeInProgress, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workRequestId, "vcn", oci_work_requests.WorkRequestResourceActionTypeInProgress, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+		// Core VCN work requests can reach a terminal top-level status while the
+		// matching work request resource action remains IN_PROGRESS. Re-read the
+		// work request so FAILED/CANCELED is surfaced to Terraform instead of
+		// treating the matching resource action as success.
+		return validateCoreWorkRequestStatus(context.Background(), s.WorkRequestClient, workRequestId, "vcn", s.DisableNotFoundRetries)
 	}
-	return err
+	return nil
 }
 
 func (s *CoreVcnResourceCrud) Delete() error {

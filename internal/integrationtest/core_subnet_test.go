@@ -577,12 +577,13 @@ func TestCoreSubnetResource_SubnetPatch(t *testing.T) {
 	blocksAfterMultiReplace[len(blocksAfterMultiReplace)/2-1] = vcnByoIpv6Cidrs[7]
 	blocksAfterMultiReplace[len(blocksAfterMultiReplace)/2] = vcnByoIpv6Cidrs[12]
 	blocksAfterReorder := append([]string{blocksAfterMultiReplace[1], blocksAfterMultiReplace[2], blocksAfterMultiReplace[0]}, blocksAfterMultiReplace[3:]...)
-	//removedBeginningBlock := blocksAfterReorder[0]
-	blocksAfterBeginningRemoval := append([]string{}, blocksAfterReorder[1:]...)
-	lastBlockAfterBeginningRemoval := blocksAfterBeginningRemoval[len(blocksAfterBeginningRemoval)-1]
-	middleRemovalIndex := len(blocksAfterBeginningRemoval) / 2
-	blocksAfterMiddleRemoval := append([]string{}, blocksAfterBeginningRemoval[:middleRemovalIndex]...)
-	blocksAfterMiddleRemoval = append(blocksAfterMiddleRemoval, blocksAfterBeginningRemoval[middleRemovalIndex+1:]...)
+	scalarBlockIndexAfterReorder := 2
+	blocksAfterScalarRemoval := append([]string{}, blocksAfterReorder[:scalarBlockIndexAfterReorder]...)
+	blocksAfterScalarRemoval = append(blocksAfterScalarRemoval, blocksAfterReorder[scalarBlockIndexAfterReorder+1:]...)
+	firstBlockAfterScalarRemoval := blocksAfterScalarRemoval[0]
+	middleRemovalIndex := len(blocksAfterScalarRemoval) / 2
+	blocksAfterMiddleRemoval := append([]string{}, blocksAfterScalarRemoval[:middleRemovalIndex]...)
+	blocksAfterMiddleRemoval = append(blocksAfterMiddleRemoval, blocksAfterScalarRemoval[middleRemovalIndex+1:]...)
 	blocksAfterEndRemoval := append([]string{}, blocksAfterMiddleRemoval[:len(blocksAfterMiddleRemoval)-1]...)
 
 	acctest.ResourceTest(t, testAccCheckCoreSubnetDestroy, []resource.TestStep{
@@ -743,10 +744,10 @@ func TestCoreSubnetResource_SubnetPatch(t *testing.T) {
 			),
 		},
 		// Step 10 - Remove block A from ipv6cidr_blocks while ipv6cidr_block still
-		// points at A. State should replace ipv6cidr_block with the last remaining
+		// points at A. State should replace ipv6cidr_block with the first remaining
 		// cidr from ipv6cidr_blocks.
 		{
-			Config: coreSubnetPatchByoIpv6Config(byoipv6RangeId, vcnByoIpv6Cidrs, "", blocksAfterBeginningRemoval, true),
+			Config: coreSubnetPatchByoIpv6Config(byoipv6RangeId, vcnByoIpv6Cidrs, "", blocksAfterScalarRemoval, true),
 			ConfigPlanChecks: resource.ConfigPlanChecks{
 				PreApply: []plancheck.PlanCheck{
 					plancheck.ExpectResourceAction(resourceName, plancheck.ResourceActionUpdate),
@@ -760,10 +761,10 @@ func TestCoreSubnetResource_SubnetPatch(t *testing.T) {
 				},
 			},
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", strconv.Itoa(len(blocksAfterBeginningRemoval))),
-				testCheckCanonicalTypeSetContains(resourceName, "ipv6cidr_blocks", blocksAfterBeginningRemoval),
-				testCheckCanonicalListEquals(resourceName, "ipv6cidr_blocks", blocksAfterBeginningRemoval),
-				testCheckCanonicalResourceAttrEqualsLiteral(resourceName, "ipv6cidr_block", lastBlockAfterBeginningRemoval),
+				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", strconv.Itoa(len(blocksAfterScalarRemoval))),
+				testCheckCanonicalTypeSetContains(resourceName, "ipv6cidr_blocks", blocksAfterScalarRemoval),
+				testCheckCanonicalListEquals(resourceName, "ipv6cidr_blocks", blocksAfterScalarRemoval),
+				testCheckCanonicalResourceAttrEqualsLiteral(resourceName, "ipv6cidr_block", firstBlockAfterScalarRemoval),
 			),
 		},
 		// Step 11 - Remove a cidr block from the middle of the Subnet's ipv6cidr_blocks field.

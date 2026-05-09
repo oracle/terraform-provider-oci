@@ -12,12 +12,19 @@ import (
 	"strings"
 
 	"github.com/hashicorp/go-cty/cty"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
+	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 )
+
+type coreWorkRequestClient interface {
+	GetWorkRequest(context.Context, oci_work_requests.GetWorkRequestRequest) (oci_work_requests.GetWorkRequestResponse, error)
+	ListWorkRequestErrors(context.Context, oci_work_requests.ListWorkRequestErrorsRequest) (oci_work_requests.ListWorkRequestErrorsResponse, error)
+}
 
 // This applies the differences between the regular schema and the one
 // we supply for default resources, and returns the schema for a default resource
@@ -50,6 +57,63 @@ func ConvertToDefaultVcnResourceSchema(resourceSchema *schema.Resource) *schema.
 func ImportDefaultVcnResource(d *schema.ResourceData, value interface{}) ([]*schema.ResourceData, error) {
 	err := d.Set("manage_default_resource_id", d.Id())
 	return []*schema.ResourceData{d}, err
+}
+
+// validateCoreWorkRequestStatus is intentionally scoped to Core VCN/Subnet
+// callers. For these Core work requests, the top-level status is authoritative
+// when it disagrees with a matching resource action that still reports
+// IN_PROGRESS after the generic waiter returns.
+func validateCoreWorkRequestStatus(ctx context.Context, workRequestClient coreWorkRequestClient, workRequestId *string, entityType string, disableFoundRetries bool) error {
+	if workRequestId == nil {
+		return nil
+	}
+
+	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "work_request")
+	request := oci_work_requests.GetWorkRequestRequest{
+		WorkRequestId: workRequestId,
+	}
+	request.RequestMetadata.RetryPolicy = retryPolicy
+
+	response, err := workRequestClient.GetWorkRequest(ctx, request)
+	if err != nil {
+		return err
+	}
+
+	switch response.Status {
+	case oci_work_requests.WorkRequestStatusFailed, oci_work_requests.WorkRequestStatusCanceled:
+		return coreWorkRequestStatusError(ctx, workRequestClient, workRequestId, retryPolicy, entityType, response.Status)
+	default:
+		return nil
+	}
+}
+
+// coreWorkRequestStatusError returns the service-provided error messages for a
+// terminal failed/canceled Core work request, falling back to a deterministic
+// message when the work request has no error entries.
+func coreWorkRequestStatusError(ctx context.Context, workRequestClient coreWorkRequestClient, workRequestId *string, retryPolicy *oci_common.RetryPolicy, entityType string, status oci_work_requests.WorkRequestStatusEnum) error {
+	request := oci_work_requests.ListWorkRequestErrorsRequest{
+		WorkRequestId: workRequestId,
+	}
+	request.RequestMetadata.RetryPolicy = retryPolicy
+
+	response, err := workRequestClient.ListWorkRequestErrors(ctx, request)
+	if err != nil {
+		return err
+	}
+
+	errorMessages := make([]string, 0, len(response.Items))
+	for _, workRequestError := range response.Items {
+		if workRequestError.Message != nil {
+			errorMessages = append(errorMessages, *workRequestError.Message)
+		}
+	}
+
+	errorMessage := strings.Join(errorMessages, "\n")
+	if errorMessage == "" {
+		errorMessage = "no work request error details were returned"
+	}
+
+	return fmt.Errorf("work request did not succeed, workId: %s, entity: %s, status: %s. Message: %s", *workRequestId, entityType, status, errorMessage)
 }
 
 func LaunchOptionsToMap(obj *oci_core.LaunchOptions) map[string]interface{} {

@@ -68,17 +68,17 @@ func TestCoreSubnetResourceCrudSetData(t *testing.T) {
 		expectedIpv6Cidr string
 	}{
 		{
-			name: "Set ipv6cidr_block from last ipv6cidr_blocks entry",
+			name: "Set ipv6cidr_block from first ipv6cidr_blocks entry",
 			subnet: oci_core.Subnet{
 				Ipv6CidrBlocks: []string{
 					"2607:9b80:9a0c:ac00:0000:0000:0000:0000/64",
 					"fc00:1000:0000:0000:0000:0000:0000:0000/64",
 				},
 			},
-			expectedIpv6Cidr: "fc00:1000:0000:0000:0000:0000:0000:0000/64",
+			expectedIpv6Cidr: "2607:9b80:9a0c:ac00:0000:0000:0000:0000/64",
 		},
 		{
-			name: "Set ipv6cidr_block from last ipv6cidr_blocks entry when scalar is not in list",
+			name: "Set ipv6cidr_block from first ipv6cidr_blocks entry when scalar is not in list",
 			subnet: oci_core.Subnet{
 				Ipv6CidrBlock: &singular,
 				Ipv6CidrBlocks: []string{
@@ -86,7 +86,7 @@ func TestCoreSubnetResourceCrudSetData(t *testing.T) {
 					"fc00:1001:0000:0000:0000:0000:0000:0000/64",
 				},
 			},
-			expectedIpv6Cidr: "fc00:1001:0000:0000:0000:0000:0000:0000/64",
+			expectedIpv6Cidr: "fc00:1000:0000:0000:0000:0000:0000:0000/64",
 		},
 		{
 			name: "Keep ipv6cidr_block when it is present in ipv6cidr_blocks",
@@ -135,7 +135,7 @@ func TestCoreSubnetResourceCrudSetData(t *testing.T) {
 			expectedIpv6Cidr: "",
 		},
 		{
-			name: "Trim spaces when comparing values - Set ipv6cidr_block from last ipv6cidr_blocks entry when scalar is not in list",
+			name: "Trim spaces when comparing values - Set ipv6cidr_block from first ipv6cidr_blocks entry when scalar is not in list",
 			subnet: oci_core.Subnet{
 				Ipv6CidrBlock: &singularWithSpace,
 				Ipv6CidrBlocks: []string{
@@ -143,7 +143,7 @@ func TestCoreSubnetResourceCrudSetData(t *testing.T) {
 					"fc00:1001:0000:0000:0000:0000:0000:0000/64",
 				},
 			},
-			expectedIpv6Cidr: "fc00:1001:0000:0000:0000:0000:0000:0000/64",
+			expectedIpv6Cidr: "fc00:1000:0000:0000:0000:0000:0000:0000/64",
 		},
 		{
 			name: "Trim spaces when comparing values - Prefer ipv6cidr_blocks when ipv6cidr_block is just a space",
@@ -154,7 +154,7 @@ func TestCoreSubnetResourceCrudSetData(t *testing.T) {
 					"fc00:1001:0000:0000:0000:0000:0000:0000/64",
 				},
 			},
-			expectedIpv6Cidr: "fc00:1001:0000:0000:0000:0000:0000:0000/64",
+			expectedIpv6Cidr: "fc00:1000:0000:0000:0000:0000:0000:0000/64",
 		},
 		{
 			name: "Trim spaces when comparing values - Prefer ipv6cidr_blocks when ipv6cidr_block is a string of white spaces",
@@ -165,7 +165,7 @@ func TestCoreSubnetResourceCrudSetData(t *testing.T) {
 					"fc00:1001:0000:0000:0000:0000:0000:0000/64",
 				},
 			},
-			expectedIpv6Cidr: "fc00:1001:0000:0000:0000:0000:0000:0000/64",
+			expectedIpv6Cidr: "fc00:1000:0000:0000:0000:0000:0000:0000/64",
 		},
 	}
 
