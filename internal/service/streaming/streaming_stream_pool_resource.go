@@ -6,12 +6,16 @@ package streaming
 import (
 	"context"
 	"fmt"
+	"strings"
+	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_streaming "github.com/oracle/oci-go-sdk/v65/streaming"
 )
 
@@ -329,8 +333,128 @@ func (s *StreamingStreamPoolResourceCrud) Create() error {
 		return err
 	}
 
-	s.Res = &response.StreamPool
-	return nil
+	workId := response.OpcWorkRequestId
+	var identifier *string
+	identifier = response.Id
+	if identifier != nil {
+		s.D.SetId(*identifier)
+	}
+	return s.getStreamPoolFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming"), oci_streaming.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+}
+
+func (s *StreamingStreamPoolResourceCrud) getStreamPoolFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+	actionTypeEnum oci_streaming.ActionTypeEnum, timeout time.Duration) error {
+
+	// Wait until it finishes
+	streamPoolId, err := streamPoolWaitForWorkRequest(workId, "stream_pool",
+		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
+
+	if err != nil {
+		return err
+	}
+	s.D.SetId(*streamPoolId)
+
+	return s.Get()
+}
+
+func streamPoolWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
+	startTime := time.Now()
+	stopTime := startTime.Add(timeout)
+	return func(response oci_common.OCIOperationResponse) bool {
+
+		// Stop after timeout has elapsed
+		if time.Now().After(stopTime) {
+			return false
+		}
+
+		// Make sure we stop on default rules
+		if tfresource.ShouldRetry(response, false, "streaming", startTime) {
+			return true
+		}
+
+		// Only stop if the time Finished is set
+		if workRequestResponse, ok := response.Response.(oci_streaming.GetWorkRequestResponse); ok {
+			return workRequestResponse.TimeFinished == nil
+		}
+		return false
+	}
+}
+
+func streamPoolWaitForWorkRequest(wId *string, entityType string, action oci_streaming.ActionTypeEnum,
+	timeout time.Duration, disableFoundRetries bool, client *oci_streaming.StreamAdminClient) (*string, error) {
+	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "streaming")
+	retryPolicy.ShouldRetryOperation = streamPoolWorkRequestShouldRetryFunc(timeout)
+
+	response := oci_streaming.GetWorkRequestResponse{}
+	stateConf := &retry.StateChangeConf{
+		Pending: []string{
+			string(oci_streaming.OperationStatusInProgress),
+			string(oci_streaming.OperationStatusAccepted),
+			string(oci_streaming.OperationStatusCanceling),
+		},
+		Target: []string{
+			string(oci_streaming.OperationStatusSucceeded),
+			string(oci_streaming.OperationStatusFailed),
+			string(oci_streaming.OperationStatusCanceled),
+		},
+		Refresh: func() (interface{}, string, error) {
+			var err error
+			response, err = client.GetWorkRequest(context.Background(),
+				oci_streaming.GetWorkRequestRequest{
+					WorkRequestId: wId,
+					RequestMetadata: oci_common.RequestMetadata{
+						RetryPolicy: retryPolicy,
+					},
+				})
+			wr := &response.WorkRequest
+			return wr, string(wr.Status), err
+		},
+		Timeout: timeout,
+	}
+	if _, e := stateConf.WaitForState(); e != nil {
+		return nil, e
+	}
+
+	var identifier *string
+	// The work request response contains an array of objects that finished the operation
+	for _, res := range response.Resources {
+		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
+			if res.ActionType == action {
+				identifier = res.Identifier
+				break
+			}
+		}
+	}
+
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	if identifier == nil || response.Status == oci_streaming.OperationStatusFailed || response.Status == oci_streaming.OperationStatusCanceled {
+		return nil, getErrorFromStreamingStreamPoolWorkRequest(client, wId, retryPolicy, entityType, action)
+	}
+
+	return identifier, nil
+}
+
+func getErrorFromStreamingStreamPoolWorkRequest(client *oci_streaming.StreamAdminClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_streaming.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
+		oci_streaming.ListWorkRequestErrorsRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		})
+	if err != nil {
+		return err
+	}
+
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
+
+	return workRequestErr
 }
 
 func (s *StreamingStreamPoolResourceCrud) Get() error {
@@ -415,8 +539,8 @@ func (s *StreamingStreamPoolResourceCrud) Update() error {
 		return err
 	}
 
-	s.Res = &response.StreamPool
-	return nil
+	workId := response.OpcWorkRequestId
+	return s.getStreamPoolFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming"), oci_streaming.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *StreamingStreamPoolResourceCrud) Delete() error {
@@ -427,8 +551,16 @@ func (s *StreamingStreamPoolResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
-	_, err := s.Client.DeleteStreamPool(context.Background(), request)
-	return err
+	response, err := s.Client.DeleteStreamPool(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	// Wait until it finishes
+	_, delWorkRequestErr := streamPoolWaitForWorkRequest(workId, "stream_pool",
+		oci_streaming.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
+	return delWorkRequestErr
 }
 
 func (s *StreamingStreamPoolResourceCrud) SetData() error {
@@ -618,14 +750,11 @@ func (s *StreamingStreamPoolResourceCrud) updateCompartment(compartment interfac
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
-	_, err := s.Client.ChangeStreamPoolCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeStreamPoolCompartment(context.Background(), changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
-		return waitErr
-	}
-
-	return nil
+	workId := response.OpcWorkRequestId
+	return s.getStreamPoolFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming"), oci_streaming.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
