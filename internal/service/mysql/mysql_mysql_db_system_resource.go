@@ -373,7 +373,38 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"ipv6address_ipv6subnet_cidr_pair_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"ipv6address": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"ipv6subnet_cidr": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"is_highly_available": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"is_ipv6enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
@@ -501,6 +532,32 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"read_endpoint_ipv6address_ipv6subnet_cidr_pair_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"ipv6address": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"ipv6subnet_cidr": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
 						},
 
 						// Computed
@@ -865,6 +922,10 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"must_use_ipv6on_dual_stack": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
 									"port": {
 										Type:     schema.TypeInt,
 										Computed: true,
@@ -1019,6 +1080,10 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 							Computed: true,
 						},
 						"ip_address": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"ip_address_version": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -1427,9 +1492,25 @@ func (s *MysqlMysqlDbSystemResourceCrud) Create() error {
 		request.IpAddress = &tmp
 	}
 
+	if ipv6AddressIpv6SubnetCidrPairDetails, ok := s.D.GetOkExists("ipv6address_ipv6subnet_cidr_pair_details"); ok {
+		if tmpList := ipv6AddressIpv6SubnetCidrPairDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ipv6address_ipv6subnet_cidr_pair_details", 0)
+			tmp, err := s.mapToIpv6AddressIpv6SubnetCidrPairDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Ipv6AddressIpv6SubnetCidrPairDetails = &tmp
+		}
+	}
+
 	if isHighlyAvailable, ok := s.D.GetOkExists("is_highly_available"); ok {
 		tmp := isHighlyAvailable.(bool)
 		request.IsHighlyAvailable = &tmp
+	}
+
+	if isIpv6Enabled, ok := s.D.GetOkExists("is_ipv6enabled"); ok {
+		tmp := isIpv6Enabled.(bool)
+		request.IsIpv6Enabled = &tmp
 	}
 
 	if maintenance, ok := s.D.GetOkExists("maintenance"); ok {
@@ -1704,9 +1785,25 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 		request.HostnameLabel = &tmp
 	}
 
+	if ipv6AddressIpv6SubnetCidrPairDetails, ok := s.D.GetOkExists("ipv6address_ipv6subnet_cidr_pair_details"); ok && s.D.HasChange("ipv6address_ipv6subnet_cidr_pair_details") {
+		if tmpList := ipv6AddressIpv6SubnetCidrPairDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ipv6address_ipv6subnet_cidr_pair_details", 0)
+			tmp, err := s.mapToIpv6AddressIpv6SubnetCidrPairDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Ipv6AddressIpv6SubnetCidrPairDetails = &tmp
+		}
+	}
+
 	if isHighlyAvailable, ok := s.D.GetOkExists("is_highly_available"); ok && s.D.HasChange("is_highly_available") {
 		tmp := isHighlyAvailable.(bool)
 		request.IsHighlyAvailable = &tmp
+	}
+
+	if isIpv6Enabled, ok := s.D.GetOkExists("is_ipv6enabled"); ok && s.D.HasChange("is_ipv6enabled") {
+		tmp := isIpv6Enabled.(bool)
+		request.IsIpv6Enabled = &tmp
 	}
 
 	if maintenance, ok := s.D.GetOkExists("maintenance"); ok && s.D.HasChange("maintenance") {
@@ -1920,12 +2017,22 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 		s.D.Set("ip_address", *s.Res.IpAddress)
 	}
 
+	if s.Res.Ipv6AddressIpv6SubnetCidrPairDetails != nil {
+		s.D.Set("ipv6address_ipv6subnet_cidr_pair_details", []interface{}{Ipv6AddressIpv6SubnetCidrPairDetailsToMap(s.Res.Ipv6AddressIpv6SubnetCidrPairDetails)})
+	} else {
+		s.D.Set("ipv6address_ipv6subnet_cidr_pair_details", nil)
+	}
+
 	if s.Res.IsHeatWaveClusterAttached != nil {
 		s.D.Set("is_heat_wave_cluster_attached", *s.Res.IsHeatWaveClusterAttached)
 	}
 
 	if s.Res.IsHighlyAvailable != nil {
 		s.D.Set("is_highly_available", *s.Res.IsHighlyAvailable)
+	}
+
+	if s.Res.IsIpv6Enabled != nil {
+		s.D.Set("is_ipv6enabled", *s.Res.IsIpv6Enabled)
 	}
 
 	if s.Res.LifecycleDetails != nil {
@@ -2205,6 +2312,10 @@ func ChannelSourceToMap(obj *oci_mysql.ChannelSource) map[string]interface{} {
 
 		if v.Hostname != nil {
 			result["hostname"] = string(*v.Hostname)
+		}
+
+		if v.MustUseIpv6OnDualStack != nil {
+			result["must_use_ipv6on_dual_stack"] = bool(*v.MustUseIpv6OnDualStack)
 		}
 
 		if v.Port != nil {
@@ -2770,6 +2881,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateReadEndpointDetails(fieldKey
 		result.ReadEndpointIpAddress = &tmp
 	}
 
+	if readEndpointIpv6AddressIpv6SubnetCidrPairDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "read_endpoint_ipv6address_ipv6subnet_cidr_pair_details")); ok {
+		if tmpList := readEndpointIpv6AddressIpv6SubnetCidrPairDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "read_endpoint_ipv6address_ipv6subnet_cidr_pair_details"), 0)
+			tmp, err := s.mapToIpv6AddressIpv6SubnetCidrPairDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert read_endpoint_ipv6address_ipv6subnet_cidr_pair_details, encountered error: %v", err)
+			}
+			result.ReadEndpointIpv6AddressIpv6SubnetCidrPairDetails = &tmp
+		}
+	}
+
 	return result, nil
 }
 
@@ -2804,6 +2926,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateReadEndpointDetails(fieldKey
 		result.ReadEndpointIpAddress = &tmp
 	}
 
+	if readEndpointIpv6AddressIpv6SubnetCidrPairDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "read_endpoint_ipv6address_ipv6subnet_cidr_pair_details")); ok {
+		if tmpList := readEndpointIpv6AddressIpv6SubnetCidrPairDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "read_endpoint_ipv6address_ipv6subnet_cidr_pair_details"), 0)
+			tmp, err := s.mapToIpv6AddressIpv6SubnetCidrPairDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert read_endpoint_ipv6address_ipv6subnet_cidr_pair_details, encountered error: %v", err)
+			}
+			result.ReadEndpointIpv6AddressIpv6SubnetCidrPairDetails = &tmp
+		}
+	}
+
 	return result, nil
 }
 
@@ -2822,6 +2955,10 @@ func ReadEndpointDetailsToMap(obj *oci_mysql.ReadEndpointDetails) map[string]int
 
 	if obj.ReadEndpointIpAddress != nil {
 		result["read_endpoint_ip_address"] = string(*obj.ReadEndpointIpAddress)
+	}
+
+	if obj.ReadEndpointIpv6AddressIpv6SubnetCidrPairDetails != nil {
+		result["read_endpoint_ipv6address_ipv6subnet_cidr_pair_details"] = []interface{}{Ipv6AddressIpv6SubnetCidrPairDetailsToMap(obj.ReadEndpointIpv6AddressIpv6SubnetCidrPairDetails)}
 	}
 
 	return result
@@ -3045,6 +3182,36 @@ func HeatWaveClusterSummaryToMap(obj *oci_mysql.HeatWaveClusterSummary) map[stri
 
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	return result
+}
+
+func (s *MysqlMysqlDbSystemResourceCrud) mapToIpv6AddressIpv6SubnetCidrPairDetails(fieldKeyFormat string) (oci_mysql.Ipv6AddressIpv6SubnetCidrPairDetails, error) {
+	result := oci_mysql.Ipv6AddressIpv6SubnetCidrPairDetails{}
+
+	if ipv6Address, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6address")); ok && ipv6Address != "" {
+		tmp := ipv6Address.(string)
+		result.Ipv6Address = &tmp
+	}
+
+	if ipv6SubnetCidr, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ipv6subnet_cidr")); ok && ipv6SubnetCidr != "" {
+		tmp := ipv6SubnetCidr.(string)
+		result.Ipv6SubnetCidr = &tmp
+	}
+
+	return result, nil
+}
+
+func Ipv6AddressIpv6SubnetCidrPairDetailsToMap(obj *oci_mysql.Ipv6AddressIpv6SubnetCidrPairDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Ipv6Address != nil {
+		result["ipv6address"] = string(*obj.Ipv6Address)
+	}
+
+	if obj.Ipv6SubnetCidr != nil {
+		result["ipv6subnet_cidr"] = string(*obj.Ipv6SubnetCidr)
 	}
 
 	return result

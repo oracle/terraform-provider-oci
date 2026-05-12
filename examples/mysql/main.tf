@@ -20,10 +20,6 @@ variable "compartment_ocid" {
 }
 
 provider "oci" {
-  # uncomment to run backwards compatibility testing
-  # to avoid compatibility issues use the lastest version released:
-  # https://github.com/oracle/terraform-provider-oci/releases
-  # version = "8.7.0"
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
@@ -93,10 +89,6 @@ resource "oci_mysql_mysql_configuration" "test_mysql_configuration" {
     }
 }
 
-resource "time_static" "anchor" {
-  // Anchor the time to avoid drifting due to maintenance_disabled_windows value changes
-}
-
 resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
   #Required
   admin_password      = "BEstrO0ng_#11"
@@ -138,9 +130,18 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
     version_preference =        "OLDEST"
     version_track_preference =  "FOLLOW"
     maintenance_disabled_windows {
-      time_start = formatdate("YYYY-MM-DD'T'hh:mm:ss.001Z", timeadd(time_static.anchor.rfc3339, "24h"))
-      time_end = formatdate("YYYY-MM-DD'T'hh:mm:ss.001Z", timeadd(time_static.anchor.rfc3339, "48h"))
+      time_start = formatdate("YYYY-MM-DD'T'hh:mm:ss.001Z", timeadd(timestamp(), "24h"))
+      time_end   = formatdate("YYYY-MM-DD'T'hh:mm:ss.001Z", timeadd(timestamp(), "48h"))
     }
+  }
+
+  lifecycle {
+    // Ignore the generated maintenance window timestamps so the example stays stable
+    // without requiring the external hashicorp/time provider during local-provider tests.
+    ignore_changes = [
+      maintenance[0].maintenance_disabled_windows[0].time_start,
+      maintenance[0].maintenance_disabled_windows[0].time_end,
+    ]
   }
 
   nsg_ids       = [oci_core_network_security_group.test_network_security_group.id]

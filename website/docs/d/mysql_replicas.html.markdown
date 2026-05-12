@@ -66,6 +66,7 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The OCID of the read replica.
 * `ip_address` - The IP address the read replica is configured to listen on. 
+* `ipv6address` - The IPv6 address the read replica is configured to listen on.
 * `is_delete_protected` - Specifies whether the read replica can be deleted. Set to true to prevent deletion, false (default) to allow. Note that if a read replica is delete protected it also prevents the entire DB System from being deleted. If the DB System is delete protected, read replicas can still be deleted individually if they are not delete  protected themselves. 
 * `lifecycle_details` - A message describing the state of the read replica.
 * `mysql_version` - The MySQL version currently in use by the read replica.

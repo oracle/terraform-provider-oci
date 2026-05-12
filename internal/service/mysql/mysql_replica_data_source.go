@@ -111,6 +111,10 @@ func (s *MysqlReplicaDataSourceCrud) SetData() error {
 		s.D.Set("ip_address", *s.Res.IpAddress)
 	}
 
+	if s.Res.Ipv6Address != nil {
+		s.D.Set("ipv6address", *s.Res.Ipv6Address)
+	}
+
 	if s.Res.IsDeleteProtected != nil {
 		s.D.Set("is_delete_protected", *s.Res.IsDeleteProtected)
 	}

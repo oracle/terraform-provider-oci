@@ -19,10 +19,6 @@ variable "compartment_ocid" {
 }
 
 provider "oci" {
-  # uncomment to run backwards compatibility testing
-  # to avoid compatibility issues use the lastest version released:
-  # https://github.com/oracle/terraform-provider-oci/releases
-  # version = "8.7.0"
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint

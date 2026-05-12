@@ -39,6 +39,7 @@ resource "oci_mysql_channel" "test_channel" {
 			last_configured_log_offset = var.channel_source_anonymous_transactions_handling_last_configured_log_offset
 			uuid = var.channel_source_anonymous_transactions_handling_uuid
 		}
+		must_use_ipv6on_dual_stack = var.channel_source_must_use_ipv6on_dual_stack
 		port = var.channel_source_port
 		ssl_ca_certificate {
 			#Required
@@ -90,6 +91,7 @@ The following arguments are supported:
 		* `policy` - (Required) (Updatable) Specifies how the replication channel handles anonymous transactions.
 		* `uuid` - (Applicable when policy=ASSIGN_MANUAL_UUID) (Updatable) The UUID that is used as a prefix when generating transaction identifiers for anonymous transactions coming from the source. You can change the UUID later. 
 	* `hostname` - (Required) (Updatable) The network address of the MySQL instance.
+	* `must_use_ipv6on_dual_stack` - (Optional) (Updatable) Whether the connection of the channel will be requested using the IPv6 address of the dual stack DB system or not. Default: False. 
 	* `password` - (Required) (Updatable) The password for the replication user. The password must be between 8 and 32 characters long, and must contain at least 1 numeric character, 1 lowercase character, 1 uppercase character, and 1 special (nonalphanumeric) character. 
 	* `port` - (Optional) (Updatable) The port the source MySQL instance listens on.
 	* `source_type` - (Required) (Updatable) The specific source identifier.
@@ -133,6 +135,7 @@ The following attributes are exported:
 		* `policy` - Specifies how the replication channel handles anonymous transactions.
 		* `uuid` - The UUID that is used as a prefix when generating transaction identifiers for anonymous transactions coming from the source. You can change the UUID later. 
 	* `hostname` - The network address of the MySQL instance.
+	* `must_use_ipv6on_dual_stack` - Whether the connection of the channel will be requested using the IPv6 address of the dual stack DB system or not. Default: False. 
 	* `port` - The port the source MySQL instance listens on.
 	* `source_type` - The specific source identifier.
 	* `ssl_ca_certificate` - The CA certificate of the server used for VERIFY_IDENTITY and VERIFY_CA ssl modes.

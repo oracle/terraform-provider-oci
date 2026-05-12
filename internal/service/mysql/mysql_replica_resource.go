@@ -219,6 +219,10 @@ func MysqlReplicaResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"ipv6address": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -615,6 +619,10 @@ func (s *MysqlReplicaResourceCrud) SetData() error {
 
 	if s.Res.IpAddress != nil {
 		s.D.Set("ip_address", *s.Res.IpAddress)
+	}
+
+	if s.Res.Ipv6Address != nil {
+		s.D.Set("ipv6address", *s.Res.Ipv6Address)
 	}
 
 	if s.Res.IsDeleteProtected != nil {

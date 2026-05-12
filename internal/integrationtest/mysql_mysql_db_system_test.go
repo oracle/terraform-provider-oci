@@ -133,6 +133,27 @@ var (
 		"port":   acctest.Representation{RepType: acctest.Optional, Create: `8443`},
 	}
 
+	MysqlMysqlDbSystemIpv6AddressIpv6SubnetCidrPairDetailsRepresentation = map[string]interface{}{
+		"ipv6subnet_cidr": acctest.Representation{RepType: acctest.Required, Create: `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`},
+	}
+
+	MysqlDbSystemIpv6Representation = map[string]interface{}{
+		"admin_password":          acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"admin_username":          acctest.Representation{RepType: acctest.Required, Create: `adminUser`},
+		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"configuration_id":        acctest.Representation{RepType: acctest.Optional, Create: utils.GetEnvSettingWithBlankDefault("mysql_4_configuration_ocid")},
+		"shape_name":              acctest.Representation{RepType: acctest.Required, Create: `MySQL.4`},
+		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Required, Create: `50`},
+		"database_management":     acctest.Representation{RepType: acctest.Required, Create: `DISABLED`},
+		"backup_policy":           acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlMysqlDbSystemBackupPolicyDisabledRepresentation},
+		"read_endpoint":           acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlMysqlDbSystemReadEndpointRepresentation},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForMysqlRepHA},
+		"is_ipv6enabled":          acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"ipv6address_ipv6subnet_cidr_pair_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlMysqlDbSystemIpv6AddressIpv6SubnetCidrPairDetailsRepresentation},
+	}
+
 	MysqlMysqlDbSystemMaintenanceRepresentation = map[string]interface{}{
 		"window_start_time": acctest.Representation{RepType: acctest.Required, Create: `sun 01:00`},
 	}
@@ -157,6 +178,19 @@ var (
 	MysqlMysqlDbSystemResourceDependencies = MysqlMysqlConfigurationResourceConfig +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		AvailabilityDomainConfig +
+		MysqlMysqlVersionResourceConfig
+
+	MysqlMysqlDbSystemIpv6ResourceDependencies = MysqlMysqlConfigurationResourceConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
+			"dns_label":       acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
+			"ipv6cidr_blocks": acctest.Representation{RepType: acctest.Required, Create: []string{`${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`}},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
+			"dns_label":      acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
+			"is_ipv6enabled": acctest.Representation{RepType: acctest.Required, Create: `true`},
+		})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
 		AvailabilityDomainConfig +
 		MysqlMysqlVersionResourceConfig
@@ -244,6 +278,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
+				resource.TestCheckResourceAttr(resourceName, "ipv6address_ipv6subnet_cidr_pair_details.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "is_ipv6enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_highly_available", "false"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance.0.maintenance_schedule_type", "REGULAR"),
@@ -256,6 +292,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "port_x", "33306"),
 				resource.TestCheckResourceAttr(resourceName, "read_endpoint.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "read_endpoint.0.is_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "read_endpoint.0.read_endpoint_ipv6address_ipv6subnet_cidr_pair_details.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "rest.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "rest.0.configuration", "DISABLED"),
 				resource.TestCheckResourceAttr(resourceName, "secure_connections.#", "1"),
@@ -321,6 +358,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.3"),
+				resource.TestCheckResourceAttr(resourceName, "ipv6address_ipv6subnet_cidr_pair_details.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "is_ipv6enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_highly_available", "false"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance.0.window_start_time", "sun 01:00"),
@@ -449,6 +488,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "hostname_label", "hostnameLabel"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ip_address", "10.0.0.3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ipv6address_ipv6subnet_cidr_pair_details.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_ipv6enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_heat_wave_cluster_attached", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_highly_available", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance.#", "1"),
@@ -462,6 +503,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "port", "3306"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "port_x", "33306"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "read_endpoint.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "read_endpoint.0.read_endpoint_ipv6address_ipv6subnet_cidr_pair_details.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "rest.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "rest.0.configuration", "DISABLED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "read_endpoint.0.is_enabled", "false"),
@@ -491,6 +533,39 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				"time_updated",
 			},
 			ResourceName: resourceName,
+		},
+	})
+}
+
+func TestMysqlMysqlDbSystemResource_ipv6(t *testing.T) {
+	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_ipv6")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_mysql_mysql_db_system.test_mysql_db_system_ipv6"
+
+	acctest.ResourceTest(t, testAccCheckMysqlMysqlDbSystemDestroy, []resource.TestStep{
+		// Verify CreateDbSystemIpv6
+
+		{
+			Config: config + compartmentIdVariableStr + MysqlMysqlDbSystemIpv6ResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system_ipv6", acctest.Optional, acctest.Create, MysqlDbSystemIpv6Representation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "ipv6address_ipv6subnet_cidr_pair_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "ipv6address_ipv6subnet_cidr_pair_details.0.ipv6address"),
+				resource.TestCheckResourceAttr(resourceName, "is_ipv6enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "endpoints.#", "2"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
 	})
 }
