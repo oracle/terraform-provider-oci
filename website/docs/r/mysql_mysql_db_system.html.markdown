@@ -94,7 +94,14 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 	freeform_tags = {"bar-key"= "value"}
 	hostname_label = var.mysql_db_system_hostname_label
 	ip_address = var.mysql_db_system_ip_address
+	ipv6address_ipv6subnet_cidr_pair_details {
+
+		#Optional
+		ipv6address = var.mysql_db_system_ipv6address_ipv6subnet_cidr_pair_details_ipv6address
+		ipv6subnet_cidr = var.mysql_db_system_ipv6address_ipv6subnet_cidr_pair_details_ipv6subnet_cidr
+	}
 	is_highly_available = var.mysql_db_system_is_highly_available
+	is_ipv6enabled = var.mysql_db_system_is_ipv6enabled
 	maintenance {
 		#Required
 		window_start_time = var.mysql_db_system_maintenance_window_start_time
@@ -119,6 +126,12 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 		is_enabled = var.mysql_db_system_read_endpoint_is_enabled
 		read_endpoint_hostname_label = var.mysql_db_system_read_endpoint_read_endpoint_hostname_label
 		read_endpoint_ip_address = var.mysql_db_system_read_endpoint_read_endpoint_ip_address
+		read_endpoint_ipv6address_ipv6subnet_cidr_pair_details {
+
+			#Optional
+			ipv6address = var.mysql_db_system_read_endpoint_read_endpoint_ipv6address_ipv6subnet_cidr_pair_details_ipv6address
+			ipv6subnet_cidr = var.mysql_db_system_read_endpoint_read_endpoint_ipv6address_ipv6subnet_cidr_pair_details_ipv6subnet_cidr
+		}
 	}
 	rest {
 		#Required
@@ -244,9 +257,13 @@ The following arguments are supported:
 
 	Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123. 
 * `ip_address` - (Optional) The IP address the DB System is configured to listen on. A private IP address of your choice to assign to the primary endpoint of the DB System. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. This should be a "dotted-quad" style IPv4 address. 
+* `ipv6address_ipv6subnet_cidr_pair_details` - (Optional) (Updatable) Details to assign an IPv6 subnet prefix or IPv6 address to a resource.
+	* `ipv6address` - (Optional) (Updatable) An IPv6 address of your choice. Must be an available IPv6 address within the subnet's prefix. 
+	* `ipv6subnet_cidr` - (Optional) (Updatable) The IPv6 prefix allocated to the subnet.
 * `is_highly_available` - (Optional) (Updatable) Specifies if the DB System is highly available.
 
 	When creating a DB System with High Availability, three instances are created and placed according to your region- and subnet-type. The secondaries are placed automatically in the other two availability or fault domains.  You can choose the preferred location of your primary instance, only. 
+* `is_ipv6enabled` - (Optional) (Updatable) Whether to allocate an IPv6 address at DB system creation from an IPv6 enabled subnet. When provided you may optionally provide an IPv6 prefix (ipv6AddressIpv6SubnetCidrPairDetails) of your choice to assign the IPv6 address from. If ipv6AddressIpv6SubnetCidrPairDetails is not provided then an IPv6 prefix is chosen for you. 
 * `maintenance` - (Optional) (Updatable) The Maintenance Policy for the DB System or Read Replica that this model is included in. `maintenance` and `backup_policy` cannot be updated in the same request.
 	* `maintenance_disabled_windows` - (Optional) (Updatable) Time window during which downtime-inducing maintenance shall not be performed. Downtime-free maintenance may be performed to apply required security patches. At most one configured window is supported. 
 		* `time_end` - (Required) (Updatable) The time until when maintenance is disabled. Must be set together with timeStart and must be after timeStart. as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
@@ -278,6 +295,9 @@ The following arguments are supported:
 
 		Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123. 
 	* `read_endpoint_ip_address` - (Optional) (Updatable) The IP address the DB System read endpoint is configured to listen on. A private IP address of your choice to assign to the read endpoint of the DB System. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. This should be a "dotted-quad" style IPv4 address. 
+	* `read_endpoint_ipv6address_ipv6subnet_cidr_pair_details` - (Optional) (Updatable) Details to assign an IPv6 subnet prefix or IPv6 address to a resource.
+		* `ipv6address` - (Optional) (Updatable) An IPv6 address of your choice. Must be an available IPv6 address within the subnet's prefix. 
+		* `ipv6subnet_cidr` - (Optional) (Updatable) The IPv6 prefix allocated to the subnet.
 * `rest` - (Optional) (Updatable) Details required to configure REST while creating a DB System. 
 	* `configuration` - (Required) (Updatable) Select how REST is configured across the DB System instances.
 	* `port` - (Optional) (Updatable) The port for REST to listen on. Supported port numbers are 443 and from 1024 to 65535.
@@ -378,6 +398,7 @@ The following attributes are exported:
 			* `policy` - Specifies how the replication channel handles anonymous transactions.
 			* `uuid` - The UUID that is used as a prefix when generating transaction identifiers for anonymous transactions coming from the source. You can change the UUID later. 
 		* `hostname` - The network address of the MySQL instance.
+		* `must_use_ipv6on_dual_stack` - Whether the connection of the channel will be requested using the IPv6 address of the dual stack DB system or not. Default: False. 
 		* `port` - The port the source MySQL instance listens on.
 		* `source_type` - The specific source identifier.
 		* `ssl_ca_certificate` - The CA certificate of the server used for VERIFY_IDENTITY and VERIFY_CA ssl modes.
@@ -443,6 +464,7 @@ The following attributes are exported:
 * `endpoints` - The network endpoints available for this DB System. 
 	* `hostname` - The network address of the DB System.
 	* `ip_address` - The IP address the DB System is configured to listen on.
+	* `ip_address_version` - The internet protocol (IP) version of the IP address.
 	* `modes` - The access modes from the client that this endpoint supports.
 	* `port` - The port the MySQL instance listens on.
 	* `port_x` - The network port where to connect to use this endpoint using the X protocol.
@@ -466,8 +488,12 @@ The following attributes are exported:
 * `hostname_label` - The hostname for the primary endpoint of the DB System. Used for DNS. The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN) (for example, "dbsystem-1" in FQDN "dbsystem-1.subnet123.vcn1.oraclevcn.com"). Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123. 
 * `id` - The OCID of the DB System.
 * `ip_address` - The IP address the DB System is configured to listen on. A private IP address of the primary endpoint of the DB System. Must be an available IP address within the subnet's CIDR. This will be a "dotted-quad" style IPv4 address. 
+* `ipv6address_ipv6subnet_cidr_pair_details` - Details to assign an IPv6 subnet prefix or IPv6 address to a resource.
+	* `ipv6address` - An IPv6 address of your choice. Must be an available IPv6 address within the subnet's prefix. 
+	* `ipv6subnet_cidr` - The IPv6 prefix allocated to the subnet.
 * `is_heat_wave_cluster_attached` - If the DB System has a HeatWave Cluster attached. 
 * `is_highly_available` - Specifies if the DB System is highly available. 
+* `is_ipv6enabled` - Whether an IPv6 address has been allocated for the DB system when attached to an IPv6 enabled subnet. Default: False. 
 * `lifecycle_details` - Additional information about the current lifecycleState.
 * `maintenance` - The Maintenance Policy for the DB System or Read Replica that this model is included in. 
 	* `maintenance_disabled_windows` - Time window during which downtime-inducing maintenance shall not be performed. Downtime-free maintenance may be performed to apply required security patches. At most one configured window is supported. 
@@ -505,6 +531,9 @@ The following attributes are exported:
 
 		Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123. 
 	* `read_endpoint_ip_address` - The IP address the DB System read endpoint is configured to listen on. A private IP address of your choice to assign to the read endpoint of the DB System. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. This should be a "dotted-quad" style IPv4 address. 
+	* `read_endpoint_ipv6address_ipv6subnet_cidr_pair_details` - Details to assign an IPv6 subnet prefix or IPv6 address to a resource.
+		* `ipv6address` - An IPv6 address of your choice. Must be an available IPv6 address within the subnet's prefix. 
+		* `ipv6subnet_cidr` - The IPv6 prefix allocated to the subnet.
 * `rest` - REST configuration details. 
 	* `configuration` - Select how REST is configured across the DB System instances.
 	* `port` - The port for REST to listen on. Supported port numbers are 443 and from 1024 to 65535.

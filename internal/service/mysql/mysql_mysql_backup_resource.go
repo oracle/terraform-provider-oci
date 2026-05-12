@@ -444,6 +444,10 @@ func MysqlMysqlBackupResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"ip_address_version": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"modes": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -496,6 +500,10 @@ func MysqlMysqlBackupResource() *schema.Resource {
 							Computed: true,
 						},
 						"ip_address": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"ipv6address": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -599,6 +607,27 @@ func MysqlMysqlBackupResource() *schema.Resource {
 									"read_endpoint_ip_address": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+									"read_endpoint_ipv6address_ipv6subnet_cidr_pair_details": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"ipv6address": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"ipv6subnet_cidr": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
 									},
 								},
 							},
@@ -1385,6 +1414,8 @@ func DbSystemEndpointToMap(obj oci_mysql.DbSystemEndpoint) map[string]interface{
 		result["ip_address"] = string(*obj.IpAddress)
 	}
 
+	result["ip_address_version"] = string(obj.IpAddressVersion)
+
 	result["modes"] = obj.Modes
 
 	if obj.Port != nil {
@@ -1491,6 +1522,10 @@ func DbSystemSnapshotToMap(obj *oci_mysql.DbSystemSnapshot, datasource bool) map
 
 	if obj.IpAddress != nil {
 		result["ip_address"] = string(*obj.IpAddress)
+	}
+
+	if obj.Ipv6Address != nil {
+		result["ipv6address"] = string(*obj.Ipv6Address)
 	}
 
 	if obj.IsHighlyAvailable != nil {
