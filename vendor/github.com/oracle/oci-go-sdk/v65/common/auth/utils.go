@@ -32,7 +32,7 @@ func httpGet(dispatcher common.HTTPRequestDispatcher, url string) (body bytes.Bu
 	statusCode = response.StatusCode
 	common.IfDebug(func() {
 		if dump, e := httputil.DumpResponse(response, true); e == nil {
-			common.Logf("Dump Response %v", string(dump))
+			common.Logf("Dump Response %v", common.RedactSensitiveStringForLogs(string(dump)))
 		} else {
 			common.Debugln(e)
 		}

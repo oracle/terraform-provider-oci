@@ -42,6 +42,9 @@ type UpdateDigitalTwinInstanceDetails struct {
 	// The URI of the digital twin model specification.
 	DigitalTwinModelSpecUri *string `mandatory:"false" json:"digitalTwinModelSpecUri"`
 
+	// An array of unique ids (OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the IoT digital twin instances with connectivityType equals to GATEWAY.
+	Gateways []string `mandatory:"false" json:"gateways"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

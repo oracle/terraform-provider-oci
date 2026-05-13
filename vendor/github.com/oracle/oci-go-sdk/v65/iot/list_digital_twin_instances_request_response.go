@@ -52,6 +52,9 @@ type ListDigitalTwinInstancesRequest struct {
 	// Filter resources that match the specified URI (DTMI) of the digital twin model.
 	DigitalTwinModelSpecUri *string `mandatory:"false" contributesTo:"query" name:"digitalTwinModelSpecUri"`
 
+	// Filter resources whose connectivityType matches the specified value.
+	ConnectivityType ListDigitalTwinInstancesConnectivityTypeEnum `mandatory:"false" contributesTo:"query" name:"connectivityType" omitEmpty:"true"`
+
 	// Filter resources by OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Must be a valid OCID of the resource type.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
@@ -99,6 +102,9 @@ func (request ListDigitalTwinInstancesRequest) ValidateEnumValue() (bool, error)
 	}
 	if _, ok := GetMappingListDigitalTwinInstancesSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDigitalTwinInstancesSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListDigitalTwinInstancesConnectivityTypeEnum(string(request.ConnectivityType)); !ok && request.ConnectivityType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConnectivityType: %s. Supported values are: %s.", request.ConnectivityType, strings.Join(GetListDigitalTwinInstancesConnectivityTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -260,5 +266,55 @@ func GetListDigitalTwinInstancesSortByEnumStringValues() []string {
 // GetMappingListDigitalTwinInstancesSortByEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListDigitalTwinInstancesSortByEnum(val string) (ListDigitalTwinInstancesSortByEnum, bool) {
 	enum, ok := mappingListDigitalTwinInstancesSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListDigitalTwinInstancesConnectivityTypeEnum Enum with underlying type: string
+type ListDigitalTwinInstancesConnectivityTypeEnum string
+
+// Set of constants representing the allowable values for ListDigitalTwinInstancesConnectivityTypeEnum
+const (
+	ListDigitalTwinInstancesConnectivityTypeDirect   ListDigitalTwinInstancesConnectivityTypeEnum = "DIRECT"
+	ListDigitalTwinInstancesConnectivityTypeIndirect ListDigitalTwinInstancesConnectivityTypeEnum = "INDIRECT"
+	ListDigitalTwinInstancesConnectivityTypeGateway  ListDigitalTwinInstancesConnectivityTypeEnum = "GATEWAY"
+	ListDigitalTwinInstancesConnectivityTypeNone     ListDigitalTwinInstancesConnectivityTypeEnum = "NONE"
+)
+
+var mappingListDigitalTwinInstancesConnectivityTypeEnum = map[string]ListDigitalTwinInstancesConnectivityTypeEnum{
+	"DIRECT":   ListDigitalTwinInstancesConnectivityTypeDirect,
+	"INDIRECT": ListDigitalTwinInstancesConnectivityTypeIndirect,
+	"GATEWAY":  ListDigitalTwinInstancesConnectivityTypeGateway,
+	"NONE":     ListDigitalTwinInstancesConnectivityTypeNone,
+}
+
+var mappingListDigitalTwinInstancesConnectivityTypeEnumLowerCase = map[string]ListDigitalTwinInstancesConnectivityTypeEnum{
+	"direct":   ListDigitalTwinInstancesConnectivityTypeDirect,
+	"indirect": ListDigitalTwinInstancesConnectivityTypeIndirect,
+	"gateway":  ListDigitalTwinInstancesConnectivityTypeGateway,
+	"none":     ListDigitalTwinInstancesConnectivityTypeNone,
+}
+
+// GetListDigitalTwinInstancesConnectivityTypeEnumValues Enumerates the set of values for ListDigitalTwinInstancesConnectivityTypeEnum
+func GetListDigitalTwinInstancesConnectivityTypeEnumValues() []ListDigitalTwinInstancesConnectivityTypeEnum {
+	values := make([]ListDigitalTwinInstancesConnectivityTypeEnum, 0)
+	for _, v := range mappingListDigitalTwinInstancesConnectivityTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListDigitalTwinInstancesConnectivityTypeEnumStringValues Enumerates the set of values in String for ListDigitalTwinInstancesConnectivityTypeEnum
+func GetListDigitalTwinInstancesConnectivityTypeEnumStringValues() []string {
+	return []string{
+		"DIRECT",
+		"INDIRECT",
+		"GATEWAY",
+		"NONE",
+	}
+}
+
+// GetMappingListDigitalTwinInstancesConnectivityTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListDigitalTwinInstancesConnectivityTypeEnum(val string) (ListDigitalTwinInstancesConnectivityTypeEnum, bool) {
+	enum, ok := mappingListDigitalTwinInstancesConnectivityTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

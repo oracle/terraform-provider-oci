@@ -262,10 +262,10 @@ func setRegionMetadataFromEnvVar(region *string) bool {
 	readEnvVar = false
 	// check from env variable
 	if jsonStr, existed := os.LookupEnv(regionMetadataEnvVarName); existed {
-		Debugf("Raw content of region metadata env var:", jsonStr)
+		Debugf("Raw content of region metadata env var: %s", jsonStr)
 		var regionSchema map[string]string
 		if err := json.Unmarshal([]byte(jsonStr), &regionSchema); err != nil {
-			Debugf("Can't unmarshal env var, the error info is", err)
+			Debugf("Can't unmarshal env var, the error info is %v", err)
 			return false
 		}
 		// check if the specified region is in the env var.
@@ -365,9 +365,9 @@ func setRegionMetadataFromDeveloperToolConfigurationFile(region *string) bool {
 
 func readAndParseConfigFile(configFileName *string) (fileContent []map[string]string, ok bool) {
 	if content, err := ioutil.ReadFile(*configFileName); err == nil {
-		Debugf("Raw content of region metadata config file content:", string(content[:]))
+		Debugf("Raw content of region metadata config file content: %s", string(content[:]))
 		if err := json.Unmarshal(content, &fileContent); err != nil {
-			Debugf("Can't unmarshal config file, the error info is", err)
+			Debugf("Can't unmarshal config file, the error info is %v", err)
 			return
 		}
 		ok = true
@@ -384,9 +384,9 @@ func readAndParseDeveloperToolConfigurationFile() (fileContent map[string]interf
 		configFileName = path
 	}
 	if content, err := ioutil.ReadFile(configFileName); err == nil {
-		Debugf("Raw content of Developer Tool config file content:", string(content[:]))
+		Debugf("Raw content of Developer Tool config file content: %s", string(content[:]))
 		if err := json.Unmarshal(content, &fileContent); err != nil {
-			Debugf("Can't unmarshal env var, the error info is", err)
+			Debugf("Can't unmarshal env var, the error info is %v", err)
 			return
 		}
 		ok = true
@@ -418,7 +418,7 @@ func addRegionSchema(regionSchema map[string]string) {
 		regionRealm[r] = regionSchema[realmKeyPropertyName]
 		return
 	}
-	Debugf("Region {} has already been added, no need to add again.", regionSchema[regionIdentifierPropertyName])
+	Debugf("Region %s has already been added, no need to add again.", regionSchema[regionIdentifierPropertyName])
 }
 
 // AddRegionSchemaForPlc add region schema to region map
@@ -466,10 +466,10 @@ func checkSchemaItem(regionSchema map[string]string, key string) bool {
 			regionSchema[key] = strings.ToLower(val)
 			return true
 		}
-		Debugf("Region metadata schema {} is provided,but content is empty.", key)
+		Debugf("Region metadata schema %s is provided,but content is empty.", key)
 		return false
 	}
-	Debugf("Region metadata schema {} is not provided, please update the content", key)
+	Debugf("Region metadata schema %s is not provided, please update the content", key)
 	return false
 }
 
