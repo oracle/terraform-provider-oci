@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Database Tools
+// Database Tools API
 //
 // Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ValidateDatabaseToolsConnectionOracleDatabaseResult Connection validaton result for the Oracle Database.
+// ValidateDatabaseToolsConnectionOracleDatabaseResult Connection validation result for the Oracle Database.
 type ValidateDatabaseToolsConnectionOracleDatabaseResult struct {
 
 	// A short code that defines the result of the validation, meant for programmatic parsing. The value OK indicates that the validation was successful.
@@ -37,11 +37,35 @@ type ValidateDatabaseToolsConnectionOracleDatabaseResult struct {
 	// The database name.
 	DatabaseName *string `mandatory:"false" json:"databaseName"`
 
+	// The name of the currently active default schema.
+	CurrentSchema *string `mandatory:"false" json:"currentSchema"`
+
+	// The name of the session user (the user who logged on).
+	SessionUser *string `mandatory:"false" json:"sessionUser"`
+
+	// Name of the database user who opened the current session on behalf of sessionUser.
+	ProxyUser *string `mandatory:"false" json:"proxyUser"`
+
+	// Returns the identity used in authentication.
+	AuthenticatedIdentity *string `mandatory:"false" json:"authenticatedIdentity"`
+
+	// Returns the method of authentication.
+	AuthenticationMethod *string `mandatory:"false" json:"authenticationMethod"`
+
 	// Displays the CLOUD_SERVICE value within the USERENV context
 	CloudService *string `mandatory:"false" json:"cloudService"`
 
 	// Status on whether a Database Tools identity type can be used with this connection or not.
 	DatabaseToolsIdentityStatuses []ValidationIdentityStatus `mandatory:"false" json:"databaseToolsIdentityStatuses"`
+
+	// Displays the enterprise identity value within the USERENV context
+	EnterpriseIdentity *string `mandatory:"false" json:"enterpriseIdentity"`
+
+	// Displays the proxy enterprise identity value within the USERENV context
+	ProxyEnterpriseIdentity *string `mandatory:"false" json:"proxyEnterpriseIdentity"`
+
+	// Status on whether an external authentication can be used with this connection or not.
+	ExternalAuthenticationStatuses []ValidationExternalAuthenticationStatus `mandatory:"false" json:"externalAuthenticationStatuses"`
 
 	// The DBMS_CLOUD package installation status.
 	DbmsCloudStatus DbmsCloudStatusEnum `mandatory:"true" json:"dbmsCloudStatus"`

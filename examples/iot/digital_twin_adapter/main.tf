@@ -80,6 +80,14 @@ variable "digital_twin_adapter_state" {
   default = "ACTIVE"
 }
 
+variable "digital_twin_adapter_inbound_envelope_envelope_mapping_content_root" {
+  default = "$"
+}
+
+variable "digital_twin_adapter_inbound_envelope_envelope_mapping_target" {
+  default = "target"
+}
+
 
 
 provider "oci" {
@@ -107,9 +115,10 @@ resource "oci_iot_digital_twin_adapter" "test_digital_twin_adapter" {
 
     #Optional
     envelope_mapping {
-
       #Optional
       time_observed = var.digital_twin_adapter_inbound_envelope_envelope_mapping_time_observed
+      content_root  = var.digital_twin_adapter_inbound_envelope_envelope_mapping_content_root
+      target        = var.digital_twin_adapter_inbound_envelope_envelope_mapping_target
     }
     reference_payload {
       #Required

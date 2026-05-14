@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"regexp"
 	"strings"
 	"sync"
 	"time"
@@ -48,6 +49,31 @@ type DefaultSDKLogger struct {
 var defaultLogger sdkLogger
 var loggerLock sync.Mutex
 var file *os.File
+var sensitiveLogRedactors = []struct {
+	pattern     *regexp.Regexp
+	replacement string
+}{
+	{
+		pattern:     regexp.MustCompile(`(?im)^(Authorization:\s*)(.+)$`),
+		replacement: `${1}<redacted>`,
+	},
+	{
+		pattern:     regexp.MustCompile(`(?im)^(X-Api-Key:\s*)(.+)$`),
+		replacement: `${1}<redacted>`,
+	},
+	{
+		pattern:     regexp.MustCompile(`(?im)^(opc-obo-token:\s*)(.+)$`),
+		replacement: `${1}<redacted>`,
+	},
+	{
+		pattern:     regexp.MustCompile(`(?i)("(?:token|access_token|refresh_token|id_token|delegationToken|delegation_token|securityToken|security_token|serviceAccountToken|service_account_token|client_secret|clientSecret|passphrase|password|privateKey|private_key|publicKey|public_key|podKey|pod_key)"\s*:\s*)"([^"]*)"`),
+		replacement: `${1}"<redacted>"`,
+	},
+	{
+		pattern:     regexp.MustCompile(`(?i)(^|[&\s])((?:token|access_token|refresh_token|id_token|delegationtoken|delegation_token|securitytoken|security_token|serviceaccounttoken|service_account_token|subject_token|client_secret|clientsecret|passphrase|password|privatekey|private_key|publickey|public_key|podkey|pod_key)=)([^&\s]*)`),
+		replacement: `${1}${2}<redacted>`,
+	},
+}
 
 // initializes the SDK defaultLogger as a defaultLogger
 func init() {
@@ -176,6 +202,15 @@ func CloseLogFile() error {
 	return file.Close()
 }
 
+// RedactSensitiveStringForLogs removes common credential-bearing fields before they are written to logs
+func RedactSensitiveStringForLogs(value string) string {
+	redacted := value
+	for _, redactor := range sensitiveLogRedactors {
+		redacted = redactor.pattern.ReplaceAllString(redacted, redactor.replacement)
+	}
+	return redacted
+}
+
 // LogLevel returns the current debug level
 func (l DefaultSDKLogger) LogLevel() int {
 	return l.currentLoggingLevel
@@ -191,29 +226,30 @@ func (l DefaultSDKLogger) Log(logLevel int, format string, v ...interface{}) err
 // Logln logs v appending a new line at the end
 // Deprecated
 func Logln(v ...interface{}) {
-	defaultLogger.Log(infoLogging, "%v\n", v...)
+	m := fmt.Sprint(v...)
+	defaultLogger.Log(infoLogging, "%s\n", RedactSensitiveStringForLogs(m))
 }
 
 // Logf logs v with the provided format
 func Logf(format string, v ...interface{}) {
-	defaultLogger.Log(infoLogging, format, v...)
+	defaultLogger.Log(infoLogging, "%s", RedactSensitiveStringForLogs(fmt.Sprintf(format, v...)))
 }
 
 // Debugf logs v with the provided format if debug mode is set
 func Debugf(format string, v ...interface{}) {
-	defaultLogger.Log(debugLogging, format, v...)
+	defaultLogger.Log(debugLogging, "%s", RedactSensitiveStringForLogs(fmt.Sprintf(format, v...)))
 }
 
-// Debug  logs v if debug mode is set
+// Debug logs v if debug mode is set
 func Debug(v ...interface{}) {
 	m := fmt.Sprint(v...)
-	defaultLogger.Log(debugLogging, "%s", m)
+	defaultLogger.Log(debugLogging, "%s", RedactSensitiveStringForLogs(m))
 }
 
 // Debugln logs v appending a new line if debug mode is set
 func Debugln(v ...interface{}) {
 	m := fmt.Sprint(v...)
-	defaultLogger.Log(debugLogging, "%s\n", m)
+	defaultLogger.Log(debugLogging, "%s\n", RedactSensitiveStringForLogs(m))
 }
 
 // IfDebug executes closure if debug is enabled

@@ -21,27 +21,51 @@ type ImportedModelCapabilityEnum string
 
 // Set of constants representing the allowable values for ImportedModelCapabilityEnum
 const (
-	ImportedModelCapabilityTextToText      ImportedModelCapabilityEnum = "TEXT_TO_TEXT"
-	ImportedModelCapabilityImageTextToText ImportedModelCapabilityEnum = "IMAGE_TEXT_TO_TEXT"
-	ImportedModelCapabilityEmbedding       ImportedModelCapabilityEnum = "EMBEDDING"
-	ImportedModelCapabilityRerank          ImportedModelCapabilityEnum = "RERANK"
-	ImportedModelCapabilityTextToImage     ImportedModelCapabilityEnum = "TEXT_TO_IMAGE"
+	ImportedModelCapabilityTextToText       ImportedModelCapabilityEnum = "TEXT_TO_TEXT"
+	ImportedModelCapabilityImageTextToText  ImportedModelCapabilityEnum = "IMAGE_TEXT_TO_TEXT"
+	ImportedModelCapabilityEmbedding        ImportedModelCapabilityEnum = "EMBEDDING"
+	ImportedModelCapabilityRerank           ImportedModelCapabilityEnum = "RERANK"
+	ImportedModelCapabilityTextToImage      ImportedModelCapabilityEnum = "TEXT_TO_IMAGE"
+	ImportedModelCapabilityImageTextToImage ImportedModelCapabilityEnum = "IMAGE_TEXT_TO_IMAGE"
+	ImportedModelCapabilityImageTextToVideo ImportedModelCapabilityEnum = "IMAGE_TEXT_TO_VIDEO"
+	ImportedModelCapabilityImageToImage     ImportedModelCapabilityEnum = "IMAGE_TO_IMAGE"
+	ImportedModelCapabilityRealtime         ImportedModelCapabilityEnum = "REALTIME"
+	ImportedModelCapabilityAudioToAudio     ImportedModelCapabilityEnum = "AUDIO_TO_AUDIO"
+	ImportedModelCapabilityAudioToText      ImportedModelCapabilityEnum = "AUDIO_TO_TEXT"
+	ImportedModelCapabilityTextToAudio      ImportedModelCapabilityEnum = "TEXT_TO_AUDIO"
+	ImportedModelCapabilityTextToVideo      ImportedModelCapabilityEnum = "TEXT_TO_VIDEO"
 )
 
 var mappingImportedModelCapabilityEnum = map[string]ImportedModelCapabilityEnum{
-	"TEXT_TO_TEXT":       ImportedModelCapabilityTextToText,
-	"IMAGE_TEXT_TO_TEXT": ImportedModelCapabilityImageTextToText,
-	"EMBEDDING":          ImportedModelCapabilityEmbedding,
-	"RERANK":             ImportedModelCapabilityRerank,
-	"TEXT_TO_IMAGE":      ImportedModelCapabilityTextToImage,
+	"TEXT_TO_TEXT":        ImportedModelCapabilityTextToText,
+	"IMAGE_TEXT_TO_TEXT":  ImportedModelCapabilityImageTextToText,
+	"EMBEDDING":           ImportedModelCapabilityEmbedding,
+	"RERANK":              ImportedModelCapabilityRerank,
+	"TEXT_TO_IMAGE":       ImportedModelCapabilityTextToImage,
+	"IMAGE_TEXT_TO_IMAGE": ImportedModelCapabilityImageTextToImage,
+	"IMAGE_TEXT_TO_VIDEO": ImportedModelCapabilityImageTextToVideo,
+	"IMAGE_TO_IMAGE":      ImportedModelCapabilityImageToImage,
+	"REALTIME":            ImportedModelCapabilityRealtime,
+	"AUDIO_TO_AUDIO":      ImportedModelCapabilityAudioToAudio,
+	"AUDIO_TO_TEXT":       ImportedModelCapabilityAudioToText,
+	"TEXT_TO_AUDIO":       ImportedModelCapabilityTextToAudio,
+	"TEXT_TO_VIDEO":       ImportedModelCapabilityTextToVideo,
 }
 
 var mappingImportedModelCapabilityEnumLowerCase = map[string]ImportedModelCapabilityEnum{
-	"text_to_text":       ImportedModelCapabilityTextToText,
-	"image_text_to_text": ImportedModelCapabilityImageTextToText,
-	"embedding":          ImportedModelCapabilityEmbedding,
-	"rerank":             ImportedModelCapabilityRerank,
-	"text_to_image":      ImportedModelCapabilityTextToImage,
+	"text_to_text":        ImportedModelCapabilityTextToText,
+	"image_text_to_text":  ImportedModelCapabilityImageTextToText,
+	"embedding":           ImportedModelCapabilityEmbedding,
+	"rerank":              ImportedModelCapabilityRerank,
+	"text_to_image":       ImportedModelCapabilityTextToImage,
+	"image_text_to_image": ImportedModelCapabilityImageTextToImage,
+	"image_text_to_video": ImportedModelCapabilityImageTextToVideo,
+	"image_to_image":      ImportedModelCapabilityImageToImage,
+	"realtime":            ImportedModelCapabilityRealtime,
+	"audio_to_audio":      ImportedModelCapabilityAudioToAudio,
+	"audio_to_text":       ImportedModelCapabilityAudioToText,
+	"text_to_audio":       ImportedModelCapabilityTextToAudio,
+	"text_to_video":       ImportedModelCapabilityTextToVideo,
 }
 
 // GetImportedModelCapabilityEnumValues Enumerates the set of values for ImportedModelCapabilityEnum
@@ -61,6 +85,14 @@ func GetImportedModelCapabilityEnumStringValues() []string {
 		"EMBEDDING",
 		"RERANK",
 		"TEXT_TO_IMAGE",
+		"IMAGE_TEXT_TO_IMAGE",
+		"IMAGE_TEXT_TO_VIDEO",
+		"IMAGE_TO_IMAGE",
+		"REALTIME",
+		"AUDIO_TO_AUDIO",
+		"AUDIO_TO_TEXT",
+		"TEXT_TO_AUDIO",
+		"TEXT_TO_VIDEO",
 	}
 }
 

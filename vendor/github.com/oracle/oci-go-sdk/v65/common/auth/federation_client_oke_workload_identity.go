@@ -94,14 +94,12 @@ type token struct {
 // getSecurityToken get security token from Proxymux
 func (c *x509FederationClientForOkeWorkloadIdentity) getSecurityToken() (securityToken, error) {
 	publicKey := string(c.sessionKeySupplier.PublicKeyPemRaw())
-	common.Logf("Public Key for OKE Workload Identity is:", publicKey)
 	rawPayload := workloadIdentityRequestPayload{Podkey: publicKey}
 	payload, err := json.Marshal(rawPayload)
 	if err != nil {
 		return nil, fmt.Errorf("error getting security token%s", err)
 	}
 
-	common.Logf("Payload for OKE Workload Identity is:", string(payload))
 	request, err := http.NewRequest(http.MethodPost, c.proxymuxEndpoint, bytes.NewBuffer(payload))
 
 	if err != nil {
@@ -115,7 +113,6 @@ func (c *x509FederationClientForOkeWorkloadIdentity) getSecurityToken() (securit
 		return nil, fmt.Errorf("error getting service account token %s", err)
 	}
 
-	common.Logf("Service Account Token for OKE Workload Identity is: ", kubernetesServiceAccountToken)
 	request.Header.Add("Authorization", "Bearer "+kubernetesServiceAccountToken)
 	request.Header.Set("Content-Type", "application/json")
 	opcRequestID := utils.GenerateOpcRequestID()

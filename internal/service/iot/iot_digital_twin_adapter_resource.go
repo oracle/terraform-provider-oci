@@ -98,6 +98,16 @@ func IotDigitalTwinAdapterResource() *schema.Resource {
 									// Required
 
 									// Optional
+									"content_root": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"target": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"time_observed": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -521,6 +531,16 @@ func (s *IotDigitalTwinAdapterResourceCrud) SetData() error {
 func (s *IotDigitalTwinAdapterResourceCrud) mapToDigitalTwinAdapterEnvelopeMapping(fieldKeyFormat string) (oci_iot.DigitalTwinAdapterEnvelopeMapping, error) {
 	result := oci_iot.DigitalTwinAdapterEnvelopeMapping{}
 
+	if contentRoot, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "content_root")); ok {
+		tmp := contentRoot.(string)
+		result.ContentRoot = &tmp
+	}
+
+	if target, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target")); ok {
+		tmp := target.(string)
+		result.Target = &tmp
+	}
+
 	if timeObserved, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_observed")); ok {
 		tmp := timeObserved.(string)
 		result.TimeObserved = &tmp
@@ -531,6 +551,14 @@ func (s *IotDigitalTwinAdapterResourceCrud) mapToDigitalTwinAdapterEnvelopeMappi
 
 func DigitalTwinAdapterEnvelopeMappingToMap(obj *oci_iot.DigitalTwinAdapterEnvelopeMapping) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.ContentRoot != nil {
+		result["content_root"] = string(*obj.ContentRoot)
+	}
+
+	if obj.Target != nil {
+		result["target"] = string(*obj.Target)
+	}
 
 	if obj.TimeObserved != nil {
 		result["time_observed"] = string(*obj.TimeObserved)

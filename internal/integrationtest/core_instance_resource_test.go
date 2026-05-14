@@ -1666,6 +1666,100 @@ func (s *ResourceCoreInstanceTestSuite) TestAccResourceCoreInstance_flexVMShape(
 	})
 }
 
+func (s *ResourceCoreInstanceTestSuite) runAccResourceCoreInstanceAcceleratedPvNetworkType() {
+	datasourceName := "data.oci_core_instances.t"
+	singularDatasourceName := "data.oci_core_instance.t"
+
+	resource.Test(s.T(), resource.TestCase{
+		Providers:    s.Providers,
+		CheckDestroy: testAccCheckCoreInstanceDestroy,
+		Steps: []resource.TestStep{
+			{
+				Config: s.Config + `
+data "oci_core_images" "accelerated_pv_supported_shape_images" {
+compartment_id = "${var.tenancy_ocid}"
+shape = "VM.Standard4.Ax.Flex"
+operating_system = "Oracle Linux"
+operating_system_version = "8"
+sort_by = "TIMECREATED"
+sort_order = "DESC"
+}
+
+locals {
+accelerated_pv_image_id = "${length(data.oci_core_images.accelerated_pv_supported_shape_images.images) > 1 ? data.oci_core_images.accelerated_pv_supported_shape_images.images[1].id : data.oci_core_images.accelerated_pv_supported_shape_images.images[0].id}"
+}
+
+resource "oci_core_instance" "t" {
+availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
+compartment_id = "${var.compartment_id}"
+display_name = "-tf-instance-acceleratedpv"
+image = "${local.accelerated_pv_image_id}"
+is_pv_encryption_in_transit_enabled = true
+shape = "VM.Standard4.Ax.Flex"
+subnet_id = "${oci_core_subnet.t.id}"
+create_vnic_details {
+subnet_id = "${oci_core_subnet.t.id}"
+assign_public_ip = true
+skip_source_dest_check = false
+}
+launch_options {
+network_type = "ACCELERATEDPV"
+}
+shape_config {
+ocpus = "1"
+memory_in_gbs = "1"
+}
+}
+
+data "oci_core_instances" "t" {
+compartment_id = "${var.compartment_id}"
+filter {
+name = "id"
+values = ["${oci_core_instance.t.id}"]
+}
+}
+
+data "oci_core_instance" "t" {
+instance_id = "${oci_core_instance.t.id}"
+}`,
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(s.ResourceName, "id"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shape", "VM.Standard4.Ax.Flex"),
+					resource.TestCheckResourceAttr(s.ResourceName, "is_pv_encryption_in_transit_enabled", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.0.is_pv_encryption_in_transit_enabled", "true"),
+					resource.TestCheckResourceAttr(s.ResourceName, "launch_options.0.network_type", "ACCELERATEDPV"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(s.ResourceName, "shape_config.0.memory_in_gbs", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.launch_options.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.launch_options.0.is_pv_encryption_in_transit_enabled", "true"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.launch_options.0.network_type", "ACCELERATEDPV"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.shape", "VM.Standard4.Ax.Flex"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "launch_options.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "launch_options.0.is_pv_encryption_in_transit_enabled", "true"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "launch_options.0.network_type", "ACCELERATEDPV"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape", "VM.Standard4.Ax.Flex"),
+				),
+			},
+		},
+	})
+}
+
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
+func TestCoreInstanceResource_acceleratedPvNetworkType(t *testing.T) {
+	if httpreplay.ModeRecordReplay() {
+		t.Skip("Skip TestCoreInstanceResource_acceleratedPvNetworkType in HttpReplay mode.")
+	}
+
+	s := new(ResourceCoreInstanceTestSuite)
+	s.SetT(t)
+	s.SetS(s)
+	s.SetupTest()
+	s.runAccResourceCoreInstanceAcceleratedPvNetworkType()
+}
+
 // issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestAccResourceCoreInstance_BM_Milan_instance_resource(t *testing.T) {
 	if strings.Contains(utils.GetEnvSettingWithBlankDefault("suppressed_tests"), "TestAccResourceCoreInstance_BM_Milan_instance_resource") {

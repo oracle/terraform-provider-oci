@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Database Tools
+// Database Tools API
 //
 // Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
@@ -31,6 +31,12 @@ const (
 	OperationTypeDeleteDatabaseToolsIdentity            OperationTypeEnum = "DELETE_DATABASE_TOOLS_IDENTITY"
 	OperationTypeUpdateDatabaseToolsIdentity            OperationTypeEnum = "UPDATE_DATABASE_TOOLS_IDENTITY"
 	OperationTypeRefreshDatabaseToolsIdentityCredential OperationTypeEnum = "REFRESH_DATABASE_TOOLS_IDENTITY_CREDENTIAL"
+	OperationTypeCreateDatabaseToolsMcpServer           OperationTypeEnum = "CREATE_DATABASE_TOOLS_MCP_SERVER"
+	OperationTypeDeleteDatabaseToolsMcpServer           OperationTypeEnum = "DELETE_DATABASE_TOOLS_MCP_SERVER"
+	OperationTypeUpdateDatabaseToolsMcpServer           OperationTypeEnum = "UPDATE_DATABASE_TOOLS_MCP_SERVER"
+	OperationTypeCreateDatabaseToolsMcpToolset          OperationTypeEnum = "CREATE_DATABASE_TOOLS_MCP_TOOLSET"
+	OperationTypeDeleteDatabaseToolsMcpToolset          OperationTypeEnum = "DELETE_DATABASE_TOOLS_MCP_TOOLSET"
+	OperationTypeUpdateDatabaseToolsMcpToolset          OperationTypeEnum = "UPDATE_DATABASE_TOOLS_MCP_TOOLSET"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -47,6 +53,12 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"DELETE_DATABASE_TOOLS_IDENTITY":             OperationTypeDeleteDatabaseToolsIdentity,
 	"UPDATE_DATABASE_TOOLS_IDENTITY":             OperationTypeUpdateDatabaseToolsIdentity,
 	"REFRESH_DATABASE_TOOLS_IDENTITY_CREDENTIAL": OperationTypeRefreshDatabaseToolsIdentityCredential,
+	"CREATE_DATABASE_TOOLS_MCP_SERVER":           OperationTypeCreateDatabaseToolsMcpServer,
+	"DELETE_DATABASE_TOOLS_MCP_SERVER":           OperationTypeDeleteDatabaseToolsMcpServer,
+	"UPDATE_DATABASE_TOOLS_MCP_SERVER":           OperationTypeUpdateDatabaseToolsMcpServer,
+	"CREATE_DATABASE_TOOLS_MCP_TOOLSET":          OperationTypeCreateDatabaseToolsMcpToolset,
+	"DELETE_DATABASE_TOOLS_MCP_TOOLSET":          OperationTypeDeleteDatabaseToolsMcpToolset,
+	"UPDATE_DATABASE_TOOLS_MCP_TOOLSET":          OperationTypeUpdateDatabaseToolsMcpToolset,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -63,6 +75,12 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"delete_database_tools_identity":             OperationTypeDeleteDatabaseToolsIdentity,
 	"update_database_tools_identity":             OperationTypeUpdateDatabaseToolsIdentity,
 	"refresh_database_tools_identity_credential": OperationTypeRefreshDatabaseToolsIdentityCredential,
+	"create_database_tools_mcp_server":           OperationTypeCreateDatabaseToolsMcpServer,
+	"delete_database_tools_mcp_server":           OperationTypeDeleteDatabaseToolsMcpServer,
+	"update_database_tools_mcp_server":           OperationTypeUpdateDatabaseToolsMcpServer,
+	"create_database_tools_mcp_toolset":          OperationTypeCreateDatabaseToolsMcpToolset,
+	"delete_database_tools_mcp_toolset":          OperationTypeDeleteDatabaseToolsMcpToolset,
+	"update_database_tools_mcp_toolset":          OperationTypeUpdateDatabaseToolsMcpToolset,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -90,6 +108,12 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_DATABASE_TOOLS_IDENTITY",
 		"UPDATE_DATABASE_TOOLS_IDENTITY",
 		"REFRESH_DATABASE_TOOLS_IDENTITY_CREDENTIAL",
+		"CREATE_DATABASE_TOOLS_MCP_SERVER",
+		"DELETE_DATABASE_TOOLS_MCP_SERVER",
+		"UPDATE_DATABASE_TOOLS_MCP_SERVER",
+		"CREATE_DATABASE_TOOLS_MCP_TOOLSET",
+		"DELETE_DATABASE_TOOLS_MCP_TOOLSET",
+		"UPDATE_DATABASE_TOOLS_MCP_TOOLSET",
 	}
 }
 

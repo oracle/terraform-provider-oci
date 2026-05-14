@@ -38,6 +38,12 @@ func IotDigitalTwinInstanceResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"connectivity_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -80,6 +86,14 @@ func IotDigitalTwinInstanceResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"gateways": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 
 			// Computed
@@ -176,6 +190,10 @@ func (s *IotDigitalTwinInstanceResourceCrud) CreateWithContext(ctx context.Conte
 		request.AuthId = &tmp
 	}
 
+	if connectivityType, ok := s.D.GetOkExists("connectivity_type"); ok {
+		request.ConnectivityType = oci_iot.DigitalTwinInstanceConnectivityTypeEnum(connectivityType.(string))
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -216,6 +234,19 @@ func (s *IotDigitalTwinInstanceResourceCrud) CreateWithContext(ctx context.Conte
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if gateways, ok := s.D.GetOkExists("gateways"); ok {
+		interfaces := gateways.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("gateways") {
+			request.Gateways = tmp
+		}
 	}
 
 	if iotDomainId, ok := s.D.GetOkExists("iot_domain_id"); ok {
@@ -304,6 +335,19 @@ func (s *IotDigitalTwinInstanceResourceCrud) UpdateWithContext(ctx context.Conte
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if gateways, ok := s.D.GetOkExists("gateways"); ok {
+		interfaces := gateways.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("gateways") {
+			request.Gateways = tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "iot")
 
 	response, err := s.Client.UpdateDigitalTwinInstance(ctx, request)
@@ -331,6 +375,8 @@ func (s *IotDigitalTwinInstanceResourceCrud) SetData() error {
 	if s.Res.AuthId != nil {
 		s.D.Set("auth_id", *s.Res.AuthId)
 	}
+
+	s.D.Set("connectivity_type", s.Res.ConnectivityType)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
@@ -362,6 +408,8 @@ func (s *IotDigitalTwinInstanceResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	s.D.Set("gateways", s.Res.Gateways)
+
 	if s.Res.IotDomainId != nil {
 		s.D.Set("iot_domain_id", *s.Res.IotDomainId)
 	}
@@ -389,6 +437,8 @@ func DigitalTwinInstanceSummaryToMap(obj oci_iot.DigitalTwinInstanceSummary) map
 	if obj.AuthId != nil {
 		result["auth_id"] = string(*obj.AuthId)
 	}
+
+	result["connectivity_type"] = string(obj.ConnectivityType)
 
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
@@ -419,6 +469,8 @@ func DigitalTwinInstanceSummaryToMap(obj oci_iot.DigitalTwinInstanceSummary) map
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
+
+	result["gateways"] = obj.Gateways
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)

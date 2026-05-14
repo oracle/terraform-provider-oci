@@ -28,9 +28,9 @@ func BatchBatchContextResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: schema.DefaultTimeout(50 * time.Minute),
-			Update: schema.DefaultTimeout(50 * time.Minute),
-			Delete: schema.DefaultTimeout(50 * time.Minute),
+			Create: schema.DefaultTimeout(8 * time.Hour),
+			Update: schema.DefaultTimeout(8 * time.Hour),
+			Delete: schema.DefaultTimeout(8 * time.Hour),
 		},
 		CreateContext: createBatchBatchContextWithContext,
 		ReadContext:   readBatchBatchContextWithContext,
@@ -403,13 +403,28 @@ func deleteBatchBatchContextWithContext(ctx context.Context, d *schema.ResourceD
 
 type BatchBatchContextResourceCrud struct {
 	tfresource.BaseCrud
-	Client                 *oci_batch.BatchComputingClient
-	Res                    *oci_batch.BatchContext
-	DisableNotFoundRetries bool
+	Client                   *oci_batch.BatchComputingClient
+	Res                      *oci_batch.BatchContext
+	DeleteTreatsFailedAsGone bool
+	DisableNotFoundRetries   bool
 }
 
 func (s *BatchBatchContextResourceCrud) ID() string {
 	return *s.Res.Id
+}
+
+func (s *BatchBatchContextResourceCrud) State() string {
+	state := s.BaseCrud.State()
+	if s.DeleteTreatsFailedAsGone && state == string(oci_batch.BatchContextLifecycleStateFailed) {
+		return string(oci_batch.BatchContextLifecycleStateDeleted)
+	}
+	return state
+}
+
+func (s *BatchBatchContextResourceCrud) normalizeFailedStateForDelete() {
+	if s.DeleteTreatsFailedAsGone && s.Res != nil && s.Res.LifecycleState == oci_batch.BatchContextLifecycleStateFailed {
+		s.Res.LifecycleState = oci_batch.BatchContextLifecycleStateDeleted
+	}
 }
 
 func (s *BatchBatchContextResourceCrud) CreatedPending() []string {
@@ -432,9 +447,13 @@ func (s *BatchBatchContextResourceCrud) DeletedPending() []string {
 }
 
 func (s *BatchBatchContextResourceCrud) DeletedTarget() []string {
-	return []string{
+	targets := []string{
 		string(oci_batch.BatchContextLifecycleStateDeleted),
 	}
+	if s.DeleteTreatsFailedAsGone {
+		targets = append(targets, string(oci_batch.BatchContextLifecycleStateFailed))
+	}
+	return targets
 }
 
 func (s *BatchBatchContextResourceCrud) CreateWithContext(ctx context.Context) error {
@@ -570,6 +589,9 @@ func (s *BatchBatchContextResourceCrud) getBatchContextFromWorkRequest(ctx conte
 			if state == oci_batch.BatchContextLifecycleStateActive {
 				return s.GetWithContext(ctx)
 			}
+			if actionTypeEnum == oci_batch.ActionTypeDeleted && batchContextTerminalDeleteState(state) {
+				return nil
+			}
 		}
 		// If we can't verify the resource state, return the original error
 		return err
@@ -612,6 +634,34 @@ func batchContextWorkRequestShouldRetryFunc(timeout time.Duration) func(response
 	}
 }
 
+func batchContextTerminalDeleteState(state oci_batch.BatchContextLifecycleStateEnum) bool {
+	return state == oci_batch.BatchContextLifecycleStateDeleted ||
+		state == oci_batch.BatchContextLifecycleStateFailed
+}
+
+func batchContextReachedTerminalDeleteState(ctx context.Context, resourceId *string, retryPolicy *oci_common.RetryPolicy, client *oci_batch.BatchComputingClient) bool {
+	if resourceId == nil || *resourceId == "" {
+		return false
+	}
+
+	getRequest := oci_batch.GetBatchContextRequest{
+		BatchContextId: resourceId,
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: retryPolicy,
+		},
+	}
+	getResponse, getErr := client.GetBatchContext(ctx, getRequest)
+	if getErr == nil && getResponse.BatchContext.Id != nil {
+		return batchContextTerminalDeleteState(getResponse.BatchContext.LifecycleState)
+	}
+
+	if failure, isServiceError := oci_common.IsServiceError(getErr); isServiceError && failure.GetHTTPStatusCode() == 404 {
+		return true
+	}
+
+	return false
+}
+
 func checkBatchContextStateForWorkRequest(ctx context.Context, resourceId *string, action oci_batch.ActionTypeEnum, retryPolicy *oci_common.RetryPolicy, client *oci_batch.BatchComputingClient) (*oci_batch.WorkRequest, string, error) {
 	if resourceId == nil || *resourceId == "" {
 		return nil, "", nil
@@ -626,7 +676,11 @@ func checkBatchContextStateForWorkRequest(ctx context.Context, resourceId *strin
 	getResponse, getErr := client.GetBatchContext(ctx, getRequest)
 	if getErr == nil && getResponse.BatchContext.Id != nil {
 		state := getResponse.BatchContext.LifecycleState
-		// Fail fast if resource is in FAILED state
+		if action == oci_batch.ActionTypeDeleted && batchContextTerminalDeleteState(state) {
+			return &oci_batch.WorkRequest{
+				Status: oci_batch.OperationStatusSucceeded,
+			}, string(oci_batch.OperationStatusSucceeded), nil
+		}
 		if state == oci_batch.BatchContextLifecycleStateFailed {
 			return nil, "", fmt.Errorf("resource entered FAILED state")
 		}
@@ -641,12 +695,6 @@ func checkBatchContextStateForWorkRequest(ctx context.Context, resourceId *strin
 			return &oci_batch.WorkRequest{
 				Status: oci_batch.OperationStatusInProgress,
 			}, string(oci_batch.OperationStatusInProgress), nil
-		}
-		// For DELETE: If resource is DELETED, consider work request succeeded
-		if action == oci_batch.ActionTypeDeleted && state == oci_batch.BatchContextLifecycleStateDeleted {
-			return &oci_batch.WorkRequest{
-				Status: oci_batch.OperationStatusSucceeded,
-			}, string(oci_batch.OperationStatusSucceeded), nil
 		}
 		// For DELETE: If still DELETING, continue waiting
 		if action == oci_batch.ActionTypeDeleted && state == oci_batch.BatchContextLifecycleStateDeleting {
@@ -722,6 +770,10 @@ func batchContextWaitForWorkRequest(ctx context.Context, wId *string, resourceId
 	if _, e := stateConf.WaitForState(); e != nil {
 		// If we have a resource ID and it timed out, check if resource is in acceptable state
 		if resourceId != nil && *resourceId != "" {
+			if action == oci_batch.ActionTypeDeleted && batchContextReachedTerminalDeleteState(ctx, resourceId, retryPolicy, client) {
+				return resourceId, nil
+			}
+
 			getRequest := oci_batch.GetBatchContextRequest{
 				BatchContextId: resourceId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -736,17 +788,6 @@ func batchContextWaitForWorkRequest(ctx context.Context, wId *string, resourceId
 					(state == oci_batch.BatchContextLifecycleStateActive ||
 						state == oci_batch.BatchContextLifecycleStateNeedsAttention) {
 					// Resource is in acceptable state, return the resource ID
-					return resourceId, nil
-				}
-				// For DELETE: Check if resource is deleted
-				if action == oci_batch.ActionTypeDeleted &&
-					state == oci_batch.BatchContextLifecycleStateDeleted {
-					// Resource is deleted, return the resource ID
-					return resourceId, nil
-				}
-			} else if action == oci_batch.ActionTypeDeleted {
-				// For DELETE: 404 means resource is deleted
-				if failure, isServiceError := oci_common.IsServiceError(getErr); isServiceError && failure.GetHTTPStatusCode() == 404 {
 					return resourceId, nil
 				}
 			}
@@ -790,6 +831,9 @@ func batchContextWaitForWorkRequest(ctx context.Context, wId *string, resourceId
 	}
 	// Otherwise, check for errors
 	if identifier == nil || workRequestStatus == oci_batch.OperationStatusFailed || workRequestStatus == oci_batch.OperationStatusCanceled {
+		if action == oci_batch.ActionTypeDeleted && batchContextReachedTerminalDeleteState(ctx, resourceId, retryPolicy, client) {
+			return resourceId, nil
+		}
 		return nil, getErrorFromBatchBatchContextWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
@@ -833,6 +877,7 @@ func (s *BatchBatchContextResourceCrud) GetWithContext(ctx context.Context) erro
 	}
 
 	s.Res = &response.BatchContext
+	s.normalizeFailedStateForDelete()
 	return nil
 }
 
@@ -921,6 +966,8 @@ func (s *BatchBatchContextResourceCrud) UpdateWithContext(ctx context.Context) e
 }
 
 func (s *BatchBatchContextResourceCrud) DeleteWithContext(ctx context.Context) error {
+	s.DeleteTreatsFailedAsGone = true
+
 	// Check if resource is already deleted before attempting delete
 	resourceId := s.D.Id()
 	getRequest := oci_batch.GetBatchContextRequest{
@@ -937,10 +984,15 @@ func (s *BatchBatchContextResourceCrud) DeleteWithContext(ctx context.Context) e
 			return nil
 		}
 		// For other errors, continue with delete attempt
-	} else if getResponse.BatchContext.Id != nil && getResponse.BatchContext.LifecycleState == oci_batch.BatchContextLifecycleStateDeleted {
-		// Resource is already in DELETED state
-		log.Printf("[DEBUG] BatchContext already in DELETED state, considering delete successful")
-		return nil
+	} else if getResponse.BatchContext.Id != nil {
+		switch getResponse.BatchContext.LifecycleState {
+		case oci_batch.BatchContextLifecycleStateDeleted:
+			log.Printf("[DEBUG] BatchContext already in DELETED state, considering delete successful")
+			return nil
+		case oci_batch.BatchContextLifecycleStateFailed:
+			log.Printf("[DEBUG] BatchContext already in FAILED terminal state, considering delete successful")
+			return nil
+		}
 	}
 
 	request := oci_batch.DeleteBatchContextRequest{}
@@ -952,6 +1004,10 @@ func (s *BatchBatchContextResourceCrud) DeleteWithContext(ctx context.Context) e
 		// If resource is already deleted (404), consider delete successful
 		if failure, isServiceError := oci_common.IsServiceError(err); isServiceError && failure.GetHTTPStatusCode() == 404 {
 			log.Printf("[DEBUG] BatchContext already deleted, considering delete successful")
+			return nil
+		}
+		if batchContextReachedTerminalDeleteState(ctx, &resourceId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "batch"), s.Client) {
+			log.Printf("[DEBUG] BatchContext reached terminal delete state after delete attempt failed, considering delete successful")
 			return nil
 		}
 		return err
