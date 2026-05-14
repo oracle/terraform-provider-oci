@@ -1,0 +1,52 @@
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
+// This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
+// Code generated. DO NOT EDIT.
+
+// Database Tools API
+//
+// Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
+//
+
+package databasetools
+
+import (
+	"strings"
+)
+
+// DatabaseToolsSqlReportTypeEnum Enum with underlying type: string
+type DatabaseToolsSqlReportTypeEnum string
+
+// Set of constants representing the allowable values for DatabaseToolsSqlReportTypeEnum
+const (
+	DatabaseToolsSqlReportTypeOracleDatabase DatabaseToolsSqlReportTypeEnum = "ORACLE_DATABASE"
+)
+
+var mappingDatabaseToolsSqlReportTypeEnum = map[string]DatabaseToolsSqlReportTypeEnum{
+	"ORACLE_DATABASE": DatabaseToolsSqlReportTypeOracleDatabase,
+}
+
+var mappingDatabaseToolsSqlReportTypeEnumLowerCase = map[string]DatabaseToolsSqlReportTypeEnum{
+	"oracle_database": DatabaseToolsSqlReportTypeOracleDatabase,
+}
+
+// GetDatabaseToolsSqlReportTypeEnumValues Enumerates the set of values for DatabaseToolsSqlReportTypeEnum
+func GetDatabaseToolsSqlReportTypeEnumValues() []DatabaseToolsSqlReportTypeEnum {
+	values := make([]DatabaseToolsSqlReportTypeEnum, 0)
+	for _, v := range mappingDatabaseToolsSqlReportTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDatabaseToolsSqlReportTypeEnumStringValues Enumerates the set of values in String for DatabaseToolsSqlReportTypeEnum
+func GetDatabaseToolsSqlReportTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_DATABASE",
+	}
+}
+
+// GetMappingDatabaseToolsSqlReportTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDatabaseToolsSqlReportTypeEnum(val string) (DatabaseToolsSqlReportTypeEnum, bool) {
+	enum, ok := mappingDatabaseToolsSqlReportTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}

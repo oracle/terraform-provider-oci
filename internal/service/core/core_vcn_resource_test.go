@@ -125,6 +125,48 @@ func TestCoreVcnResourceCrud_setBYOIPv6Details(t *testing.T) {
 	}
 }
 
+func TestCoreVcnResourceIpv6PrivateCidrBlocksDiffSuppress(t *testing.T) {
+	diffSuppressFunc := CoreVcnResource().Schema["ipv6private_cidr_blocks"].DiffSuppressFunc
+	if diffSuppressFunc == nil {
+		t.Fatal("expected ipv6private_cidr_blocks to define a DiffSuppressFunc")
+	}
+
+	tests := []struct {
+		name string
+		old  string
+		new  string
+		want bool
+	}{
+		{
+			name: "suppresses equivalent compressed and expanded cidrs",
+			old:  "fc00::/48",
+			new:  "fc00:0000::/48",
+			want: true,
+		},
+		{
+			name: "does not suppress different cidrs",
+			old:  "fc00::/48",
+			new:  "fc00:0001::/48",
+			want: false,
+		},
+		{
+			name: "does not suppress different prefix lengths",
+			old:  "fc00::/48",
+			new:  "fc00::/64",
+			want: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := diffSuppressFunc("ipv6private_cidr_blocks.0", tt.old, tt.new, nil)
+			if got != tt.want {
+				t.Fatalf("DiffSuppressFunc(%q, %q) = %v, want %v", tt.old, tt.new, got, tt.want)
+			}
+		})
+	}
+}
+
 func buildByoipv6DetailsDiff(
 	t *testing.T,
 	customizeDiff schema.CustomizeDiffFunc,
@@ -180,6 +222,114 @@ func diffHasByoipv6CidrDetailsIndexChanges(diff *terraform.InstanceDiff, index i
 	}
 
 	return false
+}
+
+func buildCoreVcnResourceDataForDiffTest(t *testing.T, stateAttrs map[string]string, diffAttrs map[string]*terraform.ResourceAttrDiff) *schema.ResourceData {
+	t.Helper()
+
+	schemaMap := schema.InternalMap(CoreVcnResource().Schema)
+	data, err := schemaMap.Data(&terraform.InstanceState{
+		ID:         "ocid1.vcn.oc1..exampleuniqueID",
+		Attributes: stateAttrs,
+	}, &terraform.InstanceDiff{
+		Attributes: diffAttrs,
+	})
+	if err != nil {
+		t.Fatalf("schemaMap.Data() error = %v", err)
+	}
+
+	return data
+}
+
+func TestOracleGuaCidrForRemoval(t *testing.T) {
+	const oracleGuaCidr = "2607:f590:0000:2200::/56"
+
+	tests := []struct {
+		name       string
+		stateAttrs map[string]string
+		diffAttrs  map[string]*terraform.ResourceAttrDiff
+		wantCidr   string
+		wantOK     bool
+	}{
+		{
+			name: "returns the only ipv6cidr_blocks value when oracle GUA is disabled",
+			stateAttrs: map[string]string{
+				"is_oracle_gua_allocation_enabled": "true",
+				"ipv6cidr_blocks.#":                "1",
+				"ipv6cidr_blocks.0":                oracleGuaCidr,
+			},
+			diffAttrs: map[string]*terraform.ResourceAttrDiff{
+				"is_oracle_gua_allocation_enabled": {
+					Old: "true",
+					New: "false",
+				},
+			},
+			wantCidr: oracleGuaCidr,
+			wantOK:   true,
+		},
+		{
+			name: "does not remove when oracle GUA is enabled",
+			stateAttrs: map[string]string{
+				"is_oracle_gua_allocation_enabled": "false",
+				"ipv6cidr_blocks.#":                "1",
+				"ipv6cidr_blocks.0":                oracleGuaCidr,
+			},
+			diffAttrs: map[string]*terraform.ResourceAttrDiff{
+				"is_oracle_gua_allocation_enabled": {
+					Old: "false",
+					New: "true",
+				},
+			},
+		},
+		{
+			name: "does not remove when oracle GUA is unchanged",
+			stateAttrs: map[string]string{
+				"is_oracle_gua_allocation_enabled": "true",
+				"ipv6cidr_blocks.#":                "1",
+				"ipv6cidr_blocks.0":                oracleGuaCidr,
+			},
+			diffAttrs: map[string]*terraform.ResourceAttrDiff{},
+		},
+		{
+			name: "does not remove when more than one ipv6cidr_blocks value exists",
+			stateAttrs: map[string]string{
+				"is_oracle_gua_allocation_enabled": "true",
+				"ipv6cidr_blocks.#":                "2",
+				"ipv6cidr_blocks.0":                oracleGuaCidr,
+				"ipv6cidr_blocks.1":                "2607:f590:0000:2300::/56",
+			},
+			diffAttrs: map[string]*terraform.ResourceAttrDiff{
+				"is_oracle_gua_allocation_enabled": {
+					Old: "true",
+					New: "false",
+				},
+			},
+		},
+		{
+			name: "does not remove when no ipv6cidr_blocks value exists",
+			stateAttrs: map[string]string{
+				"is_oracle_gua_allocation_enabled": "true",
+				"ipv6cidr_blocks.#":                "0",
+			},
+			diffAttrs: map[string]*terraform.ResourceAttrDiff{
+				"is_oracle_gua_allocation_enabled": {
+					Old: "true",
+					New: "false",
+				},
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			d := buildCoreVcnResourceDataForDiffTest(t, tt.stateAttrs, tt.diffAttrs)
+
+			gotCidr, gotOK := oracleGuaCidrForRemoval(d)
+			if gotOK != tt.wantOK || gotCidr != tt.wantCidr {
+				t.Fatalf("oracleGuaCidrForRemoval() = (%q, %v), want (%q, %v)", gotCidr, gotOK, tt.wantCidr, tt.wantOK)
+			}
+		})
+	}
 }
 
 func TestSuppressMatchingByoipv6CidrDetailsDiff(t *testing.T) {
@@ -326,7 +476,7 @@ func TestSuppressMatchingByoipv6CidrDetailsDiff(t *testing.T) {
 			wantSuppressed:      false,
 		},
 		{
-			name: "reorders middle-entry drift into append-style add",
+			name: "preserves config order for middle-entry drift restoration",
 			fields: fields{
 				stateRaw: map[string]interface{}{
 					"byoipv6cidr_details": []interface{}{
@@ -376,15 +526,15 @@ func TestSuppressMatchingByoipv6CidrDetailsDiff(t *testing.T) {
 				t.Fatalf("suppressed diff state = %v, want %v; diff = %#v", got, tt.wantSuppressed, suppressedDiff.Attributes)
 			}
 
-			if tt.name == "reorders middle-entry drift into append-style add" {
+			if tt.name == "preserves config order for middle-entry drift restoration" {
 				if !diffHasByoipv6CidrDetailsIndexChanges(baselineDiff, 1) {
 					t.Fatalf("baseline diff should show a middle-entry change; diff = %#v", baselineDiff.Attributes)
 				}
-				if diffHasByoipv6CidrDetailsIndexChanges(suppressedDiff, 1) {
-					t.Fatalf("suppressed diff should not show a middle-entry change; diff = %#v", suppressedDiff.Attributes)
-				}
 				if !diffHasByoipv6CidrDetailsIndexChanges(suppressedDiff, 2) {
-					t.Fatalf("suppressed diff should preserve only the append-style add; diff = %#v", suppressedDiff.Attributes)
+					t.Fatalf("suppressed diff should preserve the trailing shifted entry; diff = %#v", suppressedDiff.Attributes)
+				}
+				if !diffHasByoipv6CidrDetailsIndexChanges(suppressedDiff, 1) {
+					t.Fatalf("suppressed diff should preserve config-order middle restoration; diff = %#v", suppressedDiff.Attributes)
 				}
 			}
 		})
@@ -447,10 +597,10 @@ func TestSuppressMatchingByoipv6CidrDetailsDiff_AfterRefreshDriftRemoval(t *test
 		t.Fatalf("Resource.Diff() error = %v", err)
 	}
 
-	if diffHasByoipv6CidrDetailsIndexChanges(diff, 1) {
-		t.Fatalf("refreshed diff should not show a middle-entry change after suppression; diff = %#v", diff.Attributes)
+	if !diffHasByoipv6CidrDetailsIndexChanges(diff, 1) {
+		t.Fatalf("refreshed diff should restore the missing middle entry in config order; diff = %#v", diff.Attributes)
 	}
 	if !diffHasByoipv6CidrDetailsIndexChanges(diff, 2) {
-		t.Fatalf("refreshed diff should preserve only the append-style add; diff = %#v", diff.Attributes)
+		t.Fatalf("refreshed diff should preserve the trailing shifted entry; diff = %#v", diff.Attributes)
 	}
 }

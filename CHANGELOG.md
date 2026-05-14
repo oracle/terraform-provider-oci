@@ -1,3 +1,16 @@
+## 8.14.0 (May 13, 2026)
+
+### Added
+- Support for Add a new networkType - ACCELERATEDPV
+- Support for Database Tools - MCP Server, DB API Gateway Config, IAM Auth API ONLY (Data Plane)
+- Support for OCI IoT Service Indirectly Connected Devices
+- Support for PATCH APIs to add/delete multiple IPv6 prefixes
+
+### Bug Fix
+- Treat failed Batch Context as deleted during destroy
+- Updated timeout for update network firewall workflow.
+- Support to delete GUA on VCN using existing boolean
+
 ## 8.13.0 (May 5, 2026)
 
 ### Added

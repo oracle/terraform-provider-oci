@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Database Tools
+// Database Tools API
 //
 // Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
@@ -28,11 +28,6 @@ type CreateDatabaseToolsConnectionOracleDatabaseDetails struct {
 	// The connect descriptor or Easy Connect Naming method use to connect to the database.
 	ConnectionString *string `mandatory:"true" json:"connectionString"`
 
-	// The database user name.
-	UserName *string `mandatory:"true" json:"userName"`
-
-	UserPassword DatabaseToolsUserPasswordDetails `mandatory:"true" json:"userPassword"`
-
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
@@ -45,6 +40,11 @@ type CreateDatabaseToolsConnectionOracleDatabaseDetails struct {
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
 	RelatedResource *CreateDatabaseToolsRelatedResourceDetails `mandatory:"false" json:"relatedResource"`
+
+	// The database user name.
+	UserName *string `mandatory:"false" json:"userName"`
+
+	UserPassword DatabaseToolsUserPasswordDetails `mandatory:"false" json:"userPassword"`
 
 	// The advanced connection properties key-value pair (e.g., `oracle.net.ssl_server_dn_match`).
 	AdvancedProperties map[string]string `mandatory:"false" json:"advancedProperties"`
@@ -61,8 +61,11 @@ type CreateDatabaseToolsConnectionOracleDatabaseDetails struct {
 	// Specifies whether this connection is supported by the Database Tools Runtime.
 	RuntimeSupport RuntimeSupportEnum `mandatory:"false" json:"runtimeSupport,omitempty"`
 
-	// Specifies the identity used by the Database Tools service to issue requests to other OCI services (e.g., Secrets in Vault).
+	// Specifies the identity used when accessing OCI resources at runtime. AUTHENTICATED_PRINCIPAL to use the caller’s identity (On-Behalf-Of token), or RESOURCE_PRINCIPAL to use the connection’s resource principal (RPST).
 	RuntimeIdentity RuntimeIdentityEnum `mandatory:"false" json:"runtimeIdentity,omitempty"`
+
+	// Specifies the authentication type used by the Database Tools service to authenticate with the database.
+	AuthenticationType AuthenticationTypeEnum `mandatory:"false" json:"authenticationType,omitempty"`
 }
 
 // GetDisplayName returns DisplayName
@@ -116,6 +119,9 @@ func (m CreateDatabaseToolsConnectionOracleDatabaseDetails) ValidateEnumValue() 
 	if _, ok := GetMappingRuntimeIdentityEnum(string(m.RuntimeIdentity)); !ok && m.RuntimeIdentity != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeIdentity: %s. Supported values are: %s.", m.RuntimeIdentity, strings.Join(GetRuntimeIdentityEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingAuthenticationTypeEnum(string(m.AuthenticationType)); !ok && m.AuthenticationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AuthenticationType: %s. Supported values are: %s.", m.AuthenticationType, strings.Join(GetAuthenticationTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -145,15 +151,16 @@ func (m *CreateDatabaseToolsConnectionOracleDatabaseDetails) UnmarshalJSON(data 
 		RuntimeSupport     RuntimeSupportEnum                                      `json:"runtimeSupport"`
 		RuntimeIdentity    RuntimeIdentityEnum                                     `json:"runtimeIdentity"`
 		RelatedResource    *CreateDatabaseToolsRelatedResourceDetails              `json:"relatedResource"`
+		UserName           *string                                                 `json:"userName"`
+		UserPassword       databasetoolsuserpassworddetails                        `json:"userPassword"`
 		AdvancedProperties map[string]string                                       `json:"advancedProperties"`
 		KeyStores          []DatabaseToolsKeyStoreDetails                          `json:"keyStores"`
 		PrivateEndpointId  *string                                                 `json:"privateEndpointId"`
 		ProxyClient        databasetoolsconnectionoracledatabaseproxyclientdetails `json:"proxyClient"`
+		AuthenticationType AuthenticationTypeEnum                                  `json:"authenticationType"`
 		DisplayName        *string                                                 `json:"displayName"`
 		CompartmentId      *string                                                 `json:"compartmentId"`
 		ConnectionString   *string                                                 `json:"connectionString"`
-		UserName           *string                                                 `json:"userName"`
-		UserPassword       databasetoolsuserpassworddetails                        `json:"userPassword"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -173,6 +180,18 @@ func (m *CreateDatabaseToolsConnectionOracleDatabaseDetails) UnmarshalJSON(data 
 
 	m.RelatedResource = model.RelatedResource
 
+	m.UserName = model.UserName
+
+	nn, e = model.UserPassword.UnmarshalPolymorphicJSON(model.UserPassword.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.UserPassword = nn.(DatabaseToolsUserPasswordDetails)
+	} else {
+		m.UserPassword = nil
+	}
+
 	m.AdvancedProperties = model.AdvancedProperties
 
 	m.KeyStores = make([]DatabaseToolsKeyStoreDetails, len(model.KeyStores))
@@ -189,23 +208,13 @@ func (m *CreateDatabaseToolsConnectionOracleDatabaseDetails) UnmarshalJSON(data 
 		m.ProxyClient = nil
 	}
 
+	m.AuthenticationType = model.AuthenticationType
+
 	m.DisplayName = model.DisplayName
 
 	m.CompartmentId = model.CompartmentId
 
 	m.ConnectionString = model.ConnectionString
-
-	m.UserName = model.UserName
-
-	nn, e = model.UserPassword.UnmarshalPolymorphicJSON(model.UserPassword.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.UserPassword = nn.(DatabaseToolsUserPasswordDetails)
-	} else {
-		m.UserPassword = nil
-	}
 
 	return
 }

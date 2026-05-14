@@ -499,6 +499,7 @@ func testAccCheckBatchBatchContextDestroy(s *terraform.State) error {
 			if err == nil {
 				deletedLifecycleStates := map[string]bool{
 					string(oci_batch.BatchContextLifecycleStateDeleted): true,
+					string(oci_batch.BatchContextLifecycleStateFailed):  true,
 				}
 				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
 					//resource lifecycle state is not in expected deleted lifecycle states.

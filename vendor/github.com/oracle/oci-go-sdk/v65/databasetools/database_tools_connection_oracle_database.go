@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Database Tools
+// Database Tools API
 //
 // Use the Database Tools API to manage connections, private endpoints, and work requests in the Database Tools service.
 //
@@ -60,7 +60,7 @@ type DatabaseToolsConnectionOracleDatabase struct {
 
 	RelatedResource *DatabaseToolsRelatedResource `mandatory:"false" json:"relatedResource"`
 
-	// The database user name.
+	// The database user name. When authenticationType is TOKEN, if provided, userName must be in square brackets (for example, [proxyClient]).
 	UserName *string `mandatory:"false" json:"userName"`
 
 	UserPassword DatabaseToolsUserPassword `mandatory:"false" json:"userPassword"`
@@ -83,8 +83,11 @@ type DatabaseToolsConnectionOracleDatabase struct {
 	// Specifies whether this connection is supported by the Database Tools Runtime.
 	RuntimeSupport RuntimeSupportEnum `mandatory:"true" json:"runtimeSupport"`
 
-	// Specifies the identity used by the Database Tools service to issue requests to other OCI services (e.g., Secrets in Vault).
+	// Specifies the identity used when accessing OCI resources at runtime. AUTHENTICATED_PRINCIPAL to use the caller’s identity (On-Behalf-Of token), or RESOURCE_PRINCIPAL to use the connection’s resource principal (RPST).
 	RuntimeIdentity RuntimeIdentityEnum `mandatory:"true" json:"runtimeIdentity"`
+
+	// Specifies the authentication type used to connect to the database.
+	AuthenticationType AuthenticationTypeEnum `mandatory:"true" json:"authenticationType"`
 }
 
 // GetId returns Id
@@ -176,6 +179,9 @@ func (m DatabaseToolsConnectionOracleDatabase) ValidateEnumValue() (bool, error)
 	if _, ok := GetMappingRuntimeIdentityEnum(string(m.RuntimeIdentity)); !ok && m.RuntimeIdentity != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeIdentity: %s. Supported values are: %s.", m.RuntimeIdentity, strings.Join(GetRuntimeIdentityEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingAuthenticationTypeEnum(string(m.AuthenticationType)); !ok && m.AuthenticationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AuthenticationType: %s. Supported values are: %s.", m.AuthenticationType, strings.Join(GetAuthenticationTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -221,6 +227,7 @@ func (m *DatabaseToolsConnectionOracleDatabase) UnmarshalJSON(data []byte) (e er
 		RuntimeEndpoint    *string                                          `json:"runtimeEndpoint"`
 		RuntimeIdentity    RuntimeIdentityEnum                              `json:"runtimeIdentity"`
 		ConnectionString   *string                                          `json:"connectionString"`
+		AuthenticationType AuthenticationTypeEnum                           `json:"authenticationType"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -287,6 +294,8 @@ func (m *DatabaseToolsConnectionOracleDatabase) UnmarshalJSON(data []byte) (e er
 	m.RuntimeIdentity = model.RuntimeIdentity
 
 	m.ConnectionString = model.ConnectionString
+
+	m.AuthenticationType = model.AuthenticationType
 
 	return
 }

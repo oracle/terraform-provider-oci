@@ -610,7 +610,7 @@ func (p fileConfigurationProvider) AuthType() (AuthConfig, error) {
 	if val == "instance_principal" {
 		if filePath, err := presentOrError(info.DelegationTokenFilePath, hasDelegationTokenFile, info.PresentConfiguration, "delegationTokenFilePath"); err == nil {
 			if delegationToken, err := getTokenContent(filePath); err == nil && delegationToken != "" {
-				Debugf("delegation token content is %s, and error is %s ", delegationToken, err)
+				Debugf("delegation token loaded from config file")
 				return AuthConfig{InstancePrincipalDelegationToken, true, &delegationToken}, nil
 			}
 			return AuthConfig{UnknownAuthenticationType, true, nil}, err

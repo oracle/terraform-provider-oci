@@ -71,6 +71,8 @@ func (s *IotDigitalTwinInstanceDataSourceCrud) SetData() error {
 		s.D.Set("auth_id", *s.Res.AuthId)
 	}
 
+	s.D.Set("connectivity_type", s.Res.ConnectivityType)
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
@@ -100,6 +102,8 @@ func (s *IotDigitalTwinInstanceDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	s.D.Set("gateways", s.Res.Gateways)
 
 	if s.Res.IotDomainId != nil {
 		s.D.Set("iot_domain_id", *s.Res.IotDomainId)

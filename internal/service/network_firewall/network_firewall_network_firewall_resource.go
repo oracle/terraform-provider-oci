@@ -27,7 +27,7 @@ func NetworkFirewallNetworkFirewallResource() *schema.Resource {
 		},
 		Timeouts: &schema.ResourceTimeout{
 			Create: tfresource.GetTimeoutDuration("1h"),
-			Update: tfresource.GetTimeoutDuration("1h"),
+			Update: tfresource.GetTimeoutDuration("2h"),
 			Delete: tfresource.GetTimeoutDuration("20m"),
 		},
 		Create: createNetworkFirewallNetworkFirewall,

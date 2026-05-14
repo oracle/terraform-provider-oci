@@ -375,7 +375,7 @@ func NewClientWithConfig(configProvider ConfigurationProvider) (client BaseClien
 	client = defaultBaseClient(configProvider)
 
 	if authConfig, e := configProvider.AuthType(); e == nil && authConfig.OboToken != nil {
-		Debugf("authConfig's authType is %s, and token content is %s", authConfig.AuthType, *authConfig.OboToken)
+		Debugf("authConfig's authType is %s", authConfig.AuthType)
 		signOboToken(&client, *authConfig.OboToken, configProvider)
 	}
 
@@ -560,7 +560,7 @@ func checkForSuccessfulResponse(res *http.Response, requestBody *io.ReadCloser) 
 				logRequest(res.Request, Logf, noLogging)
 				if requestBody != nil && *requestBody != http.NoBody {
 					bodyContent, _ := ioutil.ReadAll(*requestBody)
-					Logf("Dump Request Body: \n%s", string(bodyContent))
+					Logf("Dump Request Body: \n%s", RedactSensitiveStringForLogs(string(bodyContent)))
 				}
 			}
 			logResponse(res, Logf, infoLogging)
@@ -585,7 +585,7 @@ func logRequest(request *http.Request, fn func(format string, v ...interface{}),
 
 	dumpBody = dumpBody && defaultLogger.LogLevel() >= bodyLoggingLevel && bodyLoggingLevel != noLogging
 	if dump, e := httputil.DumpRequestOut(request, dumpBody); e == nil {
-		fn("Dump Request %s", string(dump))
+		fn("Dump Request %s", RedactSensitiveStringForLogs(string(dump)))
 	} else {
 		fn("%v\n", e)
 	}
@@ -602,7 +602,7 @@ func logResponse(response *http.Response, fn func(format string, v ...interface{
 	}
 	dumpBody = dumpBody && defaultLogger.LogLevel() >= bodyLoggingLevel && bodyLoggingLevel != noLogging
 	if dump, e := httputil.DumpResponse(response, dumpBody); e == nil {
-		fn("Dump Response %s", string(dump))
+		fn("Dump Response %s", RedactSensitiveStringForLogs(string(dump)))
 	} else {
 		fn("%v\n", e)
 	}
