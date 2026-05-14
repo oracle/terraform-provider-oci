@@ -76,6 +76,9 @@ type Volume struct {
 	// The OCID of the Vault service key which is the master encryption key for the volume.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
+	// The OCID of the key version of the KmsKeyId assigned to the block volume.
+	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
+
 	// The number of volume performance units (VPUs) that will be applied to this volume per GB,
 	// representing the Block Volume service's elastic performance options.
 	// See Block Volume Performance Levels (https://docs.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
@@ -162,6 +165,7 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 		SystemTags              map[string]map[string]interface{} `json:"systemTags"`
 		IsHydrated              *bool                             `json:"isHydrated"`
 		KmsKeyId                *string                           `json:"kmsKeyId"`
+		KmsKeyVersionId         *string                           `json:"kmsKeyVersionId"`
 		VpusPerGB               *int64                            `json:"vpusPerGB"`
 		IoAlignmentSizeInBytes  *int                              `json:"ioAlignmentSizeInBytes"`
 		ClusterPlacementGroupId *string                           `json:"clusterPlacementGroupId"`
@@ -200,6 +204,8 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 	m.IsHydrated = model.IsHydrated
 
 	m.KmsKeyId = model.KmsKeyId
+
+	m.KmsKeyVersionId = model.KmsKeyVersionId
 
 	m.VpusPerGB = model.VpusPerGB
 

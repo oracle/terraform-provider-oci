@@ -82,6 +82,9 @@ type BootVolumeBackup struct {
 	// Using Keys (https://docs.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm).
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
+	// The OCID of the key version of the KmsKeyId assigned to the boot volume backup.
+	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
+
 	// The size of the boot volume, in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 
@@ -120,6 +123,9 @@ type BootVolumeBackup struct {
 
 	// The OCID of the volume group backup associated with the backup. This is an optional field. If it is not present in the response, the backup does not belong to a volume group.
 	VolumeGroupBackupId *string `mandatory:"false" json:"volumeGroupBackupId"`
+
+	// isRotateEncryptionKeys is an optional boolean field which when set to true, updates the KMS keys of the resource to its latest version.
+	IsRotateEncryptionKeys *bool `mandatory:"false" json:"isRotateEncryptionKeys"`
 }
 
 func (m BootVolumeBackup) String() string {

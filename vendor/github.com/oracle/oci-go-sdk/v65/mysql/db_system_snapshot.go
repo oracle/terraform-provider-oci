@@ -87,6 +87,9 @@ type DbSystemSnapshot struct {
 	// "dotted-quad" style IPv4 address.
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
 
+	// The IPv6 address the DB System is configured to listen on.
+	Ipv6Address *string `mandatory:"false" json:"ipv6Address"`
+
 	// The port for primary endpoint of the DB System to listen on.
 	Port *int `mandatory:"false" json:"port"`
 

@@ -87,6 +87,9 @@ type BootVolumeReplica struct {
 	// Using Keys (https://docs.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm).
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
+	// The OCID of the key version of the KmsKeyId assigned to the boot volume replica.
+	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
+
 	// The list of buildings the volume replica is placed.
 	BuildingList []string `mandatory:"false" json:"buildingList"`
 }

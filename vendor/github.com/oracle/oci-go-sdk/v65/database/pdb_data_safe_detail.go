@@ -15,33 +15,30 @@ import (
 	"strings"
 )
 
-// DefinedFileSystemConfiguration Details of the file system configuration of the Exadata infrastructure.
-type DefinedFileSystemConfiguration struct {
+// PdbDataSafeDetail pdb to register for datasafe
+type PdbDataSafeDetail struct {
 
-	// The mount point of file system.
-	MountPoint *string `mandatory:"false" json:"mountPoint"`
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pluggable database.
+	Id *string `mandatory:"false" json:"id"`
 
-	// The minimum size of file system.
-	MinSizeGb *int `mandatory:"false" json:"minSizeGb"`
+	// datasafe user account name for the pluggable database
+	Username *string `mandatory:"false" json:"username"`
 
-	// The maximum size of file system.
-	MaxSizeGb *int `mandatory:"false" json:"maxSizeGb"`
+	// Current password
+	OldPassword *string `mandatory:"false" json:"oldPassword"`
 
-	// If true, the file system resize is allowed for the Exadata Infrastructure cluster. If false, the file system resize is not allowed.
-	IsResizable *bool `mandatory:"false" json:"isResizable"`
-
-	// If true, the file system is used to create a backup prior to Exadata VM OS update.
-	IsBackupPartition *bool `mandatory:"false" json:"isBackupPartition"`
+	// New password
+	NewPassword *string `mandatory:"false" json:"newPassword"`
 }
 
-func (m DefinedFileSystemConfiguration) String() string {
+func (m PdbDataSafeDetail) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DefinedFileSystemConfiguration) ValidateEnumValue() (bool, error) {
+func (m PdbDataSafeDetail) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

@@ -57,6 +57,8 @@ type DataGuardGroupMember struct {
 	IsActiveDataGuardEnabled *bool `mandatory:"false" json:"isActiveDataGuardEnabled"`
 
 	// The switchover readiness status of the Data Guard member.
+	// * HEALTHY_AND_NOT_ROLECHANGE_TARGET - Indicates that the respective standby member is healthy
+	// but not currently designated to take switchover, when auto failover is enabled.
 	SwitchoverReadiness DataGuardGroupMemberSwitchoverReadinessEnum `mandatory:"false" json:"switchoverReadiness,omitempty"`
 
 	// The message explaining switchover readiness status.
@@ -64,6 +66,8 @@ type DataGuardGroupMember struct {
 	SwitchoverReadinessMessage *string `mandatory:"false" json:"switchoverReadinessMessage"`
 
 	// The failover readiness status of the Data Guard member.
+	// HEALTHY_AND_NOT_ROLECHANGE_TARGET - Indicates that the respective standby member is healthy
+	// but not currently designated to take failover, when auto failover is enabled.
 	FailoverReadiness DataGuardGroupMemberFailoverReadinessEnum `mandatory:"false" json:"failoverReadiness,omitempty"`
 
 	// The message explaining failover readiness status.
@@ -222,21 +226,24 @@ type DataGuardGroupMemberSwitchoverReadinessEnum string
 
 // Set of constants representing the allowable values for DataGuardGroupMemberSwitchoverReadinessEnum
 const (
-	DataGuardGroupMemberSwitchoverReadinessHealthy  DataGuardGroupMemberSwitchoverReadinessEnum = "HEALTHY"
-	DataGuardGroupMemberSwitchoverReadinessWarning  DataGuardGroupMemberSwitchoverReadinessEnum = "WARNING"
-	DataGuardGroupMemberSwitchoverReadinessCritical DataGuardGroupMemberSwitchoverReadinessEnum = "CRITICAL"
+	DataGuardGroupMemberSwitchoverReadinessHealthy                       DataGuardGroupMemberSwitchoverReadinessEnum = "HEALTHY"
+	DataGuardGroupMemberSwitchoverReadinessWarning                       DataGuardGroupMemberSwitchoverReadinessEnum = "WARNING"
+	DataGuardGroupMemberSwitchoverReadinessCritical                      DataGuardGroupMemberSwitchoverReadinessEnum = "CRITICAL"
+	DataGuardGroupMemberSwitchoverReadinessHealthyAndNotRolechangeTarget DataGuardGroupMemberSwitchoverReadinessEnum = "HEALTHY_AND_NOT_ROLECHANGE_TARGET"
 )
 
 var mappingDataGuardGroupMemberSwitchoverReadinessEnum = map[string]DataGuardGroupMemberSwitchoverReadinessEnum{
-	"HEALTHY":  DataGuardGroupMemberSwitchoverReadinessHealthy,
-	"WARNING":  DataGuardGroupMemberSwitchoverReadinessWarning,
-	"CRITICAL": DataGuardGroupMemberSwitchoverReadinessCritical,
+	"HEALTHY":                           DataGuardGroupMemberSwitchoverReadinessHealthy,
+	"WARNING":                           DataGuardGroupMemberSwitchoverReadinessWarning,
+	"CRITICAL":                          DataGuardGroupMemberSwitchoverReadinessCritical,
+	"HEALTHY_AND_NOT_ROLECHANGE_TARGET": DataGuardGroupMemberSwitchoverReadinessHealthyAndNotRolechangeTarget,
 }
 
 var mappingDataGuardGroupMemberSwitchoverReadinessEnumLowerCase = map[string]DataGuardGroupMemberSwitchoverReadinessEnum{
-	"healthy":  DataGuardGroupMemberSwitchoverReadinessHealthy,
-	"warning":  DataGuardGroupMemberSwitchoverReadinessWarning,
-	"critical": DataGuardGroupMemberSwitchoverReadinessCritical,
+	"healthy":                           DataGuardGroupMemberSwitchoverReadinessHealthy,
+	"warning":                           DataGuardGroupMemberSwitchoverReadinessWarning,
+	"critical":                          DataGuardGroupMemberSwitchoverReadinessCritical,
+	"healthy_and_not_rolechange_target": DataGuardGroupMemberSwitchoverReadinessHealthyAndNotRolechangeTarget,
 }
 
 // GetDataGuardGroupMemberSwitchoverReadinessEnumValues Enumerates the set of values for DataGuardGroupMemberSwitchoverReadinessEnum
@@ -254,6 +261,7 @@ func GetDataGuardGroupMemberSwitchoverReadinessEnumStringValues() []string {
 		"HEALTHY",
 		"WARNING",
 		"CRITICAL",
+		"HEALTHY_AND_NOT_ROLECHANGE_TARGET",
 	}
 }
 
@@ -268,21 +276,24 @@ type DataGuardGroupMemberFailoverReadinessEnum string
 
 // Set of constants representing the allowable values for DataGuardGroupMemberFailoverReadinessEnum
 const (
-	DataGuardGroupMemberFailoverReadinessHealthy  DataGuardGroupMemberFailoverReadinessEnum = "HEALTHY"
-	DataGuardGroupMemberFailoverReadinessWarning  DataGuardGroupMemberFailoverReadinessEnum = "WARNING"
-	DataGuardGroupMemberFailoverReadinessCritical DataGuardGroupMemberFailoverReadinessEnum = "CRITICAL"
+	DataGuardGroupMemberFailoverReadinessHealthy                       DataGuardGroupMemberFailoverReadinessEnum = "HEALTHY"
+	DataGuardGroupMemberFailoverReadinessWarning                       DataGuardGroupMemberFailoverReadinessEnum = "WARNING"
+	DataGuardGroupMemberFailoverReadinessCritical                      DataGuardGroupMemberFailoverReadinessEnum = "CRITICAL"
+	DataGuardGroupMemberFailoverReadinessHealthyAndNotRolechangeTarget DataGuardGroupMemberFailoverReadinessEnum = "HEALTHY_AND_NOT_ROLECHANGE_TARGET"
 )
 
 var mappingDataGuardGroupMemberFailoverReadinessEnum = map[string]DataGuardGroupMemberFailoverReadinessEnum{
-	"HEALTHY":  DataGuardGroupMemberFailoverReadinessHealthy,
-	"WARNING":  DataGuardGroupMemberFailoverReadinessWarning,
-	"CRITICAL": DataGuardGroupMemberFailoverReadinessCritical,
+	"HEALTHY":                           DataGuardGroupMemberFailoverReadinessHealthy,
+	"WARNING":                           DataGuardGroupMemberFailoverReadinessWarning,
+	"CRITICAL":                          DataGuardGroupMemberFailoverReadinessCritical,
+	"HEALTHY_AND_NOT_ROLECHANGE_TARGET": DataGuardGroupMemberFailoverReadinessHealthyAndNotRolechangeTarget,
 }
 
 var mappingDataGuardGroupMemberFailoverReadinessEnumLowerCase = map[string]DataGuardGroupMemberFailoverReadinessEnum{
-	"healthy":  DataGuardGroupMemberFailoverReadinessHealthy,
-	"warning":  DataGuardGroupMemberFailoverReadinessWarning,
-	"critical": DataGuardGroupMemberFailoverReadinessCritical,
+	"healthy":                           DataGuardGroupMemberFailoverReadinessHealthy,
+	"warning":                           DataGuardGroupMemberFailoverReadinessWarning,
+	"critical":                          DataGuardGroupMemberFailoverReadinessCritical,
+	"healthy_and_not_rolechange_target": DataGuardGroupMemberFailoverReadinessHealthyAndNotRolechangeTarget,
 }
 
 // GetDataGuardGroupMemberFailoverReadinessEnumValues Enumerates the set of values for DataGuardGroupMemberFailoverReadinessEnum
@@ -300,6 +311,7 @@ func GetDataGuardGroupMemberFailoverReadinessEnumStringValues() []string {
 		"HEALTHY",
 		"WARNING",
 		"CRITICAL",
+		"HEALTHY_AND_NOT_ROLECHANGE_TARGET",
 	}
 }
 

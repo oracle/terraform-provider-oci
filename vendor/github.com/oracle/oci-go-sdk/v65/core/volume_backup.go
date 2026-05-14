@@ -78,6 +78,9 @@ type VolumeBackup struct {
 	// Using Keys (https://docs.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm).
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
+	// The OCID of the key version of the KmsKeyId assigned to the volume backup.
+	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
+
 	// The size (in Bytes) of the blocks for this block volume, between 512B to 32KB.
 	IoAlignmentSizeInBytes *int `mandatory:"false" json:"ioAlignmentSizeInBytes"`
 
@@ -128,6 +131,9 @@ type VolumeBackup struct {
 
 	// The OCID of the volume group backup associated with the backup. This is an optional field. If it is not present in the response, the backup does not belong to a volume group.
 	VolumeGroupBackupId *string `mandatory:"false" json:"volumeGroupBackupId"`
+
+	// isRotateEncryptionKeys is an optional boolean field which when set to true, updates the KMS keys of the resource to its latest version.
+	IsRotateEncryptionKeys *bool `mandatory:"false" json:"isRotateEncryptionKeys"`
 }
 
 func (m VolumeBackup) String() string {

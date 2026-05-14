@@ -54,6 +54,10 @@ func (m *certificaterule) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 		mm := CertificateRenewalRule{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "CERTIFICATE_AUTO_SCHEDULE_DELETE_VERSIONS_RULE":
+		mm := CertificateAutoScheduleDeleteVersionsRule{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for CertificateRule: %s.", m.RuleType)
 		return *m, nil
@@ -81,15 +85,18 @@ type CertificateRuleRuleTypeEnum string
 
 // Set of constants representing the allowable values for CertificateRuleRuleTypeEnum
 const (
-	CertificateRuleRuleTypeCertificateRenewalRule CertificateRuleRuleTypeEnum = "CERTIFICATE_RENEWAL_RULE"
+	CertificateRuleRuleTypeRenewalRule                    CertificateRuleRuleTypeEnum = "CERTIFICATE_RENEWAL_RULE"
+	CertificateRuleRuleTypeAutoScheduleDeleteVersionsRule CertificateRuleRuleTypeEnum = "CERTIFICATE_AUTO_SCHEDULE_DELETE_VERSIONS_RULE"
 )
 
 var mappingCertificateRuleRuleTypeEnum = map[string]CertificateRuleRuleTypeEnum{
-	"CERTIFICATE_RENEWAL_RULE": CertificateRuleRuleTypeCertificateRenewalRule,
+	"CERTIFICATE_RENEWAL_RULE":                       CertificateRuleRuleTypeRenewalRule,
+	"CERTIFICATE_AUTO_SCHEDULE_DELETE_VERSIONS_RULE": CertificateRuleRuleTypeAutoScheduleDeleteVersionsRule,
 }
 
 var mappingCertificateRuleRuleTypeEnumLowerCase = map[string]CertificateRuleRuleTypeEnum{
-	"certificate_renewal_rule": CertificateRuleRuleTypeCertificateRenewalRule,
+	"certificate_renewal_rule":                       CertificateRuleRuleTypeRenewalRule,
+	"certificate_auto_schedule_delete_versions_rule": CertificateRuleRuleTypeAutoScheduleDeleteVersionsRule,
 }
 
 // GetCertificateRuleRuleTypeEnumValues Enumerates the set of values for CertificateRuleRuleTypeEnum
@@ -105,6 +112,7 @@ func GetCertificateRuleRuleTypeEnumValues() []CertificateRuleRuleTypeEnum {
 func GetCertificateRuleRuleTypeEnumStringValues() []string {
 	return []string{
 		"CERTIFICATE_RENEWAL_RULE",
+		"CERTIFICATE_AUTO_SCHEDULE_DELETE_VERSIONS_RULE",
 	}
 }
 

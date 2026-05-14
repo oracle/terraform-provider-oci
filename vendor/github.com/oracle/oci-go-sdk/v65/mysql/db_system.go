@@ -135,6 +135,12 @@ type DbSystem struct {
 	// "dotted-quad" style IPv4 address.
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
 
+	// Whether an IPv6 address has been allocated for the DB system when attached
+	// to an IPv6 enabled subnet. Default: False.
+	IsIpv6Enabled *bool `mandatory:"false" json:"isIpv6Enabled"`
+
+	Ipv6AddressIpv6SubnetCidrPairDetails *Ipv6AddressIpv6SubnetCidrPairDetails `mandatory:"false" json:"ipv6AddressIpv6SubnetCidrPairDetails"`
+
 	// The port for primary endpoint of the DB System to listen on.
 	Port *int `mandatory:"false" json:"port"`
 
@@ -219,54 +225,56 @@ func (m DbSystem) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description                *string                           `json:"description"`
-		NsgIds                     []string                          `json:"nsgIds"`
-		SecurityAttributes         map[string]map[string]interface{} `json:"securityAttributes"`
-		Rest                       *RestDetails                      `json:"rest"`
-		DatabaseConsole            *DatabaseConsoleDetails           `json:"databaseConsole"`
-		IsHighlyAvailable          *bool                             `json:"isHighlyAvailable"`
-		CurrentPlacement           *DbSystemPlacement                `json:"currentPlacement"`
-		IsHeatWaveClusterAttached  *bool                             `json:"isHeatWaveClusterAttached"`
-		HeatWaveCluster            *HeatWaveClusterSummary           `json:"heatWaveCluster"`
-		AvailabilityDomain         *string                           `json:"availabilityDomain"`
-		FaultDomain                *string                           `json:"faultDomain"`
-		ShapeName                  *string                           `json:"shapeName"`
-		ControlledUpdate           *ControlledUpdate                 `json:"controlledUpdate"`
-		BackupPolicy               *BackupPolicy                     `json:"backupPolicy"`
-		Source                     dbsystemsource                    `json:"source"`
-		ConfigurationId            *string                           `json:"configurationId"`
-		HostnameLabel              *string                           `json:"hostnameLabel"`
-		IpAddress                  *string                           `json:"ipAddress"`
-		Port                       *int                              `json:"port"`
-		PortX                      *int                              `json:"portX"`
-		Endpoints                  []DbSystemEndpoint                `json:"endpoints"`
-		Channels                   []ChannelSummary                  `json:"channels"`
-		LifecycleDetails           *string                           `json:"lifecycleDetails"`
-		FreeformTags               map[string]string                 `json:"freeformTags"`
-		DefinedTags                map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags                 map[string]map[string]interface{} `json:"systemTags"`
-		CrashRecovery              CrashRecoveryStatusEnum           `json:"crashRecovery"`
-		PointInTimeRecoveryDetails *PointInTimeRecoveryDetails       `json:"pointInTimeRecoveryDetails"`
-		DatabaseManagement         DatabaseManagementStatusEnum      `json:"databaseManagement"`
-		SecureConnections          *SecureConnectionDetails          `json:"secureConnections"`
-		EncryptData                *EncryptDataDetails               `json:"encryptData"`
-		CustomerContacts           []CustomerContact                 `json:"customerContacts"`
-		ReadEndpoint               *ReadEndpointDetails              `json:"readEndpoint"`
-		TelemetryConfiguration     *TelemetryConfigurationDetails    `json:"telemetryConfiguration"`
-		Id                         *string                           `json:"id"`
-		DisplayName                *string                           `json:"displayName"`
-		CompartmentId              *string                           `json:"compartmentId"`
-		SubnetId                   *string                           `json:"subnetId"`
-		MysqlVersion               *string                           `json:"mysqlVersion"`
-		DataStorageSizeInGBs       *int                              `json:"dataStorageSizeInGBs"`
-		DataStorage                *DataStorage                      `json:"dataStorage"`
-		LifecycleState             DbSystemLifecycleStateEnum        `json:"lifecycleState"`
-		Maintenance                *MaintenanceDetails               `json:"maintenance"`
-		DeletionPolicy             *DeletionPolicyDetails            `json:"deletionPolicy"`
-		TimeCreated                *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated                *common.SDKTime                   `json:"timeUpdated"`
-		DatabaseMode               DbSystemDatabaseModeEnum          `json:"databaseMode"`
-		AccessMode                 DbSystemAccessModeEnum            `json:"accessMode"`
+		Description                          *string                               `json:"description"`
+		NsgIds                               []string                              `json:"nsgIds"`
+		SecurityAttributes                   map[string]map[string]interface{}     `json:"securityAttributes"`
+		Rest                                 *RestDetails                          `json:"rest"`
+		DatabaseConsole                      *DatabaseConsoleDetails               `json:"databaseConsole"`
+		IsHighlyAvailable                    *bool                                 `json:"isHighlyAvailable"`
+		CurrentPlacement                     *DbSystemPlacement                    `json:"currentPlacement"`
+		IsHeatWaveClusterAttached            *bool                                 `json:"isHeatWaveClusterAttached"`
+		HeatWaveCluster                      *HeatWaveClusterSummary               `json:"heatWaveCluster"`
+		AvailabilityDomain                   *string                               `json:"availabilityDomain"`
+		FaultDomain                          *string                               `json:"faultDomain"`
+		ShapeName                            *string                               `json:"shapeName"`
+		ControlledUpdate                     *ControlledUpdate                     `json:"controlledUpdate"`
+		BackupPolicy                         *BackupPolicy                         `json:"backupPolicy"`
+		Source                               dbsystemsource                        `json:"source"`
+		ConfigurationId                      *string                               `json:"configurationId"`
+		HostnameLabel                        *string                               `json:"hostnameLabel"`
+		IpAddress                            *string                               `json:"ipAddress"`
+		IsIpv6Enabled                        *bool                                 `json:"isIpv6Enabled"`
+		Ipv6AddressIpv6SubnetCidrPairDetails *Ipv6AddressIpv6SubnetCidrPairDetails `json:"ipv6AddressIpv6SubnetCidrPairDetails"`
+		Port                                 *int                                  `json:"port"`
+		PortX                                *int                                  `json:"portX"`
+		Endpoints                            []DbSystemEndpoint                    `json:"endpoints"`
+		Channels                             []ChannelSummary                      `json:"channels"`
+		LifecycleDetails                     *string                               `json:"lifecycleDetails"`
+		FreeformTags                         map[string]string                     `json:"freeformTags"`
+		DefinedTags                          map[string]map[string]interface{}     `json:"definedTags"`
+		SystemTags                           map[string]map[string]interface{}     `json:"systemTags"`
+		CrashRecovery                        CrashRecoveryStatusEnum               `json:"crashRecovery"`
+		PointInTimeRecoveryDetails           *PointInTimeRecoveryDetails           `json:"pointInTimeRecoveryDetails"`
+		DatabaseManagement                   DatabaseManagementStatusEnum          `json:"databaseManagement"`
+		SecureConnections                    *SecureConnectionDetails              `json:"secureConnections"`
+		EncryptData                          *EncryptDataDetails                   `json:"encryptData"`
+		CustomerContacts                     []CustomerContact                     `json:"customerContacts"`
+		ReadEndpoint                         *ReadEndpointDetails                  `json:"readEndpoint"`
+		TelemetryConfiguration               *TelemetryConfigurationDetails        `json:"telemetryConfiguration"`
+		Id                                   *string                               `json:"id"`
+		DisplayName                          *string                               `json:"displayName"`
+		CompartmentId                        *string                               `json:"compartmentId"`
+		SubnetId                             *string                               `json:"subnetId"`
+		MysqlVersion                         *string                               `json:"mysqlVersion"`
+		DataStorageSizeInGBs                 *int                                  `json:"dataStorageSizeInGBs"`
+		DataStorage                          *DataStorage                          `json:"dataStorage"`
+		LifecycleState                       DbSystemLifecycleStateEnum            `json:"lifecycleState"`
+		Maintenance                          *MaintenanceDetails                   `json:"maintenance"`
+		DeletionPolicy                       *DeletionPolicyDetails                `json:"deletionPolicy"`
+		TimeCreated                          *common.SDKTime                       `json:"timeCreated"`
+		TimeUpdated                          *common.SDKTime                       `json:"timeUpdated"`
+		DatabaseMode                         DbSystemDatabaseModeEnum              `json:"databaseMode"`
+		AccessMode                           DbSystemAccessModeEnum                `json:"accessMode"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -317,6 +325,10 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	m.HostnameLabel = model.HostnameLabel
 
 	m.IpAddress = model.IpAddress
+
+	m.IsIpv6Enabled = model.IsIpv6Enabled
+
+	m.Ipv6AddressIpv6SubnetCidrPairDetails = model.Ipv6AddressIpv6SubnetCidrPairDetails
 
 	m.Port = model.Port
 

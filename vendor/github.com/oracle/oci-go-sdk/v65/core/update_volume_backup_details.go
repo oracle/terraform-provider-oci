@@ -54,6 +54,9 @@ type UpdateVolumeBackupDetails struct {
 
 	// feature that preserves backup data from modification or deletion to ensure it remains available for legal or regulatory investigations or litigation, regardless of standard retention policies. This is an optional field. If it is not specified, it is set to null, no legal hold will be applied to the backups.
 	IsIndefiniteRetentionEnabled *bool `mandatory:"false" json:"isIndefiniteRetentionEnabled"`
+
+	// isRotateEncryptionKeys is an optional boolean field which when set to true, updates the KMS keys of the resource to its latest version.
+	IsRotateEncryptionKeys *bool `mandatory:"false" json:"isRotateEncryptionKeys"`
 }
 
 func (m UpdateVolumeBackupDetails) String() string {

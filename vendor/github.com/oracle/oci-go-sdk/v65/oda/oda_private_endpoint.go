@@ -46,6 +46,11 @@ type OdaPrivateEndpoint struct {
 	// List of OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of network security groups (https://docs.oracle.com/iaas/Content/Network/Concepts/networksecuritygroups.htm)
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// Simple key-value pair that is applied without any predefined name, type, or scope.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

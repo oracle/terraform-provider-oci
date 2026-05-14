@@ -564,6 +564,18 @@ type AutonomousDatabase struct {
 
 	// Preferred communication language locale for an Autonomous AI Database provided by user.
 	PreferredCommunicationLanguageLocale *string `mandatory:"false" json:"preferredCommunicationLanguageLocale"`
+
+	// The external logical zone where the Autonomous AI Database Serverless instance is located (Intended for multicloud use).
+	ExternalLocationZone *string `mandatory:"false" json:"externalLocationZone"`
+
+	// The multicloud placement value for the Autonomous AI Database. Use a CSP region for regional placement or a CSP physical zone for explicit AZ placement, for example `eastus` or `eastus-az1`.
+	ExternalLocation *string `mandatory:"false" json:"externalLocation"`
+
+	// The multicloud zone context for the Autonomous AI Database, for example the Azure subscription identifier required to interpret logical zones consistently.
+	ExternalLocationZoneContext *string `mandatory:"false" json:"externalLocationZoneContext"`
+
+	// The list of scheduled update operations for the Autonomous AI Database. Scheduled placement updates are revalidated against the current role and topology at execution time.
+	ScheduledUpdateOperations []ScheduledUpdateOperation `mandatory:"false" json:"scheduledUpdateOperations"`
 }
 
 func (m AutonomousDatabase) String() string {
@@ -798,6 +810,10 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 		AdditionalAttributes                    map[string]string                                       `json:"additionalAttributes"`
 		LocalAdgResourcePoolLeaderId            *string                                                 `json:"localAdgResourcePoolLeaderId"`
 		PreferredCommunicationLanguageLocale    *string                                                 `json:"preferredCommunicationLanguageLocale"`
+		ExternalLocationZone                    *string                                                 `json:"externalLocationZone"`
+		ExternalLocation                        *string                                                 `json:"externalLocation"`
+		ExternalLocationZoneContext             *string                                                 `json:"externalLocationZoneContext"`
+		ScheduledUpdateOperations               []scheduledupdateoperation                              `json:"scheduledUpdateOperations"`
 		Id                                      *string                                                 `json:"id"`
 		CompartmentId                           *string                                                 `json:"compartmentId"`
 		LifecycleState                          AutonomousDatabaseLifecycleStateEnum                    `json:"lifecycleState"`
@@ -1135,6 +1151,24 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 
 	m.PreferredCommunicationLanguageLocale = model.PreferredCommunicationLanguageLocale
 
+	m.ExternalLocationZone = model.ExternalLocationZone
+
+	m.ExternalLocation = model.ExternalLocation
+
+	m.ExternalLocationZoneContext = model.ExternalLocationZoneContext
+
+	m.ScheduledUpdateOperations = make([]ScheduledUpdateOperation, len(model.ScheduledUpdateOperations))
+	for i, n := range model.ScheduledUpdateOperations {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.ScheduledUpdateOperations[i] = nn.(ScheduledUpdateOperation)
+		} else {
+			m.ScheduledUpdateOperations[i] = nil
+		}
+	}
 	m.Id = model.Id
 
 	m.CompartmentId = model.CompartmentId

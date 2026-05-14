@@ -104,6 +104,9 @@ type BootVolume struct {
 	// The OCID of the Vault service master encryption key assigned to the boot volume.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
+	// The OCID of the key version of the KmsKeyId assigned to the boot volume.
+	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
+
 	// Specifies whether the auto-tune performance is enabled for this boot volume. This field is deprecated.
 	// Use the `DetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune.
 	IsAutoTuneEnabled *bool `mandatory:"false" json:"isAutoTuneEnabled"`
@@ -153,6 +156,7 @@ func (m *BootVolume) UnmarshalJSON(data []byte) (e error) {
 		SourceDetails           bootvolumesourcedetails           `json:"sourceDetails"`
 		VolumeGroupId           *string                           `json:"volumeGroupId"`
 		KmsKeyId                *string                           `json:"kmsKeyId"`
+		KmsKeyVersionId         *string                           `json:"kmsKeyVersionId"`
 		IsAutoTuneEnabled       *bool                             `json:"isAutoTuneEnabled"`
 		AutoTunedVpusPerGB      *int64                            `json:"autoTunedVpusPerGB"`
 		BootVolumeReplicas      []BootVolumeReplicaInfo           `json:"bootVolumeReplicas"`
@@ -203,6 +207,8 @@ func (m *BootVolume) UnmarshalJSON(data []byte) (e error) {
 	m.VolumeGroupId = model.VolumeGroupId
 
 	m.KmsKeyId = model.KmsKeyId
+
+	m.KmsKeyVersionId = model.KmsKeyVersionId
 
 	m.IsAutoTuneEnabled = model.IsAutoTuneEnabled
 

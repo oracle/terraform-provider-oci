@@ -57,6 +57,9 @@ type ComputeGpuMemoryFabric struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// List of GPU memory clusters within this GPU memory fabric.
+	ComputeGpuMemoryClusters []string `mandatory:"false" json:"computeGpuMemoryClusters"`
+
 	// Additional data that can be exposed to the customer. Right now it will include the switch tray ids.
 	AdditionalData map[string]interface{} `mandatory:"false" json:"additionalData"`
 

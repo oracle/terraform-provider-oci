@@ -20955,6 +20955,64 @@ func (client DatabaseClient) localClonePluggableDatabase(ctx context.Context, re
 	return response, err
 }
 
+// ManageDataSafe Manage DataSafe on specified Pluggable/Container Databases
+func (client DatabaseClient) ManageDataSafe(ctx context.Context, request ManageDataSafeRequest) (response ManageDataSafeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.manageDataSafe, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ManageDataSafeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ManageDataSafeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ManageDataSafeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ManageDataSafeResponse")
+	}
+	return
+}
+
+// manageDataSafe implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) manageDataSafe(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/datasafe/actions/manage", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ManageDataSafeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "ManageDataSafe")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/ManageDataSafe"
+		err = common.PostProcessServiceError(err, "Database", "ManageDataSafe", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // MigrateAutonomousContainerDatabaseDataguardAssociation Migrate Autonomous Container Database, identified by the autonomousContainerDatabaseId parameter.
 func (client DatabaseClient) MigrateAutonomousContainerDatabaseDataguardAssociation(ctx context.Context, request MigrateAutonomousContainerDatabaseDataguardAssociationRequest) (response MigrateAutonomousContainerDatabaseDataguardAssociationResponse, err error) {
 	var ociResponse common.OCIResponse

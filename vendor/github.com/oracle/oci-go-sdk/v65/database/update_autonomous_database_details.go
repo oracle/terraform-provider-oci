@@ -310,6 +310,9 @@ type UpdateAutonomousDatabaseDetails struct {
 	// True if user wants to schedule Autonomous AI Database upgrade to the earliest available time.
 	IsScheduleDbVersionUpgradeToEarliest *bool `mandatory:"false" json:"isScheduleDbVersionUpgradeToEarliest"`
 
+	// The list of scheduled update operations for the Autonomous AI Database. Scheduled placement updates are revalidated against the current role and topology at execution time.
+	ScheduledUpdateOperations []ScheduledUpdateOperation `mandatory:"false" json:"scheduledUpdateOperations"`
+
 	// The list of scheduled operations. Consists of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	ScheduledOperations []ScheduledOperationDetails `mandatory:"false" json:"scheduledOperations"`
@@ -466,6 +469,7 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		TimeScheduledDbVersionUpgrade        *common.SDKTime                                                      `json:"timeScheduledDbVersionUpgrade"`
 		IsDisableDbVersionUpgradeSchedule    *bool                                                                `json:"isDisableDbVersionUpgradeSchedule"`
 		IsScheduleDbVersionUpgradeToEarliest *bool                                                                `json:"isScheduleDbVersionUpgradeToEarliest"`
+		ScheduledUpdateOperations            []scheduledupdateoperation                                           `json:"scheduledUpdateOperations"`
 		ScheduledOperations                  []ScheduledOperationDetails                                          `json:"scheduledOperations"`
 		IsAutoScalingForStorageEnabled       *bool                                                                `json:"isAutoScalingForStorageEnabled"`
 		DatabaseEdition                      AutonomousDatabaseSummaryDatabaseEditionEnum                         `json:"databaseEdition"`
@@ -611,6 +615,18 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.IsScheduleDbVersionUpgradeToEarliest = model.IsScheduleDbVersionUpgradeToEarliest
 
+	m.ScheduledUpdateOperations = make([]ScheduledUpdateOperation, len(model.ScheduledUpdateOperations))
+	for i, n := range model.ScheduledUpdateOperations {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.ScheduledUpdateOperations[i] = nn.(ScheduledUpdateOperation)
+		} else {
+			m.ScheduledUpdateOperations[i] = nil
+		}
+	}
 	m.ScheduledOperations = make([]ScheduledOperationDetails, len(model.ScheduledOperations))
 	copy(m.ScheduledOperations, model.ScheduledOperations)
 	m.IsAutoScalingForStorageEnabled = model.IsAutoScalingForStorageEnabled

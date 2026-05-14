@@ -202,6 +202,9 @@ type CreateAutonomousDatabaseBase interface {
 	// This setting cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, dbWorkload, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	GetPrivateEndpointLabel() *string
 
+	// The multicloud placement value for the Autonomous AI Database. Use a CSP region for regional placement or a CSP physical zone for explicit AZ placement, for example `eastus` or `eastus-az1`.
+	GetExternalLocation() *string
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -324,6 +327,7 @@ type createautonomousdatabasebase struct {
 	SubnetId                                 *string                                                           `mandatory:"false" json:"subnetId"`
 	NsgIds                                   []string                                                          `mandatory:"false" json:"nsgIds"`
 	PrivateEndpointLabel                     *string                                                           `mandatory:"false" json:"privateEndpointLabel"`
+	ExternalLocation                         *string                                                           `mandatory:"false" json:"externalLocation"`
 	FreeformTags                             map[string]string                                                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags                              map[string]map[string]interface{}                                 `mandatory:"false" json:"definedTags"`
 	SecurityAttributes                       map[string]map[string]interface{}                                 `mandatory:"false" json:"securityAttributes"`
@@ -397,6 +401,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.SubnetId = s.Model.SubnetId
 	m.NsgIds = s.Model.NsgIds
 	m.PrivateEndpointLabel = s.Model.PrivateEndpointLabel
+	m.ExternalLocation = s.Model.ExternalLocation
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SecurityAttributes = s.Model.SecurityAttributes
@@ -652,6 +657,11 @@ func (m createautonomousdatabasebase) GetNsgIds() []string {
 // GetPrivateEndpointLabel returns PrivateEndpointLabel
 func (m createautonomousdatabasebase) GetPrivateEndpointLabel() *string {
 	return m.PrivateEndpointLabel
+}
+
+// GetExternalLocation returns ExternalLocation
+func (m createautonomousdatabasebase) GetExternalLocation() *string {
+	return m.ExternalLocation
 }
 
 // GetFreeformTags returns FreeformTags

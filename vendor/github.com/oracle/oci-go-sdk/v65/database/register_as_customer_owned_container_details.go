@@ -174,6 +174,9 @@ type RegisterAsCustomerOwnedContainerDetails struct {
 	// This setting cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, dbWorkload, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	PrivateEndpointLabel *string `mandatory:"false" json:"privateEndpointLabel"`
 
+	// The multicloud placement value for the Autonomous AI Database. Use a CSP region for regional placement or a CSP physical zone for explicit AZ placement, for example `eastus` or `eastus-az1`.
+	ExternalLocation *string `mandatory:"false" json:"externalLocation"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -463,6 +466,11 @@ func (m RegisterAsCustomerOwnedContainerDetails) GetPrivateEndpointLabel() *stri
 	return m.PrivateEndpointLabel
 }
 
+// GetExternalLocation returns ExternalLocation
+func (m RegisterAsCustomerOwnedContainerDetails) GetExternalLocation() *string {
+	return m.ExternalLocation
+}
+
 // GetFreeformTags returns FreeformTags
 func (m RegisterAsCustomerOwnedContainerDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
@@ -659,6 +667,7 @@ func (m *RegisterAsCustomerOwnedContainerDetails) UnmarshalJSON(data []byte) (e 
 		SubnetId                                 *string                                                           `json:"subnetId"`
 		NsgIds                                   []string                                                          `json:"nsgIds"`
 		PrivateEndpointLabel                     *string                                                           `json:"privateEndpointLabel"`
+		ExternalLocation                         *string                                                           `json:"externalLocation"`
 		FreeformTags                             map[string]string                                                 `json:"freeformTags"`
 		DefinedTags                              map[string]map[string]interface{}                                 `json:"definedTags"`
 		SecurityAttributes                       map[string]map[string]interface{}                                 `json:"securityAttributes"`
@@ -767,6 +776,8 @@ func (m *RegisterAsCustomerOwnedContainerDetails) UnmarshalJSON(data []byte) (e 
 	m.NsgIds = make([]string, len(model.NsgIds))
 	copy(m.NsgIds, model.NsgIds)
 	m.PrivateEndpointLabel = model.PrivateEndpointLabel
+
+	m.ExternalLocation = model.ExternalLocation
 
 	m.FreeformTags = model.FreeformTags
 
