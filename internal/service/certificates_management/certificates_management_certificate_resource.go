@@ -27,11 +27,12 @@ func CertificatesManagementCertificateResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCertificatesManagementCertificate,
-		Read:     readCertificatesManagementCertificate,
-		Update:   updateCertificatesManagementCertificate,
-		Delete:   deleteCertificatesManagementCertificate,
+		Timeouts:      tfresource.DefaultTimeout,
+		Create:        createCertificatesManagementCertificate,
+		Read:          readCertificatesManagementCertificate,
+		Update:        updateCertificatesManagementCertificate,
+		Delete:        deleteCertificatesManagementCertificate,
+		CustomizeDiff: certificatesManagementCertificateCustomizeDiff,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"certificate_config": {
@@ -49,6 +50,7 @@ func CertificatesManagementCertificateResource() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{
 								"ISSUED_BY_INTERNAL_CA",
 								"MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA",
+								"IMPORTED",
 							}, true),
 						},
 						"certificate_profile_type": {
@@ -256,6 +258,38 @@ func CertificatesManagementCertificateResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: false,
+						},
+						// IMPORTED-only fields (used when config_type = "IMPORTED").
+						// Required by the SDK in that case, but kept Optional in
+						// schema because they're not used by the other config_types.
+						"cert_chain_pem": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: false,
+						},
+						"certificate_pem": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: false,
+						},
+						"private_key_pem": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							Sensitive: true,
+							Computed:  false,
+						},
+						"private_key_pem_passphrase": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							Sensitive: true,
+							Computed:  false,
+						},
+						// Update-only: rotation stage for IMPORTED renewals.
+						// Allowed values: CURRENT (default), PENDING.
+						"stage": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 
 						// Computed
@@ -489,6 +523,11 @@ func CertificatesManagementCertificateResource() *schema.Resource {
 					},
 				},
 			},
+			"current_version_number": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"issuer_certificate_authority_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -600,6 +639,221 @@ func CertificatesManagementCertificateResource() *schema.Resource {
 			},
 		},
 	}
+}
+
+func certificatesManagementCertificateCustomizeDiff(_ context.Context, diff *schema.ResourceDiff, _ interface{}) error {
+	fieldKeyFormat := "certificate_config.0.%s"
+
+	rawConfigType, ok := diff.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_type"))
+	if !ok {
+		return nil
+	}
+
+	configType, ok := rawConfigType.(string)
+	if !ok {
+		return nil
+	}
+
+	configType = strings.ToUpper(strings.TrimSpace(configType))
+	importedRequiredFields := []string{"cert_chain_pem", "certificate_pem", "private_key_pem"}
+	importedOnlyFields := []string{"cert_chain_pem", "certificate_pem", "private_key_pem", "private_key_pem_passphrase", "stage"}
+
+	if configType == "IMPORTED" {
+		if importedCertificateMaterialRequired(diff, fieldKeyFormat) {
+			for _, field := range importedRequiredFields {
+				key := fmt.Sprintf(fieldKeyFormat, field)
+				if !certificateConfigDiffStringProvided(diff, key) {
+					return fmt.Errorf("%s is required when certificate_config.0.config_type is IMPORTED", key)
+				}
+			}
+		}
+		return nil
+	}
+
+	for _, field := range importedOnlyFields {
+		key := fmt.Sprintf(fieldKeyFormat, field)
+		if certificateConfigDiffStringProvided(diff, key) {
+			return fmt.Errorf("%s can only be used when certificate_config.0.config_type is IMPORTED", key)
+		}
+	}
+
+	return nil
+}
+
+func importedCertificateMaterialRequired(diff *schema.ResourceDiff, fieldKeyFormat string) bool {
+	if diff.Id() == "" {
+		return true
+	}
+	if currentVersionNumberDiffRequested(diff) {
+		return false
+	}
+	if diff.HasChange(fmt.Sprintf(fieldKeyFormat, "config_type")) {
+		return true
+	}
+
+	updateTriggerFields := []string{
+		"cert_chain_pem",
+		"certificate_pem",
+		"private_key_pem",
+		"private_key_pem_passphrase",
+		"stage",
+		"version_name",
+	}
+
+	for _, field := range updateTriggerFields {
+		if certificateConfigDiffStringProvided(diff, fmt.Sprintf(fieldKeyFormat, field)) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func currentVersionNumberDiffRequested(diff *schema.ResourceDiff) bool {
+	value, ok := diff.GetOkExists("current_version_number")
+	if !ok {
+		return false
+	}
+
+	stringValue, ok := value.(string)
+	if !ok {
+		return false
+	}
+
+	return strings.TrimSpace(stringValue) != ""
+}
+
+type certificateConfigDataTracker interface {
+	GetOkExists(string) (interface{}, bool)
+	GetChange(string) (interface{}, interface{})
+	HasChange(string) bool
+	Id() string
+}
+
+func importedCertificateConfigUpdateRequested(data certificateConfigDataTracker, fieldKeyFormat string) bool {
+	if !data.HasChange("certificate_config") {
+		return false
+	}
+
+	rawConfigType, ok := data.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_type"))
+	if !ok {
+		return false
+	}
+
+	configType, ok := rawConfigType.(string)
+	if !ok {
+		return false
+	}
+
+	if strings.ToUpper(strings.TrimSpace(configType)) != "IMPORTED" {
+		return true
+	}
+
+	return importedCertificateMaterialUpdateRequested(data, fieldKeyFormat)
+}
+
+func importedCertificateMaterialUpdateRequested(data certificateConfigDataTracker, fieldKeyFormat string) bool {
+	if data.Id() == "" {
+		return true
+	}
+	if data.HasChange(fmt.Sprintf(fieldKeyFormat, "config_type")) {
+		return true
+	}
+
+	updateTriggerFields := []string{
+		"cert_chain_pem",
+		"certificate_pem",
+		"private_key_pem",
+		"private_key_pem_passphrase",
+		"stage",
+		"version_name",
+	}
+
+	for _, field := range updateTriggerFields {
+		if certificateConfigDataChangeStringProvided(data, fmt.Sprintf(fieldKeyFormat, field)) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func certificateConfigDiffStringProvided(diff *schema.ResourceDiff, key string) bool {
+	_, value := diff.GetChange(key)
+	stringValue, ok := value.(string)
+	if !ok {
+		return false
+	}
+
+	return strings.TrimSpace(stringValue) != ""
+}
+
+func certificateConfigDataStringProvided(data certificateConfigDataTracker, key string) bool {
+	value, ok := data.GetOkExists(key)
+	if !ok {
+		return false
+	}
+
+	stringValue, ok := value.(string)
+	if !ok {
+		return false
+	}
+
+	return strings.TrimSpace(stringValue) != ""
+}
+
+func certificateConfigDataChangeStringProvided(data certificateConfigDataTracker, key string) bool {
+	if !data.HasChange(key) {
+		return false
+	}
+
+	_, value := data.GetChange(key)
+	stringValue, ok := value.(string)
+	if !ok {
+		return false
+	}
+
+	return strings.TrimSpace(stringValue) != ""
+}
+
+func currentVersionNumberUpdateRequested(data certificateConfigDataTracker) (int64, bool, error) {
+	if !data.HasChange("current_version_number") {
+		return 0, false, nil
+	}
+
+	value, ok := data.GetOkExists("current_version_number")
+	if !ok {
+		return 0, false, nil
+	}
+
+	stringValue, ok := value.(string)
+	if !ok {
+		return 0, false, nil
+	}
+
+	stringValue = strings.TrimSpace(stringValue)
+	if stringValue == "" {
+		return 0, false, nil
+	}
+
+	parsedValue, err := strconv.ParseInt(stringValue, 10, 64)
+	if err != nil {
+		return 0, false, fmt.Errorf("unable to convert currentVersionNumber string: %s to an int64 and encountered error: %v", stringValue, err)
+	}
+
+	return parsedValue, true, nil
+}
+
+func currentVersionNumberUpdateHasConflicts(data certificateConfigDataTracker, certificateConfigUpdated bool) bool {
+	if !data.HasChange("current_version_number") {
+		return false
+	}
+
+	return certificateConfigUpdated ||
+		data.HasChange("defined_tags") ||
+		data.HasChange("description") ||
+		data.HasChange("freeform_tags") ||
+		data.HasChange("certificate_rules")
 }
 
 func createCertificatesManagementCertificate(d *schema.ResourceData, m interface{}) error {
@@ -780,28 +1034,33 @@ func (s *CertificatesManagementCertificateResourceCrud) Update() error {
 		}
 	}
 	request := oci_certificates_management.UpdateCertificateRequest{}
+	certificateConfigUpdated := false
 
-	if certificateConfig, ok := s.D.GetOkExists("certificate_config"); ok && s.D.HasChange("certificate_config") {
+	if certificateConfig, ok := s.D.GetOkExists("certificate_config"); ok {
 		if tmpList := certificateConfig.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "certificate_config", 0)
-			tmp, err := s.mapToUpdateCertificateConfigDetails(fieldKeyFormat)
-			if err != nil {
-				return err
+			if importedCertificateConfigUpdateRequested(s.D, fieldKeyFormat) {
+				tmp, err := s.mapToUpdateCertificateConfigDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				request.CertificateConfig = tmp
+				certificateConfigUpdated = true
 			}
-			request.CertificateConfig = tmp
 		}
 	}
 
-	//if currentVersionNumber, ok := s.D.GetOkExists("current_version_number"); ok {
-	//	tmp := currentVersionNumber.(string)
-	//	tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
-	//	if err != nil {
-	//		return fmt.Errorf("unable to convert currentVersionNumber string: %s to an int64 and encountered error: %v", tmp, err)
-	//	}
-	//	request.CurrentVersionNumber = &tmpInt64
-	//}
+	if currentVersionNumber, requested, err := currentVersionNumberUpdateRequested(s.D); err != nil {
+		return err
+	} else if requested {
+		request.CurrentVersionNumber = &currentVersionNumber
+	}
 
-	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+	if currentVersionNumberUpdateHasConflicts(s.D, certificateConfigUpdated) {
+		return fmt.Errorf("current_version_number cannot be updated in combination with certificate_config, description, tags, or certificate_rules")
+	}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok && s.D.HasChange("defined_tags") {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return err
@@ -809,19 +1068,19 @@ func (s *CertificatesManagementCertificateResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
-	if description, ok := s.D.GetOkExists("description"); ok {
+	if description, ok := s.D.GetOkExists("description"); ok && s.D.HasChange("description") {
 		tmp := description.(string)
 		request.Description = &tmp
 	}
 
-	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "certificates_management")
 
 	// only update if request has updates
-	if request.CertificateConfig != nil || request.FreeformTags != nil || request.Description != nil || request.DefinedTags != nil {
+	if request.CertificateConfig != nil || request.FreeformTags != nil || request.Description != nil || request.DefinedTags != nil || request.CurrentVersionNumber != nil {
 		tmp := s.D.Id()
 		request.CertificateId = &tmp
 
@@ -841,7 +1100,124 @@ func (s *CertificatesManagementCertificateResourceCrud) Update() error {
 		}
 	}
 
+	// If certificate_config changed, OCI created a new version asynchronously.
+	// The cert resource's lifecycleState returns to ACTIVE before the version
+	// is fully validated, so the framework's UpdatedTarget wait can succeed
+	// while the new version silently lands in a FAILED stage. Verify here.
+	if certificateConfigUpdated {
+		if err := s.verifyLatestCertificateVersionSucceeded(context.Background()); err != nil {
+			return err
+		}
+	}
+
 	return nil
+}
+
+// verifyLatestCertificateVersionSucceeded polls ListCertificateVersions for
+// the highest version_number and waits until its stages are terminal.
+//
+// Returns an error if the latest version landed in stage FAILED, or if the
+// version doesn't reach a stable stage within the timeout.
+//
+// This compensates for a known issue in the upstream provider where
+// UpdatedTarget tracks the certificate's lifecycleState (which reaches
+// ACTIVE within seconds) and not the version's stages (which can take
+// 30+ seconds to settle on FAILED).
+func (s *CertificatesManagementCertificateResourceCrud) verifyLatestCertificateVersionSucceeded(ctx context.Context) error {
+	if s.D == nil || s.D.Id() == "" {
+		return nil
+	}
+	certId := s.D.Id()
+
+	const (
+		pollInterval = 3 * time.Second
+		timeout      = 5 * time.Minute
+	)
+	deadline := time.Now().Add(timeout)
+
+	for {
+		// OCI's ListCertificateVersions API rejects sortBy=VERSION_NUMBER even
+		// though the SDK exposes that enum (the SDK is stale). The valid
+		// sortBy values per the API are Name/Expirationdate/Timecreated,
+		// none of which deterministically yields the version with the
+		// highest VersionNumber. So we list without sort and find the max
+		// in code.
+		listReq := oci_certificates_management.ListCertificateVersionsRequest{
+			CertificateId: &certId,
+		}
+		listReq.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "certificates_management")
+
+		listResp, err := s.Client.ListCertificateVersions(ctx, listReq)
+		if err != nil {
+			return fmt.Errorf("listing certificate versions to verify rotation: %w", err)
+		}
+		if len(listResp.Items) == 0 {
+			return nil
+		}
+
+		// Pick the version with the highest version_number — that's the one
+		// we just created (or attempted to create).
+		var latest *oci_certificates_management.CertificateVersionSummary
+		for i := range listResp.Items {
+			item := &listResp.Items[i]
+			if item.VersionNumber == nil {
+				continue
+			}
+			if latest == nil || latest.VersionNumber == nil || *item.VersionNumber > *latest.VersionNumber {
+				latest = item
+			}
+		}
+		if latest == nil {
+			return nil
+		}
+
+		// Stage semantics:
+		//   FAILED   → validation failed; rotation did not happen
+		//   CURRENT  → rotation succeeded, new version is active
+		//   PENDING  → staged rotation succeeded, awaiting promotion
+		//   LATEST   → just "this is the newest version"; can coexist with
+		//              FAILED, CURRENT, or PENDING. Means nothing on its
+		//              own — keep polling if that's the only stage we see.
+		//   PENDING_ACTIVATION → still validating; keep polling.
+		var inFailed, isStableSuccess bool
+		for _, st := range latest.Stages {
+			switch st {
+			case oci_certificates_management.VersionStageFailed:
+				inFailed = true
+			case oci_certificates_management.VersionStageCurrent,
+				oci_certificates_management.VersionStagePending:
+				isStableSuccess = true
+			}
+		}
+
+		if inFailed {
+			versionNum := int64(0)
+			if latest.VersionNumber != nil {
+				versionNum = *latest.VersionNumber
+			}
+			return fmt.Errorf(
+				"certificate version %d landed in stage FAILED in OCI; "+
+					"check the Certificate's Versions tab in the OCI Console for the precise lifecycle_details. "+
+					"Common causes: (1) on rotation, the new certificate's subject (CN/SANs) must match the existing version's subject; "+
+					"(2) cert_chain_pem must be the issuer of certificate_pem; "+
+					"(3) PEM material must be valid and not expired",
+				versionNum,
+			)
+		}
+		if isStableSuccess {
+			return nil
+		}
+
+		// Still PENDING_ACTIVATION or no stage yet — keep polling.
+		if time.Now().After(deadline) {
+			return fmt.Errorf("timed out after %s waiting for certificate version to reach a stable stage", timeout)
+		}
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		case <-time.After(pollInterval):
+		}
+	}
 }
 
 func (s *CertificatesManagementCertificateResourceCrud) UpdateRules() error {
@@ -922,8 +1298,14 @@ func (s *CertificatesManagementCertificateResourceCrud) SetData() error {
 
 	if s.Res.CurrentVersion != nil {
 		s.D.Set("current_version", []interface{}{CertificateVersionSummaryToMap(s.Res.CurrentVersion)})
+		if s.Res.CurrentVersion.VersionNumber != nil {
+			s.D.Set("current_version_number", strconv.FormatInt(*s.Res.CurrentVersion.VersionNumber, 10))
+		} else {
+			s.D.Set("current_version_number", nil)
+		}
 	} else {
 		s.D.Set("current_version", nil)
+		s.D.Set("current_version_number", nil)
 	}
 
 	if s.Res.DefinedTags != nil {
@@ -1224,6 +1606,41 @@ func (s *CertificatesManagementCertificateResourceCrud) mapToCreateCertificateCo
 		}
 
 		baseObject = details
+	case strings.ToLower("IMPORTED"):
+		details := oci_certificates_management.CreateCertificateByImportingConfigDetails{}
+		if certChainPem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cert_chain_pem")); ok {
+			tmp := certChainPem.(string)
+			if tmp != "" {
+				details.CertChainPem = &tmp
+			}
+		}
+		if certificatePem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_pem")); ok {
+			tmp := certificatePem.(string)
+			if tmp != "" {
+				details.CertificatePem = &tmp
+			}
+		}
+		if privateKeyPem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_key_pem")); ok {
+			tmp := privateKeyPem.(string)
+			if tmp != "" {
+				details.PrivateKeyPem = &tmp
+			}
+		}
+		// Optional fields — OCI rejects empty strings (size must be 1+),
+		// so only set when the user actually provided a value.
+		if privateKeyPemPassphrase, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_key_pem_passphrase")); ok {
+			tmp := privateKeyPemPassphrase.(string)
+			if tmp != "" {
+				details.PrivateKeyPemPassphrase = &tmp
+			}
+		}
+		if versionName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version_name")); ok {
+			tmp := versionName.(string)
+			if tmp != "" {
+				details.VersionName = &tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown config_type '%v' was specified", configType)
 	}
@@ -1479,6 +1896,47 @@ func (s *CertificatesManagementCertificateResourceCrud) mapToUpdateCertificateCo
 			details.VersionName = &tmp
 		}
 
+		baseObject = details
+	case strings.ToLower("IMPORTED"):
+		details := oci_certificates_management.UpdateCertificateByImportingConfigDetails{}
+		if certChainPem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cert_chain_pem")); ok {
+			tmp := certChainPem.(string)
+			if tmp != "" {
+				details.CertChainPem = &tmp
+			}
+		}
+		if certificatePem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_pem")); ok {
+			tmp := certificatePem.(string)
+			if tmp != "" {
+				details.CertificatePem = &tmp
+			}
+		}
+		if privateKeyPem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_key_pem")); ok {
+			tmp := privateKeyPem.(string)
+			if tmp != "" {
+				details.PrivateKeyPem = &tmp
+			}
+		}
+		// Optional fields — OCI rejects empty strings (size must be 1+),
+		// so only set when the user actually provided a value.
+		if privateKeyPemPassphrase, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_key_pem_passphrase")); ok {
+			tmp := privateKeyPemPassphrase.(string)
+			if tmp != "" {
+				details.PrivateKeyPemPassphrase = &tmp
+			}
+		}
+		if versionName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "version_name")); ok {
+			tmp := versionName.(string)
+			if tmp != "" {
+				details.VersionName = &tmp
+			}
+		}
+		if stage, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "stage")); ok {
+			tmp := stage.(string)
+			if tmp != "" {
+				details.Stage = oci_certificates_management.UpdateCertificateConfigDetailsStageEnum(tmp)
+			}
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown config_type '%v' was specified", configType)
