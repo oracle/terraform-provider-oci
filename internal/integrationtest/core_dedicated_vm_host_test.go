@@ -60,6 +60,7 @@ var (
 		// "instance_shape_name":                              acctest.Representation{RepType: acctest.Optional, Create: vmShape},
 		// "remaining_memory_in_gbs_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `1.0`},
 		// "remaining_ocpus_greater_than_or_equal_to":         acctest.Representation{RepType: acctest.Optional, Create: `1.0`},
+		// "remaining_local_volume_in_gbs_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `1.0`},
 	}
 
 	CoreDedicatedVmHostDataSourceFilterRepresentation = map[string]interface{}{
@@ -306,9 +307,11 @@ func TestCoreDedicatedVmHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "dedicated_vm_hosts.0.display_name", displayNameForUpdate),
 				resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "dedicated_vm_hosts.0.is_memory_encryption_enabled", isMemoryEncryptionEnabled),
+				resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.remaining_local_volume_in_gbs"),
 				resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.remaining_memory_in_gbs"),
 				resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.remaining_ocpus"),
 				resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.total_local_volume_in_gbs"),
 				resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.total_memory_in_gbs"),
 				resource.TestCheckResourceAttrSet(datasourceName, "dedicated_vm_hosts.0.total_ocpus"),
 			),
@@ -329,10 +332,12 @@ func TestCoreDedicatedVmHostResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_memory_encryption_enabled", isMemoryEncryptionEnabled),
+				// resource.TestCheckResourceAttrSet(singularDatasourceName, "remaining_local_volume_in_gbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "remaining_memory_in_gbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "remaining_ocpus"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				// resource.TestCheckResourceAttrSet(singularDatasourceName, "total_local_volume_in_gbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "total_memory_in_gbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "total_ocpus"),
 

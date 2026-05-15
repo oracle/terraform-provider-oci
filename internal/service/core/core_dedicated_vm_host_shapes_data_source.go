@@ -75,6 +75,10 @@ func CoreDedicatedVmHostShapesDataSource() *schema.Resource {
 														Type: schema.TypeString,
 													},
 												},
+												"total_local_volume_in_gbs": {
+													Type:     schema.TypeFloat,
+													Computed: true,
+												},
 												"total_memory_in_gbs": {
 													Type:     schema.TypeFloat,
 													Computed: true,
@@ -231,6 +235,10 @@ func CapacityBinPreviewToMap(obj oci_core.CapacityBinPreview) map[string]interfa
 	}
 
 	result["supported_shapes"] = obj.SupportedShapes
+
+	if obj.TotalLocalVolumeInGBs != nil {
+		result["total_local_volume_in_gbs"] = float32(*obj.TotalLocalVolumeInGBs)
+	}
 
 	if obj.TotalMemoryInGBs != nil {
 		result["total_memory_in_gbs"] = float32(*obj.TotalMemoryInGBs)

@@ -130,6 +130,10 @@ func CoreDedicatedVmHostResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"remaining_local_volume_in_gbs": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
 						"remaining_memory_in_gbs": {
 							Type:     schema.TypeFloat,
 							Computed: true,
@@ -144,6 +148,10 @@ func CoreDedicatedVmHostResource() *schema.Resource {
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
+						},
+						"total_local_volume_in_gbs": {
+							Type:     schema.TypeFloat,
+							Computed: true,
 						},
 						"total_memory_in_gbs": {
 							Type:     schema.TypeFloat,
@@ -160,6 +168,10 @@ func CoreDedicatedVmHostResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"remaining_local_volume_in_gbs": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
 			"remaining_memory_in_gbs": {
 				Type:     schema.TypeFloat,
 				Computed: true,
@@ -174,6 +186,10 @@ func CoreDedicatedVmHostResource() *schema.Resource {
 			},
 			"time_created": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"total_local_volume_in_gbs": {
+				Type:     schema.TypeFloat,
 				Computed: true,
 			},
 			"total_memory_in_gbs": {
@@ -490,6 +506,10 @@ func (s *CoreDedicatedVmHostResourceCrud) SetData() error {
 		s.D.Set("placement_constraint_details", nil)
 	}
 
+	if s.Res.RemainingLocalVolumeInGBs != nil {
+		s.D.Set("remaining_local_volume_in_gbs", *s.Res.RemainingLocalVolumeInGBs)
+	}
+
 	if s.Res.RemainingMemoryInGBs != nil {
 		s.D.Set("remaining_memory_in_gbs", *s.Res.RemainingMemoryInGBs)
 	}
@@ -504,6 +524,10 @@ func (s *CoreDedicatedVmHostResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.TotalLocalVolumeInGBs != nil {
+		s.D.Set("total_local_volume_in_gbs", *s.Res.TotalLocalVolumeInGBs)
+	}
+
 	if s.Res.TotalMemoryInGBs != nil {
 		s.D.Set("total_memory_in_gbs", *s.Res.TotalMemoryInGBs)
 	}
@@ -513,6 +537,42 @@ func (s *CoreDedicatedVmHostResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func CapacityBinToMap(obj oci_core.CapacityBin) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CapacityIndex != nil {
+		result["capacity_index"] = int(*obj.CapacityIndex)
+	}
+
+	if obj.RemainingLocalVolumeInGBs != nil {
+		result["remaining_local_volume_in_gbs"] = float32(*obj.RemainingLocalVolumeInGBs)
+	}
+
+	if obj.RemainingMemoryInGBs != nil {
+		result["remaining_memory_in_gbs"] = float32(*obj.RemainingMemoryInGBs)
+	}
+
+	if obj.RemainingOcpus != nil {
+		result["remaining_ocpus"] = float32(*obj.RemainingOcpus)
+	}
+
+	result["supported_shapes"] = obj.SupportedShapes
+
+	if obj.TotalLocalVolumeInGBs != nil {
+		result["total_local_volume_in_gbs"] = float32(*obj.TotalLocalVolumeInGBs)
+	}
+
+	if obj.TotalMemoryInGBs != nil {
+		result["total_memory_in_gbs"] = float32(*obj.TotalMemoryInGBs)
+	}
+
+	if obj.TotalOcpus != nil {
+		result["total_ocpus"] = float32(*obj.TotalOcpus)
+	}
+
+	return result
 }
 
 func (s *CoreDedicatedVmHostResourceCrud) mapToPlacementConstraintDetails(fieldKeyFormat string) (oci_core.PlacementConstraintDetails, error) {
@@ -564,34 +624,6 @@ func PlacementConstraintDetailsToMap(obj *oci_core.PlacementConstraintDetails) m
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
 		return nil
-	}
-
-	return result
-}
-
-func CapacityBinToMap(obj oci_core.CapacityBin) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.CapacityIndex != nil {
-		result["capacity_index"] = int(*obj.CapacityIndex)
-	}
-
-	if obj.RemainingMemoryInGBs != nil {
-		result["remaining_memory_in_gbs"] = float32(*obj.RemainingMemoryInGBs)
-	}
-
-	if obj.RemainingOcpus != nil {
-		result["remaining_ocpus"] = float32(*obj.RemainingOcpus)
-	}
-
-	result["supported_shapes"] = obj.SupportedShapes
-
-	if obj.TotalMemoryInGBs != nil {
-		result["total_memory_in_gbs"] = float32(*obj.TotalMemoryInGBs)
-	}
-
-	if obj.TotalOcpus != nil {
-		result["total_ocpus"] = float32(*obj.TotalOcpus)
 	}
 
 	return result

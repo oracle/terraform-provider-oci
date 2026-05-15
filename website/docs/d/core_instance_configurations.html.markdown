@@ -277,6 +277,7 @@ The following attributes are exported:
 				* `BASELINE_1_8` - baseline usage is 1/8 of an OCPU.
 				* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
 				* `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance. 
+			* `local_volume_size_in_gbs` - The NVMe-backed local storage capacity, in GB, for flexible dense (DenseLV) VM shapes. If the selected shape  is DenseLV, the value must be greater than 0. For all other shapes, the value must be null (if specified);  any non-null value for a non-DenseLV shape results in an error. 
 			* `memory_in_gbs` - The total amount of memory available to the instance, in gigabytes. 
 			* `nvmes` - The number of NVMe drives to be used for storage. A single drive has 6.8 TB available. 
 			* `ocpus` - The total number of OCPUs available to the instance. 
@@ -528,6 +529,7 @@ The following attributes are exported:
 					* `BASELINE_1_8` - baseline usage is 1/8 of an OCPU.
 					* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
 					* `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance. 
+				* `local_volume_size_in_gbs` - The NVMe-backed local storage capacity, in GB, for flexible dense (DenseLV) VM shapes. If the selected shape  is DenseLV, the value must be greater than 0. For all other shapes, the value must be null (if specified);  any non-null value for a non-DenseLV shape results in an error. 
 				* `memory_in_gbs` - The total amount of memory available to the instance, in gigabytes. 
 				* `nvmes` - The number of NVMe drives to be used for storage. A single drive has 6.8 TB available. 
 				* `ocpus` - The total number of OCPUs available to the instance. 

@@ -229,6 +229,7 @@ The following attributes are exported:
 	* `local_disks_total_size_in_gbs` - The aggregate size of all local disks, in gigabytes.
 
 		If the instance does not have any local disks, this field is `null`. 
+	* `local_volume_size_in_gbs` - The NVMe-backed local storage capacity, in GB, for flexible dense (DenseLV) VM shapes. If the shape  is DenseLV, the value will be greater than 0. For all other shapes, the value will be null. 
 	* `max_vnic_attachments` - The maximum number of VNIC attachments for the instance. 
 	* `memory_in_gbs` - The total amount of memory available to the instance, in gigabytes. 
 	* `networking_bandwidth_in_gbps` - The networking bandwidth available to the instance, in gigabits per second. 
