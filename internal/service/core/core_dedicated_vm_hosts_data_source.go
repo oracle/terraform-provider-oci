@@ -38,6 +38,10 @@ func CoreDedicatedVmHostsDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"remaining_local_volume_in_gbs_greater_than_or_equal_to": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+			},
 			"remaining_memory_in_gbs_greater_than_or_equal_to": {
 				Type:     schema.TypeFloat,
 				Optional: true,
@@ -103,6 +107,11 @@ func (s *CoreDedicatedVmHostsDataSourceCrud) Get() error {
 	if isMemoryEncryptionEnabled, ok := s.D.GetOkExists("is_memory_encryption_enabled"); ok {
 		tmp := isMemoryEncryptionEnabled.(bool)
 		request.IsMemoryEncryptionEnabled = &tmp
+	}
+
+	if remainingLocalVolumeInGBsGreaterThanOrEqualTo, ok := s.D.GetOkExists("remaining_local_volume_in_gbs_greater_than_or_equal_to"); ok {
+		tmp := float32(remainingLocalVolumeInGBsGreaterThanOrEqualTo.(float64))
+		request.RemainingLocalVolumeInGBsGreaterThanOrEqualTo = &tmp
 	}
 
 	if remainingMemoryInGBsGreaterThanOrEqualTo, ok := s.D.GetOkExists("remaining_memory_in_gbs_greater_than_or_equal_to"); ok {
@@ -179,6 +188,10 @@ func (s *CoreDedicatedVmHostsDataSourceCrud) SetData() error {
 			dedicatedVmHost["is_memory_encryption_enabled"] = *r.IsMemoryEncryptionEnabled
 		}
 
+		if r.RemainingLocalVolumeInGBs != nil {
+			dedicatedVmHost["remaining_local_volume_in_gbs"] = *r.RemainingLocalVolumeInGBs
+		}
+
 		if r.RemainingMemoryInGBs != nil {
 			dedicatedVmHost["remaining_memory_in_gbs"] = *r.RemainingMemoryInGBs
 		}
@@ -191,6 +204,10 @@ func (s *CoreDedicatedVmHostsDataSourceCrud) SetData() error {
 
 		if r.TimeCreated != nil {
 			dedicatedVmHost["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.TotalLocalVolumeInGBs != nil {
+			dedicatedVmHost["total_local_volume_in_gbs"] = *r.TotalLocalVolumeInGBs
 		}
 
 		if r.TotalMemoryInGBs != nil {
