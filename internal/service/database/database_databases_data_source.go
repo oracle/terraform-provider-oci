@@ -31,6 +31,14 @@ func DatabaseDatabasesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"failover_targets": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"managed_auto_failover": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -82,6 +90,14 @@ func (s *DatabaseDatabasesDataSourceCrud) GetWithContext(ctx context.Context) er
 	if dbName, ok := s.D.GetOkExists("db_name"); ok {
 		tmp := dbName.(string)
 		request.DbName = &tmp
+	}
+
+	if failoverTargets, ok := s.D.GetOkExists("failover_targets"); ok {
+		request.FailoverTargets = oci_database.ListDatabasesFailoverTargetsEnum(failoverTargets.(string))
+	}
+
+	if managedAutoFailover, ok := s.D.GetOkExists("managed_auto_failover"); ok {
+		request.ManagedAutoFailover = oci_database.ListDatabasesManagedAutoFailoverEnum(managedAutoFailover.(string))
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {

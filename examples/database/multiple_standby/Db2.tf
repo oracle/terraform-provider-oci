@@ -1,7 +1,7 @@
 resource "oci_core_virtual_network" "t2" {
     compartment_id = var.compartment_id
     cidr_block = "10.1.0.0/16"
-    display_name = "-tf-vcn"
+    display_name = "-tf-vcn-stb"
     dns_label = "tfvcn"
 
 }
@@ -9,8 +9,9 @@ resource "oci_core_route_table" "t2" {
     compartment_id = var.compartment_id
     vcn_id = oci_core_virtual_network.t2.id
     route_rules {
-        cidr_block = "0.0.0.0/0"
-        network_entity_id = oci_core_internet_gateway.t2.id
+      destination       = "0.0.0.0/0"
+      destination_type  = "CIDR_BLOCK"
+      network_entity_id = oci_core_internet_gateway.t2.id
     }
 }
 resource "oci_core_internet_gateway" "t2" {
@@ -27,7 +28,7 @@ resource "oci_core_subnet" "t3" {
     vcn_id              = oci_core_virtual_network.t2.id
     route_table_id      = oci_core_route_table.t2.id
     dhcp_options_id     = oci_core_virtual_network.t2.default_dhcp_options_id
-    security_list_ids   = [oci_core_virtual_network.t2.default_security_list_id]
+    security_list_ids   = [oci_core_virtual_network.t2.default_security_list_id, oci_core_security_list.exadata_shapes_security_list2.id, oci_core_security_list.observer_agent_security_list.id]
     dns_label           = "tfsubnet"
 }
 resource "oci_core_subnet" "t4" {
@@ -38,7 +39,7 @@ resource "oci_core_subnet" "t4" {
     vcn_id              = oci_core_virtual_network.t2.id
     route_table_id      = oci_core_route_table.t2.id
     dhcp_options_id     = oci_core_virtual_network.t2.default_dhcp_options_id
-    security_list_ids   = [oci_core_virtual_network.t2.default_security_list_id]
+    security_list_ids   = [oci_core_virtual_network.t2.default_security_list_id, oci_core_security_list.exadata_shapes_security_list2.id]
     dns_label           = "tfsubnet2"
 }
 resource "oci_core_network_security_group" "test_network_security_group3" {
@@ -58,9 +59,9 @@ resource "oci_core_subnet" "test_subnet3" {
     display_name        = "ExadataSubnet"
     compartment_id      = var.compartment_id
     vcn_id              = oci_core_virtual_network.t2.id
-    route_table_id      = oci_core_virtual_network.t2.default_route_table_id
+    route_table_id      = oci_core_route_table.t2.id
     dhcp_options_id     = oci_core_virtual_network.t2.default_dhcp_options_id
-    security_list_ids   = [oci_core_virtual_network.t2.default_security_list_id, oci_core_security_list.exadata_shapes_security_list2.id]
+    security_list_ids   = [oci_core_virtual_network.t2.default_security_list_id, oci_core_security_list.exadata_shapes_security_list2.id, oci_core_security_list.observer_agent_security_list.id]
     dns_label           = "subnetexadata1"
 }
 
@@ -70,9 +71,9 @@ resource "oci_core_subnet" "test_subnet_backup4" {
     display_name        = "ExadataBackupSubnet"
     compartment_id      = var.compartment_id
     vcn_id              = oci_core_virtual_network.t2.id
-    route_table_id      = oci_core_virtual_network.t2.default_route_table_id
+    route_table_id      = oci_core_route_table.t2.id
     dhcp_options_id     = oci_core_virtual_network.t2.default_dhcp_options_id
-    security_list_ids   = [oci_core_virtual_network.t2.default_security_list_id]
+    security_list_ids   = [oci_core_virtual_network.t2.default_security_list_id, oci_core_security_list.exadata_shapes_security_list2.id]
     dns_label           = "subnetexadata2"
 }
 
@@ -100,6 +101,29 @@ resource "oci_core_security_list" "exadata_shapes_security_list2" {
        destination = "10.1.22.0/24"
        protocol    = "1"
    }
+}
+
+resource "oci_core_security_list" "observer_agent_security_list" {
+  compartment_id =  var.compartment_id
+  vcn_id         =  oci_core_virtual_network.t2.id
+  display_name   = "ObserverSecurityList"
+
+  ingress_security_rules {
+    source    = "0.0.0.0/0"
+    protocol  = "6"
+    source_type = "CIDR_BLOCK"
+    stateless = "false"
+    tcp_options {
+      max = 7095
+      min = 7095
+    }
+    description = "Standby - Observer - Agent traffic port 7095"
+  }
+
+  egress_security_rules {
+    destination = "0.0.0.0/0"
+    protocol  = "6"
+  }
 }
 
 resource "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrastructure_standby" {
@@ -159,6 +183,7 @@ resource "oci_database_database" "standby_database" {
     source_tde_wallet_password = "BEstrO0ng_#11"
     defined_tags     = map("example-tag-namespace-all.example-tag", "databaseDefinedTags1")
     freeform_tags    = {"databaseFreeformTagsK" = "databaseFreeformTagsV"}
+    db_unique_name = "StbDb1"
   }
 
   db_home_id = oci_database_db_home.test_db_home2.id

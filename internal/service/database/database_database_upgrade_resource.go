@@ -132,6 +132,10 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"managed_auto_fail_over_readiness": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"members": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -170,8 +174,19 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"failover_targets": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"is_active_data_guard_enabled": {
 										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"managed_auto_failover": {
+										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"role": {

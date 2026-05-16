@@ -64,6 +64,34 @@ func DatabaseDatabaseResource() *schema.Resource {
 							//ForceNew:  true,
 							Sensitive: true,
 						},
+						"auto_failover_configuration": {
+							Type:     schema.TypeList,
+							Optional: true,
+							MaxItems: 1,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Optional
+									"failover_targets": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+										Computed: true,
+									},
+									"managed_auto_failover": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ValidateFunc: validation.StringInSlice([]string{
+											string(oci_database.AutoFailoverConfigurationManagedAutoFailoverEnable),
+											string(oci_database.AutoFailoverConfigurationManagedAutoFailoverDisable),
+										}, true),
+									},
+								},
+							},
+						},
 						"backup_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -677,6 +705,10 @@ func DatabaseDatabaseResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"managed_auto_fail_over_readiness": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"members": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -715,8 +747,19 @@ func DatabaseDatabaseResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"failover_targets": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"is_active_data_guard_enabled": {
 										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"managed_auto_failover": {
+										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"role": {
@@ -1617,6 +1660,27 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseFromAnotherDatabaseDet
 	return result, nil
 }
 
+func (s *DatabaseDatabaseResourceCrud) mapToAutoFailoverConfiguration(fieldKeyFormat string) (oci_database.AutoFailoverConfiguration, error) {
+	result := oci_database.AutoFailoverConfiguration{}
+	if _, newFailoverTargets := s.D.GetChange(fmt.Sprintf(fieldKeyFormat, "failover_targets")); s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "failover_targets")) {
+		interfaces := newFailoverTargets.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil && interfaces[i].(string) != "" {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "failover_targets")) {
+			result.FailoverTargets = tmp
+		}
+	}
+
+	if oldManagedAutoFailover, newManagedAutoFailover := s.D.GetChange(fmt.Sprintf(fieldKeyFormat, "managed_auto_failover")); oldManagedAutoFailover != newManagedAutoFailover {
+		result.ManagedAutoFailover = oci_database.AutoFailoverConfigurationManagedAutoFailoverEnum(newManagedAutoFailover.(string))
+	}
+	return result, nil
+}
+
 func (s *DatabaseDatabaseResourceCrud) mapToUpdateBackupDestinationDetails(fieldKeyFormat string) (oci_database.BackupDestinationDetails, error) {
 	result := oci_database.BackupDestinationDetails{}
 	fields := map[string]func(string){
@@ -2234,6 +2298,17 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseFromBackupDetails(fiel
 func (s *DatabaseDatabaseResourceCrud) mapToCreateStandbyDetails(fieldKeyFormat string) (oci_database.CreateStandbyDetails, error) {
 	result := oci_database.CreateStandbyDetails{}
 
+	if autoFailoverConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_failover_configuration")); ok {
+		if tmpList := autoFailoverConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "auto_failover_configuration"), 0)
+			tmp, err := s.mapToAutoFailoverConfiguration(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert auto_failover_configuration, encountered error: %v", err)
+			}
+			result.AutoFailoverConfiguration = &tmp
+		}
+	}
+
 	if databaseAdminPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_admin_password")); ok {
 		tmp := databaseAdminPassword.(string)
 		result.DatabaseAdminPassword = &tmp
@@ -2312,6 +2387,8 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateStandbyDetails(fieldKeyFormat 
 func DataGuardGroupToMap(obj *oci_database.DataGuardGroup) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	result["managed_auto_fail_over_readiness"] = string(obj.ManagedAutoFailOverReadiness)
+
 	members := []interface{}{}
 	for _, item := range obj.Members {
 		members = append(members, DataGuardGroupMemberToMap(item))
@@ -2352,9 +2429,13 @@ func DataGuardGroupMemberToMap(obj oci_database.DataGuardGroupMember) map[string
 		result["failover_readiness_message"] = string(*obj.FailoverReadinessMessage)
 	}
 
+	result["failover_targets"] = obj.FailoverTargets
+
 	if obj.IsActiveDataGuardEnabled != nil {
 		result["is_active_data_guard_enabled"] = bool(*obj.IsActiveDataGuardEnabled)
 	}
+
+	result["managed_auto_failover"] = string(obj.ManagedAutoFailover)
 
 	result["role"] = string(obj.Role)
 
@@ -2667,7 +2748,6 @@ func (s *DatabaseDatabaseResourceCrud) UpdateWithContext(ctx context.Context) er
 
 	tmp := s.D.Id()
 	request.DatabaseId = &tmp
-
 	//fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
 
 	if _, ok := s.D.GetOkExists("action_trigger"); ok && s.D.HasChange("action_trigger") {
@@ -2844,7 +2924,6 @@ func (s *DatabaseDatabaseResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat 
 
 func (s *DatabaseDatabaseResourceCrud) mapToUpdateDatabaseDetails(ctx context.Context, fieldKeyFormat string) (oci_database.UpdateDatabaseDetails, error) {
 	result := oci_database.UpdateDatabaseDetails{}
-
 	if _, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details")) {
 		oldRaw, newRaw := s.D.GetChange(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details"))
 		oldList := oldRaw.([]interface{})
@@ -2924,6 +3003,17 @@ func (s *DatabaseDatabaseResourceCrud) mapToUpdateDatabaseDetails(ctx context.Co
 		result.OldTdeWalletPassword = &tmp1
 	}
 
+	if autoFailoverConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_failover_configuration")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "auto_failover_configuration")) {
+		if tmpList := autoFailoverConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "auto_failover_configuration"), 0)
+			tmp, err := s.mapToAutoFailoverConfiguration(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			result.AutoFailoverConfiguration = &tmp
+		}
+	}
+
 	if _, ok := s.D.GetOkExists("db_home_id"); ok && s.D.HasChange("db_home_id") {
 		if patchOpts, err := s.extractPatchOptionsFromConfig(fieldKeyFormat); err != nil {
 			return result, err
@@ -2931,7 +3021,6 @@ func (s *DatabaseDatabaseResourceCrud) mapToUpdateDatabaseDetails(ctx context.Co
 			result.PatchOptions = patchOpts
 		}
 	}
-
 	return result, nil
 }
 
@@ -3053,6 +3142,22 @@ func (s *DatabaseDatabaseResourceCrud) DatabaseToMap(obj *oci_database.Database)
 
 	if obj.ManagedSoftwareUpdateDetails != nil {
 		result["managed_software_update_details"] = []interface{}{ManagedSoftwareUpdateDetailsToMap(obj.ManagedSoftwareUpdateDetails)}
+	}
+
+	if obj.DataGuardGroup != nil && obj.DataGuardGroup.Members != nil && len(obj.DataGuardGroup.Members) > 0 {
+		autoFailoverConfiguration := map[string]interface{}{}
+		autoFailoverConfiguration["managed_auto_failover"] = oci_database.AutoFailoverConfigurationManagedAutoFailoverDisable
+		for _, member := range obj.DataGuardGroup.Members {
+			if oci_database.AutoFailoverConfigurationManagedAutoFailoverEnum(member.ManagedAutoFailover) == oci_database.AutoFailoverConfigurationManagedAutoFailoverEnable {
+				autoFailoverConfiguration["managed_auto_failover"] = oci_database.AutoFailoverConfigurationManagedAutoFailoverEnable
+			}
+			if currentDbId := *obj.Id; currentDbId == *member.DatabaseId && member.FailoverTargets != nil && len(member.FailoverTargets) > 0 {
+				autoFailoverConfiguration["failover_targets"] = member.FailoverTargets
+			}
+		}
+		if autoFailoverConfiguration != nil && len(autoFailoverConfiguration) > 0 {
+			result["auto_failover_configuration"] = []interface{}{autoFailoverConfiguration}
+		}
 	}
 
 	return result
