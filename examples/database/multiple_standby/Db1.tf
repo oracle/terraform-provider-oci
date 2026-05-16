@@ -7,8 +7,10 @@ variable "compartment_id" {
 variable "ssh_public_key" {
 }
 
+variable "private_key_path" {}
+
 provider "oci" {
-#     version          = "0.0.0"
+  #  version          = "0.0.0"
 }
 
 data "oci_identity_availability_domains" "ADs" {
@@ -31,8 +33,9 @@ resource "oci_core_route_table" "t" {
     compartment_id = var.compartment_id
     vcn_id = oci_core_virtual_network.t.id
     route_rules {
-        cidr_block = "0.0.0.0/0"
-        network_entity_id = oci_core_internet_gateway.t.id
+      destination       = "0.0.0.0/0"
+      destination_type  = "CIDR_BLOCK"
+      network_entity_id = oci_core_internet_gateway.t.id
     }
 }
 resource "oci_core_internet_gateway" "t" {
@@ -49,7 +52,7 @@ resource "oci_core_subnet" "t" {
     vcn_id              = oci_core_virtual_network.t.id
     route_table_id      = oci_core_route_table.t.id
     dhcp_options_id     = oci_core_virtual_network.t.default_dhcp_options_id
-    security_list_ids   = [oci_core_virtual_network.t.default_security_list_id]
+    security_list_ids   = [oci_core_virtual_network.t.default_security_list_id, oci_core_security_list.exadata_shapes_security_list.id, oci_core_security_list.observer_agent_security_list_prim.id]
     dns_label           = "tfsubnet"
 }
 resource "oci_core_subnet" "t2" {
@@ -60,7 +63,7 @@ resource "oci_core_subnet" "t2" {
     vcn_id              = oci_core_virtual_network.t.id
     route_table_id      = oci_core_route_table.t.id
     dhcp_options_id     = oci_core_virtual_network.t.default_dhcp_options_id
-    security_list_ids   = [oci_core_virtual_network.t.default_security_list_id]
+    security_list_ids   = [oci_core_virtual_network.t.default_security_list_id, oci_core_security_list.exadata_shapes_security_list.id]
     dns_label           = "tfsubnet2"
 }
 resource "oci_core_network_security_group" "test_network_security_group" {
@@ -80,9 +83,9 @@ resource "oci_core_subnet" "test_subnet1" {
     display_name        = "ExadataSubnet"
     compartment_id      = var.compartment_id
     vcn_id              = oci_core_virtual_network.t.id
-    route_table_id      = oci_core_virtual_network.t.default_route_table_id
+    route_table_id      = oci_core_route_table.t.id
     dhcp_options_id     = oci_core_virtual_network.t.default_dhcp_options_id
-    security_list_ids   = [oci_core_virtual_network.t.default_security_list_id, oci_core_security_list.exadata_shapes_security_list.id]
+    security_list_ids   = [oci_core_virtual_network.t.default_security_list_id, oci_core_security_list.exadata_shapes_security_list.id, oci_core_security_list.observer_agent_security_list_prim.id]
     dns_label           = "subnetexadata1"
 }
 
@@ -92,9 +95,9 @@ resource "oci_core_subnet" "test_subnet_backup" {
     display_name        = "ExadataBackupSubnet"
     compartment_id      = var.compartment_id
     vcn_id              = oci_core_virtual_network.t.id
-    route_table_id      = oci_core_virtual_network.t.default_route_table_id
+    route_table_id      = oci_core_route_table.t.id
     dhcp_options_id     = oci_core_virtual_network.t.default_dhcp_options_id
-    security_list_ids   = [oci_core_virtual_network.t.default_security_list_id]
+    security_list_ids   = [oci_core_virtual_network.t.default_security_list_id, oci_core_security_list.exadata_shapes_security_list.id]
     dns_label           = "subnetexadata2"
 }
 
@@ -122,6 +125,29 @@ resource "oci_core_security_list" "exadata_shapes_security_list" {
        destination = "10.1.22.0/24"
        protocol    = "1"
    }
+}
+
+resource "oci_core_security_list" "observer_agent_security_list_prim" {
+  compartment_id =  var.compartment_id
+  vcn_id         =  oci_core_virtual_network.t.id
+  display_name   = "ObserverSecurityList"
+
+  ingress_security_rules {
+    source    = "0.0.0.0/0"
+    protocol  = "6"
+    source_type = "CIDR_BLOCK"
+    stateless = "false"
+    tcp_options {
+      max = 7095
+      min = 7095
+    }
+    description = "Primary - Observer - Agent traffic port 7095"
+  }
+
+  egress_security_rules {
+    destination = "0.0.0.0/0"
+    protocol  = "6"
+  }
 }
 
 resource "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrastructure_primary" {

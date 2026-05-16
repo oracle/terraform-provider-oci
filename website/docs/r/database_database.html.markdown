@@ -22,6 +22,12 @@ resource "oci_database_database" "test_database" {
 
 		#Optional
 		admin_password = var.database_database_admin_password
+		auto_failover_configuration {
+
+			#Optional
+			failover_targets = var.database_database_auto_failover_configuration_failover_targets
+			managed_auto_failover = var.database_database_auto_failover_configuration_managed_auto_failover
+		}
 		backup_id = oci_database_backup.test_backup.id
 		backup_tde_password = var.database_database_backup_tde_password
 		character_set = var.database_database_character_set
@@ -135,8 +141,11 @@ The following arguments are supported:
 
 * `database` - (Required) (Updatable) Details for creating a database.
 
-	**Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
-	* `admin_password` - (Required when source=DB_BACKUP | NONE) A strong password for SYS, SYSTEM, PDB Admin and TDE Wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, \#, or -.
+	**Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API. 
+	* `admin_password` - (Required when source=DATABASE | DB_BACKUP | NONE) A strong password for SYS, SYSTEM, PDB Admin and TDE Wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, \#, or -.
+	* `auto_failover_configuration` - (Applicable when source=DATAGUARD) The properties for defining auto failover configuration.
+		* `failover_targets` - (Applicable when source=DATAGUARD) Specifies the `DB_UNIQUE_NAME` of the data guard group member databases. 
+		* `managed_auto_failover` - (Applicable when source=DATAGUARD) The state of managed auto failover.
 	* `backup_id` - (Required when source=DB_BACKUP) The backup [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	* `backup_tde_password` - (Applicable when source=DB_BACKUP) The password to open the TDE wallet.
 	* `character_set` - (Applicable when source=NONE) The character set for the database.  The default is AL32UTF8. Allowed values are:
@@ -249,18 +258,22 @@ The following attributes are exported:
 	* `all_connection_strings` - All connection strings to use to connect to the Database.
 	* `cdb_default` - Host name based CDB Connection String.
 	* `cdb_ip_default` - IP based CDB Connection String.
-* `data_guard_group` - Details of Data Guard setup that the given database is part of.  Also includes information about databases part of this Data Guard group and properties for their Data Guard configuration.
+* `data_guard_group` - Details of Data Guard setup that the given database is part of.  Also includes information about databases part of this Data Guard group and properties for their Data Guard configuration. 
+	* `managed_auto_fail_over_readiness` - Specifies readiness of Managed Automatic failover.
 	* `members` - List of Data Guard members, representing each database that is part of Data Guard.
 		* `apply_lag` - The lag time between updates to the primary database and application of the redo data on the standby database, as computed by the reporting database.  Example: `1 second`
 		* `apply_rate` - The rate at which redo logs are synced between the associated databases.  Example: `102.96 MByte/s`
 		* `data_loss_exposure` - The Data loss exposure is the redo transport lag between the primary and standby databases.   Example: `2 seconds`
 		* `database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database.
 		* `db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB system, Cloud VM cluster or VM cluster.
-		* `failover_readiness` - The failover readiness status of the Data Guard member.
-		* `failover_readiness_message` - The message explaining failover readiness status. Example: `This standby database is not failover ready.`
+		* `failover_readiness` - The failover readiness status of the Data Guard member. HEALTHY_AND_NOT_ROLECHANGE_TARGET - Indicates that the respective standby member is healthy  but not currently designated to take failover, when auto failover is enabled. 
+		* `failover_readiness_message` - The message explaining failover readiness status. Example: `This standby database is not failover ready.` 
+		* `failover_targets` - Specifies the `DB_UNIQUE_NAME` of the data guard group member databases.
 		* `is_active_data_guard_enabled` - True if active Data Guard is enabled.
+		* `managed_auto_failover` - The state of managed auto failover.
 		* `role` - The role of the reporting database in this Data Guard association.
 		* `switchover_readiness` - The switchover readiness status of the Data Guard member.
+			* HEALTHY_AND_NOT_ROLECHANGE_TARGET - Indicates that the respective standby member is healthy  but not currently designated to take switchover, when auto failover is enabled. 
 		* `switchover_readiness_message` - The message explaining switchover readiness status. Example: `Address failed checks to avoid extended downtime.`
 		* `time_updated` - The date and time when the last successful Data Guard refresh occurred.
 		* `transport_lag` - The rate at which redo logs are transported between the associated databases.  Example: `1 second`

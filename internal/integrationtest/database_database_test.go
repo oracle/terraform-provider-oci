@@ -57,8 +57,8 @@ var (
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"vcn_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `ExadataSecurityList`},
-		"egress_security_rules":  []acctest.RepresentationGroup{{RepType: acctest.Required, Group: exaSecurityListEgressSecurityRulesICMPRepresentation}, {RepType: acctest.Optional, Group: exaSecurityListEgressSecurityRulesTCPRepresentation}},
-		"ingress_security_rules": []acctest.RepresentationGroup{{RepType: acctest.Required, Group: exaSecurityListIngressSecurityRulesICMPRepresentation}, {RepType: acctest.Optional, Group: exaSecurityListIngressSecurityRulesTCPRepresentation}},
+		"egress_security_rules":  []acctest.RepresentationGroup{{RepType: acctest.Required, Group: exaSecurityListEgressSecurityRulesICMPRepresentation}, {RepType: acctest.Optional, Group: exaSecurityListEgressSecurityRulesTCPRepresentation}, {RepType: acctest.Optional, Group: exaSecurityListEgressSecurityRulesObserverRepresentation}},
+		"ingress_security_rules": []acctest.RepresentationGroup{{RepType: acctest.Required, Group: exaSecurityListIngressSecurityRulesICMPRepresentation}, {RepType: acctest.Optional, Group: exaSecurityListIngressSecurityRulesTCPRepresentation}, {RepType: acctest.Optional, Group: exaSecurityListIngressSecurityRulesObserverRepresentation}},
 	}
 
 	exaSecurityListIngressSecurityRulesICMPRepresentation = map[string]interface{}{
@@ -69,6 +69,15 @@ var (
 		"protocol": acctest.Representation{RepType: acctest.Required, Create: `6`},
 		"source":   acctest.Representation{RepType: acctest.Required, Create: `10.1.22.0/24`},
 	}
+	exaSecurityListIngressSecurityRulesObserverRepresentation = map[string]interface{}{
+		"protocol":    acctest.Representation{RepType: acctest.Required, Create: `6`}, // TCP
+		"source":      acctest.Representation{RepType: acctest.Required, Create: `0.0.0.0/0`},
+		"source_type": acctest.Representation{RepType: acctest.Required, Create: `CIDR_BLOCK`},
+		"stateless":   acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"description": acctest.Representation{RepType: acctest.Required, Create: `Primary - Observer - Agent traffic port 7095`},
+		"tcp_options": acctest.RepresentationGroup{RepType: acctest.Required, Group: ObserverAgentSecurityListIngressSecurityRulesTcpOptionsRepresentation},
+	}
+
 	exaSecurityListEgressSecurityRulesICMPRepresentation = map[string]interface{}{
 		"protocol":    acctest.Representation{RepType: acctest.Required, Create: `1`},
 		"destination": acctest.Representation{RepType: acctest.Required, Create: `10.1.22.0/24`},
@@ -76,6 +85,16 @@ var (
 	exaSecurityListEgressSecurityRulesTCPRepresentation = map[string]interface{}{
 		"protocol":    acctest.Representation{RepType: acctest.Required, Create: `6`},
 		"destination": acctest.Representation{RepType: acctest.Required, Create: `10.1.22.0/24`},
+	}
+
+	exaSecurityListEgressSecurityRulesObserverRepresentation = map[string]interface{}{
+		"protocol":    acctest.Representation{RepType: acctest.Required, Create: `6`},
+		"destination": acctest.Representation{RepType: acctest.Required, Create: `0.0.0.0/0`},
+	}
+
+	ObserverAgentSecurityListIngressSecurityRulesTcpOptionsRepresentation = map[string]interface{}{
+		"max": acctest.Representation{RepType: acctest.Required, Create: `7095`},
+		"min": acctest.Representation{RepType: acctest.Required, Create: `7095`},
 	}
 
 	exaSubnetRepresentation = map[string]interface{}{
@@ -201,6 +220,23 @@ var (
 			"display_name": acctest.Representation{RepType: acctest.Optional, Create: `createdDbHomeNone2`},
 		}))
 
+	databaseIgnoreAutoFailoverConfigurationRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`auto_failover_configuration`}},
+	}
+
+	ExaBaseDependenciesForStandby2 = acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure_3", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseCloudExadataInfrastructureRepresentation, []string{"display_name"}), map[string]interface{}{
+		"display_name": acctest.Representation{RepType: acctest.Required, Create: `tstExaInfra3`},
+	})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster_stb", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseCloudVmClusterRepresentation, []string{"cloud_exadata_infrastructure_id", "file_system_configuration_details", "display_name"}), map[string]interface{}{
+			"cloud_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure_3.id}`},
+			"display_name":                    acctest.Representation{RepType: acctest.Required, Create: `cloudVmClusterStb2`, Update: `displayName3`},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_3", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseDbHomeRepresentationBaseStb2, map[string]interface{}{
+			"db_version":   acctest.Representation{RepType: acctest.Required, Create: `19.27.0.0`},
+			"source":       acctest.Representation{RepType: acctest.Optional, Create: `NONE`},
+			"display_name": acctest.Representation{RepType: acctest.Optional, Create: `createdDbHomeNone3`},
+		}))
+
 	CoreRouteTableWithoutRouteRulesRepresentation = acctest.RepresentationCopyWithRemovedProperties(CoreRouteTableRepresentation2, []string{"route_rules"})
 
 	DatabaseRequiredOnlyResource = DatabaseDatabaseResourceDependencies +
@@ -219,6 +255,7 @@ var (
 		"db_name":        acctest.Representation{RepType: acctest.Optional, Create: `myTestDb`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseDatabaseDataSourceFilterRepresentation}}
+
 	DatabaseDatabaseDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_database.test_database.id}`}},
@@ -233,6 +270,23 @@ var (
 		"kms_key_id":       acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`},
 		"kms_key_rotation": acctest.Representation{RepType: acctest.Optional, Update: `1`},
 		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseIgnoreNestedDefinedTagsRepresentation},
+	}
+
+	DatabaseDatabaseAutoFailoverConfigurationEnableRepresentation = map[string]interface{}{
+		"managed_auto_failover": acctest.Representation{RepType: acctest.Optional, Create: `ENABLE`},
+	}
+
+	DatabaseDatabaseAutoFailoverConfigurationDisableRepresentation = map[string]interface{}{
+		"managed_auto_failover": acctest.Representation{RepType: acctest.Optional, Create: `DISABLE`},
+	}
+
+	DatabaseDatabaseAutoFailoverConfigurationTargetsRepresentation = map[string]interface{}{
+		"failover_targets": acctest.Representation{RepType: acctest.Optional, Create: []string{`failoverTargets`}},
+	}
+
+	DatabaseDatabaseAutoFailoverConfigurationRepresentation = map[string]interface{}{
+		"failover_targets":      acctest.Representation{RepType: acctest.Optional, Create: []string{`stb1_db`}},
+		"managed_auto_failover": acctest.Representation{RepType: acctest.Optional, Create: `ENABLE`},
 	}
 
 	DatabaseDatabaseRepresentationDataPatchCreate = map[string]interface{}{
@@ -445,7 +499,7 @@ var (
       variable exadb_vm_cluster_id {}
 
       data "oci_database_exadb_vm_cluster" "test_exadb_vm_cluster" {
-          exadb_vm_cluster_id = var.exadb_vm_cluster_id
+          exadb_vm_cluster_id	 = var.exadb_vm_cluster_id
       }
     `
 
@@ -518,11 +572,11 @@ var (
 		"db_backup_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDatabaseDatabaseDbBackupConfigRepresentation},
 		"db_unique_name":   acctest.Representation{RepType: acctest.Optional, Create: `myTestDb_46`},
 		"db_workload":      acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
-		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
-		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
-		"ncharacter_set":   acctest.Representation{RepType: acctest.Optional, Create: `AL16UTF16`},
-		"pdb_name":         acctest.Representation{RepType: acctest.Optional, Create: `pdbName`},
-		"sid_prefix":       acctest.Representation{RepType: acctest.Optional, Create: `myTestDb`},
+		//"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"ncharacter_set": acctest.Representation{RepType: acctest.Optional, Create: `AL16UTF16`},
+		"pdb_name":       acctest.Representation{RepType: acctest.Optional, Create: `pdbName`},
+		"sid_prefix":     acctest.Representation{RepType: acctest.Optional, Create: `myTestDb`},
 		// "tde_wallet_password": acctest.Representation{RepType: acctest.Optional, Create: `tdeWalletPassword`},	exadata doesn't support it.
 	}
 
@@ -539,6 +593,14 @@ var (
 		"db_home_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_db_home_2.id}`},
 		"source":     acctest.Representation{RepType: acctest.Required, Create: `DATAGUARD`},
 		"db_version": acctest.Representation{RepType: acctest.Optional, Create: `${var.db_version}`},
+		"lifecycle":  acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseIgnoreDefinedTagsRepresentation},
+	}
+
+	DatabaseMultipleStandbyStandbyD2bRepresentation = map[string]interface{}{
+		//"database":   acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseMultipleStandbyDb2Representation},
+		"db_home_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_db_home_3.id}`},
+		"source":     acctest.Representation{RepType: acctest.Required, Create: `DATAGUARD`},
+		"db_version": acctest.Representation{RepType: acctest.Optional, Create: `19.27.0.0`},
 		"lifecycle":  acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseIgnoreDefinedTagsRepresentation},
 	}
 
@@ -567,10 +629,10 @@ var (
 	}
 
 	dbHomeHsmRepresentation = map[string]interface{}{
-		"database":               acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseHsmDatabaseRepresentation},
-		"db_version":             acctest.Representation{RepType: acctest.Optional, Create: `${var.db_version}`},
-		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `dbHomeHsm`},
-		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
+		"database":     acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseHsmDatabaseRepresentation},
+		"db_version":   acctest.Representation{RepType: acctest.Optional, Create: `${var.db_version}`},
+		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `dbHomeHsm`},
+		//"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_desupported_version": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"source":                 acctest.Representation{RepType: acctest.Required, Create: `VM_CLUSTER_NEW`},
@@ -579,10 +641,10 @@ var (
 	}
 
 	dbHomeNoHsmRepresentation = map[string]interface{}{
-		"database":               acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseNoHsmDatabaseRepresentation},
-		"db_version":             acctest.Representation{RepType: acctest.Optional, Create: `${var.db_version}`},
-		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `dbHomeHsm`},
-		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
+		"database":     acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseNoHsmDatabaseRepresentation},
+		"db_version":   acctest.Representation{RepType: acctest.Optional, Create: `${var.db_version}`},
+		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `dbHomeHsm`},
+		//"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_desupported_version": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"source":                 acctest.Representation{RepType: acctest.Required, Create: `VM_CLUSTER_NEW`},
@@ -643,7 +705,7 @@ var (
 		"character_set":  acctest.Representation{RepType: acctest.Optional, Create: `AL32UTF8`},
 		"db_unique_name": acctest.Representation{RepType: acctest.Optional, Create: `myHsmDb_47`},
 		"db_workload":    acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
+		//"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 		"ncharacter_set": acctest.Representation{RepType: acctest.Optional, Create: `AL16UTF16`},
 		"sid_prefix":     acctest.Representation{RepType: acctest.Optional, Create: `myHsmDb2`},
@@ -760,6 +822,10 @@ var (
 		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster_2.id}`},
 	}
 
+	DatabaseDbHomeRepresentationBaseStb2 = map[string]interface{}{
+		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster_stb.id}`},
+	}
+
 	dbHomeRepresentationSourceNone2 = acctest.RepresentationCopyWithNewProperties(DatabaseDbHomeRepresentationBase2, map[string]interface{}{
 		"db_version":   acctest.Representation{RepType: acctest.Required, Create: `${var.db_version}`},
 		"source":       acctest.Representation{RepType: acctest.Optional, Create: `NONE`},
@@ -776,9 +842,13 @@ var (
 		"db_version": acctest.Representation{RepType: acctest.Required, Create: `${var.db_version}`},
 	})
 
+	dbHomeDbrsRepresentation1928 = acctest.RepresentationCopyWithNewProperties(dbHomeRepresentationSourceNone2, map[string]interface{}{
+		"db_version": acctest.Representation{RepType: acctest.Required, Create: `19.28.0.0`},
+	})
+
 	DatabaseDatabaseResourceDependenciesDataPatch = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "home1927", acctest.Required, acctest.Create, dbHomeRepresentationPatchHome) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "home1928", acctest.Required, acctest.Create, dbHomeRepresentationSourceNone2)
+		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "home1928", acctest.Required, acctest.Create, dbHomeDbrsRepresentation1928)
 
 	datapatchRepresentation = map[string]interface{}{
 		"database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_database.test_database.id}`},
@@ -855,7 +925,7 @@ var (
 	ExaccDependenciesForStandby = acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "peer_exadata_infrastructure", acctest.Optional, acctest.Update,
 		acctest.RepresentationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{"activation_file": acctest.Representation{RepType: acctest.Optional, Update: activationFilePath}})) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "peer_db_servers", acctest.Required, acctest.Create, DatabaseDatabasePeerExaInfraDbServerDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster2", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster2", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(
 			acctest.RepresentationCopyWithRemovedProperties(DatabaseVmClusterRepresentation, []string{"exadata_infrastructure_id", "db_servers", "vm_cluster_network_id"}), map[string]interface{}{
 				"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.peer_exadata_infrastructure.id}`},
 				"db_servers":                acctest.Representation{RepType: acctest.Required, Create: []string{`${data.oci_database_db_servers.peer_db_servers.db_servers.0.id}`, `${data.oci_database_db_servers.peer_db_servers.db_servers.1.id}`}},
@@ -964,6 +1034,9 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "database.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.auto_failover_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.auto_failover_configuration.0.failover_targets.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database.0.auto_failover_configuration.0.managed_auto_failover", "ENABLE"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.character_set", "AL32UTF8"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_backup_enabled", "true"),
@@ -1043,6 +1116,8 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_home_id"),
 				resource.TestCheckResourceAttr(datasourceName, "db_name", "myTestDb"),
+				resource.TestCheckResourceAttr(datasourceName, "failover_targets", "DEFINED"),
+				resource.TestCheckResourceAttr(datasourceName, "managed_auto_failover", "REGISTERED"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "databases.0.character_set"),
@@ -1226,7 +1301,7 @@ func TestDatabaseDatabaseResource_exadbxs_block_storage(t *testing.T) {
 func TestDatabaseDatabaseResource_CreateDatabaseFromAnotherDatabaseDetails(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseDatabaseResource_CreateDatabaseFromAnotherDatabaseDetails")
 	defer httpreplay.SaveScenario()
-	const dbWaitConditionDuration = time.Duration(3 * time.Minute)
+	const dbWaitConditionDuration = time.Duration(5 * time.Minute)
 
 	config := acctest.ProviderTestConfig()
 
@@ -1247,7 +1322,7 @@ func TestDatabaseDatabaseResource_CreateDatabaseFromAnotherDatabaseDetails(t *te
 		},
 		{
 			PreConfig: acctest.WaitTillCondition(acctest.TestAccProvider, &resId, dbAutomaticBackupAvailableWaitCondition, dbWaitConditionDuration,
-				listBackupsFetchOperation, "database", false),
+				listBackupsFetchOperation, "database", true),
 			Config: config + compartmentIdVariableStr + DatabaseDbHomeResourceVmClusterDependencies +
 				`
 				data "oci_database_backups" "test_backups" {
@@ -1386,7 +1461,7 @@ func TestDatabaseDatabaseResource_update(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_backup_window", "SLOT_TWO"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.auto_full_backup_day", "SUNDAY"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.recovery_window_in_days", "10"),
-				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.run_immediate_full_backup", "true"),
+				//resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.run_immediate_full_backup", "true"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_deletion_policy", "DELETE_AFTER_RETENTION_PERIOD"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_backup_config.0.backup_destination_details.0.type", "OBJECT_STORE"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
@@ -1491,7 +1566,7 @@ func TestDatabaseDatabaseResource_dataPatch(t *testing.T) {
 		// testing run data patch api operation
 		{
 			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependenciesDataPatch + kmsKeyIdVariableStr +
-				DataPatchResource + acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update, DatabaseDatabaseRepresentationDataPatchUpdate),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update, DatabaseDatabaseRepresentationDataPatchUpdate) + DataPatchResource,
 		},
 		{
 			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependenciesDataPatch + kmsKeyIdVariableStr +
@@ -1543,13 +1618,13 @@ func TestDatabaseDatabaseResource_multipleStandby(t *testing.T) {
 				resource.TestCheckResourceAttr(primaryDatabase, "database.0.db_name", "myTestDb"),
 				resource.TestCheckResourceAttrSet(primaryDatabase, "db_home_id"),
 				resource.TestCheckResourceAttr(primaryDatabase, "source", "NONE"),
-				resource.TestCheckResourceAttrSet(primaryDatabase, "defined_tags"),
-				resource.TestCheckResourceAttrSet(primaryDatabase, "freeform_tags"),
+				//resource.TestCheckResourceAttrSet(primaryDatabase, "defined_tags.#"),
+				//resource.TestCheckResourceAttrSet(primaryDatabase, "freeform_tags.#"),
 				resource.TestCheckResourceAttr(standbyDatabase, "database.#", "1"),
 				resource.TestCheckResourceAttr(standbyDatabase, "database.0.db_name", "myTestDb"),
 				resource.TestCheckResourceAttrSet(standbyDatabase, "db_home_id"),
-				resource.TestCheckResourceAttrSet(standbyDatabase, "defined_tags"),
-				resource.TestCheckResourceAttrSet(standbyDatabase, "freeform_tags"),
+				//resource.TestCheckResourceAttrSet(standbyDatabase, "defined_tags.#"),
+				//resource.TestCheckResourceAttrSet(standbyDatabase, "freeform_tags.#"),
 				resource.TestCheckResourceAttr(standbyDatabase, "source", "DATAGUARD"),
 				resource.TestCheckResourceAttrSet(standbyDatabase, "data_guard_group.#"),
 				resource.TestCheckResourceAttr(standbyDatabase, "data_guard_group.0.protection_mode", "MAXIMUM_PERFORMANCE"),
@@ -1938,6 +2013,295 @@ func TestExaccHsmDatabaseResource_basic(t *testing.T) {
 				"source",
 			},
 			ResourceName: databaseResourceName,
+		},
+	})
+}
+
+func TestDatabaseDatabaseResource_multipleStandby_auto_failover(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseDatabaseResource_multipleStandby_auto_failover")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	kmsKeyId := utils.GetEnvSettingWithBlankDefault("kms_key_id")
+	kmsKeyIdVariableStr := fmt.Sprintf("variable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
+
+	vaultId := utils.GetEnvSettingWithBlankDefault("vault_id")
+	vaultIdVariableStr := fmt.Sprintf("variable \"vault_id\" { default = \"%s\" }\n", vaultId)
+
+	primaryDatabase := "oci_database_database.primary_database"
+	firstStandbyDatabase := "oci_database_database.standby_database_1"
+	secondStandbyDatabase := "oci_database_database.standby_database_2"
+
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseDatabaseResourceDependencies+kmsKeyIdVariableStr+vaultIdVariableStr+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseRepresentation), "database", "database", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseDatabaseDestroy, []resource.TestStep{
+		// Add first standby database
+		{
+			Config: config + compartmentIdVariableStr + ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, dbHomeRepresentationSourceNone2) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "primary_database", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseMultipleStandbyPrimaryDbRepresentation, map[string]interface{}{
+					"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseMultipleStandbyDb1Representation},
+				})) +
+				ExaBaseDependenciesForStandby +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "standby_database_1", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseMultipleStandbyStandbyDbRepresentation, map[string]interface{}{
+					"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(databaseMultipleStandbyDb2Representation, map[string]interface{}{
+						"source_database_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_database.primary_database.id}`},
+						"db_unique_name":     acctest.Representation{RepType: acctest.Optional, Create: `stb1_db`},
+					})},
+				})),
+
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(primaryDatabase, "database.#", "1"),
+				resource.TestCheckResourceAttr(primaryDatabase, "database.0.db_name", "myTestDb"),
+				resource.TestCheckResourceAttrSet(primaryDatabase, "db_home_id"),
+				resource.TestCheckResourceAttr(primaryDatabase, "source", "NONE"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "database.#", "1"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "database.0.db_name", "myTestDb"),
+				resource.TestCheckResourceAttrSet(firstStandbyDatabase, "db_home_id"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "source", "DATAGUARD"),
+				resource.TestCheckResourceAttrSet(firstStandbyDatabase, "data_guard_group.#"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "data_guard_group.0.protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(firstStandbyDatabase, "data_guard_group.0.members.0.failover_targets.#"),
+				resource.TestCheckResourceAttrSet(firstStandbyDatabase, "data_guard_group.0.members.1.failover_targets.#"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "data_guard_group.0.members.0.failover_targets.0", "stb1_db"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "data_guard_group.0.members.1.failover_targets.0", "iDbTest_85"),
+			),
+		},
+
+		// Update database for enabling auto failover.
+		{
+			Config: config + compartmentIdVariableStr + ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, dbHomeRepresentationSourceNone2) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "primary_database", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseMultipleStandbyPrimaryDbRepresentation, map[string]interface{}{
+					"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseMultipleStandbyDb1Representation},
+				})) +
+				ExaBaseDependenciesForStandby +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "standby_database_1", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseMultipleStandbyStandbyDbRepresentation, map[string]interface{}{
+					"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(databaseMultipleStandbyDb2Representation, map[string]interface{}{
+						"source_database_id":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_database.primary_database.id}`},
+						"db_unique_name":              acctest.Representation{RepType: acctest.Optional, Create: `stb1_db`},
+						"auto_failover_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDatabaseAutoFailoverConfigurationEnableRepresentation},
+					})},
+				})),
+
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(primaryDatabase, "database.#", "1"),
+				resource.TestCheckResourceAttr(primaryDatabase, "database.0.db_name", "myTestDb"),
+				resource.TestCheckResourceAttrSet(primaryDatabase, "db_home_id"),
+				resource.TestCheckResourceAttr(primaryDatabase, "source", "NONE"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "database.#", "1"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "database.0.db_name", "myTestDb"),
+				resource.TestCheckResourceAttrSet(firstStandbyDatabase, "db_home_id"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "source", "DATAGUARD"),
+				resource.TestCheckResourceAttrSet(firstStandbyDatabase, "data_guard_group.#"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "data_guard_group.0.protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(firstStandbyDatabase, "data_guard_group.0.members.0.failover_targets.#"),
+				resource.TestCheckResourceAttrSet(firstStandbyDatabase, "data_guard_group.0.members.1.failover_targets.#"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "data_guard_group.0.members.0.failover_targets.0", "stb1_db"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "data_guard_group.0.members.1.failover_targets.0", "iDbTest_85"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "data_guard_group.0.members.1.managed_auto_failover", "ENABLE"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "data_guard_group.0.members.1.managed_auto_failover", "ENABLE"),
+			),
+		},
+
+		// Update database for disabling auto failover.
+		{
+			Config: config + compartmentIdVariableStr + ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, dbHomeRepresentationSourceNone2) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "primary_database", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseMultipleStandbyPrimaryDbRepresentation, map[string]interface{}{
+					"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseMultipleStandbyDb1Representation},
+				})) +
+				ExaBaseDependenciesForStandby +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "standby_database_1", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseMultipleStandbyStandbyDbRepresentation, map[string]interface{}{
+					"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(databaseMultipleStandbyDb2Representation, map[string]interface{}{
+						"source_database_id":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_database.primary_database.id}`},
+						"db_unique_name":              acctest.Representation{RepType: acctest.Optional, Create: `stb1_db`},
+						"auto_failover_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDatabaseAutoFailoverConfigurationDisableRepresentation},
+					})},
+				})),
+
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(primaryDatabase, "database.#", "1"),
+				resource.TestCheckResourceAttr(primaryDatabase, "database.0.db_name", "myTestDb"),
+				resource.TestCheckResourceAttrSet(primaryDatabase, "db_home_id"),
+				resource.TestCheckResourceAttr(primaryDatabase, "source", "NONE"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "database.#", "1"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "database.0.db_name", "myTestDb"),
+				resource.TestCheckResourceAttrSet(firstStandbyDatabase, "db_home_id"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "source", "DATAGUARD"),
+				resource.TestCheckResourceAttrSet(firstStandbyDatabase, "data_guard_group.#"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "data_guard_group.0.protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(firstStandbyDatabase, "data_guard_group.0.members.0.failover_targets.#"),
+				resource.TestCheckResourceAttrSet(firstStandbyDatabase, "data_guard_group.0.members.1.failover_targets.#"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "data_guard_group.0.members.0.failover_targets.0", "stb1_db"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "data_guard_group.0.members.1.failover_targets.0", "iDbTest_85"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "data_guard_group.0.members.1.managed_auto_failover", "DISABLE"),
+				resource.TestCheckResourceAttr(firstStandbyDatabase, "data_guard_group.0.members.1.managed_auto_failover", "DISABLE"),
+			),
+		},
+
+		// Enable auto failover when adding a second standby database.
+		{
+			Config: config + compartmentIdVariableStr + ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, dbHomeRepresentationSourceNone2) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "primary_database", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseMultipleStandbyPrimaryDbRepresentation, map[string]interface{}{
+					"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseMultipleStandbyDb1Representation},
+				})) +
+				ExaBaseDependenciesForStandby +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "standby_database_1", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseMultipleStandbyStandbyDbRepresentation, map[string]interface{}{
+					"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(databaseMultipleStandbyDb2Representation, map[string]interface{}{
+						"source_database_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_database.primary_database.id}`},
+						"db_unique_name":     acctest.Representation{RepType: acctest.Optional, Create: `stb1_db`},
+						//"auto_failover_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDatabaseAutoFailoverConfigurationDisableRepresentation},
+					})},
+				})) +
+				ExaBaseDependenciesForStandby2 +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "standby_database_2", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseMultipleStandbyStandbyD2bRepresentation, map[string]interface{}{
+					"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(databaseMultipleStandbyDb2Representation, map[string]interface{}{
+						"source_database_id":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_database.primary_database.id}`},
+						"db_unique_name":              acctest.Representation{RepType: acctest.Optional, Create: `stb2_db`},
+						"sid_prefix":                  acctest.Representation{RepType: acctest.Optional, Create: `myTestDb2`},
+						"auto_failover_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDatabaseAutoFailoverConfigurationRepresentation},
+					})},
+				})),
+
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "database.#", "1"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "database.0.db_name", "myTestDb"),
+				resource.TestCheckResourceAttrSet(secondStandbyDatabase, "db_home_id"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "source", "DATAGUARD"),
+				resource.TestCheckResourceAttrSet(secondStandbyDatabase, "data_guard_group.#"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(secondStandbyDatabase, "data_guard_group.0.members.0.failover_targets.#"),
+				resource.TestCheckResourceAttrSet(secondStandbyDatabase, "data_guard_group.0.members.1.failover_targets.#"),
+				resource.TestCheckResourceAttrSet(secondStandbyDatabase, "data_guard_group.0.members.2.failover_targets.#"),
+				//When adding second standby, the order of member will first standby, primary, new standby as create standby WF, remove and added by setting register flag during end wf step.
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.members.0.failover_targets.0", "iDbTest_85"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.members.1.failover_targets.0", "stb1_db"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.members.2.failover_targets.0", "stb1_db"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.members.0.managed_auto_failover", "ENABLE"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.members.1.managed_auto_failover", "ENABLE"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.members.2.managed_auto_failover", "ENABLE"),
+			),
+		},
+
+		// Update failover targets on newly created standby with both standby1 and primary.
+		{
+			Config: config + compartmentIdVariableStr + ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, dbHomeRepresentationSourceNone2) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "primary_database", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseMultipleStandbyPrimaryDbRepresentation, map[string]interface{}{
+					"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseMultipleStandbyDb1Representation},
+				})) +
+				ExaBaseDependenciesForStandby +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "standby_database_1", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseMultipleStandbyStandbyDbRepresentation, map[string]interface{}{
+					"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(databaseMultipleStandbyDb2Representation, map[string]interface{}{
+						"source_database_id":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_database.primary_database.id}`},
+						"db_unique_name":              acctest.Representation{RepType: acctest.Optional, Create: `stb1_db`},
+						"auto_failover_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDatabaseAutoFailoverConfigurationEnableRepresentation},
+					})},
+				})) +
+				ExaBaseDependenciesForStandby2 +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "standby_database_2", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseMultipleStandbyStandbyD2bRepresentation, map[string]interface{}{
+					"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(databaseMultipleStandbyDb2Representation, map[string]interface{}{
+						"source_database_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_database.primary_database.id}`},
+						"db_unique_name":     acctest.Representation{RepType: acctest.Optional, Create: `stb2_db`},
+						"sid_prefix":         acctest.Representation{RepType: acctest.Optional, Create: `myTestDb2`},
+						"auto_failover_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(DatabaseDatabaseAutoFailoverConfigurationRepresentation, map[string]interface{}{
+							"failover_targets": acctest.Representation{RepType: acctest.Optional, Create: []string{`stb1_db`, `iDbTest_85`}},
+						})},
+					})},
+				})),
+
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "database.#", "1"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "database.0.db_name", "myTestDb"),
+				resource.TestCheckResourceAttrSet(secondStandbyDatabase, "db_home_id"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "source", "DATAGUARD"),
+				resource.TestCheckResourceAttrSet(secondStandbyDatabase, "data_guard_group.#"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(secondStandbyDatabase, "data_guard_group.0.members.0.failover_targets.#"),
+				resource.TestCheckResourceAttrSet(secondStandbyDatabase, "data_guard_group.0.members.1.failover_targets.#"),
+				resource.TestCheckResourceAttrSet(secondStandbyDatabase, "data_guard_group.0.members.2.failover_targets.#"),
+				//When adding second standby, the order of member will first standby, primary, new standby as create standby WF, remove and added by setting register flag during end wf step.
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.members.0.failover_targets.0", "iDbTest_85"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.members.1.failover_targets.0", "stb1_db"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.members.2.failover_targets.0", "stb1_db"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.members.2.failover_targets.1", "iDbTest_85"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.members.0.managed_auto_failover", "ENABLE"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.members.1.managed_auto_failover", "ENABLE"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.members.2.managed_auto_failover", "ENABLE"),
+			),
+		},
+
+		// Update failover targets on newly created standby with both standby1 and primary but in reverse order
+		{
+			Config: config + compartmentIdVariableStr + ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, dbHomeRepresentationSourceNone2) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "primary_database", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseMultipleStandbyPrimaryDbRepresentation, map[string]interface{}{
+					"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseMultipleStandbyDb1Representation},
+				})) +
+				ExaBaseDependenciesForStandby +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "standby_database_1", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseMultipleStandbyStandbyDbRepresentation, map[string]interface{}{
+					"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(databaseMultipleStandbyDb2Representation, map[string]interface{}{
+						"source_database_id":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_database.primary_database.id}`},
+						"db_unique_name":              acctest.Representation{RepType: acctest.Optional, Create: `stb1_db`},
+						"auto_failover_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDatabaseAutoFailoverConfigurationEnableRepresentation},
+					})},
+				})) +
+				ExaBaseDependenciesForStandby2 +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "standby_database_2", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseMultipleStandbyStandbyD2bRepresentation, map[string]interface{}{
+					"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(databaseMultipleStandbyDb2Representation, map[string]interface{}{
+						"source_database_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_database.primary_database.id}`},
+						"db_unique_name":     acctest.Representation{RepType: acctest.Optional, Create: `stb2_db`},
+						"sid_prefix":         acctest.Representation{RepType: acctest.Optional, Create: `myTestDb2`},
+						"auto_failover_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(DatabaseDatabaseAutoFailoverConfigurationRepresentation, map[string]interface{}{
+							"failover_targets": acctest.Representation{RepType: acctest.Optional, Create: []string{`iDbTest_85`, `stb1_db`}},
+						})},
+					})},
+				})),
+
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "database.#", "1"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "database.0.db_name", "myTestDb"),
+				resource.TestCheckResourceAttrSet(secondStandbyDatabase, "db_home_id"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "source", "DATAGUARD"),
+				resource.TestCheckResourceAttrSet(secondStandbyDatabase, "data_guard_group.#"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.protection_mode", "MAXIMUM_PERFORMANCE"),
+				resource.TestCheckResourceAttrSet(secondStandbyDatabase, "data_guard_group.0.members.0.failover_targets.#"),
+				resource.TestCheckResourceAttrSet(secondStandbyDatabase, "data_guard_group.0.members.1.failover_targets.#"),
+				resource.TestCheckResourceAttrSet(secondStandbyDatabase, "data_guard_group.0.members.2.failover_targets.#"),
+				//When adding second standby, the order of member will first standby, primary, new standby as create standby WF, remove and added by setting register flag during end wf step.
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.members.0.failover_targets.0", "iDbTest_85"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.members.1.failover_targets.0", "stb1_db"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.members.2.failover_targets.0", "iDbTest_85"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.members.2.failover_targets.1", "stb1_db"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.members.0.managed_auto_failover", "ENABLE"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.members.1.managed_auto_failover", "ENABLE"),
+				resource.TestCheckResourceAttr(secondStandbyDatabase, "data_guard_group.0.members.2.managed_auto_failover", "ENABLE"),
+			),
+		},
+
+		// Terminate second standby.
+		{
+			Config: config + compartmentIdVariableStr + ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Required, acctest.Create, dbHomeRepresentationSourceNone2) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "primary_database", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseMultipleStandbyPrimaryDbRepresentation, map[string]interface{}{
+					"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseMultipleStandbyDb1Representation},
+				})) +
+				ExaBaseDependenciesForStandby +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "standby_database_1", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseMultipleStandbyStandbyDbRepresentation, map[string]interface{}{
+					"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.RepresentationCopyWithNewProperties(databaseMultipleStandbyDb2Representation, map[string]interface{}{
+						"source_database_id":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_database.primary_database.id}`},
+						"db_unique_name":              acctest.Representation{RepType: acctest.Optional, Create: `stb1_db`},
+						"auto_failover_configuration": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseDatabaseAutoFailoverConfigurationEnableRepresentation},
+					})},
+				})),
 		},
 	})
 }

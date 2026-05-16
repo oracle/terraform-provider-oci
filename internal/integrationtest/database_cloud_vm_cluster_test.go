@@ -338,7 +338,7 @@ var (
                     vcn_id              = "${oci_core_virtual_network.t.id}"
                     route_table_id      = "${oci_core_route_table.t.id}"
                     dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
-                    security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}"]
+                    security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}", "${oci_core_security_list.observer_agent_security_list.id}"]
                     dns_label           = "tfsubnet"
                 }
                 resource "oci_core_subnet" "t2" {
@@ -411,6 +411,30 @@ var (
                     egress_security_rules {
                         destination = "10.1.22.0/24"
                         protocol    = "1"
+                    }
+
+                }
+
+ 				resource "oci_core_security_list" "observer_agent_security_list" {
+                    compartment_id = "${var.compartment_id}"
+                    vcn_id         = "${oci_core_virtual_network.t.id}"
+                    display_name   = "ObserverSecurityList"
+
+					ingress_security_rules {
+                        source    = "0.0.0.0/0"
+						protocol  = "6"
+						source_type = "CIDR_BLOCK"
+                        stateless = "false"
+			 	        tcp_options {	
+							max = 7095
+							min = 7095
+			         	}
+						description = "Standby - Observer - Agent traffic port 7095"
+                    }
+
+					egress_security_rules {
+						destination = "0.0.0.0/0"
+						protocol  = "6" 
                     }
                 }
 `
