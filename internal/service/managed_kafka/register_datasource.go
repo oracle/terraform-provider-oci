@@ -6,7 +6,10 @@ package managed_kafka
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_managed_kafka_addon_options", ManagedKafkaAddonOptionsDataSource())
 	tfresource.RegisterDatasource("oci_managed_kafka_kafka_cluster", ManagedKafkaKafkaClusterDataSource())
+	tfresource.RegisterDatasource("oci_managed_kafka_kafka_cluster_addon", ManagedKafkaKafkaClusterAddonDataSource())
+	tfresource.RegisterDatasource("oci_managed_kafka_kafka_cluster_addons", ManagedKafkaKafkaClusterAddonsDataSource())
 	tfresource.RegisterDatasource("oci_managed_kafka_kafka_cluster_config", ManagedKafkaKafkaClusterConfigDataSource())
 	tfresource.RegisterDatasource("oci_managed_kafka_kafka_cluster_config_version", ManagedKafkaKafkaClusterConfigVersionDataSource())
 	tfresource.RegisterDatasource("oci_managed_kafka_kafka_cluster_config_versions", ManagedKafkaKafkaClusterConfigVersionsDataSource())
