@@ -1123,6 +1123,7 @@ managed_kafka
 
 * oci\_managed\_kafka\_kafka\_cluster\_config
 * oci\_managed\_kafka\_kafka\_cluster
+* oci\_managed\_kafka\_kafka\_cluster\_addon
 
 management_agent
 

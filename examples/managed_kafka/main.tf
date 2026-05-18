@@ -48,7 +48,7 @@ data "oci_managed_kafka_kafka_cluster_config_versions" "test_kafka_cluster_confi
     kafka_cluster_config_id = "${oci_managed_kafka_kafka_cluster_config.test_kafka_cluster_config.id}"
 }
 
-	
+
 data "oci_managed_kafka_kafka_cluster_config_version" "test_kafka_cluster_config_version" {
       kafka_cluster_config_id = "${oci_managed_kafka_kafka_cluster_config.test_kafka_cluster_config.id}"
       version_number = "1"
@@ -81,7 +81,7 @@ resource "oci_managed_kafka_kafka_cluster_config" "test_kafka_cluster_config_2" 
       compartment_id = var.compartment_ocid
       defined_tags = "${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}"
       display_name = "displayName2"
-      
+
       freeform_tags = {
         "Department" = "Accounting"
       }
@@ -116,7 +116,7 @@ resource "oci_managed_kafka_kafka_cluster" "test_kafka_cluster" {
     lifecycle {
         ignore_changes = ["defined_tags"]
     }
-  
+
     timeouts {
       create = "60m"
       delete = "60m"
