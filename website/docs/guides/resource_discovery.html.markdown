@@ -748,6 +748,7 @@ database
 * oci\_database\_pluggable\_database\_snapshot
 * oci\_database\_database\_snapshot\_standby
 * oci\_database\_database\_software\_schedule\_management
+* oci\_database\_database\_snapshot
 
 database_migration
 
