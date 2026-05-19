@@ -3322,7 +3322,7 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 	}
 
 	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
-		result.SecurityAttributes = securityAttributes.(map[string]map[string]interface{})
+		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
 
 	if skipSourceDestCheck, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_source_dest_check")); ok {
@@ -3398,7 +3398,9 @@ func InstanceConfigurationCreateVnicDetailsToMap(obj *oci_core.InstanceConfigura
 		result["private_ip_id"] = string(*obj.PrivateIpId)
 	}
 
-	result["security_attributes"] = obj.SecurityAttributes
+	if obj.SecurityAttributes != nil {
+		result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
+	}
 
 	if obj.SkipSourceDestCheck != nil {
 		result["skip_source_dest_check"] = bool(*obj.SkipSourceDestCheck)
@@ -4204,7 +4206,7 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 	}
 
 	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
-		result.SecurityAttributes = securityAttributes.(map[string]map[string]interface{})
+		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
 
 	if shape, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape")); ok {
@@ -4344,7 +4346,9 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 
 	result["preferred_maintenance_action"] = string(obj.PreferredMaintenanceAction)
 
-	result["security_attributes"] = obj.SecurityAttributes
+	if obj.SecurityAttributes != nil {
+		result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
+	}
 
 	if obj.Shape != nil {
 		result["shape"] = string(*obj.Shape)
