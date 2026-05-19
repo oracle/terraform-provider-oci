@@ -81,6 +81,8 @@ func (s *CoreComputeGpuMemoryFabricDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("compute_gpu_memory_clusters", s.Res.ComputeGpuMemoryClusters)
+
 	if s.Res.ComputeHpcIslandId != nil {
 		s.D.Set("compute_hpc_island_id", *s.Res.ComputeHpcIslandId)
 	}

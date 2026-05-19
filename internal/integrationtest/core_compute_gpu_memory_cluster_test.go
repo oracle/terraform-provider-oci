@@ -44,6 +44,7 @@ var (
 		"availability_domain":           acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compute_cluster_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_cluster.test_compute_cluster.id}`},
 		"compute_gpu_memory_cluster_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_gpu_memory_cluster.test_compute_gpu_memory_cluster.id}`},
+		"compute_gpu_memory_fabric_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_gpu_memory_fabric.test_compute_gpu_memory_fabric.id}`},
 		"display_name":                  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"filter":                        acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreComputeGpuMemoryClusterDataSourceFilterRepresentation}}
 	CoreComputeGpuMemoryClusterDataSourceFilterRepresentation = map[string]interface{}{
@@ -93,6 +94,11 @@ var (
 		[]string{"defined_tags", "freeform_tags"})
 
 	CoreComputeGpuMemoryClusterResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_compute_cluster", "test_compute_cluster", acctest.Required, acctest.Create, CoreComputeClusterRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_compute_gpu_memory_cluster", "test_compute_gpu_memory_cluster", acctest.Required, acctest.Create, CoreComputeGpuMemoryClusterRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_compute_gpu_memory_fabric", "test_compute_gpu_memory_fabric", acctest.Required, acctest.Create, CoreComputeGpuMemoryFabricRepresentation) +
+		utils.OciImageIdsVariable +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Required, acctest.Create, CoreInstanceConfigurationRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
 		AvailabilityDomainConfig +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
@@ -286,10 +292,15 @@ func TestCoreComputeGpuMemoryClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "compute_cluster_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "compute_gpu_memory_cluster_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "compute_gpu_memory_fabric_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 
 				resource.TestCheckResourceAttr(datasourceName, "compute_gpu_memory_cluster_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "compute_gpu_memory_cluster_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "compute_gpu_memory_cluster_collection.0.items.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "compute_gpu_memory_cluster_collection.0.items.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "compute_gpu_memory_cluster_collection.0.items.0.gpu_memory_fabric_id", computeGpuMemoryFabricId),
+				resource.TestCheckResourceAttr(datasourceName, "compute_gpu_memory_cluster_collection.0.items.0.size", "2"),
 			),
 		},
 		// verify singular datasource

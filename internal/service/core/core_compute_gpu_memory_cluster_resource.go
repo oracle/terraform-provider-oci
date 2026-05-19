@@ -525,8 +525,74 @@ func ComputeGpuMemoryClusterSummaryToMap(obj oci_core.ComputeGpuMemoryClusterSum
 
 	result["freeform_tags"] = obj.FreeformTags
 
+	if obj.GpuMemoryFabricId != nil {
+		result["gpu_memory_fabric_id"] = string(*obj.GpuMemoryFabricId)
+	}
+
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.Size != nil {
+		result["size"] = strconv.FormatInt(*obj.Size, 10)
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	return result
+}
+
+func ComputeGpuMemoryClusterToMap(obj oci_core.ComputeGpuMemoryCluster) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AvailabilityDomain != nil {
+		result["availability_domain"] = string(*obj.AvailabilityDomain)
+	}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.ComputeClusterId != nil {
+		result["compute_cluster_id"] = string(*obj.ComputeClusterId)
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.GpuMemoryClusterScaleConfig != nil {
+		result["gpu_memory_cluster_scale_config"] = []interface{}{ComputeGpuMemoryClusterScaleConfigToMap(obj.GpuMemoryClusterScaleConfig)}
+	}
+
+	if obj.GpuMemoryFabricId != nil {
+		result["gpu_memory_fabric_id"] = string(*obj.GpuMemoryFabricId)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.InstanceConfigurationId != nil {
+		result["instance_configuration_id"] = string(*obj.InstanceConfigurationId)
+	}
+
+	if obj.Size != nil {
+		result["size"] = strconv.FormatInt(*obj.Size, 10)
 	}
 
 	result["state"] = string(obj.LifecycleState)

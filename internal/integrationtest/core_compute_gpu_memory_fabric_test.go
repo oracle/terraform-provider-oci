@@ -75,6 +75,7 @@ func TestCoreComputeGpuMemoryFabricResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_gpu_memory_fabric_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "available_host_count"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_gpu_memory_clusters.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_local_block_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "current_firmware_bundle_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),

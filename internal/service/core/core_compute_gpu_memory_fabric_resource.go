@@ -96,6 +96,13 @@ func CoreComputeGpuMemoryFabricResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"compute_gpu_memory_clusters": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"compute_hpc_island_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -373,6 +380,10 @@ func (s *CoreComputeGpuMemoryFabricResourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.ComputeGpuMemoryClusters != nil {
+		s.D.Set("compute_gpu_memory_clusters", s.Res.ComputeGpuMemoryClusters)
 	}
 
 	if s.Res.ComputeHpcIslandId != nil {
