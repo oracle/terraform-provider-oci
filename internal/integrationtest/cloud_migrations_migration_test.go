@@ -54,6 +54,7 @@ var (
 		"migration_config":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudMigrationsMigrationMigrationConfigRepresentation},
 		"migration_type":          acctest.Representation{RepType: acctest.Optional, Create: `OCI`},
 		"replication_schedule_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_migrations_replication_schedule.test_replication_schedule.id}`},
+		"security_attributes":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.MaxEgressCount.value": "42", "oracle-zpr.MaxEgressCount.mode": "enforce"}},
 	}
 	CloudMigrationsMigrationMigrationConfigRepresentation = map[string]interface{}{
 		"subnet_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.subnetId}`},
@@ -130,6 +131,7 @@ func TestCloudMigrationsMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "migration_config.0.subnet_id", subnetId),
 				resource.TestCheckResourceAttr(resourceName, "migration_type", "OCI"),
 				resource.TestCheckResourceAttrSet(resourceName, "replication_schedule_id"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -161,6 +163,7 @@ func TestCloudMigrationsMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "migration_config.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "migration_type", "OCI"),
 				resource.TestCheckResourceAttrSet(resourceName, "replication_schedule_id"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -186,6 +189,7 @@ func TestCloudMigrationsMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "migration_config.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "migration_config.0.subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "replication_schedule_id"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -228,6 +232,7 @@ func TestCloudMigrationsMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_completed", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "migration_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "migration_type", "OCI"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_attributes.%", "2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
