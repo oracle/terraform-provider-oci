@@ -21,17 +21,18 @@ Create an identity configuration for the cluster
 resource "oci_bds_bds_instance_identity_configuration" "test_bds_instance_identity_configuration" {
 	#Required
 	bds_instance_id = oci_bds_bds_instance.test_bds_instance.id
-	cluster_admin_password = var.bds_instance_identity_configuration_cluster_admin_password
 	confidential_application_id = oci_dataflow_application.test_application.id
 	display_name = var.bds_instance_identity_configuration_display_name
 	identity_domain_id = oci_identity_domain.test_domain.id
 
 	#Optional
+	cluster_admin_password = var.bds_instance_identity_configuration_cluster_admin_password
 	iam_user_sync_configuration_details {
 
 		#Optional
 		is_posix_attributes_addition_required = var.bds_instance_identity_configuration_iam_user_sync_configuration_details_is_posix_attributes_addition_required
 	}
+	secret_id = oci_vault_secret.test_secret.id
 	upst_configuration_details {
 
 		#Optional
@@ -46,12 +47,13 @@ resource "oci_bds_bds_instance_identity_configuration" "test_bds_instance_identi
 The following arguments are supported:
 
 * `bds_instance_id` - (Required) The OCID of the cluster.
-* `cluster_admin_password` - (Required) (Updatable) Base-64 encoded password for the cluster admin user.
+* `cluster_admin_password` - (Optional) (Updatable) Base-64 encoded password for the cluster admin user.
 * `confidential_application_id` - (Required) Identity domain confidential application ID for the identity config, required for creating identity configuration
 * `display_name` - (Required) Display name of the identity configuration, required for creating identity configuration.
 * `iam_user_sync_configuration_details` - (Optional) (Updatable) Details for activating/updating an IAM user sync configuration
 	* `is_posix_attributes_addition_required` - (Optional) (Updatable) whether posix attribute needs to be appended to users, required for updating IAM user sync configuration
 * `identity_domain_id` - (Required) Identity domain OCID to use for identity config, required for creating identity configuration
+* `secret_id` - (Optional) (Updatable) The secretId for the clusterAdminPassword.
 * `upst_configuration_details` - (Optional) (Updatable) Details for activating/updating UPST config on the cluster
 	* `master_encryption_key_id` - (Optional) (Updatable) OCID of the master encryption key in vault for encrypting token exchange service principal keytab, required for activating UPST config
 	* `vault_id` - (Optional) (Updatable) OCID of the vault to store token exchange service principal keyta, required for activating UPST config
@@ -77,6 +79,7 @@ The following attributes are exported:
 	* `time_updated` - Time when this IAM user sync config was updated, shown as an RFC 3339 formatted datetime string.
 * `id` - The id of the identity config
 * `identity_domain_id` - Identity domain to use for identity config
+* `secret_id` - The secretId for the clusterAdminPassword.
 * `state` - Lifecycle state of the identity configuration
 * `time_created` - Time when this identity configuration was created, shown as an RFC 3339 formatted datetime string.
 * `time_updated` - Time when this identity configuration config was updated, shown as an RFC 3339 formatted datetime string.

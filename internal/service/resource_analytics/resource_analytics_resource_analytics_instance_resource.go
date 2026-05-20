@@ -89,6 +89,12 @@ func ResourceAnalyticsResourceAnalyticsInstanceResource() *schema.Resource {
 			},
 
 			// Optional
+			"compute_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -255,6 +261,11 @@ func (s *ResourceAnalyticsResourceAnalyticsInstanceResourceCrud) Create() error 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if computeCount, ok := s.D.GetOkExists("compute_count"); ok {
+		tmp := computeCount.(int)
+		request.ComputeCount = &tmp
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {

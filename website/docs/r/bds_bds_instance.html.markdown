@@ -21,7 +21,6 @@ Creates a new BDS instance.
 ```hcl
 resource "oci_bds_bds_instance" "test_bds_instance" {
 	#Required
-	cluster_admin_password = var.bds_instance_cluster_admin_password
 	cluster_public_key = var.bds_instance_cluster_public_key
 	cluster_version = var.bds_instance_cluster_version
 	compartment_id = var.compartment_id
@@ -128,9 +127,11 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 		odh_version = var.bds_instance_bds_cluster_version_summary_odh_version
 	}
 	bootstrap_script_url = var.bds_instance_bootstrap_script_url
+	cluster_admin_password = var.bds_instance_cluster_admin_password
 	cluster_profile = var.bds_instance_cluster_profile
 	defined_tags = var.bds_instance_defined_tags
 	freeform_tags = var.bds_instance_freeform_tags
+	is_secret_reused = var.bds_instance_is_secret_reused
 	kerberos_realm_name = var.bds_instance_kerberos_realm_name
 	kms_key_id = var.bds_instance_kms_key_id
 	ignore_existing_nodes_shape = var.ignore_existing_nodes_shape
@@ -140,6 +141,7 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 		cidr_block = var.bds_instance_network_config_cidr_block
 		is_nat_gateway_required = var.bds_instance_network_config_is_nat_gateway_required
 	}
+	secret_id = oci_vault_secret.test_secret.id
 }
 ```
 
@@ -151,7 +153,7 @@ The following arguments are supported:
 	* `bds_version` - (Required) BDS version to be used for cluster creation
 	* `odh_version` - (Optional) ODH version to be used for cluster creation
 * `bootstrap_script_url` - (Optional) (Updatable) Pre-authenticated URL of the script in Object Store that is downloaded and executed.
-* `cluster_admin_password` - (Required) Base-64 encoded password for the cluster (and Cloudera Manager) admin user.
+* `cluster_admin_password` - (Optional) (Updatable) Base-64 encoded password for the cluster (and Cloudera Manager) admin user. Not required if the secretId is specified.
 * `cluster_profile` - (Optional) Profile of the Big Data Service cluster.
 * `cluster_public_key` - (Required) The SSH public key used to authenticate the cluster connection.
 * `cluster_version` - (Required) Version of the Hadoop distribution
@@ -179,12 +181,13 @@ The following arguments are supported:
 		* `nvmes` - (Optional) The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.
 		* `ocpus` - (Optional) The total number of OCPUs available to the node.
 	* `subnet_id` - (Required) The OCID of the subnet in which the node will be created.
-* `state` - (Optional) (Updatable) The target state for the Bds Instance. Could be set to `ACTIVE` or `INACTIVE`. 
-* `execute_bootstrap_script_trigger` - (Optional) (Updatable) An optional property when incremented triggers Execute Bootstrap Script. Could be set to any integer value.
-* `install_os_patch_trigger` - (Optional) (Updatable) An optional property when incremented triggers Install Os Patch. Could be set to any integer value.
-* `remove_kafka_trigger` - (Optional) (Updatable) An optional property when incremented triggers Remove Kafka. Could be set to any integer value.
-* `remove_node` - (Optional) (Updatable) An optional property when used triggers Remove Node. Takes the node ocid as input.
-* `install_os_patch_trigger` - (Optional) (Updatable) An optional property when incremented triggers Install Os Patch. Could be set to any integer value.
+	* `state` - (Optional) (Updatable) The target state for the Bds Instance. Could be set to `ACTIVE` or `INACTIVE`. 
+	* `execute_bootstrap_script_trigger` - (Optional) (Updatable) An optional property when incremented triggers Execute Bootstrap Script. Could be set to any integer value.
+	* `install_os_patch_trigger` - (Optional) (Updatable) An optional property when incremented triggers Install Os Patch. Could be set to any integer value.
+	* `remove_kafka_trigger` - (Optional) (Updatable) An optional property when incremented triggers Remove Kafka. Could be set to any integer value.
+	* `remove_node` - (Optional) (Updatable) An optional property when used triggers Remove Node. Takes the node ocid as input.
+	* `install_os_patch_trigger` - (Optional) (Updatable) An optional property when incremented triggers Install Os Patch. Could be set to any integer value.
+	* `secret_id` - (Optional) (Updatable) The secretId for the clusterAdminPassword.
 * `state` - (Optional) (Updatable) The target state for the Bds Instance. Could be set to `ACTIVE` or `INACTIVE`.
 * `remove_node` - (Optional) (Updatable) An optional property when used triggers Remove Node from an Active Cluster. Takes the node ocid as input
 * `is_force_stop_jobs` - (Optional) (Updatable) When setting state as `INACTIVE` for stopping a cluster, setting this flag to true forcefully stops the bds instance.
@@ -287,6 +290,7 @@ The following attributes are exported:
 * `is_cloud_sql_configured` - Boolean flag specifying whether or not Cloud SQL should be configured.
 * `is_high_availability` - Boolean flag specifying whether or not the cluster is highly available (HA)
 * `is_kafka_configured` - Boolean flag specifying whether or not Kafka should be configured.
+* `is_secret_reused` - Boolean flag specifying whether or not to persist the provided secret OCID and reuse it for future operations.
 * `is_secure` - Boolean flag specifying whether or not the cluster should be set up as secure.
 * `kms_key_id` - The OCID of the Key Management master encryption key.
 * `network_config` - Additional configuration of the user's network.
@@ -297,6 +301,7 @@ The following attributes are exported:
 		* `volume_attachment_id` - The OCID of the volume attachment.
 		* `volume_size_in_gbs` - The size of the volume in GBs.
 	* `availability_domain` - The name of the availability domain in which the node is running.
+	* `certificate_configuration_id` - ID of the certificate configuration which is used to generate the certificate for the node.
 	* `display_name` - The name of the node.
 	* `fault_domain` - The name of the fault domain in which the node is running.
 	* `hostname` - The fully-qualified hostname (FQDN) of the node.
@@ -320,8 +325,10 @@ The following attributes are exported:
 	* `time_updated` - The time the cluster was updated, shown as an RFC 3339 formatted datetime string.
 * `number_of_nodes` - The number of nodes that form the cluster.
 * `number_of_nodes_requiring_maintenance_reboot` - Number of nodes that require a maintenance reboot
+* `secret_id` - The secretId for the clusterAdminPassword.
 * `state` - The state of the cluster.
 * `time_created` - The time the cluster was created, shown as an RFC 3339 formatted datetime string.
+* `time_earliest_certificate_expiration` - The earliest time of certificate expiration date across the certificates of all current nodes under this cluster.
 * `time_updated` - The time the cluster was updated, shown as an RFC 3339 formatted datetime string.
 * `nodes` - The list of nodes in the BDS instance
     * `attached_block_volumes` - The list of block volumes attached to a given node.

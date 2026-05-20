@@ -40,6 +40,10 @@ variable "resource_analytics_instance_license_model" {
   default = "LICENSE_INCLUDED"
 }
 
+variable "resource_analytics_instance_compute_count" {
+  default = 2
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -81,6 +85,7 @@ resource "oci_resource_analytics_resource_analytics_instance" "test_resource_ana
   freeform_tags          = var.resource_analytics_instance_freeform_tags
   is_mutual_tls_required = var.resource_analytics_instance_is_mutual_tls_required
   license_model          = var.resource_analytics_instance_license_model
+  compute_count          = var.resource_analytics_instance_compute_count
 }
 
 
@@ -102,6 +107,10 @@ resource "oci_resource_analytics_tenancy_attachment" "test_tenancy_attachment" {
 
   #Optional
   description = var.added_tenancy_attachment_description
+}
+
+data "oci_resource_analytics_tenancy_attachment" "test_tenancy_attachment_detail" {
+  tenancy_attachment_id = oci_resource_analytics_tenancy_attachment.test_tenancy_attachment.id
 }
 
 
@@ -147,6 +156,14 @@ variable "resource_analytics_instance_oac_management_attachment_details_license_
   default = "LICENSE_INCLUDED"
 }
 
+variable "resource_analytics_instance_oac_management_attachment_details_capacity_type" {
+  default = "OLPU_COUNT"
+}
+
+variable "resource_analytics_instance_oac_management_attachment_details_capacity_value" {
+  default = 2
+}
+
 variable "resource_analytics_instance_oac_management_attachment_type" {
   default = "MANAGED"
 }
@@ -177,6 +194,8 @@ resource "oci_resource_analytics_resource_analytics_instance_oac_management" "te
 
     #Optional
     license_model  = var.resource_analytics_instance_oac_management_attachment_details_license_model
+    capacity_type = var.resource_analytics_instance_oac_management_attachment_details_capacity_type
+    capacity_value = var.resource_analytics_instance_oac_management_attachment_details_capacity_value
     #Private OAC
     # network_details {
     #   subnet_id = oci_core_subnet.test_subnet.id

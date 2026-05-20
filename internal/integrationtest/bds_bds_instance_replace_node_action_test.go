@@ -32,7 +32,10 @@ func TestBdsBdsInstanceReplaceNodeActionResource(t *testing.T) {
 	bdsInstanceIdVariableStr := fmt.Sprintf("variable \"bds_instance_id\" { default = \"%s\" }\n", bdsInstanceId)
 
 	nodeBackupId := utils.GetEnvSettingWithBlankDefault("node_backup_ocid")
-	nodeBackupIdVariableStr := fmt.Sprintf("variable \"node_backup_id\" { default = \"%s\" }\n", nodeBackupId)
+	nodeBackupIdVariableStr := ""
+	if nodeBackupId != "" {
+		nodeBackupIdVariableStr = fmt.Sprintf("variable \"node_backup_id\" { default = \"%s\" }\n", nodeBackupId)
+	}
 
 	nodeHostName := utils.GetEnvSettingWithBlankDefault("node_host_name")
 	nodeHostNameVariableStr := fmt.Sprintf("variable \"node_host_name\" { default = \"%s\" }\n", nodeHostName)
@@ -42,7 +45,6 @@ func TestBdsBdsInstanceReplaceNodeActionResource(t *testing.T) {
 		BdsBdsInstanceReplaceNodeActionRepresentation = map[string]interface{}{
 			"cluster_admin_password": acctest.Representation{RepType: acctest.Required, Create: `T3JhY2xlVGVhbVVTQSExMjM=`},
 			"bds_instance_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.bds_instance_id}`},
-			"node_backup_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.node_backup_id}`},
 			"node_host_name":         acctest.Representation{RepType: acctest.Required, Create: `${var.node_host_name}`},
 		}
 
@@ -50,6 +52,11 @@ func TestBdsBdsInstanceReplaceNodeActionResource(t *testing.T) {
 			acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 			acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation)
 	)
+
+	// Add node_backup_id to representation only when provided to avoid sending empty strings.
+	if nodeBackupId != "" {
+		BdsBdsInstanceReplaceNodeActionRepresentation["node_backup_id"] = acctest.Representation{RepType: acctest.Optional, Create: `${var.node_backup_id}`}
+	}
 
 	resourceName := "oci_bds_bds_instance_replace_node_action.test_bds_instance_replace_node_action"
 

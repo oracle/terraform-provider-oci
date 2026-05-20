@@ -71,6 +71,7 @@ The following attributes are exported:
 * `is_cloud_sql_configured` - Boolean flag specifying whether or not Cloud SQL should be configured.
 * `is_high_availability` - Boolean flag specifying whether or not the cluster is highly available (HA)
 * `is_kafka_configured` - Boolean flag specifying whether or not Kafka should be configured.
+* `is_secret_reused` - Boolean flag specifying whether or not to persist the provided secret OCID and reuse it for future operations.
 * `is_secure` - Boolean flag specifying whether or not the cluster should be set up as secure.
 * `kms_key_id` - The OCID of the Key Management master encryption key.
 * `network_config` - Additional configuration of the user's network.
@@ -81,6 +82,7 @@ The following attributes are exported:
 		* `volume_attachment_id` - The OCID of the volume attachment.
 		* `volume_size_in_gbs` - The size of the volume in GBs.
 	* `availability_domain` - The name of the availability domain in which the node is running.
+	* `certificate_configuration_id` - ID of the certificate configuration which is used to generate the certificate for the node.
 	* `display_name` - The name of the node.
 	* `fault_domain` - The name of the fault domain in which the node is running.
 	* `hostname` - The fully-qualified hostname (FQDN) of the node.
@@ -104,6 +106,8 @@ The following attributes are exported:
 	* `time_updated` - The time the cluster was updated, shown as an RFC 3339 formatted datetime string.
 * `number_of_nodes` - The number of nodes that form the cluster.
 * `number_of_nodes_requiring_maintenance_reboot` - Number of nodes that require a maintenance reboot
+* `secret_id` - The secretId for the clusterAdminPassword.
 * `state` - The state of the cluster.
 * `time_created` - The time the cluster was created, shown as an RFC 3339 formatted datetime string.
+* `time_earliest_certificate_expiration` - The earliest time of certificate expiration date across the certificates of all current nodes under this cluster.
 * `time_updated` - The time the cluster was updated, shown as an RFC 3339 formatted datetime string.

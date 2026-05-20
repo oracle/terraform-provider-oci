@@ -22,10 +22,11 @@ Create a resource principal session token configuration.
 resource "oci_bds_bds_instance_resource_principal_configuration" "test_bds_instance_resource_principal_configuration" {
 	#Required
 	bds_instance_id = oci_bds_bds_instance.test_bds_instance.id
-	cluster_admin_password = var.bds_instance_resource_principal_configuration_cluster_admin_password
 	display_name = var.bds_instance_resource_principal_configuration_display_name
 
 	#Optional
+	cluster_admin_password = var.bds_instance_resource_principal_configuration_cluster_admin_password
+	secret_id = oci_vault_secret.test_secret.id
 	session_token_life_span_duration_in_hours = var.bds_instance_resource_principal_configuration_session_token_life_span_duration_in_hours
 }
 ```
@@ -35,8 +36,9 @@ resource "oci_bds_bds_instance_resource_principal_configuration" "test_bds_insta
 The following arguments are supported:
 
 * `bds_instance_id` - (Required) The OCID of the cluster.
-* `cluster_admin_password` - (Required) Base-64 encoded Cluster Admin Password for cluster admin user.
+* `cluster_admin_password` - (Optional) Base-64 encoded Cluster Admin Password for cluster admin user.
 * `display_name` - (Required) (Updatable) A user-friendly name. Only ASCII alphanumeric characters with no spaces allowed. The name does not have to be unique, and it may be changed. Avoid entering confidential information.
+* `secret_id` - (Optional) The secretId for the clusterAdminPassword.
 * `session_token_life_span_duration_in_hours` - (Optional) (Updatable) Life span in hours for the resource principal session token.
 * `force_refresh_resource_principal_trigger` - (Optional) (Updatable) An optional property when incremented triggers Force Refresh Resource Principal. Could be set to any integer value.
 * `remove_trigger` - (Optional) (Updatable) An optional property when incremented triggers Remove. Could be set to any integer value.
@@ -51,7 +53,8 @@ The following attributes are exported:
 
 * `bds_instance_id` - The OCID of the bdsInstance which is the parent resource id.
 * `display_name` - A user-friendly name. Only ASCII alphanumeric characters with no spaces allowed. The name does not have to be unique, and it may be changed. Avoid entering confidential information.
-* `id` - The id of the ResourcePrincipalConfiguration.
+* `id` - The id of the ResourcePrincipalConfiguration defined under BDS resources, not OCID.
+* `secret_id` - The secretId for the clusterAdminPassword.
 * `session_token_life_span_duration_in_hours` - Life span in hours of each resource principal session token.
 * `state` - The state of the ResourcePrincipalConfiguration.
 * `time_created` - The time the ResourcePrincipalConfiguration was created, shown as an RFC 3339 formatted datetime string.

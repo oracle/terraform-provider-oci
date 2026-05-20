@@ -19,6 +19,10 @@ variable "compartment_ocid" {
 }
 
 provider "oci" {
+  # uncomment to run backwards compatibility testing
+  # to avoid compatibility issues use the lastest version released:
+  # https://github.com/oracle/terraform-provider-oci/releases
+  # version = "8.7.0"
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
@@ -42,7 +46,7 @@ data "oci_mysql_mysql_configurations" "test_mysql_configurations" {
 
   #Optional
   state        = "ACTIVE"
-  shape_name   = "VM.Standard.E2.4"
+  shape_name   = "MySQL.2"
 }
 
 data "oci_identity_availability_domains" "test_availability_domains" {
@@ -56,7 +60,7 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
   availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains[0].name
   compartment_id      = var.compartment_ocid
   configuration_id    = data.oci_mysql_mysql_configurations.test_mysql_configurations.configurations[0].id
-  shape_name          = "VM.Standard.E2.4"
+  shape_name          = "MySQL.2"
   subnet_id           = oci_core_subnet.test_subnet.id
   data_storage_size_in_gb = "50"
 
@@ -82,7 +86,6 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 
   port          = "3306"
   port_x        = "33306"
-
 }
 
 resource "oci_mysql_channel" "test_channel" {

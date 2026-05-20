@@ -38,7 +38,7 @@ type MaintenanceDetails struct {
 	VersionTrackPreference VersionTrackPreferenceEnum `mandatory:"false" json:"versionTrackPreference,omitempty"`
 
 	// The maintenance schedule type of the DB system.
-	// EARLY:   Maintenance schedule follows a cycle where upgrades are performed when versions become deprecated.
+	// EARLY: Maintenance schedule follows a cycle where upgrades are performed when versions become deprecated.
 	// REGULAR: Maintenance schedule follows the normal cycle where upgrades are performed when versions become unavailable.
 	MaintenanceScheduleType MaintenanceScheduleTypeEnum `mandatory:"false" json:"maintenanceScheduleType,omitempty"`
 

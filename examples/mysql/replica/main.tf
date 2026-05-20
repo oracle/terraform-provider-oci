@@ -20,8 +20,10 @@ variable "compartment_ocid" {
 }
 
 provider "oci" {
-  # un-ignore to run backwards compatibility testing
-  #version = "6.32.0"
+  # uncomment to run backwards compatibility testing
+  # to avoid compatibility issues use the lastest version released:
+  # https://github.com/oracle/terraform-provider-oci/releases
+  # version = "8.7.0"
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
@@ -52,7 +54,7 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
   availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains[0].name
   compartment_id      = var.compartment_ocid
   configuration_id    = data.oci_mysql_mysql_configurations.test_mysql_configurations.configurations[0].id
-  shape_name          = "MySQL.VM.Standard.E3.4.64GB"
+  shape_name          = "MySQL.8"
   subnet_id           = oci_core_subnet.test_subnet.id
   data_storage_size_in_gb = "50"
 
@@ -86,7 +88,7 @@ data "oci_mysql_mysql_configurations" "test_mysql_configurations" {
 
   #Optional
   state        = "ACTIVE"
-  shape_name   = "MySQL.VM.Standard.E3.4.64GB"
+  shape_name   = "MySQL.8"
 }
 
 data "oci_mysql_shapes" "test_shapes" {
@@ -116,7 +118,7 @@ resource "oci_mysql_replica" "test_replica" {
     # TODO: fix unsupported version
     #mysql_version      = "8.1.0"
     nsg_ids            = [oci_core_network_security_group.test_network_security_group.id]
-    shape_name         = "MySQL.VM.Standard.E3.4.64GB"
+    shape_name         = "MySQL.8"
 
     # Optional
     security_attributes = {"oracle-zpr.sensitivity.value": "low", "oracle-zpr.sensitivity.mode": "enforce"}

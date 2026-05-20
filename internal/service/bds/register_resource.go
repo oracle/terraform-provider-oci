@@ -10,6 +10,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_bds_bds_capacity_report", BdsBdsCapacityReportResource())
 	tfresource.RegisterResource("oci_bds_bds_instance", BdsBdsInstanceResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_api_key", BdsBdsInstanceApiKeyResource())
+	tfresource.RegisterResource("oci_bds_bds_instance_bds_certificate_configuration", BdsBdsInstanceBdsCertificateConfigurationResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_identity_configuration", BdsBdsInstanceIdentityConfigurationResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_metastore_config", BdsBdsInstanceMetastoreConfigResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_node_backup_configuration", BdsBdsInstanceNodeBackupConfigurationResource())
@@ -22,4 +23,5 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_bds_bds_instance_node_backup", BdsBdsInstanceNodeBackupResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_replace_node_action", BdsBdsInstanceReplaceNodeActionResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_execute_bootstrap_script_action", BdsBdsInstanceExecuteBootstrapScriptActionResource())
+	tfresource.RegisterResource("oci_bds_bds_cluster_admin_password_reset_action", BdsBdsClusterAdminPasswordResetActionResource())
 }

@@ -50,10 +50,63 @@ var exportDatabaseToolsDatabaseToolsIdentityHints = &tf_export.TerraformResource
 	},
 }
 
+var exportDatabaseToolsDatabaseToolsDatabaseApiGatewayConfigHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_database_tools_database_tools_database_api_gateway_config",
+	DatasourceClass:        "oci_database_tools_database_tools_database_api_gateway_configs",
+	DatasourceItemsAttr:    "database_tools_database_api_gateway_config_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "database_tools_database_api_gateway_config",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_database_tools.DatabaseToolsDatabaseApiGatewayConfigLifecycleStateActive),
+	},
+}
+
+var exportDatabaseToolsDatabaseToolsMcpToolsetHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_database_tools_database_tools_mcp_toolset",
+	DatasourceClass:        "oci_database_tools_database_tools_mcp_toolsets",
+	DatasourceItemsAttr:    "database_tools_mcp_toolset_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "database_tools_mcp_toolset",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_database_tools.DatabaseToolsMcpToolsetLifecycleStateActive),
+	},
+}
+
+var exportDatabaseToolsDatabaseToolsSqlReportHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_database_tools_database_tools_sql_report",
+	DatasourceClass:        "oci_database_tools_database_tools_sql_reports",
+	DatasourceItemsAttr:    "database_tools_sql_report_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "database_tools_sql_report",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_database_tools.DatabaseToolsSqlReportLifecycleStateActive),
+	},
+}
+
+var exportDatabaseToolsDatabaseToolsMcpServerHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_database_tools_database_tools_mcp_server",
+	DatasourceClass:        "oci_database_tools_database_tools_mcp_servers",
+	DatasourceItemsAttr:    "database_tools_mcp_server_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "database_tools_mcp_server",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_database_tools.DatabaseToolsMcpServerLifecycleStateActive),
+		string(oci_database_tools.DatabaseToolsMcpServerLifecycleStateNeedsAttention),
+	},
+}
+
 var databaseToolsResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatabaseToolsDatabaseToolsPrivateEndpointHints},
 		{TerraformResourceHints: exportDatabaseToolsDatabaseToolsConnectionHints},
 		{TerraformResourceHints: exportDatabaseToolsDatabaseToolsIdentityHints},
+		{TerraformResourceHints: exportDatabaseToolsDatabaseToolsDatabaseApiGatewayConfigHints},
+		{TerraformResourceHints: exportDatabaseToolsDatabaseToolsMcpToolsetHints},
+		{TerraformResourceHints: exportDatabaseToolsDatabaseToolsSqlReportHints},
+		{TerraformResourceHints: exportDatabaseToolsDatabaseToolsMcpServerHints},
 	},
 }

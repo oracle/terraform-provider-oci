@@ -32,6 +32,12 @@ type ResourceAnalyticsInstanceOacAttachmentDetails struct {
 
 	// The Oracle license model that applies to the OAC instance.
 	LicenseModel ResourceAnalyticsInstanceOacAttachmentDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
+
+	// The capacity model to use for the Analytics Instance.
+	CapacityType ResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnum `mandatory:"false" json:"capacityType,omitempty"`
+
+	// The capacity value selected, either the number of OCPUs (OLPU_COUNT) or the number of users (USER_COUNT). This parameter affects the number of OCPUs, amount of memory, and other resources allocated to the Analytics Instance.
+	CapacityValue *int `mandatory:"false" json:"capacityValue"`
 }
 
 func (m ResourceAnalyticsInstanceOacAttachmentDetails) String() string {
@@ -46,6 +52,9 @@ func (m ResourceAnalyticsInstanceOacAttachmentDetails) ValidateEnumValue() (bool
 
 	if _, ok := GetMappingResourceAnalyticsInstanceOacAttachmentDetailsLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetResourceAnalyticsInstanceOacAttachmentDetailsLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnum(string(m.CapacityType)); !ok && m.CapacityType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CapacityType: %s. Supported values are: %s.", m.CapacityType, strings.Join(GetResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -92,5 +101,47 @@ func GetResourceAnalyticsInstanceOacAttachmentDetailsLicenseModelEnumStringValue
 // GetMappingResourceAnalyticsInstanceOacAttachmentDetailsLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingResourceAnalyticsInstanceOacAttachmentDetailsLicenseModelEnum(val string) (ResourceAnalyticsInstanceOacAttachmentDetailsLicenseModelEnum, bool) {
 	enum, ok := mappingResourceAnalyticsInstanceOacAttachmentDetailsLicenseModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnum Enum with underlying type: string
+type ResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnum string
+
+// Set of constants representing the allowable values for ResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnum
+const (
+	ResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeOlpuCount ResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnum = "OLPU_COUNT"
+	ResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeUserCount ResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnum = "USER_COUNT"
+)
+
+var mappingResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnum = map[string]ResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnum{
+	"OLPU_COUNT": ResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeOlpuCount,
+	"USER_COUNT": ResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeUserCount,
+}
+
+var mappingResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnumLowerCase = map[string]ResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnum{
+	"olpu_count": ResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeOlpuCount,
+	"user_count": ResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeUserCount,
+}
+
+// GetResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnumValues Enumerates the set of values for ResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnum
+func GetResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnumValues() []ResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnum {
+	values := make([]ResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnum, 0)
+	for _, v := range mappingResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnumStringValues Enumerates the set of values in String for ResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnum
+func GetResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnumStringValues() []string {
+	return []string{
+		"OLPU_COUNT",
+		"USER_COUNT",
+	}
+}
+
+// GetMappingResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnum(val string) (ResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnum, bool) {
+	enum, ok := mappingResourceAnalyticsInstanceOacAttachmentDetailsCapacityTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
