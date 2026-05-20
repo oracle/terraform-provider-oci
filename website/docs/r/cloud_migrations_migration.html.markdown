@@ -35,6 +35,7 @@ resource "oci_cloud_migrations_migration" "test_migration" {
 	}
 	migration_type = var.migration_migration_type
 	replication_schedule_id = oci_cloud_migrations_replication_schedule.test_replication_schedule.id
+	security_attributes = var.migration_security_attributes
 }
 ```
 
@@ -51,6 +52,7 @@ The following arguments are supported:
 	* `subnet_id` - (Optional) (Updatable) The OCID of the subnet to use for replication
 * `migration_type` - (Optional) (Updatable) Type of migration project (OCI/OLVM). This determines the target environment for the migration.
 * `replication_schedule_id` - (Optional) (Updatable) Replication schedule identifier
+* `security_attributes` - (Optional) (Updatable) Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 
 
 ** IMPORTANT **
@@ -71,6 +73,7 @@ The following attributes are exported:
 	* `subnet_id` - The OCID of the subnet to use for replication
 * `migration_type` - Type of migration project (OCI/OLVM). This determines the target environment for the migration.
 * `replication_schedule_id` - Replication schedule identifier
+* `security_attributes` - Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 * `state` - The current state of migration.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time when the migration project was created. An RFC3339 formatted datetime string
