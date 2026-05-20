@@ -529,6 +529,12 @@ func (client *BaseClient) prepareRequest(request *http.Request) (err error) {
 	if err != nil {
 		return fmt.Errorf("host is invalid. %s", err.Error())
 	}
+	if clientURL.Scheme != "http" && clientURL.Scheme != "https" {
+		return fmt.Errorf("host is invalid. endpoint scheme must be http or https")
+	}
+	if clientURL.User != nil || clientURL.Path != "" || clientURL.RawQuery != "" || clientURL.Fragment != "" {
+		return fmt.Errorf("host is invalid. endpoint must not contain user info, path, query, or fragment")
+	}
 	request.URL.Host = clientURL.Host
 	request.URL.Scheme = clientURL.Scheme
 	currentPath := request.URL.Path

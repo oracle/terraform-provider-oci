@@ -40,6 +40,17 @@ type TenancyAttachmentSummary struct {
 	// A description of the tenancy.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The overall status of the data population from the tenancy.
+	DataPopulationStatus TenancyAttachmentDataPopulationStatusEnum `mandatory:"false" json:"dataPopulationStatus,omitempty"`
+
+	// The date and time the data population tasks started, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
+	// Example: `2016-08-25T21:10:29.600Z`
+	TimeDataPopulationStarted *common.SDKTime `mandatory:"false" json:"timeDataPopulationStarted"`
+
+	// The date and time the data population tasks completed, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
+	// Example: `2016-08-25T21:10:29.600Z`
+	TimeDataPopulationEnded *common.SDKTime `mandatory:"false" json:"timeDataPopulationEnded"`
+
 	// The date and time the TenancyAttachment was updated, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
@@ -66,6 +77,9 @@ func (m TenancyAttachmentSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetTenancyAttachmentLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingTenancyAttachmentDataPopulationStatusEnum(string(m.DataPopulationStatus)); !ok && m.DataPopulationStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataPopulationStatus: %s. Supported values are: %s.", m.DataPopulationStatus, strings.Join(GetTenancyAttachmentDataPopulationStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

@@ -17,6 +17,9 @@ import (
 
 // UpdateStreamPoolDetails Object used to update the stream pool's details.
 type UpdateStreamPoolDetails struct {
+
+	// The name of the stream pool. Avoid entering confidential information.
+	// Example: `MyStreamPool`
 	Name *string `mandatory:"false" json:"name"`
 
 	KafkaSettings *KafkaSettings `mandatory:"false" json:"kafkaSettings"`
