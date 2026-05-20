@@ -22,10 +22,13 @@ type ReplaceNodeDetails struct {
 	NodeHostName *string `mandatory:"true" json:"nodeHostName"`
 
 	// The id of the nodeBackup to use for replacing the node.
-	NodeBackupId *string `mandatory:"true" json:"nodeBackupId"`
+	NodeBackupId *string `mandatory:"false" json:"nodeBackupId"`
 
 	// Base-64 encoded password for the cluster admin user.
 	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+
+	// Heterogeneous shape of the node if the default shape is not available.
+	HeterogeneousShapes []string `mandatory:"false" json:"heterogeneousShapes"`
 
 	// The secretId for the clusterAdminPassword.
 	SecretId *string `mandatory:"false" json:"secretId"`

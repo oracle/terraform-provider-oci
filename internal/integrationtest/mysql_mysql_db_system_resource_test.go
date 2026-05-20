@@ -25,6 +25,18 @@ var (
 		"db_system_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_mysql_db_system.test_mysql_pitr_db_system.id}`},
 	}
 
+	mysqlDbSystemSourceDbSystemRepresentation = map[string]interface{}{
+		"source_type":  acctest.Representation{RepType: acctest.Required, Create: `DBSYSTEM`},
+		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_mysql_mysql_db_system.test_mysql_source_db_system.id}`},
+		"channel":      acctest.RepresentationGroup{RepType: acctest.Required, Group: mysqlDbSystemSourceDbSystemChannelRepresentation},
+	}
+
+	mysqlDbSystemSourceDbSystemChannelRepresentation = map[string]interface{}{
+		"source_username": acctest.Representation{RepType: acctest.Required, Create: `adminUser`},
+		"source_password": acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"ssl_mode":        acctest.Representation{RepType: acctest.Required, Create: `REQUIRED`},
+	}
+
 	mysqlDbSystemSourceImportRepresentation = map[string]interface{}{
 		"source_type": acctest.Representation{RepType: acctest.Required, Create: `IMPORTURL`},
 		"source_url":  acctest.Representation{RepType: acctest.Optional, Create: `https://objectstorage.us-ashburn-1.oraclecloud.com/p/KQQJ9Sip5EmCfLw7htHwY5ZIQbHmI5-GmHeLojK_vT0OtezjV6s0tRFOBtX2ybXh/n/mysql2/b/bucket_for_canary_import_tests_1-DO_NOT_DELETE/o/@.manifest.json`},
@@ -119,11 +131,29 @@ var (
 		"maintenance_type":   acctest.Representation{RepType: acctest.Optional, Create: `SHAPE`},
 	}
 
+	mysqlDbSystemRepresentationCloneDbSystem = map[string]interface{}{
+		"admin_password":          acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"admin_username":          acctest.Representation{RepType: acctest.Required, Create: `adminUser`},
+		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"configuration_id":        acctest.Representation{RepType: acctest.Optional, Create: utils.GetEnvSettingWithBlankDefault("mysql_4_configuration_ocid")},
+		"shape_name":              acctest.Representation{RepType: acctest.Required, Create: `MySQL.4`},
+		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Required, Create: `50`},
+		"database_management":     acctest.Representation{RepType: acctest.Required, Create: `DISABLED`},
+		"backup_policy":           acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlMysqlDbSystemBackupPolicyDisabledRepresentation},
+		"read_endpoint":           acctest.RepresentationGroup{RepType: acctest.Required, Group: MysqlMysqlDbSystemReadEndpointRepresentation},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForMysqlRepHA},
+	}
+
 	MysqlDbSystemSourceBackupResourceDependencies = MysqlMysqlDbSystemResourceDependencies + utils.MysqlHAConfigurationIdVariable +
 		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Required, acctest.Create, MysqlMysqlBackupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_backup_db_system", acctest.Required, acctest.Create, MysqlMysqlDbSystemRepresentation)
 
 	MysqlDbSystemSourcePitrResourceDependencies = MysqlMysqlDbSystemResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_pitr_db_system", acctest.Optional, acctest.Update, MysqlMysqlDbSystemRepresentation)
+
+	MysqlDbSystemSourceDbSystemResourceDependencies = MysqlMysqlDbSystemResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_source_db_system", acctest.Optional, acctest.Create, mysqlDbSystemRepresentationCloneDbSystem)
 
 	MysqlDbSystemMaintenanceEventResourceDependencies = MysqlMysqlDbSystemResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Required, acctest.Create, MysqlMysqlDbSystemRepresentation)
@@ -200,6 +230,49 @@ func TestMysqlMysqlDbSystemResource_sourcePitr(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "endpoints.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "endpoints.0.resource_type", "DBSYSTEM"),
 				resource.TestCheckResourceAttrSet(resourceName, "endpoints.0.resource_id"),
+			),
+		},
+	})
+}
+
+func TestMysqlMysqlDbSystemResource_sourceDbSystem(t *testing.T) {
+	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_sourceDbSystem")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	mysql4ConfigurationOcid := utils.GetEnvSettingWithBlankDefault("mysql_4_configuration_ocid")
+	if mysql4ConfigurationOcid == "" {
+		t.Fatal("TF_VAR_mysql_4_configuration_ocid must be set")
+	}
+
+	resourceName := "oci_mysql_mysql_db_system.test_mysql_replica_db_system"
+
+	replicaDbSystemRepresentation := acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(mysqlDbSystemRepresentationCloneDbSystem, []string{"source"}),
+		map[string]interface{}{
+			"source": acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemSourceDbSystemRepresentation},
+		})
+
+	acctest.ResourceTest(t, testAccCheckMysqlMysqlDbSystemDestroy, []resource.TestStep{
+		// Verify CloneDbSystem
+
+		{
+			Config: config + compartmentIdVariableStr + MysqlDbSystemSourceDbSystemResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_replica_db_system", acctest.Optional, acctest.Create, replicaDbSystemRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "source.0.db_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "DBSYSTEM"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
 			),
 		},
 	})

@@ -39,6 +39,7 @@ import (
 	tf_container_instances "github.com/oracle/terraform-provider-oci/internal/service/container_instances"
 	tf_containerengine "github.com/oracle/terraform-provider-oci/internal/service/containerengine"
 	tf_core "github.com/oracle/terraform-provider-oci/internal/service/core"
+	tf_costad "github.com/oracle/terraform-provider-oci/internal/service/costad"
 	tf_data_labeling_service "github.com/oracle/terraform-provider-oci/internal/service/data_labeling_service"
 	tf_data_safe "github.com/oracle/terraform-provider-oci/internal/service/data_safe"
 	tf_database "github.com/oracle/terraform-provider-oci/internal/service/database"
@@ -124,6 +125,7 @@ import (
 	tf_redis "github.com/oracle/terraform-provider-oci/internal/service/redis"
 	tf_resource_analytics "github.com/oracle/terraform-provider-oci/internal/service/resource_analytics"
 	tf_resource_scheduler "github.com/oracle/terraform-provider-oci/internal/service/resource_scheduler"
+	tf_resource_search "github.com/oracle/terraform-provider-oci/internal/service/resource_search"
 	tf_resourcemanager "github.com/oracle/terraform-provider-oci/internal/service/resourcemanager"
 	tf_sch "github.com/oracle/terraform-provider-oci/internal/service/sch"
 	tf_secrets "github.com/oracle/terraform-provider-oci/internal/service/secrets"
@@ -249,6 +251,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("core") {
 		tf_core.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("costad") {
+		tf_costad.RegisterDatasource()
 	}
 	if common.CheckForEnabledServices("datalabelingservice") {
 		tf_data_labeling_service.RegisterDatasource()
@@ -507,6 +512,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("resourcescheduler") {
 		tf_resource_scheduler.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("resourcesearch") {
+		tf_resource_search.RegisterDatasource()
 	}
 	if common.CheckForEnabledServices("resourcemanager") {
 		tf_resourcemanager.RegisterDatasource()

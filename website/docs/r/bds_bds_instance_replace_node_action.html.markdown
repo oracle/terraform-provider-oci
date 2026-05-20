@@ -4,27 +4,31 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_bds_bds_instance_replace_node_action"
 sidebar_current: "docs-oci-resource-bds-bds_instance_replace_node_action"
 description: |-
-  Provides the Bds Instance Node Replace Action  resource in Oracle Cloud Infrastructure Big Data Service service
+  Provides the Bds Instance Replace Node Action resource in Oracle Cloud Infrastructure Big Data Service service
 ---
 
 # oci_bds_bds_instance_replace_node_action
-This resource replaces the node with the given hostname, in Oracle Cloud Infrastructure Big Data Service cluster.
 
-Replace the node with the given host name in the cluster.
+Invokes the Big Data Service replace node action for a cluster node.
 
+Use this action resource to replace a node identified by `node_host_name`. You can optionally provide a specific node backup to restore from, a target shape for the replacement node, and either `cluster_admin_password` or `secret_id` for authentication.
+
+When `node_backup_id` is omitted, the service uses the latest available node backup. If no suitable backup is available, or the original node is already in a failed or terminated state, the service attempts to recover from the last saved boot volume state.
 
 ## Example Usage
 
 ```hcl
 resource "oci_bds_bds_instance_replace_node_action" "test_bds_instance_replace_node_action" {
-	#Required
-	bds_instance_id = oci_bds_bds_instance.test_bds_instance.id
-	node_host_name = var.bds_instance_replace_node_action.node_host_name
-	node_backup_id = var.bds_instance_replace_node_action.node_backup_id
-	cluster_admin_password = oci_bds_bds_instance.test_bds_instance.cluster_admin_password
-	
-	#Optional
-	shape = var.shape
+  # Required
+  bds_instance_id = var.bds_instance_id
+  node_host_name  = var.node_host_name
+
+  # Provide one of cluster_admin_password or secret_id
+  cluster_admin_password = "T3JhY2xlVGVhbVVTQSExMjM="
+
+  # Optional
+  node_backup_id = var.node_backup_id
+  shape          = var.shape
 }
 ```
 
@@ -32,37 +36,24 @@ resource "oci_bds_bds_instance_replace_node_action" "test_bds_instance_replace_n
 
 The following arguments are supported:
 
-* `bds_instance_id` - (Required) The OCID of the cluster.
-* `node_host_name`  - (Required) Host name of the node to replace. MASTER, UTILITY and EDGE node are only supported types
-* `node_backup_id`  - (Required) The id of the nodeBackup to use for replacing the node.
-* `cluster_admin_password` - (Required) Base-64 encoded password for the cluster admin user.
-* `shape` - (Optional) Shape of the new vm when replacing the node. If not provided, BDS will attempt to replace the node with the shape of current node.
+* `bds_instance_id` - (Required) The OCID of the Big Data Service cluster.
+* `node_host_name` - (Required) Host name of the node to replace.
+* `cluster_admin_password` - (Optional) Base64-encoded cluster admin password. Use this or `secret_id`.
+* `node_backup_id` - (Optional) The OCID of the node backup to use for replacement.
+* `secret_id` - (Optional) The OCID of the secret that stores the cluster admin password. Use this or `cluster_admin_password`.
+* `shape` - (Optional) The shape to use for the replacement node. If not specified, the existing node shape is used.
 
-
-** IMPORTANT **
-Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
+**IMPORTANT**
+This is an action resource. Any change forces Terraform to create the action resource again and invoke the replace node workflow.
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `bds_instance_id` - The OCID of the bdsInstance which is the parent resource id.
-* `display_name` - A user-friendly name. Only ASCII alphanumeric characters with no spaces allowed. The name does not have to be unique, and it may be changed. Avoid entering confidential information.
-* `id` - The unique identifier for the NodeBackupConfiguration.
-* `level_type_details` - Details of the type of level used to trigger the creation of a new node backup configuration or node replacement configuration.
-	* `level_type` - Type of level used to trigger the creation of a new node backup configuration or node replacement configuration.
-	* `node_host_name` - Host name of the node to create backup configuration.
-	* `node_type` - Type of the node or nodes of the node backup configuration or node replacement configuration which are going to be created.
-* `number_of_backups_to_retain` - Number of backup copies to retain.
-* `schedule` - Day/time recurrence (specified following RFC 5545) at which to trigger the backup process. Currently only DAILY, WEEKLY and MONTHLY frequency is supported. Days of the week are specified using BYDAY field. Time of the day is specified using BYHOUR. Other fields are not supported. 
-* `state` - The state of the NodeBackupConfiguration.
-* `time_created` - The time the NodeBackupConfiguration was created, shown as an RFC 3339 formatted datetime string.
-* `time_updated` - The time the NodeBackupConfiguration was updated, shown as an RFC 3339 formatted datetime string. 
-* `timezone` - The time zone of the execution schedule, in IANA time zone database name format
+* `id` - Terraform identifier for the completed replace node action.
 
 ## Timeouts
 
 The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
-	* `create` - (Defaults to 20 minutes), when creating the Bds Instance Replace Node Action
 
-
+* `create` - (Defaults to 60 minutes), when creating the Bds Instance Replace Node Action

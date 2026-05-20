@@ -22,10 +22,10 @@ Install the specified patch to this cluster.
 resource "oci_bds_bds_instance_patch_action" "test_bds_instance_patch_action" {
 	#Required
 	bds_instance_id = oci_bds_bds_instance.test_bds_instance.id
-	cluster_admin_password = var.bds_instance_patch_action_cluster_admin_password
 	version = var.bds_instance_patch_action_version
 
 	#Optional
+	cluster_admin_password = var.bds_instance_patch_action_cluster_admin_password
 	patching_config {
 		#Required
 		patching_config_strategy = var.bds_instance_patch_action_patching_config_patching_config_strategy
@@ -37,6 +37,7 @@ resource "oci_bds_bds_instance_patch_action" "test_bds_instance_patch_action" {
 		wait_time_between_batch_in_seconds = var.bds_instance_patch_action_patching_config_wait_time_between_batch_in_seconds
 		wait_time_between_domain_in_seconds = var.bds_instance_patch_action_patching_config_wait_time_between_domain_in_seconds
 	}
+	secret_id = oci_vault_secret.test_secret.id
 }
 ```
 
@@ -45,7 +46,7 @@ resource "oci_bds_bds_instance_patch_action" "test_bds_instance_patch_action" {
 The following arguments are supported:
 
 * `bds_instance_id` - (Required) The OCID of the cluster.
-* `cluster_admin_password` - (Required) Base-64 encoded password for the cluster admin user.
+* `cluster_admin_password` - (Optional) Base-64 encoded password for the cluster admin user.
 * `patching_config` - (Optional) Detailed configurations for defining the behavior when installing ODH patches. If not provided, nodes will be patched with down time.
 	* `batch_size` - (Required when patching_config_strategy=BATCHING_BASED) How many nodes to be patched in each iteration.
 	* `patching_config_strategy` - (Required) Type of strategy used for detailed patching configuration
@@ -53,6 +54,7 @@ The following arguments are supported:
 	* `tolerance_threshold_per_domain` - (Applicable when patching_config_strategy=DOMAIN_BASED) Acceptable number of failed-to-be-patched nodes in each domain. The maximum number of failed-to-patch nodes cannot exceed 20% of the number of non-utility and non-master nodes.
 	* `wait_time_between_batch_in_seconds` - (Required when patching_config_strategy=BATCHING_BASED) The wait time between batches in seconds.
 	* `wait_time_between_domain_in_seconds` - (Required when patching_config_strategy=DOMAIN_BASED) The wait time between AD/FD in seconds.
+* `secret_id` - (Optional) The secretId for the clusterAdminPassword.
 * `version` - (Required) The version of the patch to be installed.
 
 

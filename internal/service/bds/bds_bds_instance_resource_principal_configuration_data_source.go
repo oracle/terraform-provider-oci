@@ -79,6 +79,10 @@ func (s *BdsBdsInstanceResourcePrincipalConfigurationDataSourceCrud) SetData() e
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.SecretId != nil {
+		s.D.Set("secret_id", *s.Res.SecretId)
+	}
+
 	if s.Res.SessionTokenLifeSpanDurationInHours != nil {
 		s.D.Set("session_token_life_span_duration_in_hours", *s.Res.SessionTokenLifeSpanDurationInHours)
 	}

@@ -39,8 +39,8 @@ func BdsBdsInstanceReplaceNodeActionResource() *schema.Resource {
 			},
 			"cluster_admin_password": {
 				Type:      schema.TypeString,
-				Required:  true,
-				ForceNew:  true,
+				Optional:  true,
+				Computed:  true,
 				Sensitive: true,
 			},
 			"node_host_name": {
@@ -50,13 +50,18 @@ func BdsBdsInstanceReplaceNodeActionResource() *schema.Resource {
 			},
 			"node_backup_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 				ForceNew: true,
 			},
 			"shape": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
+			},
+			"secret_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			/*	"patching_configs": {
 				Type:     schema.TypeList,
@@ -147,6 +152,11 @@ func (s *BdsBdsInstanceReplaceNodeActionResourceCrud) Create() error {
 	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
 		tmp := clusterAdminPassword.(string)
 		request.ClusterAdminPassword = &tmp
+	}
+
+	if secretId, ok := s.D.GetOkExists("secret_id"); ok {
+		tmp := secretId.(string)
+		request.SecretId = &tmp
 	}
 
 	if shape, ok := s.D.GetOkExists("shape"); ok {

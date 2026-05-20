@@ -29,12 +29,6 @@ type CreateBdsCertificateConfigurationDetails struct {
 
 	// The OCID of the compartment of the certificate authority connecting to this certificate configuration.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
-
-	// Base-64 encoded password for the cluster admin user.
-	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
-
-	// The secretId for the clusterAdminPassword.
-	SecretId *string `mandatory:"false" json:"secretId"`
 }
 
 func (m CreateBdsCertificateConfigurationDetails) String() string {

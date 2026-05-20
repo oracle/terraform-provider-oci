@@ -38,7 +38,7 @@ The following attributes are exported:
 * `backup_type` - Incremental backup type includes only the changes since the last backup. Full backup type includes all changes since the volume was created.
 * `bds_instance_id` - The OCID of the bdsInstance which is the parent resource id.
 * `display_name` - A user-friendly name. Only ASCII alphanumeric characters with no spaces allowed. The name does not have to be unique, and it may be changed. Avoid entering confidential information.
-* `id` - The unique identifier for the NodeBackupConfiguration.
+* `id` - The id of the NodeBackupConfiguration defined under BDS resources, not OCID.
 * `level_type_details` - Details of the type of level used to trigger the creation of a new node backup configuration or node replacement configuration.
 	* `level_type` - Type of level used to trigger the creation of a new node backup configuration or node replacement configuration.
 	* `node_host_name` - Host name of the node to create backup configuration.

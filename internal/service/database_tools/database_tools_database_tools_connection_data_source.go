@@ -229,6 +229,8 @@ func (s *DatabaseToolsDatabaseToolsConnectionDataSourceCrud) SetData() error {
 
 		s.D.Set("advanced_properties", v.AdvancedProperties)
 
+		s.D.Set("authentication_type", v.AuthenticationType)
+
 		if v.ConnectionString != nil {
 			s.D.Set("connection_string", *v.ConnectionString)
 		}

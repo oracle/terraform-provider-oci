@@ -1,3 +1,20 @@
+## 8.15.0 (May 20, 2026)
+
+### Added
+- Support for New Data Source for Resource Query for Terraform
+- Support for Resource Analytics - ADW and OAC CPU config options
+- Changes for BDS 3.4.0 - Feature Enhancements and New Feature Additions
+- Support for BDS 3.3.0 - Feature Enhancements
+- Support for Log Analytics Resource Export
+- Support for Resource Analytics Data Population Status on Tenancy Attachment
+- Support for Customer Cost Anomaly Detection TC and SDK changes
+- Support for MHS - Create replica DB system
+- Support for Database Tools - MCP Server, DB API Gateway Config, IAM Auth (Control Plane)
+- Support for CPG / SG Support In Compute Capacity Report APIs (API ONLY Release)
+- Support for Streaming service - WorkRequest feature for CP operation
+- Support for imported certificates
+
+
 ## 8.14.0 (May 13, 2026)
 
 ### Added

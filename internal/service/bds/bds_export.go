@@ -10,15 +10,17 @@ import (
 
 func init() {
 	exportBdsBdsInstanceApiKeyHints.GetIdFn = getBdsBdsInstanceApiKeyId
-	exportBdsBdsInstanceIdentityConfigurationHints.GetIdFn = getBdsBdsInstanceIdentityConfigurationId
 	exportBdsBdsInstanceApiKeyHints.ProcessDiscoveredResourcesFn = processBdsInstanceApiKeys
+	exportBdsBdsInstanceMetastoreConfigHints.GetIdFn = getBdsBdsInstanceMetastoreConfigId
 	exportBdsBdsInstanceMetastoreConfigHints.ProcessDiscoveredResourcesFn = processBdsInstanceMetastoreConfigs
+	exportBdsBdsInstanceIdentityConfigurationHints.GetIdFn = getBdsBdsInstanceIdentityConfigurationId
 	exportBdsBdsInstanceIdentityConfigurationHints.ProcessDiscoveredResourcesFn = processBdsInstanceIdentityConfigurations
 	exportBdsBdsInstanceResourcePrincipalConfigurationHints.GetIdFn = getBdsBdsInstanceResourcePrincipalConfigurationId
 	exportBdsBdsInstanceNodeReplaceConfigurationHints.GetIdFn = getBdsBdsInstanceNodeReplaceConfigurationId
+	exportBdsBdsInstanceNodeReplaceConfigurationHints.ProcessDiscoveredResourcesFn = processBdsInstanceNodeReplaceConfigurations
 	exportBdsBdsInstanceNodeBackupConfigurationHints.GetIdFn = getBdsBdsInstanceNodeBackupConfigurationId
 	exportBdsBdsInstanceNodeBackupConfigurationHints.ProcessDiscoveredResourcesFn = processBdsInstanceNodeBackupConfigurations
-	exportBdsBdsInstanceNodeReplaceConfigurationHints.ProcessDiscoveredResourcesFn = processBdsInstanceNodeReplaceConfigurations
+	exportBdsBdsInstanceBdsCertificateConfigurationHints.GetIdFn = getBdsBdsInstanceBdsCertificateConfigurationId
 	tf_export.RegisterCompartmentGraphs("bds", bdsResourceGraph)
 }
 
@@ -81,11 +83,22 @@ func getBdsBdsInstanceApiKeyId(resource *tf_export.OCIResource) (string, error) 
 }
 
 func getBdsBdsInstanceMetastoreConfigId(resource *tf_export.OCIResource) (string, error) {
-
+	if resource.Parent == nil {
+		return "", fmt.Errorf("[ERROR] missing parent for Bds BdsInstanceMetastoreConfig")
+	}
 	bdsInstanceId := resource.Parent.Id
-	metastoreConfigId, ok := resource.SourceAttributes["metastore_config_id"].(string)
-	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find metastoreConfigId for Bds BdsInstanceMetastoreConfig")
+
+	var metastoreConfigId string
+	if v, ok := resource.SourceAttributes["id"].(string); ok && v != "" {
+		metastoreConfigId = v
+	} else if v2, ok2 := resource.SourceAttributes["metastore_config_id"].(string); ok2 && v2 != "" {
+		metastoreConfigId = v2
+	} else {
+		metastoreConfigId = resource.Id
+	}
+
+	if metastoreConfigId == "" {
+		return "", fmt.Errorf("[ERROR] unable to determine metastoreConfigId for Bds BdsInstanceMetastoreConfig")
 	}
 	return GetBdsInstanceMetastoreConfigCompositeId(bdsInstanceId, metastoreConfigId), nil
 }
@@ -127,6 +140,16 @@ func getBdsBdsInstanceNodeBackupConfigurationId(resource *tf_export.OCIResource)
 	return GetBdsInstanceNodeBackupConfigurationCompositeId(bdsInstanceId, nodeBackupConfigurationId), nil
 }
 
+func getBdsBdsInstanceBdsCertificateConfigurationId(resource *tf_export.OCIResource) (string, error) {
+
+	bdsCertificateConfigurationId, ok := resource.SourceAttributes["bds_certificate_configuration_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find bdsCertificateConfigurationId for Bds BdsInstanceBdsCertificateConfiguration")
+	}
+	bdsInstanceId := resource.Parent.Id
+	return GetBdsInstanceBdsCertificateConfigurationCompositeId(bdsCertificateConfigurationId, bdsInstanceId), nil
+}
+
 // Hints for discovering and exporting this resource to configuration and state files
 var exportBdsBdsInstanceHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_bds_bds_instance",
@@ -151,10 +174,11 @@ var exportBdsBdsInstanceApiKeyHints = &tf_export.TerraformResourceHints{
 }
 
 var exportBdsBdsInstanceMetastoreConfigHints = &tf_export.TerraformResourceHints{
-	ResourceClass:        "oci_bds_bds_instance_metastore_config",
-	DatasourceClass:      "oci_bds_bds_instance_metastore_configs",
-	DatasourceItemsAttr:  "bds_metastore_configurations",
-	ResourceAbbreviation: "bds_instance_metastore_config",
+	ResourceClass:          "oci_bds_bds_instance_metastore_config",
+	DatasourceClass:        "oci_bds_bds_instance_metastore_configs",
+	DatasourceItemsAttr:    "bds_metastore_configurations",
+	ResourceAbbreviation:   "bds_instance_metastore_config",
+	RequireResourceRefresh: true,
 	DiscoverableLifecycleStates: []string{
 		string(oci_bds.BdsMetastoreConfigurationLifecycleStateActive),
 	},
@@ -204,6 +228,18 @@ var exportBdsBdsInstanceNodeBackupConfigurationHints = &tf_export.TerraformResou
 	},
 }
 
+var exportBdsBdsInstanceBdsCertificateConfigurationHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_bds_bds_instance_bds_certificate_configuration",
+	DatasourceClass:      "oci_bds_bds_instance_bds_certificate_configurations",
+	DatasourceItemsAttr:  "bds_certificate_configurations",
+	ResourceAbbreviation: "bds_instance_bds_certificate_configuration",
+	DiscoverableLifecycleStates: []string{
+		// BDS certificate configurations use BdsCertificateConfigurationLifecycleStateEnum (not a nested enum).
+		// Limit discovery to configurations that are usable.
+		string(oci_bds.BdsCertificateConfigurationLifecycleStateActive),
+	},
+}
+
 var bdsResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportBdsBdsInstanceHints},
@@ -211,6 +247,12 @@ var bdsResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_bds_bds_instance": {
 		{
 			TerraformResourceHints: exportBdsBdsInstanceApiKeyHints,
+			DatasourceQueryParams: map[string]string{
+				"bds_instance_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportBdsBdsInstanceBdsCertificateConfigurationHints,
 			DatasourceQueryParams: map[string]string{
 				"bds_instance_id": "id",
 			},

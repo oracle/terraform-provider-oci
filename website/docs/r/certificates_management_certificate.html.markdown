@@ -34,6 +34,7 @@ resource "oci_certificates_management_certificate" "test_certificate" {
 		private_key_pem = var.certificate_certificate_config_private_key_pem
 		private_key_pem_passphrase = var.certificate_certificate_config_private_key_pem_passphrase
 		signature_algorithm = var.certificate_certificate_config_signature_algorithm
+		stage = var.certificate_certificate_config_stage
 		subject {
 
 			#Optional
@@ -91,11 +92,16 @@ The following arguments are supported:
 
 * `certificate_config` - (Required) (Updatable) The details of the contents of the certificate and certificate metadata.
 	* `certificate_profile_type` - (Required when config_type=ISSUED_BY_INTERNAL_CA) The name of the profile used to create the certificate, which depends on the type of certificate you need.
-	* `config_type` - (Required) (Updatable) The origin of the certificate. It must be one of the supported types: MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA or ISSUED_BY_INTERNAL_CA.
+	* `config_type` - (Required) (Updatable) The origin of the certificate. It must be one of the supported types: MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA, ISSUED_BY_INTERNAL_CA, or IMPORTED.
+	* `cert_chain_pem` - (Required when config_type=IMPORTED) (Updatable) The certificate chain (in PEM format).
+	* `certificate_pem` - (Required when config_type=IMPORTED) (Updatable) The leaf certificate (in PEM format).
 	* `csr_pem` - (Required when config_type=MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA) (Updatable) The certificate signing request (in PEM format).
 	* `issuer_certificate_authority_id` - (Required when config_type=ISSUED_BY_INTERNAL_CA | MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA) The OCID of the private CA.
 	* `key_algorithm` - (Applicable when config_type=ISSUED_BY_INTERNAL_CA) The algorithm to use to create key pairs.
+	* `private_key_pem` - (Required when config_type=IMPORTED) (Updatable) The private key (in PEM format). This value is sensitive.
+	* `private_key_pem_passphrase` - (Applicable when config_type=IMPORTED) (Updatable) The passphrase for the encrypted private key in PEM format. This value is sensitive.
 	* `signature_algorithm` - (Applicable when config_type=ISSUED_BY_INTERNAL_CA) The algorithm to use to sign the public key certificate.
+	* `stage` - (Applicable when config_type=IMPORTED) (Updatable) The rotation stage used for imported certificate version updates. Supported values are `CURRENT` and `PENDING`. Defaults to `CURRENT` when omitted.
 	* `subject` - (Required when config_type=ISSUED_BY_INTERNAL_CA) The subject of the certificate, which is a distinguished name that identifies the entity that owns the public key in the certificate. 
 		* `common_name` - (Required when config_type=ISSUED_BY_INTERNAL_CA) Common name or fully-qualified domain name (RDN CN).
 		* `country` - (Applicable when config_type=ISSUED_BY_INTERNAL_CA) Country name (RDN C).
@@ -121,11 +127,13 @@ The following arguments are supported:
 		* `time_of_validity_not_after` - (Required when config_type=ISSUED_BY_INTERNAL_CA | MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA) (Updatable) The date on which the certificate validity period ends, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z` 
 		* `time_of_validity_not_before` - (Applicable when config_type=ISSUED_BY_INTERNAL_CA | MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA) (Updatable) The date on which the certificate validity period begins, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z` 
 	* `version_name` - (Optional) (Updatable) A name for the certificate. When the value is not null, a name is unique across versions of a given certificate.
+	* `cert_chain_pem`, `certificate_pem`, `private_key_pem`, `private_key_pem_passphrase`, and `stage` can only be used when `config_type=IMPORTED`.
 * `certificate_rules` - (Optional) (Updatable) An optional list of rules that control how the certificate is used and managed.
 	* `advance_renewal_period` - (Required) (Updatable) A property specifying the period of time, in days, before the certificate's targeted renewal that the process should occur. Expressed in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) format. 
 	* `renewal_interval` - (Required) (Updatable) A property specifying how often, in days, a certificate should be renewed. Expressed in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) format. 
 	* `rule_type` - (Required) (Updatable) The type of rule.
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment where you want to create the certificate.
+* `current_version_number` - (Optional) (Updatable) The target current certificate version number. This update cannot be combined with updates to `certificate_config`, `description`, `defined_tags`, `freeform_tags`, or `certificate_rules`.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) A brief description of the certificate. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
@@ -151,7 +159,7 @@ The following attributes are exported:
 	* `renewal_interval` - A property specifying how often, in days, a certificate should be renewed. Expressed in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) format. 
 	* `rule_type` - The type of rule.
 * `compartment_id` - The OCID of the compartment where you want to create the certificate.
-* `config_type` - The origin of the certificate. It must be one of the supported types: MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA or ISSUED_BY_INTERNAL_CA.
+* `config_type` - The origin of the certificate. It must be one of the supported types: MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA, ISSUED_BY_INTERNAL_CA, or IMPORTED.
 * `current_version` - The details of the certificate version. This object does not contain the certificate contents.
 	* `certificate_id` - The OCID of the certificate.
 	* `issuer_ca_version_number` - The version number of the issuing certificate authority (CA).
@@ -170,6 +178,7 @@ The following attributes are exported:
 		* `time_of_validity_not_before` - The date on which the certificate validity period begins, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z` 
 	* `version_name` - The name of the certificate version. When the value is not null, a name is unique across versions of a given certificate. 
 	* `version_number` - The version number of the certificate.
+* `current_version_number` - The current certificate version number.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - A brief description of the certificate. Avoid entering confidential information.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
@@ -216,4 +225,3 @@ Certificates can be imported using the `id`, e.g.
 ```
 $ terraform import oci_certificates_management_certificate.test_certificate "id"
 ```
-

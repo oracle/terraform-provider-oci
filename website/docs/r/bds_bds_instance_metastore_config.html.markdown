@@ -24,11 +24,12 @@ resource "oci_bds_bds_instance_metastore_config" "test_bds_instance_metastore_co
 	bds_api_key_id = oci_identity_api_key.test_api_key.id
 	bds_api_key_passphrase = var.bds_instance_metastore_config_bds_api_key_passphrase
 	bds_instance_id = oci_bds_bds_instance.test_bds_instance.id
-	cluster_admin_password = var.bds_instance_metastore_config_cluster_admin_password
 	metastore_id = oci_datacatalog_metastore.test_metastore.id
 
 	#Optional
+	cluster_admin_password = var.bds_instance_metastore_config_cluster_admin_password
 	display_name = var.bds_instance_metastore_config_display_name
+	secret_id = oci_vault_secret.test_secret.id
 }
 ```
 
@@ -39,11 +40,11 @@ The following arguments are supported:
 * `bds_api_key_id` - (Required) (Updatable) The ID of BDS Api Key used for Data Catalog metastore integration.
 * `bds_api_key_passphrase` - (Required) (Updatable) Base-64 encoded passphrase of the BDS Api Key.
 * `bds_instance_id` - (Required) The OCID of the cluster.
-* `cluster_admin_password` - (Required) (Updatable) Base-64 encoded password for the cluster admin user.
+* `cluster_admin_password` - (Optional) (Updatable) Base-64 encoded password for the cluster admin user.
 * `display_name` - (Optional) (Updatable) The display name of the metastore configuration
 * `metastore_id` - (Required) The OCID of the Data Catalog metastore.
+* `secret_id` - (Optional) (Updatable) The secretId for the clusterAdminPassword.
 * `activate_trigger` - (Optional) (Updatable) An optional integer, when flipped triggers activation of metastore config.
-
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
@@ -57,6 +58,7 @@ The following attributes are exported:
 * `id` - The ID of the metastore configuration
 * `metastore_id` - The OCID of the Data Catalog metastore. Set only if metastore's type is EXTERNAL.
 * `metastore_type` - The type of the metastore in the metastore configuration.
+* `secret_id` - The secretId for the clusterAdminPassword.
 * `state` - the lifecycle state of the metastore configuration.
 * `time_created` - The time when the configuration was created, shown as an RFC 3339 formatted datetime string.
 * `time_updated` - The time when the configuration was updated, shown as an RFC 3339 formatted datetime string.
