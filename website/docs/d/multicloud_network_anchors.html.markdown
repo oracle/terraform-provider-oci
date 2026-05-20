@@ -10,7 +10,10 @@ description: |-
 # Data Source: oci_multicloud_network_anchors
 This data source provides the list of Network Anchors in Oracle Cloud Infrastructure Multicloud service.
 
-Gets a list of NetworkAnchors.
+Lists network anchors in the specified Multicloud subscription, Multicloud compartment, and partner cloud region.
+Details listed for each resource include name, state, VCN, and ODB network ID.
+For more information, see
+[Listing Network Anchors](https://docs.cloud.oracle.com/iaas/Content/multicloud-hub/list-network-anchors.htm).
 
 ## Example Usage
 
@@ -25,7 +28,6 @@ data "oci_multicloud_network_anchors" "test_network_anchors" {
 	display_name 					= var.display_name
 	external_location 				= var.external_location
 	network_anchor_oci_subnet_id 	= var.network_anchor_oci_subnet_id
-	compartment_id_in_subtree 		= var.compartment_id_in_subtree
 	network_anchor_oci_vcn_id 		= var.network_anchor_oci_vcn_id
 	id 								= var.id
 	should_fetch_vcn_name 			= var.should_fetch_vcn_name
@@ -36,17 +38,16 @@ data "oci_multicloud_network_anchors" "test_network_anchors" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud base compartment or sub-compartment in which to list resources.  A Multicloud base compartment is an Oracle Cloud Infrastructure compartment that maps to a subscription in a Cloud Service Provider (such as Azure, AWS, or Google Cloud).  
-* `subscription_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud subscription in which to list resources.
-* `subscription_service_name` - (Optional) The subscription service name of the Cloud Service Provider.
-* `network_anchor_lifecycle_state` - (Optional) A filter to return only resources that match the given lifecycle state. The state value is case-insensitive.
+* `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud base compartment or sub-compartment in which to list resources. A Multicloud base compartment is an Oracle Cloud Infrastructure compartment that maps to a subscription in a cloud service provider (such as Azure or AWS). 
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly.
-* `external_location` - (Optional) The Cloud Service Provider region.
-* `network_anchor_oci_subnet_id` - (Optional) A filter to return only NetworkAnchor resources that match the given Oracle Cloud Infrastructure subnet Id.
-* `compartment_id_in_subtree` - (Optional) If set to true, a list operation will return NetworkAnchors from all child compartments in the provided compartmentId parameter.
-* `network_anchor_oci_vcn_id` - (Optional) A filter to return only NetworkAnchor resources that match the given Oracle Cloud Infrastructure Vcn Id.
+* `external_location` - (Optional) The cloud service provider region.
 * `id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the NetworkAnchor.
+* `network_anchor_lifecycle_state` - (Optional) A filter to return only resources that match the given lifecycle state. The state value is case-insensitive.
+* `network_anchor_oci_subnet_id` - (Optional) A filter to return only NetworkAnchor resources that match the given Oracle Cloud Infrastructure subnet Id.
+* `network_anchor_oci_vcn_id` - (Optional) A filter to return only NetworkAnchor resources that match the given Oracle Cloud Infrastructure Vcn Id.
 * `should_fetch_vcn_name` - (Optional) Whether to fetch and include the vcn display name, which may introduce additional latency.
+* `subscription_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud subscription in which to list resources.
+* `subscription_service_name` - (Optional) The cloud service provider.
 
 Note: one of the arguments `compartment_id` or `id` must be specified.
 
@@ -63,6 +64,7 @@ The following attributes are exported
 * `items` - List of NetworkAnchorSummary
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the NetworkAnchor.
     * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
+    * `cidr_blocks` - An Azure/GCP/AWS cidrBlocks
     * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
     * `resource_anchor_id` - Oracle Cloud Infrastructure resource anchor Id (OCID).
     * `vcn_id` - Oracle Cloud Infrastructure VCN OCID. CSP can not set this property.

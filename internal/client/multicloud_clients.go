@@ -12,6 +12,8 @@ import (
 func init() {
 	RegisterOracleClient("oci_multicloud.MetadataClient", &OracleClient{InitClientFn: initMulticloudMetadataClient})
 	RegisterOracleClient("oci_multicloud.MultiCloudsMetadataClient", &OracleClient{InitClientFn: initMulticloudMultiCloudsMetadataClient})
+	RegisterOracleClient("oci_multicloud.MulticloudAlertsClient", &OracleClient{InitClientFn: initMulticloudMulticloudAlertsClient})
+	RegisterOracleClient("oci_multicloud.MulticloudPoliciesClient", &OracleClient{InitClientFn: initMulticloudMulticloudPoliciesClient})
 	RegisterOracleClient("oci_multicloud.MulticloudResourcesClient", &OracleClient{InitClientFn: initMulticloudMulticloudResourcesClient})
 	RegisterOracleClient("oci_multicloud.MulticloudsubscriptionsClient", &OracleClient{InitClientFn: initMulticloudMulticloudsubscriptionsClient})
 	RegisterOracleClient("oci_multicloud.OmhubNetworkAnchorClient", &OracleClient{InitClientFn: initMulticloudOmhubNetworkAnchorClient})
@@ -56,6 +58,46 @@ func initMulticloudMultiCloudsMetadataClient(configProvider oci_common.Configura
 
 func (m *OracleClients) MultiCloudsMetadataClient() *oci_multicloud.MultiCloudsMetadataClient {
 	return m.GetClient("oci_multicloud.MultiCloudsMetadataClient").(*oci_multicloud.MultiCloudsMetadataClient)
+}
+
+func initMulticloudMulticloudAlertsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_multicloud.NewMulticloudAlertsClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) MulticloudAlertsClient() *oci_multicloud.MulticloudAlertsClient {
+	return m.GetClient("oci_multicloud.MulticloudAlertsClient").(*oci_multicloud.MulticloudAlertsClient)
+}
+
+func initMulticloudMulticloudPoliciesClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_multicloud.NewMulticloudPoliciesClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) MulticloudPoliciesClient() *oci_multicloud.MulticloudPoliciesClient {
+	return m.GetClient("oci_multicloud.MulticloudPoliciesClient").(*oci_multicloud.MulticloudPoliciesClient)
 }
 
 func initMulticloudMulticloudResourcesClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

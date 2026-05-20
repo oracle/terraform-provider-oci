@@ -10,7 +10,10 @@ description: |-
 # Data Source: oci_multicloud_resource_anchors
 This data source provides the list of Resource Anchors in Oracle Cloud Infrastructure Multicloud service.
 
-Gets a list of ResourceAnchors.
+Lists resource anchors in the specified Multicloud subscription.
+Details listed for each resource anchor include name, state, and the related Multicloud compartment.
+For more information, see
+[Listing Resource Anchors](https://docs.cloud.oracle.com/iaas/Content/multicloud-hub/list-resource-anchors.htm).
 
 ## Example Usage
 
@@ -33,15 +36,15 @@ data "oci_multicloud_resource_anchors" "test_resource_anchors" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud base compartment or sub-compartment in which to list resources.  A Multicloud base compartment is an Oracle Cloud Infrastructure compartment that maps to a subscription in a Cloud Service Provider (such as Azure, AWS, or Google Cloud).  
+* `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud base compartment or sub-compartment in which to list resources. A Multicloud base compartment is an Oracle Cloud Infrastructure compartment that maps to a subscription in a cloud service provider (such as Azure or AWS). 
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly.
-* `id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ResourceAnchor.
-* `is_compartment_id_in_subtree` - (Optional) Check the sub-compartments of a given compartmentId
+* `id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource anchor.
+* `is_compartment_id_in_subtree` - (Optional) Check the sub-compartments of a given `compartmentId`.
 * `linked_compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment linked to the resource.
-* `should_fetch_compartment_name` - (Optional) Whether to fetch and include the compartment name, setting this field to yes may introduce additional latency.
+* `should_fetch_compartment_name` - (Optional) Whether to fetch and include the compartment name. Setting this field to `true` might introduce additional latency. 
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state. The state value is case-insensitive. 
 * `subscription_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud subscription in which to list resources.
-* `subscription_service_name` - (Optional) The subscription service name of the Cloud Service Provider.
+* `subscription_service_name` - (Optional) The cloud service provider.
 
 
 ## Attributes Reference

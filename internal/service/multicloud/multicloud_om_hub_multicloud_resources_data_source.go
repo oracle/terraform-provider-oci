@@ -5,6 +5,7 @@ package multicloud
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -21,13 +22,17 @@ func MulticloudOmHubMulticloudResourcesDataSource() *schema.Resource {
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"subscription_service_name": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"subscription_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"resource_anchor_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"resource_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -104,6 +109,11 @@ func MulticloudOmHubMulticloudResourcesDataSource() *schema.Resource {
 										Computed: true,
 										Elem:     schema.TypeString,
 									},
+									"resource_additional_properties": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
 									"time_updated": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -170,6 +180,11 @@ func (s *MulticloudOmHubMulticloudResourcesDataSourceCrud) GetWithContext(ctx co
 	if resourceAnchorId, ok := s.D.GetOkExists("resource_anchor_id"); ok {
 		tmp := resourceAnchorId.(string)
 		request.ResourceAnchorId = &tmp
+	}
+
+	if resourceType, ok := s.D.GetOkExists("resource_type"); ok {
+		tmp := resourceType.(string)
+		request.ResourceType = &tmp
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -286,6 +301,16 @@ func MulticloudResourceSummaryToMap(obj oci_multicloud.MulticloudResourceSummary
 	}
 
 	result["csp_additional_properties"] = obj.CspAdditionalProperties
+
+	if obj.ResourceAdditionalProperties != nil {
+		converted := make(map[string]interface{})
+
+		for k, v := range obj.ResourceAdditionalProperties {
+			converted[k] = fmt.Sprintf("%v", v)
+		}
+
+		result["resource_additional_properties"] = converted
+	}
 
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()

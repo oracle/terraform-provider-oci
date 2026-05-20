@@ -6,7 +6,6 @@ variable "config_file_profile" {}
 variable "region" {}
 variable "subscription_id" {}
 variable "subscription_service_name" {}
-variable "network_anchor_external_location" {}
 variable "network_anchor_compartment_id" {}
 
 
@@ -20,6 +19,5 @@ data "oci_multicloud_network_anchors" "test_network_anchors" {
   #Optiional
   subscription_id           = var.subscription_id
   subscription_service_name = var.subscription_service_name
-  external_location         = var.network_anchor_external_location
   compartment_id            = var.network_anchor_compartment_id
 }

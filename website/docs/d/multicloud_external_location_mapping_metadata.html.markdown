@@ -10,7 +10,13 @@ description: |-
 # Data Source: oci_multicloud_external_location_mapping_metadata
 This data source provides the list of External Location Mapping Metadata in Oracle Cloud Infrastructure Multicloud service.
 
-List externalLocation metadata from Oracle Cloud Infrastructure to the Cloud Service Provider for regions, Physical Availability Zones.
+List mapped partner cloud regions and zones across cloud service providers
+for the specified Multicloud base compartment and subscription service name.
+Each mapping includes the Oracle Cloud Infrastructure region, logical availability domain, and physical availability domain,
+along with mapped partner cloud details that depend on the partner cloud.
+For example, Azure includes a logical zone while AWS doesn't.
+For more information, see
+[Cross-Cloud Region-Zone Mapping](https://docs.cloud.oracle.com/iaas/Content/multicloud-hub/view-cloud-mapping.htm).
 
 ## Example Usage
 

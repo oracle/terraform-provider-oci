@@ -65,6 +65,7 @@ func TestMulticloudResourceAnchorsResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_anchor_collection.0.items.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_anchor_collection.0.items.0.time_updated"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resource_anchor_collection.0.items.0.linked_compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "resource_anchor_collection.0.items.0.resource_anchor_uri"),
 			),
 		},
 	})

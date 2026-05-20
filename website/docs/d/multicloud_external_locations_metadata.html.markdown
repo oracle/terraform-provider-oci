@@ -34,14 +34,14 @@ data "oci_multicloud_external_locations_metadata" "test_external_locations_metad
 
 The following arguments are supported:
 
-* `cluster_placement_group_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Cluster Placement Group.
-* `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud base compartment in which to list resources.  A Multicloud base compartment is an Oracle Cloud Infrastructure compartment that maps to a subscription in a Cloud Service Provider (such as Azure, AWS, or Google Cloud).  
-* `entity_type` - (Optional) The resource type query (i.e. dbsystem, instance etc.)
-* `external_location` - (Optional) The Cloud Service Provider region.
+* `cluster_placement_group_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group.
+* `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud base compartment in which to list resources. A Multicloud base compartment is an Oracle Cloud Infrastructure compartment that maps to a subscription in a cloud service provider (such as Azure or AWS). 
+* `entity_type` - (Optional) The resource type query (for example, dbsystem or instance).
+* `external_location` - (Optional) The cloud service provider region.
 * `linked_compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment linked to the resource.
-* `logical_zone` - (Optional) Oracle Cloud Infrastructure Logical AD to filter the response.
+* `logical_zone` - (Optional) Oracle Cloud Infrastructure logical availability domain (AD) to filter the response.
 * `subscription_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud subscription in which to list resources.
-* `subscription_service_name` - (Required) The subscription service name of the Cloud Service Provider.
+* `subscription_service_name` - (Required) The cloud service provider.
 
 
 ## Attributes Reference

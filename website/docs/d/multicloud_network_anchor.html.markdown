@@ -10,7 +10,10 @@ description: |-
 # Data Source: oci_multicloud_network_anchor
 This data source provides details about a specific Network Anchor resource in Oracle Cloud Infrastructure Multicloud service.
 
-Gets information about a NetworkAnchor.
+Gets details for the specified network anchor. The subscription OCID and service name are required.
+For more information, see
+[Getting a Network Anchor's Details](https://docs.cloud.oracle.com/iaas/Content/multicloud-hub/get-network-anchor.htm).
+
 
 ## Example Usage
 
@@ -31,11 +34,11 @@ data "oci_multicloud_network_anchor" "test_network_anchor" {
 
 The following arguments are supported:
 
+* `external_location` - (Optional) The cloud service provider region.
 * `network_anchor_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the NetworkAnchor.
-* `subscription_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription in which to list resources.
-* `subscription_service_name` - (Required) The subscription service name values from [ORACLEDBATAZURE, ORACLEDBATGOOGLE, ORACLEDBATAWS]
-* `external_location` - (Optional) OMHub Control Plane must know underlying CSP CP Region External Location Name.
 * `should_fetch_vcn_name` - (Optional) Whether to fetch and include the vcn display name, which may introduce additional latency.
+* `subscription_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud subscription in which to list resources.
+* `subscription_service_name` - (Required) The cloud service provider.
 
 
 ## Attributes Reference
