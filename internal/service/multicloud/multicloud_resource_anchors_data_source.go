@@ -137,6 +137,10 @@ func MulticloudResourceAnchorsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"resource_anchor_uri": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"time_created": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -342,6 +346,10 @@ func ResourceAnchorSummaryToMap(obj oci_multicloud.ResourceAnchorSummary) map[st
 
 	if obj.LinkedCompartmentName != nil {
 		result["linked_compartment_name"] = string(*obj.LinkedCompartmentName)
+	}
+
+	if obj.ResourceAnchorUri != nil {
+		result["resource_anchor_uri"] = string(*obj.ResourceAnchorUri)
 	}
 
 	return result

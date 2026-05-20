@@ -164,6 +164,11 @@ func MulticloudNetworkAnchorsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"cidr_blocks": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
 								},
 							},
 						},
@@ -232,11 +237,6 @@ func (s *MulticloudNetworkAnchorsDataSourceCrud) Get() error {
 		request.NetworkAnchorOciSubnetId = &tmp
 	}
 
-	/*if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
-		tmp := compartmentIdInSubtree.(bool)
-		request.CompartmentIdInSubtree = &tmp
-	}*/
-
 	if networkAnchorOciVcnId, ok := s.D.GetOkExists("network_anchor_oci_vcn_id"); ok {
 		tmp := networkAnchorOciVcnId.(string)
 		request.NetworkAnchorOciVcnId = &tmp
@@ -265,7 +265,7 @@ func (s *MulticloudNetworkAnchorsDataSourceCrud) Get() error {
 	}
 
 	s.Res = &response
-	request.Page = s.Res.OpcNextPage
+	// request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
 		listResponse, err := s.Client.ListNetworkAnchors(context.Background(), request)
@@ -371,6 +371,8 @@ func NetworkAnchorSummaryToMap(obj oci_multicloud.NetworkAnchorSummary) map[stri
 	}
 
 	result["subscription_type"] = string(obj.SubscriptionType)
+
+	result["cidr_blocks"] = obj.CidrBlocks
 
 	return result
 }
