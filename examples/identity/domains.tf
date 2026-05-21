@@ -34,7 +34,7 @@ default = "ca-toronto-1"
 
 #Toggle between ACTIVE and INACTIVE to call POST /domains/{domainId}/actions/activate and  POST /domains/{domainId}/actions/deactivate respectively
 variable "domain_state" {
-  default = "ACTIVE"
+  default = "INACTIVE"
 }
 
 resource "oci_identity_domain" "test_domain4" {
@@ -74,11 +74,5 @@ description = "Associated OCID of domain"
 output "domain_license_type" {
 value       = data.oci_identity_allowed_domain_license_types.test_allowed_domain_license_types.allowed_domain_license_types
 description = "domain license type"
-}
-
-#output for LIST/domains
-output "list_domains" {
-value       = data.oci_identity_domains.list_domain.domains
-description = "domains ocid"
 }
 

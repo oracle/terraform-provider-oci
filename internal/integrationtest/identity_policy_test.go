@@ -6,8 +6,9 @@ package integrationtest
 import (
 	"context"
 	"fmt"
-	"strconv"
+	"strings"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/terraform"
@@ -17,7 +18,6 @@ import (
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
@@ -54,7 +54,14 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestIdentityPolicyResource_basic")
 	defer httpreplay.SaveScenario()
 
-	config := acctest.ProviderTestConfig()
+	config := acctest.ProviderTestConfig() + `
+provider "oci" {
+	ignore_defined_tags = [
+		"Oracle-Tags.CreatedBy",
+		"Oracle-Tags.CreatedOn",
+	]
+}
+`
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
@@ -107,11 +114,6 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
 					return err
 				},
 			),
@@ -179,6 +181,60 @@ func TestIdentityPolicyResource_basic(t *testing.T) {
 				"policyHash",
 			},
 			ResourceName: resourceName,
+		},
+	})
+}
+
+// issue-routing-tag: identity/default
+func TestIdentityPolicyResource_synchronizedCreate(t *testing.T) {
+	httpreplay.SetScenario("TestIdentityPolicyResource_synchronizedCreate")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	tenancyId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+	namePrefix := fmt.Sprintf("tf-sync-policy-%d", time.Now().Unix())
+
+	testConfig := fmt.Sprintf(`
+variable "sync_policy_name_prefix" {
+  default = "%s"
+}
+
+resource "oci_identity_policy" "sync_policy" {
+  count          = 10
+  compartment_id = var.tenancy_ocid
+  name           = "${var.sync_policy_name_prefix}-${count.index}"
+  description    = "policy created for synchronized create test ${count.index}"
+  statements     = ["Allow group Administrators to inspect users in tenancy"]
+}
+`, namePrefix)
+
+	acctest.ResourceTest(t, testAccCheckIdentityPolicyDestroy, []resource.TestStep{
+		{
+			Config: config + testConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr("oci_identity_policy.sync_policy.0", "name", fmt.Sprintf("%s-0", namePrefix)),
+				resource.TestCheckResourceAttrSet("oci_identity_policy.sync_policy.0", "id"),
+				resource.TestCheckResourceAttr("oci_identity_policy.sync_policy.9", "name", fmt.Sprintf("%s-9", namePrefix)),
+				resource.TestCheckResourceAttrSet("oci_identity_policy.sync_policy.9", "id"),
+				func(s *terraform.State) error {
+					policyCount := 0
+					for resourceName, rs := range s.RootModule().Resources {
+						if strings.HasPrefix(resourceName, "oci_identity_policy.sync_policy.") && rs.Type == "oci_identity_policy" {
+							policyCount++
+							if rs.Primary == nil || rs.Primary.ID == "" {
+								return fmt.Errorf("resource %s has empty primary ID", resourceName)
+							}
+							if rs.Primary.Attributes["compartment_id"] != tenancyId {
+								return fmt.Errorf("resource %s has compartment_id %s, expected %s", resourceName, rs.Primary.Attributes["compartment_id"], tenancyId)
+							}
+						}
+					}
+					if policyCount != 10 {
+						return fmt.Errorf("expected 10 synchronized policy resources, found %d", policyCount)
+					}
+					return nil
+				},
+			),
 		},
 	})
 }

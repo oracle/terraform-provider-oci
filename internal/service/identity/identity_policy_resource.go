@@ -9,6 +9,7 @@ import (
 	"encoding/hex"
 	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -154,6 +155,20 @@ type IdentityPolicyResourceCrud struct {
 	ETag                   *string
 	LastUpdateETag         *string
 	DisableNotFoundRetries bool
+}
+
+func (s *IdentityPolicyResourceCrud) GetMutex() *sync.Mutex {
+	tenancyId := ""
+	if configProvider := s.Client.ConfigurationProvider(); configProvider != nil {
+		c := *configProvider
+		if c != nil {
+			if tenancy, err := c.TenancyOCID(); err == nil {
+				tenancyId = tenancy
+			}
+		}
+	}
+
+	return identityPolicyMutexes.GetOrCreatePolicyMutex(tenancyId)
 }
 
 func (s *IdentityPolicyResourceCrud) ID() string {
