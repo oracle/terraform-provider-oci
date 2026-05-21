@@ -64,6 +64,9 @@ type CertificateSummary struct {
 	// The name of the profile used to create the certificate, which depends on the type of certificate you need.
 	CertificateProfileType CertificateProfileTypeEnum `mandatory:"false" json:"certificateProfileType,omitempty"`
 
+	// The type of validation used to verify the public certificate. Present only when this certificate's configType is `ISSUED_BY_PUBLIC_CA`.
+	ValidationType ValidationTypeEnum `mandatory:"false" json:"validationType,omitempty"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -100,6 +103,9 @@ func (m CertificateSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingCertificateProfileTypeEnum(string(m.CertificateProfileType)); !ok && m.CertificateProfileType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CertificateProfileType: %s. Supported values are: %s.", m.CertificateProfileType, strings.Join(GetCertificateProfileTypeEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingValidationTypeEnum(string(m.ValidationType)); !ok && m.ValidationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ValidationType: %s. Supported values are: %s.", m.ValidationType, strings.Join(GetValidationTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -118,6 +124,7 @@ func (m *CertificateSummary) UnmarshalJSON(data []byte) (e error) {
 		KeyAlgorithm                 KeyAlgorithmEnum                  `json:"keyAlgorithm"`
 		SignatureAlgorithm           SignatureAlgorithmEnum            `json:"signatureAlgorithm"`
 		CertificateProfileType       CertificateProfileTypeEnum        `json:"certificateProfileType"`
+		ValidationType               ValidationTypeEnum                `json:"validationType"`
 		FreeformTags                 map[string]string                 `json:"freeformTags"`
 		DefinedTags                  map[string]map[string]interface{} `json:"definedTags"`
 		Id                           *string                           `json:"id"`
@@ -160,6 +167,8 @@ func (m *CertificateSummary) UnmarshalJSON(data []byte) (e error) {
 	m.SignatureAlgorithm = model.SignatureAlgorithm
 
 	m.CertificateProfileType = model.CertificateProfileType
+
+	m.ValidationType = model.ValidationType
 
 	m.FreeformTags = model.FreeformTags
 

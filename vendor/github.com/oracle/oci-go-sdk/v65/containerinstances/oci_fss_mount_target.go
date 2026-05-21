@@ -51,10 +51,6 @@ func (m *ocifssmounttarget) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 
 	var err error
 	switch m.OciFssMountTargetType {
-	case "HOST":
-		mm := OciFssMountTargetHost{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "OCID":
 		mm := OciFssMountTargetId{}
 		err = json.Unmarshal(data, &mm)
@@ -86,17 +82,14 @@ type OciFssMountTargetOciFssMountTargetTypeEnum string
 
 // Set of constants representing the allowable values for OciFssMountTargetOciFssMountTargetTypeEnum
 const (
-	OciFssMountTargetOciFssMountTargetTypeHost OciFssMountTargetOciFssMountTargetTypeEnum = "HOST"
 	OciFssMountTargetOciFssMountTargetTypeOcid OciFssMountTargetOciFssMountTargetTypeEnum = "OCID"
 )
 
 var mappingOciFssMountTargetOciFssMountTargetTypeEnum = map[string]OciFssMountTargetOciFssMountTargetTypeEnum{
-	"HOST": OciFssMountTargetOciFssMountTargetTypeHost,
 	"OCID": OciFssMountTargetOciFssMountTargetTypeOcid,
 }
 
 var mappingOciFssMountTargetOciFssMountTargetTypeEnumLowerCase = map[string]OciFssMountTargetOciFssMountTargetTypeEnum{
-	"host": OciFssMountTargetOciFssMountTargetTypeHost,
 	"ocid": OciFssMountTargetOciFssMountTargetTypeOcid,
 }
 
@@ -112,7 +105,6 @@ func GetOciFssMountTargetOciFssMountTargetTypeEnumValues() []OciFssMountTargetOc
 // GetOciFssMountTargetOciFssMountTargetTypeEnumStringValues Enumerates the set of values in String for OciFssMountTargetOciFssMountTargetTypeEnum
 func GetOciFssMountTargetOciFssMountTargetTypeEnumStringValues() []string {
 	return []string{
-		"HOST",
 		"OCID",
 	}
 }

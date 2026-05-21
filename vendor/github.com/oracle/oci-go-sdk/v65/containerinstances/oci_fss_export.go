@@ -50,10 +50,6 @@ func (m *ocifssexport) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 
 	var err error
 	switch m.OciFssExportType {
-	case "PATH":
-		mm := OciFssExportPath{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "OCID":
 		mm := OciFssExportId{}
 		err = json.Unmarshal(data, &mm)
@@ -85,17 +81,14 @@ type OciFssExportOciFssExportTypeEnum string
 
 // Set of constants representing the allowable values for OciFssExportOciFssExportTypeEnum
 const (
-	OciFssExportOciFssExportTypePath OciFssExportOciFssExportTypeEnum = "PATH"
 	OciFssExportOciFssExportTypeOcid OciFssExportOciFssExportTypeEnum = "OCID"
 )
 
 var mappingOciFssExportOciFssExportTypeEnum = map[string]OciFssExportOciFssExportTypeEnum{
-	"PATH": OciFssExportOciFssExportTypePath,
 	"OCID": OciFssExportOciFssExportTypeOcid,
 }
 
 var mappingOciFssExportOciFssExportTypeEnumLowerCase = map[string]OciFssExportOciFssExportTypeEnum{
-	"path": OciFssExportOciFssExportTypePath,
 	"ocid": OciFssExportOciFssExportTypeOcid,
 }
 
@@ -111,7 +104,6 @@ func GetOciFssExportOciFssExportTypeEnumValues() []OciFssExportOciFssExportTypeE
 // GetOciFssExportOciFssExportTypeEnumStringValues Enumerates the set of values in String for OciFssExportOciFssExportTypeEnum
 func GetOciFssExportOciFssExportTypeEnumStringValues() []string {
 	return []string{
-		"PATH",
 		"OCID",
 	}
 }

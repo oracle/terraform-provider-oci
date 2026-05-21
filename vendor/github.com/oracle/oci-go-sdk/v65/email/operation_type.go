@@ -58,6 +58,10 @@ const (
 	OperationTypeDeleteEmailDeliveryConfigIpAssociation OperationTypeEnum = "DELETE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION"
 	OperationTypeMoveEmailDeliveryConfigIpAssociation   OperationTypeEnum = "MOVE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION"
 	OperationTypeUpdateEmailConfiguration               OperationTypeEnum = "UPDATE_EMAIL_CONFIGURATION"
+	OperationTypeCreateEmailMxRollup                    OperationTypeEnum = "CREATE_EMAIL_MX_ROLLUP"
+	OperationTypeUpdateEmailMxRollup                    OperationTypeEnum = "UPDATE_EMAIL_MX_ROLLUP"
+	OperationTypeDeleteEmailMxRollup                    OperationTypeEnum = "DELETE_EMAIL_MX_ROLLUP"
+	OperationTypeMoveEmailMxRollup                      OperationTypeEnum = "MOVE_EMAIL_MX_ROLLUP"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -98,6 +102,10 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"DELETE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION": OperationTypeDeleteEmailDeliveryConfigIpAssociation,
 	"MOVE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION":   OperationTypeMoveEmailDeliveryConfigIpAssociation,
 	"UPDATE_EMAIL_CONFIGURATION":                  OperationTypeUpdateEmailConfiguration,
+	"CREATE_EMAIL_MX_ROLLUP":                      OperationTypeCreateEmailMxRollup,
+	"UPDATE_EMAIL_MX_ROLLUP":                      OperationTypeUpdateEmailMxRollup,
+	"DELETE_EMAIL_MX_ROLLUP":                      OperationTypeDeleteEmailMxRollup,
+	"MOVE_EMAIL_MX_ROLLUP":                        OperationTypeMoveEmailMxRollup,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -138,6 +146,10 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"delete_email_delivery_config_ip_association": OperationTypeDeleteEmailDeliveryConfigIpAssociation,
 	"move_email_delivery_config_ip_association":   OperationTypeMoveEmailDeliveryConfigIpAssociation,
 	"update_email_configuration":                  OperationTypeUpdateEmailConfiguration,
+	"create_email_mx_rollup":                      OperationTypeCreateEmailMxRollup,
+	"update_email_mx_rollup":                      OperationTypeUpdateEmailMxRollup,
+	"delete_email_mx_rollup":                      OperationTypeDeleteEmailMxRollup,
+	"move_email_mx_rollup":                        OperationTypeMoveEmailMxRollup,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -189,6 +201,10 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION",
 		"MOVE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION",
 		"UPDATE_EMAIL_CONFIGURATION",
+		"CREATE_EMAIL_MX_ROLLUP",
+		"UPDATE_EMAIL_MX_ROLLUP",
+		"DELETE_EMAIL_MX_ROLLUP",
+		"MOVE_EMAIL_MX_ROLLUP",
 	}
 }
 

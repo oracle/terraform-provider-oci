@@ -25,7 +25,7 @@ import (
 type UpdateAutonomousDatabaseDetails struct {
 
 	// The destination cloud provider where Autonomous AI Database backups are stored.
-	BackupDestination UpdateAutonomousDatabaseDetailsBackupDestinationEnum `mandatory:"false" json:"backupDestination,omitempty"`
+	BackupDestination AutonomousDatabaseSummaryBackupDestinationEnum `mandatory:"false" json:"backupDestination,omitempty"`
 
 	// Retention period, in days, for automatic backups
 	BackupRetentionPeriodInDays *int `mandatory:"false" json:"backupRetentionPeriodInDays"`
@@ -371,8 +371,8 @@ func (m UpdateAutonomousDatabaseDetails) String() string {
 func (m UpdateAutonomousDatabaseDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingUpdateAutonomousDatabaseDetailsBackupDestinationEnum(string(m.BackupDestination)); !ok && m.BackupDestination != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupDestination: %s. Supported values are: %s.", m.BackupDestination, strings.Join(GetUpdateAutonomousDatabaseDetailsBackupDestinationEnumStringValues(), ",")))
+	if _, ok := GetMappingAutonomousDatabaseSummaryBackupDestinationEnum(string(m.BackupDestination)); !ok && m.BackupDestination != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupDestination: %s. Supported values are: %s.", m.BackupDestination, strings.Join(GetAutonomousDatabaseSummaryBackupDestinationEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingUpdateAutonomousDatabaseDetailsComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetUpdateAutonomousDatabaseDetailsComputeModelEnumStringValues(), ",")))
@@ -407,7 +407,7 @@ func (m UpdateAutonomousDatabaseDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		BackupDestination                    UpdateAutonomousDatabaseDetailsBackupDestinationEnum                 `json:"backupDestination"`
+		BackupDestination                    AutonomousDatabaseSummaryBackupDestinationEnum                       `json:"backupDestination"`
 		BackupRetentionPeriodInDays          *int                                                                 `json:"backupRetentionPeriodInDays"`
 		ComputeModel                         UpdateAutonomousDatabaseDetailsComputeModelEnum                      `json:"computeModel"`
 		InMemoryPercentage                   *int                                                                 `json:"inMemoryPercentage"`
@@ -674,56 +674,6 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	m.PreferredCommunicationLanguageLocale = model.PreferredCommunicationLanguageLocale
 
 	return
-}
-
-// UpdateAutonomousDatabaseDetailsBackupDestinationEnum Enum with underlying type: string
-type UpdateAutonomousDatabaseDetailsBackupDestinationEnum string
-
-// Set of constants representing the allowable values for UpdateAutonomousDatabaseDetailsBackupDestinationEnum
-const (
-	UpdateAutonomousDatabaseDetailsBackupDestinationOci   UpdateAutonomousDatabaseDetailsBackupDestinationEnum = "OCI"
-	UpdateAutonomousDatabaseDetailsBackupDestinationGcp   UpdateAutonomousDatabaseDetailsBackupDestinationEnum = "GCP"
-	UpdateAutonomousDatabaseDetailsBackupDestinationAzure UpdateAutonomousDatabaseDetailsBackupDestinationEnum = "AZURE"
-	UpdateAutonomousDatabaseDetailsBackupDestinationAws   UpdateAutonomousDatabaseDetailsBackupDestinationEnum = "AWS"
-)
-
-var mappingUpdateAutonomousDatabaseDetailsBackupDestinationEnum = map[string]UpdateAutonomousDatabaseDetailsBackupDestinationEnum{
-	"OCI":   UpdateAutonomousDatabaseDetailsBackupDestinationOci,
-	"GCP":   UpdateAutonomousDatabaseDetailsBackupDestinationGcp,
-	"AZURE": UpdateAutonomousDatabaseDetailsBackupDestinationAzure,
-	"AWS":   UpdateAutonomousDatabaseDetailsBackupDestinationAws,
-}
-
-var mappingUpdateAutonomousDatabaseDetailsBackupDestinationEnumLowerCase = map[string]UpdateAutonomousDatabaseDetailsBackupDestinationEnum{
-	"oci":   UpdateAutonomousDatabaseDetailsBackupDestinationOci,
-	"gcp":   UpdateAutonomousDatabaseDetailsBackupDestinationGcp,
-	"azure": UpdateAutonomousDatabaseDetailsBackupDestinationAzure,
-	"aws":   UpdateAutonomousDatabaseDetailsBackupDestinationAws,
-}
-
-// GetUpdateAutonomousDatabaseDetailsBackupDestinationEnumValues Enumerates the set of values for UpdateAutonomousDatabaseDetailsBackupDestinationEnum
-func GetUpdateAutonomousDatabaseDetailsBackupDestinationEnumValues() []UpdateAutonomousDatabaseDetailsBackupDestinationEnum {
-	values := make([]UpdateAutonomousDatabaseDetailsBackupDestinationEnum, 0)
-	for _, v := range mappingUpdateAutonomousDatabaseDetailsBackupDestinationEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetUpdateAutonomousDatabaseDetailsBackupDestinationEnumStringValues Enumerates the set of values in String for UpdateAutonomousDatabaseDetailsBackupDestinationEnum
-func GetUpdateAutonomousDatabaseDetailsBackupDestinationEnumStringValues() []string {
-	return []string{
-		"OCI",
-		"GCP",
-		"AZURE",
-		"AWS",
-	}
-}
-
-// GetMappingUpdateAutonomousDatabaseDetailsBackupDestinationEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingUpdateAutonomousDatabaseDetailsBackupDestinationEnum(val string) (UpdateAutonomousDatabaseDetailsBackupDestinationEnum, bool) {
-	enum, ok := mappingUpdateAutonomousDatabaseDetailsBackupDestinationEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }
 
 // UpdateAutonomousDatabaseDetailsComputeModelEnum Enum with underlying type: string

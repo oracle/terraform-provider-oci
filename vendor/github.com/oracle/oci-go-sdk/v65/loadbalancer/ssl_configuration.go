@@ -79,6 +79,21 @@ type SslConfiguration struct {
 	// example: `example_cipher_suite`
 	CipherSuiteName *string `mandatory:"false" json:"cipherSuiteName"`
 
+	// A list of elliptic curves the load balancer must exclude from use during SSL negotiations with ECDHE ciphers.
+	// The Load Balancing service uses a subset of the following curves.
+	// *  prime256v1: X9.62/SECG curve over a 256 bit prime field
+	// *  secp224r1 : NIST/SECG curve over a 224 bit prime field
+	// *  secp256k1 : SECG curve over a 256 bit prime field
+	// *  secp384r1 : NIST/SECG curve over a 384 bit prime field
+	// *  secp521r1 : NIST/SECG curve over a 521 bit prime field
+	// You can choose to exclude any of the curves by using the curve names, i.e. prime256v1, secp224r1, etc.
+	// **Notes:**
+	// *  For existing load balancers that predate this feature, if the supported ssl curves on the loadbalancer were
+	//    modified by Oracle operations after load balancer creation, selecting elliptic curves to exclude in this field
+	//    will update your existing configuration
+	// Example: `["secp224r1", "secp256k1"]`
+	ExcludedEllipticCurves []string `mandatory:"false" json:"excludedEllipticCurves"`
+
 	// A list of SSL protocols the load balancer must support for HTTPS or SSL connections.
 	// The load balancer uses SSL protocols to establish a secure connection between a client and a server. A secure
 	// connection ensures that all data passed between the client and the server is private.

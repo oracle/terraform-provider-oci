@@ -65,11 +65,6 @@ type CloneDatabaseDetails struct {
 
 	StorageSizeDetails *DatabaseStorageSizeDetails `mandatory:"false" json:"storageSizeDetails"`
 
-	ManagedSoftwareUpdateDetails *ManagedSoftwareUpdateInputDetails `mandatory:"false" json:"managedSoftwareUpdateDetails"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
-	VmClusterId *string `mandatory:"false" json:"vmClusterId"`
-
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -113,8 +108,6 @@ func (m *CloneDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		KeyStoreId                         *string                             `json:"keyStoreId"`
 		EncryptionKeyLocationDetails       encryptionkeylocationdetails        `json:"encryptionKeyLocationDetails"`
 		StorageSizeDetails                 *DatabaseStorageSizeDetails         `json:"storageSizeDetails"`
-		ManagedSoftwareUpdateDetails       *ManagedSoftwareUpdateInputDetails  `json:"managedSoftwareUpdateDetails"`
-		VmClusterId                        *string                             `json:"vmClusterId"`
 		FreeformTags                       map[string]string                   `json:"freeformTags"`
 		DefinedTags                        map[string]map[string]interface{}   `json:"definedTags"`
 		DataSafeRegistrationDetails        *DataSafeRegistrationRequestDetails `json:"dataSafeRegistrationDetails"`
@@ -168,10 +161,6 @@ func (m *CloneDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.StorageSizeDetails = model.StorageSizeDetails
-
-	m.ManagedSoftwareUpdateDetails = model.ManagedSoftwareUpdateDetails
-
-	m.VmClusterId = model.VmClusterId
 
 	m.FreeformTags = model.FreeformTags
 

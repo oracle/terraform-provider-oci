@@ -143,18 +143,21 @@ type UpdateScheduleDetailsActionEnum string
 
 // Set of constants representing the allowable values for UpdateScheduleDetailsActionEnum
 const (
-	UpdateScheduleDetailsActionStartResource UpdateScheduleDetailsActionEnum = "START_RESOURCE"
-	UpdateScheduleDetailsActionStopResource  UpdateScheduleDetailsActionEnum = "STOP_RESOURCE"
+	UpdateScheduleDetailsActionStartResource  UpdateScheduleDetailsActionEnum = "START_RESOURCE"
+	UpdateScheduleDetailsActionStopResource   UpdateScheduleDetailsActionEnum = "STOP_RESOURCE"
+	UpdateScheduleDetailsActionBackupResource UpdateScheduleDetailsActionEnum = "BACKUP_RESOURCE"
 )
 
 var mappingUpdateScheduleDetailsActionEnum = map[string]UpdateScheduleDetailsActionEnum{
-	"START_RESOURCE": UpdateScheduleDetailsActionStartResource,
-	"STOP_RESOURCE":  UpdateScheduleDetailsActionStopResource,
+	"START_RESOURCE":  UpdateScheduleDetailsActionStartResource,
+	"STOP_RESOURCE":   UpdateScheduleDetailsActionStopResource,
+	"BACKUP_RESOURCE": UpdateScheduleDetailsActionBackupResource,
 }
 
 var mappingUpdateScheduleDetailsActionEnumLowerCase = map[string]UpdateScheduleDetailsActionEnum{
-	"start_resource": UpdateScheduleDetailsActionStartResource,
-	"stop_resource":  UpdateScheduleDetailsActionStopResource,
+	"start_resource":  UpdateScheduleDetailsActionStartResource,
+	"stop_resource":   UpdateScheduleDetailsActionStopResource,
+	"backup_resource": UpdateScheduleDetailsActionBackupResource,
 }
 
 // GetUpdateScheduleDetailsActionEnumValues Enumerates the set of values for UpdateScheduleDetailsActionEnum
@@ -171,6 +174,7 @@ func GetUpdateScheduleDetailsActionEnumStringValues() []string {
 	return []string{
 		"START_RESOURCE",
 		"STOP_RESOURCE",
+		"BACKUP_RESOURCE",
 	}
 }
 

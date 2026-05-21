@@ -31,6 +31,12 @@ type ResolverVnicEndpoint struct {
 	// A Boolean flag indicating whether or not the resolver endpoint is for listening.
 	IsListening *bool `mandatory:"true" json:"isListening"`
 
+	// The OCID of the resolver endpoint.
+	Id *string `mandatory:"true" json:"id"`
+
+	// The OCID of the resolver.
+	ResolverId *string `mandatory:"true" json:"resolverId"`
+
 	// The OCID of the owning compartment. This will match the resolver that the resolver endpoint is under
 	// and will be updated if the resolver's compartment is changed.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
@@ -102,6 +108,16 @@ func (m ResolverVnicEndpoint) GetIsListening() *bool {
 // GetListeningAddress returns ListeningAddress
 func (m ResolverVnicEndpoint) GetListeningAddress() *string {
 	return m.ListeningAddress
+}
+
+// GetId returns Id
+func (m ResolverVnicEndpoint) GetId() *string {
+	return m.Id
+}
+
+// GetResolverId returns ResolverId
+func (m ResolverVnicEndpoint) GetResolverId() *string {
+	return m.ResolverId
 }
 
 // GetCompartmentId returns CompartmentId

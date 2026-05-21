@@ -32,8 +32,8 @@ type CreateAutonomousDatabaseBase interface {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 	GetSubscriptionId() *string
 
-	// The destination cloud provider where Autonomous AI Database backups are stored.
-	GetBackupDestination() CreateAutonomousDatabaseBaseBackupDestinationEnum
+	// The destination cloud provider where Autonomous AI Database backups are stored. This field will be set to OCI when unspecified.
+	GetBackupDestination() AutonomousDatabaseSummaryBackupDestinationEnum
 
 	// The Autonomous Database Serverless instance's availability domain.
 	GetAvailabilityDomain() *string
@@ -293,7 +293,7 @@ type CreateAutonomousDatabaseBase interface {
 type createautonomousdatabasebase struct {
 	JsonData                                 []byte
 	SubscriptionId                           *string                                                           `mandatory:"false" json:"subscriptionId"`
-	BackupDestination                        CreateAutonomousDatabaseBaseBackupDestinationEnum                 `mandatory:"false" json:"backupDestination,omitempty"`
+	BackupDestination                        AutonomousDatabaseSummaryBackupDestinationEnum                    `mandatory:"false" json:"backupDestination,omitempty"`
 	AvailabilityDomain                       *string                                                           `mandatory:"false" json:"availabilityDomain"`
 	CharacterSet                             *string                                                           `mandatory:"false" json:"characterSet"`
 	NcharacterSet                            *string                                                           `mandatory:"false" json:"ncharacterSet"`
@@ -490,7 +490,7 @@ func (m createautonomousdatabasebase) GetSubscriptionId() *string {
 }
 
 // GetBackupDestination returns BackupDestination
-func (m createautonomousdatabasebase) GetBackupDestination() CreateAutonomousDatabaseBaseBackupDestinationEnum {
+func (m createautonomousdatabasebase) GetBackupDestination() AutonomousDatabaseSummaryBackupDestinationEnum {
 	return m.BackupDestination
 }
 
@@ -789,8 +789,8 @@ func (m createautonomousdatabasebase) String() string {
 func (m createautonomousdatabasebase) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingCreateAutonomousDatabaseBaseBackupDestinationEnum(string(m.BackupDestination)); !ok && m.BackupDestination != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupDestination: %s. Supported values are: %s.", m.BackupDestination, strings.Join(GetCreateAutonomousDatabaseBaseBackupDestinationEnumStringValues(), ",")))
+	if _, ok := GetMappingAutonomousDatabaseSummaryBackupDestinationEnum(string(m.BackupDestination)); !ok && m.BackupDestination != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupDestination: %s. Supported values are: %s.", m.BackupDestination, strings.Join(GetAutonomousDatabaseSummaryBackupDestinationEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingCreateAutonomousDatabaseBaseComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetCreateAutonomousDatabaseBaseComputeModelEnumStringValues(), ",")))
@@ -811,56 +811,6 @@ func (m createautonomousdatabasebase) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// CreateAutonomousDatabaseBaseBackupDestinationEnum Enum with underlying type: string
-type CreateAutonomousDatabaseBaseBackupDestinationEnum string
-
-// Set of constants representing the allowable values for CreateAutonomousDatabaseBaseBackupDestinationEnum
-const (
-	CreateAutonomousDatabaseBaseBackupDestinationOci   CreateAutonomousDatabaseBaseBackupDestinationEnum = "OCI"
-	CreateAutonomousDatabaseBaseBackupDestinationGcp   CreateAutonomousDatabaseBaseBackupDestinationEnum = "GCP"
-	CreateAutonomousDatabaseBaseBackupDestinationAzure CreateAutonomousDatabaseBaseBackupDestinationEnum = "AZURE"
-	CreateAutonomousDatabaseBaseBackupDestinationAws   CreateAutonomousDatabaseBaseBackupDestinationEnum = "AWS"
-)
-
-var mappingCreateAutonomousDatabaseBaseBackupDestinationEnum = map[string]CreateAutonomousDatabaseBaseBackupDestinationEnum{
-	"OCI":   CreateAutonomousDatabaseBaseBackupDestinationOci,
-	"GCP":   CreateAutonomousDatabaseBaseBackupDestinationGcp,
-	"AZURE": CreateAutonomousDatabaseBaseBackupDestinationAzure,
-	"AWS":   CreateAutonomousDatabaseBaseBackupDestinationAws,
-}
-
-var mappingCreateAutonomousDatabaseBaseBackupDestinationEnumLowerCase = map[string]CreateAutonomousDatabaseBaseBackupDestinationEnum{
-	"oci":   CreateAutonomousDatabaseBaseBackupDestinationOci,
-	"gcp":   CreateAutonomousDatabaseBaseBackupDestinationGcp,
-	"azure": CreateAutonomousDatabaseBaseBackupDestinationAzure,
-	"aws":   CreateAutonomousDatabaseBaseBackupDestinationAws,
-}
-
-// GetCreateAutonomousDatabaseBaseBackupDestinationEnumValues Enumerates the set of values for CreateAutonomousDatabaseBaseBackupDestinationEnum
-func GetCreateAutonomousDatabaseBaseBackupDestinationEnumValues() []CreateAutonomousDatabaseBaseBackupDestinationEnum {
-	values := make([]CreateAutonomousDatabaseBaseBackupDestinationEnum, 0)
-	for _, v := range mappingCreateAutonomousDatabaseBaseBackupDestinationEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetCreateAutonomousDatabaseBaseBackupDestinationEnumStringValues Enumerates the set of values in String for CreateAutonomousDatabaseBaseBackupDestinationEnum
-func GetCreateAutonomousDatabaseBaseBackupDestinationEnumStringValues() []string {
-	return []string{
-		"OCI",
-		"GCP",
-		"AZURE",
-		"AWS",
-	}
-}
-
-// GetMappingCreateAutonomousDatabaseBaseBackupDestinationEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingCreateAutonomousDatabaseBaseBackupDestinationEnum(val string) (CreateAutonomousDatabaseBaseBackupDestinationEnum, bool) {
-	enum, ok := mappingCreateAutonomousDatabaseBaseBackupDestinationEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }
 
 // CreateAutonomousDatabaseBaseComputeModelEnum Enum with underlying type: string

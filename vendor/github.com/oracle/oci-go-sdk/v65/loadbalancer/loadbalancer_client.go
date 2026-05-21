@@ -3703,7 +3703,7 @@ func (client LoadBalancerClient) stopLogging(ctx context.Context, request common
 	return response, err
 }
 
-// SuspendLoadBalancer Suspend Load balancer will help us blackhole load balancer traffic for prolonged periods
+// SuspendLoadBalancer Suspending the load balancer will blackhole traffic for prolonged periods.
 func (client LoadBalancerClient) SuspendLoadBalancer(ctx context.Context, request SuspendLoadBalancerRequest) (response SuspendLoadBalancerResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

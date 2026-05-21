@@ -80,6 +80,7 @@ type DeploymentLifecycleStateEnum string
 const (
 	DeploymentLifecycleStateAccepted DeploymentLifecycleStateEnum = "ACCEPTED"
 	DeploymentLifecycleStateCreating DeploymentLifecycleStateEnum = "CREATING"
+	DeploymentLifecycleStateUpdating DeploymentLifecycleStateEnum = "UPDATING"
 	DeploymentLifecycleStateActive   DeploymentLifecycleStateEnum = "ACTIVE"
 	DeploymentLifecycleStateDeleting DeploymentLifecycleStateEnum = "DELETING"
 	DeploymentLifecycleStateFailed   DeploymentLifecycleStateEnum = "FAILED"
@@ -88,6 +89,7 @@ const (
 var mappingDeploymentLifecycleStateEnum = map[string]DeploymentLifecycleStateEnum{
 	"ACCEPTED": DeploymentLifecycleStateAccepted,
 	"CREATING": DeploymentLifecycleStateCreating,
+	"UPDATING": DeploymentLifecycleStateUpdating,
 	"ACTIVE":   DeploymentLifecycleStateActive,
 	"DELETING": DeploymentLifecycleStateDeleting,
 	"FAILED":   DeploymentLifecycleStateFailed,
@@ -96,6 +98,7 @@ var mappingDeploymentLifecycleStateEnum = map[string]DeploymentLifecycleStateEnu
 var mappingDeploymentLifecycleStateEnumLowerCase = map[string]DeploymentLifecycleStateEnum{
 	"accepted": DeploymentLifecycleStateAccepted,
 	"creating": DeploymentLifecycleStateCreating,
+	"updating": DeploymentLifecycleStateUpdating,
 	"active":   DeploymentLifecycleStateActive,
 	"deleting": DeploymentLifecycleStateDeleting,
 	"failed":   DeploymentLifecycleStateFailed,
@@ -115,6 +118,7 @@ func GetDeploymentLifecycleStateEnumStringValues() []string {
 	return []string{
 		"ACCEPTED",
 		"CREATING",
+		"UPDATING",
 		"ACTIVE",
 		"DELETING",
 		"FAILED",

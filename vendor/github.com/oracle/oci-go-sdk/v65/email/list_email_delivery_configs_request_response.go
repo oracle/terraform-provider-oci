@@ -42,7 +42,7 @@ type ListEmailDeliveryConfigsRequest struct {
 	// Filter returned list by specified lifecycle state. This parameter is case-insensitive.
 	LifecycleState EmailDeliveryConfigLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// Specifies the attribute with which to sort the return paths.
+	// Specifies the attribute with which to sort the delivery configurations.
 	// Default: `timeCreated`
 	// * **timeCreated:** Sorts by timeCreated.
 	// * **name:** Sorts by name.

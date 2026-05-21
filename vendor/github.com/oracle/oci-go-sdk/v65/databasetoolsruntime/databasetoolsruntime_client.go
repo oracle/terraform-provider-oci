@@ -136,7 +136,7 @@ func (client DatabaseToolsRuntimeClient) cancelWorkRequest(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/WorkRequest/CancelWorkRequest"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -190,7 +190,7 @@ func (client DatabaseToolsRuntimeClient) createCredential(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsConnection/CreateCredential"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "CreateCredential", apiReferenceLink)
 		return response, err
 	}
@@ -244,7 +244,7 @@ func (client DatabaseToolsRuntimeClient) createCredentialExecuteGrantee(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/CredentialExecuteGrantee/CreateCredentialExecuteGrantee"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "CreateCredentialExecuteGrantee", apiReferenceLink)
 		return response, err
 	}
@@ -298,7 +298,7 @@ func (client DatabaseToolsRuntimeClient) createCredentialPublicSynonym(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/CredentialPublicSynonym/CreateCredentialPublicSynonym"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "CreateCredentialPublicSynonym", apiReferenceLink)
 		return response, err
 	}
@@ -357,7 +357,7 @@ func (client DatabaseToolsRuntimeClient) createDatabaseToolsDatabaseApiGatewayCo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsDatabaseApiGatewayConfigPool/CreateDatabaseToolsDatabaseApiGatewayConfigPool"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "CreateDatabaseToolsDatabaseApiGatewayConfigPool", apiReferenceLink)
 		return response, err
 	}
@@ -416,7 +416,7 @@ func (client DatabaseToolsRuntimeClient) createDatabaseToolsDatabaseApiGatewayCo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsDatabaseApiGatewayConfigPoolApiSpec/CreateDatabaseToolsDatabaseApiGatewayConfigPoolApiSpec"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "CreateDatabaseToolsDatabaseApiGatewayConfigPoolApiSpec", apiReferenceLink)
 		return response, err
 	}
@@ -475,7 +475,7 @@ func (client DatabaseToolsRuntimeClient) createDatabaseToolsDatabaseApiGatewayCo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpec/CreateDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpec"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "CreateDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpec", apiReferenceLink)
 		return response, err
 	}
@@ -529,7 +529,7 @@ func (client DatabaseToolsRuntimeClient) deleteCredential(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/Credential/DeleteCredential"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "DeleteCredential", apiReferenceLink)
 		return response, err
 	}
@@ -583,7 +583,7 @@ func (client DatabaseToolsRuntimeClient) deleteCredentialExecuteGrantee(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/CredentialExecuteGrantee/DeleteCredentialExecuteGrantee"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "DeleteCredentialExecuteGrantee", apiReferenceLink)
 		return response, err
 	}
@@ -637,7 +637,7 @@ func (client DatabaseToolsRuntimeClient) deleteCredentialPublicSynonym(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/CredentialPublicSynonym/DeleteCredentialPublicSynonym"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "DeleteCredentialPublicSynonym", apiReferenceLink)
 		return response, err
 	}
@@ -691,7 +691,7 @@ func (client DatabaseToolsRuntimeClient) deleteDatabaseToolsDatabaseApiGatewayCo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsDatabaseApiGatewayConfig/DeleteDatabaseToolsDatabaseApiGatewayConfigPool"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "DeleteDatabaseToolsDatabaseApiGatewayConfigPool", apiReferenceLink)
 		return response, err
 	}
@@ -745,7 +745,7 @@ func (client DatabaseToolsRuntimeClient) deleteDatabaseToolsDatabaseApiGatewayCo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsDatabaseApiGatewayConfig/DeleteDatabaseToolsDatabaseApiGatewayConfigPoolApiSpec"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "DeleteDatabaseToolsDatabaseApiGatewayConfigPoolApiSpec", apiReferenceLink)
 		return response, err
 	}
@@ -799,7 +799,7 @@ func (client DatabaseToolsRuntimeClient) deleteDatabaseToolsDatabaseApiGatewayCo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsDatabaseApiGatewayConfig/DeleteDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpec"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "DeleteDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpec", apiReferenceLink)
 		return response, err
 	}
@@ -853,7 +853,7 @@ func (client DatabaseToolsRuntimeClient) executeSqlDatabaseToolsConnection(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsConnection/ExecuteSqlDatabaseToolsConnection"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "ExecuteSqlDatabaseToolsConnection", apiReferenceLink)
 		return response, err
 	}
@@ -907,7 +907,7 @@ func (client DatabaseToolsRuntimeClient) getCredential(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/Credential/GetCredential"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "GetCredential", apiReferenceLink)
 		return response, err
 	}
@@ -961,7 +961,7 @@ func (client DatabaseToolsRuntimeClient) getCredentialExecuteGrantee(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/CredentialExecuteGrantee/GetCredentialExecuteGrantee"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "GetCredentialExecuteGrantee", apiReferenceLink)
 		return response, err
 	}
@@ -1015,7 +1015,7 @@ func (client DatabaseToolsRuntimeClient) getCredentialPublicSynonym(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/CredentialPublicSynonym/GetCredentialPublicSynonym"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "GetCredentialPublicSynonym", apiReferenceLink)
 		return response, err
 	}
@@ -1068,7 +1068,7 @@ func (client DatabaseToolsRuntimeClient) getDatabaseToolsDatabaseApiGatewayConfi
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseToolsRuntime", "GetDatabaseToolsDatabaseApiGatewayConfigContent")
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsDatabaseApiGatewayConfig/GetDatabaseToolsDatabaseApiGatewayConfigContent"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "GetDatabaseToolsDatabaseApiGatewayConfigContent", apiReferenceLink)
 		return response, err
 	}
@@ -1122,7 +1122,7 @@ func (client DatabaseToolsRuntimeClient) getDatabaseToolsDatabaseApiGatewayConfi
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsDatabaseApiGatewayConfigGlobal/GetDatabaseToolsDatabaseApiGatewayConfigGlobal"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "GetDatabaseToolsDatabaseApiGatewayConfigGlobal", apiReferenceLink)
 		return response, err
 	}
@@ -1176,7 +1176,7 @@ func (client DatabaseToolsRuntimeClient) getDatabaseToolsDatabaseApiGatewayConfi
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsDatabaseApiGatewayConfigPool/GetDatabaseToolsDatabaseApiGatewayConfigPool"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "GetDatabaseToolsDatabaseApiGatewayConfigPool", apiReferenceLink)
 		return response, err
 	}
@@ -1230,7 +1230,7 @@ func (client DatabaseToolsRuntimeClient) getDatabaseToolsDatabaseApiGatewayConfi
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsDatabaseApiGatewayConfigPoolApiSpec/GetDatabaseToolsDatabaseApiGatewayConfigPoolApiSpec"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "GetDatabaseToolsDatabaseApiGatewayConfigPoolApiSpec", apiReferenceLink)
 		return response, err
 	}
@@ -1284,7 +1284,7 @@ func (client DatabaseToolsRuntimeClient) getDatabaseToolsDatabaseApiGatewayConfi
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpec/GetDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpec"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "GetDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpec", apiReferenceLink)
 		return response, err
 	}
@@ -1338,7 +1338,7 @@ func (client DatabaseToolsRuntimeClient) getPropertySet(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/PropertySet/GetPropertySet"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "GetPropertySet", apiReferenceLink)
 		return response, err
 	}
@@ -1392,7 +1392,7 @@ func (client DatabaseToolsRuntimeClient) getUserCredential(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/UserCredential/GetUserCredential"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "GetUserCredential", apiReferenceLink)
 		return response, err
 	}
@@ -1446,7 +1446,7 @@ func (client DatabaseToolsRuntimeClient) getWorkRequest(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1500,7 +1500,7 @@ func (client DatabaseToolsRuntimeClient) listCredentialExecuteGrantees(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/CredentialExecuteGranteeCollection/ListCredentialExecuteGrantees"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "ListCredentialExecuteGrantees", apiReferenceLink)
 		return response, err
 	}
@@ -1554,7 +1554,7 @@ func (client DatabaseToolsRuntimeClient) listCredentialPublicSynonyms(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/CredentialPublicSynonymCollection/ListCredentialPublicSynonyms"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "ListCredentialPublicSynonyms", apiReferenceLink)
 		return response, err
 	}
@@ -1608,7 +1608,7 @@ func (client DatabaseToolsRuntimeClient) listCredentials(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/CredentialCollection/ListCredentials"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "ListCredentials", apiReferenceLink)
 		return response, err
 	}
@@ -1662,7 +1662,7 @@ func (client DatabaseToolsRuntimeClient) listDatabaseToolsDatabaseApiGatewayConf
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsDatabaseApiGatewayConfigAdvancedPropertySummary/ListDatabaseToolsDatabaseApiGatewayConfigAdvancedProperties"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "ListDatabaseToolsDatabaseApiGatewayConfigAdvancedProperties", apiReferenceLink)
 		return response, err
 	}
@@ -1716,7 +1716,7 @@ func (client DatabaseToolsRuntimeClient) listDatabaseToolsDatabaseApiGatewayConf
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsDatabaseApiGatewayConfig/ListDatabaseToolsDatabaseApiGatewayConfigPoolApiSpecs"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "ListDatabaseToolsDatabaseApiGatewayConfigPoolApiSpecs", apiReferenceLink)
 		return response, err
 	}
@@ -1770,7 +1770,7 @@ func (client DatabaseToolsRuntimeClient) listDatabaseToolsDatabaseApiGatewayConf
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsDatabaseApiGatewayConfig/ListDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpecs"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "ListDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpecs", apiReferenceLink)
 		return response, err
 	}
@@ -1824,7 +1824,7 @@ func (client DatabaseToolsRuntimeClient) listDatabaseToolsDatabaseApiGatewayConf
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsDatabaseApiGatewayConfig/ListDatabaseToolsDatabaseApiGatewayConfigPools"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "ListDatabaseToolsDatabaseApiGatewayConfigPools", apiReferenceLink)
 		return response, err
 	}
@@ -1878,7 +1878,7 @@ func (client DatabaseToolsRuntimeClient) listUserCredentials(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/UserCredentialCollection/ListUserCredentials"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "ListUserCredentials", apiReferenceLink)
 		return response, err
 	}
@@ -1932,7 +1932,7 @@ func (client DatabaseToolsRuntimeClient) listWorkRequestErrors(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1986,7 +1986,7 @@ func (client DatabaseToolsRuntimeClient) listWorkRequestLogs(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -2040,7 +2040,7 @@ func (client DatabaseToolsRuntimeClient) listWorkRequests(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -2094,7 +2094,7 @@ func (client DatabaseToolsRuntimeClient) updateCredential(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/Credential/UpdateCredential"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "UpdateCredential", apiReferenceLink)
 		return response, err
 	}
@@ -2148,7 +2148,7 @@ func (client DatabaseToolsRuntimeClient) updateDatabaseToolsDatabaseApiGatewayCo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsDatabaseApiGatewayConfigGlobal/UpdateDatabaseToolsDatabaseApiGatewayConfigGlobal"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "UpdateDatabaseToolsDatabaseApiGatewayConfigGlobal", apiReferenceLink)
 		return response, err
 	}
@@ -2202,7 +2202,7 @@ func (client DatabaseToolsRuntimeClient) updateDatabaseToolsDatabaseApiGatewayCo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsDatabaseApiGatewayConfigPool/UpdateDatabaseToolsDatabaseApiGatewayConfigPool"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "UpdateDatabaseToolsDatabaseApiGatewayConfigPool", apiReferenceLink)
 		return response, err
 	}
@@ -2256,7 +2256,7 @@ func (client DatabaseToolsRuntimeClient) updateDatabaseToolsDatabaseApiGatewayCo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsDatabaseApiGatewayConfigPoolApiSpec/UpdateDatabaseToolsDatabaseApiGatewayConfigPoolApiSpec"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "UpdateDatabaseToolsDatabaseApiGatewayConfigPoolApiSpec", apiReferenceLink)
 		return response, err
 	}
@@ -2310,7 +2310,7 @@ func (client DatabaseToolsRuntimeClient) updateDatabaseToolsDatabaseApiGatewayCo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpec/UpdateDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpec"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "UpdateDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpec", apiReferenceLink)
 		return response, err
 	}
@@ -2364,7 +2364,7 @@ func (client DatabaseToolsRuntimeClient) updatePropertySet(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/PropertySet/UpdatePropertySet"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "UpdatePropertySet", apiReferenceLink)
 		return response, err
 	}
@@ -2418,7 +2418,7 @@ func (client DatabaseToolsRuntimeClient) validateDatabaseToolsConnection(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsConnection/ValidateDatabaseToolsConnection"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "ValidateDatabaseToolsConnection", apiReferenceLink)
 		return response, err
 	}
@@ -2473,7 +2473,7 @@ func (client DatabaseToolsRuntimeClient) validateDatabaseToolsIdentityCredential
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools-runtime/20230222/DatabaseToolsIdentity/ValidateDatabaseToolsIdentityCredential"
 		err = common.PostProcessServiceError(err, "DatabaseToolsRuntime", "ValidateDatabaseToolsIdentityCredential", apiReferenceLink)
 		return response, err
 	}

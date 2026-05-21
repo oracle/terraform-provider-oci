@@ -266,11 +266,11 @@ type CreateAutonomousDatabaseFromBackupTimestampDetails struct {
 	// The Autonomous AI Database clone type.
 	CloneType CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum `mandatory:"true" json:"cloneType"`
 
+	// The destination cloud provider where Autonomous AI Database backups are stored. This field will be set to OCI when unspecified.
+	BackupDestination AutonomousDatabaseSummaryBackupDestinationEnum `mandatory:"false" json:"backupDestination,omitempty"`
+
 	// The Oracle AI Database Edition that applies to the Autonomous AI Databases. This parameter accepts options `STANDARD_EDITION` and `ENTERPRISE_EDITION`.
 	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
-
-	// The destination cloud provider where Autonomous AI Database backups are stored.
-	BackupDestination CreateAutonomousDatabaseBaseBackupDestinationEnum `mandatory:"false" json:"backupDestination,omitempty"`
 
 	// The compute model of the Autonomous AI Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
 	ComputeModel CreateAutonomousDatabaseBaseComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
@@ -309,7 +309,7 @@ func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetCompartmentId() *
 }
 
 // GetBackupDestination returns BackupDestination
-func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetBackupDestination() CreateAutonomousDatabaseBaseBackupDestinationEnum {
+func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetBackupDestination() AutonomousDatabaseSummaryBackupDestinationEnum {
 	return m.BackupDestination
 }
 
@@ -606,11 +606,11 @@ func (m CreateAutonomousDatabaseFromBackupTimestampDetails) ValidateEnumValue() 
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CloneType: %s. Supported values are: %s.", m.CloneType, strings.Join(GetCreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingAutonomousDatabaseSummaryBackupDestinationEnum(string(m.BackupDestination)); !ok && m.BackupDestination != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupDestination: %s. Supported values are: %s.", m.BackupDestination, strings.Join(GetAutonomousDatabaseSummaryBackupDestinationEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingAutonomousDatabaseSummaryDatabaseEditionEnum(string(m.DatabaseEdition)); !ok && m.DatabaseEdition != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetAutonomousDatabaseSummaryDatabaseEditionEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingCreateAutonomousDatabaseBaseBackupDestinationEnum(string(m.BackupDestination)); !ok && m.BackupDestination != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupDestination: %s. Supported values are: %s.", m.BackupDestination, strings.Join(GetCreateAutonomousDatabaseBaseBackupDestinationEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingCreateAutonomousDatabaseBaseComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetCreateAutonomousDatabaseBaseComputeModelEnumStringValues(), ",")))
@@ -648,7 +648,7 @@ func (m CreateAutonomousDatabaseFromBackupTimestampDetails) MarshalJSON() (buff 
 func (m *CreateAutonomousDatabaseFromBackupTimestampDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		SubscriptionId                           *string                                                           `json:"subscriptionId"`
-		BackupDestination                        CreateAutonomousDatabaseBaseBackupDestinationEnum                 `json:"backupDestination"`
+		BackupDestination                        AutonomousDatabaseSummaryBackupDestinationEnum                    `json:"backupDestination"`
 		AvailabilityDomain                       *string                                                           `json:"availabilityDomain"`
 		CharacterSet                             *string                                                           `json:"characterSet"`
 		NcharacterSet                            *string                                                           `json:"ncharacterSet"`

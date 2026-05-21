@@ -51,10 +51,6 @@ func (m *rule) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	var err error
 	switch m.Action {
-	case "ADD_HTTP_REQUEST_HEADER":
-		mm := AddHttpRequestHeaderRule{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "REDIRECT":
 		mm := RedirectRule{}
 		err = json.Unmarshal(data, &mm)
@@ -75,6 +71,22 @@ func (m *rule) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := ControlAccessUsingHttpMethodsRule{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "HTTP_HEADER":
+		mm := HttpHeaderRule{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ADD_HTTP_RESPONSE_HEADER":
+		mm := AddHttpResponseHeaderRule{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ADD_HTTP_REQUEST_HEADER":
+		mm := AddHttpRequestHeaderRule{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "REMOVE_HTTP_RESPONSE_COOKIE_FLAGS":
+		mm := RemoveHttpResponseCookieFlags{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ALLOW":
 		mm := AllowRule{}
 		err = json.Unmarshal(data, &mm)
@@ -83,12 +95,8 @@ func (m *rule) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := IpBasedMaxConnectionsRule{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "HTTP_HEADER":
-		mm := HttpHeaderRule{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "ADD_HTTP_RESPONSE_HEADER":
-		mm := AddHttpResponseHeaderRule{}
+	case "ADD_HTTP_RESPONSE_COOKIE_FLAGS":
+		mm := AddHttpResponseCookieFlags{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "EXTEND_HTTP_RESPONSE_HEADER_VALUE":
@@ -128,6 +136,8 @@ const (
 	RuleActionAddHttpResponseHeader         RuleActionEnum = "ADD_HTTP_RESPONSE_HEADER"
 	RuleActionExtendHttpResponseHeaderValue RuleActionEnum = "EXTEND_HTTP_RESPONSE_HEADER_VALUE"
 	RuleActionRemoveHttpResponseHeader      RuleActionEnum = "REMOVE_HTTP_RESPONSE_HEADER"
+	RuleActionAddHttpResponseCookieFlags    RuleActionEnum = "ADD_HTTP_RESPONSE_COOKIE_FLAGS"
+	RuleActionRemoveHttpResponseCookieFlags RuleActionEnum = "REMOVE_HTTP_RESPONSE_COOKIE_FLAGS"
 	RuleActionAllow                         RuleActionEnum = "ALLOW"
 	RuleActionControlAccessUsingHttpMethods RuleActionEnum = "CONTROL_ACCESS_USING_HTTP_METHODS"
 	RuleActionRedirect                      RuleActionEnum = "REDIRECT"
@@ -142,6 +152,8 @@ var mappingRuleActionEnum = map[string]RuleActionEnum{
 	"ADD_HTTP_RESPONSE_HEADER":          RuleActionAddHttpResponseHeader,
 	"EXTEND_HTTP_RESPONSE_HEADER_VALUE": RuleActionExtendHttpResponseHeaderValue,
 	"REMOVE_HTTP_RESPONSE_HEADER":       RuleActionRemoveHttpResponseHeader,
+	"ADD_HTTP_RESPONSE_COOKIE_FLAGS":    RuleActionAddHttpResponseCookieFlags,
+	"REMOVE_HTTP_RESPONSE_COOKIE_FLAGS": RuleActionRemoveHttpResponseCookieFlags,
 	"ALLOW":                             RuleActionAllow,
 	"CONTROL_ACCESS_USING_HTTP_METHODS": RuleActionControlAccessUsingHttpMethods,
 	"REDIRECT":                          RuleActionRedirect,
@@ -156,6 +168,8 @@ var mappingRuleActionEnumLowerCase = map[string]RuleActionEnum{
 	"add_http_response_header":          RuleActionAddHttpResponseHeader,
 	"extend_http_response_header_value": RuleActionExtendHttpResponseHeaderValue,
 	"remove_http_response_header":       RuleActionRemoveHttpResponseHeader,
+	"add_http_response_cookie_flags":    RuleActionAddHttpResponseCookieFlags,
+	"remove_http_response_cookie_flags": RuleActionRemoveHttpResponseCookieFlags,
 	"allow":                             RuleActionAllow,
 	"control_access_using_http_methods": RuleActionControlAccessUsingHttpMethods,
 	"redirect":                          RuleActionRedirect,
@@ -181,6 +195,8 @@ func GetRuleActionEnumStringValues() []string {
 		"ADD_HTTP_RESPONSE_HEADER",
 		"EXTEND_HTTP_RESPONSE_HEADER_VALUE",
 		"REMOVE_HTTP_RESPONSE_HEADER",
+		"ADD_HTTP_RESPONSE_COOKIE_FLAGS",
+		"REMOVE_HTTP_RESPONSE_COOKIE_FLAGS",
 		"ALLOW",
 		"CONTROL_ACCESS_USING_HTTP_METHODS",
 		"REDIRECT",

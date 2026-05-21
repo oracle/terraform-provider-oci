@@ -82,6 +82,9 @@ type MaintenanceRun struct {
 	// The target Cell version that is to be patched to.
 	TargetStorageServerVersion *string `mandatory:"false" json:"targetStorageServerVersion"`
 
+	// Details about the target versions selected for the maintenance run.
+	TargetVersionDetails *string `mandatory:"false" json:"targetVersionDetails"`
+
 	// If true, enables the configuration of a custom action timeout (waiting period) between database servers patching operations.
 	IsCustomActionTimeoutEnabled *bool `mandatory:"false" json:"isCustomActionTimeoutEnabled"`
 

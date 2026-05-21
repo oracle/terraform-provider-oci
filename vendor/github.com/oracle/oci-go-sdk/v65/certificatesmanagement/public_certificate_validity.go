@@ -21,18 +21,27 @@ const (
 	PublicCertificateValidityDays90  PublicCertificateValidityEnum = "DAYS_90"
 	PublicCertificateValidityDays180 PublicCertificateValidityEnum = "DAYS_180"
 	PublicCertificateValidityDays397 PublicCertificateValidityEnum = "DAYS_397"
+	PublicCertificateValidityMin     PublicCertificateValidityEnum = "MIN"
+	PublicCertificateValidityMid     PublicCertificateValidityEnum = "MID"
+	PublicCertificateValidityMax     PublicCertificateValidityEnum = "MAX"
 )
 
 var mappingPublicCertificateValidityEnum = map[string]PublicCertificateValidityEnum{
 	"DAYS_90":  PublicCertificateValidityDays90,
 	"DAYS_180": PublicCertificateValidityDays180,
 	"DAYS_397": PublicCertificateValidityDays397,
+	"MIN":      PublicCertificateValidityMin,
+	"MID":      PublicCertificateValidityMid,
+	"MAX":      PublicCertificateValidityMax,
 }
 
 var mappingPublicCertificateValidityEnumLowerCase = map[string]PublicCertificateValidityEnum{
 	"days_90":  PublicCertificateValidityDays90,
 	"days_180": PublicCertificateValidityDays180,
 	"days_397": PublicCertificateValidityDays397,
+	"min":      PublicCertificateValidityMin,
+	"mid":      PublicCertificateValidityMid,
+	"max":      PublicCertificateValidityMax,
 }
 
 // GetPublicCertificateValidityEnumValues Enumerates the set of values for PublicCertificateValidityEnum
@@ -50,6 +59,9 @@ func GetPublicCertificateValidityEnumStringValues() []string {
 		"DAYS_90",
 		"DAYS_180",
 		"DAYS_397",
+		"MIN",
+		"MID",
+		"MAX",
 	}
 }
 

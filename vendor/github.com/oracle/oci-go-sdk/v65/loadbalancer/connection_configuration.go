@@ -26,6 +26,14 @@ type ConnectionConfiguration struct {
 	// Example: `1200`
 	IdleTimeout *int64 `mandatory:"true" json:"idleTimeout"`
 
+	// The number of seconds the load balancer keeps an idle connection open with a client before closing it.
+	// If exceeded, the connection is closed and a new one must be established. This setting is applicable only
+	// to http(s) clients. A value of 0 indicates that Keep-Alive connections are not being used. If this field
+	// is not set, the default value is set to 65s.
+	// The value for clientKeepAliveTimeoutInSeconds must be between 0 and 86400 (inclusive).
+	// Example: `300`
+	ClientKeepAliveTimeoutInSeconds *int `mandatory:"false" json:"clientKeepAliveTimeoutInSeconds"`
+
 	// The backend TCP Proxy Protocol version.
 	// Example: `1`
 	BackendTcpProxyProtocolVersion *int `mandatory:"false" json:"backendTcpProxyProtocolVersion"`

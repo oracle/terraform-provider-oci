@@ -90,6 +90,21 @@ type LbCookieSessionPersistenceConfigurationDetails struct {
 	// Example: `3600`
 	MaxAgeInSeconds *int `mandatory:"false" json:"maxAgeInSeconds"`
 
+	// Whether the `Set-cookie` header should contain the `SameSite` attribute.
+	// "OFF" (default) - The SameSite cookie attribute is not set.
+	// "NONE"          - Indicates that you want the cookie to be sent in all contexts
+	// "STRICT"        - Indicates that you want the cookie to only be sent in a first-party context. For example,
+	// if the site for the cookie matches the site shown in the browser's address bar.
+	// "LAX"           - Indicates that you want the browser to send the cookie with top-level navigations. For example,
+	// if another site links to your site's content and clicking on the link causes a top level navigation change.
+	// **Note:**
+	// * If you set this field to `OFF`, the `Set-cookie` header inserted by the load balancer will not contain the
+	// `SameSite` attribute. This is the default behavior, and exhibits the same characteristics as when the
+	// `SameSite` attribute is set to `LAX`.
+	// * If you set this field to `NONE`, then isSecure must be set to True.
+	// Example: `LAX`
+	SameSite LbCookieSessionPersistenceConfigurationDetailsSameSiteEnum `mandatory:"false" json:"sameSite,omitempty"`
+
 	// Whether the `Set-cookie` header should contain the `Secure` attribute. If `true`, the `Set-cookie` header
 	// inserted by the load balancer contains the `Secure` attribute, which directs the client or browser to send the
 	// cookie only using a secure protocol.
@@ -116,8 +131,61 @@ func (m LbCookieSessionPersistenceConfigurationDetails) String() string {
 func (m LbCookieSessionPersistenceConfigurationDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingLbCookieSessionPersistenceConfigurationDetailsSameSiteEnum(string(m.SameSite)); !ok && m.SameSite != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SameSite: %s. Supported values are: %s.", m.SameSite, strings.Join(GetLbCookieSessionPersistenceConfigurationDetailsSameSiteEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// LbCookieSessionPersistenceConfigurationDetailsSameSiteEnum Enum with underlying type: string
+type LbCookieSessionPersistenceConfigurationDetailsSameSiteEnum string
+
+// Set of constants representing the allowable values for LbCookieSessionPersistenceConfigurationDetailsSameSiteEnum
+const (
+	LbCookieSessionPersistenceConfigurationDetailsSameSiteOff    LbCookieSessionPersistenceConfigurationDetailsSameSiteEnum = "OFF"
+	LbCookieSessionPersistenceConfigurationDetailsSameSiteNone   LbCookieSessionPersistenceConfigurationDetailsSameSiteEnum = "NONE"
+	LbCookieSessionPersistenceConfigurationDetailsSameSiteStrict LbCookieSessionPersistenceConfigurationDetailsSameSiteEnum = "STRICT"
+	LbCookieSessionPersistenceConfigurationDetailsSameSiteLax    LbCookieSessionPersistenceConfigurationDetailsSameSiteEnum = "LAX"
+)
+
+var mappingLbCookieSessionPersistenceConfigurationDetailsSameSiteEnum = map[string]LbCookieSessionPersistenceConfigurationDetailsSameSiteEnum{
+	"OFF":    LbCookieSessionPersistenceConfigurationDetailsSameSiteOff,
+	"NONE":   LbCookieSessionPersistenceConfigurationDetailsSameSiteNone,
+	"STRICT": LbCookieSessionPersistenceConfigurationDetailsSameSiteStrict,
+	"LAX":    LbCookieSessionPersistenceConfigurationDetailsSameSiteLax,
+}
+
+var mappingLbCookieSessionPersistenceConfigurationDetailsSameSiteEnumLowerCase = map[string]LbCookieSessionPersistenceConfigurationDetailsSameSiteEnum{
+	"off":    LbCookieSessionPersistenceConfigurationDetailsSameSiteOff,
+	"none":   LbCookieSessionPersistenceConfigurationDetailsSameSiteNone,
+	"strict": LbCookieSessionPersistenceConfigurationDetailsSameSiteStrict,
+	"lax":    LbCookieSessionPersistenceConfigurationDetailsSameSiteLax,
+}
+
+// GetLbCookieSessionPersistenceConfigurationDetailsSameSiteEnumValues Enumerates the set of values for LbCookieSessionPersistenceConfigurationDetailsSameSiteEnum
+func GetLbCookieSessionPersistenceConfigurationDetailsSameSiteEnumValues() []LbCookieSessionPersistenceConfigurationDetailsSameSiteEnum {
+	values := make([]LbCookieSessionPersistenceConfigurationDetailsSameSiteEnum, 0)
+	for _, v := range mappingLbCookieSessionPersistenceConfigurationDetailsSameSiteEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetLbCookieSessionPersistenceConfigurationDetailsSameSiteEnumStringValues Enumerates the set of values in String for LbCookieSessionPersistenceConfigurationDetailsSameSiteEnum
+func GetLbCookieSessionPersistenceConfigurationDetailsSameSiteEnumStringValues() []string {
+	return []string{
+		"OFF",
+		"NONE",
+		"STRICT",
+		"LAX",
+	}
+}
+
+// GetMappingLbCookieSessionPersistenceConfigurationDetailsSameSiteEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingLbCookieSessionPersistenceConfigurationDetailsSameSiteEnum(val string) (LbCookieSessionPersistenceConfigurationDetailsSameSiteEnum, bool) {
+	enum, ok := mappingLbCookieSessionPersistenceConfigurationDetailsSameSiteEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

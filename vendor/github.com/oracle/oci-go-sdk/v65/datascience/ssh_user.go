@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// SshUser An entry which includes the user's OCID and their respective full public key in PEM format.
+// SshUser An entry which includes the user's OCID and their full public key in openssh format.
 type SshUser struct {
 
 	// The ocid of the user allowed to ssh Must be a string of a valid user ocid.
 	UserId *string `mandatory:"true" json:"userId"`
 
-	// The full public key associated with the user. Must be a full public key in PEM format, and match an API key associated with the user.
+	// The full public key associated with the user. Must be a full public key in OpenSSH format
 	PubKey *string `mandatory:"true" json:"pubKey"`
 
 	// The tenancy OCID for a cross-tenancy user. If absent, the tenancy of the notebook will be used. If used, must be a string of a valid tenancy ocid.

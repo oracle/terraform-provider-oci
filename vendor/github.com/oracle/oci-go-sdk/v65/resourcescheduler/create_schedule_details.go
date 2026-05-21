@@ -149,18 +149,21 @@ type CreateScheduleDetailsActionEnum string
 
 // Set of constants representing the allowable values for CreateScheduleDetailsActionEnum
 const (
-	CreateScheduleDetailsActionStartResource CreateScheduleDetailsActionEnum = "START_RESOURCE"
-	CreateScheduleDetailsActionStopResource  CreateScheduleDetailsActionEnum = "STOP_RESOURCE"
+	CreateScheduleDetailsActionStartResource  CreateScheduleDetailsActionEnum = "START_RESOURCE"
+	CreateScheduleDetailsActionStopResource   CreateScheduleDetailsActionEnum = "STOP_RESOURCE"
+	CreateScheduleDetailsActionBackupResource CreateScheduleDetailsActionEnum = "BACKUP_RESOURCE"
 )
 
 var mappingCreateScheduleDetailsActionEnum = map[string]CreateScheduleDetailsActionEnum{
-	"START_RESOURCE": CreateScheduleDetailsActionStartResource,
-	"STOP_RESOURCE":  CreateScheduleDetailsActionStopResource,
+	"START_RESOURCE":  CreateScheduleDetailsActionStartResource,
+	"STOP_RESOURCE":   CreateScheduleDetailsActionStopResource,
+	"BACKUP_RESOURCE": CreateScheduleDetailsActionBackupResource,
 }
 
 var mappingCreateScheduleDetailsActionEnumLowerCase = map[string]CreateScheduleDetailsActionEnum{
-	"start_resource": CreateScheduleDetailsActionStartResource,
-	"stop_resource":  CreateScheduleDetailsActionStopResource,
+	"start_resource":  CreateScheduleDetailsActionStartResource,
+	"stop_resource":   CreateScheduleDetailsActionStopResource,
+	"backup_resource": CreateScheduleDetailsActionBackupResource,
 }
 
 // GetCreateScheduleDetailsActionEnumValues Enumerates the set of values for CreateScheduleDetailsActionEnum
@@ -177,6 +180,7 @@ func GetCreateScheduleDetailsActionEnumStringValues() []string {
 	return []string{
 		"START_RESOURCE",
 		"STOP_RESOURCE",
+		"BACKUP_RESOURCE",
 	}
 }
 

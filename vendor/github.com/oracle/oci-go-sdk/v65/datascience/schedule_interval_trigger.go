@@ -30,8 +30,17 @@ type ScheduleIntervalTrigger struct {
 	// Format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeEnd *common.SDKTime `mandatory:"false" json:"timeEnd"`
 
-	// when true and timeStart is null, system generate a random start time between now and now + interval;
-	// isRandomStartTime can be true if timeStart is null.
+	// Maximum number of minutes after timeStart that the scheduler may use to randomly select the first execution time.
+	// This value is considered only when isRandomStartTime is true.
+	// This value applies only to the initial execution; subsequent executions remain deterministic based on the resolved first trigger time.
+	// If timeStart is null, the service resolves the effective start time using the current time.
+	// The initial jitter window is then applied once to that resolved start time to determine the first execution time.
+	// If not provided and isRandomStartTime is true, the service defaults the jitter window to half of the configured interval duration.
+	// The value must not exceed the configured interval duration.
+	InitialJitterInMinutes *int `mandatory:"false" json:"initialJitterInMinutes"`
+
+	// when true, system generates a randomized first start time between timeStart and timeStart + initialJitterInMinutes.
+	// if timeStart is null, the current time is used as the base start time.
 	IsRandomStartTime *bool `mandatory:"false" json:"isRandomStartTime"`
 
 	// The type of frequency

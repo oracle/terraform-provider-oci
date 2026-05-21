@@ -200,6 +200,59 @@ func (client EmailClient) addEmailIpPoolLock(ctx context.Context, request common
 	return response, err
 }
 
+// AddEmailMxRollupLock Adds a lock to a resource.
+func (client EmailClient) AddEmailMxRollupLock(ctx context.Context, request AddEmailMxRollupLockRequest) (response AddEmailMxRollupLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.addEmailMxRollupLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddEmailMxRollupLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddEmailMxRollupLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddEmailMxRollupLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddEmailMxRollupLockResponse")
+	}
+	return
+}
+
+// addEmailMxRollupLock implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) addEmailMxRollupLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailMxRollups/{emailMxRollupId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddEmailMxRollupLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "email", "AddEmailMxRollupLock")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailMxRollup/AddEmailMxRollupLock"
+		err = common.PostProcessServiceError(err, "Email", "AddEmailMxRollupLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AddEmailOutboundIp Add OutboundIps to EmailIpPool.
 func (client EmailClient) AddEmailOutboundIp(ctx context.Context, request AddEmailOutboundIpRequest) (response AddEmailOutboundIpResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -699,6 +752,64 @@ func (client EmailClient) changeEmailIpPoolCompartment(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailIpPool/ChangeEmailIpPoolCompartment"
 		err = common.PostProcessServiceError(err, "Email", "ChangeEmailIpPoolCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeEmailMxRollupCompartment Moves MX Rollup into a different compartment.
+func (client EmailClient) ChangeEmailMxRollupCompartment(ctx context.Context, request ChangeEmailMxRollupCompartmentRequest) (response ChangeEmailMxRollupCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeEmailMxRollupCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeEmailMxRollupCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeEmailMxRollupCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeEmailMxRollupCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeEmailMxRollupCompartmentResponse")
+	}
+	return
+}
+
+// changeEmailMxRollupCompartment implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) changeEmailMxRollupCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailMxRollups/{emailMxRollupId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeEmailMxRollupCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "email", "ChangeEmailMxRollupCompartment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailMxRollup/ChangeEmailMxRollupCompartment"
+		err = common.PostProcessServiceError(err, "Email", "ChangeEmailMxRollupCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1220,6 +1331,64 @@ func (client EmailClient) createEmailIpPool(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailIpPool/CreateEmailIpPool"
 		err = common.PostProcessServiceError(err, "Email", "CreateEmailIpPool", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateEmailMxRollup Creates an MX Rollup with its delivery configuration.
+func (client EmailClient) CreateEmailMxRollup(ctx context.Context, request CreateEmailMxRollupRequest) (response CreateEmailMxRollupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createEmailMxRollup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateEmailMxRollupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateEmailMxRollupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateEmailMxRollupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateEmailMxRollupResponse")
+	}
+	return
+}
+
+// createEmailMxRollup implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) createEmailMxRollup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailMxRollups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateEmailMxRollupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "email", "CreateEmailMxRollup")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailMxRollup/CreateEmailMxRollup"
+		err = common.PostProcessServiceError(err, "Email", "CreateEmailMxRollup", apiReferenceLink)
 		return response, err
 	}
 
@@ -1841,6 +2010,59 @@ func (client EmailClient) deleteEmailIpPool(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailIpPool/DeleteEmailIpPool"
 		err = common.PostProcessServiceError(err, "Email", "DeleteEmailIpPool", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteEmailMxRollup Deletes an MX Rollup configuration.
+func (client EmailClient) DeleteEmailMxRollup(ctx context.Context, request DeleteEmailMxRollupRequest) (response DeleteEmailMxRollupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteEmailMxRollup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteEmailMxRollupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteEmailMxRollupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteEmailMxRollupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteEmailMxRollupResponse")
+	}
+	return
+}
+
+// deleteEmailMxRollup implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) deleteEmailMxRollup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/emailMxRollups/{emailMxRollupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteEmailMxRollupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "email", "DeleteEmailMxRollup")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailMxRollup/DeleteEmailMxRollup"
+		err = common.PostProcessServiceError(err, "Email", "DeleteEmailMxRollup", apiReferenceLink)
 		return response, err
 	}
 
@@ -2488,6 +2710,59 @@ func (client EmailClient) getEmailIpPool(ctx context.Context, request common.OCI
 	return response, err
 }
 
+// GetEmailMxRollup Retrieves the MX rollup configuration.
+func (client EmailClient) GetEmailMxRollup(ctx context.Context, request GetEmailMxRollupRequest) (response GetEmailMxRollupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getEmailMxRollup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetEmailMxRollupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetEmailMxRollupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetEmailMxRollupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetEmailMxRollupResponse")
+	}
+	return
+}
+
+// getEmailMxRollup implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) getEmailMxRollup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emailMxRollups/{emailMxRollupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetEmailMxRollupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "email", "GetEmailMxRollup")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailMxRollup/GetEmailMxRollup"
+		err = common.PostProcessServiceError(err, "Email", "GetEmailMxRollup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetEmailPrivateEndpoint Gets a specific private reverse connection by identifier.
 func (client EmailClient) GetEmailPrivateEndpoint(ctx context.Context, request GetEmailPrivateEndpointRequest) (response GetEmailPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3128,6 +3403,59 @@ func (client EmailClient) listEmailIpPools(ctx context.Context, request common.O
 	return response, err
 }
 
+// ListEmailMxRollups Returns a list of MX Rollup configurations.
+func (client EmailClient) ListEmailMxRollups(ctx context.Context, request ListEmailMxRollupsRequest) (response ListEmailMxRollupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listEmailMxRollups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListEmailMxRollupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListEmailMxRollupsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListEmailMxRollupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListEmailMxRollupsResponse")
+	}
+	return
+}
+
+// listEmailMxRollups implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) listEmailMxRollups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emailMxRollups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListEmailMxRollupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "email", "ListEmailMxRollups")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailMxRollup/ListEmailMxRollups"
+		err = common.PostProcessServiceError(err, "Email", "ListEmailMxRollups", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListEmailOutboundIps Returns a list of all Outbound Public IPs assigned for a given tenant.
 func (client EmailClient) ListEmailOutboundIps(ctx context.Context, request ListEmailOutboundIpsRequest) (response ListEmailOutboundIpsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3234,8 +3562,8 @@ func (client EmailClient) listEmailPrivateEndpoints(ctx context.Context, request
 	return response, err
 }
 
-// ListEmailRecipientDomains Gets a list of email domains. The
-// `compartmentId` for email domains must be a tenancy OCID. The returned list
+// ListEmailRecipientDomains Gets a list of recipient domains. The
+// `compartmentId` for recipient domains must be a tenancy OCID. The returned list
 // is sorted by creation time in descending order.
 func (client EmailClient) ListEmailRecipientDomains(ctx context.Context, request ListEmailRecipientDomainsRequest) (response ListEmailRecipientDomainsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3821,6 +4149,59 @@ func (client EmailClient) removeEmailIpPoolLock(ctx context.Context, request com
 	return response, err
 }
 
+// RemoveEmailMxRollupLock Removes a lock from a resource.
+func (client EmailClient) RemoveEmailMxRollupLock(ctx context.Context, request RemoveEmailMxRollupLockRequest) (response RemoveEmailMxRollupLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.removeEmailMxRollupLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveEmailMxRollupLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveEmailMxRollupLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveEmailMxRollupLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveEmailMxRollupLockResponse")
+	}
+	return
+}
+
+// removeEmailMxRollupLock implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) removeEmailMxRollupLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailMxRollups/{emailMxRollupId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveEmailMxRollupLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "email", "RemoveEmailMxRollupLock")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailMxRollup/RemoveEmailMxRollupLock"
+		err = common.PostProcessServiceError(err, "Email", "RemoveEmailMxRollupLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RemoveEmailOutboundIp Remove OutboundIps from EmailIpPool.
 func (client EmailClient) RemoveEmailOutboundIp(ctx context.Context, request RemoveEmailOutboundIpRequest) (response RemoveEmailOutboundIpResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4294,7 +4675,7 @@ func (client EmailClient) updateEmailDeliveryConfigIpAssociation(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailDeliveryConfig/UpdateEmailDeliveryConfigIpAssociation"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailDeliveryConfigIpAssociation/UpdateEmailDeliveryConfigIpAssociation"
 		err = common.PostProcessServiceError(err, "Email", "UpdateEmailDeliveryConfigIpAssociation", apiReferenceLink)
 		return response, err
 	}
@@ -4402,6 +4783,59 @@ func (client EmailClient) updateEmailIpPool(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailIpPool/UpdateEmailIpPool"
 		err = common.PostProcessServiceError(err, "Email", "UpdateEmailIpPool", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateEmailMxRollup Update the MX rollup configuration identified by ID.
+func (client EmailClient) UpdateEmailMxRollup(ctx context.Context, request UpdateEmailMxRollupRequest) (response UpdateEmailMxRollupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateEmailMxRollup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateEmailMxRollupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateEmailMxRollupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateEmailMxRollupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateEmailMxRollupResponse")
+	}
+	return
+}
+
+// updateEmailMxRollup implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) updateEmailMxRollup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/emailMxRollups/{emailMxRollupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateEmailMxRollupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "email", "UpdateEmailMxRollup")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailMxRollup/UpdateEmailMxRollup"
+		err = common.PostProcessServiceError(err, "Email", "UpdateEmailMxRollup", apiReferenceLink)
 		return response, err
 	}
 

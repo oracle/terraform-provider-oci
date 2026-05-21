@@ -29,13 +29,13 @@ type NotebookSessionIngressConfigDetails struct {
 	PortMappings []PortMapping `mandatory:"false" json:"portMappings"`
 
 	// This is a list of SSH users allowed to access the Notebook session.
-	// Each entry includes the user's OCID and their respective full public key in PEM format.
+	// Each entry includes the user's OCID and their full public key in OpenSSH format.
 	// For example, an object like,
 	//   { "userId": "ocid1.user.oc1..exampleuniqueID",
-	//   "pubKey": "-----BEGIN RSA PUBLIC KEY-----\nMIIBIjANBgkq...\n -----END RSA PUBLIC KEY-----"}
+	//   "pubKey": "ssh-rsa AAAAB3NzaC1yc2EA...== user"}
 	// Constraints:
 	//   - userId: Must be a string of a valid user ocid.
-	//   - pubKey : Must be a full public key in PEM format, and match an API key associated with the user.
+	//   - pubKey : Must be a full public key in OpenSSH format
 	//   - userTenancy: Optional value supplied if the user belongs to a tenancy other than the notebook. Must be a string of a valid tenancy ocid.
 	//   - Maximum accepted entities is 10.
 	SshUsers []SshUser `mandatory:"false" json:"sshUsers"`

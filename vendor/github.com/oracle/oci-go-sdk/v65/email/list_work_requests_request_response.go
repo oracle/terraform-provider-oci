@@ -45,6 +45,9 @@ type ListWorkRequestsRequest struct {
 	// A filter to return only resources matching the given operation type.
 	OperationType ListWorkRequestsOperationTypeEnum `mandatory:"false" contributesTo:"query" name:"operationType" omitEmpty:"true"`
 
+	// The ID of the resource affected by the work request.
+	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -314,6 +317,10 @@ const (
 	ListWorkRequestsOperationTypeDeleteEmailDeliveryConfigIpAssociation ListWorkRequestsOperationTypeEnum = "DELETE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION"
 	ListWorkRequestsOperationTypeMoveEmailDeliveryConfigIpAssociation   ListWorkRequestsOperationTypeEnum = "MOVE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION"
 	ListWorkRequestsOperationTypeUpdateEmailConfiguration               ListWorkRequestsOperationTypeEnum = "UPDATE_EMAIL_CONFIGURATION"
+	ListWorkRequestsOperationTypeCreateEmailMxRollup                    ListWorkRequestsOperationTypeEnum = "CREATE_EMAIL_MX_ROLLUP"
+	ListWorkRequestsOperationTypeUpdateEmailMxRollup                    ListWorkRequestsOperationTypeEnum = "UPDATE_EMAIL_MX_ROLLUP"
+	ListWorkRequestsOperationTypeDeleteEmailMxRollup                    ListWorkRequestsOperationTypeEnum = "DELETE_EMAIL_MX_ROLLUP"
+	ListWorkRequestsOperationTypeMoveEmailMxRollup                      ListWorkRequestsOperationTypeEnum = "MOVE_EMAIL_MX_ROLLUP"
 )
 
 var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperationTypeEnum{
@@ -354,6 +361,10 @@ var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperat
 	"DELETE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION": ListWorkRequestsOperationTypeDeleteEmailDeliveryConfigIpAssociation,
 	"MOVE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION":   ListWorkRequestsOperationTypeMoveEmailDeliveryConfigIpAssociation,
 	"UPDATE_EMAIL_CONFIGURATION":                  ListWorkRequestsOperationTypeUpdateEmailConfiguration,
+	"CREATE_EMAIL_MX_ROLLUP":                      ListWorkRequestsOperationTypeCreateEmailMxRollup,
+	"UPDATE_EMAIL_MX_ROLLUP":                      ListWorkRequestsOperationTypeUpdateEmailMxRollup,
+	"DELETE_EMAIL_MX_ROLLUP":                      ListWorkRequestsOperationTypeDeleteEmailMxRollup,
+	"MOVE_EMAIL_MX_ROLLUP":                        ListWorkRequestsOperationTypeMoveEmailMxRollup,
 }
 
 var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkRequestsOperationTypeEnum{
@@ -394,6 +405,10 @@ var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkReque
 	"delete_email_delivery_config_ip_association": ListWorkRequestsOperationTypeDeleteEmailDeliveryConfigIpAssociation,
 	"move_email_delivery_config_ip_association":   ListWorkRequestsOperationTypeMoveEmailDeliveryConfigIpAssociation,
 	"update_email_configuration":                  ListWorkRequestsOperationTypeUpdateEmailConfiguration,
+	"create_email_mx_rollup":                      ListWorkRequestsOperationTypeCreateEmailMxRollup,
+	"update_email_mx_rollup":                      ListWorkRequestsOperationTypeUpdateEmailMxRollup,
+	"delete_email_mx_rollup":                      ListWorkRequestsOperationTypeDeleteEmailMxRollup,
+	"move_email_mx_rollup":                        ListWorkRequestsOperationTypeMoveEmailMxRollup,
 }
 
 // GetListWorkRequestsOperationTypeEnumValues Enumerates the set of values for ListWorkRequestsOperationTypeEnum
@@ -445,6 +460,10 @@ func GetListWorkRequestsOperationTypeEnumStringValues() []string {
 		"DELETE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION",
 		"MOVE_EMAIL_DELIVERY_CONFIG_IP_ASSOCIATION",
 		"UPDATE_EMAIL_CONFIGURATION",
+		"CREATE_EMAIL_MX_ROLLUP",
+		"UPDATE_EMAIL_MX_ROLLUP",
+		"DELETE_EMAIL_MX_ROLLUP",
+		"MOVE_EMAIL_MX_ROLLUP",
 	}
 }
 

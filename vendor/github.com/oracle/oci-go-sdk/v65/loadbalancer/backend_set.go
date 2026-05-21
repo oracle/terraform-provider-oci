@@ -48,6 +48,23 @@ type BackendSet struct {
 	// Example: `300`
 	BackendMaxConnections *int `mandatory:"false" json:"backendMaxConnections"`
 
+	// The number of seconds the load balancer will wait when trying to establish a connection
+	// with a backend server in the backend set. If a connection cannot be established within this time,
+	// the request fails or is retried with a different backend server. If this field is not
+	// set, the default value is set to 1s. The value for connectionEstablishmentTimeoutInSeconds must be between 1 and 60 (inclusive).
+	// Example: `5`
+	ConnectionEstablishmentTimeoutInSeconds *int `mandatory:"false" json:"connectionEstablishmentTimeoutInSeconds"`
+
+	BackendRetryPolicy *BackendRetryPolicy `mandatory:"false" json:"backendRetryPolicy"`
+
+	// The number of seconds the load balancer will keep an idle connection open with a backend server.
+	// If exceeded, the connection is closed and a new one must be established. This setting is applicable only
+	// for backends with http(s) listeners. A value of 0 indicates that Keep-Alive connections are not being used.
+	// If this field is not set, the default value is set to 300s. The value for keepAliveTimeoutInSeconds must be between 0
+	// and 86400 (inclusive).
+	// Example: `600`
+	KeepAliveTimeoutInSeconds *int `mandatory:"false" json:"keepAliveTimeoutInSeconds"`
+
 	SslConfiguration *SslConfiguration `mandatory:"false" json:"sslConfiguration"`
 
 	SessionPersistenceConfiguration *SessionPersistenceConfigurationDetails `mandatory:"false" json:"sessionPersistenceConfiguration"`

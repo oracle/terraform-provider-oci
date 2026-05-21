@@ -144,6 +144,9 @@ type Cluster struct {
 	// A list of datastore clusters.
 	DatastoreClusterIds []string `mandatory:"false" json:"datastoreClusterIds"`
 
+	// The initial fault domain host distribution mode for the Cluster.
+	InitialFaultDomainHostDistribution FaultDomainHostDistributionModesEnum `mandatory:"false" json:"initialFaultDomainHostDistribution,omitempty"`
+
 	ClusterByolAllocationDetails *ClusterByolAllocationDetails `mandatory:"false" json:"clusterByolAllocationDetails"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the initial VMware BYOL Allocation used to deploy VMware Cloud Foundation.
@@ -172,6 +175,9 @@ func (m Cluster) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingLifecycleStatesEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStatesEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingFaultDomainHostDistributionModesEnum(string(m.InitialFaultDomainHostDistribution)); !ok && m.InitialFaultDomainHostDistribution != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InitialFaultDomainHostDistribution: %s. Supported values are: %s.", m.InitialFaultDomainHostDistribution, strings.Join(GetFaultDomainHostDistributionModesEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

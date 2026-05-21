@@ -30,6 +30,12 @@ type ResolverEndpointSummary interface {
 	// A Boolean flag indicating whether or not the resolver endpoint is for listening.
 	GetIsListening() *bool
 
+	// The OCID of the resolver endpoint.
+	GetId() *string
+
+	// The OCID of the resolver.
+	GetResolverId() *string
+
 	// The OCID of the owning compartment. This will match the resolver that the resolver endpoint is under
 	// and will be updated if the resolver's compartment is changed.
 	GetCompartmentId() *string
@@ -70,6 +76,8 @@ type resolverendpointsummary struct {
 	Name              *string                                   `mandatory:"true" json:"name"`
 	IsForwarding      *bool                                     `mandatory:"true" json:"isForwarding"`
 	IsListening       *bool                                     `mandatory:"true" json:"isListening"`
+	Id                *string                                   `mandatory:"true" json:"id"`
+	ResolverId        *string                                   `mandatory:"true" json:"resolverId"`
 	CompartmentId     *string                                   `mandatory:"true" json:"compartmentId"`
 	TimeCreated       *common.SDKTime                           `mandatory:"true" json:"timeCreated"`
 	TimeUpdated       *common.SDKTime                           `mandatory:"true" json:"timeUpdated"`
@@ -94,6 +102,8 @@ func (m *resolverendpointsummary) UnmarshalJSON(data []byte) error {
 	m.Name = s.Model.Name
 	m.IsForwarding = s.Model.IsForwarding
 	m.IsListening = s.Model.IsListening
+	m.Id = s.Model.Id
+	m.ResolverId = s.Model.ResolverId
 	m.CompartmentId = s.Model.CompartmentId
 	m.TimeCreated = s.Model.TimeCreated
 	m.TimeUpdated = s.Model.TimeUpdated
@@ -150,6 +160,16 @@ func (m resolverendpointsummary) GetIsForwarding() *bool {
 // GetIsListening returns IsListening
 func (m resolverendpointsummary) GetIsListening() *bool {
 	return m.IsListening
+}
+
+// GetId returns Id
+func (m resolverendpointsummary) GetId() *string {
+	return m.Id
+}
+
+// GetResolverId returns ResolverId
+func (m resolverendpointsummary) GetResolverId() *string {
+	return m.ResolverId
 }
 
 // GetCompartmentId returns CompartmentId

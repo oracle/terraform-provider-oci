@@ -45,7 +45,7 @@ type ListEmailDeliveryConfigIpAssociationsRequest struct {
 	// Filter returned list by specified lifecycle state. This parameter is case-insensitive.
 	LifecycleState EmailDeliveryConfigIpAssociationLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// Specifies the attribute with which to sort the return paths.
+	// Specifies the attribute with which to sort the email delivery configuration ip associations.
 	// Default: `timeCreated`
 	// * **timeCreated:** Sorts by timeCreated.
 	SortBy ListEmailDeliveryConfigIpAssociationsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`

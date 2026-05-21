@@ -54,10 +54,6 @@ func (m *createocifssexportdetails) UnmarshalPolymorphicJSON(data []byte) (inter
 		mm := CreateOciFssExportIdDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "PATH":
-		mm := CreateOciFssExportPathDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for CreateOciFssExportDetails: %s.", m.OciFssExportType)
 		return *m, nil
@@ -85,17 +81,14 @@ type CreateOciFssExportDetailsOciFssExportTypeEnum string
 
 // Set of constants representing the allowable values for CreateOciFssExportDetailsOciFssExportTypeEnum
 const (
-	CreateOciFssExportDetailsOciFssExportTypePath CreateOciFssExportDetailsOciFssExportTypeEnum = "PATH"
 	CreateOciFssExportDetailsOciFssExportTypeOcid CreateOciFssExportDetailsOciFssExportTypeEnum = "OCID"
 )
 
 var mappingCreateOciFssExportDetailsOciFssExportTypeEnum = map[string]CreateOciFssExportDetailsOciFssExportTypeEnum{
-	"PATH": CreateOciFssExportDetailsOciFssExportTypePath,
 	"OCID": CreateOciFssExportDetailsOciFssExportTypeOcid,
 }
 
 var mappingCreateOciFssExportDetailsOciFssExportTypeEnumLowerCase = map[string]CreateOciFssExportDetailsOciFssExportTypeEnum{
-	"path": CreateOciFssExportDetailsOciFssExportTypePath,
 	"ocid": CreateOciFssExportDetailsOciFssExportTypeOcid,
 }
 
@@ -111,7 +104,6 @@ func GetCreateOciFssExportDetailsOciFssExportTypeEnumValues() []CreateOciFssExpo
 // GetCreateOciFssExportDetailsOciFssExportTypeEnumStringValues Enumerates the set of values in String for CreateOciFssExportDetailsOciFssExportTypeEnum
 func GetCreateOciFssExportDetailsOciFssExportTypeEnumStringValues() []string {
 	return []string{
-		"PATH",
 		"OCID",
 	}
 }

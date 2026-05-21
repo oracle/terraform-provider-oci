@@ -34,6 +34,9 @@ type CreateCertificateIssuedByPublicCaConfigDetails struct {
 	// The name of the public CA issuing the certificate.
 	PublicCertificateAuthority PublicCertificateAuthorityEnum `mandatory:"false" json:"publicCertificateAuthority,omitempty"`
 
+	// The type of validation used to verify the public certificate, supporting domain validation and organization validation. Domain validation is the default, which validates that the certificate requester controls the domain. Organization validation requires verifying the identity and legitimacy of the organization listed in the certificate.
+	ValidationType ValidationTypeEnum `mandatory:"false" json:"validationType,omitempty"`
+
 	// The algorithm to use to create key pairs.
 	KeyAlgorithm KeyAlgorithmEnum `mandatory:"false" json:"keyAlgorithm,omitempty"`
 }
@@ -58,6 +61,9 @@ func (m CreateCertificateIssuedByPublicCaConfigDetails) ValidateEnumValue() (boo
 	}
 	if _, ok := GetMappingPublicCertificateAuthorityEnum(string(m.PublicCertificateAuthority)); !ok && m.PublicCertificateAuthority != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PublicCertificateAuthority: %s. Supported values are: %s.", m.PublicCertificateAuthority, strings.Join(GetPublicCertificateAuthorityEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingValidationTypeEnum(string(m.ValidationType)); !ok && m.ValidationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ValidationType: %s. Supported values are: %s.", m.ValidationType, strings.Join(GetValidationTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingKeyAlgorithmEnum(string(m.KeyAlgorithm)); !ok && m.KeyAlgorithm != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for KeyAlgorithm: %s. Supported values are: %s.", m.KeyAlgorithm, strings.Join(GetKeyAlgorithmEnumStringValues(), ",")))

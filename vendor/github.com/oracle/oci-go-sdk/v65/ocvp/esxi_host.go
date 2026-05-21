@@ -129,6 +129,12 @@ type EsxiHost struct {
 	// is newly created to upgrade the original host.
 	UpgradedReplacementEsxiHostId *string `mandatory:"false" json:"upgradedReplacementEsxiHostId"`
 
+	// The fault domain of the ESXi host.
+	ComputeFaultDomain *string `mandatory:"false" json:"computeFaultDomain"`
+
+	// The initial fault domain host distribution mode for the ESXi host.
+	InitialFaultDomainHostDistribution FaultDomainHostDistributionModesEnum `mandatory:"false" json:"initialFaultDomainHostDistribution,omitempty"`
+
 	// The OCPU count of the ESXi host.
 	HostOcpuCount *float32 `mandatory:"false" json:"hostOcpuCount"`
 
@@ -173,6 +179,9 @@ func (m EsxiHost) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingLifecycleStatesEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStatesEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingFaultDomainHostDistributionModesEnum(string(m.InitialFaultDomainHostDistribution)); !ok && m.InitialFaultDomainHostDistribution != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InitialFaultDomainHostDistribution: %s. Supported values are: %s.", m.InitialFaultDomainHostDistribution, strings.Join(GetFaultDomainHostDistributionModesEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

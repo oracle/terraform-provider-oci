@@ -204,7 +204,7 @@ func (client ScheduleClient) cancelWorkRequest(ctx context.Context, request comm
 	return response, err
 }
 
-// ChangeScheduleCompartment This API) moves a schedule into a different compartment within the same tenancy. For information about moving resources between
+// ChangeScheduleCompartment This API moves a schedule into a different compartment within the same tenancy. For information about moving resources between
 // compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeScheduleCompartment()
 func (client ScheduleClient) ChangeScheduleCompartment(ctx context.Context, request ChangeScheduleCompartmentRequest) (response ChangeScheduleCompartmentResponse, err error) {

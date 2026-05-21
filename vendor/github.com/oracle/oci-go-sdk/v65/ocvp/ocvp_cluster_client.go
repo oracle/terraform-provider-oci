@@ -212,6 +212,65 @@ func (client ClusterClient) deleteCluster(ctx context.Context, request common.OC
 	return response, err
 }
 
+// GenerateHostDistributionReport Generates report for how ESXi hosts are distributed across Fault Domains.
+// A default retry strategy applies to this operation GenerateHostDistributionReport()
+func (client ClusterClient) GenerateHostDistributionReport(ctx context.Context, request GenerateHostDistributionReportRequest) (response GenerateHostDistributionReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.generateHostDistributionReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GenerateHostDistributionReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GenerateHostDistributionReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateHostDistributionReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateHostDistributionReportResponse")
+	}
+	return
+}
+
+// generateHostDistributionReport implements the OCIOperation interface (enables retrying operations)
+func (client ClusterClient) generateHostDistributionReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusters/{clusterId}/actions/generateHostDistributionReport", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateHostDistributionReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "cluster", "GenerateHostDistributionReport")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/Cluster/GenerateHostDistributionReport"
+		err = common.PostProcessServiceError(err, "Cluster", "GenerateHostDistributionReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetCluster Gets the specified Cluster's information.
 // A default retry strategy applies to this operation GetCluster()
 func (client ClusterClient) GetCluster(ctx context.Context, request GetClusterRequest) (response GetClusterResponse, err error) {

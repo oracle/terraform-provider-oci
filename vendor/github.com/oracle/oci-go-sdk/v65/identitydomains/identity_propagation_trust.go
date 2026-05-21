@@ -331,6 +331,46 @@ type IdentityPropagationTrust struct {
 	//  - uniqueness: none
 	ClockSkewSeconds *int `mandatory:"false" json:"clockSkewSeconds"`
 
+	// Defines the external workload that acts as impersonating resource principal.
+	// **Added In:** 2509172316
+	// **SCIM++ Properties:**
+	//  - type: string
+	//  - multiValued: false
+	//  - required: false
+	//  - mutability: readWrite
+	//  - returned: default
+	//  - uniqueness: none
+	//  - caseExact: true
+	//  - idcsSearchable: false
+	ImpersonatingResource *string `mandatory:"false" json:"impersonatingResource"`
+
+	// A list of claim validations
+	// **Added In:** 2509172316
+	// **SCIM++ Properties:**
+	//  - idcsCompositeKey: [name]
+	//  - idcsSearchable: false
+	//  - multiValued: true
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: complex
+	//  - uniqueness: none
+	ClaimValidations []IdentityPropagationTrustClaimValidations `mandatory:"false" json:"claimValidations"`
+
+	// A list of claims to propagate in RPST
+	// **Added In:** 2509172316
+	// **SCIM++ Properties:**
+	//  - idcsSearchable: false
+	//  - multiValued: true
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: string
+	//  - uniqueness: none
+	ClaimPropagations []string `mandatory:"false" json:"claimPropagations"`
+
+	CACertChain *IdentityPropagationTrustCaCertChain `mandatory:"false" json:"CACertChain"`
+
 	// The Impersonating Principal.
 	// **SCIM++ Properties:**
 	//  - idcsCompositeKey: [rule, value]
@@ -383,6 +423,7 @@ const (
 	IdentityPropagationTrustTypeSaml   IdentityPropagationTrustTypeEnum = "SAML"
 	IdentityPropagationTrustTypeSpnego IdentityPropagationTrustTypeEnum = "SPNEGO"
 	IdentityPropagationTrustTypeAws    IdentityPropagationTrustTypeEnum = "AWS"
+	IdentityPropagationTrustTypeX509   IdentityPropagationTrustTypeEnum = "X509"
 )
 
 var mappingIdentityPropagationTrustTypeEnum = map[string]IdentityPropagationTrustTypeEnum{
@@ -390,6 +431,7 @@ var mappingIdentityPropagationTrustTypeEnum = map[string]IdentityPropagationTrus
 	"SAML":   IdentityPropagationTrustTypeSaml,
 	"SPNEGO": IdentityPropagationTrustTypeSpnego,
 	"AWS":    IdentityPropagationTrustTypeAws,
+	"X509":   IdentityPropagationTrustTypeX509,
 }
 
 var mappingIdentityPropagationTrustTypeEnumLowerCase = map[string]IdentityPropagationTrustTypeEnum{
@@ -397,6 +439,7 @@ var mappingIdentityPropagationTrustTypeEnumLowerCase = map[string]IdentityPropag
 	"saml":   IdentityPropagationTrustTypeSaml,
 	"spnego": IdentityPropagationTrustTypeSpnego,
 	"aws":    IdentityPropagationTrustTypeAws,
+	"x509":   IdentityPropagationTrustTypeX509,
 }
 
 // GetIdentityPropagationTrustTypeEnumValues Enumerates the set of values for IdentityPropagationTrustTypeEnum
@@ -415,6 +458,7 @@ func GetIdentityPropagationTrustTypeEnumStringValues() []string {
 		"SAML",
 		"SPNEGO",
 		"AWS",
+		"X509",
 	}
 }
 
@@ -429,18 +473,21 @@ type IdentityPropagationTrustSubjectTypeEnum string
 
 // Set of constants representing the allowable values for IdentityPropagationTrustSubjectTypeEnum
 const (
-	IdentityPropagationTrustSubjectTypeUser IdentityPropagationTrustSubjectTypeEnum = "User"
-	IdentityPropagationTrustSubjectTypeApp  IdentityPropagationTrustSubjectTypeEnum = "App"
+	IdentityPropagationTrustSubjectTypeUser     IdentityPropagationTrustSubjectTypeEnum = "User"
+	IdentityPropagationTrustSubjectTypeApp      IdentityPropagationTrustSubjectTypeEnum = "App"
+	IdentityPropagationTrustSubjectTypeResource IdentityPropagationTrustSubjectTypeEnum = "Resource"
 )
 
 var mappingIdentityPropagationTrustSubjectTypeEnum = map[string]IdentityPropagationTrustSubjectTypeEnum{
-	"User": IdentityPropagationTrustSubjectTypeUser,
-	"App":  IdentityPropagationTrustSubjectTypeApp,
+	"User":     IdentityPropagationTrustSubjectTypeUser,
+	"App":      IdentityPropagationTrustSubjectTypeApp,
+	"Resource": IdentityPropagationTrustSubjectTypeResource,
 }
 
 var mappingIdentityPropagationTrustSubjectTypeEnumLowerCase = map[string]IdentityPropagationTrustSubjectTypeEnum{
-	"user": IdentityPropagationTrustSubjectTypeUser,
-	"app":  IdentityPropagationTrustSubjectTypeApp,
+	"user":     IdentityPropagationTrustSubjectTypeUser,
+	"app":      IdentityPropagationTrustSubjectTypeApp,
+	"resource": IdentityPropagationTrustSubjectTypeResource,
 }
 
 // GetIdentityPropagationTrustSubjectTypeEnumValues Enumerates the set of values for IdentityPropagationTrustSubjectTypeEnum
@@ -457,6 +504,7 @@ func GetIdentityPropagationTrustSubjectTypeEnumStringValues() []string {
 	return []string{
 		"User",
 		"App",
+		"Resource",
 	}
 }
 
