@@ -51,6 +51,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `ai_data_platform_type` - The AiDataPlatform type.
+* `ai_feature_status` - The current aiFeatureStatus of the AiDataPlatform.
 * `alias_key` - The alias Id of the AiDataPlatform which is the short form of OCID.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `created_by` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IAM user.
