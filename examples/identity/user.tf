@@ -51,10 +51,6 @@ output "users1" {
   value = data.oci_identity_users.users1.users
 }
 
-output "users2" {
-  value = data.oci_identity_users.users2.users
-}
-
 resource "oci_identity_ui_password" "password1" {
   user_id = oci_identity_user.user1.id
 }
@@ -83,10 +79,6 @@ fwIDAQAB
 -----END PUBLIC KEY-----
 EOF
 
-}
-
-output "user-api-key" {
-  value = oci_identity_api_key.api-key1.key_value
 }
 
 # SwiftPassword has been deprecated. Use AuthToken instead.
@@ -131,4 +123,3 @@ output "smtp-credential" {
     data.oci_identity_smtp_credentials.smtp-credentials-1.smtp_credentials,
   ]
 }
-

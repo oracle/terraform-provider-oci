@@ -27,10 +27,6 @@ data "oci_identity_policies" "policies1" {
   }
 }
 
-output "policy" {
-  value = data.oci_identity_policies.policies1.policies
-}
-
 /*
  * Policies for dynamic groups
  */

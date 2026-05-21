@@ -51,9 +51,9 @@ resource "oci_identity_dynamic_group" "dynamic-group-1" {
   matching_rule  = "ANY {instance.compartment.id = '${data.oci_identity_compartments.compartments1.compartments[0].id}'}"
 
   #Optional
-  defined_tags = {
-    "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = var.dynamic_group_defined_tags_value
-  }
+  # defined_tags = {
+  #   "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = var.dynamic_group_defined_tags_value
+  # }
   freeform_tags = var.dynamic_group_freeform_tags
 }
 
