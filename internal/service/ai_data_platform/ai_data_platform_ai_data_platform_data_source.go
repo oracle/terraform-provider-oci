@@ -71,6 +71,8 @@ func (s *AiDataPlatformAiDataPlatformDataSourceCrud) SetData() error {
 		s.D.Set("ai_data_platform_type", *s.Res.AiDataPlatformType)
 	}
 
+	s.D.Set("ai_feature_status", s.Res.AiFeatureStatus)
+
 	if s.Res.AliasKey != nil {
 		s.D.Set("alias_key", *s.Res.AliasKey)
 	}

@@ -71,14 +71,39 @@ func AiDataPlatformAiDataPlatformResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_enable_ai_feature": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"system_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"vector_db_admin_cred": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"vector_db_admin_secret_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"vector_db_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
+			"ai_feature_status": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"alias_key": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -214,6 +239,11 @@ func (s *AiDataPlatformAiDataPlatformResourceCrud) CreateWithContext(ctx context
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isEnableAiFeature, ok := s.D.GetOkExists("is_enable_ai_feature"); ok {
+		tmp := isEnableAiFeature.(bool)
+		request.IsEnableAiFeature = &tmp
+	}
+
 	if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
 		convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
 		if err != nil {
@@ -222,7 +252,23 @@ func (s *AiDataPlatformAiDataPlatformResourceCrud) CreateWithContext(ctx context
 		request.SystemTags = convertedSystemTags
 	}
 
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_data_platform")
+	if vectorDbAdminCred, ok := s.D.GetOkExists("vector_db_admin_cred"); ok {
+		tmp := vectorDbAdminCred.(string)
+		request.VectorDbAdminCred = &tmp
+	}
+
+	if vectorDbAdminSecretId, ok := s.D.GetOkExists("vector_db_admin_secret_id"); ok {
+		tmp := vectorDbAdminSecretId.(string)
+		request.VectorDbAdminSecretId = &tmp
+	}
+
+	if vectorDbId, ok := s.D.GetOkExists("vector_db_id"); ok {
+		tmp := vectorDbId.(string)
+		request.VectorDbId = &tmp
+	}
+
+	retryPolicy := tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_data_platform")
+	request.RequestMetadata.RetryPolicy = retryPolicy
 
 	response, err := s.Client.CreateAiDataPlatform(ctx, request)
 	if err != nil {
@@ -235,7 +281,15 @@ func (s *AiDataPlatformAiDataPlatformResourceCrud) CreateWithContext(ctx context
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getAiDataPlatformFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_data_platform"), oci_ai_data_platform.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	if err := s.getAiDataPlatformFromWorkRequest(ctx, workId, retryPolicy, oci_ai_data_platform.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate)); err != nil {
+		return err
+	}
+
+	if isEnableAiFeature, ok := s.D.GetOkExists("is_enable_ai_feature"); ok && isEnableAiFeature.(bool) {
+		return s.waitForAiFeatureStatusReady(ctx, s.D.Timeout(schema.TimeoutCreate))
+	}
+
+	return nil
 }
 
 func (s *AiDataPlatformAiDataPlatformResourceCrud) getAiDataPlatformFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -263,6 +317,22 @@ func (s *AiDataPlatformAiDataPlatformResourceCrud) getAiDataPlatformFromWorkRequ
 	s.D.SetId(*aiDataPlatformId)
 
 	return s.GetWithContext(ctx)
+}
+
+func (s *AiDataPlatformAiDataPlatformResourceCrud) waitForAiFeatureStatusReady(ctx context.Context, timeout time.Duration) error {
+	err := tfresource.WaitForResourceConditionWithContext(ctx, s, func() bool {
+		return s.Res.AiFeatureStatus == oci_ai_data_platform.AiDataPlatformAiFeatureStatusReady ||
+			s.Res.AiFeatureStatus == oci_ai_data_platform.AiDataPlatformAiFeatureStatusFailed
+	}, timeout)
+	if err != nil {
+		return err
+	}
+
+	if s.Res.AiFeatureStatus == oci_ai_data_platform.AiDataPlatformAiFeatureStatusFailed {
+		return fmt.Errorf("ai feature status did not reach READY, current status: %s", s.Res.AiFeatureStatus)
+	}
+
+	return nil
 }
 
 func aiDataPlatformWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -384,6 +454,13 @@ func (s *AiDataPlatformAiDataPlatformResourceCrud) GetWithContext(ctx context.Co
 }
 
 func (s *AiDataPlatformAiDataPlatformResourceCrud) UpdateWithContext(ctx context.Context) error {
+
+	if _, ok := s.D.GetOkExists("vectorDbAdminCred"); ok && s.D.HasChange("vectorDbAdminCred") {
+		err := s.EnableAiFeature()
+		if err != nil {
+			return err
+		}
+	}
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -469,6 +546,8 @@ func (s *AiDataPlatformAiDataPlatformResourceCrud) SetData() error {
 		s.D.Set("ai_data_platform_type", *s.Res.AiDataPlatformType)
 	}
 
+	s.D.Set("ai_feature_status", s.Res.AiFeatureStatus)
+
 	if s.Res.AliasKey != nil {
 		s.D.Set("alias_key", *s.Res.AliasKey)
 	}
@@ -516,12 +595,49 @@ func (s *AiDataPlatformAiDataPlatformResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *AiDataPlatformAiDataPlatformResourceCrud) EnableAiFeature() error {
+	request := oci_ai_data_platform.EnableAiFeatureRequest{}
+
+	idTmp := s.D.Id()
+	request.AiDataPlatformId = &idTmp
+
+	if vectorDbAdminCred, ok := s.D.GetOkExists("vector_db_admin_cred"); ok {
+		tmp := vectorDbAdminCred.(string)
+		request.VectorDbAdminCred = &tmp
+	}
+
+	if vectorDbAdminSecretId, ok := s.D.GetOkExists("vector_db_admin_secret_id"); ok {
+		tmp := vectorDbAdminSecretId.(string)
+		request.VectorDbAdminSecretId = &tmp
+	}
+
+	if vectorDbId, ok := s.D.GetOkExists("vector_db_id"); ok {
+		tmp := vectorDbId.(string)
+		request.VectorDbId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_data_platform")
+
+	_, err := s.Client.EnableAiFeature(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(context.Background(), s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	return nil
+}
+
 func AiDataPlatformSummaryToMap(obj oci_ai_data_platform.AiDataPlatformSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.AiDataPlatformType != nil {
 		result["ai_data_platform_type"] = string(*obj.AiDataPlatformType)
 	}
+
+	result["ai_feature_status"] = string(obj.AiFeatureStatus)
 
 	if obj.AliasKey != nil {
 		result["alias_key"] = string(*obj.AliasKey)

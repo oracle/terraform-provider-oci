@@ -6,11 +6,11 @@ variable "region" {}
 variable "compartment_id" {}
 
 variable "ai_data_platform_ai_data_platform_type" {
-default = "aiDataPlatformType"
+  default = "aiDataPlatformType"
 }
 
 variable "ai_data_platform_display_name" {
-default = "displayName"
+  default = "displayName"
 }
 
 variable "ai_data_platform_workspace_name" {
@@ -18,21 +18,29 @@ variable "ai_data_platform_workspace_name" {
 }
 
 variable "ai_data_platform_exclude_lifecycle_state" {
-default = "CREATING"
+  default = "CREATING"
 }
 
 variable "ai_data_platform_freeform_tags" {
-default = { "Department" = "Finance" }
+  default = { "Department" = "Finance" }
 }
 
 variable "ai_data_platform_include_legacy" {
-default = "true"
+  default = "true"
 }
 
 variable "ai_data_platform_state" {
-default = "ACTIVE"
+  default = "ACTIVE"
 }
 
 variable "ai_data_platform_system_tags" {
-default = "value"
+  default = "value"
+}
+
+variable "ai_data_platform_is_enable_ai_feature" {
+  default = true
+}
+
+variable "ai_data_platform_vector_db_admin_cred" {
+  default = "BEstrO0ng_#11"
 }

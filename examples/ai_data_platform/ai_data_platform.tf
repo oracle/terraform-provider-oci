@@ -13,7 +13,8 @@ resource "oci_ai_data_platform_ai_data_platform" "test_ai_data_platform" {
   compartment_id = var.compartment_id
 
   #Optional
-  ai_data_platform_type  = var.ai_data_platform_ai_data_platform_type
+  is_enable_ai_feature   = var.ai_data_platform_is_enable_ai_feature
+  vector_db_admin_cred   = var.ai_data_platform_vector_db_admin_cred
   display_name           = var.ai_data_platform_display_name
   default_workspace_name = var.ai_data_platform_workspace_name
   freeform_tags          = var.ai_data_platform_freeform_tags
@@ -21,5 +22,5 @@ resource "oci_ai_data_platform_ai_data_platform" "test_ai_data_platform" {
 
 data "oci_ai_data_platform_ai_data_platforms" "test_ai_data_platforms" {
   #Required
-  compartment_id      = var.compartment_id
+  compartment_id = var.compartment_id
 }
