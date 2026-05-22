@@ -116,6 +116,8 @@ func (s *CoreInstancePoolDataSourceCrud) SetData() error {
 	}
 	s.D.Set("placement_configurations", placementConfigurations)
 
+	s.D.Set("pool_type", s.Res.PoolType)
+
 	if s.Res.Size != nil {
 		s.D.Set("size", *s.Res.Size)
 	}

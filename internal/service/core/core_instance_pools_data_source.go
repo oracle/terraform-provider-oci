@@ -132,6 +132,8 @@ func (s *CoreInstancePoolsDataSourceCrud) SetData() error {
 			instancePool["instance_configuration_id"] = *r.InstanceConfigurationId
 		}
 
+		instancePool["pool_type"] = r.PoolType
+
 		if r.Size != nil {
 			instancePool["size"] = *r.Size
 			instancePool["actual_size"] = *r.Size

@@ -14,7 +14,7 @@ Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/iaas/latest
 Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/
 
 Creates an instance configuration. An instance configuration is a template that defines the
-settings to use when creating Compute instances.
+settings to use when creating Compute instances or GPU Memory Clusters.
 
 
 ## Example Usage
@@ -28,6 +28,28 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.instance_configuration_display_name
 	freeform_tags = {"Department"= "Finance"}
+	gmc_configs {
+
+		#Required
+		availability_domain = var.instance_configuration_gmc_configs_availability_domain
+		compartment_id = var.compartment_id
+		instance_configuration_id = oci_core_instance_configuration.test_instance_configuration.id
+
+		#Optional
+		defined_tags = {"Operations.CostCenter"= "42"}
+		display_name = var.instance_configuration_gmc_configs_display_name
+		freeform_tags = {"Department"= "Finance"}
+		gpu_memory_cluster_scale_config {
+
+			#Required
+			is_upsize_enabled = var.instance_configuration_gmc_configs_gpu_memory_cluster_scale_config_is_upsize_enabled
+
+			#Optional
+			is_downsize_enabled = var.instance_configuration_gmc_configs_gpu_memory_cluster_scale_config_is_downsize_enabled
+			target_size = var.instance_configuration_gmc_configs_gpu_memory_cluster_scale_config_target_size
+		}
+		size = var.instance_configuration_gmc_configs_size
+	}
 	instance_details {
 		#Required
 		instance_type = var.instance_configuration_instance_details_instance_type
@@ -512,10 +534,22 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the instance configuration.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}`
-* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
-* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
+* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the instance configuration. 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `gmc_configs` - (Required when source=GMC) The GPU Memory Cluster configuration entries for.
+	* `availability_domain` - (Required when source=GMC) The availability domain for this GMC configuration entry. 
+	* `compartment_id` - (Required when source=GMC) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment associated with this GMC configuration entry. 
+	* `defined_tags` - (Applicable when source=GMC) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+	* `display_name` - (Applicable when source=GMC) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+	* `freeform_tags` - (Applicable when source=GMC) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+	* `gpu_memory_cluster_scale_config` - (Applicable when source=GMC) Configuration settings for GPU Memory Cluster scaling. 
+		* `is_downsize_enabled` - (Applicable when source=GMC) Enables downsizing towards the target size. 
+		* `is_upsize_enabled` - (Required when source=GMC) Enables upsizing towards the target size. 
+		* `target_size` - (Applicable when source=GMC) The configured target size for the GPU Memory Cluster. 
+	* `instance_configuration_id` - (Required when source=GMC) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the base compute instance configuration associated with this GMC configuration entry. 
+	* `size` - (Applicable when source=GMC) The desired number of instances for this GMC configuration entry. 
 * `instance_details` - (Required when source=NONE)
 	* `block_volumes` - (Applicable when instance_type=compute) Block volume parameters.
 		* `attach_details` - (Applicable when instance_type=compute) Volume attachmentDetails. Please see [AttachVolumeDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/AttachVolumeDetails/)
@@ -673,6 +707,12 @@ The following arguments are supported:
 				* `IDE` - Emulated IDE disk.
 				* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
 				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images.
+		* `licensing_configs` - (Applicable when instance_type=compute) List of licensing configurations associated with target launch values.
+			* `license_type` - (Optional) License Type for the OS license.
+				* `OCI_PROVIDED` - Oracle Cloud Infrastructure provided license (e.g. metered $/OCPU-hour).
+				* `BRING_YOUR_OWN_LICENSE` - Bring your own license.
+				* `PARTNER_PROVIDED` - Partner provided license. 
+			* `type` - (Required) Operating System type of the Configuration.
 		* `metadata` - (Applicable when instance_type=compute) Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 
 			A metadata service runs on every launched instance. The service is an HTTP endpoint listening on 169.254.169.254. You can use the service to:
@@ -1076,6 +1116,7 @@ The following arguments are supported:
   The following values are supported:
 	* `NONE`: Creates an instance configuration using the list of settings that you specify.
 	* `INSTANCE`: Creates an instance configuration using an existing instance as a template.
+	* `GMC`: Creates an instance configuration which can be used to create GMC backed pools.
 
 
 ** IMPORTANT **
@@ -1085,11 +1126,23 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the instance configuration.
-* `deferred_fields` - Parameters that were not specified when the instance configuration was created, but that are required to launch an instance from the instance configuration. See the [LaunchInstanceConfiguration](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Instance/LaunchInstanceConfiguration) operation.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}`
-* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
+* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the instance configuration. 
+* `deferred_fields` - Parameters that were not specified when the instance configuration was created, but that are required to launch an instance from the instance configuration. See the [LaunchInstanceConfiguration](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Instance/LaunchInstanceConfiguration) operation. 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `gmc_configs` - The GPU Memory Cluster configuration entries for.
+	* `availability_domain` - The availability domain for this GMC configuration entry. 
+	* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment associated with this GMC configuration entry. 
+	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+	* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+	* `gpu_memory_cluster_scale_config` - Configuration settings for GPU Memory Cluster scaling. 
+		* `is_downsize_enabled` - Enables downsizing towards the target size. 
+		* `is_upsize_enabled` - Enables upsizing towards the target size. 
+		* `target_size` - The configured target size for the GPU Memory Cluster. 
+	* `instance_configuration_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the base compute instance configuration associated with this GMC configuration entry. 
+	* `size` - The desired number of instances for this GMC configuration entry.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration.
 * `instance_details` -
 	* `block_volumes` - Block volume parameters.
@@ -1245,6 +1298,12 @@ The following attributes are exported:
 				* `IDE` - Emulated IDE disk.
 				* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
 				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images.
+		* `licensing_configs` - List of licensing configurations associated with target launch values.
+			* `license_type` - License Type for the OS license.
+				* `OCI_PROVIDED` - Oracle Cloud Infrastructure provided license (e.g. metered $/OCPU-hour).
+				* `BRING_YOUR_OWN_LICENSE` - Bring your own license.
+				* `PARTNER_PROVIDED` - Partner provided license. 
+			* `type` - Operating System type of the Configuration.
 		* `metadata` - Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 
 			A metadata service runs on every launched instance. The service is an HTTP endpoint listening on 169.254.169.254. You can use the service to:
@@ -1631,6 +1690,9 @@ The following attributes are exported:
 			* `subnet_id` - The OCID of the subnet to create the VNIC in. See the `subnetId` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information. 
 		* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 		* `nic_index` - Which physical network interface card (NIC) the VNIC will use. Defaults to 0. Certain bare metal instance shapes have two active physical NICs (0 and 1). If you add a secondary VNIC to one of these instances, you can specify which NIC the VNIC will use. For more information, see [Virtual Network Interface Cards (VNICs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm). 
+* `source` - Differentiator for instance configuration.  Following values are supported:
+	* INSTANCE : All details related to instance will be passed within instanceDetails.
+	* GMC : All details related to gpu memory cluster will be passed within gmcConfigs. 
 * `time_created` - The date and time the instance configuration was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 
 ## Timeouts

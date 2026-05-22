@@ -241,6 +241,10 @@ func CoreClusterNetworkResource() *schema.Resource {
 								},
 							},
 						},
+						"pool_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"state": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -983,6 +987,8 @@ func InstancePoolToMap(obj oci_core.InstancePool) map[string]interface{} {
 		placementConfigurations = append(placementConfigurations, InstancePoolPlacementConfigurationToMap(item))
 	}
 	result["placement_configurations"] = placementConfigurations
+
+	result["pool_type"] = string(obj.PoolType)
 
 	if obj.Size != nil {
 		result["size"] = int(*obj.Size)
