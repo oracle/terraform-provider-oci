@@ -426,6 +426,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Type:     schema.TypeFloat,
 										Computed: true,
 									},
+									"estimated_concurrent_sessions": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
 									"is_enabled": {
 										Type:     schema.TypeBool,
 										Computed: true,

@@ -268,6 +268,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"estimated_concurrent_sessions": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 						"is_enabled": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -3966,9 +3971,20 @@ func DatabaseConnectionStringProfileToMap(obj oci_database.DatabaseConnectionStr
 func (s *DatabaseAutonomousDatabaseResourceCrud) mapToDatabaseTool(fieldKeyFormat string) (oci_database.DatabaseTool, error) {
 	result := oci_database.DatabaseTool{}
 
+	var toolName string
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		toolName = name.(string)
+		result.Name = oci_database.DatabaseToolNameEnum(toolName)
+	}
+
 	if computeCount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compute_count")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "compute_count")) {
 		tmp := float32(computeCount.(float64))
 		result.ComputeCount = &tmp
+	}
+
+	if estimatedConcurrentSessions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "estimated_concurrent_sessions")); ok {
+		tmp := estimatedConcurrentSessions.(int)
+		result.EstimatedConcurrentSessions = &tmp
 	}
 
 	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
@@ -3979,10 +3995,6 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) mapToDatabaseTool(fieldKeyForma
 	if maxIdleTimeInMinutes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_idle_time_in_minutes")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "max_idle_time_in_minutes")) {
 		tmp := maxIdleTimeInMinutes.(int)
 		result.MaxIdleTimeInMinutes = &tmp
-	}
-
-	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
-		result.Name = oci_database.DatabaseToolNameEnum(name.(string))
 	}
 
 	return result, nil
@@ -3996,6 +4008,10 @@ func DatabaseToolToMap(obj oci_database.DatabaseTool) map[string]interface{} {
 	}
 	if obj.ComputeCount == nil {
 		result["compute_count"] = nil
+	}
+
+	if obj.EstimatedConcurrentSessions != nil {
+		result["estimated_concurrent_sessions"] = int(*obj.EstimatedConcurrentSessions)
 	}
 
 	if obj.IsEnabled != nil {
@@ -7666,6 +7682,9 @@ func dbToolsForSets(v interface{}) int {
 	}
 	if computeCount, ok := m["compute_count"]; ok && computeCount != "" {
 		buf.WriteString(fmt.Sprintf("%v-", computeCount))
+	}
+	if estimatedConcurrentSessions, ok := m["estimated_concurrent_sessions"]; ok && estimatedConcurrentSessions != "" {
+		buf.WriteString(fmt.Sprintf("%v-", estimatedConcurrentSessions))
 	}
 	if isEnabled, ok := m["is_enabled"]; ok && isEnabled != "" {
 		buf.WriteString(fmt.Sprintf("%v-", isEnabled))

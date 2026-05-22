@@ -70,6 +70,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 
 		#Optional
 		compute_count = var.autonomous_database_db_tools_details_compute_count
+		estimated_concurrent_sessions = var.autonomous_database_db_tools_details_estimated_concurrent_sessions
 		is_enabled = var.autonomous_database_db_tools_details_is_enabled
 		max_idle_time_in_minutes = var.autonomous_database_db_tools_details_max_idle_time_in_minutes
 	}
@@ -218,6 +219,7 @@ The following arguments are supported:
 
 	This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, isLocalDataGuardEnabled, or isFreeTier. 
 	* `compute_count` - (Optional) (Updatable) Compute used by database tools.
+	* `estimated_concurrent_sessions` - (Optional) (Updatable) Specifies the estimated number of concurrent user sessions (range 1–64 for Graph, 1–256 for OML, default 1). applies only to OML and Graph tools—not applicable to DLA, Data Transforms, or Spatial.
 	* `is_enabled` - (Optional) (Updatable) Indicates whether tool is enabled.
 	* `max_idle_time_in_minutes` - (Optional) (Updatable) The max idle time, in minutes, after which the VM used by database tools will be terminated.
 	* `name` - (Required) (Updatable) Name of database tool.
@@ -454,6 +456,7 @@ The following attributes are exported:
 
 	This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, isLocalDataGuardEnabled, or isFreeTier. 
 	* `compute_count` - Compute used by database tools.
+	* `estimated_concurrent_sessions` - Specifies the estimated number of concurrent user sessions (range 1–64 for Graph, 1–256 for OML, default 1). applies only to OML and Graph tools—not applicable to DLA, Data Transforms, or Spatial.
 	* `is_enabled` - Indicates whether tool is enabled.
 	* `max_idle_time_in_minutes` - The max idle time, in minutes, after which the VM used by database tools will be terminated.
 	* `name` - Name of database tool.

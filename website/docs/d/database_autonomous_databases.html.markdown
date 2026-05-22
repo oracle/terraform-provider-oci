@@ -148,6 +148,7 @@ AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8
 
   This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, isLocalDataGuardEnabled, or isFreeTier.
 	* `compute_count` - Compute used by database tools.
+	* `estimated_concurrent_sessions` - Specifies the estimated number of concurrent user sessions (range 1–64 for Graph, 1–256 for OML, default 1). applies only to OML and Graph tools—not applicable to DLA, Data Transforms, or Spatial.
 	* `is_enabled` - Indicates whether tool is enabled.
 	* `max_idle_time_in_minutes` - The max idle time, in minutes, after which the VM used by database tools will be terminated.
 	* `name` - Name of database tool.
