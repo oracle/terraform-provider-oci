@@ -655,7 +655,9 @@ func DistributedDatabaseDistributedDatabaseResource() *schema.Resource {
 			},
 			"shard_details": {
 				Type:     schema.TypeList,
-				Required: true,
+				Optional: true,
+				Computed: true,
+				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -1344,6 +1346,7 @@ func DistributedDatabaseDistributedDatabaseResource() *schema.Resource {
 			"patch_operations": {
 				Type:     schema.TypeList,
 				Optional: true,
+				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -1390,6 +1393,10 @@ func DistributedDatabaseDistributedDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"effective_replication_unit": {
+				Type:     schema.TypeInt,
+				Computed: true,
 			},
 			"scan_listener_port": {
 				Type:     schema.TypeInt,
@@ -1734,6 +1741,18 @@ func distributedDatabaseDistributedDatabaseCustomizeDiff(ctx context.Context, di
 		return err
 	}
 
+	if err := validateDistributedDatabaseCreateShardDetails(diff); err != nil {
+		return err
+	}
+
+	if err := validateWriteOnceReplicationUnitDiff(diff); err != nil {
+		return err
+	}
+
+	if err := suppressFailedObservedInsertPatchOperationsDiff(diff); err != nil {
+		return err
+	}
+
 	return configureDistributedDatabaseShardDetailsDiff(diff)
 }
 
@@ -1777,9 +1796,32 @@ func validateDistributedDatabasePatchOperations(diff *schema.ResourceDiff) error
 	return nil
 }
 
+func validateDistributedDatabaseCreateShardDetails(diff *schema.ResourceDiff) error {
+	if diff.Id() != "" {
+		return nil
+	}
+
+	shardDetails, ok := diff.Get("shard_details").([]interface{})
+	if ok && len(shardDetails) > 0 {
+		return nil
+	}
+
+	return fmt.Errorf("shard_details must include at least one shard for create")
+}
+
 func configureDistributedDatabaseShardDetailsDiff(diff *schema.ResourceDiff) error {
 	if diff.Id() == "" || !diff.HasChange("shard_details") {
 		return nil
+	}
+
+	oldRaw, newRaw := diff.GetChange("shard_details")
+	lifecycleDetails, _ := diff.Get("lifecycle_details").(string)
+	if shouldSuppressFailedObservedShardDetailsDiff(oldRaw, newRaw, diff.GetChangedKeysPrefix("shard_details"), lifecycleDetails) {
+		// TF_CODE_GEN: shard INSERT failures can leave an extra FAILED shard in the
+		// observed topology. Keep that shard in state so users can inspect/remove it,
+		// but suppress the synthetic config drift because create-time shard_details
+		// should not force replacement for recoverable failed inserts.
+		return diff.SetNew("shard_details", oldRaw)
 	}
 
 	if patchOperationsTargetShardDetails(diff) {
@@ -1790,6 +1832,28 @@ func configureDistributedDatabaseShardDetailsDiff(diff *schema.ResourceDiff) err
 	// and observed topology state. Require replacement only for direct shard_details edits that
 	// are not accompanied by a shardDetails PATCH so runtime insert/remove workflows stay in-place.
 	return diff.ForceNew("shard_details")
+}
+
+func suppressFailedObservedInsertPatchOperationsDiff(diff *schema.ResourceDiff) error {
+	if diff.Id() == "" || !diff.HasChange("patch_operations") {
+		return nil
+	}
+
+	oldShardDetailsRaw, newShardDetailsRaw := diff.GetChange("shard_details")
+	lifecycleDetails, _ := diff.Get("lifecycle_details").(string)
+	if !shouldSuppressFailedObservedShardDetailsDiff(oldShardDetailsRaw, newShardDetailsRaw, diff.GetChangedKeysPrefix("shard_details"), lifecycleDetails) {
+		return nil
+	}
+
+	oldPatchOperationsRaw, newPatchOperationsRaw := diff.GetChange("patch_operations")
+	if !shouldSuppressFailedObservedInsertPatchDiff(oldPatchOperationsRaw, newPatchOperationsRaw) {
+		return nil
+	}
+
+	// The failed INSERT has already materialized as an extra FAILED shard in OCI.
+	// Suppress re-planning the same INSERT so the next meaningful action can be an
+	// explicit REMOVE patch against the failed shard name.
+	return diff.SetNew("patch_operations", oldPatchOperationsRaw)
 }
 
 func patchOperationsListTargetShardDetails(ops []interface{}) bool {
@@ -1844,6 +1908,105 @@ func patchOperationsTargetShardDetails(diff *schema.ResourceDiff) bool {
 	}
 
 	return patchOperationsListTargetShardDetails(ops)
+}
+
+func shouldSuppressFailedObservedInsertPatchDiff(oldRaw interface{}, newRaw interface{}) bool {
+	oldPatchOperations, _ := oldRaw.([]interface{})
+	if len(oldPatchOperations) != 0 {
+		return false
+	}
+
+	newPatchOperations, _ := newRaw.([]interface{})
+	return patchOperationsListTargetShardDetails(newPatchOperations) &&
+		patchOperationsListHaveOperation(newPatchOperations, "INSERT")
+}
+
+func shouldSuppressFailedObservedShardDetailsDiff(
+	oldRaw interface{},
+	newRaw interface{},
+	changedKeys []string,
+	lifecycleDetails string,
+) bool {
+	oldShardDetails, _ := oldRaw.([]interface{})
+	newShardDetails, _ := newRaw.([]interface{})
+	if len(oldShardDetails) <= len(newShardDetails) {
+		return false
+	}
+
+	if !changedShardDetailsOnlyAffectExtraObservedShards(changedKeys, len(newShardDetails)) {
+		return false
+	}
+
+	missingInfrastructure := lifecycleDetailsIndicateMissingInfrastructure(lifecycleDetails)
+	for i := len(newShardDetails); i < len(oldShardDetails); i++ {
+		shard, ok := oldShardDetails[i].(map[string]interface{})
+		if !ok {
+			return false
+		}
+
+		status, _ := shard["status"].(string)
+		if !strings.EqualFold(status, "FAILED") && !missingInfrastructure {
+			return false
+		}
+	}
+
+	return true
+}
+
+func changedShardDetailsOnlyAffectExtraObservedShards(changedKeys []string, configuredShardCount int) bool {
+	if len(changedKeys) == 0 {
+		return false
+	}
+
+	changedExtraObservedShard := false
+	for _, key := range changedKeys {
+		parts := strings.Split(key, ".")
+		if len(parts) < 2 || parts[0] != "shard_details" {
+			return false
+		}
+
+		if parts[1] == "#" {
+			continue
+		}
+
+		shardIndex, err := strconv.Atoi(parts[1])
+		if err != nil {
+			return false
+		}
+
+		if shardIndex < configuredShardCount {
+			return false
+		}
+
+		changedExtraObservedShard = true
+	}
+
+	return changedExtraObservedShard
+}
+
+func validateWriteOnceReplicationUnitDiff(diff *schema.ResourceDiff) error {
+	if diff.Id() == "" || !diff.HasChange("replication_unit") {
+		return nil
+	}
+
+	return fmt.Errorf("`replication_unit` is write-once after create. OCI may adjust the live replication unit as shard topology changes. Use `effective_replication_unit` to inspect the live value; post-create changes to `replication_unit` are not supported")
+}
+
+func isRecoverableShardProvisioningState(lifecycleState string, lifecycleDetails string) bool {
+	if strings.EqualFold(lifecycleState, "NEEDS_ATTENTION") || strings.EqualFold(lifecycleState, "FAILED") {
+		return true
+	}
+
+	return lifecycleDetailsIndicateMissingInfrastructure(lifecycleDetails)
+}
+
+func lifecycleDetailsIndicateMissingInfrastructure(lifecycleDetails string) bool {
+	normalized := strings.ToUpper(strings.ReplaceAll(strings.TrimSpace(lifecycleDetails), "_", " "))
+	return strings.Contains(normalized, "MISSING INFRASTRUCTURE")
+}
+
+func shouldPreserveConfiguredShardDetailsState(d *schema.ResourceData, _ string, _ int) bool {
+	return configuredPatchOperationsTargetShardDetails(d)
 }
 
 func configuredPatchOperationsTargetShardDetails(d *schema.ResourceData) bool {
@@ -2323,7 +2486,6 @@ if _, ok := sync.D.GetOkExists("generate_wallet_trigger"); ok && sync.D.HasChang
 	}
 }
 
-<<<<<<< ours
 	if _, ok := sync.D.GetOkExists("move_replication_unit_trigger"); ok && sync.D.HasChange("move_replication_unit_trigger") {
 		oldRaw, newRaw := sync.D.GetChange("move_replication_unit_trigger")
 		oldValue := oldRaw.(int)
@@ -2364,14 +2526,6 @@ if _, ok := sync.D.GetOkExists("generate_wallet_trigger"); ok && sync.D.HasChang
 		newValue := newRaw.(int)
 		if oldValue < newValue {
 			err := sync.UploadDistributedDatabaseSignedCertificateAndGenerateWallet(ctx)
-=======
-if _, ok := sync.D.GetOkExists("upload_signed_certificate_and_generate_wallet_trigger"); ok && sync.D.HasChange("upload_signed_certificate_and_generate_wallet_trigger") {
-	oldRaw, newRaw := sync.D.GetChange("upload_signed_certificate_and_generate_wallet_trigger")
-	oldValue := oldRaw.(int)
-	newValue := newRaw.(int)
-	if oldValue < newValue {
-		err := sync.UploadDistributedDatabaseSignedCertificateAndGenerateWallet()
->>>>>>> theirs
 
 		if err != nil {
 			// NOTE (TOP-9389):
@@ -2817,8 +2971,9 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) Patch(ctx context.C
 		return fmt.Errorf("PatchDistributedDatabase failed for distributed database %s (work request %s): %w", s.D.Id(), *workId, err)
 	}
 
-	// PATCH can legitimately settle back into ACTIVE/INACTIVE/NEEDS_ATTENTION depending on the
-	// previous state and any shard-level issue surfaced during reconciliation.
+	// PATCH can legitimately settle back into ACTIVE/INACTIVE/NEEDS_ATTENTION, and shard
+	// provisioning failures can leave the DDB in FAILED with lifecycleDetails such as
+	// "Missing Infrastructure" while the resource remains recoverable in place.
 	stable := func() bool {
 		if err := s.Get(); err != nil {
 			log.Printf("[WARN] post-patch Get() failed: %v", err)
@@ -2828,12 +2983,20 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) Patch(ctx context.C
 			return false
 		}
 		st := s.Res.LifecycleState
+		details := ""
+		if s.Res.LifecycleDetails != nil {
+			details = *s.Res.LifecycleDetails
+		}
 		return st == oci_distributed_database.DistributedDatabaseLifecycleStateActive ||
 			st == oci_distributed_database.DistributedDatabaseLifecycleStateInactive ||
-			st == oci_distributed_database.DistributedDatabaseLifecycleStateNeedsAttention
+			isRecoverableShardProvisioningState(string(st), details)
 	}
 
-	return tfresource.WaitForResourceCondition(s, stable, s.D.Timeout(schema.TimeoutUpdate))
+	if err := tfresource.WaitForResourceCondition(s, stable, s.D.Timeout(schema.TimeoutUpdate)); err != nil {
+		return err
+	}
+
+	return restoreConfiguredPatchDrivenShardState(s.D)
 }
 
 func (s *DistributedDatabaseDistributedDatabaseResourceCrud) getDistributedDatabaseFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -3122,10 +3285,27 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) UpdateWithContext(c
 			s.D.HasChange("defined_tags")
 	// IMPORTANT: compartment_id is handled via ChangeCompartment API (WR), not PUT.
 
-	needsPatch := false
-	if v, ok := s.D.GetOkExists("patch_operations"); ok && s.D.HasChange("patch_operations") {
-		if ops, ok2 := v.([]interface{}); ok2 && len(ops) > 0 {
-			needsPatch = true
+	patchOperations := getPlannedOrCurrentList(s.D, "patch_operations")
+	needsPatch := s.D.HasChange("patch_operations") && len(patchOperations) > 0
+
+	// If a prior shard INSERT PATCH already succeeded but refresh wrote the observed
+	// topology back into state, Terraform will see both patch_operations and
+	// shard_details drift on the next apply. When the old state already has more
+	// shards than config for the same INSERT request, heal state from config instead
+	// of issuing the INSERT again.
+	if needsPatch && !needsCompartmentMove && !needsPutUpdate && s.D.HasChange("shard_details") &&
+		patchOperationsListTargetShardDetails(patchOperations) &&
+		patchOperationsListHaveOperation(patchOperations, "INSERT") {
+		oldShardDetailsRaw, newShardDetailsRaw := s.D.GetChange("shard_details")
+		oldShardDetails, _ := oldShardDetailsRaw.([]interface{})
+		newShardDetails, _ := newShardDetailsRaw.([]interface{})
+
+		if len(oldShardDetails) > len(newShardDetails) {
+			if err := s.GetWithContext(ctx); err != nil {
+				return err
+			}
+
+			return restoreConfiguredPatchDrivenShardState(s.D)
 		}
 	}
 
@@ -3327,6 +3507,10 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) SetData() error {
 
 	s.D.Set("private_endpoint_ids", s.Res.PrivateEndpointIds)
 
+	if patchOperations := getPlannedOrCurrentList(s.D, "patch_operations"); len(patchOperations) > 0 {
+		s.D.Set("patch_operations", patchOperations)
+	}
+
 	if s.Res.ReplicationFactor != nil {
 		s.D.Set("replication_factor", *s.Res.ReplicationFactor)
 	}
@@ -3334,19 +3518,23 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) SetData() error {
 	s.D.Set("replication_method", s.Res.ReplicationMethod)
 
 	if s.Res.ReplicationUnit != nil {
-		s.D.Set("replication_unit", *s.Res.ReplicationUnit)
+		s.D.Set("effective_replication_unit", *s.Res.ReplicationUnit)
+	}
+
+	if err := setWriteOnceIntState(s.D, "replication_unit", s.Res.ReplicationUnit); err != nil {
+		return err
 	}
 
 	if s.Res.ScanListenerPort != nil {
 		s.D.Set("scan_listener_port", *s.Res.ScanListenerPort)
 	}
 
-	if configuredPatchOperationsTargetShardDetails(s.D) {
+	if shouldPreserveConfiguredShardDetailsState(s.D, string(s.Res.LifecycleState), len(s.Res.ShardDetails)) {
 		// TF_CODE_GEN: TERSI-4920-TOP-23 shard_details is both a create-time input and
 		// the service's observed topology. When shard topology is managed through configured
 		// patch_operations, keep the configured shard_details in state so refresh does not
-		// turn a successful INSERT/REMOVE PATCH into a perpetual recreate diff.
-		s.D.Set("shard_details", s.D.Get("shard_details"))
+		// overwrite PATCH-driven intent with the observed topology.
+		s.D.Set("shard_details", getPlannedOrCurrentList(s.D, "shard_details"))
 	} else {
 		shardDetails := []interface{}{}
 		for _, item := range s.Res.ShardDetails {
@@ -3383,9 +3571,26 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) StartDistributedDat
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "distributed_database")
 
-	_, err := s.Client.StartDistributedDatabase(ctx, request)
+	response, err := s.Client.StartDistributedDatabase(ctx, request)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId == nil || *workId == "" {
+		return fmt.Errorf("missing opc-work-request-id for StartDistributedDatabase")
+	}
+
+	if err := waitForDistributedDatabaseWorkRequestCompletion(
+		ctx,
+		workId,
+		"distributeddatabase",
+		oci_distributed_database.ActionTypeUpdated,
+		s.D.Timeout(schema.TimeoutUpdate),
+		s.DisableNotFoundRetries,
+		s.WorkRequestClient,
+	); err != nil {
+		return fmt.Errorf("StartDistributedDatabase failed for distributed database %s (work request %s): %w", s.D.Id(), *workId, err)
 	}
 
 	retentionPolicyFunc := func() bool {
@@ -3405,9 +3610,26 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) StopDistributedData
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "distributed_database")
 
-	_, err := s.Client.StopDistributedDatabase(ctx, request)
+	response, err := s.Client.StopDistributedDatabase(ctx, request)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId == nil || *workId == "" {
+		return fmt.Errorf("missing opc-work-request-id for StopDistributedDatabase")
+	}
+
+	if err := waitForDistributedDatabaseWorkRequestCompletion(
+		ctx,
+		workId,
+		"distributeddatabase",
+		oci_distributed_database.ActionTypeUpdated,
+		s.D.Timeout(schema.TimeoutUpdate),
+		s.DisableNotFoundRetries,
+		s.WorkRequestClient,
+	); err != nil {
+		return fmt.Errorf("StopDistributedDatabase failed for distributed database %s (work request %s): %w", s.D.Id(), *workId, err)
 	}
 
 	retentionPolicyFunc := func() bool {
@@ -5062,6 +5284,35 @@ func getConfiguredRawFieldValue(d *schema.ResourceData, fieldKey string) (cty.Va
 	}
 
 	return value, true
+}
+
+func getPriorOrCurrentIntStateValue(d *schema.ResourceData, fieldKey string) (int, bool) {
+	if d.HasChange(fieldKey) {
+		oldRaw, _ := d.GetChange(fieldKey)
+		if oldValue, ok := oldRaw.(int); ok && oldValue != 0 {
+			return oldValue, true
+		}
+	}
+
+	if currentRaw, ok := d.GetOkExists(fieldKey); ok {
+		if currentValue, ok := currentRaw.(int); ok && currentValue != 0 {
+			return currentValue, true
+		}
+	}
+
+	return 0, false
+}
+
+func setWriteOnceIntState(d *schema.ResourceData, fieldKey string, observed *int) error {
+	if preserved, ok := getPriorOrCurrentIntStateValue(d, fieldKey); ok {
+		return d.Set(fieldKey, preserved)
+	}
+
+	if observed != nil {
+		return d.Set(fieldKey, *observed)
+	}
+
+	return nil
 }
 
 func getConfiguredStringPointer(d *schema.ResourceData, fieldKey string) *string {
