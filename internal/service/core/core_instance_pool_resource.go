@@ -337,6 +337,10 @@ func CoreInstancePoolResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"pool_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:             schema.TypeString,
 				Computed:         true,
@@ -783,6 +787,8 @@ func (s *CoreInstancePoolResourceCrud) SetData() error {
 		placementConfigurations = append(placementConfigurations, InstancePoolPlacementConfigurationToMap(item))
 	}
 	s.D.Set("placement_configurations", placementConfigurations)
+
+	s.D.Set("pool_type", s.Res.PoolType)
 
 	// We Update value of size in state file only if the size of the
 	// instance pool is modified in the TF config by the user.
