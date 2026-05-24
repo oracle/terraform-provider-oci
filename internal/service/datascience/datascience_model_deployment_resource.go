@@ -88,6 +88,33 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 											Type: schema.TypeString,
 										},
 									},
+									"custom_http_endpoints": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"endpoint_uri_suffix": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"http_methods": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+
+												// Computed
+											},
+										},
+									},
 									"default_environment_variables": {
 										Type:     schema.TypeMap,
 										Optional: true,
@@ -120,6 +147,11 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 										Computed: true,
 									},
 									"image_digest": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"predict_api_specification": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -1616,6 +1648,42 @@ func CustomExpressionQueryScalingConfigurationToMap(obj *oci_datascience.CustomE
 	return result
 }
 
+func (s *DatascienceModelDeploymentResourceCrud) mapToInferenceHttpEndpoint(fieldKeyFormat string) (oci_datascience.InferenceHttpEndpoint, error) {
+	result := oci_datascience.InferenceHttpEndpoint{}
+
+	if endpointUriSuffix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint_uri_suffix")); ok {
+		tmp := endpointUriSuffix.(string)
+		result.EndpointUriSuffix = &tmp
+	}
+
+	if httpMethods, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "http_methods")); ok {
+		interfaces := httpMethods.([]interface{})
+		tmp := make([]oci_datascience.HttpMethodEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_datascience.HttpMethodEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "http_methods")) {
+			result.HttpMethods = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func InferenceHttpEndpointToMap(obj oci_datascience.InferenceHttpEndpoint) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.EndpointUriSuffix != nil {
+		result["endpoint_uri_suffix"] = string(*obj.EndpointUriSuffix)
+	}
+
+	result["http_methods"] = obj.HttpMethods
+
+	return result
+}
+
 func (s *DatascienceModelDeploymentResourceCrud) mapToInfrastructureConfigurationDetails(fieldKeyFormat string) (oci_datascience.InfrastructureConfigurationDetails, error) {
 	var baseObject oci_datascience.InfrastructureConfigurationDetails
 	//discriminator
@@ -2305,6 +2373,22 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToModelDeploymentEnvironment
 				details.Cmd = tmp
 			}
 		}
+		if customHttpEndpoints, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_http_endpoints")); ok {
+			interfaces := customHttpEndpoints.([]interface{})
+			tmp := make([]oci_datascience.InferenceHttpEndpoint, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "custom_http_endpoints"), stateDataIndex)
+				converted, err := s.mapToInferenceHttpEndpoint(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "custom_http_endpoints")) {
+				details.CustomHttpEndpoints = tmp
+			}
+		}
 		if entrypoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "entrypoint")); ok {
 			interfaces := entrypoint.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -2331,6 +2415,10 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToModelDeploymentEnvironment
 		if imageDigest, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_digest")); ok {
 			tmp := imageDigest.(string)
 			details.ImageDigest = &tmp
+		}
+		if predictApiSpecification, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "predict_api_specification")); ok {
+			tmp := predictApiSpecification.(string)
+			details.PredictApiSpecification = &tmp
 		}
 		if imageSignatureId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_signature_id")); ok {
 			tmp := imageSignatureId.(string)
@@ -2378,6 +2466,22 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToUpdateModelDeploymentEnvir
 				details.Cmd = tmp
 			}
 		}
+		if customHttpEndpoints, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_http_endpoints")); ok {
+			interfaces := customHttpEndpoints.([]interface{})
+			tmp := make([]oci_datascience.InferenceHttpEndpoint, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "custom_http_endpoints"), stateDataIndex)
+				converted, err := s.mapToInferenceHttpEndpoint(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "custom_http_endpoints")) {
+				details.CustomHttpEndpoints = tmp
+			}
+		}
 		if entrypoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "entrypoint")); ok {
 			interfaces := entrypoint.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -2404,6 +2508,10 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToUpdateModelDeploymentEnvir
 		if imageDigest, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_digest")); ok {
 			tmp := imageDigest.(string)
 			details.ImageDigest = &tmp
+		}
+		if predictApiSpecification, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "predict_api_specification")); ok {
+			tmp := predictApiSpecification.(string)
+			details.PredictApiSpecification = &tmp
 		}
 		if imageSignatureId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_signature_id")); ok {
 			tmp := imageSignatureId.(string)
@@ -2434,6 +2542,12 @@ func ModelDeploymentEnvironmentConfigurationDetailsToMap(obj *oci_datascience.Mo
 		result["cmd"] = v.Cmd
 		result["cmd"] = v.Cmd
 
+		customHttpEndpoints := []interface{}{}
+		for _, item := range v.CustomHttpEndpoints {
+			customHttpEndpoints = append(customHttpEndpoints, InferenceHttpEndpointToMap(item))
+		}
+		result["custom_http_endpoints"] = customHttpEndpoints
+
 		result["entrypoint"] = v.Entrypoint
 		result["entrypoint"] = v.Entrypoint
 
@@ -2450,6 +2564,10 @@ func ModelDeploymentEnvironmentConfigurationDetailsToMap(obj *oci_datascience.Mo
 
 		if v.ImageDigest != nil {
 			result["image_digest"] = string(*v.ImageDigest)
+		}
+
+		if v.PredictApiSpecification != nil {
+			result["predict_api_specification"] = string(*v.PredictApiSpecification)
 		}
 
 		if v.ImageSignatureId != nil {
@@ -2767,6 +2885,12 @@ func UpdateModelDeploymentEnvironmentConfigurationDetailsToMap(obj *oci_datascie
 		result["cmd"] = v.Cmd
 		result["cmd"] = v.Cmd
 
+		customHttpEndpoints := []interface{}{}
+		for _, item := range v.CustomHttpEndpoints {
+			customHttpEndpoints = append(customHttpEndpoints, InferenceHttpEndpointToMap(item))
+		}
+		result["custom_http_endpoints"] = customHttpEndpoints
+
 		result["entrypoint"] = v.Entrypoint
 		result["entrypoint"] = v.Entrypoint
 
@@ -2783,6 +2907,10 @@ func UpdateModelDeploymentEnvironmentConfigurationDetailsToMap(obj *oci_datascie
 
 		if v.ImageDigest != nil {
 			result["image_digest"] = string(*v.ImageDigest)
+		}
+
+		if v.PredictApiSpecification != nil {
+			result["predict_api_specification"] = string(*v.PredictApiSpecification)
 		}
 
 		if v.ImageSignatureId != nil {
