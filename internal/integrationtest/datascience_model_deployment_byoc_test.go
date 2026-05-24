@@ -57,19 +57,40 @@ var (
 
 	DatascienceModelDeploymentBYOCModelDeploymentConfigurationDetailsRepresentation = map[string]interface{}{
 		"deployment_type":                   acctest.Representation{RepType: acctest.Required, Create: `SINGLE_MODEL`},
-		"model_configuration_details":       acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceModelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsRepresentation},
+		"model_configuration_details":       acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceModelDeploymentBYOCModelDeploymentConfigurationDetailsModelConfigurationDetailsRepresentation},
 		"environment_configuration_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceModelDeploymentBYOCModelDeploymentConfigurationDetailsEnvironmentConfigurationDetailsRepresentation},
 	}
+
+	DatascienceModelDeploymentBYOCModelDeploymentConfigurationDetailsModelConfigurationDetailsRepresentation = acctest.RepresentationCopyWithNewProperties(
+		DatascienceModelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsRepresentation,
+		map[string]interface{}{
+			"instance_configuration": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceModelDeploymentBYOCModelDeploymentConfigurationDetailsModelConfigurationDetailsInstanceConfigurationRepresentation},
+		},
+	)
+
+	DatascienceModelDeploymentBYOCModelDeploymentConfigurationDetailsModelConfigurationDetailsInstanceConfigurationRepresentation = acctest.RepresentationCopyWithNewProperties(
+		DatascienceModelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsInstanceConfigurationRepresentation,
+		map[string]interface{}{
+			"subnet_id": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: nil},
+		},
+	)
 
 	DatascienceModelDeploymentBYOCModelDeploymentConfigurationDetailsEnvironmentConfigurationDetailsRepresentation = map[string]interface{}{
 		"environment_configuration_type": acctest.Representation{RepType: acctest.Required, Create: `OCIR_CONTAINER`, Update: `OCIR_CONTAINER`},
 		"cmd":                            acctest.Representation{RepType: acctest.Optional, Create: []string{`python`, `-m`, `uvicorn`, `local_server_main:app`, `--port`, `5000`, `--host`, `0.0.0.0`}, Update: []string{`python`, `-m`, `uvicorn`, `local_server_main:app`, `--port`, `5000`, `--host`, `0.0.0.0`}},
+		"custom_http_endpoints":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceModelDeploymentBYOCModelDeploymentConfigurationDetailsEnvironmentConfigurationDetailsCustomHttpEndpointsRepresentation},
 		"entrypoint":                     acctest.Representation{RepType: acctest.Optional, Create: []string{``}, Update: []string{``}},
 		"environment_variables":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"environmentVariables": ""}, Update: map[string]string{"environmentVariables": "1"}},
 		"health_check_port":              acctest.Representation{RepType: acctest.Optional, Create: `5000`, Update: `5000`},
-		"image":                          acctest.Representation{RepType: acctest.Optional, Create: `iad.ocir.io/ociodscdev/onnx_demo:1.0.3`, Update: `iad.ocir.io/ociodscdev/onnx_demo:1.0.3`},
+		"image":                          acctest.Representation{RepType: acctest.Optional, Create: `iad.ocir.io/ociodscdev/onnx_demo:1.0.5`, Update: `iad.ocir.io/ociodscdev/onnx_demo:1.0.5`},
 		"image_digest":                   acctest.Representation{RepType: acctest.Optional, Create: ``, Update: ``},
+		"predict_api_specification":      acctest.Representation{RepType: acctest.Optional, Create: `openai`, Update: `openai`},
 		"server_port":                    acctest.Representation{RepType: acctest.Optional, Create: `5000`, Update: `5000`},
+	}
+
+	DatascienceModelDeploymentBYOCModelDeploymentConfigurationDetailsEnvironmentConfigurationDetailsCustomHttpEndpointsRepresentation = map[string]interface{}{
+		"endpoint_uri_suffix": acctest.Representation{RepType: acctest.Required, Create: `/custom_predict`, Update: `/custom_predict_v2`},
+		"http_methods":        acctest.Representation{RepType: acctest.Required, Create: []string{`POST`}, Update: []string{`POST`}},
 	}
 
 	DatascienceModelDeploymentBYOCCategoryLogDetailsRepresentation = map[string]interface{}{
@@ -173,10 +194,14 @@ func TestDatascienceModelDeploymentBYOCResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.cmd.6", "--host"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.entrypoint.0", ""),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_configuration_type", "OCIR_CONTAINER"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.custom_http_endpoints.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.custom_http_endpoints.0.endpoint_uri_suffix", "/custom_predict"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.custom_http_endpoints.0.http_methods.0", "POST"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_variables.environmentVariables", ""),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.health_check_port", "5000"),
-				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/onnx_demo:1.0.3"),
-				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:243590ea099af4019b6afc104b8a70b9552f0b001b37d0442f8b5a399244681c"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/onnx_demo:1.0.5"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:35d05075f1556ea5e87d9d7fbbf7612ffff15d174f44c9c33927c991f5845a40"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.predict_api_specification", "openai"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.server_port", "5000"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.bandwidth_mbps", "10"),
@@ -228,10 +253,14 @@ func TestDatascienceModelDeploymentBYOCResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.cmd.6", "--host"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.entrypoint.0", ""),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_configuration_type", "OCIR_CONTAINER"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.custom_http_endpoints.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.custom_http_endpoints.0.endpoint_uri_suffix", "/custom_predict_v2"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.custom_http_endpoints.0.http_methods.0", "POST"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_variables.environmentVariables", "1"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.health_check_port", "5000"),
-				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/onnx_demo:1.0.3"),
-				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:243590ea099af4019b6afc104b8a70b9552f0b001b37d0442f8b5a399244681c"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/onnx_demo:1.0.5"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:35d05075f1556ea5e87d9d7fbbf7612ffff15d174f44c9c33927c991f5845a40"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.predict_api_specification", "openai"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.server_port", "5000"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.bandwidth_mbps", "10"),
@@ -280,10 +309,14 @@ func TestDatascienceModelDeploymentBYOCResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.cmd.6", "--host"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.entrypoint.0", ""),
 				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_configuration_type", "OCIR_CONTAINER"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.custom_http_endpoints.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.custom_http_endpoints.0.endpoint_uri_suffix", "/custom_predict_v2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.custom_http_endpoints.0.http_methods.0", "POST"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_variables.environmentVariables", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.health_check_port", "5000"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/onnx_demo:1.0.3"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:243590ea099af4019b6afc104b8a70b9552f0b001b37d0442f8b5a399244681c"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/onnx_demo:1.0.5"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:35d05075f1556ea5e87d9d7fbbf7612ffff15d174f44c9c33927c991f5845a40"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.predict_api_specification", "openai"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.server_port", "5000"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_configuration_details.0.model_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_configuration_details.0.model_configuration_details.0.bandwidth_mbps", "10"),

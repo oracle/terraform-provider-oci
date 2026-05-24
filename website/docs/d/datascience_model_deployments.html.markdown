@@ -70,6 +70,9 @@ The following attributes are exported:
 	* `deployment_type` - The type of the model deployment.
 	* `environment_configuration_details` - The configuration to carry the environment details thats used in Model Deployment creation
 		* `cmd` - The container image run [CMD](https://docs.docker.com/engine/reference/builder/#cmd) as a list of strings. Use `CMD` as arguments to the `ENTRYPOINT` or the only command to run in the absence of an `ENTRYPOINT`. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. 
+		* `custom_http_endpoints` - List of custom inference HTTP endpoints configured on the model deployment instance for inferencing. 
+			* `endpoint_uri_suffix` - The suffix part of the endpoint that will be allowed for invocation. 
+			* `http_methods` - List of HTTP methods acceptable by the URI. 
 		* `default_environment_variables` - Service injected Environment variables set for the web server container and can not be set or modified by user. 
 		* `entrypoint` - The container image run [ENTRYPOINT](https://docs.docker.com/engine/reference/builder/#entrypoint) as a list of strings. Accept the `CMD` as extra arguments. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. More information on how `CMD` and `ENTRYPOINT` interact are [here](https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact). 
 		* `environment_configuration_type` - The environment configuration type
@@ -77,6 +80,7 @@ The following attributes are exported:
 		* `health_check_port` - The port on which the container [HEALTHCHECK](https://docs.docker.com/engine/reference/builder/#healthcheck) would listen. The port can be anything between `1024` and `65535`. The following ports cannot be used `24224`, `8446`, `8447`. 
 		* `image` - The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. The container image is optional while using service managed open source foundation model. Acceptable format: `<region>.ocir.io/<registry>/<image>:<tag>` `<region>.ocir.io/<registry>/<image>:<tag>@digest` 
 		* `image_digest` - The digest of the container image. For example, `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030` 
+		* `predict_api_specification` - The chosen specification from predefined set of endpoints a user can access.  For example, if the value is 'openai', the user can access OpenAI-compliant endpoints  like /v1/completions, /v1/chat/completions, /v1/models, etc., for inference. 
 		* `image_signature_id` - OCID of the container image signature
 		* `server_port` - The port on which the web server serving the inference is running. The port can be anything between `1024` and `65535`. The following ports cannot be used `24224`, `8446`, `8447`. 
 	* `infrastructure_configuration_details` - The infrastructure configuration details.
