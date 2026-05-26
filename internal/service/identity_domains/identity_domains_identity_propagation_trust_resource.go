@@ -61,6 +61,37 @@ func IdentityDomainsIdentityPropagationTrustResource() *schema.Resource {
 			},
 
 			// Optional
+			"ca_cert_chain": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"root_cas": {
+							Type:     schema.TypeList,
+							Required: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+
+						// Optional
+						"intermediate_cas": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 			"account_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -91,6 +122,37 @@ func IdentityDomainsIdentityPropagationTrustResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"claim_propagations": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"claim_validations": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"name": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"value": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 			"client_claim_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -111,6 +173,11 @@ func IdentityDomainsIdentityPropagationTrustResource() *schema.Resource {
 				Computed: true,
 			},
 			"description": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"impersonating_resource": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -463,6 +530,17 @@ func (s *IdentityDomainsIdentityPropagationTrustResourceCrud) ID() string {
 func (s *IdentityDomainsIdentityPropagationTrustResourceCrud) Create() error {
 	request := oci_identity_domains.CreateIdentityPropagationTrustRequest{}
 
+	if caCertChain, ok := s.D.GetOkExists("ca_cert_chain"); ok {
+		if tmpList := caCertChain.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ca_cert_chain", 0)
+			tmp, err := s.mapToIdentityPropagationTrustCaCertChain(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.CACertChain = &tmp
+		}
+	}
+
 	if accountId, ok := s.D.GetOkExists("account_id"); ok {
 		tmp := accountId.(string)
 		request.AccountId = &tmp
@@ -501,6 +579,36 @@ func (s *IdentityDomainsIdentityPropagationTrustResourceCrud) Create() error {
 		request.Authorization = &tmp
 	}
 
+	if claimPropagations, ok := s.D.GetOkExists("claim_propagations"); ok {
+		interfaces := claimPropagations.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("claim_propagations") {
+			request.ClaimPropagations = tmp
+		}
+	}
+
+	if claimValidations, ok := s.D.GetOkExists("claim_validations"); ok {
+		interfaces := claimValidations.([]interface{})
+		tmp := make([]oci_identity_domains.IdentityPropagationTrustClaimValidations, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "claim_validations", stateDataIndex)
+			converted, err := s.mapToIdentityPropagationTrustClaimValidations(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("claim_validations") {
+			request.ClaimValidations = tmp
+		}
+	}
+
 	if clientClaimName, ok := s.D.GetOkExists("client_claim_name"); ok {
 		tmp := clientClaimName.(string)
 		request.ClientClaimName = &tmp
@@ -528,6 +636,11 @@ func (s *IdentityDomainsIdentityPropagationTrustResourceCrud) Create() error {
 	if description, ok := s.D.GetOkExists("description"); ok {
 		tmp := description.(string)
 		request.Description = &tmp
+	}
+
+	if impersonatingResource, ok := s.D.GetOkExists("impersonating_resource"); ok {
+		tmp := impersonatingResource.(string)
+		request.ImpersonatingResource = &tmp
 	}
 
 	if impersonationServiceUsers, ok := s.D.GetOkExists("impersonation_service_users"); ok {
@@ -717,6 +830,17 @@ func (s *IdentityDomainsIdentityPropagationTrustResourceCrud) Get() error {
 func (s *IdentityDomainsIdentityPropagationTrustResourceCrud) Update() error {
 	request := oci_identity_domains.PutIdentityPropagationTrustRequest{}
 
+	if caCertChain, ok := s.D.GetOkExists("ca_cert_chain"); ok {
+		if tmpList := caCertChain.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ca_cert_chain", 0)
+			tmp, err := s.mapToIdentityPropagationTrustCaCertChain(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.CACertChain = &tmp
+		}
+	}
+
 	if accountId, ok := s.D.GetOkExists("account_id"); ok {
 		tmp := accountId.(string)
 		request.AccountId = &tmp
@@ -755,6 +879,36 @@ func (s *IdentityDomainsIdentityPropagationTrustResourceCrud) Update() error {
 		request.Authorization = &tmp
 	}
 
+	if claimPropagations, ok := s.D.GetOkExists("claim_propagations"); ok {
+		interfaces := claimPropagations.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("claim_propagations") {
+			request.ClaimPropagations = tmp
+		}
+	}
+
+	if claimValidations, ok := s.D.GetOkExists("claim_validations"); ok {
+		interfaces := claimValidations.([]interface{})
+		tmp := make([]oci_identity_domains.IdentityPropagationTrustClaimValidations, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "claim_validations", stateDataIndex)
+			converted, err := s.mapToIdentityPropagationTrustClaimValidations(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("claim_validations") {
+			request.ClaimValidations = tmp
+		}
+	}
+
 	if clientClaimName, ok := s.D.GetOkExists("client_claim_name"); ok {
 		tmp := clientClaimName.(string)
 		request.ClientClaimName = &tmp
@@ -786,6 +940,11 @@ func (s *IdentityDomainsIdentityPropagationTrustResourceCrud) Update() error {
 
 	tmp := s.D.Id()
 	request.IdentityPropagationTrustId = &tmp
+
+	if impersonatingResource, ok := s.D.GetOkExists("impersonating_resource"); ok {
+		tmp := impersonatingResource.(string)
+		request.ImpersonatingResource = &tmp
+	}
 
 	if impersonationServiceUsers, ok := s.D.GetOkExists("impersonation_service_users"); ok {
 		set := impersonationServiceUsers.(*schema.Set)
@@ -956,6 +1115,12 @@ func (s *IdentityDomainsIdentityPropagationTrustResourceCrud) SetData() error {
 		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
 	}
 
+	if s.Res.CACertChain != nil {
+		s.D.Set("ca_cert_chain", []interface{}{IdentityPropagationTrustCaCertChainToMap(s.Res.CACertChain)})
+	} else {
+		s.D.Set("ca_cert_chain", nil)
+	}
+
 	if s.Res.AccountId != nil {
 		s.D.Set("account_id", *s.Res.AccountId)
 	}
@@ -967,6 +1132,14 @@ func (s *IdentityDomainsIdentityPropagationTrustResourceCrud) SetData() error {
 	if s.Res.AllowImpersonation != nil {
 		s.D.Set("allow_impersonation", *s.Res.AllowImpersonation)
 	}
+
+	s.D.Set("claim_propagations", s.Res.ClaimPropagations)
+
+	claimValidations := []interface{}{}
+	for _, item := range s.Res.ClaimValidations {
+		claimValidations = append(claimValidations, IdentityPropagationTrustClaimValidationsToMap(item))
+	}
+	s.D.Set("claim_validations", claimValidations)
 
 	if s.Res.ClientClaimName != nil {
 		s.D.Set("client_claim_name", *s.Res.ClientClaimName)
@@ -1015,6 +1188,10 @@ func (s *IdentityDomainsIdentityPropagationTrustResourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
+
+	if s.Res.ImpersonatingResource != nil {
+		s.D.Set("impersonating_resource", *s.Res.ImpersonatingResource)
+	}
 
 	impersonationServiceUsers := []interface{}{}
 	for _, item := range s.Res.ImpersonationServiceUsers {
@@ -1102,6 +1279,10 @@ func parseIdentityPropagationTrustCompositeId(compositeId string) (identityPropa
 func IdentityPropagationTrustToMap(obj oci_identity_domains.IdentityPropagationTrust, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.CACertChain != nil {
+		result["ca_cert_chain"] = []interface{}{IdentityPropagationTrustCaCertChainToMap(obj.CACertChain)}
+	}
+
 	if obj.AccountId != nil {
 		result["account_id"] = string(*obj.AccountId)
 	}
@@ -1113,6 +1294,14 @@ func IdentityPropagationTrustToMap(obj oci_identity_domains.IdentityPropagationT
 	if obj.AllowImpersonation != nil {
 		result["allow_impersonation"] = bool(*obj.AllowImpersonation)
 	}
+
+	result["claim_propagations"] = obj.ClaimPropagations
+
+	claimValidations := []interface{}{}
+	for _, item := range obj.ClaimValidations {
+		claimValidations = append(claimValidations, IdentityPropagationTrustClaimValidationsToMap(item))
+	}
+	result["claim_validations"] = claimValidations
 
 	if obj.ClientClaimName != nil {
 		result["client_claim_name"] = string(*obj.ClientClaimName)
@@ -1165,6 +1354,10 @@ func IdentityPropagationTrustToMap(obj oci_identity_domains.IdentityPropagationT
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
+
+	if obj.ImpersonatingResource != nil {
+		result["impersonating_resource"] = string(*obj.ImpersonatingResource)
+	}
 
 	impersonationServiceUsers := []interface{}{}
 	for _, item := range obj.ImpersonationServiceUsers {
@@ -1237,6 +1430,78 @@ func IdentityPropagationTrustToMap(obj oci_identity_domains.IdentityPropagationT
 	}
 
 	result["type"] = string(obj.Type)
+
+	return result
+}
+
+func (s *IdentityDomainsIdentityPropagationTrustResourceCrud) mapToIdentityPropagationTrustCaCertChain(fieldKeyFormat string) (oci_identity_domains.IdentityPropagationTrustCaCertChain, error) {
+	result := oci_identity_domains.IdentityPropagationTrustCaCertChain{}
+
+	if intermediateCAs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "intermediate_cas")); ok {
+		interfaces := intermediateCAs.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "intermediate_cas")) {
+			result.IntermediateCAs = tmp
+		}
+	}
+
+	if rootCAs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "root_cas")); ok {
+		interfaces := rootCAs.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "root_cas")) {
+			result.RootCAs = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func IdentityPropagationTrustCaCertChainToMap(obj *oci_identity_domains.IdentityPropagationTrustCaCertChain) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["intermediate_cas"] = obj.IntermediateCAs
+
+	result["root_cas"] = obj.RootCAs
+
+	return result
+}
+
+func (s *IdentityDomainsIdentityPropagationTrustResourceCrud) mapToIdentityPropagationTrustClaimValidations(fieldKeyFormat string) (oci_identity_domains.IdentityPropagationTrustClaimValidations, error) {
+	result := oci_identity_domains.IdentityPropagationTrustClaimValidations{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
+}
+
+func IdentityPropagationTrustClaimValidationsToMap(obj oci_identity_domains.IdentityPropagationTrustClaimValidations) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
 
 	return result
 }
