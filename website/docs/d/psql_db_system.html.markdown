@@ -75,6 +75,11 @@ The following attributes are exported:
 	* `nsg_ids` - List of customer Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the database system.
 	* `primary_db_endpoint_private_ip` - Private IP in customer subnet. The value is optional. If the IP is not provided, the IP will be chosen from the available IP addresses from the specified subnet. 
 	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer subnet associated with the database system.
+* `odsp_insight_details` - ODSP Insight details for the database system.
+	* `kind` - Specifies the management of Insight for the dbSystem.
+	* `odsp_insight_list` - List of ODSP Insight and their configurations.
+		* `insight_type` - Type of Insight collected for the database system.
+		* `retention_period_in_days` - Retention period for Insight data, in days. Current supported value is 7 days. the system default is 7 days.
 * `shape` - The name of the shape for the database instance. Example: `VM.Standard.E4.Flex` 
 * `source` - The source of the database system.
 	* `backup_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database system backup.

@@ -396,6 +396,59 @@ func PsqlDbSystemResource() *schema.Resource {
 					},
 				},
 			},
+			"odsp_insight_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 1,
+				MinItems: 1,
+				DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+					return isOdspInsightDisabled(old, new, d)
+				},
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"kind": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"DISABLED",
+								"ENABLED",
+							}, true),
+						},
+
+						// Optional
+						"odsp_insight_list": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"insight_type": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"retention_period_in_days": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+							DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+								return isOdspInsightDisabled(old, new, d)
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 			"patch_operations": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -735,6 +788,17 @@ func (s *PsqlDbSystemResourceCrud) Create() error {
 		}
 	}
 
+	if odspInsightDetails, ok := s.D.GetOkExists("odsp_insight_details"); ok {
+		if tmpList := odspInsightDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "odsp_insight_details", 0)
+			tmp, err := s.mapToOdspInsightDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.OdspInsightDetails = tmp
+		}
+	}
+
 	if shape, ok := s.D.GetOkExists("shape"); ok {
 		tmp := normalizeShape(shape.(string))
 		request.Shape = &tmp
@@ -1057,6 +1121,26 @@ func (s *PsqlDbSystemResourceCrud) Update() error {
 		}
 	}
 
+	if odspInsightDetails, ok := s.D.GetOkExists("odsp_insight_details"); ok && s.D.HasChange("odsp_insight_details") {
+		if tmpList := odspInsightDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "odsp_insight_details", 0)
+			oldVal, newVal := s.D.GetChange(fmt.Sprintf(fieldKeyFormat, "kind"))
+			if oldVal == "ENABLED" && newVal == "" {
+				s.D.Set("odsp_insight_details.kind", "DISABLED")
+			}
+			tmp, err := s.mapToOdspInsightDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.OdspInsightDetails = tmp
+		} else {
+			var baseObject oci_psql.OdspInsightDetails
+			details := oci_psql.DisabledInsightDetails{}
+			baseObject = details
+			request.OdspInsightDetails = baseObject
+		}
+	}
+
 	if shape, ok := s.D.GetOkExists("shape"); ok && s.D.HasChange("shape") {
 		tmp := normalizeShape(shape.(string))
 		request.Shape = &tmp
@@ -1206,6 +1290,16 @@ func (s *PsqlDbSystemResourceCrud) SetData() error {
 		s.D.Set("network_details", []interface{}{NetworkDetailsToMap(s.Res.NetworkDetails, false)})
 	} else {
 		s.D.Set("network_details", nil)
+	}
+
+	if s.Res.OdspInsightDetails != nil {
+		odspInsightDetailsArray := []interface{}{}
+		if odspInsightDetailsMap := OdspInsightDetailsToMap(&s.Res.OdspInsightDetails); odspInsightDetailsMap != nil {
+			odspInsightDetailsArray = append(odspInsightDetailsArray, odspInsightDetailsMap)
+		}
+		s.D.Set("odsp_insight_details", odspInsightDetailsArray)
+	} else {
+		s.D.Set("odsp_insight_details", nil)
 	}
 
 	if s.Res.Shape != nil {
@@ -1837,6 +1931,93 @@ func NetworkDetailsToMap(obj *oci_psql.NetworkDetails, datasource bool) map[stri
 	return result
 }
 
+func (s *PsqlDbSystemResourceCrud) mapToOdspInsight(fieldKeyFormat string) (oci_psql.OdspInsight, error) {
+	result := oci_psql.OdspInsight{}
+
+	if insightType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "insight_type")); ok {
+		result.InsightType = oci_psql.OdspInsightInsightTypeEnum(insightType.(string))
+	}
+
+	if retentionPeriodInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "retention_period_in_days")); ok {
+		tmp := retentionPeriodInDays.(int)
+		result.RetentionPeriodInDays = &tmp
+	}
+
+	return result, nil
+}
+
+func OdspInsightToMap(obj oci_psql.OdspInsight) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["insight_type"] = string(obj.InsightType)
+
+	if obj.RetentionPeriodInDays != nil {
+		result["retention_period_in_days"] = int(*obj.RetentionPeriodInDays)
+	}
+
+	return result
+}
+
+func (s *PsqlDbSystemResourceCrud) mapToOdspInsightDetails(fieldKeyFormat string) (oci_psql.OdspInsightDetails, error) {
+	var baseObject oci_psql.OdspInsightDetails
+	//discriminator
+	kindRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kind"))
+	var kind string
+	if ok {
+		kind = kindRaw.(string)
+	} else {
+		kind = "" // default value
+	}
+	switch strings.ToLower(kind) {
+	case strings.ToLower("DISABLED"):
+		details := oci_psql.DisabledInsightDetails{}
+		baseObject = details
+	case strings.ToLower("ENABLED"):
+		details := oci_psql.EnabledInsightDetails{}
+		if odspInsightList, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "odsp_insight_list")); ok {
+			interfaces := odspInsightList.([]interface{})
+			tmp := make([]oci_psql.OdspInsight, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "odsp_insight_list"), stateDataIndex)
+				converted, err := s.mapToOdspInsight(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "odsp_insight_list")) {
+				details.OdspInsightList = tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown kind '%v' was specified", kind)
+	}
+	return baseObject, nil
+}
+
+func OdspInsightDetailsToMap(obj *oci_psql.OdspInsightDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_psql.DisabledInsightDetails:
+		result["kind"] = "DISABLED"
+	case oci_psql.EnabledInsightDetails:
+		result["kind"] = "ENABLED"
+
+		odspInsightList := []interface{}{}
+		for _, item := range v.OdspInsightList {
+			odspInsightList = append(odspInsightList, OdspInsightToMap(item))
+		}
+		result["odsp_insight_list"] = odspInsightList
+	default:
+		log.Printf("[WARN] Received 'kind' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *PsqlDbSystemResourceCrud) mapToPasswordDetails(fieldKeyFormat string) (oci_psql.PasswordDetails, error) {
 	var baseObject oci_psql.PasswordDetails
 	//discriminator
@@ -2164,4 +2345,19 @@ func normalizeShape(s string) string {
 	} else {
 		return prefix + s
 	}
+}
+
+func isOdspInsightDisabled(old, new string, d *schema.ResourceData) bool {
+	fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "odsp_insight_details", 0)
+	_, ok := d.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kind"))
+	if ok {
+		oldVal, newVal := d.GetChange(fmt.Sprintf(fieldKeyFormat, "kind"))
+		if oldVal == "" && newVal == "DISABLED" {
+			return true
+		}
+		if oldVal == "DISABLED" && newVal == "" {
+			return true
+		}
+	}
+	return false
 }
