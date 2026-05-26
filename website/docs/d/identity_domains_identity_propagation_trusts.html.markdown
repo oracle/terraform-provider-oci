@@ -54,6 +54,42 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `ca_cert_chain` - Certificate trust store. This is required if identity propagation type is X509.
+
+	**Added In:** 2508041610
+
+	**SCIM++ Properties:**
+	* caseExact: true
+	* type: complex
+	* multiValued: false
+	* required: false
+	* mutability: readWrite
+	* returned: default
+	* uniqueness: none
+	* `intermediate_cas` - A list of PEM-encoded intermediate CA certificates.
+
+		**Added In:** 2508041610
+
+		**SCIM++ Properties:**
+		* caseExact: true
+		* type: string
+		* multiValued: true
+		* required: false
+		* mutability: readWrite
+		* returned: default
+		* uniqueness: none
+	* `root_cas` - A list of PEM-encoded root CA certificates.
+
+		**Added In:** 2508041610
+
+		**SCIM++ Properties:**
+		* caseExact: true
+		* type: string
+		* multiValued: true
+		* required: true
+		* mutability: readWrite
+		* returned: default
+		* uniqueness: none
 * `account_id` - The Identity cloud provider service identifier, for example, the Azure Tenancy ID, AWS Account ID, or GCP Project ID.
 
 	**SCIM++ Properties:**
@@ -85,6 +121,57 @@ The following attributes are exported:
 	* returned: default
 	* uniqueness: none
 	* idcsSearchable: false
+* `claim_propagations` - A list of claims to propagate in RPST
+
+	**Added In:** 2509172316
+
+	**SCIM++ Properties:**
+	* idcsSearchable: false
+	* multiValued: true
+	* mutability: readWrite
+	* required: false
+	* returned: default
+	* type: string
+	* uniqueness: none
+* `claim_validations` - A list of claim validations
+
+	**Added In:** 2509172316
+
+	**SCIM++ Properties:**
+	* idcsCompositeKey: [name]
+	* idcsSearchable: false
+	* multiValued: true
+	* mutability: readWrite
+	* required: false
+	* returned: default
+	* type: complex
+	* uniqueness: none
+	* `name` - Claim Name
+
+		**Added In:** 2509172316
+
+		**SCIM++ Properties:**
+		* caseExact: true
+		* idcsSearchable: false
+		* multiValued: false
+		* mutability: readWrite
+		* required: true
+		* returned: default
+		* type: string
+		* uniqueness: none
+	* `value` - Claim Value
+
+		**Added In:** 2509172316
+
+		**SCIM++ Properties:**
+		* caseExact: true
+		* idcsSearchable: false
+		* multiValued: false
+		* mutability: readWrite
+		* required: true
+		* returned: default
+		* type: string
+		* uniqueness: none
 * `client_claim_name` - The claim name that identifies to whom the JWT/SAML token is issued. If AWS, then \"aud\" or \"client_id\". If Azure, then \"appid\". If GCP, then \"aud\".
 
 	**SCIM++ Properties:**
@@ -321,6 +408,19 @@ The following attributes are exported:
 	* returned: request
 	* type: string
 	* uniqueness: none
+* `impersonating_resource` - Defines the external workload that acts as impersonating resource principal.
+
+	**Added In:** 2509172316
+
+	**SCIM++ Properties:**
+	* type: string
+	* multiValued: false
+	* required: false
+	* mutability: readWrite
+	* returned: default
+	* uniqueness: none
+	* caseExact: true
+	* idcsSearchable: false
 * `impersonation_service_users` - The Impersonating Principal.
 
 	**SCIM++ Properties:**
