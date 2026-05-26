@@ -16,5 +16,6 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_psql_db_systems", PsqlDbSystemsDataSource())
 	tfresource.RegisterDatasource("oci_psql_default_configuration", PsqlDefaultConfigurationDataSource())
 	tfresource.RegisterDatasource("oci_psql_default_configurations", PsqlDefaultConfigurationsDataSource())
+	tfresource.RegisterDatasource("oci_psql_insight_capabilities", PsqlInsightCapabilitiesDataSource())
 	tfresource.RegisterDatasource("oci_psql_shapes", PsqlShapesDataSource())
 }

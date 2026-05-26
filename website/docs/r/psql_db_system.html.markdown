@@ -94,6 +94,18 @@ resource "oci_psql_db_system" "test_db_system" {
 		}
 		maintenance_window_start = var.db_system_management_policy_maintenance_window_start
 	}
+	odsp_insight_details {
+		#Required
+		kind = var.db_system_odsp_insight_details_kind
+
+		#Optional
+		odsp_insight_list {
+
+			#Optional
+			insight_type = var.db_system_odsp_insight_details_odsp_insight_list_insight_type
+			retention_period_in_days = var.db_system_odsp_insight_details_odsp_insight_list_retention_period_in_days
+		}
+	}
 	source {
 		#Required
 		source_type = var.db_system_source_source_type
@@ -161,11 +173,16 @@ The following arguments are supported:
 	* `nsg_ids` - (Optional) (Updatable) List of customer Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the database system.
 	* `primary_db_endpoint_private_ip` - (Optional) Private IP in customer subnet. The value is optional. If the IP is not provided, the IP will be chosen from the available IP addresses from the specified subnet. 
 	* `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer subnet associated with the database system.
+* `odsp_insight_details` - (Optional) (Updatable) ODSP Insight details for the database system.
+	* `kind` - (Required) (Updatable) Specifies the management of Insight for the dbSystem.
+	* `odsp_insight_list` - (Required when kind=ENABLED) (Updatable) List of ODSP Insight and their configurations.
+		* `insight_type` - (Required when kind=ENABLED) (Updatable) Type of Insight collected for the database system.
+		* `retention_period_in_days` - (Applicable when kind=ENABLED) (Updatable) Retention period for Insight data, in days. Current supported value is 7 days. the system default is 7 days.
 * `shape` - (Required) (Updatable) The name of the shape for the database instance node. Use the /shapes API for accepted shapes. Example: `VM.Standard.E4.Flex`
 * `patch_operations` - (Optional) (Updatable) For adding and removing from read replica database instances. Please remove the patch_operations after it is applied. Update the instance_count arrodrandly. Cannot be specified when creating the resource.
 	* `operation` - (Required) The operation can be one of these values: `INSERT`, `REMOVE`. 
 	* `selection` - (Required) In case of `INSERT`, selection is `instances`. In case of `REMOVE`, selection is `instances[?id == '${var.instance_id}']`.
-	* `value` - (Required when operation=INSERT) Specify instance details such as displayName, description or privateIp. Example: `{"displayName": "value"}`.
+	* `value` - (Required when operation=INSERT) Specify instance details such as displayName, description or privateIp. Example: `{"displayName": "value"}`. 
 * `source` - (Optional) The source of the database system.
 	* `backup_id` - (Required when source_type=BACKUP) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database system backup.
 	* `is_having_restore_config_overrides` - (Applicable when source_type=BACKUP) Deprecated. Don't use.
@@ -224,6 +241,11 @@ The following attributes are exported:
 	* `nsg_ids` - List of customer Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the database system.
 	* `primary_db_endpoint_private_ip` - Private IP in customer subnet. The value is optional. If the IP is not provided, the IP will be chosen from the available IP addresses from the specified subnet. 
 	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer subnet associated with the database system.
+* `odsp_insight_details` - ODSP Insight details for the database system.
+	* `kind` - Specifies the management of Insight for the dbSystem.
+	* `odsp_insight_list` - List of ODSP Insight and their configurations.
+		* `insight_type` - Type of Insight collected for the database system.
+		* `retention_period_in_days` - Retention period for Insight data, in days. Current supported value is 7 days. the system default is 7 days.
 * `shape` - The name of the shape for the database instance. Example: `VM.Standard.E4.Flex` 
 * `source` - The source of the database system.
 	* `backup_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database system backup.

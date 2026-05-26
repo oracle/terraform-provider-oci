@@ -148,6 +148,16 @@ func (s *PsqlDbSystemDataSourceCrud) SetData() error {
 		s.D.Set("network_details", nil)
 	}
 
+	if s.Res.OdspInsightDetails != nil {
+		odspInsightDetailsArray := []interface{}{}
+		if odspInsightDetailsMap := OdspInsightDetailsToMap(&s.Res.OdspInsightDetails); odspInsightDetailsMap != nil {
+			odspInsightDetailsArray = append(odspInsightDetailsArray, odspInsightDetailsMap)
+		}
+		s.D.Set("odsp_insight_details", odspInsightDetailsArray)
+	} else {
+		s.D.Set("odsp_insight_details", nil)
+	}
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}
