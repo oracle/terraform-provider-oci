@@ -119,8 +119,16 @@ type MaintenanceRun struct {
 	// The total time taken by corresponding resource activity in minutes.
 	TotalTimeTakenInMins *int `mandatory:"false" json:"totalTimeTakenInMins"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource the maintenance run will refer to when trying to fetch target versions.
+	// This field is set during maintenance run creation based on infrastructure's maintenance run version preferences.
+	// Currently this is only be supported for monthly maintenance runs created via scheduling plans.
+	ReferenceResourceIdForImageUpdates *string `mandatory:"false" json:"referenceResourceIdForImageUpdates"`
+
 	// The Autonomous AI Database Software Image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
+
+	// A list of key-value pairs where the key will contain the window type and value contains all the windowDetails of that window type.
+	WindowTypeDescriptions []WindowTypeDescription `mandatory:"false" json:"windowTypeDescriptions"`
 }
 
 func (m MaintenanceRun) String() string {

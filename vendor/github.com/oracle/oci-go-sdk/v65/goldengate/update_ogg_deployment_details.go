@@ -42,6 +42,9 @@ type UpdateOggDeploymentDetails struct {
 	// The base64 encoded content of the PEM file containing the private key.
 	Key *string `mandatory:"false" json:"key"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the deployment ssl private key is stored in PEM format.
+	KeySecretId *string `mandatory:"false" json:"keySecretId"`
+
 	GroupToRolesMapping *UpdateGroupToRolesMappingDetails `mandatory:"false" json:"groupToRolesMapping"`
 }
 

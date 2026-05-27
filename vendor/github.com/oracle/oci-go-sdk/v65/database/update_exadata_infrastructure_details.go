@@ -45,6 +45,8 @@ type UpdateExadataInfrastructureDetails struct {
 
 	MaintenanceWindow *MaintenanceWindow `mandatory:"false" json:"maintenanceWindow"`
 
+	MaintenanceVersionPreferences *MaintenanceVersionPreferenceDetails `mandatory:"false" json:"maintenanceVersionPreferences"`
+
 	// The requested number of additional storage servers for the Exadata infrastructure.
 	AdditionalStorageCount *int `mandatory:"false" json:"additionalStorageCount"`
 

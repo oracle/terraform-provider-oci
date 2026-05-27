@@ -50,14 +50,6 @@ func (m *createauthconfigurationdetails) UnmarshalPolymorphicJSON(data []byte) (
 
 	var err error
 	switch m.Type {
-	case "IDCS":
-		mm := CreateIdcsAuthConfigurationDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "IDCS_CUSTOM_SERVICE":
-		mm := CreateIdcsCustomServiceAuthConfigurationDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "IAM":
 		mm := CreateIamAuthConfigurationCreateDetails{}
 		err = json.Unmarshal(data, &mm)

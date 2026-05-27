@@ -188,6 +188,9 @@ const (
 	ListWorkRequestsOperationTypeScheduleDeactivate                ListWorkRequestsOperationTypeEnum = "SCHEDULE_DEACTIVATE"
 	ListWorkRequestsOperationTypeRegisterModelArtifact             ListWorkRequestsOperationTypeEnum = "REGISTER_MODEL_ARTIFACT"
 	ListWorkRequestsOperationTypeRestoreArchivedModel              ListWorkRequestsOperationTypeEnum = "RESTORE_ARCHIVED_MODEL"
+	ListWorkRequestsOperationTypeComputeTargetCreate               ListWorkRequestsOperationTypeEnum = "COMPUTE_TARGET_CREATE"
+	ListWorkRequestsOperationTypeComputeTargetUpdate               ListWorkRequestsOperationTypeEnum = "COMPUTE_TARGET_UPDATE"
+	ListWorkRequestsOperationTypeComputeTargetDelete               ListWorkRequestsOperationTypeEnum = "COMPUTE_TARGET_DELETE"
 	ListWorkRequestsOperationTypeModelGroupCreate                  ListWorkRequestsOperationTypeEnum = "MODEL_GROUP_CREATE"
 	ListWorkRequestsOperationTypeModelGroupUpdate                  ListWorkRequestsOperationTypeEnum = "MODEL_GROUP_UPDATE"
 	ListWorkRequestsOperationTypeModelGroupDelete                  ListWorkRequestsOperationTypeEnum = "MODEL_GROUP_DELETE"
@@ -241,6 +244,9 @@ var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperat
 	"SCHEDULE_DEACTIVATE":                  ListWorkRequestsOperationTypeScheduleDeactivate,
 	"REGISTER_MODEL_ARTIFACT":              ListWorkRequestsOperationTypeRegisterModelArtifact,
 	"RESTORE_ARCHIVED_MODEL":               ListWorkRequestsOperationTypeRestoreArchivedModel,
+	"COMPUTE_TARGET_CREATE":                ListWorkRequestsOperationTypeComputeTargetCreate,
+	"COMPUTE_TARGET_UPDATE":                ListWorkRequestsOperationTypeComputeTargetUpdate,
+	"COMPUTE_TARGET_DELETE":                ListWorkRequestsOperationTypeComputeTargetDelete,
 	"MODEL_GROUP_CREATE":                   ListWorkRequestsOperationTypeModelGroupCreate,
 	"MODEL_GROUP_UPDATE":                   ListWorkRequestsOperationTypeModelGroupUpdate,
 	"MODEL_GROUP_DELETE":                   ListWorkRequestsOperationTypeModelGroupDelete,
@@ -294,6 +300,9 @@ var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkReque
 	"schedule_deactivate":                  ListWorkRequestsOperationTypeScheduleDeactivate,
 	"register_model_artifact":              ListWorkRequestsOperationTypeRegisterModelArtifact,
 	"restore_archived_model":               ListWorkRequestsOperationTypeRestoreArchivedModel,
+	"compute_target_create":                ListWorkRequestsOperationTypeComputeTargetCreate,
+	"compute_target_update":                ListWorkRequestsOperationTypeComputeTargetUpdate,
+	"compute_target_delete":                ListWorkRequestsOperationTypeComputeTargetDelete,
 	"model_group_create":                   ListWorkRequestsOperationTypeModelGroupCreate,
 	"model_group_update":                   ListWorkRequestsOperationTypeModelGroupUpdate,
 	"model_group_delete":                   ListWorkRequestsOperationTypeModelGroupDelete,
@@ -358,6 +367,9 @@ func GetListWorkRequestsOperationTypeEnumStringValues() []string {
 		"SCHEDULE_DEACTIVATE",
 		"REGISTER_MODEL_ARTIFACT",
 		"RESTORE_ARCHIVED_MODEL",
+		"COMPUTE_TARGET_CREATE",
+		"COMPUTE_TARGET_UPDATE",
+		"COMPUTE_TARGET_DELETE",
 		"MODEL_GROUP_CREATE",
 		"MODEL_GROUP_UPDATE",
 		"MODEL_GROUP_DELETE",

@@ -17660,7 +17660,7 @@ func (client DatabaseClient) listDbServers(ctx context.Context, request common.O
 	return response, err
 }
 
-// ListDbSystemComputePerformances Gets a list of expected compute performance parameters for a virtual machine DB system based on system configuration.
+// ListDbSystemComputePerformances Gets a list of expected compute performance parameters for a virtual machine DB system based on system configuration. Adding compartmentId does not affect results.
 //
 // # See also
 //

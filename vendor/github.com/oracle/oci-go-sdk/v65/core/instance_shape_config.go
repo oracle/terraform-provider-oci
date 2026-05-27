@@ -73,6 +73,10 @@ type InstanceShapeConfig struct {
 
 	// This field is reserved for internal use.
 	ResourceManagement InstanceShapeConfigResourceManagementEnum `mandatory:"false" json:"resourceManagement,omitempty"`
+
+	// The NVMe-backed local storage capacity, in GB, for flexible dense (DenseLV) VM shapes. If the shape
+	// is DenseLV, the value will be greater than 0. For all other shapes, the value will be null.
+	LocalVolumeSizeInGBs *int `mandatory:"false" json:"localVolumeSizeInGBs"`
 }
 
 func (m InstanceShapeConfig) String() string {

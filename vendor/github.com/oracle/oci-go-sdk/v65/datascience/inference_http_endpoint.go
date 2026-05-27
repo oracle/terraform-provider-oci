@@ -10,45 +10,33 @@
 package datascience
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// CreateIdcsAuthConfigurationDetails Configuration of IDCS AuthN/Z for online prediction
-type CreateIdcsAuthConfigurationDetails struct {
+// InferenceHttpEndpoint Represents a custom HTTP endpoint detail for inferencing.
+type InferenceHttpEndpoint struct {
 
-	// Identity Domain OCID
-	DomainId *string `mandatory:"true" json:"domainId"`
+	// The suffix part of the endpoint that will be allowed for invocation.
+	EndpointUriSuffix *string `mandatory:"true" json:"endpointUriSuffix"`
+
+	// List of HTTP methods acceptable by the URI.
+	HttpMethods []HttpMethodEnum `mandatory:"true" json:"httpMethods"`
 }
 
-func (m CreateIdcsAuthConfigurationDetails) String() string {
+func (m InferenceHttpEndpoint) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CreateIdcsAuthConfigurationDetails) ValidateEnumValue() (bool, error) {
+func (m InferenceHttpEndpoint) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// MarshalJSON marshals to json representation
-func (m CreateIdcsAuthConfigurationDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeCreateIdcsAuthConfigurationDetails CreateIdcsAuthConfigurationDetails
-	s := struct {
-		DiscriminatorParam string `json:"type"`
-		MarshalTypeCreateIdcsAuthConfigurationDetails
-	}{
-		"IDCS",
-		(MarshalTypeCreateIdcsAuthConfigurationDetails)(m),
-	}
-
-	return json.Marshal(&s)
 }

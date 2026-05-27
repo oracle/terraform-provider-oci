@@ -263,6 +263,7 @@ type AutonomousDwDatabase struct {
 	// - APEX - indicates an Autonomous AI Database with the Oracle APEX AI Application Development workload type.
 	// - LH - indicates an Oracle Autonomous AI Lakehouse database
 	// **Note** Starting December 2026, DW will not be supported as a valid value for this parameter.
+	// When creating an Autonomous AI Database, if this parameter is not specified, the default value is `OLTP`.
 	//
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	DbWorkload AutonomousDwDatabaseDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
@@ -1904,16 +1905,19 @@ type AutonomousDwDatabaseNetServicesArchitectureEnum string
 const (
 	AutonomousDwDatabaseNetServicesArchitectureDedicated AutonomousDwDatabaseNetServicesArchitectureEnum = "DEDICATED"
 	AutonomousDwDatabaseNetServicesArchitectureShared    AutonomousDwDatabaseNetServicesArchitectureEnum = "SHARED"
+	AutonomousDwDatabaseNetServicesArchitectureDrcp      AutonomousDwDatabaseNetServicesArchitectureEnum = "DRCP"
 )
 
 var mappingAutonomousDwDatabaseNetServicesArchitectureEnum = map[string]AutonomousDwDatabaseNetServicesArchitectureEnum{
 	"DEDICATED": AutonomousDwDatabaseNetServicesArchitectureDedicated,
 	"SHARED":    AutonomousDwDatabaseNetServicesArchitectureShared,
+	"DRCP":      AutonomousDwDatabaseNetServicesArchitectureDrcp,
 }
 
 var mappingAutonomousDwDatabaseNetServicesArchitectureEnumLowerCase = map[string]AutonomousDwDatabaseNetServicesArchitectureEnum{
 	"dedicated": AutonomousDwDatabaseNetServicesArchitectureDedicated,
 	"shared":    AutonomousDwDatabaseNetServicesArchitectureShared,
+	"drcp":      AutonomousDwDatabaseNetServicesArchitectureDrcp,
 }
 
 // GetAutonomousDwDatabaseNetServicesArchitectureEnumValues Enumerates the set of values for AutonomousDwDatabaseNetServicesArchitectureEnum
@@ -1930,6 +1934,7 @@ func GetAutonomousDwDatabaseNetServicesArchitectureEnumStringValues() []string {
 	return []string{
 		"DEDICATED",
 		"SHARED",
+		"DRCP",
 	}
 }
 

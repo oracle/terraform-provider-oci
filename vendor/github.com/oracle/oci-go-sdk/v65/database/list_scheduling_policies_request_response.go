@@ -42,6 +42,9 @@ type ListSchedulingPoliciesRequest struct {
 	// A filter to return only resources that match the entire display name given. The match is not case sensitive.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
+	// A filter to return only resources that match the given cadence period exactly.
+	Cadence SchedulingPolicySummaryCadenceEnum `mandatory:"false" contributesTo:"query" name:"cadence" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -86,6 +89,9 @@ func (request ListSchedulingPoliciesRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingSchedulingPolicySummaryLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetSchedulingPolicySummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingSchedulingPolicySummaryCadenceEnum(string(request.Cadence)); !ok && request.Cadence != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Cadence: %s. Supported values are: %s.", request.Cadence, strings.Join(GetSchedulingPolicySummaryCadenceEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

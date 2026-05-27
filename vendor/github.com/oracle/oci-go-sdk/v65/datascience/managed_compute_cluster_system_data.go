@@ -16,33 +16,21 @@ import (
 	"strings"
 )
 
-// CreateIdcsCustomServiceAuthConfigurationDetails Create configuration for existing Oracle Cloud Service
-type CreateIdcsCustomServiceAuthConfigurationDetails struct {
+// ManagedComputeClusterSystemData Managed compute cluster system data.
+type ManagedComputeClusterSystemData struct {
 
-	// Audience of the IDCS application
-	Audience *string `mandatory:"true" json:"audience"`
-
-	// Scope of the IDCS application
-	Scope *string `mandatory:"true" json:"scope"`
-
-	// Name of the IDCS application
-	ApplicationName *string `mandatory:"true" json:"applicationName"`
-
-	// Bearer token serving as Proof-of-Ownership for referenced IDCS stripe/application
-	AccessToken *string `mandatory:"true" json:"accessToken"`
-
-	// Name of the IDCS application role
-	RoleName *string `mandatory:"false" json:"roleName"`
+	// Current count of the instances in managed compute cluster type compute target.
+	CurrentInstanceCount *int `mandatory:"false" json:"currentInstanceCount"`
 }
 
-func (m CreateIdcsCustomServiceAuthConfigurationDetails) String() string {
+func (m ManagedComputeClusterSystemData) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CreateIdcsCustomServiceAuthConfigurationDetails) ValidateEnumValue() (bool, error) {
+func (m ManagedComputeClusterSystemData) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -52,14 +40,14 @@ func (m CreateIdcsCustomServiceAuthConfigurationDetails) ValidateEnumValue() (bo
 }
 
 // MarshalJSON marshals to json representation
-func (m CreateIdcsCustomServiceAuthConfigurationDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeCreateIdcsCustomServiceAuthConfigurationDetails CreateIdcsCustomServiceAuthConfigurationDetails
+func (m ManagedComputeClusterSystemData) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeManagedComputeClusterSystemData ManagedComputeClusterSystemData
 	s := struct {
-		DiscriminatorParam string `json:"type"`
-		MarshalTypeCreateIdcsCustomServiceAuthConfigurationDetails
+		DiscriminatorParam string `json:"computeType"`
+		MarshalTypeManagedComputeClusterSystemData
 	}{
-		"IDCS_CUSTOM_SERVICE",
-		(MarshalTypeCreateIdcsCustomServiceAuthConfigurationDetails)(m),
+		"MANAGED_COMPUTE_CLUSTER",
+		(MarshalTypeManagedComputeClusterSystemData)(m),
 	}
 
 	return json.Marshal(&s)

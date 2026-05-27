@@ -15,7 +15,8 @@ import (
 	"strings"
 )
 
-// ExadataInfrastructureUnAllocatedResources Un allocated resources details of the Exadata Cloud@Customer infrastructure. Applies to Exadata Cloud@Customer instances only.
+// ExadataInfrastructureUnAllocatedResources Displays details of unallocated resources for the Exadata Cloud@Customer infrastructure.
+// Applies to Exadata Cloud@Customer instances only.
 type ExadataInfrastructureUnAllocatedResources struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.

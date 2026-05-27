@@ -502,5 +502,11 @@
         "realmKey": "oc1",
         "regionIdentifier": "af-casablanca-1",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "vve",
+        "realmKey": "oc21",
+        "regionIdentifier": "me-alrayyan-1",
+        "realmDomainComponent": "oraclecloud21.com"
     }
 ]

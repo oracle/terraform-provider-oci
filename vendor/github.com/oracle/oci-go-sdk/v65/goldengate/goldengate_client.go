@@ -969,6 +969,69 @@ func (client GoldenGateClient) changePipelineCompartment(ctx context.Context, re
 	return response, err
 }
 
+// ClonePipeline Clones the pipeline.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ClonePipeline.go.html to see an example of how to use ClonePipeline API.
+// A default retry strategy applies to this operation ClonePipeline()
+func (client GoldenGateClient) ClonePipeline(ctx context.Context, request ClonePipelineRequest) (response ClonePipelineResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.clonePipeline, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ClonePipelineResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ClonePipelineResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ClonePipelineResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ClonePipelineResponse")
+	}
+	return
+}
+
+// clonePipeline implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) clonePipeline(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pipelines/actions/clone", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ClonePipelineResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "goldenGate", "ClonePipeline")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Pipeline/ClonePipeline"
+		err = common.PostProcessServiceError(err, "GoldenGate", "ClonePipeline", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &pipeline{})
+	return response, err
+}
+
 // CollectDeploymentDiagnostic Collects the diagnostic of a Deployment. When provided, If-Match is checked against ETag values of the resource.
 //
 // # See also
@@ -2133,6 +2196,69 @@ func (client GoldenGateClient) exportDeploymentWallet(ctx context.Context, reque
 	return response, err
 }
 
+// GenerateDisasterRecoveryPrecheckReport Generates disaster recovery precheck report for standby peer.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GenerateDisasterRecoveryPrecheckReport.go.html to see an example of how to use GenerateDisasterRecoveryPrecheckReport API.
+// A default retry strategy applies to this operation GenerateDisasterRecoveryPrecheckReport()
+func (client GoldenGateClient) GenerateDisasterRecoveryPrecheckReport(ctx context.Context, request GenerateDisasterRecoveryPrecheckReportRequest) (response GenerateDisasterRecoveryPrecheckReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.generateDisasterRecoveryPrecheckReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GenerateDisasterRecoveryPrecheckReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GenerateDisasterRecoveryPrecheckReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateDisasterRecoveryPrecheckReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateDisasterRecoveryPrecheckReportResponse")
+	}
+	return
+}
+
+// generateDisasterRecoveryPrecheckReport implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) generateDisasterRecoveryPrecheckReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/generateDisasterRecoveryPrecheckReport", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateDisasterRecoveryPrecheckReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "goldenGate", "GenerateDisasterRecoveryPrecheckReport")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/GenerateDisasterRecoveryPrecheckReport"
+		err = common.PostProcessServiceError(err, "GoldenGate", "GenerateDisasterRecoveryPrecheckReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GenerateLibraryUrl Generates a Pre-Authenticated Request Object URL to a DB2 for z/OS library that needs to be uploaded to your DB2 for z/OS server in order to establish GoldenGate connections to it. For licensing reasons, the URL is accessible for 10 minutes only.
 //
 // # See also
@@ -2596,6 +2722,64 @@ func (client GoldenGateClient) getDeploymentUpgrade(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentUpgrade/GetDeploymentUpgrade"
 		err = common.PostProcessServiceError(err, "GoldenGate", "GetDeploymentUpgrade", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetDisasterRecoveryPrecheckReport Returns DR precheck report for a standby peer with the specified placement (availabilityDomain and faultDomain).
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetDisasterRecoveryPrecheckReport.go.html to see an example of how to use GetDisasterRecoveryPrecheckReport API.
+// A default retry strategy applies to this operation GetDisasterRecoveryPrecheckReport()
+func (client GoldenGateClient) GetDisasterRecoveryPrecheckReport(ctx context.Context, request GetDisasterRecoveryPrecheckReportRequest) (response GetDisasterRecoveryPrecheckReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDisasterRecoveryPrecheckReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDisasterRecoveryPrecheckReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDisasterRecoveryPrecheckReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDisasterRecoveryPrecheckReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDisasterRecoveryPrecheckReportResponse")
+	}
+	return
+}
+
+// getDisasterRecoveryPrecheckReport implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) getDisasterRecoveryPrecheckReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/deployments/{deploymentId}/disasterRecoveryPrecheckReport", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDisasterRecoveryPrecheckReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "goldenGate", "GetDisasterRecoveryPrecheckReport")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/GetDisasterRecoveryPrecheckReport"
+		err = common.PostProcessServiceError(err, "GoldenGate", "GetDisasterRecoveryPrecheckReport", apiReferenceLink)
 		return response, err
 	}
 

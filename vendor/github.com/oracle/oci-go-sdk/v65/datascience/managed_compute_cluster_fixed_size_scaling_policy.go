@@ -16,33 +16,21 @@ import (
 	"strings"
 )
 
-// IdcsCustomServiceAuthConfiguration Using existing Oracle Cloud Service for online prediction AuthN/Z
-type IdcsCustomServiceAuthConfiguration struct {
+// ManagedComputeClusterFixedSizeScalingPolicy The fixed size scaling policy.
+type ManagedComputeClusterFixedSizeScalingPolicy struct {
 
-	// URI of IDCS Stripe
-	IdcsStripeUri *string `mandatory:"true" json:"idcsStripeUri"`
-
-	// Audience of the IDCS application
-	Audience *string `mandatory:"true" json:"audience"`
-
-	// Scope of the IDCS application
-	Scope *string `mandatory:"true" json:"scope"`
-
-	// Name of the IDCS application
-	ApplicationName *string `mandatory:"true" json:"applicationName"`
-
-	// Name of the IDCS application role
-	RoleName *string `mandatory:"true" json:"roleName"`
+	// The number of instances for the managed compute cluster type compute target.
+	InstanceCount *int `mandatory:"true" json:"instanceCount"`
 }
 
-func (m IdcsCustomServiceAuthConfiguration) String() string {
+func (m ManagedComputeClusterFixedSizeScalingPolicy) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m IdcsCustomServiceAuthConfiguration) ValidateEnumValue() (bool, error) {
+func (m ManagedComputeClusterFixedSizeScalingPolicy) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -52,14 +40,14 @@ func (m IdcsCustomServiceAuthConfiguration) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m IdcsCustomServiceAuthConfiguration) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeIdcsCustomServiceAuthConfiguration IdcsCustomServiceAuthConfiguration
+func (m ManagedComputeClusterFixedSizeScalingPolicy) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeManagedComputeClusterFixedSizeScalingPolicy ManagedComputeClusterFixedSizeScalingPolicy
 	s := struct {
-		DiscriminatorParam string `json:"type"`
-		MarshalTypeIdcsCustomServiceAuthConfiguration
+		DiscriminatorParam string `json:"policyType"`
+		MarshalTypeManagedComputeClusterFixedSizeScalingPolicy
 	}{
-		"IDCS_CUSTOM_SERVICE",
-		(MarshalTypeIdcsCustomServiceAuthConfiguration)(m),
+		"FIXED_SIZE",
+		(MarshalTypeManagedComputeClusterFixedSizeScalingPolicy)(m),
 	}
 
 	return json.Marshal(&s)

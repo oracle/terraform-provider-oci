@@ -40,17 +40,25 @@ type UpdatePipelineDetails interface {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet of the pipeline's private endpoint.
 	// The subnet must be a private subnet.
 	GetSubnetId() *string
+
+	// The Minimum number of OCPUs to be made available for this Deployment.
+	GetCpuCoreCount() *int
+
+	// Indicates if auto scaling is enabled for the Deployment's CPU core count.
+	GetIsAutoScalingEnabled() *bool
 }
 
 type updatepipelinedetails struct {
-	JsonData     []byte
-	DisplayName  *string                           `mandatory:"false" json:"displayName"`
-	Description  *string                           `mandatory:"false" json:"description"`
-	LicenseModel LicenseModelEnum                  `mandatory:"false" json:"licenseModel,omitempty"`
-	FreeformTags map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags  map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	SubnetId     *string                           `mandatory:"false" json:"subnetId"`
-	RecipeType   string                            `json:"recipeType"`
+	JsonData             []byte
+	DisplayName          *string                           `mandatory:"false" json:"displayName"`
+	Description          *string                           `mandatory:"false" json:"description"`
+	LicenseModel         LicenseModelEnum                  `mandatory:"false" json:"licenseModel,omitempty"`
+	FreeformTags         map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags          map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SubnetId             *string                           `mandatory:"false" json:"subnetId"`
+	CpuCoreCount         *int                              `mandatory:"false" json:"cpuCoreCount"`
+	IsAutoScalingEnabled *bool                             `mandatory:"false" json:"isAutoScalingEnabled"`
+	RecipeType           string                            `json:"recipeType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -70,6 +78,8 @@ func (m *updatepipelinedetails) UnmarshalJSON(data []byte) error {
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SubnetId = s.Model.SubnetId
+	m.CpuCoreCount = s.Model.CpuCoreCount
+	m.IsAutoScalingEnabled = s.Model.IsAutoScalingEnabled
 	m.RecipeType = s.Model.RecipeType
 
 	return err
@@ -122,6 +132,16 @@ func (m updatepipelinedetails) GetDefinedTags() map[string]map[string]interface{
 // GetSubnetId returns SubnetId
 func (m updatepipelinedetails) GetSubnetId() *string {
 	return m.SubnetId
+}
+
+// GetCpuCoreCount returns CpuCoreCount
+func (m updatepipelinedetails) GetCpuCoreCount() *int {
+	return m.CpuCoreCount
+}
+
+// GetIsAutoScalingEnabled returns IsAutoScalingEnabled
+func (m updatepipelinedetails) GetIsAutoScalingEnabled() *bool {
+	return m.IsAutoScalingEnabled
 }
 
 func (m updatepipelinedetails) String() string {
