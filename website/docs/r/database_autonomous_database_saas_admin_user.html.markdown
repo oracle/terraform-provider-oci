@@ -191,7 +191,8 @@ The following attributes are exported:
 	* `time_activated` - The date and time the encryption key was activated.
 * `encryption_key_location_details` - Types of providers supported for managing database encryption keys
 	* `aws_encryption_key_id` - Provide the key OCID of a registered AWS key.
-	* `provider_type` - Use 'AWS' for creating a new database. 
+	* `provider_type` - Use 'AWS' for creating a new database.
+* `external_location_zone` - The external logical zone where the Autonomous AI Database Serverless instance is located (Intended for multicloud use).
 * `failed_data_recovery_in_seconds` - Indicates the number of seconds of data loss for a Data Guard failover.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous AI Database.
@@ -243,6 +244,7 @@ The following attributes are exported:
 * `local_disaster_recovery_type` - Indicates the local disaster recovery (DR) type of the Autonomous AI Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover. 
 * `local_standby_db` - Autonomous Data Guard standby database details. 
 	* `availability_domain` - The availability domain of a local Autonomous Data Guard standby database of an Autonomous AI Database Serverless instance.
+	* `external_location_zone` - The external logical zone where the local Autonomous Data Guard is located (Intended for multicloud use).
 	* `lag_time_in_seconds` - The amount of time, in seconds, that the data of the standby database lags the data of the primary database. Can be used to determine the potential data loss in the event of a failover.
 	* `lifecycle_details` - Additional information about the current lifecycle state.
 	* `maintenance_target_component` - The component chosen for maintenance.
@@ -331,6 +333,7 @@ The following attributes are exported:
 * `source_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous AI Database that was cloned to create the current Autonomous AI Database.
 * `standby_db` - **Deprecated** Autonomous Data Guard standby database details. 
 	* `availability_domain` - The availability domain of a local Autonomous Data Guard standby database of an Autonomous AI Database Serverless instance.
+	* `external_location_zone` - The external logical zone where the local Autonomous Data Guard is located (Intended for multicloud use).
 	* `lag_time_in_seconds` - The amount of time, in seconds, that the data of the standby database lags the data of the primary database. Can be used to determine the potential data loss in the event of a failover.
 	* `lifecycle_details` - Additional information about the current lifecycle state.
 	* `maintenance_target_component` - The component chosen for maintenance.
