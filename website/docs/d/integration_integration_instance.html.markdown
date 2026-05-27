@@ -113,6 +113,11 @@ The following attributes are exported:
 	* `is_integration_vcn_allowlisted` - The Integration service's VCN is allow-listed to allow integrations to call back into other integrations
 * `private_endpoint_outbound_connection` - Base representation for Outbound Connection (Reverse Connection).
 	* `is_all_outbound_traffic_private` - Indicates if all traffic should go through configured outbound connection
+	* `nsg_ids` - One or more Network security group Ids. This is an optional argument.
+	* `outbound_connection_type` - The type of Outbound Connection.
+	* `subnet_id` - Customer Private Network VCN Subnet OCID. This is a required argument.
+* `process_automation_log_group_id` - OCID of LogAnalytics LogGroup, enabled for given Process Automation attached to integration instance.
+* `security_attributes` - Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 	* `network_endpoint_type` - The type of network endpoint.
 * `shape` - Shape
 * `security_attributes` - Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{
