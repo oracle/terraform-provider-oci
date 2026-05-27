@@ -167,8 +167,22 @@ func (s *CoreVolumeBackupResourceCrud) createBlockStorageSourceRegionClient(regi
 			return fmt.Errorf("cannot configure client for the source region: %v", err)
 		}
 		s.SourceRegionClient = &sourceBlockStorageClient
+
 	}
 	s.SourceRegionClient.SetRegion(region)
+
+	if s.SourceRegionWRClient == nil {
+		sourceWorkRequestClient, err := oci_work_requests.NewWorkRequestClientWithConfigurationProvider(*s.workRequestClient.ConfigurationProvider())
+		if err != nil {
+			return fmt.Errorf("cannot Create WorkRequestclient for the source region: %v", err)
+		}
+		err = tf_client.ConfigureClientVar(&sourceWorkRequestClient.BaseClient)
+		if err != nil {
+			return fmt.Errorf("cannot configure client for the source region: %v", err)
+		}
+		s.SourceRegionWRClient = &sourceWorkRequestClient
+	}
+	s.SourceRegionWRClient.SetRegion(region)
 
 	return nil
 }
@@ -203,6 +217,19 @@ func (s *CoreBootVolumeBackupResourceCrud) createBlockStorageSourceRegionClient(
 		s.SourceRegionClient = &sourceBlockStorageClient
 	}
 	s.SourceRegionClient.SetRegion(region)
+
+	if s.SourceRegionWRClient == nil {
+		sourceWorkRequestClient, err := oci_work_requests.NewWorkRequestClientWithConfigurationProvider(*s.workRequestClient.ConfigurationProvider())
+		if err != nil {
+			return fmt.Errorf("cannot Create WorkRequestclient for the source region: %v", err)
+		}
+		err = tf_client.ConfigureClientVar(&sourceWorkRequestClient.BaseClient)
+		if err != nil {
+			return fmt.Errorf("cannot configure client for the source region: %v", err)
+		}
+		s.SourceRegionWRClient = &sourceWorkRequestClient
+	}
+	s.SourceRegionWRClient.SetRegion(region)
 
 	return nil
 }
