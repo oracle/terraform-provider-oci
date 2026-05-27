@@ -202,6 +202,10 @@ func (s *IntegrationIntegrationInstancesDataSourceCrud) SetData() error {
 			integrationInstance["private_endpoint_outbound_connection"] = nil
 		}
 
+		if r.ProcessAutomationLogGroupId != nil {
+			integrationInstance["process_automation_log_group_id"] = *r.ProcessAutomationLogGroupId
+		}
+
 		integrationInstance["security_attributes"] = tfresource.SecurityAttributesToMap(r.SecurityAttributes)
 
 		integrationInstance["shape"] = r.Shape
