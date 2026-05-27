@@ -1,3 +1,26 @@
+## 8.16.0 (May 27, 2026)
+
+### Added
+- CRUD operations for saved searches
+- Support for Multicloud Policy API
+- Support for compute shape selection to check capacity while creating CPG
+- Support for GGS Disaster Recovery Phase 2
+- Support for OCI Data Science SM-OKE
+- Support for ZeroETL Mirror Phase 4
+- Support for Monthly infrastructure maintenance using scheduling policy | Policy, Planing and Monthly MR ExaCC, ExaCS
+- Support for OCI Data Science Multiple Inference Endpoints Support
+- Support for Flex Dense Update Parameter in API for Local Volume Attached to VM
+- Support for Veridata as GoldenGate Deployment Type
+- Support for NGFW - OHAI Monitoring requirements & Certificate rotation improvements (API Only)
+- Support for ODSC - ML Applications - IDCS Auth Modes Removal
+- Support for Zero Trust Packet Routing on OKE
+- Support for VM Cluster horizontal scaling | ADB-D & ADB-C@C
+
+### Bug Fix
+- Handle Missing Infrastructure lifecycle state without forcing distributed database recreation
+- Wait for VCN DNS resolver association data source availability
+- Fix Instance Configuration Security Attribute Mapping
+
 ## 8.15.0 (May 20, 2026)
 
 ### Added
