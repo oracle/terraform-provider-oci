@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -23,15 +24,15 @@ func DataSafeSensitiveDataModelReferentialRelationDataSource() *schema.Resource 
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeSensitiveDataModelReferentialRelationResource(), fieldMap, readSingularDataSafeSensitiveDataModelReferentialRelation)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeSensitiveDataModelReferentialRelationResource(), fieldMap, readSingularDataSafeSensitiveDataModelReferentialRelationWithContext)
 }
 
-func readSingularDataSafeSensitiveDataModelReferentialRelation(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeSensitiveDataModelReferentialRelationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveDataModelReferentialRelationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeSensitiveDataModelReferentialRelationDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *DataSafeSensitiveDataModelReferentialRelationDataSourceCrud) VoidState(
 	s.D.SetId("")
 }
 
-func (s *DataSafeSensitiveDataModelReferentialRelationDataSourceCrud) Get() error {
+func (s *DataSafeSensitiveDataModelReferentialRelationDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetReferentialRelationRequest{}
 
 	if referentialRelationKey, ok := s.D.GetOkExists("key"); ok {
@@ -59,7 +60,7 @@ func (s *DataSafeSensitiveDataModelReferentialRelationDataSourceCrud) Get() erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetReferentialRelation(context.Background(), request)
+	response, err := s.Client.GetReferentialRelation(ctx, request)
 	if err != nil {
 		return err
 	}

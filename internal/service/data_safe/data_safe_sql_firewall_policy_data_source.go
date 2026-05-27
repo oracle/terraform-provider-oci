@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -19,15 +20,15 @@ func DataSafeSqlFirewallPolicyDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeSqlFirewallPolicyResource(), fieldMap, readSingularDataSafeSqlFirewallPolicy)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeSqlFirewallPolicyResource(), fieldMap, readSingularDataSafeSqlFirewallPolicyWithContext)
 }
 
-func readSingularDataSafeSqlFirewallPolicy(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeSqlFirewallPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSqlFirewallPolicyDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeSqlFirewallPolicyDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DataSafeSqlFirewallPolicyDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeSqlFirewallPolicyDataSourceCrud) Get() error {
+func (s *DataSafeSqlFirewallPolicyDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetSqlFirewallPolicyRequest{}
 
 	if sqlFirewallPolicyId, ok := s.D.GetOkExists("sql_firewall_policy_id"); ok {
@@ -50,7 +51,7 @@ func (s *DataSafeSqlFirewallPolicyDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetSqlFirewallPolicy(context.Background(), request)
+	response, err := s.Client.GetSqlFirewallPolicy(ctx, request)
 	if err != nil {
 		return err
 	}

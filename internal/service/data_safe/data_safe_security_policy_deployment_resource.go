@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -25,11 +26,11 @@ func DataSafeSecurityPolicyDeploymentResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeSecurityPolicyDeployment,
-		Read:     readDataSafeSecurityPolicyDeployment,
-		Update:   updateDataSafeSecurityPolicyDeployment,
-		Delete:   deleteDataSafeSecurityPolicyDeployment,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeSecurityPolicyDeploymentWithContext,
+		ReadContext:   readDataSafeSecurityPolicyDeploymentWithContext,
+		UpdateContext: updateDataSafeSecurityPolicyDeploymentWithContext,
+		DeleteContext: deleteDataSafeSecurityPolicyDeploymentWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -115,41 +116,42 @@ func DataSafeSecurityPolicyDeploymentResource() *schema.Resource {
 	}
 }
 
-func createDataSafeSecurityPolicyDeployment(d *schema.ResourceData, m interface{}) error {
+func createDataSafeSecurityPolicyDeploymentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSecurityPolicyDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	err := tfresource.CreateResourceWithContext(ctx, d, sync)
+	if err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	if _, ok := sync.D.GetOkExists("deploy_trigger"); ok {
-		err := sync.DeploySecurityPolicyDeployment()
+		err := sync.DeploySecurityPolicyDeployment(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("refresh_trigger"); ok {
-		err := sync.RefreshSecurityPolicyDeployment()
+		err := sync.RefreshSecurityPolicyDeployment(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 	return nil
 
 }
 
-func readDataSafeSecurityPolicyDeployment(d *schema.ResourceData, m interface{}) error {
+func readDataSafeSecurityPolicyDeploymentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSecurityPolicyDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeSecurityPolicyDeployment(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeSecurityPolicyDeploymentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSecurityPolicyDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
@@ -159,14 +161,15 @@ func updateDataSafeSecurityPolicyDeployment(d *schema.ResourceData, m interface{
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.DeploySecurityPolicyDeployment()
+			err := sync.DeploySecurityPolicyDeployment(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("deploy_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			err := fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
@@ -175,31 +178,33 @@ func updateDataSafeSecurityPolicyDeployment(d *schema.ResourceData, m interface{
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.RefreshSecurityPolicyDeployment()
+			err := sync.RefreshSecurityPolicyDeployment(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("refresh_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			err := fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	err := tfresource.UpdateResourceWithContext(ctx, d, sync)
+	if err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	return nil
 }
 
-func deleteDataSafeSecurityPolicyDeployment(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeSecurityPolicyDeploymentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSecurityPolicyDeploymentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataSafeSecurityPolicyDeploymentResourceCrud struct {
@@ -237,7 +242,7 @@ func (s *DataSafeSecurityPolicyDeploymentResourceCrud) DeletedTarget() []string 
 	}
 }
 
-func (s *DataSafeSecurityPolicyDeploymentResourceCrud) Create() error {
+func (s *DataSafeSecurityPolicyDeploymentResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.CreateSecurityPolicyDeploymentRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -283,7 +288,7 @@ func (s *DataSafeSecurityPolicyDeploymentResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.CreateSecurityPolicyDeployment(context.Background(), request)
+	response, err := s.Client.CreateSecurityPolicyDeployment(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -294,20 +299,20 @@ func (s *DataSafeSecurityPolicyDeploymentResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getSecurityPolicyDeploymentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getSecurityPolicyDeploymentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeSecurityPolicyDeploymentResourceCrud) getSecurityPolicyDeploymentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeSecurityPolicyDeploymentResourceCrud) getSecurityPolicyDeploymentFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	securityPolicyDeploymentId, err := securityPolicyDeploymentWaitForWorkRequest(workId, "securitypolicydeployment",
+	securityPolicyDeploymentId, err := securityPolicyDeploymentWaitForWorkRequest(ctx, workId, "securitypolicydeployment",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, securityPolicyDeploymentId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_data_safe.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -321,7 +326,7 @@ func (s *DataSafeSecurityPolicyDeploymentResourceCrud) getSecurityPolicyDeployme
 	}
 	s.D.SetId(*securityPolicyDeploymentId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func securityPolicyDeploymentWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -347,7 +352,7 @@ func securityPolicyDeploymentWorkRequestShouldRetryFunc(timeout time.Duration) f
 	}
 }
 
-func securityPolicyDeploymentWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func securityPolicyDeploymentWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = securityPolicyDeploymentWorkRequestShouldRetryFunc(timeout)
@@ -366,7 +371,7 @@ func securityPolicyDeploymentWaitForWorkRequest(wId *string, entityType string, 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -378,7 +383,7 @@ func securityPolicyDeploymentWaitForWorkRequest(wId *string, entityType string, 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -394,14 +399,14 @@ func securityPolicyDeploymentWaitForWorkRequest(wId *string, entityType string, 
 	}
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed || response.Status == oci_data_safe.WorkRequestStatusCanceled {
-		return nil, getErrorFromDataSafeSecurityPolicyDeploymentWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeSecurityPolicyDeploymentWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeSecurityPolicyDeploymentWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeSecurityPolicyDeploymentWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -423,7 +428,7 @@ func getErrorFromDataSafeSecurityPolicyDeploymentWorkRequest(client *oci_data_sa
 	return workRequestErr
 }
 
-func (s *DataSafeSecurityPolicyDeploymentResourceCrud) Get() error {
+func (s *DataSafeSecurityPolicyDeploymentResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetSecurityPolicyDeploymentRequest{}
 
 	tmp := s.D.Id()
@@ -431,7 +436,7 @@ func (s *DataSafeSecurityPolicyDeploymentResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetSecurityPolicyDeployment(context.Background(), request)
+	response, err := s.Client.GetSecurityPolicyDeployment(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -440,11 +445,11 @@ func (s *DataSafeSecurityPolicyDeploymentResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeSecurityPolicyDeploymentResourceCrud) Update() error {
+func (s *DataSafeSecurityPolicyDeploymentResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -479,16 +484,16 @@ func (s *DataSafeSecurityPolicyDeploymentResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateSecurityPolicyDeployment(context.Background(), request)
+	response, err := s.Client.UpdateSecurityPolicyDeployment(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getSecurityPolicyDeploymentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getSecurityPolicyDeploymentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeSecurityPolicyDeploymentResourceCrud) Delete() error {
+func (s *DataSafeSecurityPolicyDeploymentResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_data_safe.DeleteSecurityPolicyDeploymentRequest{}
 
 	tmp := s.D.Id()
@@ -496,14 +501,14 @@ func (s *DataSafeSecurityPolicyDeploymentResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.DeleteSecurityPolicyDeployment(context.Background(), request)
+	response, err := s.Client.DeleteSecurityPolicyDeployment(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := securityPolicyDeploymentWaitForWorkRequest(workId, "securitypolicydeployment",
+	_, delWorkRequestErr := securityPolicyDeploymentWaitForWorkRequest(ctx, workId, "securitypolicydeployment",
 		oci_data_safe.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -562,7 +567,7 @@ func (s *DataSafeSecurityPolicyDeploymentResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DataSafeSecurityPolicyDeploymentResourceCrud) DeploySecurityPolicyDeployment() error {
+func (s *DataSafeSecurityPolicyDeploymentResourceCrud) DeploySecurityPolicyDeployment(ctx context.Context) error {
 	request := oci_data_safe.DeploySecurityPolicyDeploymentRequest{}
 
 	idTmp := s.D.Id()
@@ -570,12 +575,12 @@ func (s *DataSafeSecurityPolicyDeploymentResourceCrud) DeploySecurityPolicyDeplo
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.DeploySecurityPolicyDeployment(context.Background(), request)
+	response, err := s.Client.DeploySecurityPolicyDeployment(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -583,10 +588,10 @@ func (s *DataSafeSecurityPolicyDeploymentResourceCrud) DeploySecurityPolicyDeplo
 	s.D.Set("deploy_trigger", val)
 
 	workId := response.OpcWorkRequestId
-	return s.getSecurityPolicyDeploymentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getSecurityPolicyDeploymentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeSecurityPolicyDeploymentResourceCrud) RefreshSecurityPolicyDeployment() error {
+func (s *DataSafeSecurityPolicyDeploymentResourceCrud) RefreshSecurityPolicyDeployment(ctx context.Context) error {
 	request := oci_data_safe.RefreshSecurityPolicyDeploymentRequest{}
 
 	idTmp := s.D.Id()
@@ -594,12 +599,12 @@ func (s *DataSafeSecurityPolicyDeploymentResourceCrud) RefreshSecurityPolicyDepl
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.RefreshSecurityPolicyDeployment(context.Background(), request)
+	response, err := s.Client.RefreshSecurityPolicyDeployment(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -607,10 +612,10 @@ func (s *DataSafeSecurityPolicyDeploymentResourceCrud) RefreshSecurityPolicyDepl
 	s.D.Set("refresh_trigger", val)
 
 	workId := response.OpcWorkRequestId
-	return s.getSecurityPolicyDeploymentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getSecurityPolicyDeploymentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeSecurityPolicyDeploymentResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataSafeSecurityPolicyDeploymentResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_data_safe.ChangeSecurityPolicyDeploymentCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -621,11 +626,11 @@ func (s *DataSafeSecurityPolicyDeploymentResourceCrud) updateCompartment(compart
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.ChangeSecurityPolicyDeploymentCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeSecurityPolicyDeploymentCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getSecurityPolicyDeploymentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getSecurityPolicyDeploymentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

@@ -7,6 +7,7 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -24,15 +25,15 @@ func DataSafeSensitiveDataModelsSensitiveColumnDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeSensitiveDataModelsSensitiveColumnResource(), fieldMap, readSingularDataSafeSensitiveDataModelsSensitiveColumn)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeSensitiveDataModelsSensitiveColumnResource(), fieldMap, readSingularDataSafeSensitiveDataModelsSensitiveColumnWithContext)
 }
 
-func readSingularDataSafeSensitiveDataModelsSensitiveColumn(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeSensitiveDataModelsSensitiveColumnWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveDataModelsSensitiveColumnDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeSensitiveDataModelsSensitiveColumnDataSourceCrud struct {
@@ -45,7 +46,7 @@ func (s *DataSafeSensitiveDataModelsSensitiveColumnDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeSensitiveDataModelsSensitiveColumnDataSourceCrud) Get() error {
+func (s *DataSafeSensitiveDataModelsSensitiveColumnDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetSensitiveColumnRequest{}
 
 	if sensitiveColumnKey, ok := s.D.GetOkExists("sensitive_column_key"); ok {
@@ -60,7 +61,7 @@ func (s *DataSafeSensitiveDataModelsSensitiveColumnDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetSensitiveColumn(context.Background(), request)
+	response, err := s.Client.GetSensitiveColumn(ctx, request)
 	if err != nil {
 		return err
 	}

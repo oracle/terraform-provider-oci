@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -25,11 +26,11 @@ func DataSafeSqlCollectionResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeSqlCollection,
-		Read:     readDataSafeSqlCollection,
-		Update:   updateDataSafeSqlCollection,
-		Delete:   deleteDataSafeSqlCollection,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeSqlCollectionWithContext,
+		ReadContext:   readDataSafeSqlCollectionWithContext,
+		UpdateContext: updateDataSafeSqlCollectionWithContext,
+		DeleteContext: deleteDataSafeSqlCollectionWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -138,130 +139,132 @@ func DataSafeSqlCollectionResource() *schema.Resource {
 	}
 }
 
-func createDataSafeSqlCollection(d *schema.ResourceData, m interface{}) error {
+func createDataSafeSqlCollectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSqlCollectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	err := tfresource.CreateResourceWithContext(ctx, d, sync)
+	if err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	if _, ok := sync.D.GetOkExists("generate_sql_firewall_policy_trigger"); ok {
-		err := sync.GenerateSqlFirewallPolicy()
+		err := sync.GenerateSqlFirewallPolicy(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("purge_logs_trigger"); ok {
-		err := sync.PurgeSqlCollectionLogs()
+		err := sync.PurgeSqlCollectionLogs(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("refresh_log_insights_trigger"); ok {
-		err := sync.RefreshSqlCollectionLogInsights()
+		err := sync.RefreshSqlCollectionLogInsights(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("start_trigger"); ok {
-		err := sync.StartSqlCollection()
+		err := sync.StartSqlCollection(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("stop_trigger"); ok {
-		err := sync.StopSqlCollection()
+		err := sync.StopSqlCollection(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 	return nil
 
 }
 
-func readDataSafeSqlCollection(d *schema.ResourceData, m interface{}) error {
+func readDataSafeSqlCollectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSqlCollectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeSqlCollection(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeSqlCollectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSqlCollectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
 	if generateFirewallPolicy, ok := sync.D.GetOkExists("generate_sql_firewall_policy_trigger"); ok {
 		if generateFirewallPolicy == true {
-			err := sync.GenerateSqlFirewallPolicy()
+			err := sync.GenerateSqlFirewallPolicy(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
 
 	if purgeLogs, ok := sync.D.GetOkExists("purge_logs_trigger"); ok {
 		if purgeLogs == true {
-			err := sync.PurgeSqlCollectionLogs()
+			err := sync.PurgeSqlCollectionLogs(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
 
 	if refreshLogInsights, ok := sync.D.GetOkExists("refresh_log_insights_trigger"); ok {
 		if refreshLogInsights == true {
-			err := sync.RefreshSqlCollectionLogInsights()
+			err := sync.RefreshSqlCollectionLogInsights(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
 
 	if start, ok := sync.D.GetOkExists("start_trigger"); ok {
 		if start == true {
-			err := sync.StartSqlCollection()
+			err := sync.StartSqlCollection(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
 
 	if stop, ok := sync.D.GetOkExists("stop_trigger"); ok {
 		if stop == true {
-			err := sync.StopSqlCollection()
+			err := sync.StopSqlCollection(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	err := tfresource.UpdateResourceWithContext(ctx, d, sync)
+	if err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	return nil
 }
 
-func deleteDataSafeSqlCollection(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeSqlCollectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSqlCollectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataSafeSqlCollectionResourceCrud struct {
@@ -300,7 +303,7 @@ func (s *DataSafeSqlCollectionResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DataSafeSqlCollectionResourceCrud) Create() error {
+func (s *DataSafeSqlCollectionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.CreateSqlCollectionRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -350,7 +353,7 @@ func (s *DataSafeSqlCollectionResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.CreateSqlCollection(context.Background(), request)
+	response, err := s.Client.CreateSqlCollection(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -361,20 +364,20 @@ func (s *DataSafeSqlCollectionResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getSqlCollectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getSqlCollectionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeSqlCollectionResourceCrud) getSqlCollectionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeSqlCollectionResourceCrud) getSqlCollectionFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	sqlCollectionId, err := sqlCollectionWaitForWorkRequest(workId, "sqlcollection",
+	sqlCollectionId, err := sqlCollectionWaitForWorkRequest(ctx, workId, "sqlcollection",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, sqlCollectionId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_data_safe.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -388,7 +391,7 @@ func (s *DataSafeSqlCollectionResourceCrud) getSqlCollectionFromWorkRequest(work
 	}
 	s.D.SetId(*sqlCollectionId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func sqlCollectionWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -414,7 +417,7 @@ func sqlCollectionWorkRequestShouldRetryFunc(timeout time.Duration) func(respons
 	}
 }
 
-func sqlCollectionWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func sqlCollectionWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = sqlCollectionWorkRequestShouldRetryFunc(timeout)
@@ -433,7 +436,7 @@ func sqlCollectionWaitForWorkRequest(wId *string, entityType string, action oci_
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -445,7 +448,7 @@ func sqlCollectionWaitForWorkRequest(wId *string, entityType string, action oci_
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -462,14 +465,14 @@ func sqlCollectionWaitForWorkRequest(wId *string, entityType string, action oci_
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed || response.Status == oci_data_safe.WorkRequestStatusCanceled {
-		return nil, getErrorFromDataSafeSqlCollectionWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeSqlCollectionWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeSqlCollectionWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeSqlCollectionWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -491,7 +494,7 @@ func getErrorFromDataSafeSqlCollectionWorkRequest(client *oci_data_safe.DataSafe
 	return workRequestErr
 }
 
-func (s *DataSafeSqlCollectionResourceCrud) Get() error {
+func (s *DataSafeSqlCollectionResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetSqlCollectionRequest{}
 
 	tmp := s.D.Id()
@@ -499,7 +502,7 @@ func (s *DataSafeSqlCollectionResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetSqlCollection(context.Background(), request)
+	response, err := s.Client.GetSqlCollection(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -508,11 +511,11 @@ func (s *DataSafeSqlCollectionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeSqlCollectionResourceCrud) Update() error {
+func (s *DataSafeSqlCollectionResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -547,16 +550,16 @@ func (s *DataSafeSqlCollectionResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateSqlCollection(context.Background(), request)
+	response, err := s.Client.UpdateSqlCollection(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getSqlCollectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getSqlCollectionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeSqlCollectionResourceCrud) Delete() error {
+func (s *DataSafeSqlCollectionResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_data_safe.DeleteSqlCollectionRequest{}
 
 	tmp := s.D.Id()
@@ -564,14 +567,14 @@ func (s *DataSafeSqlCollectionResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.DeleteSqlCollection(context.Background(), request)
+	response, err := s.Client.DeleteSqlCollection(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := sqlCollectionWaitForWorkRequest(workId, "sqlcollection",
+	_, delWorkRequestErr := sqlCollectionWaitForWorkRequest(ctx, workId, "sqlcollection",
 		oci_data_safe.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -636,7 +639,7 @@ func (s *DataSafeSqlCollectionResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DataSafeSqlCollectionResourceCrud) GenerateSqlFirewallPolicy() error {
+func (s *DataSafeSqlCollectionResourceCrud) GenerateSqlFirewallPolicy(ctx context.Context) error {
 	request := oci_data_safe.GenerateSqlFirewallPolicyRequest{}
 
 	idTmp := s.D.Id()
@@ -644,12 +647,12 @@ func (s *DataSafeSqlCollectionResourceCrud) GenerateSqlFirewallPolicy() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GenerateSqlFirewallPolicy(context.Background(), request)
+	response, err := s.Client.GenerateSqlFirewallPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -657,10 +660,10 @@ func (s *DataSafeSqlCollectionResourceCrud) GenerateSqlFirewallPolicy() error {
 	s.D.Set("generate_sql_firewall_policy_trigger", val)
 
 	workId := response.OpcWorkRequestId
-	return s.getSqlCollectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getSqlCollectionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeSqlCollectionResourceCrud) PurgeSqlCollectionLogs() error {
+func (s *DataSafeSqlCollectionResourceCrud) PurgeSqlCollectionLogs(ctx context.Context) error {
 	request := oci_data_safe.PurgeSqlCollectionLogsRequest{}
 
 	idTmp := s.D.Id()
@@ -668,12 +671,12 @@ func (s *DataSafeSqlCollectionResourceCrud) PurgeSqlCollectionLogs() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.PurgeSqlCollectionLogs(context.Background(), request)
+	response, err := s.Client.PurgeSqlCollectionLogs(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -681,10 +684,10 @@ func (s *DataSafeSqlCollectionResourceCrud) PurgeSqlCollectionLogs() error {
 	s.D.Set("purge_logs_trigger", val)
 
 	workId := response.OpcWorkRequestId
-	return s.getSqlCollectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getSqlCollectionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeSqlCollectionResourceCrud) RefreshSqlCollectionLogInsights() error {
+func (s *DataSafeSqlCollectionResourceCrud) RefreshSqlCollectionLogInsights(ctx context.Context) error {
 	request := oci_data_safe.RefreshSqlCollectionLogInsightsRequest{}
 
 	idTmp := s.D.Id()
@@ -692,12 +695,12 @@ func (s *DataSafeSqlCollectionResourceCrud) RefreshSqlCollectionLogInsights() er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.RefreshSqlCollectionLogInsights(context.Background(), request)
+	response, err := s.Client.RefreshSqlCollectionLogInsights(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -705,10 +708,10 @@ func (s *DataSafeSqlCollectionResourceCrud) RefreshSqlCollectionLogInsights() er
 	s.D.Set("refresh_log_insights_trigger", val)
 
 	workId := response.OpcWorkRequestId
-	return s.getSqlCollectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getSqlCollectionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeSqlCollectionResourceCrud) StartSqlCollection() error {
+func (s *DataSafeSqlCollectionResourceCrud) StartSqlCollection(ctx context.Context) error {
 	request := oci_data_safe.StartSqlCollectionRequest{}
 
 	idTmp := s.D.Id()
@@ -716,12 +719,12 @@ func (s *DataSafeSqlCollectionResourceCrud) StartSqlCollection() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.StartSqlCollection(context.Background(), request)
+	response, err := s.Client.StartSqlCollection(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -729,10 +732,10 @@ func (s *DataSafeSqlCollectionResourceCrud) StartSqlCollection() error {
 	s.D.Set("start_trigger", val)
 
 	workId := response.OpcWorkRequestId
-	return s.getSqlCollectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getSqlCollectionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeSqlCollectionResourceCrud) StopSqlCollection() error {
+func (s *DataSafeSqlCollectionResourceCrud) StopSqlCollection(ctx context.Context) error {
 	request := oci_data_safe.StopSqlCollectionRequest{}
 
 	idTmp := s.D.Id()
@@ -740,12 +743,12 @@ func (s *DataSafeSqlCollectionResourceCrud) StopSqlCollection() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.StopSqlCollection(context.Background(), request)
+	response, err := s.Client.StopSqlCollection(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -753,7 +756,7 @@ func (s *DataSafeSqlCollectionResourceCrud) StopSqlCollection() error {
 	s.D.Set("stop_trigger", val)
 
 	workId := response.OpcWorkRequestId
-	return s.getSqlCollectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getSqlCollectionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func SqlCollectionSummaryToMap(obj oci_data_safe.SqlCollectionSummary) map[string]interface{} {
@@ -818,7 +821,7 @@ func SqlCollectionSummaryToMap(obj oci_data_safe.SqlCollectionSummary) map[strin
 	return result
 }
 
-func (s *DataSafeSqlCollectionResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataSafeSqlCollectionResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_data_safe.ChangeSqlCollectionCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -829,11 +832,11 @@ func (s *DataSafeSqlCollectionResourceCrud) updateCompartment(compartment interf
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.ChangeSqlCollectionCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeSqlCollectionCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getSqlCollectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getSqlCollectionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

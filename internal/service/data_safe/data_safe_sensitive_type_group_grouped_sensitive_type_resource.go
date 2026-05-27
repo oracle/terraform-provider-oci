@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -28,11 +29,11 @@ func DataSafeSensitiveTypeGroupGroupedSensitiveTypeResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeSensitiveTypeGroupGroupedSensitiveType,
-		Read:     readDataSafeSensitiveTypeGroupGroupedSensitiveType,
-		Update:   updateDataSafeSensitiveTypeGroupGroupedSensitiveType,
-		Delete:   deleteDataSafeSensitiveTypeGroupGroupedSensitiveType,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeSensitiveTypeGroupGroupedSensitiveTypeWithContext,
+		ReadContext:   readDataSafeSensitiveTypeGroupGroupedSensitiveTypeWithContext,
+		UpdateContext: updateDataSafeSensitiveTypeGroupGroupedSensitiveTypeWithContext,
+		DeleteContext: deleteDataSafeSensitiveTypeGroupGroupedSensitiveTypeWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"sensitive_type_group_id": {
@@ -97,31 +98,31 @@ func DataSafeSensitiveTypeGroupGroupedSensitiveTypeResource() *schema.Resource {
 	}
 }
 
-func createDataSafeSensitiveTypeGroupGroupedSensitiveType(d *schema.ResourceData, m interface{}) error {
+func createDataSafeSensitiveTypeGroupGroupedSensitiveTypeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveTypeGroupGroupedSensitiveTypeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDataSafeSensitiveTypeGroupGroupedSensitiveType(d *schema.ResourceData, m interface{}) error {
+func readDataSafeSensitiveTypeGroupGroupedSensitiveTypeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveTypeGroupGroupedSensitiveTypeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeSensitiveTypeGroupGroupedSensitiveType(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeSensitiveTypeGroupGroupedSensitiveTypeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveTypeGroupGroupedSensitiveTypeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDataSafeSensitiveTypeGroupGroupedSensitiveType(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeSensitiveTypeGroupGroupedSensitiveTypeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -137,15 +138,15 @@ func (s *DataSafeSensitiveTypeGroupGroupedSensitiveTypeResourceCrud) ID() string
 	return GetSensitiveTypeGroupGroupedSensitiveTypeCompositeId(s.D.Get("sensitive_type_group_id").(string))
 }
 
-func (s *DataSafeSensitiveTypeGroupGroupedSensitiveTypeResourceCrud) Create() error {
-	err := s.Patch()
+func (s *DataSafeSensitiveTypeGroupGroupedSensitiveTypeResourceCrud) CreateWithContext(ctx context.Context) error {
+	err := s.Patch(ctx)
 	if err != nil {
 		log.Printf("[ERROR] Failed to execute Patch operation: %v", err)
 		return err
 	}
 	return nil
 }
-func (s *DataSafeSensitiveTypeGroupGroupedSensitiveTypeResourceCrud) Patch() error {
+func (s *DataSafeSensitiveTypeGroupGroupedSensitiveTypeResourceCrud) Patch(ctx context.Context) error {
 	request := oci_data_safe.PatchGroupedSensitiveTypesRequest{}
 
 	if patchOperations, ok := s.D.GetOkExists("patch_operations"); ok {
@@ -171,26 +172,26 @@ func (s *DataSafeSensitiveTypeGroupGroupedSensitiveTypeResourceCrud) Patch() err
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
-	response, err := s.Client.PatchGroupedSensitiveTypes(context.Background(), request)
+	response, err := s.Client.PatchGroupedSensitiveTypes(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getSensitiveTypeGroupGroupedSensitiveTypeFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getSensitiveTypeGroupGroupedSensitiveTypeFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeSensitiveTypeGroupGroupedSensitiveTypeResourceCrud) getSensitiveTypeGroupGroupedSensitiveTypeFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeSensitiveTypeGroupGroupedSensitiveTypeResourceCrud) getSensitiveTypeGroupGroupedSensitiveTypeFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	sensitiveTypeGroupGroupedSensitiveTypeId, err := sensitiveTypeGroupGroupedSensitiveTypeWaitForWorkRequest(workId, "sensitivetypegroup",
+	sensitiveTypeGroupGroupedSensitiveTypeId, err := sensitiveTypeGroupGroupedSensitiveTypeWaitForWorkRequest(ctx, workId, "sensitivetypegroup",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, sensitiveTypeGroupGroupedSensitiveTypeId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_data_safe.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -204,7 +205,7 @@ func (s *DataSafeSensitiveTypeGroupGroupedSensitiveTypeResourceCrud) getSensitiv
 	}
 	s.D.SetId(*sensitiveTypeGroupGroupedSensitiveTypeId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func sensitiveTypeGroupGroupedSensitiveTypeWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -230,7 +231,7 @@ func sensitiveTypeGroupGroupedSensitiveTypeWorkRequestShouldRetryFunc(timeout ti
 	}
 }
 
-func sensitiveTypeGroupGroupedSensitiveTypeWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func sensitiveTypeGroupGroupedSensitiveTypeWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = sensitiveTypeGroupGroupedSensitiveTypeWorkRequestShouldRetryFunc(timeout)
@@ -249,7 +250,7 @@ func sensitiveTypeGroupGroupedSensitiveTypeWaitForWorkRequest(wId *string, entit
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -261,7 +262,7 @@ func sensitiveTypeGroupGroupedSensitiveTypeWaitForWorkRequest(wId *string, entit
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -278,14 +279,14 @@ func sensitiveTypeGroupGroupedSensitiveTypeWaitForWorkRequest(wId *string, entit
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed || response.Status == oci_data_safe.WorkRequestStatusCanceled {
-		return nil, getErrorFromDataSafeSensitiveTypeGroupGroupedSensitiveTypeWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeSensitiveTypeGroupGroupedSensitiveTypeWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeSensitiveTypeGroupGroupedSensitiveTypeWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeSensitiveTypeGroupGroupedSensitiveTypeWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -307,7 +308,7 @@ func getErrorFromDataSafeSensitiveTypeGroupGroupedSensitiveTypeWorkRequest(clien
 	return workRequestErr
 }
 
-func (s *DataSafeSensitiveTypeGroupGroupedSensitiveTypeResourceCrud) Get() error {
+func (s *DataSafeSensitiveTypeGroupGroupedSensitiveTypeResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.ListGroupedSensitiveTypesRequest{}
 
 	if sensitiveTypeGroupId, ok := s.D.GetOkExists("sensitive_type_group_id"); ok {
@@ -329,7 +330,7 @@ func (s *DataSafeSensitiveTypeGroupGroupedSensitiveTypeResourceCrud) Get() error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.ListGroupedSensitiveTypes(context.Background(), request)
+	response, err := s.Client.ListGroupedSensitiveTypes(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -338,8 +339,8 @@ func (s *DataSafeSensitiveTypeGroupGroupedSensitiveTypeResourceCrud) Get() error
 	return nil
 }
 
-func (s *DataSafeSensitiveTypeGroupGroupedSensitiveTypeResourceCrud) Update() error {
-	err := s.Patch()
+func (s *DataSafeSensitiveTypeGroupGroupedSensitiveTypeResourceCrud) UpdateWithContext(ctx context.Context) error {
+	err := s.Patch(ctx)
 	if err != nil {
 		log.Printf("[ERROR] Failed to execute Patch operation: %v", err)
 		return err

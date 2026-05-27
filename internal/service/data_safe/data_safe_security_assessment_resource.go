@@ -12,6 +12,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -29,10 +30,10 @@ func DataSafeSecurityAssessmentResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("45m"),
 			Delete: tfresource.GetTimeoutDuration("45m"),
 		},
-		Create: createDataSafeSecurityAssessment,
-		Read:   readDataSafeSecurityAssessment,
-		Update: updateDataSafeSecurityAssessment,
-		Delete: deleteDataSafeSecurityAssessment,
+		CreateContext: createDataSafeSecurityAssessmentWithContext,
+		ReadContext:   readDataSafeSecurityAssessmentWithContext,
+		UpdateContext: updateDataSafeSecurityAssessmentWithContext,
+		DeleteContext: deleteDataSafeSecurityAssessmentWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -602,48 +603,49 @@ func DataSafeSecurityAssessmentResource() *schema.Resource {
 	}
 }
 
-func createDataSafeSecurityAssessment(d *schema.ResourceData, m interface{}) error {
+func createDataSafeSecurityAssessmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSecurityAssessmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	err := tfresource.CreateResourceWithContext(ctx, d, sync)
+	if err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	if _, ok := sync.D.GetOkExists("apply_template_trigger"); ok {
-		err := sync.ApplySecurityAssessmentTemplate()
+		err := sync.ApplySecurityAssessmentTemplate(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("compare_to_template_baseline_trigger"); ok {
-		err := sync.CompareToTemplateBaseline()
+		err := sync.CompareToTemplateBaseline(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("remove_template_trigger"); ok {
-		err := sync.RemoveSecurityAssessmentTemplate()
+		err := sync.RemoveSecurityAssessmentTemplate(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 	return nil
 
 }
 
-func readDataSafeSecurityAssessment(d *schema.ResourceData, m interface{}) error {
+func readDataSafeSecurityAssessmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSecurityAssessmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeSecurityAssessment(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeSecurityAssessmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSecurityAssessmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
@@ -653,14 +655,15 @@ func updateDataSafeSecurityAssessment(d *schema.ResourceData, m interface{}) err
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.ApplySecurityAssessmentTemplate()
+			err := sync.ApplySecurityAssessmentTemplate(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("apply_template_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			err := fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
@@ -669,14 +672,15 @@ func updateDataSafeSecurityAssessment(d *schema.ResourceData, m interface{}) err
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.CompareToTemplateBaseline()
+			err := sync.CompareToTemplateBaseline(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("compare_to_template_baseline_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			err := fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
@@ -685,31 +689,33 @@ func updateDataSafeSecurityAssessment(d *schema.ResourceData, m interface{}) err
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.RemoveSecurityAssessmentTemplate()
+			err := sync.RemoveSecurityAssessmentTemplate(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("remove_template_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			err := fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	err := tfresource.UpdateResourceWithContext(ctx, d, sync)
+	if err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	return nil
 }
 
-func deleteDataSafeSecurityAssessment(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeSecurityAssessmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSecurityAssessmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataSafeSecurityAssessmentResourceCrud struct {
@@ -747,7 +753,7 @@ func (s *DataSafeSecurityAssessmentResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DataSafeSecurityAssessmentResourceCrud) Create() error {
+func (s *DataSafeSecurityAssessmentResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.CreateSecurityAssessmentRequest{}
 
 	if baseSecurityAssessmentId, ok := s.D.GetOkExists("base_security_assessment_id"); ok {
@@ -812,7 +818,7 @@ func (s *DataSafeSecurityAssessmentResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.CreateSecurityAssessment(context.Background(), request)
+	response, err := s.Client.CreateSecurityAssessment(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -823,14 +829,14 @@ func (s *DataSafeSecurityAssessmentResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getSecurityAssessmentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getSecurityAssessmentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeSecurityAssessmentResourceCrud) getSecurityAssessmentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeSecurityAssessmentResourceCrud) getSecurityAssessmentFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	securityAssessmentId, err := securityAssessmentWaitForWorkRequest(workId, "securityassessment",
+	securityAssessmentId, err := securityAssessmentWaitForWorkRequest(ctx, workId, "securityassessment",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -838,7 +844,7 @@ func (s *DataSafeSecurityAssessmentResourceCrud) getSecurityAssessmentFromWorkRe
 	}
 	s.D.SetId(*securityAssessmentId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func securityAssessmentWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -864,7 +870,7 @@ func securityAssessmentWorkRequestShouldRetryFunc(timeout time.Duration) func(re
 	}
 }
 
-func securityAssessmentWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func securityAssessmentWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = securityAssessmentWorkRequestShouldRetryFunc(timeout)
@@ -881,7 +887,7 @@ func securityAssessmentWaitForWorkRequest(wId *string, entityType string, action
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -893,7 +899,7 @@ func securityAssessmentWaitForWorkRequest(wId *string, entityType string, action
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -910,14 +916,14 @@ func securityAssessmentWaitForWorkRequest(wId *string, entityType string, action
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed {
-		return nil, getErrorFromDataSafeSecurityAssessmentWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeSecurityAssessmentWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeSecurityAssessmentWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeSecurityAssessmentWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -939,7 +945,7 @@ func getErrorFromDataSafeSecurityAssessmentWorkRequest(client *oci_data_safe.Dat
 	return workRequestErr
 }
 
-func (s *DataSafeSecurityAssessmentResourceCrud) Get() error {
+func (s *DataSafeSecurityAssessmentResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetSecurityAssessmentRequest{}
 
 	tmp := s.D.Id()
@@ -947,7 +953,7 @@ func (s *DataSafeSecurityAssessmentResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetSecurityAssessment(context.Background(), request)
+	response, err := s.Client.GetSecurityAssessment(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -956,11 +962,11 @@ func (s *DataSafeSecurityAssessmentResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeSecurityAssessmentResourceCrud) Update() error {
+func (s *DataSafeSecurityAssessmentResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -1005,16 +1011,16 @@ func (s *DataSafeSecurityAssessmentResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateSecurityAssessment(context.Background(), request)
+	response, err := s.Client.UpdateSecurityAssessment(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getSecurityAssessmentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getSecurityAssessmentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeSecurityAssessmentResourceCrud) Delete() error {
+func (s *DataSafeSecurityAssessmentResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_data_safe.DeleteSecurityAssessmentRequest{}
 
 	tmp := s.D.Id()
@@ -1022,14 +1028,14 @@ func (s *DataSafeSecurityAssessmentResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.DeleteSecurityAssessment(context.Background(), request)
+	response, err := s.Client.DeleteSecurityAssessment(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := securityAssessmentWaitForWorkRequest(workId, "securityassessment",
+	_, delWorkRequestErr := securityAssessmentWaitForWorkRequest(ctx, workId, "securityassessment",
 		oci_data_safe.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1154,7 +1160,7 @@ func (s *DataSafeSecurityAssessmentResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DataSafeSecurityAssessmentResourceCrud) ApplySecurityAssessmentTemplate() error {
+func (s *DataSafeSecurityAssessmentResourceCrud) ApplySecurityAssessmentTemplate(ctx context.Context) error {
 	request := oci_data_safe.ApplySecurityAssessmentTemplateRequest{}
 
 	idTmp := s.D.Id()
@@ -1167,12 +1173,12 @@ func (s *DataSafeSecurityAssessmentResourceCrud) ApplySecurityAssessmentTemplate
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	// response, err := s.Client.ApplySecurityAssessmentTemplate(context.Background(), request)
+	// response, err := s.Client.ApplySecurityAssessmentTemplate(ctx, request)
 	//if err != nil {
 	//	return err
 	//}
 	//
-	//if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	//if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 	//	return waitErr
 	//}
 	//
@@ -1183,7 +1189,7 @@ func (s *DataSafeSecurityAssessmentResourceCrud) ApplySecurityAssessmentTemplate
 	return nil
 }
 
-func (s *DataSafeSecurityAssessmentResourceCrud) CompareToTemplateBaseline() error {
+func (s *DataSafeSecurityAssessmentResourceCrud) CompareToTemplateBaseline(ctx context.Context) error {
 	request := oci_data_safe.CompareToTemplateBaselineRequest{}
 
 	if comparisonSecurityAssessmentId, ok := s.D.GetOkExists("comparison_security_assessment_id"); ok {
@@ -1196,12 +1202,12 @@ func (s *DataSafeSecurityAssessmentResourceCrud) CompareToTemplateBaseline() err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	//response, err := s.Client.CompareToTemplateBaseline(context.Background(), request)
+	//response, err := s.Client.CompareToTemplateBaseline(ctx, request)
 	//if err != nil {
 	//	return err
 	//}
 	//
-	//if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	//if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 	//	return waitErr
 	//}
 	//
@@ -1212,7 +1218,7 @@ func (s *DataSafeSecurityAssessmentResourceCrud) CompareToTemplateBaseline() err
 	return nil
 }
 
-func (s *DataSafeSecurityAssessmentResourceCrud) RemoveSecurityAssessmentTemplate() error {
+func (s *DataSafeSecurityAssessmentResourceCrud) RemoveSecurityAssessmentTemplate(ctx context.Context) error {
 	request := oci_data_safe.RemoveSecurityAssessmentTemplateRequest{}
 
 	idTmp := s.D.Id()
@@ -1220,12 +1226,12 @@ func (s *DataSafeSecurityAssessmentResourceCrud) RemoveSecurityAssessmentTemplat
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	//response, err := s.Client.RemoveSecurityAssessmentTemplate(context.Background(), request)
+	//response, err := s.Client.RemoveSecurityAssessmentTemplate(ctx, request)
 	//if err != nil {
 	//	return err
 	//}
 	//
-	//if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	//if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 	//	return waitErr
 	//}
 	//
@@ -1366,7 +1372,7 @@ func SecurityAssessmentStatisticsToMap(obj *oci_data_safe.SecurityAssessmentStat
 	return result
 }
 
-func (s *DataSafeSecurityAssessmentResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataSafeSecurityAssessmentResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_data_safe.ChangeSecurityAssessmentCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1377,7 +1383,7 @@ func (s *DataSafeSecurityAssessmentResourceCrud) updateCompartment(compartment i
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	_, err := s.Client.ChangeSecurityAssessmentCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeSecurityAssessmentCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}

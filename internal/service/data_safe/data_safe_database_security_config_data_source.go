@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -19,15 +20,15 @@ func DataSafeDatabaseSecurityConfigDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeDatabaseSecurityConfigResource(), fieldMap, readSingularDataSafeDatabaseSecurityConfig)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeDatabaseSecurityConfigResource(), fieldMap, readSingularDataSafeDatabaseSecurityConfigWithContext)
 }
 
-func readSingularDataSafeDatabaseSecurityConfig(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeDatabaseSecurityConfigWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeDatabaseSecurityConfigDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeDatabaseSecurityConfigDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DataSafeDatabaseSecurityConfigDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeDatabaseSecurityConfigDataSourceCrud) Get() error {
+func (s *DataSafeDatabaseSecurityConfigDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetDatabaseSecurityConfigRequest{}
 
 	if databaseSecurityConfigId, ok := s.D.GetOkExists("database_security_config_id"); ok {
@@ -50,7 +51,7 @@ func (s *DataSafeDatabaseSecurityConfigDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetDatabaseSecurityConfig(context.Background(), request)
+	response, err := s.Client.GetDatabaseSecurityConfig(ctx, request)
 	if err != nil {
 		return err
 	}
