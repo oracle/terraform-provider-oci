@@ -1312,6 +1312,102 @@ func TestResourceDatabaseAutonomousDatabaseResource_longtermBackup(t *testing.T)
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
+func TestDatabaseAutonomousDatabaseExternalLocationZoneResourceDataSource(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseExternalLocationZoneResourceDataSource")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_autonomous_database.test_external_location_zone"
+	singularDatasourceName := "data.oci_database_autonomous_database.test_external_location_zone"
+	adbExternalLocationZoneName := utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
+	autonomousDatabaseExternalLocationZoneRepresentation := acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation,
+			[]string{"db_tools_details", "defined_tags", "license_model", "whitelisted_ips", "db_version", "is_auto_scaling_enabled", "customer_contacts", "kms_key_id", "vault_id", "autonomous_maintenance_schedule_type", "scheduled_operations", "character_set", "ncharacter_set", "ocpu_count", "cpu_core_count", "is_dedicated"}),
+		map[string]interface{}{
+			"compute_model":               acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
+			"compute_count":               acctest.Representation{RepType: acctest.Required, Create: `8.0`},
+			"db_name":                     acctest.Representation{RepType: acctest.Required, Create: adbExternalLocationZoneName},
+			"display_name":                acctest.Representation{RepType: acctest.Optional, Create: adbExternalLocationZoneName},
+			"is_mtls_connection_required": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		})
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		{
+			Config: config +
+				compartmentIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_external_location_zone", acctest.Optional, acctest.Create, autonomousDatabaseExternalLocationZoneRepresentation) + `
+data "oci_database_autonomous_database" "test_external_location_zone" {
+	autonomous_database_id = oci_database_autonomous_database.test_external_location_zone.id
+}
+`,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "external_location_zone"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "external_location_zone"),
+				resource.TestCheckResourceAttrPair(
+					singularDatasourceName, "external_location_zone",
+					resourceName, "external_location_zone",
+				),
+			),
+		},
+	})
+}
+
+// issue-routing-tag: database/dbaas-adb
+func TestDatabaseAutonomousDatabaseExternalLocationZoneLocalStandby(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseExternalLocationZoneLocalStandby")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_autonomous_database.test_external_location_zone_local_standby"
+	singularDatasourceName := "data.oci_database_autonomous_database.test_external_location_zone_local_standby"
+	adbExternalLocationZoneLocalStandbyName := utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
+	autonomousDatabaseExternalLocationZoneLocalStandbyRepresentation := acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation,
+			[]string{"db_tools_details", "defined_tags", "license_model", "whitelisted_ips", "db_version", "is_auto_scaling_enabled", "customer_contacts", "kms_key_id", "vault_id", "autonomous_maintenance_schedule_type", "scheduled_operations", "character_set", "ncharacter_set", "ocpu_count", "cpu_core_count", "is_dedicated"}),
+		map[string]interface{}{
+			"compute_model":               acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
+			"compute_count":               acctest.Representation{RepType: acctest.Required, Create: `8.0`},
+			"db_name":                     acctest.Representation{RepType: acctest.Required, Create: adbExternalLocationZoneLocalStandbyName},
+			"display_name":                acctest.Representation{RepType: acctest.Optional, Create: adbExternalLocationZoneLocalStandbyName},
+			"is_data_guard_enabled":       acctest.Representation{RepType: acctest.Optional, Create: `true`},
+			"is_mtls_connection_required": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		})
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		{
+			Config: config +
+				compartmentIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_external_location_zone_local_standby", acctest.Optional, acctest.Create, autonomousDatabaseExternalLocationZoneLocalStandbyRepresentation) + `
+data "oci_database_autonomous_database" "test_external_location_zone_local_standby" {
+	autonomous_database_id = oci_database_autonomous_database.test_external_location_zone_local_standby.id
+}
+`,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "is_data_guard_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_location_zone"),
+				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "local_standby_db.0.external_location_zone"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "local_standby_db.0.external_location_zone"),
+				resource.TestCheckResourceAttrPair(
+					singularDatasourceName, "local_standby_db.0.external_location_zone",
+					resourceName, "local_standby_db.0.external_location_zone",
+				),
+			),
+		},
+	})
+}
+
 func TestDatabaseAutonomousDatabaseResource_adbs_lh(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseResource_schedule_upgrade")
 	defer httpreplay.SaveScenario()

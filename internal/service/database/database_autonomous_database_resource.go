@@ -1153,6 +1153,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					},
 				},
 			},
+			"external_location_zone": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"failed_data_recovery_in_seconds": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -1251,6 +1255,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 
 						// Computed
 						"availability_domain": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"external_location_zone": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -1488,6 +1496,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 
 						// Computed
 						"availability_domain": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"external_location_zone": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -2850,6 +2862,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("encryption_key_location_details", nil)
 	}
 
+	if s.Res.ExternalLocationZone != nil {
+		s.D.Set("external_location_zone", *s.Res.ExternalLocationZone)
+	}
+
 	if s.Res.FailedDataRecoveryInSeconds != nil {
 		s.D.Set("failed_data_recovery_in_seconds", *s.Res.FailedDataRecoveryInSeconds)
 	}
@@ -3665,6 +3681,10 @@ func AutonomousDatabaseStandbySummaryToMap(obj *oci_database.AutonomousDatabaseS
 
 	if obj.AvailabilityDomain != nil {
 		result["availability_domain"] = string(*obj.AvailabilityDomain)
+	}
+
+	if obj.ExternalLocationZone != nil {
+		result["external_location_zone"] = string(*obj.ExternalLocationZone)
 	}
 
 	if obj.LagTimeInSeconds != nil {

@@ -241,6 +241,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("encryption_key_location_details", nil)
 	}
 
+	if s.Res.ExternalLocationZone != nil {
+		s.D.Set("external_location_zone", *s.Res.ExternalLocationZone)
+	}
+
 	if s.Res.FailedDataRecoveryInSeconds != nil {
 		s.D.Set("failed_data_recovery_in_seconds", *s.Res.FailedDataRecoveryInSeconds)
 	}

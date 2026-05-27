@@ -823,6 +823,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"external_location_zone": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"lag_time_in_seconds": {
 										Type:     schema.TypeInt,
 										Computed: true,
@@ -1153,6 +1157,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 
 									// Computed
 									"availability_domain": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"external_location_zone": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
