@@ -51,9 +51,9 @@ The following arguments are supported:
 * `action` - (Required) (Updatable) action:
 	* DIPP_SRC_NAT - Dynamic-ip-port source NAT. 
 * `condition` - (Required) (Updatable) Match criteria used in NAT rule used on the firewall policy.
-	* `destination_address` - (Optional) (Updatable) An array of IP address list names to be evaluated against the traffic destination address.
+	* `destination_address` - (Optional) (Updatable) An array of address list names to be evaluated against the traffic destination address.
 	* `service` - (Optional) (Updatable) A Service name to be evaluated against the traffic protocol and protocol-specific parameters.
-	* `source_address` - (Optional) (Updatable) An array of IP address list names to be evaluated against the traffic source address.
+	* `source_address` - (Optional) (Updatable) An array of address list names to be evaluated against the traffic source address.
 * `description` - (Optional) (Updatable) Description of a NAT rule. This field can be used to add additional info.
 * `name` - (Required) Name for the NAT rule, must be unique within the policy.
 * `network_firewall_policy_id` - (Required) Unique Network Firewall Policy identifier
@@ -74,9 +74,9 @@ The following attributes are exported:
 * `action` - action:
 	* DIPP_SRC_NAT - Dynamic-ip-port source NAT. 
 * `condition` - Match criteria used in NAT rule used on the firewall policy.
-	* `destination_address` - An array of IP address list names to be evaluated against the traffic destination address.
+	* `destination_address` - An array of address list names to be evaluated against the traffic destination address.
 	* `service` - A Service name to be evaluated against the traffic protocol and protocol-specific parameters.
-	* `source_address` - An array of IP address list names to be evaluated against the traffic source address.
+	* `source_address` - An array of address list names to be evaluated against the traffic source address.
 * `description` - Description of a NAT rule. This field can be used to add additional info.
 * `name` - Name for the NAT rule, must be unique within the policy.
 * `parent_resource_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Network Firewall policy this NAT rule belongs to. 

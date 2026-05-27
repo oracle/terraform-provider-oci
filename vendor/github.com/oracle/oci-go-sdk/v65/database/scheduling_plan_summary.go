@@ -48,7 +48,7 @@ type SchedulingPlanSummary struct {
 	// If true, recommended scheduled actions will be generated for the scheduling plan.
 	IsUsingRecommendedScheduledActions *bool `mandatory:"false" json:"isUsingRecommendedScheduledActions"`
 
-	// The current intent the Scheduling Plan. Valid states is EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE.
+	// The current intent of the Scheduling Plan. Valid states are EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE and EXADATA_INFRASTRUCTURE_SECURITY_UPDATE.
 	PlanIntent SchedulingPlanSummaryPlanIntentEnum `mandatory:"false" json:"planIntent,omitempty"`
 
 	// The estimated time for the Scheduling Plan.
@@ -163,15 +163,18 @@ type SchedulingPlanSummaryPlanIntentEnum string
 
 // Set of constants representing the allowable values for SchedulingPlanSummaryPlanIntentEnum
 const (
-	SchedulingPlanSummaryPlanIntentExadataInfrastructureFullSoftwareUpdate SchedulingPlanSummaryPlanIntentEnum = "EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE"
+	SchedulingPlanSummaryPlanIntentFullSoftwareUpdate SchedulingPlanSummaryPlanIntentEnum = "EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE"
+	SchedulingPlanSummaryPlanIntentSecurityUpdate     SchedulingPlanSummaryPlanIntentEnum = "EXADATA_INFRASTRUCTURE_SECURITY_UPDATE"
 )
 
 var mappingSchedulingPlanSummaryPlanIntentEnum = map[string]SchedulingPlanSummaryPlanIntentEnum{
-	"EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE": SchedulingPlanSummaryPlanIntentExadataInfrastructureFullSoftwareUpdate,
+	"EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE": SchedulingPlanSummaryPlanIntentFullSoftwareUpdate,
+	"EXADATA_INFRASTRUCTURE_SECURITY_UPDATE":      SchedulingPlanSummaryPlanIntentSecurityUpdate,
 }
 
 var mappingSchedulingPlanSummaryPlanIntentEnumLowerCase = map[string]SchedulingPlanSummaryPlanIntentEnum{
-	"exadata_infrastructure_full_software_update": SchedulingPlanSummaryPlanIntentExadataInfrastructureFullSoftwareUpdate,
+	"exadata_infrastructure_full_software_update": SchedulingPlanSummaryPlanIntentFullSoftwareUpdate,
+	"exadata_infrastructure_security_update":      SchedulingPlanSummaryPlanIntentSecurityUpdate,
 }
 
 // GetSchedulingPlanSummaryPlanIntentEnumValues Enumerates the set of values for SchedulingPlanSummaryPlanIntentEnum
@@ -187,6 +190,7 @@ func GetSchedulingPlanSummaryPlanIntentEnumValues() []SchedulingPlanSummaryPlanI
 func GetSchedulingPlanSummaryPlanIntentEnumStringValues() []string {
 	return []string{
 		"EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE",
+		"EXADATA_INFRASTRUCTURE_SECURITY_UPDATE",
 	}
 }
 

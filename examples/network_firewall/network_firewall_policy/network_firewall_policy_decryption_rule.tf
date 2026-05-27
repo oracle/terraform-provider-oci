@@ -75,6 +75,8 @@ resource "oci_network_firewall_network_firewall_policy_decryption_rule" "test_ne
   #Required when action is chosen as "DECRYPT"
   decryption_profile = oci_network_firewall_network_firewall_policy_decryption_profile.test_network_firewall_policy_decryption_profile_inbound_inspection.name
   secret             = oci_network_firewall_network_firewall_policy_mapped_secret.test_network_firewall_policy_mapped_secret_in.name
+  # Use either secret or secrets
+  #secrets           = [oci_network_firewall_network_firewall_policy_mapped_secret.test_network_firewall_policy_mapped_secret_in.name]
 
   #Optional
   position {

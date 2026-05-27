@@ -108,7 +108,9 @@ The following attributes are exported:
 	* `private_ip` - The private IP address of this node.
 	* `public_ip` - The public IP address of this node.
 	* `state` - The state of the node.
-	* `subnet_id` - The OCID of the subnet in which this node is placed.
+	* `subnet_id` - The OCID of the subnet in which this node is placed
+* `primary_vnic` - Details for node's primary VNIC
+	* `security_attributes` - [Security attributes](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels for a resource that can be referenced in a [Zero Trust Packet Routing](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm) (ZPR) policy to control access to ZPR-supported resources
 * `quantity_per_subnet` - The number of nodes in each subnet.
 * `secondary_vnics` - A list of secondary vnics to attach to nodes
 	* `create_vnic_details` - The properties of the secondary vnics
@@ -123,6 +125,7 @@ The following attributes are exported:
 			* `ipv6address` - An IPv6 address of your choice. Must be an available IPv6 address within the subnet's prefix 
 			* `ipv6subnet_cidr` - The IPv6 prefix allocated to the subnet 
 		* `nsg_ids` - A list of the OCIDs of the network security groups (NSGs) to add the VNIC to 
+		* `security_attributes` - [Security attributes](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels for a resource that can be referenced in a [Zero Trust Packet Routing](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm) (ZPR) policy to control access to ZPR-supported resources. 
 		* `skip_source_dest_check` - Whether the source/destination check is disabled on the VNIC 
 		* `subnet_id` - the ocid of the subnet to create the vnic in
 	* `display_name` - Display name for vnic attachment

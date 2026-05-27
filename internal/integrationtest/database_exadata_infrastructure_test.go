@@ -47,31 +47,31 @@ var (
 	}
 
 	DatabaseExadataInfrastructureRepresentation = map[string]interface{}{
-
-		"admin_network_cidr":            acctest.Representation{RepType: acctest.Required, Create: `192.168.0.0/16`, Update: `192.168.0.0/20`},
-		"cloud_control_plane_server1":   acctest.Representation{RepType: acctest.Required, Create: `10.32.88.1`, Update: `10.32.88.2`},
-		"cloud_control_plane_server2":   acctest.Representation{RepType: acctest.Required, Create: `10.32.88.3`, Update: `10.32.88.4`},
-		"compartment_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":                  acctest.Representation{RepType: acctest.Required, Create: `tstExaInfra`},
-		"database_server_type":          acctest.Representation{RepType: acctest.Required, Create: `X11M`},
-		"dns_server":                    acctest.Representation{RepType: acctest.Required, Create: []string{`10.231.225.65`}, Update: []string{`10.31.138.25`, `206.223.27.1`}},
-		"gateway":                       acctest.Representation{RepType: acctest.Required, Create: `10.32.88.5`, Update: `10.32.88.6`},
-		"infini_band_network_cidr":      acctest.Representation{RepType: acctest.Required, Create: `10.31.8.0/21`, Update: `10.31.8.0/22`},
-		"netmask":                       acctest.Representation{RepType: acctest.Required, Create: `255.255.255.0`, Update: `255.255.254.0`},
-		"ntp_server":                    acctest.Representation{RepType: acctest.Required, Create: []string{`10.231.225.76`}, Update: []string{`10.246.6.36`, `10.31.138.20`}},
-		"shape":                         acctest.Representation{RepType: acctest.Required, Create: `ExadataCC.X11M`},
-		"time_zone":                     acctest.Representation{RepType: acctest.Required, Create: `US/Pacific`, Update: `UTC`},
-		"compute_count":                 acctest.Representation{RepType: acctest.Required, Create: `2`},
-		"contacts":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseExadataInfrastructureContactsRepresentation},
-		"corporate_proxy":               acctest.Representation{RepType: acctest.Optional, Create: `http://192.168.19.1:80`, Update: `http://192.168.19.2:80`},
-		"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"is_cps_offline_report_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"is_multi_rack_deployment":      acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"maintenance_window":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseExadataInfrastructureMaintenanceWindowRepresentation},
-		"storage_server_type":           acctest.Representation{RepType: acctest.Required, Create: `X11M-HC`},
-		"storage_count":                 acctest.Representation{RepType: acctest.Required, Create: `3`},
-		"lifecycle":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseExadataInfrastructureIgnoreChangesRepresentation},
+		"admin_network_cidr":              acctest.Representation{RepType: acctest.Required, Create: `192.168.0.0/16`, Update: `192.168.0.0/20`},
+		"cloud_control_plane_server1":     acctest.Representation{RepType: acctest.Required, Create: `10.32.88.1`, Update: `10.32.88.2`},
+		"cloud_control_plane_server2":     acctest.Representation{RepType: acctest.Required, Create: `10.32.88.3`, Update: `10.32.88.4`},
+		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":                    acctest.Representation{RepType: acctest.Required, Create: `tstExaInfra`},
+		"database_server_type":            acctest.Representation{RepType: acctest.Required, Create: `X11M`},
+		"dns_server":                      acctest.Representation{RepType: acctest.Required, Create: []string{`10.231.225.65`}, Update: []string{`10.31.138.25`, `206.223.27.1`}},
+		"gateway":                         acctest.Representation{RepType: acctest.Required, Create: `10.32.88.5`, Update: `10.32.88.6`},
+		"infini_band_network_cidr":        acctest.Representation{RepType: acctest.Required, Create: `10.31.8.0/21`, Update: `10.31.8.0/22`},
+		"netmask":                         acctest.Representation{RepType: acctest.Required, Create: `255.255.255.0`, Update: `255.255.254.0`},
+		"ntp_server":                      acctest.Representation{RepType: acctest.Required, Create: []string{`10.231.225.76`}, Update: []string{`10.246.6.36`, `10.31.138.20`}},
+		"shape":                           acctest.Representation{RepType: acctest.Required, Create: `ExadataCC.X11M`},
+		"time_zone":                       acctest.Representation{RepType: acctest.Required, Create: `US/Pacific`, Update: `UTC`},
+		"compute_count":                   acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"contacts":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseExadataInfrastructureContactsRepresentation},
+		"corporate_proxy":                 acctest.Representation{RepType: acctest.Optional, Create: `http://192.168.19.1:80`, Update: `http://192.168.19.2:80`},
+		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
+		"freeform_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_cps_offline_report_enabled":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_multi_rack_deployment":        acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"maintenance_version_preferences": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseExadataInfrastructureMaintenanceVersionPreferencesRepresentation},
+		"maintenance_window":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseExadataInfrastructureMaintenanceWindowRepresentation},
+		"storage_server_type":             acctest.Representation{RepType: acctest.Required, Create: `X11M-HC`},
+		"storage_count":                   acctest.Representation{RepType: acctest.Required, Create: `3`},
+		"lifecycle":                       acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseExadataInfrastructureIgnoreChangesRepresentation},
 	}
 
 	DatabaseExadataInfrastructureRepresentation2 = map[string]interface{}{
@@ -91,7 +91,7 @@ var (
 		"contacts":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseExadataInfrastructureContactsRepresentation},
 		"corporate_proxy":               acctest.Representation{RepType: acctest.Optional, Create: `http://192.168.19.1:80`, Update: `http://192.168.19.2:80`},
 		"database_server_type":          acctest.Representation{RepType: acctest.Optional, Create: `X11M`},
-		"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"freeform_tags":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_cps_offline_report_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"maintenance_window":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseExadataInfrastructureMaintenanceWindowRepresentation},
@@ -106,6 +106,9 @@ var (
 		"name":                     acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"is_contact_mos_validated": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"phone_number":             acctest.Representation{RepType: acctest.Optional, Create: `1234567891`, Update: `1234567892`},
+	}
+	DatabaseExadataInfrastructureMaintenanceVersionPreferencesRepresentation = map[string]interface{}{
+		"reference_resource_id_for_image_updates": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure2.id}`},
 	}
 	DatabaseExadataInfrastructureMaintenanceWindowRepresentation = map[string]interface{}{
 		"preference":                       acctest.Representation{RepType: acctest.Optional, Create: `NO_PREFERENCE`, Update: `CUSTOM_PREFERENCE`},
@@ -210,7 +213,8 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DatabaseExadataInfrastructureResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Create, DatabaseExadataInfrastructureRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Create, DatabaseExadataInfrastructureRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure2", acctest.Optional, acctest.Create, DatabaseExadataInfrastructureRepresentation2),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/16"),
 				resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.1"),
@@ -234,6 +238,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.31.8.0/21"),
 				resource.TestCheckResourceAttr(resourceName, "is_cps_offline_report_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_multi_rack_deployment", "false"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_version_preferences.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.custom_action_timeout_in_mins", "0"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.days_of_week.#", "0"),
@@ -256,6 +261,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "storage_server_type", "X11M-HC"),
 				resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
+				resource.TestCheckResourceAttrSet(resourceName, "maintenance_version_preferences.0.reference_resource_id_for_image_updates"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -338,7 +344,8 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(DatabaseExadataInfrastructureRepresentation, map[string]interface{}{
 						"maintenance_window": acctest.RepresentationGroup{RepType: acctest.Optional, Group: exadataInfrastructureMaintenanceWindowRepresentationComplete},
-					})),
+					})) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure2", acctest.Optional, acctest.Create, DatabaseExadataInfrastructureRepresentation2),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/20"),
 				resource.TestCheckResourceAttr(resourceName, "cloud_control_plane_server1", "10.32.88.2"),
@@ -361,6 +368,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "infini_band_network_cidr", "10.31.8.0/22"),
 				resource.TestCheckResourceAttr(resourceName, "is_cps_offline_report_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_version_preferences.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "is_multi_rack_deployment", "false"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.custom_action_timeout_in_mins", "25"),
@@ -422,12 +430,13 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(DatabaseExadataInfrastructureRepresentation, map[string]interface{}{
 						"maintenance_window": acctest.RepresentationGroup{RepType: acctest.Optional, Group: exadataInfrastructureMaintenanceWindowRepresentationComplete},
-					})),
+					})) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure2", acctest.Optional, acctest.Create, DatabaseExadataInfrastructureRepresentation2),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "tstExaInfra"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "REQUIRES_ACTIVATION"),
-				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.#", "2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.activated_storage_count"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.additional_compute_count"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.additional_storage_count"),
@@ -463,6 +472,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.infini_band_network_cidr", "10.31.8.0/22"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.is_multi_rack_deployment", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.is_cps_offline_report_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.maintenance_version_preferences.#", "1"),
 				//resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.maintenance_slo_status"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.maintenance_window.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.maintenance_window.0.custom_action_timeout_in_mins", "25"),
@@ -500,7 +510,8 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseDatabaseExadataInfrastructureSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DatabaseExadataInfrastructureResourceConfig,
+				compartmentIdVariableStr + DatabaseExadataInfrastructureResourceConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure2", acctest.Optional, acctest.Create, DatabaseExadataInfrastructureRepresentation2),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
 
@@ -540,6 +551,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "infini_band_network_cidr", "10.31.8.0/22"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_multi_rack_deployment", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_cps_offline_report_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_version_preferences.#", "1"),
 				// maintenance_slo_status is not avaliable immediately in the response
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_slo_status"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),

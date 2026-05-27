@@ -10,48 +10,35 @@
 package datascience
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// IdcsAuthConfiguration Configuration of IDCS AuthN/Z for online prediction
-type IdcsAuthConfiguration struct {
+// UpdateManagedComputeClusterInstanceConfigurationDetails The compute target instance configuration details for managed compute cluster type compute target.
+type UpdateManagedComputeClusterInstanceConfigurationDetails struct {
 
-	// Identity Domain OCID
-	DomainId *string `mandatory:"true" json:"domainId"`
+	// The shape used to launch the instances in compute target. Supported shapes can be retrieved using compute target shapes api.
+	InstanceShape *string `mandatory:"false" json:"instanceShape"`
 
-	// Name of the IDCS application
-	ApplicationName *string `mandatory:"false" json:"applicationName"`
+	// The size of the boot volume to attach to the instance.
+	BootVolumeSizeInGBs *int `mandatory:"false" json:"bootVolumeSizeInGBs"`
+
+	InstanceShapeDetails *ManagedComputeClusterInstanceShapeDetails `mandatory:"false" json:"instanceShapeDetails"`
 }
 
-func (m IdcsAuthConfiguration) String() string {
+func (m UpdateManagedComputeClusterInstanceConfigurationDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m IdcsAuthConfiguration) ValidateEnumValue() (bool, error) {
+func (m UpdateManagedComputeClusterInstanceConfigurationDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// MarshalJSON marshals to json representation
-func (m IdcsAuthConfiguration) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeIdcsAuthConfiguration IdcsAuthConfiguration
-	s := struct {
-		DiscriminatorParam string `json:"type"`
-		MarshalTypeIdcsAuthConfiguration
-	}{
-		"IDCS",
-		(MarshalTypeIdcsAuthConfiguration)(m),
-	}
-
-	return json.Marshal(&s)
 }

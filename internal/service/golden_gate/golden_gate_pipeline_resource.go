@@ -97,6 +97,11 @@ func GoldenGatePipelineResource() *schema.Resource {
 			},
 
 			// Optional
+			"cpu_core_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -114,6 +119,11 @@ func GoldenGatePipelineResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"is_auto_scaling_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
 			},
 			"locks": {
 				Type:     schema.TypeList,
@@ -182,6 +192,36 @@ func GoldenGatePipelineResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"adb_wallet_path": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"bucket": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"initial_load_type": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"namespace": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"source_wallet_path": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"target_wallet_path": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 
 									// Computed
 								},
@@ -239,10 +279,6 @@ func GoldenGatePipelineResource() *schema.Resource {
 			},
 
 			// Computed
-			"cpu_core_count": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
 			"ingress_ips": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -259,10 +295,6 @@ func GoldenGatePipelineResource() *schema.Resource {
 						},
 					},
 				},
-			},
-			"is_auto_scaling_enabled": {
-				Type:     schema.TypeBool,
-				Computed: true,
 			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
@@ -752,8 +784,37 @@ func (s *GoldenGatePipelineResourceCrud) mapToInitialDataLoad(fieldKeyFormat str
 		result.ActionOnExistingTable = oci_golden_gate.InitialLoadActionEnum(actionOnExistingTable.(string))
 	}
 
+	if adbWalletPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "adb_wallet_path")); ok {
+		tmp := adbWalletPath.(string)
+		result.AdbWalletPath = &tmp
+	}
+
+	if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+		tmp := bucket.(string)
+		result.BucketName = &tmp
+	}
+
+	if initialLoadType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "initial_load_type")); ok {
+		result.InitialLoadType = oci_golden_gate.InitialDataLoadInitialLoadTypeEnum(initialLoadType.(string))
+	}
+
 	if isInitialLoad, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_initial_load")); ok {
 		result.IsInitialLoad = oci_golden_gate.InitialDataLoadIsInitialLoadEnum(isInitialLoad.(string))
+	}
+
+	if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+		tmp := namespace.(string)
+		result.NamespaceName = &tmp
+	}
+
+	if sourceWalletPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_wallet_path")); ok {
+		tmp := sourceWalletPath.(string)
+		result.SourceWalletPath = &tmp
+	}
+
+	if targetWalletPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_wallet_path")); ok {
+		tmp := targetWalletPath.(string)
+		result.TargetWalletPath = &tmp
 	}
 
 	return result, nil
@@ -764,7 +825,29 @@ func InitialDataLoadToMap(obj *oci_golden_gate.InitialDataLoad) map[string]inter
 
 	result["action_on_existing_table"] = string(obj.ActionOnExistingTable)
 
+	if obj.AdbWalletPath != nil {
+		result["adb_wallet_path"] = string(*obj.AdbWalletPath)
+	}
+
+	if obj.BucketName != nil {
+		result["bucket"] = string(*obj.BucketName)
+	}
+
+	result["initial_load_type"] = string(obj.InitialLoadType)
+
 	result["is_initial_load"] = string(obj.IsInitialLoad)
+
+	if obj.NamespaceName != nil {
+		result["namespace"] = string(*obj.NamespaceName)
+	}
+
+	if obj.SourceWalletPath != nil {
+		result["source_wallet_path"] = string(*obj.SourceWalletPath)
+	}
+
+	if obj.TargetWalletPath != nil {
+		result["target_wallet_path"] = string(*obj.TargetWalletPath)
+	}
 
 	return result
 }
@@ -1030,6 +1113,10 @@ func (s *GoldenGatePipelineResourceCrud) populateTopLevelPolymorphicCreatePipeli
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
 		}
+		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
+			tmp := cpuCoreCount.(int)
+			details.CpuCoreCount = &tmp
+		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 			if err != nil {
@@ -1047,6 +1134,10 @@ func (s *GoldenGatePipelineResourceCrud) populateTopLevelPolymorphicCreatePipeli
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
+			tmp := isAutoScalingEnabled.(bool)
+			details.IsAutoScalingEnabled = &tmp
 		}
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_golden_gate.LicenseModelEnum(licenseModel.(string))
@@ -1136,6 +1227,10 @@ func (s *GoldenGatePipelineResourceCrud) populateTopLevelPolymorphicUpdatePipeli
 				details.ProcessOptions = &tmp
 			}
 		}
+		if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok {
+			tmp := cpuCoreCount.(int)
+			details.CpuCoreCount = &tmp
+		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 			if err != nil {
@@ -1153,6 +1248,10 @@ func (s *GoldenGatePipelineResourceCrud) populateTopLevelPolymorphicUpdatePipeli
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isAutoScalingEnabled, ok := s.D.GetOkExists("is_auto_scaling_enabled"); ok {
+			tmp := isAutoScalingEnabled.(bool)
+			details.IsAutoScalingEnabled = &tmp
 		}
 		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
 			tmp := isLockOverride.(bool)

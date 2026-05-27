@@ -225,6 +225,7 @@ resource "oci_core_instance" "test_instance" {
 
 		#Optional
 		baseline_ocpu_utilization = var.instance_shape_config_baseline_ocpu_utilization
+		local_volume_size_in_gbs = var.instance_shape_config_local_volume_size_in_gbs
 		memory_in_gbs = var.instance_shape_config_memory_in_gbs
 		nvmes = var.instance_shape_config_nvmes
 		ocpus = var.instance_shape_config_ocpus
@@ -529,6 +530,7 @@ The following arguments are supported:
 		* `BASELINE_1_8` - baseline usage is 1/8 of an OCPU.
 		* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
 		* `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance. 
+	* `local_volume_size_in_gbs` - (Optional) (Updatable) The NVMe-backed local storage capacity, in GB, for flexible dense (DenseLV) VM shapes. If the selected shape  is DenseLV, the value must be greater than 0. For all other shapes, the value must be null (if specified);  any non-null value for a non-DenseLV shape results in an error. 
 	* `memory_in_gbs` - (Optional) (Updatable) The total amount of memory available to the instance, in gigabytes. 
 	* `nvmes` - (Optional) (Updatable) The number of NVMe drives to be used for storage. A single drive has 6.8 TB available. 
 	* `ocpus` - (Optional) (Updatable) The total number of OCPUs available to the instance.
@@ -727,6 +729,7 @@ The following attributes are exported:
 	* `local_disks_total_size_in_gbs` - The aggregate size of all local disks, in gigabytes.
 
 		If the instance does not have any local disks, this field is `null`. 
+	* `local_volume_size_in_gbs` - The NVMe-backed local storage capacity, in GB, for flexible dense (DenseLV) VM shapes. If the shape  is DenseLV, the value will be greater than 0. For all other shapes, the value will be null. 
 	* `max_vnic_attachments` - The maximum number of VNIC attachments for the instance. 
 	* `memory_in_gbs` - The total amount of memory available to the instance, in gigabytes. 
 	* `networking_bandwidth_in_gbps` - The networking bandwidth available to the instance, in gigabits per second. 

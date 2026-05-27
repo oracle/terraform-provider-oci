@@ -22,13 +22,13 @@ type PlacementConfiguration struct {
 
 	// The availability domain in which to place virtual nodes.
 	// Example: `Uocm:PHX-AD-1`
-	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
+	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
+
+	// The OCID of the subnet in which to place virtual nodes.
+	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	// The fault domain of this virtual node.
 	FaultDomain []string `mandatory:"false" json:"faultDomain"`
-
-	// The OCID of the subnet in which to place virtual nodes.
-	SubnetId *string `mandatory:"false" json:"subnetId"`
 }
 
 func (m PlacementConfiguration) String() string {

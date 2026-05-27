@@ -56,6 +56,21 @@ type UpdateCloudAutonomousVmClusterDetails struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// The time zone to use for the Autonomous VM cluster. For details, see DB System Time Zones (https://docs.oracle.com/iaas/Content/Database/References/timezones.htm).
+	ClusterTimeZone *string `mandatory:"false" json:"clusterTimeZone"`
+
+	// The SCAN Listener TLS port. Default is 2484.
+	ScanListenerPortTls *int `mandatory:"false" json:"scanListenerPortTls"`
+
+	// The SCAN Listener Non TLS port. Default is 1521.
+	ScanListenerPortNonTls *int `mandatory:"false" json:"scanListenerPortNonTls"`
+
+	// Enable mutual TLS(mTLS) authentication for database at time of provisioning a VMCluster. This is applicable to database TLS Certificates only. Default is TLS
+	IsMtlsEnabledVmCluster *bool `mandatory:"false" json:"isMtlsEnabledVmCluster"`
+
+	// The distribution algorithm used for the Autonomous VM cluster.
+	DistributionAlgorithm UpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum `mandatory:"false" json:"distributionAlgorithm,omitempty"`
+
 	// Security Attributes for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}`
@@ -74,6 +89,9 @@ func (m UpdateCloudAutonomousVmClusterDetails) ValidateEnumValue() (bool, error)
 
 	if _, ok := GetMappingUpdateCloudAutonomousVmClusterDetailsLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetUpdateCloudAutonomousVmClusterDetailsLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingUpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum(string(m.DistributionAlgorithm)); !ok && m.DistributionAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DistributionAlgorithm: %s. Supported values are: %s.", m.DistributionAlgorithm, strings.Join(GetUpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -120,5 +138,47 @@ func GetUpdateCloudAutonomousVmClusterDetailsLicenseModelEnumStringValues() []st
 // GetMappingUpdateCloudAutonomousVmClusterDetailsLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingUpdateCloudAutonomousVmClusterDetailsLicenseModelEnum(val string) (UpdateCloudAutonomousVmClusterDetailsLicenseModelEnum, bool) {
 	enum, ok := mappingUpdateCloudAutonomousVmClusterDetailsLicenseModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// UpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum Enum with underlying type: string
+type UpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum string
+
+// Set of constants representing the allowable values for UpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum
+const (
+	UpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmResourceOptimized     UpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum = "RESOURCE_OPTIMIZED"
+	UpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmDistributionOptimized UpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum = "DISTRIBUTION_OPTIMIZED"
+)
+
+var mappingUpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum = map[string]UpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum{
+	"RESOURCE_OPTIMIZED":     UpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmResourceOptimized,
+	"DISTRIBUTION_OPTIMIZED": UpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmDistributionOptimized,
+}
+
+var mappingUpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnumLowerCase = map[string]UpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum{
+	"resource_optimized":     UpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmResourceOptimized,
+	"distribution_optimized": UpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmDistributionOptimized,
+}
+
+// GetUpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnumValues Enumerates the set of values for UpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum
+func GetUpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnumValues() []UpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum {
+	values := make([]UpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum, 0)
+	for _, v := range mappingUpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnumStringValues Enumerates the set of values in String for UpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum
+func GetUpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnumStringValues() []string {
+	return []string{
+		"RESOURCE_OPTIMIZED",
+		"DISTRIBUTION_OPTIMIZED",
+	}
+}
+
+// GetMappingUpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum(val string) (UpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnum, bool) {
+	enum, ok := mappingUpdateCloudAutonomousVmClusterDetailsDistributionAlgorithmEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

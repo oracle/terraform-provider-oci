@@ -120,6 +120,10 @@ func (s *CoreDedicatedVmHostDataSourceCrud) SetData() error {
 		s.D.Set("placement_constraint_details", nil)
 	}
 
+	if s.Res.RemainingLocalVolumeInGBs != nil {
+		s.D.Set("remaining_local_volume_in_gbs", *s.Res.RemainingLocalVolumeInGBs)
+	}
+
 	if s.Res.RemainingMemoryInGBs != nil {
 		s.D.Set("remaining_memory_in_gbs", *s.Res.RemainingMemoryInGBs)
 	}
@@ -132,6 +136,10 @@ func (s *CoreDedicatedVmHostDataSourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TotalLocalVolumeInGBs != nil {
+		s.D.Set("total_local_volume_in_gbs", *s.Res.TotalLocalVolumeInGBs)
 	}
 
 	if s.Res.TotalMemoryInGBs != nil {

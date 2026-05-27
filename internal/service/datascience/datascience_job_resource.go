@@ -258,6 +258,7 @@ func DatascienceJobResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"EMPTY",
+								"MANAGED_COMPUTE_CLUSTER",
 								"ME_STANDALONE",
 								"MULTI_NODE",
 								"STANDALONE",
@@ -267,6 +268,11 @@ func DatascienceJobResource() *schema.Resource {
 						// Optional
 						"block_storage_size_in_gbs": {
 							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"compute_target_id": {
+							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
@@ -295,6 +301,79 @@ func DatascienceJobResource() *schema.Resource {
 										Type:     schema.TypeFloat,
 										Optional: true,
 										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"resource_configuration": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"resource_limit_configuration": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"memory_in_gbs": {
+													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+												},
+												"ocpus": {
+													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"resource_request_configuration": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"gpus": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+												"memory_in_gbs": {
+													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+												},
+												"ocpus": {
+													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
 									},
 
 									// Computed
@@ -604,6 +683,7 @@ func DatascienceJobResource() *schema.Resource {
 													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 													ValidateFunc: validation.StringInSlice([]string{
 														"EMPTY",
+														"MANAGED_COMPUTE_CLUSTER",
 														"ME_STANDALONE",
 														"MULTI_NODE",
 														"STANDALONE",
@@ -613,6 +693,12 @@ func DatascienceJobResource() *schema.Resource {
 												// Optional
 												"block_storage_size_in_gbs": {
 													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"compute_target_id": {
+													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
@@ -646,6 +732,87 @@ func DatascienceJobResource() *schema.Resource {
 																Optional: true,
 																Computed: true,
 																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"resource_configuration": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"resource_limit_configuration": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+																		"memory_in_gbs": {
+																			Type:     schema.TypeFloat,
+																			Optional: true,
+																			Computed: true,
+																			ForceNew: true,
+																		},
+																		"ocpus": {
+																			Type:     schema.TypeFloat,
+																			Optional: true,
+																			Computed: true,
+																			ForceNew: true,
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+															"resource_request_configuration": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																MaxItems: 1,
+																MinItems: 1,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+																		"gpus": {
+																			Type:     schema.TypeInt,
+																			Optional: true,
+																			Computed: true,
+																			ForceNew: true,
+																		},
+																		"memory_in_gbs": {
+																			Type:     schema.TypeFloat,
+																			Optional: true,
+																			Computed: true,
+																			ForceNew: true,
+																		},
+																		"ocpus": {
+																			Type:     schema.TypeFloat,
+																			Optional: true,
+																			Computed: true,
+																			ForceNew: true,
+																		},
+
+																		// Computed
+																	},
+																},
 															},
 
 															// Computed
@@ -940,7 +1107,15 @@ func (s *DatascienceJobResourceCrud) Create() error {
 			if err != nil {
 				return err
 			}
-			request.JobInfrastructureConfigurationDetails = tmp
+			if _, ok := tmp.(oci_datascience.EmptyJobInfrastructureConfigurationDetails); ok {
+				// temp is of type EmptyJobInfrastructureConfigurationDetails
+				fmt.Println("The jobInfrastructureType is EMPTY dont set")
+			} else {
+				// temp is NOT of type EmptyJobInfrastructureConfigurationDetails
+				fmt.Println("temp is NOT of type EmptyJobInfrastructureConfigurationDetails")
+				request.JobInfrastructureConfigurationDetails = tmp
+			}
+			// request.JobInfrastructureConfigurationDetails = tmp
 		}
 	}
 
@@ -1069,15 +1244,7 @@ func (s *DatascienceJobResourceCrud) Update() error {
 			if err != nil {
 				return err
 			}
-			if _, ok := tmp.(oci_datascience.EmptyJobInfrastructureConfigurationDetails); ok {
-				// temp is of type EmptyJobInfrastructureConfigurationDetails
-				fmt.Println("The jobInfrastructureType is EMPTY dont set")
-			} else {
-				// temp is NOT of type EmptyJobInfrastructureConfigurationDetails
-				fmt.Println("temp is NOT of type EmptyJobInfrastructureConfigurationDetails")
-				request.JobInfrastructureConfigurationDetails = tmp
-			}
-			// request.JobInfrastructureConfigurationDetails = tmp
+			request.JobInfrastructureConfigurationDetails = tmp
 		}
 	}
 
@@ -1398,6 +1565,23 @@ func (s *DatascienceJobResourceCrud) mapToJobInfrastructureConfigurationDetails(
 	case strings.ToLower("EMPTY"):
 		details := oci_datascience.EmptyJobInfrastructureConfigurationDetails{}
 		baseObject = details
+	case strings.ToLower("MANAGED_COMPUTE_CLUSTER"):
+		details := oci_datascience.ManagedComputeClusterJobInfrastructureConfigurationDetails{}
+		if computeTargetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compute_target_id")); ok {
+			tmp := computeTargetId.(string)
+			details.ComputeTargetId = &tmp
+		}
+		if resourceConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_configuration")); ok {
+			if tmpList := resourceConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "resource_configuration"), 0)
+				tmp, err := s.mapToManagedComputeClusterJobResourceConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert resource_configuration, encountered error: %v", err)
+				}
+				details.ResourceConfiguration = &tmp
+			}
+		}
+		baseObject = details
 	case strings.ToLower("ME_STANDALONE"):
 		details := oci_datascience.ManagedEgressStandaloneJobInfrastructureConfigurationDetails{}
 		if blockStorageSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_storage_size_in_gbs")); ok {
@@ -1476,6 +1660,16 @@ func JobInfrastructureConfigurationDetailsToMap(obj *oci_datascience.JobInfrastr
 	switch v := (*obj).(type) {
 	case oci_datascience.EmptyJobInfrastructureConfigurationDetails:
 		result["job_infrastructure_type"] = "EMPTY"
+	case oci_datascience.ManagedComputeClusterJobInfrastructureConfigurationDetails:
+		result["job_infrastructure_type"] = "MANAGED_COMPUTE_CLUSTER"
+
+		if v.ComputeTargetId != nil {
+			result["compute_target_id"] = string(*v.ComputeTargetId)
+		}
+
+		if v.ResourceConfiguration != nil {
+			result["resource_configuration"] = []interface{}{ManagedComputeClusterJobResourceConfigurationToMap(v.ResourceConfiguration)}
+		}
 	case oci_datascience.ManagedEgressStandaloneJobInfrastructureConfigurationDetails:
 		result["job_infrastructure_type"] = "ME_STANDALONE"
 
@@ -1906,7 +2100,122 @@ func (s *DatascienceJobResourceCrud) mapToJobShapeConfigDetails(fieldKeyFormat s
 func JobShapeConfigDetailsToMap(obj *oci_datascience.JobShapeConfigDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	result["cpu_baseline"] = string(obj.CpuBaseline)
+	cpuBaseline := string(obj.CpuBaseline)
+	if cpuBaseline == "" {
+		cpuBaseline = "BASELINE_1_1"
+	}
+	result["cpu_baseline"] = cpuBaseline
+
+	if obj.MemoryInGBs != nil {
+		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)
+	}
+
+	if obj.Ocpus != nil {
+		result["ocpus"] = float32(*obj.Ocpus)
+	}
+
+	return result
+}
+
+func (s *DatascienceJobResourceCrud) mapToManagedComputeClusterJobResourceConfiguration(fieldKeyFormat string) (oci_datascience.ManagedComputeClusterJobResourceConfiguration, error) {
+	result := oci_datascience.ManagedComputeClusterJobResourceConfiguration{}
+
+	if resourceLimitConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_limit_configuration")); ok {
+		if tmpList := resourceLimitConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "resource_limit_configuration"), 0)
+			tmp, err := s.mapToResourceLimitConfiguration(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert resource_limit_configuration, encountered error: %v", err)
+			}
+			result.ResourceLimitConfiguration = &tmp
+		}
+	}
+
+	if resourceRequestConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_request_configuration")); ok {
+		if tmpList := resourceRequestConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "resource_request_configuration"), 0)
+			tmp, err := s.mapToResourceRequestConfiguration(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert resource_request_configuration, encountered error: %v", err)
+			}
+			result.ResourceRequestConfiguration = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func ManagedComputeClusterJobResourceConfigurationToMap(obj *oci_datascience.ManagedComputeClusterJobResourceConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ResourceLimitConfiguration != nil {
+		result["resource_limit_configuration"] = []interface{}{ResourceLimitConfigurationToMap(obj.ResourceLimitConfiguration)}
+	}
+
+	if obj.ResourceRequestConfiguration != nil {
+		result["resource_request_configuration"] = []interface{}{ResourceRequestConfigurationToMap(obj.ResourceRequestConfiguration)}
+	}
+
+	return result
+}
+
+func (s *DatascienceJobResourceCrud) mapToResourceLimitConfiguration(fieldKeyFormat string) (oci_datascience.ResourceLimitConfiguration, error) {
+	result := oci_datascience.ResourceLimitConfiguration{}
+
+	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
+		tmp := float32(memoryInGBs.(float64))
+		result.MemoryInGBs = &tmp
+	}
+
+	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
+		tmp := float32(ocpus.(float64))
+		result.Ocpus = &tmp
+	}
+
+	return result, nil
+}
+
+func ResourceLimitConfigurationToMap(obj *oci_datascience.ResourceLimitConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.MemoryInGBs != nil {
+		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)
+	}
+
+	if obj.Ocpus != nil {
+		result["ocpus"] = float32(*obj.Ocpus)
+	}
+
+	return result
+}
+
+func (s *DatascienceJobResourceCrud) mapToResourceRequestConfiguration(fieldKeyFormat string) (oci_datascience.ResourceRequestConfiguration, error) {
+	result := oci_datascience.ResourceRequestConfiguration{}
+
+	if gpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "gpus")); ok {
+		tmp := gpus.(int)
+		result.Gpus = &tmp
+	}
+
+	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
+		tmp := float32(memoryInGBs.(float64))
+		result.MemoryInGBs = &tmp
+	}
+
+	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
+		tmp := float32(ocpus.(float64))
+		result.Ocpus = &tmp
+	}
+
+	return result, nil
+}
+
+func ResourceRequestConfigurationToMap(obj *oci_datascience.ResourceRequestConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Gpus != nil {
+		result["gpus"] = int(*obj.Gpus)
+	}
 
 	if obj.MemoryInGBs != nil {
 		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)

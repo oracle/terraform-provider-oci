@@ -40,7 +40,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `items` - Array of DeploymentEnvironmentSummary objects. 
-	* `category` - The deployment category defines the broad separation of the deployment type into three categories. Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS' and 'DATA_TRANSFORMS'. 
+	* `category` - The deployment category defines the broad separation of the deployment type into four categories. Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS', 'DATA_TRANSFORMS' and 'DATA_VERIFICATION'. 
 	* `default_cpu_core_count` - The default CPU core count. 
 	* `display_name` - An object's Display Name. 
 	* `environment_type` - Specifies whether the deployment is used in a production or development/testing environment. 

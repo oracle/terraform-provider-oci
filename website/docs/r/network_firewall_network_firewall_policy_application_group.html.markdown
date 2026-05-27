@@ -21,11 +21,11 @@ Creates a new ApplicationGroup inside the Network Firewall Policy.
 ```hcl
 resource "oci_network_firewall_network_firewall_policy_application_group" "test_network_firewall_policy_application_group" {
 	#Required
-	apps = var.network_firewall_policy_application_group_apps
 	name = var.network_firewall_policy_application_group_name
 	network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
 
 	#Optional
+	apps = var.network_firewall_policy_application_group_apps
 	description = var.network_firewall_policy_application_group_description
 }
 ```
@@ -34,7 +34,7 @@ resource "oci_network_firewall_network_firewall_policy_application_group" "test_
 
 The following arguments are supported:
 
-* `apps` - (Required) (Updatable) Collection of application names.
+* `apps` - (Optional) (Updatable) Collection of application names.
 * `description` - (Optional) (Updatable) The description of the application group. This field can be used to add additional info.
 * `name` - (Required) Name of the application group.
 * `network_firewall_policy_id` - (Required) Unique Network Firewall Policy identifier

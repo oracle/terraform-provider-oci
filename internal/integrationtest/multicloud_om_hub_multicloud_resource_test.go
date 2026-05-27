@@ -71,6 +71,7 @@ func TestMulticloudOmHubMulticloudResourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "multicloud_resource_collection.0.items.0.lifecycle_state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "multicloud_resource_collection.0.items.0.defined_tags.%"),
 				resource.TestCheckResourceAttrSet(datasourceName, "multicloud_resource_collection.0.items.0.system_tags.%"),
+				resource.TestCheckResourceAttrSet(datasourceName, "multicloud_resource_collection.0.items.0.resource_additional_properties.%"),
 			),
 		},
 	})

@@ -55,6 +55,10 @@ func (m *modeldeploymentsystemdata) UnmarshalPolymorphicJSON(data []byte) (inter
 
 	var err error
 	switch m.SystemInfraType {
+	case "MANAGED_COMPUTE_CLUSTER":
+		mm := ManagedComputeClusterModelDeploymentSystemData{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "INSTANCE_POOL":
 		mm := InstancePoolModelDeploymentSystemData{}
 		err = json.Unmarshal(data, &mm)
@@ -94,15 +98,18 @@ type ModelDeploymentSystemDataSystemInfraTypeEnum string
 
 // Set of constants representing the allowable values for ModelDeploymentSystemDataSystemInfraTypeEnum
 const (
-	ModelDeploymentSystemDataSystemInfraTypeInstancePool ModelDeploymentSystemDataSystemInfraTypeEnum = "INSTANCE_POOL"
+	ModelDeploymentSystemDataSystemInfraTypeInstancePool          ModelDeploymentSystemDataSystemInfraTypeEnum = "INSTANCE_POOL"
+	ModelDeploymentSystemDataSystemInfraTypeManagedComputeCluster ModelDeploymentSystemDataSystemInfraTypeEnum = "MANAGED_COMPUTE_CLUSTER"
 )
 
 var mappingModelDeploymentSystemDataSystemInfraTypeEnum = map[string]ModelDeploymentSystemDataSystemInfraTypeEnum{
-	"INSTANCE_POOL": ModelDeploymentSystemDataSystemInfraTypeInstancePool,
+	"INSTANCE_POOL":           ModelDeploymentSystemDataSystemInfraTypeInstancePool,
+	"MANAGED_COMPUTE_CLUSTER": ModelDeploymentSystemDataSystemInfraTypeManagedComputeCluster,
 }
 
 var mappingModelDeploymentSystemDataSystemInfraTypeEnumLowerCase = map[string]ModelDeploymentSystemDataSystemInfraTypeEnum{
-	"instance_pool": ModelDeploymentSystemDataSystemInfraTypeInstancePool,
+	"instance_pool":           ModelDeploymentSystemDataSystemInfraTypeInstancePool,
+	"managed_compute_cluster": ModelDeploymentSystemDataSystemInfraTypeManagedComputeCluster,
 }
 
 // GetModelDeploymentSystemDataSystemInfraTypeEnumValues Enumerates the set of values for ModelDeploymentSystemDataSystemInfraTypeEnum
@@ -118,6 +125,7 @@ func GetModelDeploymentSystemDataSystemInfraTypeEnumValues() []ModelDeploymentSy
 func GetModelDeploymentSystemDataSystemInfraTypeEnumStringValues() []string {
 	return []string{
 		"INSTANCE_POOL",
+		"MANAGED_COMPUTE_CLUSTER",
 	}
 }
 

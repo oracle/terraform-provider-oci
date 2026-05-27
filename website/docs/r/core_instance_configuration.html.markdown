@@ -213,6 +213,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 
 				#Optional
 				baseline_ocpu_utilization = var.instance_configuration_instance_details_launch_details_shape_config_baseline_ocpu_utilization
+				local_volume_size_in_gbs = var.instance_configuration_instance_details_launch_details_shape_config_local_volume_size_in_gbs
 				memory_in_gbs = var.instance_configuration_instance_details_launch_details_shape_config_memory_in_gbs
 				nvmes = var.instance_configuration_instance_details_launch_details_shape_config_nvmes
 				ocpus = var.instance_configuration_instance_details_launch_details_shape_config_ocpus
@@ -413,6 +414,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 
 					#Optional
 					baseline_ocpu_utilization = var.instance_configuration_instance_details_options_launch_details_shape_config_baseline_ocpu_utilization
+					local_volume_size_in_gbs = var.instance_configuration_instance_details_options_launch_details_shape_config_local_volume_size_in_gbs
 					memory_in_gbs = var.instance_configuration_instance_details_options_launch_details_shape_config_memory_in_gbs
 					nvmes = var.instance_configuration_instance_details_options_launch_details_shape_config_nvmes
 					ocpus = var.instance_configuration_instance_details_options_launch_details_shape_config_ocpus
@@ -742,6 +744,7 @@ The following arguments are supported:
 				* `BASELINE_1_8` - baseline usage is 1/8 of an OCPU.
 				* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
 				* `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance. 
+			* `local_volume_size_in_gbs` - (Applicable when instance_type=compute) The NVMe-backed local storage capacity, in GB, for flexible dense (DenseLV) VM shapes. If the selected shape  is DenseLV, the value must be greater than 0. For all other shapes, the value must be null (if specified);  any non-null value for a non-DenseLV shape results in an error. 
 			* `memory_in_gbs` - (Applicable when instance_type=compute) The total amount of memory available to the instance, in gigabytes. 
 			* `nvmes` - (Applicable when instance_type=compute) The number of NVMe drives to be used for storage. A single drive has 6.8 TB available. 
 			* `ocpus` - (Applicable when instance_type=compute) The total number of OCPUs available to the instance. 
@@ -993,9 +996,10 @@ The following arguments are supported:
 				  The following values are supported:
 					* `BASELINE_1_8` - baseline usage is 1/8 of an OCPU.
 					* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
-					* `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance.
-				* `memory_in_gbs` - (Applicable when instance_type=instance_options) The total amount of memory available to the instance, in gigabytes.
-				* `nvmes` - (Applicable when instance_type=instance_options) The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.
+					* `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance. 
+				* `local_volume_size_in_gbs` - (Applicable when instance_type=instance_options) The NVMe-backed local storage capacity, in GB, for flexible dense (DenseLV) VM shapes. If the selected shape  is DenseLV, the value must be greater than 0. For all other shapes, the value must be null (if specified);  any non-null value for a non-DenseLV shape results in an error. 
+				* `memory_in_gbs` - (Applicable when instance_type=instance_options) The total amount of memory available to the instance, in gigabytes. 
+				* `nvmes` - (Applicable when instance_type=instance_options) The number of NVMe drives to be used for storage. A single drive has 6.8 TB available. 
 				* `ocpus` - (Applicable when instance_type=instance_options) The total number of OCPUs available to the instance.
 				* `resource_management` - (Applicable when instance_type=instance_options) This field is reserved for internal use. 
 				* `vcpus` - (Applicable when instance_type=instance_options) The total number of VCPUs available to the instance. This can be used instead of OCPUs, in which case the actual number of OCPUs will be calculated based on this value and the actual hardware. This must be a multiple of 2.
@@ -1309,6 +1313,7 @@ The following attributes are exported:
 				* `BASELINE_1_8` - baseline usage is 1/8 of an OCPU.
 				* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
 				* `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance. 
+			* `local_volume_size_in_gbs` - The NVMe-backed local storage capacity, in GB, for flexible dense (DenseLV) VM shapes. If the selected shape  is DenseLV, the value must be greater than 0. For all other shapes, the value must be null (if specified);  any non-null value for a non-DenseLV shape results in an error. 
 			* `memory_in_gbs` - The total amount of memory available to the instance, in gigabytes. 
 			* `nvmes` - The number of NVMe drives to be used for storage. A single drive has 6.8 TB available. 
 			* `ocpus` - The total number of OCPUs available to the instance. 
@@ -1556,12 +1561,13 @@ The following attributes are exported:
 				  The following values are supported:
 					* `BASELINE_1_8` - baseline usage is 1/8 of an OCPU.
 					* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
-					* `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance.
-				* `memory_in_gbs` - The total amount of memory available to the instance, in gigabytes.
-				* `nvmes` - The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.
-				* `ocpus` - The total number of OCPUs available to the instance.
-				* `resource_management` - This field is reserved for internal use.
-				* `vcpus` - The total number of VCPUs available to the instance. This can be used instead of OCPUs, in which case the actual number of OCPUs will be calculated based on this value and the actual hardware. This must be a multiple of 2.
+					* `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance. 
+				* `local_volume_size_in_gbs` - The NVMe-backed local storage capacity, in GB, for flexible dense (DenseLV) VM shapes. If the selected shape  is DenseLV, the value must be greater than 0. For all other shapes, the value must be null (if specified);  any non-null value for a non-DenseLV shape results in an error. 
+				* `memory_in_gbs` - The total amount of memory available to the instance, in gigabytes. 
+				* `nvmes` - The number of NVMe drives to be used for storage. A single drive has 6.8 TB available. 
+				* `ocpus` - The total number of OCPUs available to the instance. 
+				* `resource_management` - This field is reserved for internal use. 
+				* `vcpus` - The total number of VCPUs available to the instance. This can be used instead of OCPUs, in which case the actual number of OCPUs will be calculated based on this value and the actual hardware. This must be a multiple of 2. 
 			* `source_details` -
 				* `boot_volume_id` - The OCID of the boot volume used to boot the instance.
 				* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. The minimum value is 50 GB and the maximum value is 32,768 GB (32 TB).

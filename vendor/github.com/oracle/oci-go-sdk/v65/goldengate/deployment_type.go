@@ -28,6 +28,8 @@ const (
 	DeploymentTypeDatabaseDb2I               DeploymentTypeEnum = "DATABASE_DB2I"
 	DeploymentTypeGgsa                       DeploymentTypeEnum = "GGSA"
 	DeploymentTypeDataTransforms             DeploymentTypeEnum = "DATA_TRANSFORMS"
+	DeploymentTypeVeridataServer             DeploymentTypeEnum = "VERIDATA_SERVER"
+	DeploymentTypeVeridataAgent              DeploymentTypeEnum = "VERIDATA_AGENT"
 )
 
 var mappingDeploymentTypeEnum = map[string]DeploymentTypeEnum{
@@ -41,6 +43,8 @@ var mappingDeploymentTypeEnum = map[string]DeploymentTypeEnum{
 	"DATABASE_DB2I":                DeploymentTypeDatabaseDb2I,
 	"GGSA":                         DeploymentTypeGgsa,
 	"DATA_TRANSFORMS":              DeploymentTypeDataTransforms,
+	"VERIDATA_SERVER":              DeploymentTypeVeridataServer,
+	"VERIDATA_AGENT":               DeploymentTypeVeridataAgent,
 }
 
 var mappingDeploymentTypeEnumLowerCase = map[string]DeploymentTypeEnum{
@@ -54,6 +58,8 @@ var mappingDeploymentTypeEnumLowerCase = map[string]DeploymentTypeEnum{
 	"database_db2i":                DeploymentTypeDatabaseDb2I,
 	"ggsa":                         DeploymentTypeGgsa,
 	"data_transforms":              DeploymentTypeDataTransforms,
+	"veridata_server":              DeploymentTypeVeridataServer,
+	"veridata_agent":               DeploymentTypeVeridataAgent,
 }
 
 // GetDeploymentTypeEnumValues Enumerates the set of values for DeploymentTypeEnum
@@ -78,6 +84,8 @@ func GetDeploymentTypeEnumStringValues() []string {
 		"DATABASE_DB2I",
 		"GGSA",
 		"DATA_TRANSFORMS",
+		"VERIDATA_SERVER",
+		"VERIDATA_AGENT",
 	}
 }
 

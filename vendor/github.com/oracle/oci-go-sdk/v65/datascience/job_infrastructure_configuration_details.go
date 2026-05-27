@@ -62,6 +62,10 @@ func (m *jobinfrastructureconfigurationdetails) UnmarshalPolymorphicJSON(data []
 		mm := ManagedEgressStandaloneJobInfrastructureConfigurationDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MANAGED_COMPUTE_CLUSTER":
+		mm := ManagedComputeClusterJobInfrastructureConfigurationDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "STANDALONE":
 		mm := StandaloneJobInfrastructureConfigurationDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -93,24 +97,27 @@ type JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum string
 
 // Set of constants representing the allowable values for JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum
 const (
-	JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone   JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "STANDALONE"
-	JobInfrastructureConfigurationDetailsJobInfrastructureTypeMeStandalone JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "ME_STANDALONE"
-	JobInfrastructureConfigurationDetailsJobInfrastructureTypeMultiNode    JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "MULTI_NODE"
-	JobInfrastructureConfigurationDetailsJobInfrastructureTypeEmpty        JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "EMPTY"
+	JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone            JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "STANDALONE"
+	JobInfrastructureConfigurationDetailsJobInfrastructureTypeMeStandalone          JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "ME_STANDALONE"
+	JobInfrastructureConfigurationDetailsJobInfrastructureTypeMultiNode             JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "MULTI_NODE"
+	JobInfrastructureConfigurationDetailsJobInfrastructureTypeEmpty                 JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "EMPTY"
+	JobInfrastructureConfigurationDetailsJobInfrastructureTypeManagedComputeCluster JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "MANAGED_COMPUTE_CLUSTER"
 )
 
 var mappingJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = map[string]JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum{
-	"STANDALONE":    JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone,
-	"ME_STANDALONE": JobInfrastructureConfigurationDetailsJobInfrastructureTypeMeStandalone,
-	"MULTI_NODE":    JobInfrastructureConfigurationDetailsJobInfrastructureTypeMultiNode,
-	"EMPTY":         JobInfrastructureConfigurationDetailsJobInfrastructureTypeEmpty,
+	"STANDALONE":              JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone,
+	"ME_STANDALONE":           JobInfrastructureConfigurationDetailsJobInfrastructureTypeMeStandalone,
+	"MULTI_NODE":              JobInfrastructureConfigurationDetailsJobInfrastructureTypeMultiNode,
+	"EMPTY":                   JobInfrastructureConfigurationDetailsJobInfrastructureTypeEmpty,
+	"MANAGED_COMPUTE_CLUSTER": JobInfrastructureConfigurationDetailsJobInfrastructureTypeManagedComputeCluster,
 }
 
 var mappingJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnumLowerCase = map[string]JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum{
-	"standalone":    JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone,
-	"me_standalone": JobInfrastructureConfigurationDetailsJobInfrastructureTypeMeStandalone,
-	"multi_node":    JobInfrastructureConfigurationDetailsJobInfrastructureTypeMultiNode,
-	"empty":         JobInfrastructureConfigurationDetailsJobInfrastructureTypeEmpty,
+	"standalone":              JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone,
+	"me_standalone":           JobInfrastructureConfigurationDetailsJobInfrastructureTypeMeStandalone,
+	"multi_node":              JobInfrastructureConfigurationDetailsJobInfrastructureTypeMultiNode,
+	"empty":                   JobInfrastructureConfigurationDetailsJobInfrastructureTypeEmpty,
+	"managed_compute_cluster": JobInfrastructureConfigurationDetailsJobInfrastructureTypeManagedComputeCluster,
 }
 
 // GetJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnumValues Enumerates the set of values for JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum
@@ -129,6 +136,7 @@ func GetJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnumStringValu
 		"ME_STANDALONE",
 		"MULTI_NODE",
 		"EMPTY",
+		"MANAGED_COMPUTE_CLUSTER",
 	}
 }
 

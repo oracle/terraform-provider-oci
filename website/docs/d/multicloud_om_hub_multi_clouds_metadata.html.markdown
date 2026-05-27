@@ -8,8 +8,12 @@ description: |-
 ---
 
 # Data Source: oci_multicloud_om_hub_multi_clouds_metadata
-This data source provides information about the Multicloud base compartment for a given tenancy Id.
-A Multicloud base compartment is an Oracle Cloud Infrastructure compartment that maps to a subscription in a Cloud Service Provider (such as Azure, AWS, or Google Cloud).
+This data source provides details about a specific Om Hub Multi Clouds Metadata resource in Oracle Cloud Infrastructure Multicloud service.
+
+Gets details for Multicloud metadata for the specified Multicloud subscription.
+Multicloud metadata for a subscription includes the Multicloud base compartment (top-level Oracle Cloud Infrastructure compartment).
+For more information, see
+[Getting Details for Multicloud Metadata](https://docs.cloud.oracle.com/iaas/Content/multicloud-hub/get-subscription-metadata.htm).
 
 Gets a list of multicloud metadata with multicloud base compartment and subscription across Cloud Service Providers.
 

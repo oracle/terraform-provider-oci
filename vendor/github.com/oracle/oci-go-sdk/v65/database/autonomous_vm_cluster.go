@@ -45,6 +45,12 @@ type AutonomousVmCluster struct {
 	// The time zone to use for the Autonomous VM cluster. For details, see DB System Time Zones (https://docs.oracle.com/iaas/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 
+	// The distribution algorithm used for the Autonomous VM cluster.
+	DistributionAlgorithm AutonomousVmClusterDistributionAlgorithmEnum `mandatory:"false" json:"distributionAlgorithm,omitempty"`
+
+	// Percentage of ECPU memory allocated for SGA(System Global Area).
+	SgaPercentage *float32 `mandatory:"false" json:"sgaPercentage"`
+
 	// If true, database backup on local Exadata storage is configured for the Autonomous VM cluster. If false, database backup on local Exadata storage is not available in the Autonomous VM cluster.
 	IsLocalBackupEnabled *bool `mandatory:"false" json:"isLocalBackupEnabled"`
 
@@ -191,6 +197,9 @@ func (m AutonomousVmCluster) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousVmClusterLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingAutonomousVmClusterDistributionAlgorithmEnum(string(m.DistributionAlgorithm)); !ok && m.DistributionAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DistributionAlgorithm: %s. Supported values are: %s.", m.DistributionAlgorithm, strings.Join(GetAutonomousVmClusterDistributionAlgorithmEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingAutonomousVmClusterComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetAutonomousVmClusterComputeModelEnumStringValues(), ",")))
 	}
@@ -262,6 +271,48 @@ func GetAutonomousVmClusterLifecycleStateEnumStringValues() []string {
 // GetMappingAutonomousVmClusterLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAutonomousVmClusterLifecycleStateEnum(val string) (AutonomousVmClusterLifecycleStateEnum, bool) {
 	enum, ok := mappingAutonomousVmClusterLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// AutonomousVmClusterDistributionAlgorithmEnum Enum with underlying type: string
+type AutonomousVmClusterDistributionAlgorithmEnum string
+
+// Set of constants representing the allowable values for AutonomousVmClusterDistributionAlgorithmEnum
+const (
+	AutonomousVmClusterDistributionAlgorithmResourceOptimized     AutonomousVmClusterDistributionAlgorithmEnum = "RESOURCE_OPTIMIZED"
+	AutonomousVmClusterDistributionAlgorithmDistributionOptimized AutonomousVmClusterDistributionAlgorithmEnum = "DISTRIBUTION_OPTIMIZED"
+)
+
+var mappingAutonomousVmClusterDistributionAlgorithmEnum = map[string]AutonomousVmClusterDistributionAlgorithmEnum{
+	"RESOURCE_OPTIMIZED":     AutonomousVmClusterDistributionAlgorithmResourceOptimized,
+	"DISTRIBUTION_OPTIMIZED": AutonomousVmClusterDistributionAlgorithmDistributionOptimized,
+}
+
+var mappingAutonomousVmClusterDistributionAlgorithmEnumLowerCase = map[string]AutonomousVmClusterDistributionAlgorithmEnum{
+	"resource_optimized":     AutonomousVmClusterDistributionAlgorithmResourceOptimized,
+	"distribution_optimized": AutonomousVmClusterDistributionAlgorithmDistributionOptimized,
+}
+
+// GetAutonomousVmClusterDistributionAlgorithmEnumValues Enumerates the set of values for AutonomousVmClusterDistributionAlgorithmEnum
+func GetAutonomousVmClusterDistributionAlgorithmEnumValues() []AutonomousVmClusterDistributionAlgorithmEnum {
+	values := make([]AutonomousVmClusterDistributionAlgorithmEnum, 0)
+	for _, v := range mappingAutonomousVmClusterDistributionAlgorithmEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutonomousVmClusterDistributionAlgorithmEnumStringValues Enumerates the set of values in String for AutonomousVmClusterDistributionAlgorithmEnum
+func GetAutonomousVmClusterDistributionAlgorithmEnumStringValues() []string {
+	return []string{
+		"RESOURCE_OPTIMIZED",
+		"DISTRIBUTION_OPTIMIZED",
+	}
+}
+
+// GetMappingAutonomousVmClusterDistributionAlgorithmEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAutonomousVmClusterDistributionAlgorithmEnum(val string) (AutonomousVmClusterDistributionAlgorithmEnum, bool) {
+	enum, ok := mappingAutonomousVmClusterDistributionAlgorithmEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

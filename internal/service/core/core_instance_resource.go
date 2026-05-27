@@ -812,6 +812,11 @@ func CoreInstanceResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"local_volume_size_in_gbs": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 						"memory_in_gbs": {
 							Type:     schema.TypeFloat,
 							Optional: true,
@@ -3732,6 +3737,11 @@ func (s *CoreInstanceResourceCrud) mapToLaunchInstanceShapeConfigDetails(fieldKe
 		result.BaselineOcpuUtilization = oci_core.LaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum(baselineOcpuUtilization.(string))
 	}
 
+	if localVolumeSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "local_volume_size_in_gbs")); ok {
+		tmp := localVolumeSizeInGBs.(int)
+		result.LocalVolumeSizeInGBs = &tmp
+	}
+
 	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
 		tmp := float32(memoryInGBs.(float64))
 		result.MemoryInGBs = &tmp
@@ -3764,6 +3774,11 @@ func (s *CoreInstanceResourceCrud) mapToUpdateInstanceShapeConfigDetails(fieldKe
 
 	if baselineOcpuUtilization, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "baseline_ocpu_utilization")); ok {
 		result.BaselineOcpuUtilization = oci_core.UpdateInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum(baselineOcpuUtilization.(string))
+	}
+
+	if localVolumeSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "local_volume_size_in_gbs")); ok {
+		tmp := localVolumeSizeInGBs.(int)
+		result.LocalVolumeSizeInGBs = &tmp
 	}
 
 	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
@@ -3818,6 +3833,10 @@ func InstanceShapeConfigToMap(obj *oci_core.InstanceShapeConfig) map[string]inte
 
 	if obj.LocalDisksTotalSizeInGBs != nil {
 		result["local_disks_total_size_in_gbs"] = float32(*obj.LocalDisksTotalSizeInGBs)
+	}
+
+	if obj.LocalVolumeSizeInGBs != nil {
+		result["local_volume_size_in_gbs"] = int(*obj.LocalVolumeSizeInGBs)
 	}
 
 	if obj.MaxVnicAttachments != nil {

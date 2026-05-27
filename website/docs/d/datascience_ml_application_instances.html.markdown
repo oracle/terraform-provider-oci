@@ -48,8 +48,6 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `auth_configuration` - AuthN/Z configuration for online prediction
-	* `application_name` - Name of the IDCS application
-	* `domain_id` - Identity Domain OCID
 	* `type` - Type of AuthN/Z
 * `compartment_id` - The OCID of the compartment where the MlApplicationInstance is created.
 * `configuration` - Data that are used for provisioning of the given MlApplicationInstance. These are validated against configurationSchema defined in referenced MlApplicationImplementation.

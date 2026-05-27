@@ -35,10 +35,11 @@ variable "cloud_exadata_infrastructure_shape" {
   default = "Exadata.X8M"
 }
 
-# schedule time should be at least 7 days after the current date
+# schedule time should be at least 7 days after the current date and must be in the current quarter
 variable "time_for_schedule_mr" {
-  default = "2025-04-30T15:15:15.000Z"
+  default = "2026-01-20T15:15:15.000Z"
 }
 
+#Can use any mr history ocid. Just make sure that the mr history ocid is existing
 variable "maintenance_run_history_id" {
 }

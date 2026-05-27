@@ -21,6 +21,9 @@ type ListParamsForActionTypeRequest struct {
 	// The type of the scheduled action
 	Type RecommendedScheduledActionSummaryActionTypeEnum `mandatory:"true" contributesTo:"query" name:"type" omitEmpty:"true"`
 
+	// The plan intent the action will be used for. Relevant to action type that can be used in multiple plans
+	PlanIntent ListParamsForActionTypePlanIntentEnum `mandatory:"false" contributesTo:"query" name:"planIntent" omitEmpty:"true"`
+
 	// The maximum number of items to return per page.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
@@ -69,6 +72,9 @@ func (request ListParamsForActionTypeRequest) ValidateEnumValue() (bool, error) 
 	if _, ok := GetMappingRecommendedScheduledActionSummaryActionTypeEnum(string(request.Type)); !ok && request.Type != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", request.Type, strings.Join(GetRecommendedScheduledActionSummaryActionTypeEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingListParamsForActionTypePlanIntentEnum(string(request.PlanIntent)); !ok && request.PlanIntent != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlanIntent: %s. Supported values are: %s.", request.PlanIntent, strings.Join(GetListParamsForActionTypePlanIntentEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -102,4 +108,46 @@ func (response ListParamsForActionTypeResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListParamsForActionTypeResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListParamsForActionTypePlanIntentEnum Enum with underlying type: string
+type ListParamsForActionTypePlanIntentEnum string
+
+// Set of constants representing the allowable values for ListParamsForActionTypePlanIntentEnum
+const (
+	ListParamsForActionTypePlanIntentFullSoftwareUpdate ListParamsForActionTypePlanIntentEnum = "EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE"
+	ListParamsForActionTypePlanIntentSecurityUpdate     ListParamsForActionTypePlanIntentEnum = "EXADATA_INFRASTRUCTURE_SECURITY_UPDATE"
+)
+
+var mappingListParamsForActionTypePlanIntentEnum = map[string]ListParamsForActionTypePlanIntentEnum{
+	"EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE": ListParamsForActionTypePlanIntentFullSoftwareUpdate,
+	"EXADATA_INFRASTRUCTURE_SECURITY_UPDATE":      ListParamsForActionTypePlanIntentSecurityUpdate,
+}
+
+var mappingListParamsForActionTypePlanIntentEnumLowerCase = map[string]ListParamsForActionTypePlanIntentEnum{
+	"exadata_infrastructure_full_software_update": ListParamsForActionTypePlanIntentFullSoftwareUpdate,
+	"exadata_infrastructure_security_update":      ListParamsForActionTypePlanIntentSecurityUpdate,
+}
+
+// GetListParamsForActionTypePlanIntentEnumValues Enumerates the set of values for ListParamsForActionTypePlanIntentEnum
+func GetListParamsForActionTypePlanIntentEnumValues() []ListParamsForActionTypePlanIntentEnum {
+	values := make([]ListParamsForActionTypePlanIntentEnum, 0)
+	for _, v := range mappingListParamsForActionTypePlanIntentEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListParamsForActionTypePlanIntentEnumStringValues Enumerates the set of values in String for ListParamsForActionTypePlanIntentEnum
+func GetListParamsForActionTypePlanIntentEnumStringValues() []string {
+	return []string{
+		"EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE",
+		"EXADATA_INFRASTRUCTURE_SECURITY_UPDATE",
+	}
+}
+
+// GetMappingListParamsForActionTypePlanIntentEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListParamsForActionTypePlanIntentEnum(val string) (ListParamsForActionTypePlanIntentEnum, bool) {
+	enum, ok := mappingListParamsForActionTypePlanIntentEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

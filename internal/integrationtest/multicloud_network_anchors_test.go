@@ -19,7 +19,6 @@ var (
 	MulticloudNetworkAnchorsDataSourceRepresentation = map[string]interface{}{
 		"subscription_id":           acctest.Representation{RepType: acctest.Optional, Create: `${var.subscription_id}`},
 		"subscription_service_name": acctest.Representation{RepType: acctest.Optional, Create: `${var.subscription_service_name}`},
-		"external_location":         acctest.Representation{RepType: acctest.Optional, Create: `${var.network_anchor_external_location}`},
 		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.network_anchor_compartment_id}`},
 	}
 
@@ -35,12 +34,10 @@ func TestMulticloudNetworkAnchorsResource_basic(t *testing.T) {
 
 	subscriptionId := utils.GetEnvSettingWithBlankDefault("TF_VAR_subscription_id")
 	subscriptionServiceName := utils.GetEnvSettingWithBlankDefault("TF_VAR_subscription_service_name")
-	externalLocation := utils.GetEnvSettingWithBlankDefault("TF_VAR_network_anchor_external_location")
 	compartmentId := utils.GetEnvSettingWithBlankDefault("TF_VAR_network_anchor_compartment_id")
 
 	subscriptionIdVariableStr := fmt.Sprintf("variable \"subscription_id\" {}\n")
 	subscriptionServiceNameVariableStr := fmt.Sprintf("variable \"subscription_service_name\" {}\n")
-	externalLocationVariableStr := fmt.Sprintf("variable \"network_anchor_external_location\" {}\n")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"network_anchor_compartment_id\" {}\n")
 
 	datasourceName := "data.oci_multicloud_network_anchors.test_network_anchors"
@@ -49,13 +46,12 @@ func TestMulticloudNetworkAnchorsResource_basic(t *testing.T) {
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		{
-			Config: config + subscriptionIdVariableStr + subscriptionServiceNameVariableStr + externalLocationVariableStr + compartmentIdVariableStr +
+			Config: config + subscriptionIdVariableStr + subscriptionServiceNameVariableStr + compartmentIdVariableStr +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_multicloud_network_anchors", "test_network_anchors", acctest.Optional, acctest.Create, MulticloudNetworkAnchorsDataSourceRepresentation) +
 				MulticloudNetworkAnchorsResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "subscription_id", subscriptionId),
 				resource.TestCheckResourceAttr(datasourceName, "subscription_service_name", subscriptionServiceName),
-				resource.TestCheckResourceAttr(datasourceName, "external_location", externalLocation),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
 				resource.TestCheckResourceAttr(datasourceName, "network_anchor_collection.#", "1"),
@@ -75,6 +71,7 @@ func TestMulticloudNetworkAnchorsResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "network_anchor_collection.0.items.0.defined_tags.%"),
 				resource.TestCheckResourceAttrSet(datasourceName, "network_anchor_collection.0.items.0.system_tags.%"),
 				resource.TestCheckResourceAttrSet(datasourceName, "network_anchor_collection.0.items.0.subscription_type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "network_anchor_collection.0.items.0.cidr_blocks.#"),
 			),
 		},
 	})

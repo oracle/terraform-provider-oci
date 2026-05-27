@@ -54,6 +54,11 @@ type InstanceConfigurationLaunchInstanceShapeConfigDetails struct {
 
 	// This field is reserved for internal use.
 	ResourceManagement InstanceConfigurationLaunchInstanceShapeConfigDetailsResourceManagementEnum `mandatory:"false" json:"resourceManagement,omitempty"`
+
+	// The NVMe-backed local storage capacity, in GB, for flexible dense (DenseLV) VM shapes. If the selected shape
+	// is DenseLV, the value must be greater than 0. For all other shapes, the value must be null (if specified);
+	// any non-null value for a non-DenseLV shape results in an error.
+	LocalVolumeSizeInGBs *int `mandatory:"false" json:"localVolumeSizeInGBs"`
 }
 
 func (m InstanceConfigurationLaunchInstanceShapeConfigDetails) String() string {

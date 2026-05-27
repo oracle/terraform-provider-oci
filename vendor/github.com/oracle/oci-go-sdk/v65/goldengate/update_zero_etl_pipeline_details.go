@@ -38,6 +38,12 @@ type UpdateZeroEtlPipelineDetails struct {
 	// The subnet must be a private subnet.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// The Minimum number of OCPUs to be made available for this Deployment.
+	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
+
+	// Indicates if auto scaling is enabled for the Deployment's CPU core count.
+	IsAutoScalingEnabled *bool `mandatory:"false" json:"isAutoScalingEnabled"`
+
 	ProcessOptions *ProcessOptions `mandatory:"false" json:"processOptions"`
 
 	// Mapping for source/target schema/tables for the pipeline data replication.
@@ -75,6 +81,16 @@ func (m UpdateZeroEtlPipelineDetails) GetDefinedTags() map[string]map[string]int
 // GetSubnetId returns SubnetId
 func (m UpdateZeroEtlPipelineDetails) GetSubnetId() *string {
 	return m.SubnetId
+}
+
+// GetCpuCoreCount returns CpuCoreCount
+func (m UpdateZeroEtlPipelineDetails) GetCpuCoreCount() *int {
+	return m.CpuCoreCount
+}
+
+// GetIsAutoScalingEnabled returns IsAutoScalingEnabled
+func (m UpdateZeroEtlPipelineDetails) GetIsAutoScalingEnabled() *bool {
+	return m.IsAutoScalingEnabled
 }
 
 func (m UpdateZeroEtlPipelineDetails) String() string {

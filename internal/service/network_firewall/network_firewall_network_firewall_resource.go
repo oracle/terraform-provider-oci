@@ -124,6 +124,12 @@ func NetworkFirewallNetworkFirewallResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"shape": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -295,6 +301,10 @@ func (s *NetworkFirewallNetworkFirewallResourceCrud) Create() error {
 		if len(tmp) != 0 || s.D.HasChange("network_security_group_ids") {
 			request.NetworkSecurityGroupIds = tmp
 		}
+	}
+
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
 
 	if shape, ok := s.D.GetOkExists("shape"); ok {
@@ -532,6 +542,10 @@ func (s *NetworkFirewallNetworkFirewallResourceCrud) Update() error {
 		}
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if shape, ok := s.D.GetOkExists("shape"); ok {
 		tmp := shape.(string)
 		request.Shape = &tmp
@@ -614,6 +628,8 @@ func (s *NetworkFirewallNetworkFirewallResourceCrud) SetData() error {
 		networkSecurityGroupIds = append(networkSecurityGroupIds, item)
 	}
 	s.D.Set("network_security_group_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, networkSecurityGroupIds))
+
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
@@ -706,6 +722,10 @@ func NetworkFirewallSummaryToMap(obj oci_network_firewall.NetworkFirewallSummary
 
 	if obj.NetworkFirewallPolicyId != nil {
 		result["network_firewall_policy_id"] = string(*obj.NetworkFirewallPolicyId)
+	}
+
+	if obj.SecurityAttributes != nil {
+		result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
 	}
 
 	if obj.Shape != nil {

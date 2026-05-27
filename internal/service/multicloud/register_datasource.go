@@ -9,6 +9,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_multicloud_external_location_mapping_metadata", MulticloudExternalLocationMappingMetadataDataSource())
 	tfresource.RegisterDatasource("oci_multicloud_external_location_summaries_metadata", MulticloudExternalLocationSummariesMetadataDataSource())
 	tfresource.RegisterDatasource("oci_multicloud_external_locations_metadata", MulticloudExternalLocationsMetadataDataSource())
+	tfresource.RegisterDatasource("oci_multicloud_multicloudalerts", MulticloudMulticloudalertsDataSource())
+	tfresource.RegisterDatasource("oci_multicloud_multicloudpolicies", MulticloudMulticloudpoliciesDataSource())
 	tfresource.RegisterDatasource("oci_multicloud_multicloudsubscriptions", MulticloudMulticloudsubscriptionsDataSource())
 	tfresource.RegisterDatasource("oci_multicloud_network_anchor", MulticloudNetworkAnchorDataSource())
 	tfresource.RegisterDatasource("oci_multicloud_network_anchors", MulticloudNetworkAnchorsDataSource())

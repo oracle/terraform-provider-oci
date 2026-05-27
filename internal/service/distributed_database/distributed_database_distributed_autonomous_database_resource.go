@@ -10,9 +10,11 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"strconv"
 	"strings"
 	"time"
 
+	"github.com/hashicorp/go-cty/cty"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -414,12 +416,14 @@ func DistributedDatabaseDistributedAutonomousDatabaseResource() *schema.Resource
 							Required: true,
 						},
 						"compute_count": {
-							Type:     schema.TypeFloat,
-							Required: true,
+							Type:             schema.TypeFloat,
+							Required:         true,
+							DiffSuppressFunc: suppressAutonomousFailedShardSizingDiff,
 						},
 						"data_storage_size_in_gbs": {
-							Type:     schema.TypeFloat,
-							Required: true,
+							Type:             schema.TypeFloat,
+							Required:         true,
+							DiffSuppressFunc: suppressAutonomousFailedShardSizingDiff,
 						},
 						"is_auto_scaling_enabled": {
 							Type:     schema.TypeBool,
@@ -851,6 +855,10 @@ func DistributedDatabaseDistributedAutonomousDatabaseResource() *schema.Resource
 				Computed: true,
 				ForceNew: true,
 			},
+			"effective_replication_unit": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"state": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -1245,6 +1253,10 @@ func distributedDatabaseDistributedAutonomousDatabaseCustomizeDiff(ctx context.C
 		return err
 	}
 
+	if err := validateWriteOnceReplicationUnitDiff(diff); err != nil {
+		return err
+	}
+
 	if err := stabilizeDistributedAutonomousDatabaseWriteOnlyDiffs(diff); err != nil {
 		return err
 	}
@@ -1469,6 +1481,24 @@ func updateDistributedDatabaseDistributedAutonomousDatabaseWithContext(
 		}
 		actionInvoked = true
 		_ = d.Set("change_db_backup_config_trigger", newV)
+	}
+
+	// Move replication unit
+	if ok, _, newV := triggerBumped("move_replication_unit_trigger"); ok {
+		if err := sync.MoveDistributedAutonomousDatabaseReplicationUnit(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
+		}
+		actionInvoked = true
+		_ = d.Set("move_replication_unit_trigger", newV)
+	}
+
+	// Recreate failed shard/catalog resource
+	if ok, _, newV := triggerBumped("recreate_failed_resource_trigger"); ok {
+		if err := sync.RecreateFailedDistributedAutonomousDatabaseResource(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
+		}
+		actionInvoked = true
+		_ = d.Set("recreate_failed_resource_trigger", newV)
 	}
 
 	// Configure sharding
@@ -1994,6 +2024,48 @@ func distributedAutonomousDatabaseWaitForWorkRequest(ctx context.Context, wId *s
 	return identifier, nil
 }
 
+func waitForDistributedAutonomousDatabaseWorkRequestCompletion(ctx context.Context, wId *string, entityType string, action oci_distributed_database.ActionTypeEnum,
+	timeout time.Duration, disableFoundRetries bool, client *oci_distributed_database.DistributedDbWorkRequestServiceClient) error {
+	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "distributed_database")
+	retryPolicy.ShouldRetryOperation = distributedAutonomousDatabaseWorkRequestShouldRetryFunc(timeout)
+
+	response := oci_distributed_database.GetWorkRequestResponse{}
+	stateConf := &retry.StateChangeConf{
+		Pending: []string{
+			string(oci_distributed_database.OperationStatusInProgress),
+			string(oci_distributed_database.OperationStatusAccepted),
+			string(oci_distributed_database.OperationStatusCanceling),
+		},
+		Target: []string{
+			string(oci_distributed_database.OperationStatusSucceeded),
+			string(oci_distributed_database.OperationStatusFailed),
+			string(oci_distributed_database.OperationStatusCanceled),
+		},
+		Refresh: func() (interface{}, string, error) {
+			var err error
+			response, err = client.GetWorkRequest(ctx,
+				oci_distributed_database.GetWorkRequestRequest{
+					WorkRequestId: wId,
+					RequestMetadata: oci_common.RequestMetadata{
+						RetryPolicy: retryPolicy,
+					},
+				})
+			wr := &response.WorkRequest
+			return wr, string(wr.Status), err
+		},
+		Timeout: timeout,
+	}
+	if _, err := stateConf.WaitForState(); err != nil {
+		return err
+	}
+
+	if response.Status == oci_distributed_database.OperationStatusFailed || response.Status == oci_distributed_database.OperationStatusCanceled {
+		return getErrorFromDistributedDatabaseDistributedAutonomousDatabaseWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+	}
+
+	return nil
+}
+
 func getErrorFromDistributedDatabaseDistributedAutonomousDatabaseWorkRequest(ctx context.Context, client *oci_distributed_database.DistributedDbWorkRequestServiceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_distributed_database.ActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(ctx,
 		oci_distributed_database.ListWorkRequestErrorsRequest{
@@ -2359,6 +2431,121 @@ func restoreConfiguredPatchDrivenShardState(d *schema.ResourceData) error {
 	return d.Set("shard_details", maskNestedAdminPasswordList(shardDetails))
 }
 
+func getConfiguredAutonomousFloat64(d *schema.ResourceData, fieldKey string) (float64, bool) {
+	value, ok := getConfiguredRawFieldValue(d, fieldKey)
+	if !ok || value.Type() != cty.Number {
+		return 0, false
+	}
+
+	configured, _ := value.AsBigFloat().Float64()
+	return configured, true
+}
+
+func getAutonomousFloat64(raw interface{}) (float64, bool) {
+	switch v := raw.(type) {
+	case float64:
+		return v, true
+	case float32:
+		return float64(v), true
+	case int:
+		return float64(v), true
+	case int32:
+		return float64(v), true
+	case int64:
+		return float64(v), true
+	case string:
+		trimmed := strings.TrimSpace(v)
+		if trimmed == "" {
+			return 0, false
+		}
+
+		parsed, err := strconv.ParseFloat(trimmed, 64)
+		if err != nil {
+			return 0, false
+		}
+
+		return parsed, true
+	default:
+		return 0, false
+	}
+}
+
+func getConfiguredAutonomousShardFloat64(
+	d *schema.ResourceData,
+	existing []interface{},
+	shardIndex int,
+	field string,
+) (float64, bool) {
+	if configured, ok := getConfiguredAutonomousFloat64(d, fmt.Sprintf("shard_details.%d.%s", shardIndex, field)); ok && configured != 0 {
+		return configured, true
+	}
+
+	if shardIndex >= len(existing) {
+		return 0, false
+	}
+
+	existingMap, ok := existing[shardIndex].(map[string]interface{})
+	if !ok {
+		return 0, false
+	}
+
+	configured, ok := getAutonomousFloat64(existingMap[field])
+	if !ok || configured == 0 {
+		return 0, false
+	}
+
+	return configured, true
+}
+
+func rehydrateConfiguredAutonomousFailedShardSizing(
+	d *schema.ResourceData,
+	flattened []interface{},
+	lifecycleDetails string,
+) []interface{} {
+	if len(flattened) == 0 {
+		return flattened
+	}
+
+	merged := make([]interface{}, len(flattened))
+	configuredShardDetails := getPlannedOrCurrentList(d, "shard_details")
+	missingInfrastructure := lifecycleDetailsIndicateMissingInfrastructure(lifecycleDetails)
+
+	for i, raw := range flattened {
+		currentMap, ok := raw.(map[string]interface{})
+		if !ok {
+			merged[i] = raw
+			continue
+		}
+
+		current := make(map[string]interface{}, len(currentMap)+2)
+		for key, value := range currentMap {
+			current[key] = value
+		}
+
+		status, _ := current["status"].(string)
+		if !strings.EqualFold(status, "FAILED") && !missingInfrastructure {
+			merged[i] = current
+			continue
+		}
+
+		if computeCount, ok := getAutonomousFloat64(current["compute_count"]); !ok || computeCount == 0 {
+			if configured, ok := getConfiguredAutonomousShardFloat64(d, configuredShardDetails, i, "compute_count"); ok && configured != 0 {
+				current["compute_count"] = configured
+			}
+		}
+
+		if dataStorage, ok := getAutonomousFloat64(current["data_storage_size_in_gbs"]); !ok || dataStorage == 0 {
+			if configured, ok := getConfiguredAutonomousShardFloat64(d, configuredShardDetails, i, "data_storage_size_in_gbs"); ok && configured != 0 {
+				current["data_storage_size_in_gbs"] = configured
+			}
+		}
+
+		merged[i] = current
+	}
+
+	return merged
+}
+
 func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) SetData() error {
 	catalogDetails := []interface{}{}
 	for _, item := range s.Res.CatalogDetails {
@@ -2474,15 +2661,19 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) SetData()
 	s.D.Set("replication_method", s.Res.ReplicationMethod)
 
 	if s.Res.ReplicationUnit != nil {
-		s.D.Set("replication_unit", *s.Res.ReplicationUnit)
+		s.D.Set("effective_replication_unit", *s.Res.ReplicationUnit)
 	}
 
-	if configuredPatchOperationsTargetShardDetails(s.D) {
+	if err := setWriteOnceIntState(s.D, "replication_unit", s.Res.ReplicationUnit); err != nil {
+		return err
+	}
+
+	if shouldPreserveConfiguredShardDetailsState(s.D, string(s.Res.LifecycleState), len(s.Res.ShardDetails)) {
 		// shard_details serves both as create-time input and observed topology.
-		// When a shardDetails PATCH is configured, keep the configured value in state
-		// so a successful INSERT/REMOVE does not immediately become a recreate diff.
-		// Mask write-only admin_passwords here too so PATCH workflows do not leak the
-		// configured secret back into state.
+		// When a shardDetails PATCH is configured, keep the configured value in
+		// state so refresh does not overwrite PATCH-driven intent with observed
+		// topology. Mask write-only admin_passwords here too so PATCH workflows
+		// do not leak the configured secret back into state.
 		s.D.Set("shard_details", maskNestedAdminPasswordList(getPlannedOrCurrentList(s.D, "shard_details")))
 	} else {
 		shardDetails := []interface{}{}
@@ -2490,6 +2681,11 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) SetData()
 			shardDetail := DistributedAutonomousDatabaseShardToMap(item)
 			shardDetails = append(shardDetails, maskWriteOnlyStringField(shardDetail, "admin_password"))
 		}
+		lifecycleDetails := ""
+		if s.Res.LifecycleDetails != nil {
+			lifecycleDetails = *s.Res.LifecycleDetails
+		}
+		shardDetails = rehydrateConfiguredAutonomousFailedShardSizing(s.D, shardDetails, lifecycleDetails)
 		s.D.Set("shard_details", shardDetails)
 	}
 
@@ -2520,9 +2716,26 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) StartDist
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "distributed_database")
 
-	_, err := s.Client.StartDistributedAutonomousDatabase(ctx, request)
+	response, err := s.Client.StartDistributedAutonomousDatabase(ctx, request)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId == nil || *workId == "" {
+		return fmt.Errorf("missing opc-work-request-id for StartDistributedAutonomousDatabase")
+	}
+
+	if err := waitForDistributedAutonomousDatabaseWorkRequestCompletion(
+		ctx,
+		workId,
+		"distributedautonomousdatabase",
+		oci_distributed_database.ActionTypeUpdated,
+		s.D.Timeout(schema.TimeoutUpdate),
+		s.DisableNotFoundRetries,
+		s.WorkRequestClient,
+	); err != nil {
+		return fmt.Errorf("StartDistributedAutonomousDatabase failed for distributed autonomous database %s (work request %s): %w", s.D.Id(), *workId, err)
 	}
 
 	retentionPolicyFunc := func() bool {
@@ -2543,9 +2756,26 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) StopDistr
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "distributed_database")
 
-	_, err := s.Client.StopDistributedAutonomousDatabase(ctx, request)
+	response, err := s.Client.StopDistributedAutonomousDatabase(ctx, request)
 	if err != nil {
 		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId == nil || *workId == "" {
+		return fmt.Errorf("missing opc-work-request-id for StopDistributedAutonomousDatabase")
+	}
+
+	if err := waitForDistributedAutonomousDatabaseWorkRequestCompletion(
+		ctx,
+		workId,
+		"distributedautonomousdatabase",
+		oci_distributed_database.ActionTypeUpdated,
+		s.D.Timeout(schema.TimeoutUpdate),
+		s.DisableNotFoundRetries,
+		s.WorkRequestClient,
+	); err != nil {
+		return fmt.Errorf("StopDistributedAutonomousDatabase failed for distributed autonomous database %s (work request %s): %w", s.D.Id(), *workId, err)
 	}
 
 	retentionPolicyFunc := func() bool {
@@ -4658,6 +4888,46 @@ func suppressMaskedPasswordDiff(k, old, new string, d *schema.ResourceData) bool
 		log.Printf("[DEBUG]   Suppressing masked admin_password diff for %s", k)
 		return true
 	}
+	return false
+}
+
+func suppressAutonomousFailedShardSizingDiff(k, old, new string, d *schema.ResourceData) bool {
+	if d == nil || d.Id() == "" {
+		return false
+	}
+
+	parts := strings.Split(k, ".")
+	if len(parts) != 3 || parts[0] != "shard_details" {
+		return false
+	}
+
+	field := parts[2]
+	if field != "compute_count" && field != "data_storage_size_in_gbs" {
+		return false
+	}
+
+	shardIndex, err := strconv.Atoi(parts[1])
+	if err != nil {
+		return false
+	}
+
+	oldValue, oldIsZero := getAutonomousFloat64(old)
+	newValue, newIsNumber := getAutonomousFloat64(new)
+	if !oldIsZero || oldValue != 0 || !newIsNumber || newValue == 0 {
+		return false
+	}
+
+	if lifecycleDetails, _ := d.Get("lifecycle_details").(string); lifecycleDetailsIndicateMissingInfrastructure(lifecycleDetails) {
+		log.Printf("[DEBUG]   Suppressing failed shard sizing diff for %s because lifecycle_details=%q", k, lifecycleDetails)
+		return true
+	}
+
+	status, _ := d.Get(fmt.Sprintf("shard_details.%d.status", shardIndex)).(string)
+	if strings.EqualFold(status, "FAILED") {
+		log.Printf("[DEBUG]   Suppressing failed shard sizing diff for %s because shard_details.%d.status=%q", k, shardIndex, status)
+		return true
+	}
+
 	return false
 }
 

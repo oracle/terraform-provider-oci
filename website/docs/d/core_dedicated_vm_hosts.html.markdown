@@ -28,6 +28,7 @@ data "oci_core_dedicated_vm_hosts" "test_dedicated_vm_hosts" {
 	display_name = var.dedicated_vm_host_display_name
 	instance_shape_name = var.dedicated_vm_host_instance_shape_name
 	is_memory_encryption_enabled = var.dedicated_vm_host_is_memory_encryption_enabled
+	remaining_local_volume_in_gbs_greater_than_or_equal_to = var.dedicated_vm_host_remaining_local_volume_in_gbs_greater_than_or_equal_to
 	remaining_memory_in_gbs_greater_than_or_equal_to = var.dedicated_vm_host_remaining_memory_in_gbs_greater_than_or_equal_to
 	remaining_ocpus_greater_than_or_equal_to = var.dedicated_vm_host_remaining_ocpus_greater_than_or_equal_to
 	state = var.dedicated_vm_host_state
@@ -43,6 +44,7 @@ The following arguments are supported:
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
 * `instance_shape_name` - (Optional) The name for the instance's shape. 
 * `is_memory_encryption_enabled` - (Optional) A filter to return only confidential Dedicated VM hosts (DVMH) or confidential VM instances on DVMH. 
+* `remaining_local_volume_in_gbs_greater_than_or_equal_to` - (Optional) The remaining local volume of the dedicated VM host, in GBs.
 * `remaining_memory_in_gbs_greater_than_or_equal_to` - (Optional) The remaining memory of the dedicated VM host, in GBs.
 * `remaining_ocpus_greater_than_or_equal_to` - (Optional) The available OCPUs of the dedicated VM host.
 * `state` - (Optional) A filter to only return resources that match the given lifecycle state.
@@ -59,11 +61,13 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `availability_domain` - The availability domain the dedicated virtual machine host is running in.  Example: `Uocm:PHX-AD-1` 
-* `capacity_bins` - 
+* `capacity_bins` - A list of total and remaining CPU, memory, and local volume per capacity bucket. 
 	* `capacity_index` - Zero-based index for the corresponding capacity bucket. 
+	* `remaining_local_volume_in_gbs` - The remaining local volume of the capacity bucket, in GBs. 
 	* `remaining_memory_in_gbs` - The remaining memory of the capacity bucket, in GBs. 
 	* `remaining_ocpus` - The available OCPUs of the capacity bucket. 
 	* `supported_shapes` - List of VMI shapes supported on each capacity bucket. 
+	* `total_local_volume_in_gbs` - The total local volume of the capacity bucket, in GBs. 
 	* `total_memory_in_gbs` - The total memory of the capacity bucket, in GBs. 
 	* `total_ocpus` - The total OCPUs of the capacity bucket. 
 * `capacity_config` - The capacity configuration selected to be configured for the Dedicated Virtual Machine host.  Run [ListDedicatedVmHostShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/DedicatedVmHostShapeSummary/ListDedicatedVmHostShapes) API to see details of this capacity configuration. 
@@ -85,10 +89,12 @@ The following attributes are exported:
 	* `compute_bare_metal_host_id` - The OCID of the compute bare metal host. This is only available for dedicated capacity customers.
 	* `compute_host_group_id` - The OCID of the compute host group. This is only available for dedicated capacity customers.
 	* `type` - The type for the placement constraints. Use `COMPUTE_BARE_METAL_HOST` when specifying the compute bare metal host OCID. Use `HOST_GROUP` when specifying the compute host group OCID. 
+* `remaining_local_volume_in_gbs` - The current available local volume of the dedicated VM host, in GBs. 
 * `remaining_memory_in_gbs` - The current available memory of the dedicated VM host, in GBs. 
 * `remaining_ocpus` - The current available OCPUs of the dedicated VM host. 
 * `state` - The current state of the dedicated VM host. 
 * `time_created` - The date and time the dedicated VM host was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
+* `total_local_volume_in_gbs` - The current total local volume of the dedicated VM host, in GBs. 
 * `total_memory_in_gbs` - The current total memory of the dedicated VM host, in GBs. 
 * `total_ocpus` - The current total OCPUs of the dedicated VM host. 
 

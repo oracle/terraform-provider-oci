@@ -10,7 +10,10 @@ description: |-
 # Data Source: oci_multicloud_resource_anchor
 This data source provides details about a specific Resource Anchor resource in Oracle Cloud Infrastructure Multicloud service.
 
-Gets information about a ResourceAnchor.
+Gets details for the specified resource anchor. The subscription OCID and service name are required.
+For more information, see
+[Getting a Resource Anchor's Details (OCI)](https://docs.cloud.oracle.com/iaas/Content/multicloud-hub/get-resource-anchor.htm).
+
 
 ## Example Usage
 
@@ -30,10 +33,10 @@ data "oci_multicloud_resource_anchor" "test_resource_anchor" {
 
 The following arguments are supported:
 
-* `resource_anchor_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ResourceAnchor.
+* `resource_anchor_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource anchor.
+* `should_fetch_compartment_name` - (Optional) Whether to fetch and include the compartment name. Setting this field to `true` might introduce additional latency. 
 * `subscription_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Multicloud subscription in which to list resources.
-* `subscription_service_name` - (Required) The subscription service name of the Cloud Service Provider.
-* `should_fetch_compartment_name` - (Optional) Whether to fetch and include the compartment name, setting this field to yes may introduce additional latency.
+* `subscription_service_name` - (Required) The cloud service provider.
 
 
 ## Attributes Reference
@@ -56,16 +59,16 @@ The following attributes are exported:
 * `compartment_name` - The name assigned to the compartment during creation.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
-* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ResourceAnchor.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `lifecycle_details` - A message that describes the current state of the ResourceAnchor in more detail. For example, can be used to provide actionable information for a resource in the Failed state. 
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource anchor.
+* `lifecycle_details` - A message that describes the current state of the resource anchor in more detail. For example, can be used to provide actionable information for a resource in the Failed state.
 * `linked_compartment_id` - Optional - Oracle Cloud Infrastructure compartment Id (OCID) which was created or linked by customer with resource anchor.  This compartmentId is different from where resource Anchor live. 
 * `linked_compartment_name` - The name assigned to the compartment which was created or linked by customer with resource anchor. This compartment is different from where resource Anchor live.
 * `region` - Oracle Cloud Infrastructure Region that resource is created.
-* `setup_mode` - AUTO_BIND - when passed compartment will be created on-behalf of customer and bind to this resource anchor NO_AUTO_BIND - compartment will not be created and later customer can bind existing compartment.  to this resource anchor. This is for future use only 
-* `lifecycle_state` - The current state of the ResourceAnchor.
+* `setup_mode` - AUTO_BIND - when passed compartment will be created on-behalf of customer and bind to this resource anchor NO_AUTO_BIND - compartment will not be created and later customer can bind existing compartment.  to this resource anchor. This is for future use only
+* `lifecycle_state` - The current state of the resource anchor.
 * `resource_anchor_subscription_id` - Oracle Cloud Infrastructure Subscription Id
 * `subscription_type` - subscription type
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `time_created` - The date and time the ResourceAnchor was created, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
-* `time_updated` - The date and time the ResourceAnchor was updated, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z`
+* `time_created` - The date and time the resource anchor was created, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
+* `time_updated` - The date and time the resource anchor was updated, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 

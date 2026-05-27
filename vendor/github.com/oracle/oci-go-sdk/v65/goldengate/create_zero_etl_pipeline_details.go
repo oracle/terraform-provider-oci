@@ -48,6 +48,12 @@ type CreateZeroEtlPipelineDetails struct {
 	// The subnet must be a private subnet.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// The Minimum number of OCPUs to be made available for this Deployment.
+	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
+
+	// Indicates if auto scaling is enabled for the Deployment's CPU core count.
+	IsAutoScalingEnabled *bool `mandatory:"false" json:"isAutoScalingEnabled"`
+
 	ProcessOptions *ProcessOptions `mandatory:"false" json:"processOptions"`
 
 	// The Oracle license model that applies to a Deployment.
@@ -102,6 +108,16 @@ func (m CreateZeroEtlPipelineDetails) GetTargetConnectionDetails() *TargetPipeli
 // GetSubnetId returns SubnetId
 func (m CreateZeroEtlPipelineDetails) GetSubnetId() *string {
 	return m.SubnetId
+}
+
+// GetCpuCoreCount returns CpuCoreCount
+func (m CreateZeroEtlPipelineDetails) GetCpuCoreCount() *int {
+	return m.CpuCoreCount
+}
+
+// GetIsAutoScalingEnabled returns IsAutoScalingEnabled
+func (m CreateZeroEtlPipelineDetails) GetIsAutoScalingEnabled() *bool {
+	return m.IsAutoScalingEnabled
 }
 
 func (m CreateZeroEtlPipelineDetails) String() string {
