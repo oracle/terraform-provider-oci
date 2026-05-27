@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -19,15 +20,15 @@ func DataSafeSqlCollectionDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeSqlCollectionResource(), fieldMap, readSingularDataSafeSqlCollection)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeSqlCollectionResource(), fieldMap, readSingularDataSafeSqlCollectionWithContext)
 }
 
-func readSingularDataSafeSqlCollection(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeSqlCollectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSqlCollectionDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeSqlCollectionDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DataSafeSqlCollectionDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeSqlCollectionDataSourceCrud) Get() error {
+func (s *DataSafeSqlCollectionDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetSqlCollectionRequest{}
 
 	if sqlCollectionId, ok := s.D.GetOkExists("sql_collection_id"); ok {
@@ -50,7 +51,7 @@ func (s *DataSafeSqlCollectionDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetSqlCollection(context.Background(), request)
+	response, err := s.Client.GetSqlCollection(ctx, request)
 	if err != nil {
 		return err
 	}

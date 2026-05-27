@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -25,11 +26,11 @@ func DataSafeUnifiedAuditPolicyDefinitionResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeUnifiedAuditPolicyDefinition,
-		Read:     readDataSafeUnifiedAuditPolicyDefinition,
-		Update:   updateDataSafeUnifiedAuditPolicyDefinition,
-		Delete:   deleteDataSafeUnifiedAuditPolicyDefinition,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeUnifiedAuditPolicyDefinitionWithContext,
+		ReadContext:   readDataSafeUnifiedAuditPolicyDefinitionWithContext,
+		UpdateContext: updateDataSafeUnifiedAuditPolicyDefinitionWithContext,
+		DeleteContext: deleteDataSafeUnifiedAuditPolicyDefinitionWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"unified_audit_policy_definition_id": {
@@ -110,25 +111,25 @@ func DataSafeUnifiedAuditPolicyDefinitionResource() *schema.Resource {
 	}
 }
 
-func createDataSafeUnifiedAuditPolicyDefinition(d *schema.ResourceData, m interface{}) error {
+func createDataSafeUnifiedAuditPolicyDefinitionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeUnifiedAuditPolicyDefinitionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	compartment, ok := sync.D.GetOkExists("compartment_id")
 
-	err := tfresource.CreateResource(d, sync)
+	err := tfresource.CreateResourceWithContext(ctx, d, sync)
 	if err != nil {
-		return err
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	if ok && compartment != *sync.Res.CompartmentId {
-		err = sync.updateCompartment(compartment)
+		err = sync.updateCompartment(ctx, compartment)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 		tmp := compartment.(string)
 		sync.Res.CompartmentId = &tmp
-		err := sync.Get()
+		err := sync.GetWithContext(ctx)
 		if err != nil {
 			log.Printf("error doing a Get() after compartment update: %v", err)
 		}
@@ -140,29 +141,29 @@ func createDataSafeUnifiedAuditPolicyDefinition(d *schema.ResourceData, m interf
 	return nil
 }
 
-func readDataSafeUnifiedAuditPolicyDefinition(d *schema.ResourceData, m interface{}) error {
+func readDataSafeUnifiedAuditPolicyDefinitionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeUnifiedAuditPolicyDefinitionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeUnifiedAuditPolicyDefinition(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeUnifiedAuditPolicyDefinitionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeUnifiedAuditPolicyDefinitionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDataSafeUnifiedAuditPolicyDefinition(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeUnifiedAuditPolicyDefinitionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeUnifiedAuditPolicyDefinitionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataSafeUnifiedAuditPolicyDefinitionResourceCrud struct {
@@ -199,7 +200,7 @@ func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) DeletedTarget() []str
 	return []string{}
 }
 
-func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) Create() error {
+func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.UpdateUnifiedAuditPolicyDefinitionRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -231,14 +232,14 @@ func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateUnifiedAuditPolicyDefinition(context.Background(), request)
+	response, err := s.Client.UpdateUnifiedAuditPolicyDefinition(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_data_safe.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_data_safe.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -254,20 +255,20 @@ func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getUnifiedAuditPolicyDefinitionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getUnifiedAuditPolicyDefinitionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) getUnifiedAuditPolicyDefinitionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) getUnifiedAuditPolicyDefinitionFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	unifiedAuditPolicyDefinitionId, err := unifiedAuditPolicyDefinitionWaitForWorkRequest(workId, "unifiedauditpolicydefinition",
+	unifiedAuditPolicyDefinitionId, err := unifiedAuditPolicyDefinitionWaitForWorkRequest(ctx, workId, "unifiedauditpolicydefinition",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, unifiedAuditPolicyDefinitionId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_data_safe.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -281,7 +282,7 @@ func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) getUnifiedAuditPolicy
 	}
 	s.D.SetId(*unifiedAuditPolicyDefinitionId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func unifiedAuditPolicyDefinitionWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -307,7 +308,7 @@ func unifiedAuditPolicyDefinitionWorkRequestShouldRetryFunc(timeout time.Duratio
 	}
 }
 
-func unifiedAuditPolicyDefinitionWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func unifiedAuditPolicyDefinitionWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = unifiedAuditPolicyDefinitionWorkRequestShouldRetryFunc(timeout)
@@ -326,7 +327,7 @@ func unifiedAuditPolicyDefinitionWaitForWorkRequest(wId *string, entityType stri
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -338,7 +339,7 @@ func unifiedAuditPolicyDefinitionWaitForWorkRequest(wId *string, entityType stri
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -355,14 +356,14 @@ func unifiedAuditPolicyDefinitionWaitForWorkRequest(wId *string, entityType stri
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed || response.Status == oci_data_safe.WorkRequestStatusCanceled {
-		return nil, getErrorFromDataSafeUnifiedAuditPolicyDefinitionWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeUnifiedAuditPolicyDefinitionWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeUnifiedAuditPolicyDefinitionWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeUnifiedAuditPolicyDefinitionWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -384,7 +385,7 @@ func getErrorFromDataSafeUnifiedAuditPolicyDefinitionWorkRequest(client *oci_dat
 	return workRequestErr
 }
 
-func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) Get() error {
+func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetUnifiedAuditPolicyDefinitionRequest{}
 
 	tmp := s.D.Id()
@@ -392,7 +393,7 @@ func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetUnifiedAuditPolicyDefinition(context.Background(), request)
+	response, err := s.Client.GetUnifiedAuditPolicyDefinition(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -401,11 +402,11 @@ func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) Update() error {
+func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -440,16 +441,16 @@ func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateUnifiedAuditPolicyDefinition(context.Background(), request)
+	response, err := s.Client.UpdateUnifiedAuditPolicyDefinition(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getUnifiedAuditPolicyDefinitionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getUnifiedAuditPolicyDefinitionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) Delete() error {
+func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_data_safe.DeleteUnifiedAuditPolicyDefinitionRequest{}
 
 	tmp := s.D.Id()
@@ -457,14 +458,14 @@ func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.DeleteUnifiedAuditPolicyDefinition(context.Background(), request)
+	response, err := s.Client.DeleteUnifiedAuditPolicyDefinition(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := unifiedAuditPolicyDefinitionWaitForWorkRequest(workId, "unifiedauditpolicydefinition",
+	_, delWorkRequestErr := unifiedAuditPolicyDefinitionWaitForWorkRequest(ctx, workId, "unifiedauditpolicydefinition",
 		oci_data_safe.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -583,7 +584,7 @@ func UnifiedAuditPolicyDefinitionSummaryToMap(obj oci_data_safe.UnifiedAuditPoli
 	return result
 }
 
-func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_data_safe.ChangeUnifiedAuditPolicyDefinitionCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -594,11 +595,11 @@ func (s *DataSafeUnifiedAuditPolicyDefinitionResourceCrud) updateCompartment(com
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.ChangeUnifiedAuditPolicyDefinitionCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeUnifiedAuditPolicyDefinitionCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getUnifiedAuditPolicyDefinitionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getUnifiedAuditPolicyDefinitionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

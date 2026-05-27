@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -15,7 +16,7 @@ import (
 
 func DataSafeSecurityPoliciesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDataSafeSecurityPolicies,
+		ReadContext: readDataSafeSecurityPoliciesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"access_level": {
@@ -64,12 +65,12 @@ func DataSafeSecurityPoliciesDataSource() *schema.Resource {
 	}
 }
 
-func readDataSafeSecurityPolicies(d *schema.ResourceData, m interface{}) error {
+func readDataSafeSecurityPoliciesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSecurityPoliciesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeSecurityPoliciesDataSourceCrud struct {
@@ -82,7 +83,7 @@ func (s *DataSafeSecurityPoliciesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeSecurityPoliciesDataSourceCrud) Get() error {
+func (s *DataSafeSecurityPoliciesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.ListSecurityPoliciesRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
@@ -119,7 +120,7 @@ func (s *DataSafeSecurityPoliciesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.ListSecurityPolicies(context.Background(), request)
+	response, err := s.Client.ListSecurityPolicies(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -128,7 +129,7 @@ func (s *DataSafeSecurityPoliciesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListSecurityPolicies(context.Background(), request)
+		listResponse, err := s.Client.ListSecurityPolicies(ctx, request)
 		if err != nil {
 			return err
 		}

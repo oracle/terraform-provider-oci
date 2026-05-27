@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 )
@@ -19,15 +20,15 @@ func DataSafeSecurityAssessmentDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeSecurityAssessmentResource(), fieldMap, readSingularDataSafeSecurityAssessment)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeSecurityAssessmentResource(), fieldMap, readSingularDataSafeSecurityAssessmentWithContext)
 }
 
-func readSingularDataSafeSecurityAssessment(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeSecurityAssessmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSecurityAssessmentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeSecurityAssessmentDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DataSafeSecurityAssessmentDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeSecurityAssessmentDataSourceCrud) Get() error {
+func (s *DataSafeSecurityAssessmentDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetSecurityAssessmentRequest{}
 
 	if securityAssessmentId, ok := s.D.GetOkExists("security_assessment_id"); ok {
@@ -50,7 +51,7 @@ func (s *DataSafeSecurityAssessmentDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetSecurityAssessment(context.Background(), request)
+	response, err := s.Client.GetSecurityAssessment(ctx, request)
 	if err != nil {
 		return err
 	}

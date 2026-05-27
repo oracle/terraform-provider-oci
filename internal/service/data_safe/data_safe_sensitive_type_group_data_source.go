@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -19,15 +20,15 @@ func DataSafeSensitiveTypeGroupDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeSensitiveTypeGroupResource(), fieldMap, readSingularDataSafeSensitiveTypeGroup)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeSensitiveTypeGroupResource(), fieldMap, readSingularDataSafeSensitiveTypeGroupWithContext)
 }
 
-func readSingularDataSafeSensitiveTypeGroup(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeSensitiveTypeGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveTypeGroupDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeSensitiveTypeGroupDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DataSafeSensitiveTypeGroupDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeSensitiveTypeGroupDataSourceCrud) Get() error {
+func (s *DataSafeSensitiveTypeGroupDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetSensitiveTypeGroupRequest{}
 
 	if sensitiveTypeGroupId, ok := s.D.GetOkExists("sensitive_type_group_id"); ok {
@@ -50,7 +51,7 @@ func (s *DataSafeSensitiveTypeGroupDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetSensitiveTypeGroup(context.Background(), request)
+	response, err := s.Client.GetSensitiveTypeGroup(ctx, request)
 	if err != nil {
 		return err
 	}

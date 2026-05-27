@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 )
@@ -19,15 +20,15 @@ func DataSafeTargetDatabaseDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeTargetDatabaseResource(), fieldMap, readSingularDataSafeTargetDatabase)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeTargetDatabaseResource(), fieldMap, readSingularDataSafeTargetDatabaseWithContext)
 }
 
-func readSingularDataSafeTargetDatabase(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeTargetDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeTargetDatabaseDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeTargetDatabaseDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DataSafeTargetDatabaseDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeTargetDatabaseDataSourceCrud) Get() error {
+func (s *DataSafeTargetDatabaseDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetTargetDatabaseRequest{}
 
 	if targetDatabaseId, ok := s.D.GetOkExists("target_database_id"); ok {
@@ -50,7 +51,7 @@ func (s *DataSafeTargetDatabaseDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetTargetDatabase(context.Background(), request)
+	response, err := s.Client.GetTargetDatabase(ctx, request)
 	if err != nil {
 		return err
 	}

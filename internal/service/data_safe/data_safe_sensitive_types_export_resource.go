@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -25,11 +25,11 @@ func DataSafeSensitiveTypesExportResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeSensitiveTypesExport,
-		Read:     readDataSafeSensitiveTypesExport,
-		Update:   updateDataSafeSensitiveTypesExport,
-		Delete:   deleteDataSafeSensitiveTypesExport,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeSensitiveTypesExportWithContext,
+		ReadContext:   readDataSafeSensitiveTypesExportWithContext,
+		UpdateContext: updateDataSafeSensitiveTypesExportWithContext,
+		DeleteContext: deleteDataSafeSensitiveTypesExportWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -99,37 +99,37 @@ func DataSafeSensitiveTypesExportResource() *schema.Resource {
 	}
 }
 
-func createDataSafeSensitiveTypesExport(d *schema.ResourceData, m interface{}) error {
+func createDataSafeSensitiveTypesExportWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveTypesExportResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDataSafeSensitiveTypesExport(d *schema.ResourceData, m interface{}) error {
+func readDataSafeSensitiveTypesExportWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveTypesExportResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeSensitiveTypesExport(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeSensitiveTypesExportWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveTypesExportResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDataSafeSensitiveTypesExport(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeSensitiveTypesExportWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveTypesExportResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataSafeSensitiveTypesExportResourceCrud struct {
@@ -167,7 +167,7 @@ func (s *DataSafeSensitiveTypesExportResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DataSafeSensitiveTypesExportResourceCrud) Create() error {
+func (s *DataSafeSensitiveTypesExportResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.CreateSensitiveTypesExportRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -217,14 +217,14 @@ func (s *DataSafeSensitiveTypesExportResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.CreateSensitiveTypesExport(context.Background(), request)
+	response, err := s.Client.CreateSensitiveTypesExport(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_data_safe.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_data_safe.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -240,20 +240,20 @@ func (s *DataSafeSensitiveTypesExportResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getSensitiveTypesExportFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getSensitiveTypesExportFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeSensitiveTypesExportResourceCrud) getSensitiveTypesExportFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeSensitiveTypesExportResourceCrud) getSensitiveTypesExportFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	sensitiveTypesExportId, err := sensitiveTypesExportWaitForWorkRequest(workId, "sensitivetypesexport",
+	sensitiveTypesExportId, err := sensitiveTypesExportWaitForWorkRequest(ctx, workId, "sensitivetypesexport",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, sensitiveTypesExportId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_data_safe.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -267,7 +267,7 @@ func (s *DataSafeSensitiveTypesExportResourceCrud) getSensitiveTypesExportFromWo
 	}
 	s.D.SetId(*sensitiveTypesExportId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func sensitiveTypesExportWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -293,7 +293,7 @@ func sensitiveTypesExportWorkRequestShouldRetryFunc(timeout time.Duration) func(
 	}
 }
 
-func sensitiveTypesExportWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func sensitiveTypesExportWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = sensitiveTypesExportWorkRequestShouldRetryFunc(timeout)
@@ -312,7 +312,7 @@ func sensitiveTypesExportWaitForWorkRequest(wId *string, entityType string, acti
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -324,7 +324,7 @@ func sensitiveTypesExportWaitForWorkRequest(wId *string, entityType string, acti
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -341,14 +341,14 @@ func sensitiveTypesExportWaitForWorkRequest(wId *string, entityType string, acti
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed || response.Status == oci_data_safe.WorkRequestStatusCanceled {
-		return nil, getErrorFromDataSafeSensitiveTypesExportWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeSensitiveTypesExportWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeSensitiveTypesExportWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeSensitiveTypesExportWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -370,7 +370,7 @@ func getErrorFromDataSafeSensitiveTypesExportWorkRequest(client *oci_data_safe.D
 	return workRequestErr
 }
 
-func (s *DataSafeSensitiveTypesExportResourceCrud) Get() error {
+func (s *DataSafeSensitiveTypesExportResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetSensitiveTypesExportRequest{}
 
 	tmp := s.D.Id()
@@ -378,7 +378,7 @@ func (s *DataSafeSensitiveTypesExportResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetSensitiveTypesExport(context.Background(), request)
+	response, err := s.Client.GetSensitiveTypesExport(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -387,11 +387,11 @@ func (s *DataSafeSensitiveTypesExportResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeSensitiveTypesExportResourceCrud) Update() error {
+func (s *DataSafeSensitiveTypesExportResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -426,16 +426,16 @@ func (s *DataSafeSensitiveTypesExportResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateSensitiveTypesExport(context.Background(), request)
+	response, err := s.Client.UpdateSensitiveTypesExport(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getSensitiveTypesExportFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getSensitiveTypesExportFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeSensitiveTypesExportResourceCrud) Delete() error {
+func (s *DataSafeSensitiveTypesExportResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_data_safe.DeleteSensitiveTypesExportRequest{}
 
 	tmp := s.D.Id()
@@ -443,7 +443,7 @@ func (s *DataSafeSensitiveTypesExportResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	_, err := s.Client.DeleteSensitiveTypesExport(context.Background(), request)
+	_, err := s.Client.DeleteSensitiveTypesExport(ctx, request)
 	return err
 }
 
@@ -527,7 +527,7 @@ func SensitiveTypesExportSummaryToMap(obj oci_data_safe.SensitiveTypesExportSumm
 	return result
 }
 
-func (s *DataSafeSensitiveTypesExportResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataSafeSensitiveTypesExportResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_data_safe.ChangeSensitiveTypesExportCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -538,12 +538,12 @@ func (s *DataSafeSensitiveTypesExportResourceCrud) updateCompartment(compartment
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	_, err := s.Client.ChangeSensitiveTypesExportCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeSensitiveTypesExportCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

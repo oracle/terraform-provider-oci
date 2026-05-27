@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
@@ -17,11 +18,11 @@ import (
 
 func DataSafeDatabaseSecurityConfigManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeDatabaseSecurityConfigManagement,
-		Read:     readDataSafeDatabaseSecurityConfigManagement,
-		Update:   updateDataSafeDatabaseSecurityConfigManagement,
-		Delete:   deleteDataSafeDatabaseSecurityConfigManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeDatabaseSecurityConfigManagementWithContext,
+		ReadContext:   readDataSafeDatabaseSecurityConfigManagementWithContext,
+		UpdateContext: updateDataSafeDatabaseSecurityConfigManagementWithContext,
+		DeleteContext: deleteDataSafeDatabaseSecurityConfigManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 
@@ -128,51 +129,51 @@ func DataSafeDatabaseSecurityConfigManagementResource() *schema.Resource {
 	}
 }
 
-func createDataSafeDatabaseSecurityConfigManagement(d *schema.ResourceData, m interface{}) error {
+func createDataSafeDatabaseSecurityConfigManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeDatabaseSecurityConfigManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	err := sync.GetDatabaseSecurityConfigWorkReq()
+	err := sync.GetDatabaseSecurityConfigWorkReq(ctx)
 	if err != nil {
-		return err
+		return tfresource.HandleDiagError(m, err)
 	}
 
-	err = sync.Get()
+	err = sync.GetWithContext(ctx)
 	if err != nil {
-		return err
+		return tfresource.HandleDiagError(m, err)
 	}
 
-	return updateDataSafeDatabaseSecurityConfigManagement(d, m)
+	return updateDataSafeDatabaseSecurityConfigManagementWithContext(ctx, d, m)
 }
 
-func readDataSafeDatabaseSecurityConfigManagement(d *schema.ResourceData, m interface{}) error {
+func readDataSafeDatabaseSecurityConfigManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeDatabaseSecurityConfigResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeDatabaseSecurityConfigManagement(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeDatabaseSecurityConfigManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeDatabaseSecurityConfigManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
 	if refreshTrigger, ok := sync.D.GetOkExists("refresh_trigger"); ok {
 		if refreshTrigger == true {
-			err := sync.RefreshDatabaseSecurityConfiguration()
+			err := sync.RefreshDatabaseSecurityConfiguration(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDataSafeDatabaseSecurityConfigManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeDatabaseSecurityConfigManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -187,7 +188,7 @@ func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) RefreshDatabaseSecurityConfiguration() error {
+func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) RefreshDatabaseSecurityConfiguration(ctx context.Context) error {
 	request := oci_data_safe.RefreshDatabaseSecurityConfigurationRequest{}
 
 	idTmp := s.D.Id()
@@ -195,12 +196,12 @@ func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) RefreshDatabaseSe
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.RefreshDatabaseSecurityConfiguration(context.Background(), request)
+	response, err := s.Client.RefreshDatabaseSecurityConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -208,10 +209,10 @@ func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) RefreshDatabaseSe
 	s.D.Set("refresh_trigger", val)
 
 	workId := response.OpcWorkRequestId
-	return s.getDatabaseSecurityConfigFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDatabaseSecurityConfigFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) GetDatabaseSecurityConfigWorkReq() error {
+func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) GetDatabaseSecurityConfigWorkReq(ctx context.Context) error {
 	listWorkRequestsRequest := oci_data_safe.ListWorkRequestsRequest{SortBy: oci_data_safe.ListWorkRequestsSortByEnum("ACCEPTEDTIME"), SortOrder: oci_data_safe.ListWorkRequestsSortOrderEnum("DESC")}
 	var workId *string
 	tmp := "CREATE_DB_SECURITY_CONFIG"
@@ -227,7 +228,7 @@ func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) GetDatabaseSecuri
 		listWorkRequestsRequest.TargetDatabaseId = &tmp
 	}
 
-	listWorkRequestsResponse, err := s.Client.ListWorkRequests(context.Background(), listWorkRequestsRequest)
+	listWorkRequestsResponse, err := s.Client.ListWorkRequests(ctx, listWorkRequestsRequest)
 	if listWorkRequestsResponse.Items != nil && len(listWorkRequestsResponse.Items) > 0 {
 		var items = &listWorkRequestsResponse.Items[0]
 		workId = items.Id
@@ -238,13 +239,13 @@ func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) GetDatabaseSecuri
 	}
 
 	if workId != nil {
-		return s.getDatabaseSecurityConfigFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate))
+		return s.getDatabaseSecurityConfigFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate))
 	} else {
-		return s.GetDatabaseSecurityConfigList()
+		return s.GetDatabaseSecurityConfigList(ctx)
 	}
 }
 
-func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) GetDatabaseSecurityConfigList() error {
+func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) GetDatabaseSecurityConfigList(ctx context.Context) error {
 	request := oci_data_safe.ListDatabaseSecurityConfigsRequest{}
 	var databaseSecurityConfig = new(oci_data_safe.DatabaseSecurityConfig)
 
@@ -260,7 +261,7 @@ func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) GetDatabaseSecuri
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.ListDatabaseSecurityConfigs(context.Background(), request)
+	response, err := s.Client.ListDatabaseSecurityConfigs(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -278,7 +279,7 @@ func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) GetDatabaseSecuri
 	return nil
 }
 
-func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) Get() error {
+func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetDatabaseSecurityConfigRequest{}
 
 	tmp := s.D.Id()
@@ -286,7 +287,7 @@ func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetDatabaseSecurityConfig(context.Background(), request)
+	response, err := s.Client.GetDatabaseSecurityConfig(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -295,11 +296,11 @@ func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) Update() error {
+func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -345,13 +346,13 @@ func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateDatabaseSecurityConfig(context.Background(), request)
+	response, err := s.Client.UpdateDatabaseSecurityConfig(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDatabaseSecurityConfigFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDatabaseSecurityConfigFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) SetData() error {
@@ -427,11 +428,11 @@ func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) mapToUpdateSqlFir
 	return result, nil
 }
 
-func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) getDatabaseSecurityConfigFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) getDatabaseSecurityConfigFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	databaseSecurityConfigId, err := databaseSecurityConfigWaitForWorkRequest(workId, "databasesecurityconfig",
+	databaseSecurityConfigId, err := databaseSecurityConfigWaitForWorkRequest(ctx, workId, "databasesecurityconfig",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -440,10 +441,10 @@ func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) getDatabaseSecuri
 
 	s.D.SetId(*databaseSecurityConfigId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_data_safe.ChangeDatabaseSecurityConfigCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -454,11 +455,11 @@ func (s *DataSafeDatabaseSecurityConfigManagementResourceCrud) updateCompartment
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.ChangeDatabaseSecurityConfigCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeDatabaseSecurityConfigCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDatabaseSecurityConfigFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDatabaseSecurityConfigFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

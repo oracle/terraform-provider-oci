@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -15,7 +16,7 @@ import (
 
 func DataSafeSecurityPolicyDeploymentsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDataSafeSecurityPolicyDeployments,
+		ReadContext: readDataSafeSecurityPolicyDeploymentsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"access_level": {
@@ -72,12 +73,12 @@ func DataSafeSecurityPolicyDeploymentsDataSource() *schema.Resource {
 	}
 }
 
-func readDataSafeSecurityPolicyDeployments(d *schema.ResourceData, m interface{}) error {
+func readDataSafeSecurityPolicyDeploymentsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSecurityPolicyDeploymentsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeSecurityPolicyDeploymentsDataSourceCrud struct {
@@ -90,7 +91,7 @@ func (s *DataSafeSecurityPolicyDeploymentsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeSecurityPolicyDeploymentsDataSourceCrud) Get() error {
+func (s *DataSafeSecurityPolicyDeploymentsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.ListSecurityPolicyDeploymentsRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
@@ -137,7 +138,7 @@ func (s *DataSafeSecurityPolicyDeploymentsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.ListSecurityPolicyDeployments(context.Background(), request)
+	response, err := s.Client.ListSecurityPolicyDeployments(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -146,7 +147,7 @@ func (s *DataSafeSecurityPolicyDeploymentsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListSecurityPolicyDeployments(context.Background(), request)
+		listResponse, err := s.Client.ListSecurityPolicyDeployments(ctx, request)
 		if err != nil {
 			return err
 		}

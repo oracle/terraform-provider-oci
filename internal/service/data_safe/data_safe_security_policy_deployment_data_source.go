@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -19,15 +20,15 @@ func DataSafeSecurityPolicyDeploymentDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeSecurityPolicyDeploymentResource(), fieldMap, readSingularDataSafeSecurityPolicyDeployment)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeSecurityPolicyDeploymentResource(), fieldMap, readSingularDataSafeSecurityPolicyDeploymentWithContext)
 }
 
-func readSingularDataSafeSecurityPolicyDeployment(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeSecurityPolicyDeploymentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSecurityPolicyDeploymentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeSecurityPolicyDeploymentDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DataSafeSecurityPolicyDeploymentDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeSecurityPolicyDeploymentDataSourceCrud) Get() error {
+func (s *DataSafeSecurityPolicyDeploymentDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetSecurityPolicyDeploymentRequest{}
 
 	if securityPolicyDeploymentId, ok := s.D.GetOkExists("security_policy_deployment_id"); ok {
@@ -50,7 +51,7 @@ func (s *DataSafeSecurityPolicyDeploymentDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetSecurityPolicyDeployment(context.Background(), request)
+	response, err := s.Client.GetSecurityPolicyDeployment(ctx, request)
 	if err != nil {
 		return err
 	}

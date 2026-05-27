@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -15,7 +16,7 @@ import (
 
 func DataSafeSensitiveTypeGroupGroupedSensitiveTypesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDataSafeSensitiveTypeGroupGroupedSensitiveTypes,
+		ReadContext: readDataSafeSensitiveTypeGroupGroupedSensitiveTypesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"sensitive_type_group_id": {
@@ -44,12 +45,12 @@ func DataSafeSensitiveTypeGroupGroupedSensitiveTypesDataSource() *schema.Resourc
 	}
 }
 
-func readDataSafeSensitiveTypeGroupGroupedSensitiveTypes(d *schema.ResourceData, m interface{}) error {
+func readDataSafeSensitiveTypeGroupGroupedSensitiveTypesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveTypeGroupGroupedSensitiveTypesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeSensitiveTypeGroupGroupedSensitiveTypesDataSourceCrud struct {
@@ -62,7 +63,7 @@ func (s *DataSafeSensitiveTypeGroupGroupedSensitiveTypesDataSourceCrud) VoidStat
 	s.D.SetId("")
 }
 
-func (s *DataSafeSensitiveTypeGroupGroupedSensitiveTypesDataSourceCrud) Get() error {
+func (s *DataSafeSensitiveTypeGroupGroupedSensitiveTypesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.ListGroupedSensitiveTypesRequest{}
 
 	if sensitiveTypeGroupId, ok := s.D.GetOkExists("sensitive_type_group_id"); ok {
@@ -77,7 +78,7 @@ func (s *DataSafeSensitiveTypeGroupGroupedSensitiveTypesDataSourceCrud) Get() er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.ListGroupedSensitiveTypes(context.Background(), request)
+	response, err := s.Client.ListGroupedSensitiveTypes(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -86,7 +87,7 @@ func (s *DataSafeSensitiveTypeGroupGroupedSensitiveTypesDataSourceCrud) Get() er
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListGroupedSensitiveTypes(context.Background(), request)
+		listResponse, err := s.Client.ListGroupedSensitiveTypes(ctx, request)
 		if err != nil {
 			return err
 		}

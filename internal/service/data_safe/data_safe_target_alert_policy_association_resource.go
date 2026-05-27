@@ -12,6 +12,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,11 +25,11 @@ func DataSafeTargetAlertPolicyAssociationResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeTargetAlertPolicyAssociation,
-		Read:     readDataSafeTargetAlertPolicyAssociation,
-		Update:   updateDataSafeTargetAlertPolicyAssociation,
-		Delete:   deleteDataSafeTargetAlertPolicyAssociation,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeTargetAlertPolicyAssociationWithContext,
+		ReadContext:   readDataSafeTargetAlertPolicyAssociationWithContext,
+		UpdateContext: updateDataSafeTargetAlertPolicyAssociationWithContext,
+		DeleteContext: deleteDataSafeTargetAlertPolicyAssociationWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -101,37 +102,37 @@ func DataSafeTargetAlertPolicyAssociationResource() *schema.Resource {
 	}
 }
 
-func createDataSafeTargetAlertPolicyAssociation(d *schema.ResourceData, m interface{}) error {
+func createDataSafeTargetAlertPolicyAssociationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeTargetAlertPolicyAssociationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDataSafeTargetAlertPolicyAssociation(d *schema.ResourceData, m interface{}) error {
+func readDataSafeTargetAlertPolicyAssociationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeTargetAlertPolicyAssociationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeTargetAlertPolicyAssociation(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeTargetAlertPolicyAssociationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeTargetAlertPolicyAssociationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDataSafeTargetAlertPolicyAssociation(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeTargetAlertPolicyAssociationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeTargetAlertPolicyAssociationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataSafeTargetAlertPolicyAssociationResourceCrud struct {
@@ -169,7 +170,7 @@ func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) DeletedTarget() []str
 	}
 }
 
-func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) Create() error {
+func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.CreateTargetAlertPolicyAssociationRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -216,7 +217,7 @@ func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.CreateTargetAlertPolicyAssociation(context.Background(), request)
+	response, err := s.Client.CreateTargetAlertPolicyAssociation(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -227,14 +228,14 @@ func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getTargetAlertPolicyAssociationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getTargetAlertPolicyAssociationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) getTargetAlertPolicyAssociationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) getTargetAlertPolicyAssociationFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	targetAlertPolicyAssociationId, err := targetAlertPolicyAssociationWaitForWorkRequest(workId, "targetAlertPolicyAssociation",
+	targetAlertPolicyAssociationId, err := targetAlertPolicyAssociationWaitForWorkRequest(ctx, workId, "targetAlertPolicyAssociation",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -242,7 +243,7 @@ func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) getTargetAlertPolicyA
 	}
 	s.D.SetId(*targetAlertPolicyAssociationId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func targetAlertPolicyAssociationWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -268,7 +269,7 @@ func targetAlertPolicyAssociationWorkRequestShouldRetryFunc(timeout time.Duratio
 	}
 }
 
-func targetAlertPolicyAssociationWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func targetAlertPolicyAssociationWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = targetAlertPolicyAssociationWorkRequestShouldRetryFunc(timeout)
@@ -287,7 +288,7 @@ func targetAlertPolicyAssociationWaitForWorkRequest(wId *string, entityType stri
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -299,7 +300,7 @@ func targetAlertPolicyAssociationWaitForWorkRequest(wId *string, entityType stri
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -316,14 +317,14 @@ func targetAlertPolicyAssociationWaitForWorkRequest(wId *string, entityType stri
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed || response.Status == oci_data_safe.WorkRequestStatusCanceled {
-		return nil, getErrorFromDataSafeTargetAlertPolicyAssociationWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeTargetAlertPolicyAssociationWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeTargetAlertPolicyAssociationWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeTargetAlertPolicyAssociationWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -345,7 +346,7 @@ func getErrorFromDataSafeTargetAlertPolicyAssociationWorkRequest(client *oci_dat
 	return workRequestErr
 }
 
-func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) Get() error {
+func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetTargetAlertPolicyAssociationRequest{}
 
 	tmp := s.D.Id()
@@ -353,7 +354,7 @@ func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetTargetAlertPolicyAssociation(context.Background(), request)
+	response, err := s.Client.GetTargetAlertPolicyAssociation(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -362,11 +363,11 @@ func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) Update() error {
+func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -407,16 +408,16 @@ func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateTargetAlertPolicyAssociation(context.Background(), request)
+	response, err := s.Client.UpdateTargetAlertPolicyAssociation(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getTargetAlertPolicyAssociationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, strings.ToLower("targetAlertPolicyAssociation")), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getTargetAlertPolicyAssociationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, strings.ToLower("targetAlertPolicyAssociation")), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) Delete() error {
+func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_data_safe.DeleteTargetAlertPolicyAssociationRequest{}
 
 	tmp := s.D.Id()
@@ -424,14 +425,14 @@ func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.DeleteTargetAlertPolicyAssociation(context.Background(), request)
+	response, err := s.Client.DeleteTargetAlertPolicyAssociation(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := targetAlertPolicyAssociationWaitForWorkRequest(workId, strings.ToLower("targetAlertPolicyAssociation"),
+	_, delWorkRequestErr := targetAlertPolicyAssociationWaitForWorkRequest(ctx, workId, strings.ToLower("targetAlertPolicyAssociation"),
 		oci_data_safe.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -544,7 +545,7 @@ func TargetAlertPolicyAssociationSummaryToMap(obj oci_data_safe.TargetAlertPolic
 	return result
 }
 
-func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_data_safe.ChangeTargetAlertPolicyAssociationCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -555,12 +556,12 @@ func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) updateCompartment(com
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	_, err := s.Client.ChangeTargetAlertPolicyAssociationCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeTargetAlertPolicyAssociationCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

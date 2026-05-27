@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -25,11 +25,11 @@ func DataSafeSensitiveDataModelResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeSensitiveDataModel,
-		Read:     readDataSafeSensitiveDataModel,
-		Update:   updateDataSafeSensitiveDataModel,
-		Delete:   deleteDataSafeSensitiveDataModel,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeSensitiveDataModelWithContext,
+		ReadContext:   readDataSafeSensitiveDataModelWithContext,
+		UpdateContext: updateDataSafeSensitiveDataModelWithContext,
+		DeleteContext: deleteDataSafeSensitiveDataModelWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -165,37 +165,37 @@ func DataSafeSensitiveDataModelResource() *schema.Resource {
 	}
 }
 
-func createDataSafeSensitiveDataModel(d *schema.ResourceData, m interface{}) error {
+func createDataSafeSensitiveDataModelWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveDataModelResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDataSafeSensitiveDataModel(d *schema.ResourceData, m interface{}) error {
+func readDataSafeSensitiveDataModelWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveDataModelResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeSensitiveDataModel(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeSensitiveDataModelWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveDataModelResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDataSafeSensitiveDataModel(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeSensitiveDataModelWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveDataModelResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataSafeSensitiveDataModelResourceCrud struct {
@@ -233,7 +233,7 @@ func (s *DataSafeSensitiveDataModelResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DataSafeSensitiveDataModelResourceCrud) Create() error {
+func (s *DataSafeSensitiveDataModelResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.CreateSensitiveDataModelRequest{}
 
 	if appSuiteName, ok := s.D.GetOkExists("app_suite_name"); ok {
@@ -351,7 +351,7 @@ func (s *DataSafeSensitiveDataModelResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.CreateSensitiveDataModel(context.Background(), request)
+	response, err := s.Client.CreateSensitiveDataModel(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -362,19 +362,19 @@ func (s *DataSafeSensitiveDataModelResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getSensitiveDataModelFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getSensitiveDataModelFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeSensitiveDataModelResourceCrud) getSensitiveDataModelFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeSensitiveDataModelResourceCrud) getSensitiveDataModelFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	sensitiveDataModelId, err := sensitiveDataModelWaitForWorkRequest(workId, "sensitivedatamodel",
+	sensitiveDataModelId, err := sensitiveDataModelWaitForWorkRequest(ctx, workId, "sensitivedatamodel",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, sensitiveDataModelId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_data_safe.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -388,7 +388,7 @@ func (s *DataSafeSensitiveDataModelResourceCrud) getSensitiveDataModelFromWorkRe
 	}
 	s.D.SetId(*sensitiveDataModelId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func sensitiveDataModelWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -414,7 +414,7 @@ func sensitiveDataModelWorkRequestShouldRetryFunc(timeout time.Duration) func(re
 	}
 }
 
-func sensitiveDataModelWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func sensitiveDataModelWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = sensitiveDataModelWorkRequestShouldRetryFunc(timeout)
@@ -433,7 +433,7 @@ func sensitiveDataModelWaitForWorkRequest(wId *string, entityType string, action
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -445,7 +445,7 @@ func sensitiveDataModelWaitForWorkRequest(wId *string, entityType string, action
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -462,14 +462,14 @@ func sensitiveDataModelWaitForWorkRequest(wId *string, entityType string, action
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed || response.Status == oci_data_safe.WorkRequestStatusCanceled {
-		return nil, getErrorFromDataSafeSensitiveDataModelWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeSensitiveDataModelWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeSensitiveDataModelWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeSensitiveDataModelWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -491,7 +491,7 @@ func getErrorFromDataSafeSensitiveDataModelWorkRequest(client *oci_data_safe.Dat
 	return workRequestErr
 }
 
-func (s *DataSafeSensitiveDataModelResourceCrud) Get() error {
+func (s *DataSafeSensitiveDataModelResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetSensitiveDataModelRequest{}
 
 	tmp := s.D.Id()
@@ -499,7 +499,7 @@ func (s *DataSafeSensitiveDataModelResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetSensitiveDataModel(context.Background(), request)
+	response, err := s.Client.GetSensitiveDataModel(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -508,11 +508,11 @@ func (s *DataSafeSensitiveDataModelResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeSensitiveDataModelResourceCrud) Update() error {
+func (s *DataSafeSensitiveDataModelResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -623,16 +623,16 @@ func (s *DataSafeSensitiveDataModelResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateSensitiveDataModel(context.Background(), request)
+	response, err := s.Client.UpdateSensitiveDataModel(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getSensitiveDataModelFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getSensitiveDataModelFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeSensitiveDataModelResourceCrud) Delete() error {
+func (s *DataSafeSensitiveDataModelResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_data_safe.DeleteSensitiveDataModelRequest{}
 
 	tmp := s.D.Id()
@@ -640,14 +640,14 @@ func (s *DataSafeSensitiveDataModelResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.DeleteSensitiveDataModel(context.Background(), request)
+	response, err := s.Client.DeleteSensitiveDataModel(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := sensitiveDataModelWaitForWorkRequest(workId, "sensitivedatamodel",
+	_, delWorkRequestErr := sensitiveDataModelWaitForWorkRequest(ctx, workId, "sensitivedatamodel",
 		oci_data_safe.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -806,7 +806,7 @@ func TablesForDiscoveryToMap(obj oci_data_safe.TablesForDiscovery) map[string]in
 	return result
 }
 
-func (s *DataSafeSensitiveDataModelResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataSafeSensitiveDataModelResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_data_safe.ChangeSensitiveDataModelCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -817,12 +817,12 @@ func (s *DataSafeSensitiveDataModelResourceCrud) updateCompartment(compartment i
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	_, err := s.Client.ChangeSensitiveDataModelCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeSensitiveDataModelCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

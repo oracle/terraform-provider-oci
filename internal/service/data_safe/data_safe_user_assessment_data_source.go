@@ -11,6 +11,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 )
@@ -21,15 +22,15 @@ func DataSafeUserAssessmentDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeUserAssessmentResource(), fieldMap, readSingularDataSafeUserAssessment)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeUserAssessmentResource(), fieldMap, readSingularDataSafeUserAssessmentWithContext)
 }
 
-func readSingularDataSafeUserAssessment(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeUserAssessmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeUserAssessmentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeUserAssessmentDataSourceCrud struct {
@@ -42,7 +43,7 @@ func (s *DataSafeUserAssessmentDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeUserAssessmentDataSourceCrud) Get() error {
+func (s *DataSafeUserAssessmentDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetUserAssessmentRequest{}
 
 	if userAssessmentId, ok := s.D.GetOkExists("user_assessment_id"); ok {
@@ -52,7 +53,7 @@ func (s *DataSafeUserAssessmentDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetUserAssessment(context.Background(), request)
+	response, err := s.Client.GetUserAssessment(ctx, request)
 	if err != nil {
 		return err
 	}

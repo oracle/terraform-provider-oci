@@ -13,6 +13,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -30,10 +31,10 @@ func DataSafeUserAssessmentResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("45m"),
 			Delete: tfresource.GetTimeoutDuration("45m"),
 		},
-		Create: createDataSafeUserAssessment,
-		Read:   readDataSafeUserAssessment,
-		Update: updateDataSafeUserAssessment,
-		Delete: deleteDataSafeUserAssessment,
+		CreateContext: createDataSafeUserAssessmentWithContext,
+		ReadContext:   readDataSafeUserAssessmentWithContext,
+		UpdateContext: updateDataSafeUserAssessmentWithContext,
+		DeleteContext: deleteDataSafeUserAssessmentWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -183,37 +184,37 @@ func DataSafeUserAssessmentResource() *schema.Resource {
 	}
 }
 
-func createDataSafeUserAssessment(d *schema.ResourceData, m interface{}) error {
+func createDataSafeUserAssessmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeUserAssessmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDataSafeUserAssessment(d *schema.ResourceData, m interface{}) error {
+func readDataSafeUserAssessmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeUserAssessmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeUserAssessment(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeUserAssessmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeUserAssessmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDataSafeUserAssessment(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeUserAssessmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeUserAssessmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataSafeUserAssessmentResourceCrud struct {
@@ -251,7 +252,7 @@ func (s *DataSafeUserAssessmentResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DataSafeUserAssessmentResourceCrud) Create() error {
+func (s *DataSafeUserAssessmentResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.CreateUserAssessmentRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -302,7 +303,7 @@ func (s *DataSafeUserAssessmentResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.CreateUserAssessment(context.Background(), request)
+	response, err := s.Client.CreateUserAssessment(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -313,17 +314,17 @@ func (s *DataSafeUserAssessmentResourceCrud) Create() error {
 		s.D.SetId(*identifier)
 	}
 	if request.TargetType == oci_data_safe.UserAssessmentTargetTypeTargetDatabaseGroup {
-		return s.Get()
+		return s.GetWithContext(ctx)
 	}
 	workId := response.OpcWorkRequestId
-	return s.getUserAssessmentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getUserAssessmentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeUserAssessmentResourceCrud) getUserAssessmentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeUserAssessmentResourceCrud) getUserAssessmentFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	userAssessmentId, err := userAssessmentWaitForWorkRequest(workId, "userassessment",
+	userAssessmentId, err := userAssessmentWaitForWorkRequest(ctx, workId, "userassessment",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -331,7 +332,7 @@ func (s *DataSafeUserAssessmentResourceCrud) getUserAssessmentFromWorkRequest(wo
 	}
 	s.D.SetId(*userAssessmentId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func userAssessmentWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -357,7 +358,7 @@ func userAssessmentWorkRequestShouldRetryFunc(timeout time.Duration) func(respon
 	}
 }
 
-func userAssessmentWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func userAssessmentWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = userAssessmentWorkRequestShouldRetryFunc(timeout)
@@ -374,7 +375,7 @@ func userAssessmentWaitForWorkRequest(wId *string, entityType string, action oci
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -386,7 +387,7 @@ func userAssessmentWaitForWorkRequest(wId *string, entityType string, action oci
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -403,14 +404,14 @@ func userAssessmentWaitForWorkRequest(wId *string, entityType string, action oci
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed {
-		return nil, getErrorFromDataSafeUserAssessmentWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeUserAssessmentWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeUserAssessmentWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeUserAssessmentWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -432,7 +433,7 @@ func getErrorFromDataSafeUserAssessmentWorkRequest(client *oci_data_safe.DataSaf
 	return workRequestErr
 }
 
-func (s *DataSafeUserAssessmentResourceCrud) Get() error {
+func (s *DataSafeUserAssessmentResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetUserAssessmentRequest{}
 
 	tmp := s.D.Id()
@@ -440,7 +441,7 @@ func (s *DataSafeUserAssessmentResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetUserAssessment(context.Background(), request)
+	response, err := s.Client.GetUserAssessment(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -449,11 +450,11 @@ func (s *DataSafeUserAssessmentResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeUserAssessmentResourceCrud) Update() error {
+func (s *DataSafeUserAssessmentResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -498,16 +499,16 @@ func (s *DataSafeUserAssessmentResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateUserAssessment(context.Background(), request)
+	response, err := s.Client.UpdateUserAssessment(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getUserAssessmentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getUserAssessmentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeUserAssessmentResourceCrud) Delete() error {
+func (s *DataSafeUserAssessmentResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_data_safe.DeleteUserAssessmentRequest{}
 
 	tmp := s.D.Id()
@@ -515,14 +516,14 @@ func (s *DataSafeUserAssessmentResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.DeleteUserAssessment(context.Background(), request)
+	response, err := s.Client.DeleteUserAssessment(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := userAssessmentWaitForWorkRequest(workId, "userassessment",
+	_, delWorkRequestErr := userAssessmentWaitForWorkRequest(ctx, workId, "userassessment",
 		oci_data_safe.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -627,7 +628,7 @@ func (s *DataSafeUserAssessmentResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DataSafeUserAssessmentResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataSafeUserAssessmentResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_data_safe.ChangeUserAssessmentCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -638,7 +639,7 @@ func (s *DataSafeUserAssessmentResourceCrud) updateCompartment(compartment inter
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	_, err := s.Client.ChangeUserAssessmentCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeUserAssessmentCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}

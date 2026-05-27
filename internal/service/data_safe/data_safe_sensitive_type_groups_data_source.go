@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
@@ -17,7 +18,7 @@ import (
 
 func DataSafeSensitiveTypeGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDataSafeSensitiveTypeGroups,
+		ReadContext: readDataSafeSensitiveTypeGroupsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"access_level": {
@@ -70,12 +71,12 @@ func DataSafeSensitiveTypeGroupsDataSource() *schema.Resource {
 	}
 }
 
-func readDataSafeSensitiveTypeGroups(d *schema.ResourceData, m interface{}) error {
+func readDataSafeSensitiveTypeGroupsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveTypeGroupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeSensitiveTypeGroupsDataSourceCrud struct {
@@ -88,7 +89,7 @@ func (s *DataSafeSensitiveTypeGroupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeSensitiveTypeGroupsDataSourceCrud) Get() error {
+func (s *DataSafeSensitiveTypeGroupsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.ListSensitiveTypeGroupsRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
@@ -137,7 +138,7 @@ func (s *DataSafeSensitiveTypeGroupsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.ListSensitiveTypeGroups(context.Background(), request)
+	response, err := s.Client.ListSensitiveTypeGroups(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -146,7 +147,7 @@ func (s *DataSafeSensitiveTypeGroupsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListSensitiveTypeGroups(context.Background(), request)
+		listResponse, err := s.Client.ListSensitiveTypeGroups(ctx, request)
 		if err != nil {
 			return err
 		}

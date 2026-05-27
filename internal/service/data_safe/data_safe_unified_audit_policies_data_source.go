@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
@@ -17,7 +18,7 @@ import (
 
 func DataSafeUnifiedAuditPoliciesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDataSafeUnifiedAuditPolicies,
+		ReadContext: readDataSafeUnifiedAuditPoliciesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"access_level": {
@@ -82,12 +83,12 @@ func DataSafeUnifiedAuditPoliciesDataSource() *schema.Resource {
 	}
 }
 
-func readDataSafeUnifiedAuditPolicies(d *schema.ResourceData, m interface{}) error {
+func readDataSafeUnifiedAuditPoliciesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeUnifiedAuditPoliciesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeUnifiedAuditPoliciesDataSourceCrud struct {
@@ -100,7 +101,7 @@ func (s *DataSafeUnifiedAuditPoliciesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeUnifiedAuditPoliciesDataSourceCrud) Get() error {
+func (s *DataSafeUnifiedAuditPoliciesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.ListUnifiedAuditPoliciesRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
@@ -164,7 +165,7 @@ func (s *DataSafeUnifiedAuditPoliciesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.ListUnifiedAuditPolicies(context.Background(), request)
+	response, err := s.Client.ListUnifiedAuditPolicies(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -173,7 +174,7 @@ func (s *DataSafeUnifiedAuditPoliciesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListUnifiedAuditPolicies(context.Background(), request)
+		listResponse, err := s.Client.ListUnifiedAuditPolicies(ctx, request)
 		if err != nil {
 			return err
 		}
