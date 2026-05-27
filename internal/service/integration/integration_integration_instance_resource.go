@@ -557,6 +557,13 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"attachment_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					"process_automation",
+				}, true),
+			},
 			"private_endpoint_outbound_connection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -589,6 +596,10 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"process_automation_log_group_id": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"state": {
 				Type:             schema.TypeString,
@@ -1365,6 +1376,10 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 		s.D.Set("private_endpoint_outbound_connection", nil)
 	}
 
+	if s.Res.ProcessAutomationLogGroupId != nil {
+		s.D.Set("process_automation_log_group_id", *s.Res.ProcessAutomationLogGroupId)
+	}
+
 	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 
 	s.D.Set("shape", s.Res.Shape)
@@ -1395,6 +1410,10 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 func (s *IntegrationIntegrationInstanceResourceCrud) AddLogAnalyticsLogGroup() error {
 	request := oci_integration.AddLogAnalyticsLogGroupRequest{}
 
+	if attachmentType, ok := s.D.GetOkExists("attachment_type"); ok {
+		request.AttachmentType = oci_integration.AddLogAnalyticsLogGroupDetailsAttachmentTypeEnum(strings.ToUpper(attachmentType.(string)))
+	}
+
 	idTmp := s.D.Id()
 	request.IntegrationInstanceId = &idTmp
 
@@ -1405,9 +1424,21 @@ func (s *IntegrationIntegrationInstanceResourceCrud) AddLogAnalyticsLogGroup() e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "integration")
 
-	_, err := s.Client.AddLogAnalyticsLogGroup(context.Background(), request)
+	response, err := s.Client.AddLogAnalyticsLogGroup(context.Background(), request)
 	if err != nil {
 		return err
+	}
+	var workRequestId *string
+	if response.RawResponse != nil {
+		if wr := response.RawResponse.Header.Get("opc-work-request-id"); wr != "" {
+			workRequestId = &wr
+		}
+	}
+	if workRequestId != nil {
+		_, err = integrationInstanceWaitForWorkRequest(workRequestId, "integrationinstance", oci_integration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
+		if err != nil {
+			return err
+		}
 	}
 
 	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
@@ -1502,6 +1533,10 @@ func (s *IntegrationIntegrationInstanceResourceCrud) RemoveOracleManagedCustomEn
 
 func (s *IntegrationIntegrationInstanceResourceCrud) RemoveLogAnalyticsLogGroup() error {
 	request := oci_integration.RemoveLogAnalyticsLogGroupRequest{}
+
+	if attachmentType, ok := s.D.GetOkExists("attachment_type"); ok {
+		request.AttachmentType = oci_integration.RemoveLogAnalyticsLogGroupDetailsAttachmentTypeEnum(strings.ToUpper(attachmentType.(string)))
+	}
 
 	idTmp := s.D.Id()
 	request.IntegrationInstanceId = &idTmp

@@ -172,6 +172,10 @@ func (s *IntegrationIntegrationInstanceDataSourceCrud) SetData() error {
 		s.D.Set("private_endpoint_outbound_connection", nil)
 	}
 
+	if s.Res.ProcessAutomationLogGroupId != nil {
+		s.D.Set("process_automation_log_group_id", *s.Res.ProcessAutomationLogGroupId)
+	}
+
 	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 
 	s.D.Set("shape", s.Res.Shape)
