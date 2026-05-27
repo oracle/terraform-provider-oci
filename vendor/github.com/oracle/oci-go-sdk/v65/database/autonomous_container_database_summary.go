@@ -185,7 +185,7 @@ type AutonomousContainerDatabaseSummary struct {
 	// The CPU value beyond which an Autonomous AI Database will be opened across multiple nodes. The default value of this attribute is 16 for OCPUs and 64 for ECPUs.
 	DbSplitThreshold *int `mandatory:"false" json:"dbSplitThreshold"`
 
-	// The percentage of CPUs reserved across nodes to support node failover. Allowed values are 0%, 25%, and 50%, with 50% being the default option.
+	// The percentage of CPUs reserved across nodes to support node failover. Allowed values are 0%, 25%, 50%, 75%, and 100%, with 50% being the default option.
 	VmFailoverReservation *int `mandatory:"false" json:"vmFailoverReservation"`
 
 	// Determines whether an Autonomous AI Database must be opened across the maximum number of nodes or the least number of nodes. By default, Minimum nodes is selected.
@@ -863,16 +863,19 @@ type AutonomousContainerDatabaseSummaryNetServicesArchitectureEnum string
 const (
 	AutonomousContainerDatabaseSummaryNetServicesArchitectureDedicated AutonomousContainerDatabaseSummaryNetServicesArchitectureEnum = "DEDICATED"
 	AutonomousContainerDatabaseSummaryNetServicesArchitectureShared    AutonomousContainerDatabaseSummaryNetServicesArchitectureEnum = "SHARED"
+	AutonomousContainerDatabaseSummaryNetServicesArchitectureDrcp      AutonomousContainerDatabaseSummaryNetServicesArchitectureEnum = "DRCP"
 )
 
 var mappingAutonomousContainerDatabaseSummaryNetServicesArchitectureEnum = map[string]AutonomousContainerDatabaseSummaryNetServicesArchitectureEnum{
 	"DEDICATED": AutonomousContainerDatabaseSummaryNetServicesArchitectureDedicated,
 	"SHARED":    AutonomousContainerDatabaseSummaryNetServicesArchitectureShared,
+	"DRCP":      AutonomousContainerDatabaseSummaryNetServicesArchitectureDrcp,
 }
 
 var mappingAutonomousContainerDatabaseSummaryNetServicesArchitectureEnumLowerCase = map[string]AutonomousContainerDatabaseSummaryNetServicesArchitectureEnum{
 	"dedicated": AutonomousContainerDatabaseSummaryNetServicesArchitectureDedicated,
 	"shared":    AutonomousContainerDatabaseSummaryNetServicesArchitectureShared,
+	"drcp":      AutonomousContainerDatabaseSummaryNetServicesArchitectureDrcp,
 }
 
 // GetAutonomousContainerDatabaseSummaryNetServicesArchitectureEnumValues Enumerates the set of values for AutonomousContainerDatabaseSummaryNetServicesArchitectureEnum
@@ -889,6 +892,7 @@ func GetAutonomousContainerDatabaseSummaryNetServicesArchitectureEnumStringValue
 	return []string{
 		"DEDICATED",
 		"SHARED",
+		"DRCP",
 	}
 }
 

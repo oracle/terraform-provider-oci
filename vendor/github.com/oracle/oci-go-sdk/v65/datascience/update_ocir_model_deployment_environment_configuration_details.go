@@ -62,6 +62,14 @@ type UpdateOcirModelDeploymentEnvironmentConfigurationDetails struct {
 	// No specific size limits on individual Values. But overall environment variables is limited to 2048 bytes.
 	// Key can't be reserved Model Deployment environment variables.
 	EnvironmentVariables map[string]string `mandatory:"false" json:"environmentVariables"`
+
+	// The chosen specification from predefined set of endpoints a user can access.
+	// For example, if the value is 'openai', the user can access OpenAI-compliant endpoints
+	// like /v1/completions, /v1/chat/completions, /v1/models, etc., for inference.
+	PredictApiSpecification *string `mandatory:"false" json:"predictApiSpecification"`
+
+	// List of custom inference HTTP endpoints configured on the model deployment instance for inferencing.
+	CustomHttpEndpoints []InferenceHttpEndpoint `mandatory:"false" json:"customHttpEndpoints"`
 }
 
 func (m UpdateOcirModelDeploymentEnvironmentConfigurationDetails) String() string {

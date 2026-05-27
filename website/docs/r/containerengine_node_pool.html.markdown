@@ -106,6 +106,11 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 		#Optional
 		boot_volume_size_in_gbs = var.node_pool_node_source_details_boot_volume_size_in_gbs
 	}
+	primary_vnic {
+
+		#Optional
+		security_attributes = var.node_pool_primary_vnic_security_attributes
+	}
 	quantity_per_subnet = var.node_pool_quantity_per_subnet
 	secondary_vnics {
 		#Required
@@ -128,6 +133,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 				ipv6subnet_cidr = var.node_pool_secondary_vnics_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details_ipv6subnet_cidr
 			}
 			nsg_ids = var.node_pool_secondary_vnics_create_vnic_details_nsg_ids
+			security_attributes = var.node_pool_secondary_vnics_create_vnic_details_security_attributes
 			skip_source_dest_check = var.node_pool_secondary_vnics_create_vnic_details_skip_source_dest_check
 		}
 
@@ -196,6 +202,8 @@ The following arguments are supported:
 	* `boot_volume_size_in_gbs` - (Optional) (Updatable) The size of the boot volume in GBs. Minimum value is 50 GB. See [here](https://docs.cloud.oracle.com/en-us/iaas/Content/Block/Concepts/bootvolumes.htm) for max custom boot volume sizing and OS-specific requirements.
 	* `image_id` - (Required) (Updatable) The OCID of the image used to boot the node.
 	* `source_type` - (Required) (Updatable) The source type for the node. Use `IMAGE` when specifying an OCID of an image. 
+* `primary_vnic` - (Optional) (Updatable) Details for node's primary VNIC
+	* `security_attributes` - (Optional) (Updatable) [Security attributes](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels for a resource that can be referenced in a [Zero Trust Packet Routing](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm) (ZPR) policy to control access to ZPR-supported resources. 
 * `quantity_per_subnet` - (Optional) (Updatable) Optional, default to 1. The number of nodes to create in each subnet specified in subnetIds property. When used, subnetIds is required. This property is deprecated, use nodeConfigDetails instead. 
 * `secondary_vnics` - (Optional) (Updatable) A list of secondary vnics to attach to nodes
 	* `create_vnic_details` - (Required) (Updatable) The properties of the secondary vnics
@@ -210,6 +218,7 @@ The following arguments are supported:
 			* `ipv6address` - (Optional) (Updatable) An IPv6 address of your choice. Must be an available IPv6 address within the subnet's prefix 
 			* `ipv6subnet_cidr` - (Optional) (Updatable) The IPv6 prefix allocated to the subnet 
 		* `nsg_ids` - (Optional) (Updatable) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to 
+		* `security_attributes` - (Optional) (Updatable) [Security attributes](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels for a resource that can be referenced in a [Zero Trust Packet Routing](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm) (ZPR) policy to control access to ZPR-supported resources. 
 		* `skip_source_dest_check` - (Optional) (Updatable) Whether the source/destination check is disabled on the VNIC 
 		* `subnet_id` - (Required) (Updatable) the ocid of the subnet to create the vnic in
 	* `display_name` - (Optional) (Updatable) Display name for vnic attachment
@@ -303,6 +312,8 @@ The following attributes are exported:
 	* `state` - The state of the node. For more information, see [Monitoring Clusters](https://docs.cloud.oracle.com/iaas/Content/ContEng/Tasks/contengmonitoringclusters.htm)
 	* `subnet_id` - The OCID of the subnet in which this node is placed.
 	* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `primary_vnic` - Details for node's primary VNIC
+	* `security_attributes` - [Security attributes](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels for a resource that can be referenced in a [Zero Trust Packet Routing](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm) (ZPR) policy to control access to ZPR-supported resources. 
 * `quantity_per_subnet` - The number of nodes in each subnet.
 * `secondary_vnics` - A list of secondary vnics to attach to nodes
 	* `create_vnic_details` - The properties of the secondary vnics
@@ -317,6 +328,7 @@ The following attributes are exported:
 			* `ipv6address` - An IPv6 address of your choice. Must be an available IPv6 address within the subnet's prefix 
 			* `ipv6subnet_cidr` - The IPv6 prefix allocated to the subnet 
 		* `nsg_ids` - A list of the OCIDs of the network security groups (NSGs) to add the VNIC to 
+		* `security_attributes` - [Security attributes](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels for a resource that can be referenced in a [Zero Trust Packet Routing](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm) (ZPR) policy to control access to ZPR-supported resources. 
 		* `skip_source_dest_check` - Whether the source/destination check is disabled on the VNIC 
 		* `subnet_id` - the ocid of the subnet to create the vnic in
 	* `display_name` - Display name for vnic attachment

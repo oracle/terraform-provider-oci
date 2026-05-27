@@ -183,6 +183,127 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_access_log", acctest.Required, acctest.Create, customAccessLogRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_predict_log", acctest.Required, acctest.Create, customPredictLogRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", acctest.Required, acctest.Create, logGroupUpdateMDRepresentation)
+
+	DatascienceMCCModelDeploymentRepresentation = map[string]interface{}{
+		"compartment_id":                         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"model_deployment_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceMCCModelDeploymentModelDeploymentConfigurationDetailsRepresentation},
+		"project_id":                             acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
+		"defined_tags":                           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":                            acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":                           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":                          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":                              acctest.RepresentationGroup{RepType: acctest.Optional, Group: definedTagsIgnoreMDRepresentation},
+	}
+
+	DatascienceMCCModelDeploymentModelDeploymentConfigurationDetailsRepresentation = map[string]interface{}{
+		"deployment_type":                      acctest.Representation{RepType: acctest.Required, Create: `SINGLE_MODEL_FLEX`},
+		"model_configuration_details":          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceMCCModelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsRepresentation},
+		"infrastructure_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceMCCModelDeploymentModelDeploymentConfigurationDetailsInfrastructureConfigurationDetailsRepresentation},
+		"environment_configuration_details":    acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceMCCModelDeploymentModelDeploymentConfigurationDetailsEnvironmentConfigurationDetailsRepresentation},
+	}
+
+	DatascienceMCCModelDeploymentModelDeploymentConfigurationDetailsInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
+		"compute_target_id":                       acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_compute_target.test_compute_target.id}`},
+		"infrastructure_type":                     acctest.Representation{RepType: acctest.Required, Create: `MANAGED_COMPUTE_CLUSTER`},
+		"model_deployment_resource_configuration": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceMCCModelDeploymentInfrastructureConfigurationDetailsModelDeploymentResourceConfigurationRepresentation},
+		"scaling_policy":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceMCCModelDeploymentInfrastructureConfigurationDetailsScalingPolicyRepresentation},
+	}
+
+	DatascienceMCCModelDeploymentModelDeploymentConfigurationDetailsModelConfigurationDetailsRepresentation = map[string]interface{}{
+		"model_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_model.test_model.id}`},
+	}
+
+	DatascienceMCCModelDeploymentModelDeploymentConfigurationDetailsEnvironmentConfigurationDetailsRepresentation = map[string]interface{}{
+		"environment_configuration_type": acctest.Representation{RepType: acctest.Required, Create: `OCIR_CONTAINER`},
+		"image":                          acctest.Representation{RepType: acctest.Required, Create: `iad.ocir.io/ociodscdev/sample-byoc:cpu`},
+		"image_digest":                   acctest.Representation{RepType: acctest.Required, Create: `sha256:2b90a418013aae4422177e24c6fd2269931272efc4fda3c54e82ab1da60219af`},
+		"server_port":                    acctest.Representation{RepType: acctest.Required, Create: `8080`},
+		"health_check_port":              acctest.Representation{RepType: acctest.Required, Create: `8080`},
+	}
+
+	DatascienceMCCModelDeploymentInfrastructureConfigurationDetailsModelDeploymentResourceConfigurationRepresentation = map[string]interface{}{
+		"resource_request_configuration": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceMCCModelDeploymentInfrastructureConfigurationDetailsModelDeploymentResourceConfigurationResourceRequestConfigurationRepresentation},
+		"resource_limit_configuration":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceMCCModelDeploymentInfrastructureConfigurationDetailsModelDeploymentResourceConfigurationResourceLimitConfigurationRepresentation},
+	}
+
+	DatascienceMCCModelDeploymentInfrastructureConfigurationDetailsModelDeploymentResourceConfigurationResourceRequestConfigurationRepresentation = map[string]interface{}{
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `6`, Update: `6`},
+		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `1`},
+	}
+
+	DatascienceMCCModelDeploymentInfrastructureConfigurationDetailsModelDeploymentResourceConfigurationResourceLimitConfigurationRepresentation = map[string]interface{}{
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `6`, Update: `6`},
+		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `1`},
+	}
+
+	DatascienceMCCModelDeploymentInfrastructureConfigurationDetailsScalingPolicyRepresentation = map[string]interface{}{
+		"policy_type":    acctest.Representation{RepType: acctest.Required, Create: `FIXED_SIZE`},
+		"instance_count": acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
+	}
+
+	DatascienceMCCModelDeploymentAutoscalingPolicyUpdateRepresentation = map[string]interface{}{
+		"policy_type":           acctest.Representation{RepType: acctest.Required, Create: `AUTOSCALING`, Update: `AUTOSCALING`},
+		"is_enabled":            acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
+		"auto_scaling_policies": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceMCCModelDeploymentInfrastructureConfigurationDetailsScalingPolicyAutoScalingPoliciesCanaryRepresentation},
+	}
+
+	DatascienceMCCModelDeploymentInfrastructureConfigurationDetailsScalingPolicyAutoScalingPoliciesCanaryRepresentation = map[string]interface{}{
+		"auto_scaling_policy_type": acctest.Representation{RepType: acctest.Required, Create: `THRESHOLD`, Update: `THRESHOLD`},
+		"initial_instance_count":   acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `1`},
+		"maximum_instance_count":   acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `10`},
+		"minimum_instance_count":   acctest.Representation{RepType: acctest.Required, Create: `0`, Update: `0`},
+		"rules":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceMCCModelDeploymentInfrastructureConfigurationDetailsScalingPolicyAutoScalingPoliciesRulesCanaryRepresentation},
+		"scale_in_policy":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceMCCModelDeploymentInfrastructureConfigurationDetailsScalingPolicyAutoScalingPoliciesScaleInPolicyRepresentation},
+		"scale_out_policy":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceMCCModelDeploymentInfrastructureConfigurationDetailsScalingPolicyAutoScalingPoliciesScaleOutPolicyRepresentation},
+	}
+
+	DatascienceMCCModelDeploymentInfrastructureConfigurationDetailsScalingPolicyAutoScalingPoliciesRulesCanaryRepresentation = map[string]interface{}{
+		"metric_expression_rule_type": acctest.Representation{RepType: acctest.Required, Create: `TARGET_CUSTOM_EXPRESSION`, Update: `TARGET_CUSTOM_EXPRESSION`},
+		"scale_configuration":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceMCCModelDeploymentInfrastructureConfigurationDetailsScalingPolicyAutoScalingPoliciesRulesScaleConfigurationCanaryRepresentation},
+	}
+
+	DatascienceMCCModelDeploymentInfrastructureConfigurationDetailsScalingPolicyAutoScalingPoliciesRulesScaleConfigurationCanaryRepresentation = map[string]interface{}{
+		"target_scaling_configuration_type": acctest.Representation{RepType: acctest.Required, Create: `QUERY`, Update: `QUERY`},
+		"query":                             acctest.Representation{RepType: acctest.Required, Create: `PredictRequestCount[5m]{resourceId = \"MODEL_DEPLOYMENT_OCID\"}.count()`, Update: `PredictRequestCount[5m]{resourceId = \"MODEL_DEPLOYMENT_OCID\"}.count()`},
+		"threshold":                         acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `2`},
+	}
+
+	DatascienceMCCModelDeploymentInfrastructureConfigurationDetailsScalingPolicyAutoScalingPoliciesScaleInPolicyRepresentation = map[string]interface{}{
+		"cool_down_in_seconds":      acctest.Representation{RepType: acctest.Optional, Create: `300`, Update: `300`},
+		"instance_count_adjustment": acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `1`},
+		"pending_duration":          acctest.Representation{RepType: acctest.Optional, Create: `PT1M`, Update: `PT1M`},
+	}
+
+	DatascienceMCCModelDeploymentInfrastructureConfigurationDetailsScalingPolicyAutoScalingPoliciesScaleOutPolicyRepresentation = map[string]interface{}{
+		"cool_down_in_seconds":      acctest.Representation{RepType: acctest.Optional, Create: `30`, Update: `30`},
+		"instance_count_adjustment": acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `1`},
+		"pending_duration":          acctest.Representation{RepType: acctest.Optional, Create: `PT1M`, Update: `PT1M`},
+	}
+
+	DatascienceMCCModelDeploymentUpdateToAutoscalingRepresentation = acctest.RepresentationCopyWithNewProperties(DatascienceMCCModelDeploymentRepresentation, map[string]interface{}{
+		"model_deployment_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(DatascienceMCCModelDeploymentModelDeploymentConfigurationDetailsRepresentation, map[string]interface{}{
+			"infrastructure_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: acctest.RepresentationCopyWithNewProperties(DatascienceMCCModelDeploymentModelDeploymentConfigurationDetailsInfrastructureConfigurationDetailsRepresentation, map[string]interface{}{
+				"model_deployment_resource_configuration": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceMCCModelDeploymentInfrastructureConfigurationDetailsModelDeploymentResourceConfigurationRepresentation},
+				"scaling_policy": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceMCCModelDeploymentAutoscalingPolicyUpdateRepresentation},
+			})},
+		})},
+	})
+
+	DatascienceMCCModelDeploymentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Optional, acctest.Create, modelForModelDeploymentRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model_update", acctest.Optional, acctest.Create, modelForUpdateModelDeploymentRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_compute_target", "test_compute_target", acctest.Required, acctest.Create, DatascienceComputeTargetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation) +
+		DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", acctest.Required, acctest.Create, logGroupMDRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_access_log", acctest.Required, acctest.Create, customAccessLogRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_predict_log", acctest.Required, acctest.Create, customPredictLogRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", acctest.Required, acctest.Create, logGroupUpdateMDRepresentation)
+
+	DatascienceMCCModelDeploymentRequiredOnlyResource = DatascienceMCCModelDeploymentResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Required, acctest.Create, DatascienceMCCModelDeploymentRepresentation)
+
+	DatascienceMCCModelDeploymentResourceConfig = DatascienceMCCModelDeploymentResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Optional, acctest.Update, DatascienceMCCModelDeploymentRepresentation)
 )
 
 // issue-routing-tag: datascience/default
@@ -573,6 +694,388 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 		// verify resource import
 		{
 			Config:            config + DatascienceModelDeploymentRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"description",
+			},
+			ResourceName: resourceName,
+		},
+	})
+}
+
+func TestDatascienceModelDeploymentResource_single_model_flex_only(t *testing.T) {
+	httpreplay.SetScenario("TestDatascienceModelDeploymentResource_single_model_flex_only")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	resourceName := "oci_datascience_model_deployment.test_model_deployment"
+	datasourceName := "data.oci_datascience_model_deployments.test_model_deployments"
+	singularDatasourceName := "data.oci_datascience_model_deployment.test_model_deployment"
+
+	runDatascienceModelDeploymentMCCLifecycleTest(t, config, compartmentIdVariableStr, compartmentIdUVariableStr, resourceName, datasourceName, singularDatasourceName, compartmentId, compartmentIdU)
+}
+
+func runDatascienceModelDeploymentMCCLifecycleTest(t *testing.T, config, compartmentIdVariableStr, compartmentIdUVariableStr, resourceName, datasourceName, singularDatasourceName, compartmentId, compartmentIdU string) {
+	var mccResId, mccResId2 string
+
+	acctest.ResourceTest(t, testAccCheckDatascienceModelDeploymentDestroy, []resource.TestStep{
+		// ------------------------- MCC Block: Create (Required) -------------------------
+		{
+			Config: config + compartmentIdVariableStr + DatascienceMCCModelDeploymentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Required, acctest.Create, DatascienceMCCModelDeploymentRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.deployment_type", "SINGLE_MODEL_FLEX"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.model_id"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.compute_target_id"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.infrastructure_type", "MANAGED_COMPUTE_CLUSTER"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_configuration_type", "OCIR_CONTAINER"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/sample-byoc:cpu"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:2b90a418013aae4422177e24c6fd2269931272efc4fda3c54e82ab1da60219af"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.server_port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.health_check_port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.0.memory_in_gbs", "6"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.0.ocpus", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.policy_type", "FIXED_SIZE"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.instance_count", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_url"),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					mccResId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + DatascienceMCCModelDeploymentResourceDependencies,
+		},
+
+		// ------------------------- MCC Block: Create (Optional) -------------------------
+		{
+			Config: config + compartmentIdVariableStr + DatascienceMCCModelDeploymentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Optional, acctest.Create, DatascienceMCCModelDeploymentRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.deployment_type", "SINGLE_MODEL_FLEX"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.model_id"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.compute_target_id"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.infrastructure_type", "MANAGED_COMPUTE_CLUSTER"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_configuration_type", "OCIR_CONTAINER"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/sample-byoc:cpu"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:2b90a418013aae4422177e24c6fd2269931272efc4fda3c54e82ab1da60219af"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.server_port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.health_check_port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.0.memory_in_gbs", "6"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.0.ocpus", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.policy_type", "FIXED_SIZE"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.instance_count", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.model_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_url"),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					mccResId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatascienceMCCModelDeploymentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(DatascienceMCCModelDeploymentRepresentation, map[string]interface{}{
+						"state": acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.deployment_type", "SINGLE_MODEL_FLEX"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.model_id"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.compute_target_id"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.infrastructure_type", "MANAGED_COMPUTE_CLUSTER"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_configuration_type", "OCIR_CONTAINER"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/sample-byoc:cpu"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:2b90a418013aae4422177e24c6fd2269931272efc4fda3c54e82ab1da60219af"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.server_port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.health_check_port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.0.memory_in_gbs", "6"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.0.ocpus", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.policy_type", "FIXED_SIZE"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.instance_count", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_url"),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				func(s *terraform.State) (err error) {
+					mccResId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if mccResId != mccResId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatascienceMCCModelDeploymentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(DatascienceMCCModelDeploymentRepresentation, map[string]interface{}{
+						"state": acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.deployment_type", "SINGLE_MODEL_FLEX"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.model_id"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.compute_target_id"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.infrastructure_type", "MANAGED_COMPUTE_CLUSTER"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_configuration_type", "OCIR_CONTAINER"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/sample-byoc:cpu"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:2b90a418013aae4422177e24c6fd2269931272efc4fda3c54e82ab1da60219af"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.server_port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.health_check_port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.0.memory_in_gbs", "6"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.0.ocpus", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_limit_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_limit_configuration.0.memory_in_gbs", "6"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_limit_configuration.0.ocpus", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.policy_type", "FIXED_SIZE"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.instance_count", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.model_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_url"),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+			),
+		},
+
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatascienceMCCModelDeploymentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(DatascienceMCCModelDeploymentRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.deployment_type", "SINGLE_MODEL_FLEX"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.model_id"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.compute_target_id"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.infrastructure_type", "MANAGED_COMPUTE_CLUSTER"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_configuration_type", "OCIR_CONTAINER"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/sample-byoc:cpu"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:2b90a418013aae4422177e24c6fd2269931272efc4fda3c54e82ab1da60219af"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.server_port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.health_check_port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.0.memory_in_gbs", "6"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.0.ocpus", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_limit_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_limit_configuration.0.memory_in_gbs", "6"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_limit_configuration.0.ocpus", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.policy_type", "FIXED_SIZE"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.instance_count", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.model_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_url"),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+			),
+		},
+
+		{
+			Config: config + compartmentIdVariableStr + DatascienceMCCModelDeploymentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Optional, acctest.Update, DatascienceMCCModelDeploymentUpdateToAutoscalingRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.deployment_type", "SINGLE_MODEL_FLEX"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.model_id"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.compute_target_id"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.infrastructure_type", "MANAGED_COMPUTE_CLUSTER"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_configuration_type", "OCIR_CONTAINER"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/sample-byoc:cpu"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:2b90a418013aae4422177e24c6fd2269931272efc4fda3c54e82ab1da60219af"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.server_port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.health_check_port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.policy_type", "AUTOSCALING"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.auto_scaling_policy_type", "THRESHOLD"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.minimum_instance_count", "0"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.maximum_instance_count", "10"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.initial_instance_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.rules.0.metric_expression_rule_type", "TARGET_CUSTOM_EXPRESSION"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.rules.0.scale_configuration.0.target_scaling_configuration_type", "QUERY"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.rules.0.scale_configuration.0.query", "PredictRequestCount[5m]{resourceId = \"MODEL_DEPLOYMENT_OCID\"}.count()"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_in_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_in_policy.0.cool_down_in_seconds", "300"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_in_policy.0.instance_count_adjustment", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_in_policy.0.pending_duration", "PT1M"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_out_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_out_policy.0.cool_down_in_seconds", "30"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_out_policy.0.instance_count_adjustment", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_out_policy.0.pending_duration", "PT1M"),
+				func(s *terraform.State) (err error) {
+					mccResId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if mccResId != mccResId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_model_deployments", "test_model_deployments", acctest.Optional, acctest.Update, DatascienceDatascienceModelDeploymentDataSourceRepresentation) +
+				compartmentIdVariableStr + DatascienceMCCModelDeploymentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Optional, acctest.Update, DatascienceMCCModelDeploymentUpdateToAutoscalingRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "model_deployments.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.deployment_type", "SINGLE_MODEL_FLEX"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.model_id"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.compute_target_id"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.infrastructure_type", "MANAGED_COMPUTE_CLUSTER"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_configuration_type", "OCIR_CONTAINER"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/sample-byoc:cpu"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:2b90a418013aae4422177e24c6fd2269931272efc4fda3c54e82ab1da60219af"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.server_port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.health_check_port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.0.memory_in_gbs", "6"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.0.ocpus", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_limit_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_limit_configuration.0.memory_in_gbs", "6"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_limit_configuration.0.ocpus", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.policy_type", "AUTOSCALING"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.auto_scaling_policy_type", "THRESHOLD"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.minimum_instance_count", "0"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.maximum_instance_count", "10"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.initial_instance_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.rules.0.metric_expression_rule_type", "TARGET_CUSTOM_EXPRESSION"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.rules.0.scale_configuration.0.target_scaling_configuration_type", "QUERY"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.rules.0.scale_configuration.0.query", "PredictRequestCount[5m]{resourceId = \"MODEL_DEPLOYMENT_OCID\"}.count()"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_in_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_in_policy.0.cool_down_in_seconds", "300"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_in_policy.0.instance_count_adjustment", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_in_policy.0.pending_duration", "PT1M"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_out_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_out_policy.0.cool_down_in_seconds", "30"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_out_policy.0.instance_count_adjustment", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_out_policy.0.pending_duration", "PT1M"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.model_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_url"),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+			),
+		},
+
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Required, acctest.Create, DatascienceDatascienceModelDeploymentSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatascienceMCCModelDeploymentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model_deployment", "test_model_deployment", acctest.Optional, acctest.Update, DatascienceMCCModelDeploymentUpdateToAutoscalingRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "model_deployment_id"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.deployment_type", "SINGLE_MODEL_FLEX"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.model_id"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.compute_target_id"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.infrastructure_type", "MANAGED_COMPUTE_CLUSTER"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.environment_configuration_type", "OCIR_CONTAINER"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/sample-byoc:cpu"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.image_digest", "sha256:2b90a418013aae4422177e24c6fd2269931272efc4fda3c54e82ab1da60219af"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.server_port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.environment_configuration_details.0.health_check_port", "8080"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.0.memory_in_gbs", "6"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.model_deployment_resource_configuration.0.resource_request_configuration.0.ocpus", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.policy_type", "AUTOSCALING"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.auto_scaling_policy_type", "THRESHOLD"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.minimum_instance_count", "0"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.maximum_instance_count", "10"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.initial_instance_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.rules.0.metric_expression_rule_type", "TARGET_CUSTOM_EXPRESSION"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.rules.0.scale_configuration.0.target_scaling_configuration_type", "QUERY"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.rules.0.scale_configuration.0.query", "PredictRequestCount[5m]{resourceId = \"MODEL_DEPLOYMENT_OCID\"}.count()"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_in_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_in_policy.0.cool_down_in_seconds", "300"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_in_policy.0.instance_count_adjustment", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_in_policy.0.pending_duration", "PT1M"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_out_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_out_policy.0.cool_down_in_seconds", "30"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_out_policy.0.instance_count_adjustment", "1"),
+				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.infrastructure_configuration_details.0.scaling_policy.0.auto_scaling_policies.0.scale_out_policy.0.pending_duration", "PT1M"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.model_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_url"),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+			),
+		},
+
+		{
+			Config:            config + DatascienceMCCModelDeploymentRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

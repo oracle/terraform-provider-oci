@@ -88,6 +88,56 @@ func ClusterPlacementGroupsClusterPlacementGroupResource() *schema.Resource {
 									},
 
 									// Optional
+									"additional_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"service_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													ForceNew:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"COMPUTE",
+													}, true),
+												},
+
+												// Optional
+												"cluster_placement_group_count": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"memory_in_gbs": {
+													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"nvmes": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"ocpus": {
+													Type:     schema.TypeFloat,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
 
 									// Computed
 								},
@@ -679,6 +729,71 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) StopClusterPla
 	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
+func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) mapToAdditionalCapabilityDetails(fieldKeyFormat string) (oci_cluster_placement_groups.AdditionalCapabilityDetails, error) {
+	var baseObject oci_cluster_placement_groups.AdditionalCapabilityDetails
+	//discriminator
+	serviceTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_type"))
+	var serviceType string
+	if ok {
+		serviceType = serviceTypeRaw.(string)
+	} else {
+		serviceType = "" // default value
+	}
+	switch strings.ToLower(serviceType) {
+	case strings.ToLower("COMPUTE"):
+		details := oci_cluster_placement_groups.AdditionalComputeCapabilityDetails{}
+		if clusterPlacementGroupCount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cluster_placement_group_count")); ok {
+			tmp := clusterPlacementGroupCount.(int)
+			details.Count = &tmp
+		}
+		if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
+			tmp := float32(memoryInGBs.(float64))
+			details.MemoryInGBs = &tmp
+		}
+		if nvmes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nvmes")); ok {
+			tmp := nvmes.(int)
+			details.Nvmes = &tmp
+		}
+		if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
+			tmp := float32(ocpus.(float64))
+			details.Ocpus = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown service_type '%v' was specified", serviceType)
+	}
+	return baseObject, nil
+}
+
+func AdditionalCapabilityDetailsToMap(obj *oci_cluster_placement_groups.AdditionalCapabilityDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_cluster_placement_groups.AdditionalComputeCapabilityDetails:
+		result["service_type"] = "COMPUTE"
+
+		if v.Count != nil {
+			result["cluster_placement_group_count"] = int(*v.Count)
+		}
+
+		if v.MemoryInGBs != nil {
+			result["memory_in_gbs"] = float32(*v.MemoryInGBs)
+		}
+
+		if v.Nvmes != nil {
+			result["nvmes"] = int(*v.Nvmes)
+		}
+
+		if v.Ocpus != nil {
+			result["ocpus"] = float32(*v.Ocpus)
+		}
+	default:
+		log.Printf("[WARN] Received 'service_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) mapToCapabilitiesCollection(fieldKeyFormat string) (oci_cluster_placement_groups.CapabilitiesCollection, error) {
 	result := oci_cluster_placement_groups.CapabilitiesCollection{}
 
@@ -717,6 +832,17 @@ func CapabilitiesCollectionToMap(obj *oci_cluster_placement_groups.CapabilitiesC
 func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) mapToCapabilityDetails(fieldKeyFormat string) (oci_cluster_placement_groups.CapabilityDetails, error) {
 	result := oci_cluster_placement_groups.CapabilityDetails{}
 
+	if additionalDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "additional_details")); ok {
+		if tmpList := additionalDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "additional_details"), 0)
+			tmp, err := s.mapToAdditionalCapabilityDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert additional_details, encountered error: %v", err)
+			}
+			result.AdditionalDetails = tmp
+		}
+	}
+
 	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
 		tmp := name.(string)
 		result.Name = &tmp
@@ -732,6 +858,14 @@ func (s *ClusterPlacementGroupsClusterPlacementGroupResourceCrud) mapToCapabilit
 
 func CapabilityDetailsToMap(obj oci_cluster_placement_groups.CapabilityDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.AdditionalDetails != nil {
+		additionalDetailsArray := []interface{}{}
+		if additionalDetailsMap := AdditionalCapabilityDetailsToMap(&obj.AdditionalDetails); additionalDetailsMap != nil {
+			additionalDetailsArray = append(additionalDetailsArray, additionalDetailsMap)
+		}
+		result["additional_details"] = additionalDetailsArray
+	}
 
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)

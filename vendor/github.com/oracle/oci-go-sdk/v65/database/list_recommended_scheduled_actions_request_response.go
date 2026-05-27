@@ -115,15 +115,18 @@ type ListRecommendedScheduledActionsPlanIntentEnum string
 
 // Set of constants representing the allowable values for ListRecommendedScheduledActionsPlanIntentEnum
 const (
-	ListRecommendedScheduledActionsPlanIntentExadataInfrastructureFullSoftwareUpdate ListRecommendedScheduledActionsPlanIntentEnum = "EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE"
+	ListRecommendedScheduledActionsPlanIntentFullSoftwareUpdate ListRecommendedScheduledActionsPlanIntentEnum = "EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE"
+	ListRecommendedScheduledActionsPlanIntentSecurityUpdate     ListRecommendedScheduledActionsPlanIntentEnum = "EXADATA_INFRASTRUCTURE_SECURITY_UPDATE"
 )
 
 var mappingListRecommendedScheduledActionsPlanIntentEnum = map[string]ListRecommendedScheduledActionsPlanIntentEnum{
-	"EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE": ListRecommendedScheduledActionsPlanIntentExadataInfrastructureFullSoftwareUpdate,
+	"EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE": ListRecommendedScheduledActionsPlanIntentFullSoftwareUpdate,
+	"EXADATA_INFRASTRUCTURE_SECURITY_UPDATE":      ListRecommendedScheduledActionsPlanIntentSecurityUpdate,
 }
 
 var mappingListRecommendedScheduledActionsPlanIntentEnumLowerCase = map[string]ListRecommendedScheduledActionsPlanIntentEnum{
-	"exadata_infrastructure_full_software_update": ListRecommendedScheduledActionsPlanIntentExadataInfrastructureFullSoftwareUpdate,
+	"exadata_infrastructure_full_software_update": ListRecommendedScheduledActionsPlanIntentFullSoftwareUpdate,
+	"exadata_infrastructure_security_update":      ListRecommendedScheduledActionsPlanIntentSecurityUpdate,
 }
 
 // GetListRecommendedScheduledActionsPlanIntentEnumValues Enumerates the set of values for ListRecommendedScheduledActionsPlanIntentEnum
@@ -139,6 +142,7 @@ func GetListRecommendedScheduledActionsPlanIntentEnumValues() []ListRecommendedS
 func GetListRecommendedScheduledActionsPlanIntentEnumStringValues() []string {
 	return []string{
 		"EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE",
+		"EXADATA_INFRASTRUCTURE_SECURITY_UPDATE",
 	}
 }
 

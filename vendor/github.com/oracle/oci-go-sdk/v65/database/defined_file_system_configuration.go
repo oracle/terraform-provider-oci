@@ -24,6 +24,9 @@ type DefinedFileSystemConfiguration struct {
 	// The minimum size of file system.
 	MinSizeGb *int `mandatory:"false" json:"minSizeGb"`
 
+	// The maximum size of file system.
+	MaxSizeGb *int `mandatory:"false" json:"maxSizeGb"`
+
 	// If true, the file system resize is allowed for the Exadata Infrastructure cluster. If false, the file system resize is not allowed.
 	IsResizable *bool `mandatory:"false" json:"isResizable"`
 

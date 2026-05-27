@@ -90,6 +90,13 @@ type DedicatedVmHost struct {
 	// The remaining memory of the dedicated VM host, in GBs.
 	RemainingMemoryInGBs *float32 `mandatory:"false" json:"remainingMemoryInGBs"`
 
+	// The total local volume of the dedicated VM host, in GBs.
+	TotalLocalVolumeInGBs *float32 `mandatory:"false" json:"totalLocalVolumeInGBs"`
+
+	// The remaining local volume of the dedicated VM host, in GBs.
+	RemainingLocalVolumeInGBs *float32 `mandatory:"false" json:"remainingLocalVolumeInGBs"`
+
+	// A list of total and remaining CPU, memory, and local volume per capacity bucket.
 	CapacityBins []CapacityBin `mandatory:"false" json:"capacityBins"`
 
 	// The compute bare metal host OCID of the dedicated virtual machine host.
@@ -126,6 +133,8 @@ func (m *DedicatedVmHost) UnmarshalJSON(data []byte) (e error) {
 		IsMemoryEncryptionEnabled  *bool                             `json:"isMemoryEncryptionEnabled"`
 		TotalMemoryInGBs           *float32                          `json:"totalMemoryInGBs"`
 		RemainingMemoryInGBs       *float32                          `json:"remainingMemoryInGBs"`
+		TotalLocalVolumeInGBs      *float32                          `json:"totalLocalVolumeInGBs"`
+		RemainingLocalVolumeInGBs  *float32                          `json:"remainingLocalVolumeInGBs"`
 		CapacityBins               []CapacityBin                     `json:"capacityBins"`
 		ComputeBareMetalHostId     *string                           `json:"computeBareMetalHostId"`
 		AvailabilityDomain         *string                           `json:"availabilityDomain"`
@@ -167,6 +176,10 @@ func (m *DedicatedVmHost) UnmarshalJSON(data []byte) (e error) {
 	m.TotalMemoryInGBs = model.TotalMemoryInGBs
 
 	m.RemainingMemoryInGBs = model.RemainingMemoryInGBs
+
+	m.TotalLocalVolumeInGBs = model.TotalLocalVolumeInGBs
+
+	m.RemainingLocalVolumeInGBs = model.RemainingLocalVolumeInGBs
 
 	m.CapacityBins = make([]CapacityBin, len(model.CapacityBins))
 	copy(m.CapacityBins, model.CapacityBins)

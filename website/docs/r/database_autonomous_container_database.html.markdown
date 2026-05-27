@@ -161,12 +161,12 @@ The following arguments are supported:
 	* `email` - (Optional) (Updatable) The email address used by Oracle to send notifications regarding databases and infrastructure.
 * `database_software_image_id` - (Optional) The Autonomous AI Database Software Image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `db_name` - (Optional) The Database name for the Autonomous Container Database. The name must be unique within the Cloud Autonomous VM Cluster, starting with an alphabetic character, followed by 1 to 7 alphanumeric characters.
-* `db_split_threshold` - (Optional) The CPU value beyond which an Autonomous AI Database will be opened across multiple nodes. The default value of this attribute is 16 for OCPUs and 64 for ECPUs.
+* `db_split_threshold` - (Optional) (Updatable) The CPU value beyond which an Autonomous AI Database will be opened across multiple nodes. The default value of this attribute is 16 for OCPUs and 64 for ECPUs.
 * `db_unique_name` - (Optional) **Deprecated.** The `DB_UNIQUE_NAME` value is set by Oracle Cloud Infrastructure.  Do not specify a value for this parameter. Specifying a value for this field will cause Terraform operations to fail. 
 * `db_version` - (Optional) The base version for the Autonomous Container Database.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) (Updatable) The display name for the Autonomous Container Database.
-* `distribution_affinity` - (Optional) Determines whether an Autonomous AI Database must be opened across a minimum or maximum of nodes. By default, Minimum nodes is selected.
+* `distribution_affinity` - (Optional) (Updatable) Determines whether an Autonomous AI Database must be opened across a minimum or maximum of nodes. By default, Minimum nodes is selected.
 * `encryption_key_location_details` - (Optional) Types of providers supported for managing database encryption keys
 	* `aws_encryption_key_id` - (Required when provider_type=AWS) Provide the key OCID of a registered AWS key.
 	* `azure_encryption_key_id` - (Required when provider_type=AZURE) Provide the key OCID of a registered Azure key.
@@ -195,7 +195,7 @@ The following arguments are supported:
 	* `preference` - (Optional) (Updatable) The maintenance window scheduling preference.
 	* `skip_ru` - (Optional) (Updatable) If true, skips the release update (RU) for the quarter. You cannot skip two consecutive quarters. An RU skip request will only be honoured if the current version of the Autonomous Container Database is supported for current quarter. 
 	* `weeks_of_month` - (Optional) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
-* `net_services_architecture` - (Optional) Enabling SHARED server architecture enables a database server to allow many client processes to share very few server processes, thereby increasing the number of supported users.
+* `net_services_architecture` - (Optional) (Updatable) Enabling SHARED server architecture enables a database server to allow many client processes to share very few server processes, thereby increasing the number of supported users.
 * `okv_end_point_group_name` - (Optional) (Updatable) The OKV End Point Group name for the Autonomous Container Database. 
 * `patch_model` - (Required) (Updatable) Database Patch model preference.
 * `peer_autonomous_container_database_backup_config` - (Optional) Backup options for the standby Autonomous Container Database. 
@@ -223,7 +223,7 @@ The following arguments are supported:
 * `standby_maintenance_buffer_in_days` - (Optional) (Updatable) The scheduling detail for the quarterly maintenance window of the standby Autonomous Container Database. This value represents the number of days before scheduled maintenance of the primary database. 
 * `vault_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 * `version_preference` - (Optional) (Updatable) The next maintenance version preference. 
-* `vm_failover_reservation` - (Optional) The percentage of CPUs reserved across nodes to support node failover. Allowed values are 0%, 25%, and 50%, with 50% being the default option.
+* `vm_failover_reservation` - (Optional) (Updatable) The percentage of CPUs reserved across nodes to support node failover. Allowed values are 0%, 25%, 50%, 75%, and 100%, with 50% being the default option.
 * `failover_trigger` - (Optional) (Updatable) An optional property when incremented triggers Failover. Could be set to any integer value.
 * `reinstate_trigger` - (Optional) (Updatable) An optional property when incremented triggers Reinstate. Could be set to any integer value.
 * `switchover_trigger` - (Optional) (Updatable) An optional property when incremented triggers Switchover. Could be set to any integer value.
@@ -387,7 +387,7 @@ The following attributes are exported:
 * `total_cpus` - The number of CPUs allocated to the Autonomous VM cluster. 
 * `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 * `version_preference` - The next maintenance version preference. 
-* `vm_failover_reservation` - The percentage of CPUs reserved across nodes to support node failover. Allowed values are 0%, 25%, and 50%, with 50% being the default option.
+* `vm_failover_reservation` - The percentage of CPUs reserved across nodes to support node failover. Allowed values are 0%, 25%, 50%, 75%, and 100%, with 50% being the default option.
 
 ## Timeouts
 

@@ -66,6 +66,14 @@ type OcirModelDeploymentEnvironmentConfigurationDetails struct {
 
 	// Service injected Environment variables set for the web server container and can not be set or modified by user.
 	DefaultEnvironmentVariables map[string]string `mandatory:"false" json:"defaultEnvironmentVariables"`
+
+	// The chosen specification from predefined set of endpoints a user can access.
+	// For example, if the value is 'openai', the user can access OpenAI-compliant endpoints
+	// like /v1/completions, /v1/chat/completions, /v1/models, etc., for inference.
+	PredictApiSpecification *string `mandatory:"false" json:"predictApiSpecification"`
+
+	// List of custom inference HTTP endpoints configured on the model deployment instance for inferencing.
+	CustomHttpEndpoints []InferenceHttpEndpoint `mandatory:"false" json:"customHttpEndpoints"`
 }
 
 func (m OcirModelDeploymentEnvironmentConfigurationDetails) String() string {

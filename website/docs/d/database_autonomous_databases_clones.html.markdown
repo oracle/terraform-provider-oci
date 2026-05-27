@@ -143,7 +143,7 @@ AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8
 	* APEX - indicates an Autonomous AI Database with the Oracle APEX AI Application Development workload type.
 	* LH - indicates an Oracle Autonomous AI Lakehouse database
 
-	**Note** Starting December 2026, DW will not be supported as a valid value for this parameter.
+	**Note** Starting December 2026, DW will not be supported as a valid value for this parameter. When creating an Autonomous AI Database, if this parameter is not specified, the default value is `OLTP`.
 
 	 This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
@@ -389,7 +389,8 @@ AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8
 	* `machine_learning_user_management_url` - Oracle Machine Learning user management URL.
 	* `mongo_db_url` - The URL of the MongoDB API for the Autonomous Database.
 	* `ords_url` - The Oracle REST Data Services (ORDS) URL of the Web Access for the Autonomous Database.
-	* `sql_dev_web_url` - Oracle SQL Developer Web URL.
+	* `spatial_studio_url` - The URL of the Spatial Studio for the Autonomous AI Database.
+    * `sql_dev_web_url` - Oracle SQL Developer Web URL.
 * `vanity_url_details` - Details for api gateway and vanity url(custom url) for dbTools.
 	* `api_gateway_id` - API Gateway ID.
 	* `is_disabled` - Indicates if the vanity url details should be deleted for the Autonomous Database.

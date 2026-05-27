@@ -209,6 +209,12 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 			cloudExadataInfrastructure["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		if r.MaintenanceVersionPreferences != nil {
+			cloudExadataInfrastructure["maintenance_version_preferences"] = []interface{}{MaintenanceVersionPreferenceDetailsToMap(r.MaintenanceVersionPreferences)}
+		} else {
+			cloudExadataInfrastructure["maintenance_version_preferences"] = nil
+		}
+
 		if r.MaintenanceWindow != nil {
 			cloudExadataInfrastructure["maintenance_window"] = []interface{}{MaintenanceWindowToMap(r.MaintenanceWindow)}
 		} else {

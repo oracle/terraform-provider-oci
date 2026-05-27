@@ -216,6 +216,12 @@ func (s *ContainerengineNodePoolsDataSourceCrud) SetData() error {
 			nodePool["node_source_details"] = nil
 		}
 
+		if r.PrimaryVnic != nil {
+			nodePool["primary_vnic"] = []interface{}{NodePoolPrimaryVnicDetailsToMap(r.PrimaryVnic)}
+		} else {
+			nodePool["primary_vnic"] = nil
+		}
+
 		if r.QuantityPerSubnet != nil {
 			nodePool["quantity_per_subnet"] = *r.QuantityPerSubnet
 		}

@@ -63,6 +63,7 @@ The following attributes are exported:
 * `db_servers` - The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Db servers.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the Autonomous VM cluster. The name does not need to be unique.
+* `distribution_algorithm` - The distribution algorithm used for the Autonomous VM cluster.
 * `exadata_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
 * `exadata_storage_in_tbs_lowest_scaled_value` - The lowest value to which exadataStorage(in TBs) can be scaled down.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
@@ -98,6 +99,7 @@ The following attributes are exported:
 	* The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.
 * `scan_listener_port_non_tls` - The SCAN Listener Non TLS port number. Default value is 1521.
 * `scan_listener_port_tls` - The SCAN Listener TLS port number. Default value is 2484.
+* `sga_percentage` - Percentage of ECPU memory allocated for SGA(System Global Area).
 * `state` - The current state of the Autonomous VM cluster.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `time_created` - The date and time that the Autonomous VM cluster was created.

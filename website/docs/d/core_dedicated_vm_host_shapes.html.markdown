@@ -50,6 +50,7 @@ The following attributes are exported:
 	* `capacity_bins` - A list of total CPU and memory per capacity bucket. 
 		* `capacity_index` - Zero-based index for the corresponding capacity bucket. 
 		* `supported_shapes` - List of VMI shapes supported on each capacity bucket. 
+		* `total_local_volume_in_gbs` - The total local volume of the capacity bucket, in GBs. 
 		* `total_memory_in_gbs` - The total memory of the capacity bucket, in GBs. 
 		* `total_ocpus` - The total OCPUs of the capacity bucket. 
 	* `capacity_config_name` - The name of each capacity config. 

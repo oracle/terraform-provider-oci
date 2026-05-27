@@ -35,6 +35,12 @@ The following attributes are exported:
 * `availability_domain` - The availability domain of the cluster placement group.
 * `capabilities` - A list of resources that you can create in a cluster placement group. 
 	* `items` - The supported resources.
+		* `additional_details` - Additional details describing the selected capability.
+			* `cluster_placement_group_count` - The number of instances or size of the resource.
+			* `memory_in_gbs` - The amount of memory (in GBs) needed in the instance.
+			* `nvmes` - The number of NVMe drives to use for storage. 
+			* `ocpus` - The number of OCPUs needed in the instance.
+			* `service_type` - Additional details about what service provides the capability. For example, `COMPUTE` means that the Oracle Cloud Infrastructure Compute service provides the selected capability. 
 		* `name` - The type of resource.
 		* `service` - The service that the resource is part of.
 * `cluster_placement_group_type` - The type of cluster placement group.

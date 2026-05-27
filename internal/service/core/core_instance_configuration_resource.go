@@ -1027,6 +1027,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
+												"local_volume_size_in_gbs": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"memory_in_gbs": {
 													Type:     schema.TypeFloat,
 													Optional: true,
@@ -2112,6 +2118,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 															// Optional
 															"baseline_ocpu_utilization": {
 																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"local_volume_size_in_gbs": {
+																Type:     schema.TypeInt,
 																Optional: true,
 																Computed: true,
 																ForceNew: true,
@@ -3322,7 +3334,7 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 	}
 
 	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
-		result.SecurityAttributes = securityAttributes.(map[string]map[string]interface{})
+		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
 
 	if skipSourceDestCheck, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_source_dest_check")); ok {
@@ -3398,7 +3410,9 @@ func InstanceConfigurationCreateVnicDetailsToMap(obj *oci_core.InstanceConfigura
 		result["private_ip_id"] = string(*obj.PrivateIpId)
 	}
 
-	result["security_attributes"] = obj.SecurityAttributes
+	if obj.SecurityAttributes != nil {
+		result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
+	}
 
 	if obj.SkipSourceDestCheck != nil {
 		result["skip_source_dest_check"] = bool(*obj.SkipSourceDestCheck)
@@ -4204,7 +4218,7 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 	}
 
 	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
-		result.SecurityAttributes = securityAttributes.(map[string]map[string]interface{})
+		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
 
 	if shape, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape")); ok {
@@ -4344,7 +4358,9 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 
 	result["preferred_maintenance_action"] = string(obj.PreferredMaintenanceAction)
 
-	result["security_attributes"] = obj.SecurityAttributes
+	if obj.SecurityAttributes != nil {
+		result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
+	}
 
 	if obj.Shape != nil {
 		result["shape"] = string(*obj.Shape)
@@ -5058,6 +5074,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		result.BaselineOcpuUtilization = oci_core.InstanceConfigurationLaunchInstanceShapeConfigDetailsBaselineOcpuUtilizationEnum(baselineOcpuUtilization.(string))
 	}
 
+	if localVolumeSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "local_volume_size_in_gbs")); ok {
+		tmp := localVolumeSizeInGBs.(int)
+		result.LocalVolumeSizeInGBs = &tmp
+	}
+
 	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
 		tmp := float32(memoryInGBs.(float64))
 		result.MemoryInGBs = &tmp
@@ -5089,6 +5110,10 @@ func InstanceConfigurationLaunchInstanceShapeConfigDetailsToMap(obj *oci_core.In
 	result := map[string]interface{}{}
 
 	result["baseline_ocpu_utilization"] = string(obj.BaselineOcpuUtilization)
+
+	if obj.LocalVolumeSizeInGBs != nil {
+		result["local_volume_size_in_gbs"] = int(*obj.LocalVolumeSizeInGBs)
+	}
 
 	if obj.MemoryInGBs != nil {
 		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)

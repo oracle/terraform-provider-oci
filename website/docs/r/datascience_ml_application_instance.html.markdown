@@ -29,14 +29,6 @@ resource "oci_datascience_ml_application_instance" "test_ml_application_instance
 	auth_configuration {
 		#Required
 		type = var.ml_application_instance_auth_configuration_type
-
-		#Optional
-		access_token = var.ml_application_instance_auth_configuration_access_token
-		application_name = oci_dataflow_application.test_application.name
-		audience = var.ml_application_instance_auth_configuration_audience
-		domain_id = oci_identity_domain.test_domain.id
-		role_name = var.ml_application_instance_auth_configuration_role_name
-		scope = var.ml_application_instance_auth_configuration_scope
 	}
 	configuration {
 		#Required
@@ -57,8 +49,6 @@ resource "oci_datascience_ml_application_instance" "test_ml_application_instance
 The following arguments are supported:
 
 * `auth_configuration` - (Optional) AuthN/Z configuration for online prediction
-	* `application_name` - (Required when type=IDCS) Name of the IDCS application
-	* `domain_id` - (Required when type=IDCS) Identity Domain OCID
 	* `type` - (Required) Type of AuthN/Z
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment where the MlApplicationInstance is created.
 * `configuration` - (Optional) (Updatable) Data that are used for provisioning of the given MlApplicationInstance. These are validated against configurationSchema defined in referenced MlApplicationImplementation.
@@ -80,8 +70,6 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `auth_configuration` - AuthN/Z configuration for online prediction
-	* `application_name` - Name of the IDCS application
-	* `domain_id` - Identity Domain OCID
 	* `type` - Type of AuthN/Z
 * `compartment_id` - The OCID of the compartment where the MlApplicationInstance is created.
 * `configuration` - Data that are used for provisioning of the given MlApplicationInstance. These are validated against configurationSchema defined in referenced MlApplicationImplementation.

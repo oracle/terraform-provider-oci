@@ -35,6 +35,9 @@ type CapacityBinPreview struct {
 
 	// List of VMI shapes supported on each capacity bucket.
 	SupportedShapes []string `mandatory:"true" json:"supportedShapes"`
+
+	// The total local volume of the capacity bucket, in GBs.
+	TotalLocalVolumeInGBs *float32 `mandatory:"false" json:"totalLocalVolumeInGBs"`
 }
 
 func (m CapacityBinPreview) String() string {

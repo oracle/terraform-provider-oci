@@ -18,21 +18,24 @@ type DeploymentCategoryEnum string
 
 // Set of constants representing the allowable values for DeploymentCategoryEnum
 const (
-	DeploymentCategoryDataReplication DeploymentCategoryEnum = "DATA_REPLICATION"
-	DeploymentCategoryStreamAnalytics DeploymentCategoryEnum = "STREAM_ANALYTICS"
-	DeploymentCategoryDataTransforms  DeploymentCategoryEnum = "DATA_TRANSFORMS"
+	DeploymentCategoryDataReplication  DeploymentCategoryEnum = "DATA_REPLICATION"
+	DeploymentCategoryStreamAnalytics  DeploymentCategoryEnum = "STREAM_ANALYTICS"
+	DeploymentCategoryDataTransforms   DeploymentCategoryEnum = "DATA_TRANSFORMS"
+	DeploymentCategoryDataVerification DeploymentCategoryEnum = "DATA_VERIFICATION"
 )
 
 var mappingDeploymentCategoryEnum = map[string]DeploymentCategoryEnum{
-	"DATA_REPLICATION": DeploymentCategoryDataReplication,
-	"STREAM_ANALYTICS": DeploymentCategoryStreamAnalytics,
-	"DATA_TRANSFORMS":  DeploymentCategoryDataTransforms,
+	"DATA_REPLICATION":  DeploymentCategoryDataReplication,
+	"STREAM_ANALYTICS":  DeploymentCategoryStreamAnalytics,
+	"DATA_TRANSFORMS":   DeploymentCategoryDataTransforms,
+	"DATA_VERIFICATION": DeploymentCategoryDataVerification,
 }
 
 var mappingDeploymentCategoryEnumLowerCase = map[string]DeploymentCategoryEnum{
-	"data_replication": DeploymentCategoryDataReplication,
-	"stream_analytics": DeploymentCategoryStreamAnalytics,
-	"data_transforms":  DeploymentCategoryDataTransforms,
+	"data_replication":  DeploymentCategoryDataReplication,
+	"stream_analytics":  DeploymentCategoryStreamAnalytics,
+	"data_transforms":   DeploymentCategoryDataTransforms,
+	"data_verification": DeploymentCategoryDataVerification,
 }
 
 // GetDeploymentCategoryEnumValues Enumerates the set of values for DeploymentCategoryEnum
@@ -50,6 +53,7 @@ func GetDeploymentCategoryEnumStringValues() []string {
 		"DATA_REPLICATION",
 		"STREAM_ANALYTICS",
 		"DATA_TRANSFORMS",
+		"DATA_VERIFICATION",
 	}
 }
 

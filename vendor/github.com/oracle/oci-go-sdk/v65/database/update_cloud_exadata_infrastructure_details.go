@@ -23,6 +23,8 @@ type UpdateCloudExadataInfrastructureDetails struct {
 
 	MaintenanceWindow *MaintenanceWindow `mandatory:"false" json:"maintenanceWindow"`
 
+	MaintenanceVersionPreferences *MaintenanceVersionPreferenceDetails `mandatory:"false" json:"maintenanceVersionPreferences"`
+
 	// The number of compute servers for the cloud Exadata infrastructure.
 	ComputeCount *int `mandatory:"false" json:"computeCount"`
 

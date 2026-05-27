@@ -92,6 +92,8 @@ type CloudExadataInfrastructureSummary struct {
 
 	MaintenanceWindow *MaintenanceWindow `mandatory:"false" json:"maintenanceWindow"`
 
+	MaintenanceVersionPreferences *MaintenanceVersionPreferenceDetails `mandatory:"false" json:"maintenanceVersionPreferences"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance run.
 	LastMaintenanceRunId *string `mandatory:"false" json:"lastMaintenanceRunId"`
 

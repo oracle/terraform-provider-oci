@@ -50,6 +50,12 @@ type CreatePipelineDetails interface {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet of the pipeline's private endpoint.
 	// The subnet must be a private subnet.
 	GetSubnetId() *string
+
+	// The Minimum number of OCPUs to be made available for this Deployment.
+	GetCpuCoreCount() *int
+
+	// Indicates if auto scaling is enabled for the Deployment's CPU core count.
+	GetIsAutoScalingEnabled() *bool
 }
 
 type createpipelinedetails struct {
@@ -59,6 +65,8 @@ type createpipelinedetails struct {
 	DefinedTags             map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	Locks                   []ResourceLock                    `mandatory:"false" json:"locks"`
 	SubnetId                *string                           `mandatory:"false" json:"subnetId"`
+	CpuCoreCount            *int                              `mandatory:"false" json:"cpuCoreCount"`
+	IsAutoScalingEnabled    *bool                             `mandatory:"false" json:"isAutoScalingEnabled"`
 	DisplayName             *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId           *string                           `mandatory:"true" json:"compartmentId"`
 	LicenseModel            LicenseModelEnum                  `mandatory:"true" json:"licenseModel"`
@@ -88,6 +96,8 @@ func (m *createpipelinedetails) UnmarshalJSON(data []byte) error {
 	m.DefinedTags = s.Model.DefinedTags
 	m.Locks = s.Model.Locks
 	m.SubnetId = s.Model.SubnetId
+	m.CpuCoreCount = s.Model.CpuCoreCount
+	m.IsAutoScalingEnabled = s.Model.IsAutoScalingEnabled
 	m.RecipeType = s.Model.RecipeType
 
 	return err
@@ -135,6 +145,16 @@ func (m createpipelinedetails) GetLocks() []ResourceLock {
 // GetSubnetId returns SubnetId
 func (m createpipelinedetails) GetSubnetId() *string {
 	return m.SubnetId
+}
+
+// GetCpuCoreCount returns CpuCoreCount
+func (m createpipelinedetails) GetCpuCoreCount() *int {
+	return m.CpuCoreCount
+}
+
+// GetIsAutoScalingEnabled returns IsAutoScalingEnabled
+func (m createpipelinedetails) GetIsAutoScalingEnabled() *bool {
+	return m.IsAutoScalingEnabled
 }
 
 // GetDisplayName returns DisplayName

@@ -6,6 +6,9 @@ package datascience
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_datascience_compute_target", DatascienceComputeTargetDataSource())
+	tfresource.RegisterDatasource("oci_datascience_compute_target_shapes", DatascienceComputeTargetShapesDataSource())
+	tfresource.RegisterDatasource("oci_datascience_compute_targets", DatascienceComputeTargetsDataSource())
 	tfresource.RegisterDatasource("oci_datascience_containers", DatascienceContainersDataSource())
 	tfresource.RegisterDatasource("oci_datascience_private_endpoint", DatasciencePrivateEndpointDataSource())
 	tfresource.RegisterDatasource("oci_datascience_private_endpoints", DatasciencePrivateEndpointsDataSource())

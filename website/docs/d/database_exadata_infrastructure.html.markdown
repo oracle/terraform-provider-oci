@@ -84,6 +84,10 @@ The following attributes are exported:
 * `is_scheduling_policy_associated` - If true, the infrastructure is using granular maintenance scheduling preference.
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `maintenance_slo_status` - A field to capture ‘Maintenance SLO Status’ for the Exadata infrastructure with values ‘OK’, ‘DEGRADED’. Default is ‘OK’ when the infrastructure is provisioned.
+* `maintenance_version_preferences` - The preferences for target versions of future maintenance runs.
+
+	Currently these preferences are only supported for Monthly maintenance runs created via scheduling plans If no preferences are specified then the version will be set by default to "Latest". Changing preferences will not change versions for an already existing maintenance run. 
+	* `reference_resource_id_for_image_updates` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource the maintenance run will refer to when trying to fetch target versions.
 * `maintenance_window` - The scheduling details for the quarterly maintenance window. Patching and system updates take place during the maintenance window. 
 	* `custom_action_timeout_in_mins` - Determines the amount of time the system will wait before the start of each database server patching operation. Custom action timeout is in minutes and valid value is between 15 to 120 (inclusive). 
 	* `days_of_week` - Days during the week when maintenance should be performed.

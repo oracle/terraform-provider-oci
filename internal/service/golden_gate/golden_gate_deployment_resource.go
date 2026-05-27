@@ -148,6 +148,12 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"disaster_recovery_status": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"environment_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -316,11 +322,6 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"deployment_name": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
 
 						// Optional
 						"admin_password": {
@@ -344,6 +345,12 @@ func GoldenGateDeploymentResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"deployment_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
 						},
 						"group_to_roles_mapping": {
 							Type:     schema.TypeList,
@@ -386,6 +393,11 @@ func GoldenGateDeploymentResource() *schema.Resource {
 							Computed: true,
 						},
 						"key": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"key_secret_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -843,6 +855,10 @@ func (s *GoldenGateDeploymentResourceCrud) CreateWithContext(ctx context.Context
 	if description, ok := s.D.GetOkExists("description"); ok {
 		tmp := description.(string)
 		request.Description = &tmp
+	}
+
+	if disasterRecoveryStatus, ok := s.D.GetOkExists("disaster_recovery_status"); ok {
+		request.DisasterRecoveryStatus = oci_golden_gate.DisasterRecoveryStatusEnum(disasterRecoveryStatus.(string))
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -1399,6 +1415,8 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 		s.D.Set("description", *s.Res.Description)
 	}
 
+	s.D.Set("disaster_recovery_status", s.Res.DisasterRecoveryStatus)
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -1885,6 +1903,11 @@ func (s *GoldenGateDeploymentResourceCrud) mapToCreateOggDeploymentDetails(field
 		result.Key = &tmp
 	}
 
+	if keySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_secret_id")); ok {
+		tmp := keySecretId.(string)
+		result.KeySecretId = &tmp
+	}
+
 	if oggVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ogg_version")); ok {
 		tmp := oggVersion.(string)
 		result.OggVersion = &tmp
@@ -1943,6 +1966,10 @@ func (s *GoldenGateDeploymentResourceCrud) mapToUpdateOggDeploymentDetails(field
 		result.Key = &tmp
 	}
 
+	if keySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_secret_id")); ok {
+		tmp := keySecretId.(string)
+		result.KeySecretId = &tmp
+	}
 	if passwordSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "password_secret_id")); ok { // custom code, do not change
 		tmp := passwordSecretId.(string)
 		result.PasswordSecretId = &tmp
@@ -1989,6 +2016,10 @@ func OggDeploymentToMap(obj *oci_golden_gate.OggDeployment, resourceData *schema
 
 	if obj.IdentityDomainId != nil {
 		result["identity_domain_id"] = string(*obj.IdentityDomainId)
+	}
+
+	if obj.KeySecretId != nil {
+		result["key_secret_id"] = string(*obj.KeySecretId)
 	}
 
 	if obj.OggVersion != nil {
@@ -2085,6 +2116,8 @@ func DeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map[string]in
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
 	}
 
+	result["deployment_role"] = string(obj.DeploymentRole)
+
 	result["deployment_type"] = string(obj.DeploymentType)
 
 	if obj.DeploymentUrl != nil {
@@ -2094,6 +2127,8 @@ func DeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map[string]in
 	if obj.Description != nil {
 		result["description"] = string(*obj.Description)
 	}
+
+	result["disaster_recovery_status"] = string(obj.DisasterRecoveryStatus)
 
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)

@@ -49,7 +49,6 @@ var (
 	applicationGroupListDataSourceRepresentation = map[string]interface{}{
 		"network_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
 	}
-
 	emptyApps = make([]string, 0)
 
 	applicationGroupRepresentation = map[string]interface{}{

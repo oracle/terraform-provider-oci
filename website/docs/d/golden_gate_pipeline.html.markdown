@@ -64,7 +64,13 @@ The following attributes are exported:
 * `process_options` - Required pipeline options to configure the replication process (Extract or Replicat). 
 	* `initial_data_load` - Options required for the pipeline Initial Data Load. If enabled, copies existing data from source to target before replication. 
 		* `action_on_existing_table` - Action upon existing tables in target when initial Data Load is set i.e., isInitialLoad=true. 
+		* `adb_wallet_path` - Directory path of ADB wallet locally available in Non-ADB target DB. Required for ADB to non-ADB DBLink type initial load only. If not provided the default wallet path "/u01/targetwallet" will be used. 
+		* `bucket` - Name of the ObjectStorage bucket. Required only for Objectstorage Initial load. 
+		* `initial_load_type` - Type of Initial load, which can be objectStorage or dbLink. 
 		* `is_initial_load` - If ENABLED, then existing source data is also synchronized to the target when creating or updating the pipeline. 
+		* `namespace` - Namespace that serves as a container of the ObjectStorage bucket. Required only for Objectstorage Initial load. 
+		* `source_wallet_path` - Directory path of ObjectStorage wallet locally available in Non-ADB source DB. Required for Object Storage type initial load only if source DB is Non-ADB type. 
+		* `target_wallet_path` - Directory path of ObjectStorage wallet locally available in Non-ADB target DB. Required for Object Storage type initial load only if target DB is Non-ADB type. 
 	* `replicate_schema_change` - Options required for pipeline Initial Data Load. If enabled, copies existing data from source to target before replication. 
 		* `action_on_ddl_error` - Action upon DDL Error (active only if 'Replicate schema changes (DDL)' is selected) i.e canReplicateSchemaChange=true 
 		* `action_on_dml_error` - Action upon DML Error (active only if 'Replicate schema changes (DDL)' is selected) i.e canReplicateSchemaChange=true 

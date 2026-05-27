@@ -111,6 +111,7 @@ type UpdateAutonomousDatabaseDetails struct {
 	// - APEX - indicates an Autonomous AI Database with the Oracle APEX AI Application Development workload type.
 	// - LH - indicates an Oracle Autonomous AI Lakehouse database
 	// **Note** Starting December 2026, DW will not be supported as a valid value for this parameter.
+	// When creating an Autonomous AI Database, if this parameter is not specified, the default value is `OLTP`.
 	//
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	DbWorkload UpdateAutonomousDatabaseDetailsDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
@@ -188,6 +189,7 @@ type UpdateAutonomousDatabaseDetails struct {
 
 	// The database OCID(/Content/General/Concepts/identifiers.htm) of the Disaster Recovery peer (source Primary) database, which is located in a different (remote) region from the current peer database.
 	// To create or delete a local (in-region) standby, see the `isDataGuardEnabled` parameter.
+	// When disconnecting a cross-region standby, specify the standby database OCID in this parameter together with `isDisconnectPeer=true`.
 	PeerDbId *string `mandatory:"false" json:"peerDbId"`
 
 	// A valid Oracle AI Database version for Autonomous AI Database.
@@ -305,8 +307,9 @@ type UpdateAutonomousDatabaseDetails struct {
 
 	EncryptionKey AutonomousDatabaseEncryptionKeyDetails `mandatory:"false" json:"encryptionKey"`
 
-	// If true, this will disconnect the Autonomous AI Database from its peer and the Autonomous AI Database can work permanently as a standalone database.
-	// To disconnect a cross region standby, please also provide the OCID of the standby database in the `peerDbId` parameter.
+	// If true, this disconnects the Autonomous AI Database from its peer. After the disconnect completes, the Autonomous AI Database works permanently as a standalone database.
+	// **Warning:** A disconnected standby is no longer part of the disaster recovery configuration. Operations and restrictions that apply to a connected standby do not apply in the same way after the database has been disconnected.
+	// To disconnect a cross region standby, also provide the OCID of the standby database in the `peerDbId` parameter.
 	IsDisconnectPeer *bool `mandatory:"false" json:"isDisconnectPeer"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a dedicated resource pool leader Autonomous AI Database in the same region, that is required when local Autonomous Data Guard is enabled for a dedicated resource pool member using the parameter `isLocalDataGuardEnabled`.

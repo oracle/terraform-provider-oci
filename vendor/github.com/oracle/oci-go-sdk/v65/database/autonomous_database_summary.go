@@ -265,6 +265,7 @@ type AutonomousDatabaseSummary struct {
 	// - APEX - indicates an Autonomous AI Database with the Oracle APEX AI Application Development workload type.
 	// - LH - indicates an Oracle Autonomous AI Lakehouse database
 	// **Note** Starting December 2026, DW will not be supported as a valid value for this parameter.
+	// When creating an Autonomous AI Database, if this parameter is not specified, the default value is `OLTP`.
 	//
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	DbWorkload AutonomousDatabaseSummaryDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
@@ -1906,16 +1907,19 @@ type AutonomousDatabaseSummaryNetServicesArchitectureEnum string
 const (
 	AutonomousDatabaseSummaryNetServicesArchitectureDedicated AutonomousDatabaseSummaryNetServicesArchitectureEnum = "DEDICATED"
 	AutonomousDatabaseSummaryNetServicesArchitectureShared    AutonomousDatabaseSummaryNetServicesArchitectureEnum = "SHARED"
+	AutonomousDatabaseSummaryNetServicesArchitectureDrcp      AutonomousDatabaseSummaryNetServicesArchitectureEnum = "DRCP"
 )
 
 var mappingAutonomousDatabaseSummaryNetServicesArchitectureEnum = map[string]AutonomousDatabaseSummaryNetServicesArchitectureEnum{
 	"DEDICATED": AutonomousDatabaseSummaryNetServicesArchitectureDedicated,
 	"SHARED":    AutonomousDatabaseSummaryNetServicesArchitectureShared,
+	"DRCP":      AutonomousDatabaseSummaryNetServicesArchitectureDrcp,
 }
 
 var mappingAutonomousDatabaseSummaryNetServicesArchitectureEnumLowerCase = map[string]AutonomousDatabaseSummaryNetServicesArchitectureEnum{
 	"dedicated": AutonomousDatabaseSummaryNetServicesArchitectureDedicated,
 	"shared":    AutonomousDatabaseSummaryNetServicesArchitectureShared,
+	"drcp":      AutonomousDatabaseSummaryNetServicesArchitectureDrcp,
 }
 
 // GetAutonomousDatabaseSummaryNetServicesArchitectureEnumValues Enumerates the set of values for AutonomousDatabaseSummaryNetServicesArchitectureEnum
@@ -1932,6 +1936,7 @@ func GetAutonomousDatabaseSummaryNetServicesArchitectureEnumStringValues() []str
 	return []string{
 		"DEDICATED",
 		"SHARED",
+		"DRCP",
 	}
 }
 

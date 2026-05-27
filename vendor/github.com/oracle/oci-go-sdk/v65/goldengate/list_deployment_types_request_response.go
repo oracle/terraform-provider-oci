@@ -144,6 +144,8 @@ const (
 	ListDeploymentTypesDeploymentTypeDatabaseDb2i               ListDeploymentTypesDeploymentTypeEnum = "DATABASE_DB2I"
 	ListDeploymentTypesDeploymentTypeGgsa                       ListDeploymentTypesDeploymentTypeEnum = "GGSA"
 	ListDeploymentTypesDeploymentTypeDataTransforms             ListDeploymentTypesDeploymentTypeEnum = "DATA_TRANSFORMS"
+	ListDeploymentTypesDeploymentTypeVeridataServer             ListDeploymentTypesDeploymentTypeEnum = "VERIDATA_SERVER"
+	ListDeploymentTypesDeploymentTypeVeridataAgent              ListDeploymentTypesDeploymentTypeEnum = "VERIDATA_AGENT"
 )
 
 var mappingListDeploymentTypesDeploymentTypeEnum = map[string]ListDeploymentTypesDeploymentTypeEnum{
@@ -157,6 +159,8 @@ var mappingListDeploymentTypesDeploymentTypeEnum = map[string]ListDeploymentType
 	"DATABASE_DB2I":                ListDeploymentTypesDeploymentTypeDatabaseDb2i,
 	"GGSA":                         ListDeploymentTypesDeploymentTypeGgsa,
 	"DATA_TRANSFORMS":              ListDeploymentTypesDeploymentTypeDataTransforms,
+	"VERIDATA_SERVER":              ListDeploymentTypesDeploymentTypeVeridataServer,
+	"VERIDATA_AGENT":               ListDeploymentTypesDeploymentTypeVeridataAgent,
 }
 
 var mappingListDeploymentTypesDeploymentTypeEnumLowerCase = map[string]ListDeploymentTypesDeploymentTypeEnum{
@@ -170,6 +174,8 @@ var mappingListDeploymentTypesDeploymentTypeEnumLowerCase = map[string]ListDeplo
 	"database_db2i":                ListDeploymentTypesDeploymentTypeDatabaseDb2i,
 	"ggsa":                         ListDeploymentTypesDeploymentTypeGgsa,
 	"data_transforms":              ListDeploymentTypesDeploymentTypeDataTransforms,
+	"veridata_server":              ListDeploymentTypesDeploymentTypeVeridataServer,
+	"veridata_agent":               ListDeploymentTypesDeploymentTypeVeridataAgent,
 }
 
 // GetListDeploymentTypesDeploymentTypeEnumValues Enumerates the set of values for ListDeploymentTypesDeploymentTypeEnum
@@ -194,6 +200,8 @@ func GetListDeploymentTypesDeploymentTypeEnumStringValues() []string {
 		"DATABASE_DB2I",
 		"GGSA",
 		"DATA_TRANSFORMS",
+		"VERIDATA_SERVER",
+		"VERIDATA_AGENT",
 	}
 }
 

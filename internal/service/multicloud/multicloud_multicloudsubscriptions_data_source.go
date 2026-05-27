@@ -63,6 +63,10 @@ func MulticloudMulticloudsubscriptionsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"partner_cloud_tenant_identifier": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"payment_plan": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -217,6 +221,10 @@ func MulticloudSubscriptionSummaryToMap(obj oci_multicloud.MulticloudSubscriptio
 
 	if obj.PartnerCloudAccountIdentifier != nil {
 		result["partner_cloud_account_identifier"] = string(*obj.PartnerCloudAccountIdentifier)
+	}
+
+	if obj.PartnerCloudTenantIdentifier != nil {
+		result["partner_cloud_tenant_identifier"] = string(*obj.PartnerCloudTenantIdentifier)
 	}
 
 	result["service_name"] = string(obj.ServiceName)

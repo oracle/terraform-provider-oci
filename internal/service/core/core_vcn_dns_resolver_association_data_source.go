@@ -5,6 +5,7 @@ package core
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
@@ -12,6 +13,8 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
+
+var waitForVcnDnsResolverAssociationDataSourceCondition = tfresource.WaitForResourceCondition
 
 func CoreVcnDnsResolverAssociationDataSource() *schema.Resource {
 	return &schema.Resource{
@@ -74,6 +77,28 @@ func (s *CoreVcnDnsResolverAssociationDataSourceCrud) Get() error {
 func (s *CoreVcnDnsResolverAssociationDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
+	}
+
+	// VCN creation provisions the DNS resolver association asynchronously; wait
+	// here so dependent resolver resources do not consume an incomplete state.
+	if s.Res.LifecycleState != oci_core.VcnDnsResolverAssociationLifecycleStateAvailable {
+		if err := waitForVcnDnsResolverAssociationDataSourceCondition(
+			s,
+			func() bool {
+				return s.Res != nil &&
+					(s.Res.LifecycleState == oci_core.VcnDnsResolverAssociationLifecycleStateAvailable ||
+						s.Res.LifecycleState == oci_core.VcnDnsResolverAssociationLifecycleStateTerminating ||
+						s.Res.LifecycleState == oci_core.VcnDnsResolverAssociationLifecycleStateTerminated)
+			},
+			s.D.Timeout(schema.TimeoutRead),
+		); err != nil {
+			return err
+		}
+
+		if s.Res.LifecycleState != oci_core.VcnDnsResolverAssociationLifecycleStateAvailable {
+			return fmt.Errorf("Terraform expected the resource to reach state(s): %s, but the service reported unexpected state: %s.",
+				oci_core.VcnDnsResolverAssociationLifecycleStateAvailable, s.Res.LifecycleState)
+		}
 	}
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("CoreVcnDnsResolverAssociationDataSource-", CoreVcnDnsResolverAssociationDataSource(), s.D))

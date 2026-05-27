@@ -67,11 +67,29 @@ resource "oci_datascience_job" "test_job" {
 
 		#Optional
 		block_storage_size_in_gbs = var.job_job_infrastructure_configuration_details_block_storage_size_in_gbs
+		compute_target_id = oci_datascience_compute_target.test_compute_target.id
 		job_shape_config_details {
 
 			#Optional
 			memory_in_gbs = var.job_job_infrastructure_configuration_details_job_shape_config_details_memory_in_gbs
 			ocpus = var.job_job_infrastructure_configuration_details_job_shape_config_details_ocpus
+		}
+		resource_configuration {
+
+			#Optional
+			resource_limit_configuration {
+
+				#Optional
+				memory_in_gbs = var.job_job_infrastructure_configuration_details_resource_configuration_resource_limit_configuration_memory_in_gbs
+				ocpus = var.job_job_infrastructure_configuration_details_resource_configuration_resource_limit_configuration_ocpus
+			}
+			resource_request_configuration {
+
+				#Optional
+				gpus = var.job_job_infrastructure_configuration_details_resource_configuration_resource_request_configuration_gpus
+				memory_in_gbs = var.job_job_infrastructure_configuration_details_resource_configuration_resource_request_configuration_memory_in_gbs
+				ocpus = var.job_job_infrastructure_configuration_details_resource_configuration_resource_request_configuration_ocpus
+			}
 		}
 		shape_name = oci_core_shape.test_shape.name
 		subnet_id = oci_core_subnet.test_subnet.id
@@ -137,11 +155,29 @@ resource "oci_datascience_job" "test_job" {
 
 				#Optional
 				block_storage_size_in_gbs = var.job_job_node_configuration_details_job_node_group_configuration_details_list_job_infrastructure_configuration_details_block_storage_size_in_gbs
+				compute_target_id = oci_datascience_compute_target.test_compute_target.id
 				job_shape_config_details {
 
 					#Optional
 					memory_in_gbs = var.job_job_node_configuration_details_job_node_group_configuration_details_list_job_infrastructure_configuration_details_job_shape_config_details_memory_in_gbs
 					ocpus = var.job_job_node_configuration_details_job_node_group_configuration_details_list_job_infrastructure_configuration_details_job_shape_config_details_ocpus
+				}
+				resource_configuration {
+
+					#Optional
+					resource_limit_configuration {
+
+						#Optional
+						memory_in_gbs = var.job_job_node_configuration_details_job_node_group_configuration_details_list_job_infrastructure_configuration_details_resource_configuration_resource_limit_configuration_memory_in_gbs
+						ocpus = var.job_job_node_configuration_details_job_node_group_configuration_details_list_job_infrastructure_configuration_details_resource_configuration_resource_limit_configuration_ocpus
+					}
+					resource_request_configuration {
+
+						#Optional
+						gpus = var.job_job_node_configuration_details_job_node_group_configuration_details_list_job_infrastructure_configuration_details_resource_configuration_resource_request_configuration_gpus
+						memory_in_gbs = var.job_job_node_configuration_details_job_node_group_configuration_details_list_job_infrastructure_configuration_details_resource_configuration_resource_request_configuration_memory_in_gbs
+						ocpus = var.job_job_node_configuration_details_job_node_group_configuration_details_list_job_infrastructure_configuration_details_resource_configuration_resource_request_configuration_ocpus
+					}
 				}
 				shape_name = oci_core_shape.test_shape.name
 				subnet_id = oci_core_subnet.test_subnet.id
@@ -198,11 +234,20 @@ The following arguments are supported:
 	* `job_environment_type` - (Required) The environment configuration type used for job runtime.
 * `job_infrastructure_configuration_details` - (Optional) (Updatable) The job infrastructure configuration details (shape, block storage, etc.) 
 	* `block_storage_size_in_gbs` - (Required when job_infrastructure_type=ME_STANDALONE | MULTI_NODE | STANDALONE) (Updatable) The size of the block storage volume to attach to the instance running the job 
+	* `compute_target_id` - (Required when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute target.
 	* `job_infrastructure_type` - (Required) (Updatable) The infrastructure type used for job run.
 	* `job_shape_config_details` - (Applicable when job_infrastructure_type=ME_STANDALONE | MULTI_NODE | STANDALONE) (Updatable) Details for the job run shape configuration. Specify only when a flex shape is selected.
 		* `cpu_baseline` - (Applicable when job_infrastructure_type=ME_STANDALONE | STANDALONE) (Updatable) The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 		* `memory_in_gbs` - (Applicable when job_infrastructure_type=ME_STANDALONE | MULTI_NODE | STANDALONE) (Updatable) The total amount of memory available to the job run instance, in gigabytes. 
 		* `ocpus` - (Applicable when job_infrastructure_type=ME_STANDALONE | MULTI_NODE | STANDALONE) (Updatable) The total number of OCPUs available to the job run instance. 
+	* `resource_configuration` - (Required when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) (Updatable) Details for the compute target job resource configuration.
+		* `resource_limit_configuration` - (Applicable when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) (Updatable) Resource limit configuration details for workload on managed compute cluster type compute target
+			* `memory_in_gbs` - (Required when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) (Updatable) Burstable limit for memory. 
+			* `ocpus` - (Required when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) (Updatable) Burstable limit for cpu. 
+		* `resource_request_configuration` - (Required when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) (Updatable) Resource request configuration to run workload on managed compute cluster type compute target compute target.
+			* `gpus` - (Applicable when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) (Updatable) The total number of gpus required to be allocated to the workload. 
+			* `memory_in_gbs` - (Required when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) (Updatable) The memory in Gbs required to be allocated to run the workload. 
+			* `ocpus` - (Required when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) (Updatable) The ocpus required to be allocated to run the workload. 
 	* `shape_name` - (Required when job_infrastructure_type=ME_STANDALONE | MULTI_NODE | STANDALONE) (Updatable) The name that corresponds to the JobShapeSummary to use for the job node
 	* `subnet_id` - (Required when job_infrastructure_type=STANDALONE) (Updatable) The subnet to create a secondary vnic in to attach to the instance running the job 
 * `job_log_configuration_details` - (Optional) Logging configuration for resource. 
@@ -235,10 +280,19 @@ The following arguments are supported:
 			* `job_environment_type` - (Required) The environment configuration type used for job runtime.
 		* `job_infrastructure_configuration_details` - (Optional) The job infrastructure configuration details (shape, block storage, etc.) 
 			* `block_storage_size_in_gbs` - (Required when job_infrastructure_type=ME_STANDALONE | MULTI_NODE | STANDALONE) The size of the block storage volume to attach to the instance running the job 
+			* `compute_target_id` - (Required when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute target.
 			* `job_infrastructure_type` - (Required) The infrastructure type used for job run.
 			* `job_shape_config_details` - (Applicable when job_infrastructure_type=ME_STANDALONE | MULTI_NODE | STANDALONE) Details for the job run shape configuration. Specify only when a flex shape is selected.
 				* `memory_in_gbs` - (Applicable when job_infrastructure_type=ME_STANDALONE | MULTI_NODE | STANDALONE) The total amount of memory available to the job run instance, in gigabytes. 
 				* `ocpus` - (Applicable when job_infrastructure_type=ME_STANDALONE | MULTI_NODE | STANDALONE) The total number of OCPUs available to the job run instance. 
+			* `resource_configuration` - (Required when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) Details for the compute target job resource configuration.
+				* `resource_limit_configuration` - (Applicable when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) Resource limit configuration details for workload on managed compute cluster type compute target
+					* `memory_in_gbs` - (Required when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) Burstable limit for memory. 
+					* `ocpus` - (Required when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) Burstable limit for cpu. 
+				* `resource_request_configuration` - (Required when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) Resource request configuration to run workload on managed compute cluster type compute target compute target.
+					* `gpus` - (Applicable when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) The total number of gpus required to be allocated to the workload. 
+					* `memory_in_gbs` - (Required when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) The memory in Gbs required to be allocated to run the workload. 
+					* `ocpus` - (Required when job_infrastructure_type=MANAGED_COMPUTE_CLUSTER) The ocpus required to be allocated to run the workload. 
 			* `shape_name` - (Required when job_infrastructure_type=ME_STANDALONE | MULTI_NODE | STANDALONE) The name that corresponds to the JobShapeSummary to use for the job node
 			* `subnet_id` - (Required when job_infrastructure_type=STANDALONE) The subnet to create a secondary vnic in to attach to the instance running the job 
 		* `minimum_success_replicas` - (Optional) The minimum threshold of successful replicas for node group to be successful. All replicas need to succeed if this is not specified.
@@ -296,11 +350,20 @@ The following attributes are exported:
 	* `job_environment_type` - The environment configuration type used for job runtime.
 * `job_infrastructure_configuration_details` - The job infrastructure configuration details (shape, block storage, etc.) 
 	* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance running the job 
+	* `compute_target_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute target.
 	* `job_infrastructure_type` - The infrastructure type used for job run.
 	* `job_shape_config_details` - Details for the job run shape configuration. Specify only when a flex shape is selected.
 		* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 		* `memory_in_gbs` - The total amount of memory available to the job run instance, in gigabytes. 
 		* `ocpus` - The total number of OCPUs available to the job run instance. 
+	* `resource_configuration` - Details for the compute target job resource configuration.
+		* `resource_limit_configuration` - Resource limit configuration details for workload on managed compute cluster type compute target
+			* `memory_in_gbs` - Burstable limit for memory. 
+			* `ocpus` - Burstable limit for cpu. 
+		* `resource_request_configuration` - Resource request configuration to run workload on managed compute cluster type compute target compute target.
+			* `gpus` - The total number of gpus required to be allocated to the workload. 
+			* `memory_in_gbs` - The memory in Gbs required to be allocated to run the workload. 
+			* `ocpus` - The ocpus required to be allocated to run the workload. 
 	* `shape_name` - The name that corresponds to the JobShapeSummary to use for the job node
 	* `subnet_id` - The subnet to create a secondary vnic in to attach to the instance running the job 
 * `job_log_configuration_details` - Logging configuration for resource. 
@@ -333,10 +396,19 @@ The following attributes are exported:
 			* `job_environment_type` - The environment configuration type used for job runtime.
 		* `job_infrastructure_configuration_details` - The job infrastructure configuration details (shape, block storage, etc.) 
 			* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance running the job 
+			* `compute_target_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute target.
 			* `job_infrastructure_type` - The infrastructure type used for job run.
 			* `job_shape_config_details` - Details for the job run shape configuration. Specify only when a flex shape is selected.
 				* `memory_in_gbs` - The total amount of memory available to the job run instance, in gigabytes. 
 				* `ocpus` - The total number of OCPUs available to the job run instance. 
+			* `resource_configuration` - Details for the compute target job resource configuration.
+				* `resource_limit_configuration` - Resource limit configuration details for workload on managed compute cluster type compute target
+					* `memory_in_gbs` - Burstable limit for memory. 
+					* `ocpus` - Burstable limit for cpu. 
+				* `resource_request_configuration` - Resource request configuration to run workload on managed compute cluster type compute target compute target.
+					* `gpus` - The total number of gpus required to be allocated to the workload. 
+					* `memory_in_gbs` - The memory in Gbs required to be allocated to run the workload. 
+					* `ocpus` - The ocpus required to be allocated to run the workload. 
 			* `shape_name` - The name that corresponds to the JobShapeSummary to use for the job node
 			* `subnet_id` - The subnet to create a secondary vnic in to attach to the instance running the job 
 		* `minimum_success_replicas` - The minimum threshold of successful replicas for node group to be successful. All replicas need to succeed if this is not specified.

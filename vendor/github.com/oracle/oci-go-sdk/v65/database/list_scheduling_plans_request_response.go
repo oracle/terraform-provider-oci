@@ -51,6 +51,9 @@ type ListSchedulingPlansRequest struct {
 	// A filter to return only resources that match the given Schedule Plan id exactly.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
+	// A filter to return only resources that match the given plan intent exactly.
+	PlanIntent ListSchedulingPlansPlanIntentEnum `mandatory:"false" contributesTo:"query" name:"planIntent" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -95,6 +98,9 @@ func (request ListSchedulingPlansRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingSchedulingPlanSummaryLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetSchedulingPlanSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListSchedulingPlansPlanIntentEnum(string(request.PlanIntent)); !ok && request.PlanIntent != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlanIntent: %s. Supported values are: %s.", request.PlanIntent, strings.Join(GetListSchedulingPlansPlanIntentEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -212,5 +218,47 @@ func GetListSchedulingPlansSortOrderEnumStringValues() []string {
 // GetMappingListSchedulingPlansSortOrderEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListSchedulingPlansSortOrderEnum(val string) (ListSchedulingPlansSortOrderEnum, bool) {
 	enum, ok := mappingListSchedulingPlansSortOrderEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListSchedulingPlansPlanIntentEnum Enum with underlying type: string
+type ListSchedulingPlansPlanIntentEnum string
+
+// Set of constants representing the allowable values for ListSchedulingPlansPlanIntentEnum
+const (
+	ListSchedulingPlansPlanIntentFullSoftwareUpdate ListSchedulingPlansPlanIntentEnum = "EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE"
+	ListSchedulingPlansPlanIntentSecurityUpdate     ListSchedulingPlansPlanIntentEnum = "EXADATA_INFRASTRUCTURE_SECURITY_UPDATE"
+)
+
+var mappingListSchedulingPlansPlanIntentEnum = map[string]ListSchedulingPlansPlanIntentEnum{
+	"EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE": ListSchedulingPlansPlanIntentFullSoftwareUpdate,
+	"EXADATA_INFRASTRUCTURE_SECURITY_UPDATE":      ListSchedulingPlansPlanIntentSecurityUpdate,
+}
+
+var mappingListSchedulingPlansPlanIntentEnumLowerCase = map[string]ListSchedulingPlansPlanIntentEnum{
+	"exadata_infrastructure_full_software_update": ListSchedulingPlansPlanIntentFullSoftwareUpdate,
+	"exadata_infrastructure_security_update":      ListSchedulingPlansPlanIntentSecurityUpdate,
+}
+
+// GetListSchedulingPlansPlanIntentEnumValues Enumerates the set of values for ListSchedulingPlansPlanIntentEnum
+func GetListSchedulingPlansPlanIntentEnumValues() []ListSchedulingPlansPlanIntentEnum {
+	values := make([]ListSchedulingPlansPlanIntentEnum, 0)
+	for _, v := range mappingListSchedulingPlansPlanIntentEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListSchedulingPlansPlanIntentEnumStringValues Enumerates the set of values in String for ListSchedulingPlansPlanIntentEnum
+func GetListSchedulingPlansPlanIntentEnumStringValues() []string {
+	return []string{
+		"EXADATA_INFRASTRUCTURE_FULL_SOFTWARE_UPDATE",
+		"EXADATA_INFRASTRUCTURE_SECURITY_UPDATE",
+	}
+}
+
+// GetMappingListSchedulingPlansPlanIntentEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListSchedulingPlansPlanIntentEnum(val string) (ListSchedulingPlansPlanIntentEnum, bool) {
+	enum, ok := mappingListSchedulingPlansPlanIntentEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

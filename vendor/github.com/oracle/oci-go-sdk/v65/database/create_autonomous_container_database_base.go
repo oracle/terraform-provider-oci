@@ -130,7 +130,7 @@ type CreateAutonomousContainerDatabaseBase interface {
 	// The CPU value beyond which an Autonomous AI Database will be opened across multiple nodes. The default value of this attribute is 16 for OCPUs and 64 for ECPUs.
 	GetDbSplitThreshold() *int
 
-	// The percentage of CPUs reserved across nodes to support node failover. Allowed values are 0%, 25%, and 50%, with 50% being the default option.
+	// The percentage of CPUs reserved across nodes to support node failover. Allowed values are 0%, 25%, 50%, 75%, and 100%, with 50% being the default option.
 	GetVmFailoverReservation() *int
 
 	// Determines whether an Autonomous AI Database must be opened across a minimum or maximum of nodes. By default, Minimum nodes is selected.
@@ -708,16 +708,19 @@ type CreateAutonomousContainerDatabaseBaseNetServicesArchitectureEnum string
 const (
 	CreateAutonomousContainerDatabaseBaseNetServicesArchitectureDedicated CreateAutonomousContainerDatabaseBaseNetServicesArchitectureEnum = "DEDICATED"
 	CreateAutonomousContainerDatabaseBaseNetServicesArchitectureShared    CreateAutonomousContainerDatabaseBaseNetServicesArchitectureEnum = "SHARED"
+	CreateAutonomousContainerDatabaseBaseNetServicesArchitectureDrcp      CreateAutonomousContainerDatabaseBaseNetServicesArchitectureEnum = "DRCP"
 )
 
 var mappingCreateAutonomousContainerDatabaseBaseNetServicesArchitectureEnum = map[string]CreateAutonomousContainerDatabaseBaseNetServicesArchitectureEnum{
 	"DEDICATED": CreateAutonomousContainerDatabaseBaseNetServicesArchitectureDedicated,
 	"SHARED":    CreateAutonomousContainerDatabaseBaseNetServicesArchitectureShared,
+	"DRCP":      CreateAutonomousContainerDatabaseBaseNetServicesArchitectureDrcp,
 }
 
 var mappingCreateAutonomousContainerDatabaseBaseNetServicesArchitectureEnumLowerCase = map[string]CreateAutonomousContainerDatabaseBaseNetServicesArchitectureEnum{
 	"dedicated": CreateAutonomousContainerDatabaseBaseNetServicesArchitectureDedicated,
 	"shared":    CreateAutonomousContainerDatabaseBaseNetServicesArchitectureShared,
+	"drcp":      CreateAutonomousContainerDatabaseBaseNetServicesArchitectureDrcp,
 }
 
 // GetCreateAutonomousContainerDatabaseBaseNetServicesArchitectureEnumValues Enumerates the set of values for CreateAutonomousContainerDatabaseBaseNetServicesArchitectureEnum
@@ -734,6 +737,7 @@ func GetCreateAutonomousContainerDatabaseBaseNetServicesArchitectureEnumStringVa
 	return []string{
 		"DEDICATED",
 		"SHARED",
+		"DRCP",
 	}
 }
 
