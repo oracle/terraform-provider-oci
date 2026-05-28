@@ -134,6 +134,10 @@ type Vnic struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the VNIC is in.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{ "orcl-cloud": { "free-tier-retained": "true" } }`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// List of IPv6 addresses assigned to the VNIC.
 	// Example: `2001:DB8::`
 	Ipv6Addresses []string `mandatory:"false" json:"ipv6Addresses"`

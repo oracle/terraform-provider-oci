@@ -73,6 +73,10 @@ type FlowLogConfig struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{ "orcl-cloud": { "free-tier-retained": "true" } }`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m FlowLogConfig) String() string {
@@ -102,6 +106,7 @@ func (m *FlowLogConfig) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DefinedTags    map[string]map[string]interface{} `json:"definedTags"`
 		FreeformTags   map[string]string                 `json:"freeformTags"`
+		SystemTags     map[string]map[string]interface{} `json:"systemTags"`
 		CompartmentId  *string                           `json:"compartmentId"`
 		DisplayName    *string                           `json:"displayName"`
 		Id             *string                           `json:"id"`
@@ -119,6 +124,8 @@ func (m *FlowLogConfig) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.FreeformTags = model.FreeformTags
+
+	m.SystemTags = model.SystemTags
 
 	m.CompartmentId = model.CompartmentId
 

@@ -20,6 +20,7 @@ import (
 type CreateAmazonS3IcebergStorageDetails struct {
 
 	// Access key ID to access the Amazon S3 bucket.
+	// Note: Despite the "Id" suffix, this value is not an OCI OCID.
 	AccessKeyId *string `mandatory:"true" json:"accessKeyId"`
 
 	// The AMAZON region where the S3 bucket is hosted.
@@ -37,8 +38,9 @@ type CreateAmazonS3IcebergStorageDetails struct {
 	SecretAccessKeySecretId *string `mandatory:"false" json:"secretAccessKeySecretId"`
 
 	// Secret access key to access the Amazon S3 bucket.
-	// e.g.: "this-is-not-the-secret"
-	// Deprecated: This field is deprecated and replaced by "secretAccessKeySecretId". This field will be removed after February 15 2026.
+	// Deprecated: This field is deprecated and replaced by "secretAccessKeySecretId".
+	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
 	SecretAccessKey *string `mandatory:"false" json:"secretAccessKey"`
 
 	// The scheme of the storage.

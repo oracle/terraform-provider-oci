@@ -102,15 +102,20 @@ type IcebergConnection struct {
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
 	// The Iceberg technology type.
+	// APACHE_ICEBERG - supports all catalog types
+	// AMAZON_S3_TABLES - supports only Rest catalog and S3 storage
 	TechnologyType IcebergConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 
 	// Possible lifecycle states for connection.
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Controls the network traffic direction to the target:
-	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
 	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
 	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
+	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
+	// Deprecated: SHARED_SERVICE_ENDPOINT is deprecated. Use another supported routingMethod value, or update existing connections to use a supported routing method.
+	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
 	RoutingMethod RoutingMethodEnum `mandatory:"false" json:"routingMethod,omitempty"`
 }
 
@@ -372,15 +377,18 @@ type IcebergConnectionTechnologyTypeEnum string
 
 // Set of constants representing the allowable values for IcebergConnectionTechnologyTypeEnum
 const (
-	IcebergConnectionTechnologyTypeApacheIceberg IcebergConnectionTechnologyTypeEnum = "APACHE_ICEBERG"
+	IcebergConnectionTechnologyTypeApacheIceberg  IcebergConnectionTechnologyTypeEnum = "APACHE_ICEBERG"
+	IcebergConnectionTechnologyTypeAmazonS3Tables IcebergConnectionTechnologyTypeEnum = "AMAZON_S3_TABLES"
 )
 
 var mappingIcebergConnectionTechnologyTypeEnum = map[string]IcebergConnectionTechnologyTypeEnum{
-	"APACHE_ICEBERG": IcebergConnectionTechnologyTypeApacheIceberg,
+	"APACHE_ICEBERG":   IcebergConnectionTechnologyTypeApacheIceberg,
+	"AMAZON_S3_TABLES": IcebergConnectionTechnologyTypeAmazonS3Tables,
 }
 
 var mappingIcebergConnectionTechnologyTypeEnumLowerCase = map[string]IcebergConnectionTechnologyTypeEnum{
-	"apache_iceberg": IcebergConnectionTechnologyTypeApacheIceberg,
+	"apache_iceberg":   IcebergConnectionTechnologyTypeApacheIceberg,
+	"amazon_s3_tables": IcebergConnectionTechnologyTypeAmazonS3Tables,
 }
 
 // GetIcebergConnectionTechnologyTypeEnumValues Enumerates the set of values for IcebergConnectionTechnologyTypeEnum
@@ -396,6 +404,7 @@ func GetIcebergConnectionTechnologyTypeEnumValues() []IcebergConnectionTechnolog
 func GetIcebergConnectionTechnologyTypeEnumStringValues() []string {
 	return []string{
 		"APACHE_ICEBERG",
+		"AMAZON_S3_TABLES",
 	}
 }
 

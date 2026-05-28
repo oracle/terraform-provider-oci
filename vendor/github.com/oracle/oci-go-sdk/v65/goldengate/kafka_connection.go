@@ -165,9 +165,12 @@ type KafkaConnection struct {
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Controls the network traffic direction to the target:
-	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
 	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
 	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
+	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
+	// Deprecated: SHARED_SERVICE_ENDPOINT is deprecated. Use another supported routingMethod value, or update existing connections to use a supported routing method.
+	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
 	RoutingMethod RoutingMethodEnum `mandatory:"false" json:"routingMethod,omitempty"`
 }
 
@@ -328,30 +331,33 @@ type KafkaConnectionTechnologyTypeEnum string
 
 // Set of constants representing the allowable values for KafkaConnectionTechnologyTypeEnum
 const (
-	KafkaConnectionTechnologyTypeApacheKafka                 KafkaConnectionTechnologyTypeEnum = "APACHE_KAFKA"
-	KafkaConnectionTechnologyTypeAzureEventHubs              KafkaConnectionTechnologyTypeEnum = "AZURE_EVENT_HUBS"
-	KafkaConnectionTechnologyTypeConfluentKafka              KafkaConnectionTechnologyTypeEnum = "CONFLUENT_KAFKA"
-	KafkaConnectionTechnologyTypeMicrosoftFabricEventstream  KafkaConnectionTechnologyTypeEnum = "MICROSOFT_FABRIC_EVENTSTREAM"
-	KafkaConnectionTechnologyTypeOciStreaming                KafkaConnectionTechnologyTypeEnum = "OCI_STREAMING"
-	KafkaConnectionTechnologyTypeOciStreamingWithApacheKafka KafkaConnectionTechnologyTypeEnum = "OCI_STREAMING_WITH_APACHE_KAFKA"
+	KafkaConnectionTechnologyTypeApacheKafka                             KafkaConnectionTechnologyTypeEnum = "APACHE_KAFKA"
+	KafkaConnectionTechnologyTypeAzureEventHubs                          KafkaConnectionTechnologyTypeEnum = "AZURE_EVENT_HUBS"
+	KafkaConnectionTechnologyTypeConfluentKafka                          KafkaConnectionTechnologyTypeEnum = "CONFLUENT_KAFKA"
+	KafkaConnectionTechnologyTypeGoogleCloudManagedServiceForApacheKafka KafkaConnectionTechnologyTypeEnum = "GOOGLE_CLOUD_MANAGED_SERVICE_FOR_APACHE_KAFKA"
+	KafkaConnectionTechnologyTypeMicrosoftFabricEventstream              KafkaConnectionTechnologyTypeEnum = "MICROSOFT_FABRIC_EVENTSTREAM"
+	KafkaConnectionTechnologyTypeOciStreaming                            KafkaConnectionTechnologyTypeEnum = "OCI_STREAMING"
+	KafkaConnectionTechnologyTypeOciStreamingWithApacheKafka             KafkaConnectionTechnologyTypeEnum = "OCI_STREAMING_WITH_APACHE_KAFKA"
 )
 
 var mappingKafkaConnectionTechnologyTypeEnum = map[string]KafkaConnectionTechnologyTypeEnum{
-	"APACHE_KAFKA":                    KafkaConnectionTechnologyTypeApacheKafka,
-	"AZURE_EVENT_HUBS":                KafkaConnectionTechnologyTypeAzureEventHubs,
-	"CONFLUENT_KAFKA":                 KafkaConnectionTechnologyTypeConfluentKafka,
-	"MICROSOFT_FABRIC_EVENTSTREAM":    KafkaConnectionTechnologyTypeMicrosoftFabricEventstream,
-	"OCI_STREAMING":                   KafkaConnectionTechnologyTypeOciStreaming,
-	"OCI_STREAMING_WITH_APACHE_KAFKA": KafkaConnectionTechnologyTypeOciStreamingWithApacheKafka,
+	"APACHE_KAFKA":     KafkaConnectionTechnologyTypeApacheKafka,
+	"AZURE_EVENT_HUBS": KafkaConnectionTechnologyTypeAzureEventHubs,
+	"CONFLUENT_KAFKA":  KafkaConnectionTechnologyTypeConfluentKafka,
+	"GOOGLE_CLOUD_MANAGED_SERVICE_FOR_APACHE_KAFKA": KafkaConnectionTechnologyTypeGoogleCloudManagedServiceForApacheKafka,
+	"MICROSOFT_FABRIC_EVENTSTREAM":                  KafkaConnectionTechnologyTypeMicrosoftFabricEventstream,
+	"OCI_STREAMING":                                 KafkaConnectionTechnologyTypeOciStreaming,
+	"OCI_STREAMING_WITH_APACHE_KAFKA":               KafkaConnectionTechnologyTypeOciStreamingWithApacheKafka,
 }
 
 var mappingKafkaConnectionTechnologyTypeEnumLowerCase = map[string]KafkaConnectionTechnologyTypeEnum{
-	"apache_kafka":                    KafkaConnectionTechnologyTypeApacheKafka,
-	"azure_event_hubs":                KafkaConnectionTechnologyTypeAzureEventHubs,
-	"confluent_kafka":                 KafkaConnectionTechnologyTypeConfluentKafka,
-	"microsoft_fabric_eventstream":    KafkaConnectionTechnologyTypeMicrosoftFabricEventstream,
-	"oci_streaming":                   KafkaConnectionTechnologyTypeOciStreaming,
-	"oci_streaming_with_apache_kafka": KafkaConnectionTechnologyTypeOciStreamingWithApacheKafka,
+	"apache_kafka":     KafkaConnectionTechnologyTypeApacheKafka,
+	"azure_event_hubs": KafkaConnectionTechnologyTypeAzureEventHubs,
+	"confluent_kafka":  KafkaConnectionTechnologyTypeConfluentKafka,
+	"google_cloud_managed_service_for_apache_kafka": KafkaConnectionTechnologyTypeGoogleCloudManagedServiceForApacheKafka,
+	"microsoft_fabric_eventstream":                  KafkaConnectionTechnologyTypeMicrosoftFabricEventstream,
+	"oci_streaming":                                 KafkaConnectionTechnologyTypeOciStreaming,
+	"oci_streaming_with_apache_kafka":               KafkaConnectionTechnologyTypeOciStreamingWithApacheKafka,
 }
 
 // GetKafkaConnectionTechnologyTypeEnumValues Enumerates the set of values for KafkaConnectionTechnologyTypeEnum
@@ -369,6 +375,7 @@ func GetKafkaConnectionTechnologyTypeEnumStringValues() []string {
 		"APACHE_KAFKA",
 		"AZURE_EVENT_HUBS",
 		"CONFLUENT_KAFKA",
+		"GOOGLE_CLOUD_MANAGED_SERVICE_FOR_APACHE_KAFKA",
 		"MICROSOFT_FABRIC_EVENTSTREAM",
 		"OCI_STREAMING",
 		"OCI_STREAMING_WITH_APACHE_KAFKA",

@@ -14,6 +14,9 @@ import (
 // ListAvailableCommunicationLanguageLocalesRequest wrapper for the ListAvailableCommunicationLanguageLocales operation
 type ListAvailableCommunicationLanguageLocalesRequest struct {
 
+	// The compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 

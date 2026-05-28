@@ -48,6 +48,18 @@ type UpdateClusterSpecsDetails struct {
 	// The amount of memory in GB, for the cluster's search nodes.
 	SearchNodeHostMemoryGB *int `mandatory:"false" json:"searchNodeHostMemoryGB"`
 
+	// The node shape for the cluster's coordinator nodes.
+	CoordinatorNodeHostShape *string `mandatory:"false" json:"coordinatorNodeHostShape"`
+
+	// The number of OCPUs configured for the cluster's coordinator nodes.
+	CoordinatorNodeHostOcpuCount *int `mandatory:"false" json:"coordinatorNodeHostOcpuCount"`
+
+	// The amount of memory in GB, for the cluster's coordinator nodes.
+	CoordinatorNodeHostMemoryGB *int `mandatory:"false" json:"coordinatorNodeHostMemoryGB"`
+
+	// Updated value of number of coordinator nodes.
+	CoordinatorNodeCount *int `mandatory:"false" json:"coordinatorNodeCount"`
+
 	// The node shape for the cluster's ML nodes.
 	MlNodeHostShape *string `mandatory:"false" json:"mlNodeHostShape"`
 

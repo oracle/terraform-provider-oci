@@ -138,16 +138,19 @@ type OracleConnection struct {
 	// It is recommended to configure RAC with FQDN-based SCAN listeners.
 	// The default is DIRECT, except when databaseId is provided and the discovered database relies on the SCAN listener.
 	// In this case, the default is REDIRECT.
-	// Deprecated: Defaulting to the REDIRECT session mode will be removed after March 1, 2027.
+	// Deprecated: Defaulting to the REDIRECT session mode will be removed after April 21, 2027.
 	SessionMode OracleConnectionSessionModeEnum `mandatory:"false" json:"sessionMode,omitempty"`
 
 	// Possible lifecycle states for connection.
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Controls the network traffic direction to the target:
-	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
 	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
 	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
+	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
+	// Deprecated: SHARED_SERVICE_ENDPOINT is deprecated. Use another supported routingMethod value, or update existing connections to use a supported routing method.
+	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
 	RoutingMethod RoutingMethodEnum `mandatory:"false" json:"routingMethod,omitempty"`
 }
 
@@ -315,9 +318,12 @@ const (
 	OracleConnectionTechnologyTypeOciAutonomousDatabase                 OracleConnectionTechnologyTypeEnum = "OCI_AUTONOMOUS_DATABASE"
 	OracleConnectionTechnologyTypeOracleDatabase                        OracleConnectionTechnologyTypeEnum = "ORACLE_DATABASE"
 	OracleConnectionTechnologyTypeOracleExadata                         OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA"
+	OracleConnectionTechnologyTypeOracleExadataExascale                 OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_EXASCALE"
 	OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure          OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_DATABASE_AT_AZURE"
+	OracleConnectionTechnologyTypeOracleExadataExascaleAtAzure          OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_EXASCALE_AT_AZURE"
 	OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAzure       OracleConnectionTechnologyTypeEnum = "ORACLE_AUTONOMOUS_DATABASE_AT_AZURE"
 	OracleConnectionTechnologyTypeOracleExadataDatabaseAtGoogleCloud    OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_DATABASE_AT_GOOGLE_CLOUD"
+	OracleConnectionTechnologyTypeOracleExadataExascaleAtGoogleCloud    OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_EXASCALE_AT_GOOGLE_CLOUD"
 	OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtGoogleCloud OracleConnectionTechnologyTypeEnum = "ORACLE_AUTONOMOUS_DATABASE_AT_GOOGLE_CLOUD"
 	OracleConnectionTechnologyTypeOracleExadataDatabaseAtAws            OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_DATABASE_AT_AWS"
 	OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAws         OracleConnectionTechnologyTypeEnum = "ORACLE_AUTONOMOUS_DATABASE_AT_AWS"
@@ -328,9 +334,12 @@ var mappingOracleConnectionTechnologyTypeEnum = map[string]OracleConnectionTechn
 	"OCI_AUTONOMOUS_DATABASE":                    OracleConnectionTechnologyTypeOciAutonomousDatabase,
 	"ORACLE_DATABASE":                            OracleConnectionTechnologyTypeOracleDatabase,
 	"ORACLE_EXADATA":                             OracleConnectionTechnologyTypeOracleExadata,
+	"ORACLE_EXADATA_EXASCALE":                    OracleConnectionTechnologyTypeOracleExadataExascale,
 	"ORACLE_EXADATA_DATABASE_AT_AZURE":           OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure,
+	"ORACLE_EXADATA_EXASCALE_AT_AZURE":           OracleConnectionTechnologyTypeOracleExadataExascaleAtAzure,
 	"ORACLE_AUTONOMOUS_DATABASE_AT_AZURE":        OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAzure,
 	"ORACLE_EXADATA_DATABASE_AT_GOOGLE_CLOUD":    OracleConnectionTechnologyTypeOracleExadataDatabaseAtGoogleCloud,
+	"ORACLE_EXADATA_EXASCALE_AT_GOOGLE_CLOUD":    OracleConnectionTechnologyTypeOracleExadataExascaleAtGoogleCloud,
 	"ORACLE_AUTONOMOUS_DATABASE_AT_GOOGLE_CLOUD": OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtGoogleCloud,
 	"ORACLE_EXADATA_DATABASE_AT_AWS":             OracleConnectionTechnologyTypeOracleExadataDatabaseAtAws,
 	"ORACLE_AUTONOMOUS_DATABASE_AT_AWS":          OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAws,
@@ -341,9 +350,12 @@ var mappingOracleConnectionTechnologyTypeEnumLowerCase = map[string]OracleConnec
 	"oci_autonomous_database":                    OracleConnectionTechnologyTypeOciAutonomousDatabase,
 	"oracle_database":                            OracleConnectionTechnologyTypeOracleDatabase,
 	"oracle_exadata":                             OracleConnectionTechnologyTypeOracleExadata,
+	"oracle_exadata_exascale":                    OracleConnectionTechnologyTypeOracleExadataExascale,
 	"oracle_exadata_database_at_azure":           OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure,
+	"oracle_exadata_exascale_at_azure":           OracleConnectionTechnologyTypeOracleExadataExascaleAtAzure,
 	"oracle_autonomous_database_at_azure":        OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAzure,
 	"oracle_exadata_database_at_google_cloud":    OracleConnectionTechnologyTypeOracleExadataDatabaseAtGoogleCloud,
+	"oracle_exadata_exascale_at_google_cloud":    OracleConnectionTechnologyTypeOracleExadataExascaleAtGoogleCloud,
 	"oracle_autonomous_database_at_google_cloud": OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtGoogleCloud,
 	"oracle_exadata_database_at_aws":             OracleConnectionTechnologyTypeOracleExadataDatabaseAtAws,
 	"oracle_autonomous_database_at_aws":          OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAws,
@@ -365,9 +377,12 @@ func GetOracleConnectionTechnologyTypeEnumStringValues() []string {
 		"OCI_AUTONOMOUS_DATABASE",
 		"ORACLE_DATABASE",
 		"ORACLE_EXADATA",
+		"ORACLE_EXADATA_EXASCALE",
 		"ORACLE_EXADATA_DATABASE_AT_AZURE",
+		"ORACLE_EXADATA_EXASCALE_AT_AZURE",
 		"ORACLE_AUTONOMOUS_DATABASE_AT_AZURE",
 		"ORACLE_EXADATA_DATABASE_AT_GOOGLE_CLOUD",
+		"ORACLE_EXADATA_EXASCALE_AT_GOOGLE_CLOUD",
 		"ORACLE_AUTONOMOUS_DATABASE_AT_GOOGLE_CLOUD",
 		"ORACLE_EXADATA_DATABASE_AT_AWS",
 		"ORACLE_AUTONOMOUS_DATABASE_AT_AWS",

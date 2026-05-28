@@ -54,6 +54,14 @@ func (m *updateicebergstoragedetails) UnmarshalPolymorphicJSON(data []byte) (int
 		mm := UpdateAmazonS3IcebergStorageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OCI_OBJECT_STORAGE_S3_API":
+		mm := UpdateOciObjectStorageS3ApiIcebergStorageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "NONE":
+		mm := UpdateNoIcebergStorageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GOOGLE_CLOUD_STORAGE":
 		mm := UpdateGoogleCloudStorageIcebergStorageDetails{}
 		err = json.Unmarshal(data, &mm)

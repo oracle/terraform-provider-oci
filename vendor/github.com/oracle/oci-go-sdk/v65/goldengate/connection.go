@@ -85,9 +85,12 @@ type Connection interface {
 	GetSubnetId() *string
 
 	// Controls the network traffic direction to the target:
-	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
 	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
 	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
+	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
+	// Deprecated: SHARED_SERVICE_ENDPOINT is deprecated. Use another supported routingMethod value, or update existing connections to use a supported routing method.
+	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
 	GetRoutingMethod() RoutingMethodEnum
 
 	// Indicates that sensitive attributes are provided via Secrets.
@@ -199,6 +202,10 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		return mm, err
 	case "AMAZON_REDSHIFT":
 		mm := AmazonRedshiftConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AI_MODEL":
+		mm := AiModelConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AMAZON_S3":
@@ -440,30 +447,33 @@ type ConnectionLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ConnectionLifecycleStateEnum
 const (
-	ConnectionLifecycleStateCreating ConnectionLifecycleStateEnum = "CREATING"
-	ConnectionLifecycleStateUpdating ConnectionLifecycleStateEnum = "UPDATING"
-	ConnectionLifecycleStateActive   ConnectionLifecycleStateEnum = "ACTIVE"
-	ConnectionLifecycleStateDeleting ConnectionLifecycleStateEnum = "DELETING"
-	ConnectionLifecycleStateDeleted  ConnectionLifecycleStateEnum = "DELETED"
-	ConnectionLifecycleStateFailed   ConnectionLifecycleStateEnum = "FAILED"
+	ConnectionLifecycleStateCreating       ConnectionLifecycleStateEnum = "CREATING"
+	ConnectionLifecycleStateUpdating       ConnectionLifecycleStateEnum = "UPDATING"
+	ConnectionLifecycleStateActive         ConnectionLifecycleStateEnum = "ACTIVE"
+	ConnectionLifecycleStateDeleting       ConnectionLifecycleStateEnum = "DELETING"
+	ConnectionLifecycleStateDeleted        ConnectionLifecycleStateEnum = "DELETED"
+	ConnectionLifecycleStateFailed         ConnectionLifecycleStateEnum = "FAILED"
+	ConnectionLifecycleStateNeedsAttention ConnectionLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
 var mappingConnectionLifecycleStateEnum = map[string]ConnectionLifecycleStateEnum{
-	"CREATING": ConnectionLifecycleStateCreating,
-	"UPDATING": ConnectionLifecycleStateUpdating,
-	"ACTIVE":   ConnectionLifecycleStateActive,
-	"DELETING": ConnectionLifecycleStateDeleting,
-	"DELETED":  ConnectionLifecycleStateDeleted,
-	"FAILED":   ConnectionLifecycleStateFailed,
+	"CREATING":        ConnectionLifecycleStateCreating,
+	"UPDATING":        ConnectionLifecycleStateUpdating,
+	"ACTIVE":          ConnectionLifecycleStateActive,
+	"DELETING":        ConnectionLifecycleStateDeleting,
+	"DELETED":         ConnectionLifecycleStateDeleted,
+	"FAILED":          ConnectionLifecycleStateFailed,
+	"NEEDS_ATTENTION": ConnectionLifecycleStateNeedsAttention,
 }
 
 var mappingConnectionLifecycleStateEnumLowerCase = map[string]ConnectionLifecycleStateEnum{
-	"creating": ConnectionLifecycleStateCreating,
-	"updating": ConnectionLifecycleStateUpdating,
-	"active":   ConnectionLifecycleStateActive,
-	"deleting": ConnectionLifecycleStateDeleting,
-	"deleted":  ConnectionLifecycleStateDeleted,
-	"failed":   ConnectionLifecycleStateFailed,
+	"creating":        ConnectionLifecycleStateCreating,
+	"updating":        ConnectionLifecycleStateUpdating,
+	"active":          ConnectionLifecycleStateActive,
+	"deleting":        ConnectionLifecycleStateDeleting,
+	"deleted":         ConnectionLifecycleStateDeleted,
+	"failed":          ConnectionLifecycleStateFailed,
+	"needs_attention": ConnectionLifecycleStateNeedsAttention,
 }
 
 // GetConnectionLifecycleStateEnumValues Enumerates the set of values for ConnectionLifecycleStateEnum
@@ -484,6 +494,7 @@ func GetConnectionLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"NEEDS_ATTENTION",
 	}
 }
 

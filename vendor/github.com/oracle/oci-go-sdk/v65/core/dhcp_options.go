@@ -68,6 +68,10 @@ type DhcpOptions struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{ "orcl-cloud": { "free-tier-retained": "true" } }`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// The search domain name type of DHCP options
 	DomainNameType DhcpOptionsDomainNameTypeEnum `mandatory:"false" json:"domainNameType,omitempty"`
 }
@@ -100,6 +104,7 @@ func (m *DhcpOptions) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags    map[string]map[string]interface{} `json:"definedTags"`
 		DisplayName    *string                           `json:"displayName"`
 		FreeformTags   map[string]string                 `json:"freeformTags"`
+		SystemTags     map[string]map[string]interface{} `json:"systemTags"`
 		DomainNameType DhcpOptionsDomainNameTypeEnum     `json:"domainNameType"`
 		CompartmentId  *string                           `json:"compartmentId"`
 		Id             *string                           `json:"id"`
@@ -119,6 +124,8 @@ func (m *DhcpOptions) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.FreeformTags = model.FreeformTags
+
+	m.SystemTags = model.SystemTags
 
 	m.DomainNameType = model.DomainNameType
 

@@ -55,6 +55,8 @@ const (
 	OperationTypeCreateSemanticStore         OperationTypeEnum = "CREATE_SEMANTIC_STORE"
 	OperationTypeDeleteSemanticStore         OperationTypeEnum = "DELETE_SEMANTIC_STORE"
 	OperationTypeMoveSemanticStore           OperationTypeEnum = "MOVE_SEMANTIC_STORE"
+	OperationTypeCreateLangfuseInstance      OperationTypeEnum = "CREATE_LANGFUSE_INSTANCE"
+	OperationTypeDeleteLangfuseInstance      OperationTypeEnum = "DELETE_LANGFUSE_INSTANCE"
 	OperationTypeCreateApplicationDeployment OperationTypeEnum = "CREATE_APPLICATION_DEPLOYMENT"
 	OperationTypeUpdateApplicationDeployment OperationTypeEnum = "UPDATE_APPLICATION_DEPLOYMENT"
 	OperationTypeDeleteApplicationDeployment OperationTypeEnum = "DELETE_APPLICATION_DEPLOYMENT"
@@ -106,6 +108,8 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CREATE_SEMANTIC_STORE":         OperationTypeCreateSemanticStore,
 	"DELETE_SEMANTIC_STORE":         OperationTypeDeleteSemanticStore,
 	"MOVE_SEMANTIC_STORE":           OperationTypeMoveSemanticStore,
+	"CREATE_LANGFUSE_INSTANCE":      OperationTypeCreateLangfuseInstance,
+	"DELETE_LANGFUSE_INSTANCE":      OperationTypeDeleteLangfuseInstance,
 	"CREATE_APPLICATION_DEPLOYMENT": OperationTypeCreateApplicationDeployment,
 	"UPDATE_APPLICATION_DEPLOYMENT": OperationTypeUpdateApplicationDeployment,
 	"DELETE_APPLICATION_DEPLOYMENT": OperationTypeDeleteApplicationDeployment,
@@ -157,6 +161,8 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"create_semantic_store":         OperationTypeCreateSemanticStore,
 	"delete_semantic_store":         OperationTypeDeleteSemanticStore,
 	"move_semantic_store":           OperationTypeMoveSemanticStore,
+	"create_langfuse_instance":      OperationTypeCreateLangfuseInstance,
+	"delete_langfuse_instance":      OperationTypeDeleteLangfuseInstance,
 	"create_application_deployment": OperationTypeCreateApplicationDeployment,
 	"update_application_deployment": OperationTypeUpdateApplicationDeployment,
 	"delete_application_deployment": OperationTypeDeleteApplicationDeployment,
@@ -219,6 +225,8 @@ func GetOperationTypeEnumStringValues() []string {
 		"CREATE_SEMANTIC_STORE",
 		"DELETE_SEMANTIC_STORE",
 		"MOVE_SEMANTIC_STORE",
+		"CREATE_LANGFUSE_INSTANCE",
+		"DELETE_LANGFUSE_INSTANCE",
 		"CREATE_APPLICATION_DEPLOYMENT",
 		"UPDATE_APPLICATION_DEPLOYMENT",
 		"DELETE_APPLICATION_DEPLOYMENT",

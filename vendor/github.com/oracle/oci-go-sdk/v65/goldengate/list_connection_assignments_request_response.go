@@ -26,6 +26,12 @@ type ListConnectionAssignmentsRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connection.
 	ConnectionId *string `mandatory:"false" contributesTo:"query" name:"connectionId"`
 
+	// The array of connection types.
+	ConnectionType []ConnectionTypeEnum `contributesTo:"query" name:"connectionType" omitEmpty:"true" collectionFormat:"multi"`
+
+	// The array of connection types to exclude.
+	ConnectionTypeNotEqualTo []ConnectionTypeEnum `contributesTo:"query" name:"connectionTypeNotEqualTo" omitEmpty:"true" collectionFormat:"multi"`
+
 	// The name of the connection in the assignment (aliasName).
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
@@ -86,6 +92,18 @@ func (request ListConnectionAssignmentsRequest) RetryPolicy() *common.RetryPolic
 // Not recommended for calling this function directly
 func (request ListConnectionAssignmentsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	for _, val := range request.ConnectionType {
+		if _, ok := GetMappingConnectionTypeEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConnectionType: %s. Supported values are: %s.", val, strings.Join(GetConnectionTypeEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.ConnectionTypeNotEqualTo {
+		if _, ok := GetMappingConnectionTypeEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConnectionTypeNotEqualTo: %s. Supported values are: %s.", val, strings.Join(GetConnectionTypeEnumStringValues(), ",")))
+		}
+	}
+
 	if _, ok := GetMappingConnectionAssignmentLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetConnectionAssignmentLifecycleStateEnumStringValues(), ",")))
 	}

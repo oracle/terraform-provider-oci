@@ -40,6 +40,12 @@ type UpdateAutonomousVmClusterDetails struct {
 	// The new value of maximum number of ACDs for the Autonomous VM cluster.
 	TotalContainerDatabases *int `mandatory:"false" json:"totalContainerDatabases"`
 
+	// The amount of memory (in GBs) to be enabled per OCPU or ECPU.
+	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
+
+	// The new value of percentage of ECPU memory allocated for SGA(System Global Area).
+	SgaPercentage *float32 `mandatory:"false" json:"sgaPercentage"`
+
 	// The time zone to use for the Autonomous VM cluster. For details, see DB System Time Zones (https://docs.oracle.com/iaas/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 

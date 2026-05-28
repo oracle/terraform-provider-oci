@@ -29,6 +29,9 @@ type ConnectionAssignmentSummary struct {
 	// referenced.
 	ConnectionId *string `mandatory:"true" json:"connectionId"`
 
+	// The connection type.
+	ConnectionType ConnectionTypeEnum `mandatory:"true" json:"connectionType"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced.
 	DeploymentId *string `mandatory:"true" json:"deploymentId"`
 
@@ -56,6 +59,9 @@ func (m ConnectionAssignmentSummary) String() string {
 // Not recommended for calling this function directly
 func (m ConnectionAssignmentSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingConnectionTypeEnum(string(m.ConnectionType)); !ok && m.ConnectionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConnectionType: %s. Supported values are: %s.", m.ConnectionType, strings.Join(GetConnectionTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingConnectionAssignmentLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetConnectionAssignmentLifecycleStateEnumStringValues(), ",")))
 	}

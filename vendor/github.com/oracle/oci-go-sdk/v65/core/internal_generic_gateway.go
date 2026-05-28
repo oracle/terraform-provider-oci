@@ -78,6 +78,10 @@ type InternalGenericGateway struct {
 	// Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{ "orcl-cloud": { "free-tier-retained": "true" } }`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// Optional and valid only for ServiceGateway (SGW) or Private Access Gateway (PAGW) to support ADB-S colocation.
 	// In order to support ADB-S colocation, ADB-S traffic via SGW/PAGW needs to be routed to
 	// dedicated fleets. Thus the existing default routes will be overridden with the targets

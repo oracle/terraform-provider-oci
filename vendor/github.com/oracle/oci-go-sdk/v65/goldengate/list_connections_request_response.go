@@ -26,6 +26,9 @@ type ListConnectionsRequest struct {
 	// The array of connection types.
 	ConnectionType []ConnectionTypeEnum `contributesTo:"query" name:"connectionType" omitEmpty:"true" collectionFormat:"multi"`
 
+	// The array of connection types to exclude.
+	ConnectionTypeNotEqualTo []ConnectionTypeEnum `contributesTo:"query" name:"connectionTypeNotEqualTo" omitEmpty:"true" collectionFormat:"multi"`
+
 	// The OCID of the deployment which for the connection must be assigned.
 	AssignedDeploymentId *string `mandatory:"false" contributesTo:"query" name:"assignedDeploymentId"`
 
@@ -104,6 +107,12 @@ func (request ListConnectionsRequest) ValidateEnumValue() (bool, error) {
 	for _, val := range request.ConnectionType {
 		if _, ok := GetMappingConnectionTypeEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConnectionType: %s. Supported values are: %s.", val, strings.Join(GetConnectionTypeEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.ConnectionTypeNotEqualTo {
+		if _, ok := GetMappingConnectionTypeEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConnectionTypeNotEqualTo: %s. Supported values are: %s.", val, strings.Join(GetConnectionTypeEnumStringValues(), ",")))
 		}
 	}
 
