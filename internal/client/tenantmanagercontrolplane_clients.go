@@ -13,6 +13,7 @@ func init() {
 	RegisterOracleClient("oci_tenantmanagercontrolplane.DomainClient", &OracleClient{InitClientFn: initTenantmanagercontrolplaneDomainClient})
 	RegisterOracleClient("oci_tenantmanagercontrolplane.DomainGovernanceClient", &OracleClient{InitClientFn: initTenantmanagercontrolplaneDomainGovernanceClient})
 	RegisterOracleClient("oci_tenantmanagercontrolplane.LinkClient", &OracleClient{InitClientFn: initTenantmanagercontrolplaneLinkClient})
+	RegisterOracleClient("oci_tenantmanagercontrolplane.LinkFeaturesClient", &OracleClient{InitClientFn: initTenantmanagercontrolplaneLinkFeaturesClient})
 	RegisterOracleClient("oci_tenantmanagercontrolplane.OrganizationClient", &OracleClient{InitClientFn: initTenantmanagercontrolplaneOrganizationClient})
 	RegisterOracleClient("oci_tenantmanagercontrolplane.RecipientInvitationClient", &OracleClient{InitClientFn: initTenantmanagercontrolplaneRecipientInvitationClient})
 	RegisterOracleClient("oci_tenantmanagercontrolplane.SenderInvitationClient", &OracleClient{InitClientFn: initTenantmanagercontrolplaneSenderInvitationClient})
@@ -78,6 +79,26 @@ func initTenantmanagercontrolplaneLinkClient(configProvider oci_common.Configura
 
 func (m *OracleClients) LinkClient() *oci_tenantmanagercontrolplane.LinkClient {
 	return m.GetClient("oci_tenantmanagercontrolplane.LinkClient").(*oci_tenantmanagercontrolplane.LinkClient)
+}
+
+func initTenantmanagercontrolplaneLinkFeaturesClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_tenantmanagercontrolplane.NewLinkFeaturesClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) LinkFeaturesClient() *oci_tenantmanagercontrolplane.LinkFeaturesClient {
+	return m.GetClient("oci_tenantmanagercontrolplane.LinkFeaturesClient").(*oci_tenantmanagercontrolplane.LinkFeaturesClient)
 }
 
 func initTenantmanagercontrolplaneOrganizationClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

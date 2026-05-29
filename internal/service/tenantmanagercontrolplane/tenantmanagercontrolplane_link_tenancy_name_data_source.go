@@ -6,6 +6,7 @@ package tenantmanagercontrolplane
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_tenantmanagercontrolplane "github.com/oracle/oci-go-sdk/v65/tenantmanagercontrolplane"
 
@@ -13,9 +14,9 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
-func TenantmanagercontrolplaneLinkDataSource() *schema.Resource {
+func TenantmanagercontrolplaneLinkTenancyNameDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularTenantmanagercontrolplaneLink,
+		ReadContext: readSingularTenantmanagercontrolplaneLinkTenancyNameWithContext,
 		Schema: map[string]*schema.Schema{
 			"link_id": {
 				Type:     schema.TypeString,
@@ -26,11 +27,19 @@ func TenantmanagercontrolplaneLinkDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"child_tenancy_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"feature": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"parent_tenancy_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"parent_tenancy_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -54,26 +63,26 @@ func TenantmanagercontrolplaneLinkDataSource() *schema.Resource {
 	}
 }
 
-func readSingularTenantmanagercontrolplaneLink(d *schema.ResourceData, m interface{}) error {
-	sync := &TenantmanagercontrolplaneLinkDataSourceCrud{}
+func readSingularTenantmanagercontrolplaneLinkTenancyNameWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	sync := &TenantmanagercontrolplaneLinkTenancyNameDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LinkClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-type TenantmanagercontrolplaneLinkDataSourceCrud struct {
+type TenantmanagercontrolplaneLinkTenancyNameDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_tenantmanagercontrolplane.LinkClient
-	Res    *oci_tenantmanagercontrolplane.GetLinkResponse
+	Res    *oci_tenantmanagercontrolplane.GetLinkWithTenancyNamesResponse
 }
 
-func (s *TenantmanagercontrolplaneLinkDataSourceCrud) VoidState() {
+func (s *TenantmanagercontrolplaneLinkTenancyNameDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *TenantmanagercontrolplaneLinkDataSourceCrud) Get() error {
-	request := oci_tenantmanagercontrolplane.GetLinkRequest{}
+func (s *TenantmanagercontrolplaneLinkTenancyNameDataSourceCrud) GetWithContext(ctx context.Context) error {
+	request := oci_tenantmanagercontrolplane.GetLinkWithTenancyNamesRequest{}
 
 	if linkId, ok := s.D.GetOkExists("link_id"); ok {
 		tmp := linkId.(string)
@@ -82,7 +91,7 @@ func (s *TenantmanagercontrolplaneLinkDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "tenantmanagercontrolplane")
 
-	response, err := s.Client.GetLink(context.Background(), request)
+	response, err := s.Client.GetLinkWithTenancyNames(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -91,7 +100,7 @@ func (s *TenantmanagercontrolplaneLinkDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *TenantmanagercontrolplaneLinkDataSourceCrud) SetData() error {
+func (s *TenantmanagercontrolplaneLinkTenancyNameDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -102,12 +111,20 @@ func (s *TenantmanagercontrolplaneLinkDataSourceCrud) SetData() error {
 		s.D.Set("child_tenancy_id", *s.Res.ChildTenancyId)
 	}
 
+	if s.Res.ChildTenancyName != nil {
+		s.D.Set("child_tenancy_name", *s.Res.ChildTenancyName)
+	}
+
 	if s.Res.Feature != nil {
 		s.D.Set("feature", *s.Res.Feature)
 	}
 
 	if s.Res.ParentTenancyId != nil {
 		s.D.Set("parent_tenancy_id", *s.Res.ParentTenancyId)
+	}
+
+	if s.Res.ParentTenancyName != nil {
+		s.D.Set("parent_tenancy_name", *s.Res.ParentTenancyName)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

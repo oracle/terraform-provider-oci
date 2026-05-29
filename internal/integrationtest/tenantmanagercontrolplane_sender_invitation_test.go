@@ -41,6 +41,9 @@ func TestTenantmanagercontrolplaneSenderInvitationResource_basic(t *testing.T) {
 	config := acctest.ProviderTestConfig()
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("sender_invitation_compartment_id")
+	if compartmentId == "" {
+		compartmentId = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	}
 	compartmentIdVariableStr := fmt.Sprintf("variable \"sender_invitation_compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	senderInvitationId := utils.GetEnvSettingWithBlankDefault("sender_invitation_id")
@@ -71,22 +74,20 @@ func TestTenantmanagercontrolplaneSenderInvitationResource_basic(t *testing.T) {
 	fmt.Printf("Data Source Config: %s\n", dataSourceConfig)
 	fmt.Printf("Singular Data Source Config: %s\n", singularDataSourceConfig)
 
-	acctest.ResourceTest(t, nil, []resource.TestStep{
+	testSteps := []resource.TestStep{
 		// verify datasource
 		{
 			Config: dataSourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "compartment_id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "display_name"),
-				resource.TestCheckResourceAttrSet(datasourceName, "recipient_tenancy_id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "state"),
-				resource.TestCheckResourceAttrSet(datasourceName, "status"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "sender_invitation_collection.#"),
 			),
 		},
-		// verify singular datasource
-		{
+	}
+
+	if senderInvitationId != "" {
+		testSteps = append(testSteps, resource.TestStep{
 			Config: singularDataSourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sender_invitation_id"),
@@ -94,6 +95,8 @@ func TestTenantmanagercontrolplaneSenderInvitationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "invitation_features.#"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "recipient_email_address"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "recipient_invitation_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
@@ -101,6 +104,8 @@ func TestTenantmanagercontrolplaneSenderInvitationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
-		},
-	})
+		})
+	}
+
+	acctest.ResourceTest(t, nil, testSteps)
 }

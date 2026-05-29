@@ -19,6 +19,7 @@ data "oci_tenantmanagercontrolplane_links" "test_links" {
 
 	#Optional
 	child_tenancy_id = oci_identity_tenancy.test_tenancy.id
+	feature = var.link_feature
 	parent_tenancy_id = oci_identity_tenancy.test_tenancy.id
 	state = var.link_state
 }
@@ -29,6 +30,7 @@ data "oci_tenantmanagercontrolplane_links" "test_links" {
 The following arguments are supported:
 
 * `child_tenancy_id` - (Optional) The ID of the child tenancy this link is associated with.
+* `feature` - (Optional) The feature associated with this link.
 * `parent_tenancy_id` - (Optional) The ID of the parent tenancy this link is associated with.
 * `state` - (Optional) The lifecycle state of the resource.
 
@@ -44,6 +46,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `child_tenancy_id` - OCID of the child tenancy.
+* `feature` - The feature associated with this link. Default value is CORE.
 * `id` - OCID of the link.
 * `parent_tenancy_id` - OCID of the parent tenancy.
 * `state` - Lifecycle state of the link.
