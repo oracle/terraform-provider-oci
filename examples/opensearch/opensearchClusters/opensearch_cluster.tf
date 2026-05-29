@@ -92,6 +92,26 @@ variable "opensearch_cluster_maintenance_details_notification_email_ids" {
   default = []
 }
 
+variable "opensearch_cluster_coordinator_node_count" {
+  default = 10
+}
+
+variable "opensearch_cluster_coordinator_node_host_memory_gb" {
+  default = 10
+}
+
+variable "opensearch_cluster_coordinator_node_host_ocpu_count" {
+  default = 10
+}
+
+variable "opensearch_cluster_coordinator_node_host_shape" {
+  default = "coordinatorNodeHostShape"
+}
+
+variable "opensearch_cluster_coordinator_node_host_type" {
+  default = "FLEX"
+}
+
 variable "opensearch_cluster_master_node_count" {
   default = 10
 }
@@ -300,11 +320,16 @@ resource "oci_opensearch_opensearch_cluster" "test_opensearch_cluster" {
     open_search_api_certificate_id       = oci_apigateway_certificate.test_certificate.id
     open_search_dashboard_certificate_id = oci_apigateway_certificate.test_certificate.id
   }
-  data_node_host_bare_metal_shape = var.opensearch_cluster_data_node_host_bare_metal_shape
-  data_node_host_shape            = var.opensearch_cluster_data_node_host_shape
-  defined_tags                    = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.opensearch_cluster_defined_tags_value)
-  freeform_tags                   = var.opensearch_cluster_freeform_tags
-  inbound_cluster_ids             = var.opensearch_cluster_inbound_cluster_ids
+  coordinator_node_count           = var.opensearch_cluster_coordinator_node_count
+  coordinator_node_host_memory_gb  = var.opensearch_cluster_coordinator_node_host_memory_gb
+  coordinator_node_host_ocpu_count = var.opensearch_cluster_coordinator_node_host_ocpu_count
+  coordinator_node_host_shape      = var.opensearch_cluster_coordinator_node_host_shape
+  coordinator_node_host_type       = var.opensearch_cluster_coordinator_node_host_type
+  data_node_host_bare_metal_shape  = var.opensearch_cluster_data_node_host_bare_metal_shape
+  data_node_host_shape             = var.opensearch_cluster_data_node_host_shape
+  defined_tags                     = tomap({ oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name = var.opensearch_cluster_defined_tags_value })
+  freeform_tags                    = var.opensearch_cluster_freeform_tags
+  inbound_cluster_ids              = var.opensearch_cluster_inbound_cluster_ids
   load_balancer_config {
     #Required
     load_balancer_service_type = var.opensearch_cluster_load_balancer_config_load_balancer_service_type
@@ -377,4 +402,3 @@ data "oci_opensearch_opensearch_clusters" "test_opensearch_clusters" {
   id           = var.opensearch_cluster_id
   state        = var.opensearch_cluster_state
 }
-

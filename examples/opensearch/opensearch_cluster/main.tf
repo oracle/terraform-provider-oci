@@ -41,6 +41,26 @@ variable "opensearch_cluster_data_node_count" {
   default = 1
 }
 
+variable "opensearch_cluster_coordinator_node_count" {
+  default = 1
+}
+
+variable "opensearch_cluster_coordinator_node_host_memory_gb" {
+  default = 20
+}
+
+variable "opensearch_cluster_coordinator_node_host_ocpu_count" {
+  default = 2
+}
+
+variable "opensearch_cluster_coordinator_node_host_shape" {
+  default = "VM.Standard.E3.Flex"
+}
+
+variable "opensearch_cluster_coordinator_node_host_type" {
+  default = "FLEX"
+}
+
 variable "opensearch_cluster_data_node_host_bare_metal_shape" {
   default = "dataNodeHostBareMetalShape"
 }
@@ -156,6 +176,11 @@ resource "oci_opensearch_opensearch_cluster" "test_opensearch_cluster" {
   vcn_id                             = oci_core_vcn.test_vcn.id
 
   #Optional
+  coordinator_node_count           = var.opensearch_cluster_coordinator_node_count
+  coordinator_node_host_memory_gb  = var.opensearch_cluster_coordinator_node_host_memory_gb
+  coordinator_node_host_ocpu_count = var.opensearch_cluster_coordinator_node_host_ocpu_count
+  coordinator_node_host_shape      = var.opensearch_cluster_coordinator_node_host_shape
+  coordinator_node_host_type       = var.opensearch_cluster_coordinator_node_host_type
   data_node_host_bare_metal_shape   = var.opensearch_cluster_data_node_host_bare_metal_shape
   #  defined_tags                      = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.opensearch_cluster_defined_tags_value)
   freeform_tags                     = var.opensearch_cluster_freeform_tags
