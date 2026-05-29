@@ -22,6 +22,10 @@ func TenantmanagercontrolplaneLinksDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"feature": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"parent_tenancy_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -46,6 +50,10 @@ func TenantmanagercontrolplaneLinksDataSource() *schema.Resource {
 
 									// Computed
 									"child_tenancy_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"feature": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -107,6 +115,11 @@ func (s *TenantmanagercontrolplaneLinksDataSourceCrud) Get() error {
 	if childTenancyId, ok := s.D.GetOkExists("child_tenancy_id"); ok {
 		tmp := childTenancyId.(string)
 		request.ChildTenancyId = &tmp
+	}
+
+	if feature, ok := s.D.GetOkExists("feature"); ok {
+		tmp := feature.(string)
+		request.Feature = &tmp
 	}
 
 	if parentTenancyId, ok := s.D.GetOkExists("parent_tenancy_id"); ok {
@@ -174,6 +187,10 @@ func LinkSummaryToMap(obj oci_tenantmanagercontrolplane.LinkSummary) map[string]
 
 	if obj.ChildTenancyId != nil {
 		result["child_tenancy_id"] = string(*obj.ChildTenancyId)
+	}
+
+	if obj.Feature != nil {
+		result["feature"] = string(*obj.Feature)
 	}
 
 	if obj.Id != nil {

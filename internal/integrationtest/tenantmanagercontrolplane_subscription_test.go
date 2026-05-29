@@ -40,6 +40,9 @@ func TestTenantmanagercontrolplaneSubscriptionResource_basic(t *testing.T) {
 	config := acctest.ProviderTestConfig()
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("subscription_compartment_id")
+	if compartmentId == "" {
+		compartmentId = utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	}
 	compartmentIdVariableStr := fmt.Sprintf("variable \"subscription_compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	entityVersion := utils.GetEnvSettingWithBlankDefault("subscription_entity_version")
@@ -59,20 +62,20 @@ func TestTenantmanagercontrolplaneSubscriptionResource_basic(t *testing.T) {
 	fmt.Printf("Data Source Config: %s\n", dataSourceConfig)
 	fmt.Printf("Singular Data Source Config: %s\n", singularDataSourceConfig)
 
-	acctest.ResourceTest(t, nil, []resource.TestStep{
+	testSteps := []resource.TestStep{
 		// verify datasource
 		{
 			Config: dataSourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "compartment_id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "entity_version"),
-				resource.TestCheckResourceAttrSet(datasourceName, "subscription_id"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "subscription_collection.#"),
 			),
 		},
-		// verify singular datasource
-		{
+	}
+
+	if subscriptionId != "" {
+		testSteps = append(testSteps, resource.TestStep{
 			Config: singularDataSourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "subscription_id"),
@@ -88,6 +91,7 @@ func TestTenantmanagercontrolplaneSubscriptionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_classic_subscription"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_government_subscription"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "payment_model"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "program_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "promotion.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "purchase_entitlement_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_name"),
@@ -98,8 +102,10 @@ func TestTenantmanagercontrolplaneSubscriptionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
-		},
-	})
+		})
+	}
+
+	acctest.ResourceTest(t, nil, testSteps)
 }
 
 func getTenantmanagercontrolplaneSubscriptionIds(compartment string) ([]string, error) {

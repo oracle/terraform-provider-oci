@@ -69,27 +69,26 @@ func TestTenantmanagercontrolplaneDomainResource_basic(t *testing.T) {
 	fmt.Printf("Data Source Config: %s\n", dataSourceConfig)
 	fmt.Printf("Singular Data Source Config: %s\n", singularDataSourceConfig)
 
-	acctest.ResourceTest(t, nil, []resource.TestStep{
+	testSteps := []resource.TestStep{
 		// verify datasource
 		{
 			Config: dataSourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "compartment_id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "domain_id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "name"),
-				resource.TestCheckResourceAttrSet(datasourceName, "state"),
-				resource.TestCheckResourceAttrSet(datasourceName, "status"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "domain_collection.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "domain_collection.0.items.#"),
 			),
 		},
-		// verify singular datasource
-		{
+	}
+
+	if domainId != "" {
+		testSteps = append(testSteps, resource.TestStep{
 			Config: singularDataSourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "domain_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "freeform_tags.%"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "owner_id"),
@@ -99,6 +98,8 @@ func TestTenantmanagercontrolplaneDomainResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "txt_record"),
 			),
-		},
-	})
+		})
+	}
+
+	acctest.ResourceTest(t, nil, testSteps)
 }

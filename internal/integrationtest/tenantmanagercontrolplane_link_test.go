@@ -20,8 +20,13 @@ var (
 		"link_id": acctest.Representation{RepType: acctest.Required, Create: `${var.link_id}`},
 	}
 
+	TenantmanagercontrolplaneLinkTenancyNameSingularDataSourceRepresentation = map[string]interface{}{
+		"link_id": acctest.Representation{RepType: acctest.Required, Create: `${var.link_id}`},
+	}
+
 	TenantmanagercontrolplaneLinkDataSourceRepresentation = map[string]interface{}{
 		"child_tenancy_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.child_tenancy_id}`},
+		"feature":           acctest.Representation{RepType: acctest.Optional, Create: `${var.feature}`},
 		"parent_tenancy_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.parent_tenancy_id}`},
 		"state":             acctest.Representation{RepType: acctest.Optional, Create: `${var.state}`},
 	}
@@ -46,35 +51,60 @@ func TestTenantmanagercontrolplaneLinkResource_basic(t *testing.T) {
 	state := utils.GetEnvSettingWithBlankDefault("state")
 	stateVariableStr := fmt.Sprintf("variable \"state\" { default = \"%s\" }\n", state)
 
-	datasourceName := "data.oci_tenantmanagercontrolplane_links.test_links"
+	feature := utils.GetEnvSettingWithBlankDefault("feature")
+	featureVariableStr := fmt.Sprintf("variable \"feature\" { default = \"%s\" }\n", feature)
+
 	singularDatasourceName := "data.oci_tenantmanagercontrolplane_link.test_link"
+	linkTenancyNameSingularDatasourceName := "data.oci_tenantmanagercontrolplane_link_tenancy_name.test_link_tenancy_name"
 
 	acctest.SaveConfigContent("", "", "", t)
 
-	dataSourceConfig := config + childTenancyIdVariableStr + parentTenancyIdVariableStr + stateVariableStr + linkIdVariableStr + acctest.GenerateDataSourceFromRepresentationMap("oci_tenantmanagercontrolplane_links", "test_links", acctest.Optional, acctest.Create, TenantmanagercontrolplaneLinkDataSourceRepresentation)
+	dataSourceConfig := config + childTenancyIdVariableStr + parentTenancyIdVariableStr + stateVariableStr + featureVariableStr + linkIdVariableStr + acctest.GenerateDataSourceFromRepresentationMap("oci_tenantmanagercontrolplane_links", "test_links", acctest.Optional, acctest.Create, TenantmanagercontrolplaneLinkDataSourceRepresentation)
 	singularDataSourceConfig := config + linkIdVariableStr + acctest.GenerateDataSourceFromRepresentationMap("oci_tenantmanagercontrolplane_link", "test_link", acctest.Required, acctest.Create, TenantmanagercontrolplaneLinkSingularDataSourceRepresentation)
+	linkTenancyNameSingularDataSourceConfig := config + linkIdVariableStr + acctest.GenerateDataSourceFromRepresentationMap("oci_tenantmanagercontrolplane_link_tenancy_name", "test_link_tenancy_name", acctest.Required, acctest.Create, TenantmanagercontrolplaneLinkTenancyNameSingularDataSourceRepresentation)
 
 	fmt.Printf("Data Source Config: %s\n", dataSourceConfig)
 	fmt.Printf("Singular Data Source Config: %s\n", singularDataSourceConfig)
+	fmt.Printf("Link Tenancy Name Singular Data Source Config: %s\n", linkTenancyNameSingularDataSourceConfig)
 
-	acctest.ResourceTest(t, nil, []resource.TestStep{
+	testSteps := []resource.TestStep{
 		// verify datasource
 		{
 			Config: dataSourceConfig,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(datasourceName, "link_collection.#"),
-			),
 		},
-		// verify singular datasource
-		{
+	}
+
+	if linkId != "" {
+		testSteps = append(testSteps, resource.TestStep{
 			Config: singularDataSourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "link_id"),
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "feature"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
-		},
-	})
+		})
+
+		testSteps = append(testSteps, resource.TestStep{
+			Config: linkTenancyNameSingularDataSourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(linkTenancyNameSingularDatasourceName, "link_id"),
+
+				resource.TestCheckResourceAttrSet(linkTenancyNameSingularDatasourceName, "child_tenancy_id"),
+				resource.TestCheckResourceAttrSet(linkTenancyNameSingularDatasourceName, "child_tenancy_name"),
+				resource.TestCheckResourceAttrSet(linkTenancyNameSingularDatasourceName, "feature"),
+				resource.TestCheckResourceAttrSet(linkTenancyNameSingularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(linkTenancyNameSingularDatasourceName, "parent_tenancy_id"),
+				resource.TestCheckResourceAttrSet(linkTenancyNameSingularDatasourceName, "parent_tenancy_name"),
+				resource.TestCheckResourceAttrSet(linkTenancyNameSingularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(linkTenancyNameSingularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(linkTenancyNameSingularDatasourceName, "time_updated"),
+			),
+		})
+	}
+
+	acctest.ResourceTest(t, nil, testSteps)
 }

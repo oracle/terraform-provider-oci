@@ -15,34 +15,35 @@ variable "region" {
 }
 
 variable "link_id" {
-
+  default = ""
 }
 
 variable "child_tenancy_id" {
-
+  default = ""
 }
 
 variable "parent_tenancy_id" {
-
+  default = ""
 }
 
 variable "state" {
-    
+  default = ""
 }
 
 provider "oci" {
-	tenancy_ocid     = var.tenancy_ocid
-	auth             = var.auth
-	config_file_profile = var.config_file_profile
-	region           = var.region
+  tenancy_ocid        = var.tenancy_ocid
+  auth                = var.auth
+  config_file_profile = var.config_file_profile
+  region              = var.region
 }
 
 data "oci_tenantmanagercontrolplane_link" "test_link" {
-    link_id = var.link_id
+  count   = var.link_id != "" ? 1 : 0
+  link_id = var.link_id
 }
 
 data "oci_tenantmanagercontrolplane_links" "test_links" {
-    child_tenancy_id = var.child_tenancy_id
-    parent_tenancy_id = var.parent_tenancy_id
-    state = var.state
+  child_tenancy_id  = var.child_tenancy_id
+  parent_tenancy_id = var.parent_tenancy_id
+  state             = var.state
 }

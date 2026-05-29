@@ -40,6 +40,31 @@ func TenantmanagercontrolplaneSenderInvitationDataSource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"invitation_features": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"recipient_invitation_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"recipient_email_address": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -141,6 +166,12 @@ func (s *TenantmanagercontrolplaneSenderInvitationDataSourceCrud) SetData() erro
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	invitationFeatures := []interface{}{}
+	for _, item := range s.Res.InvitationFeatures {
+		invitationFeatures = append(invitationFeatures, InvitationFeatureToMap(item))
+	}
+	s.D.Set("invitation_features", invitationFeatures)
 
 	if s.Res.RecipientEmailAddress != nil {
 		s.D.Set("recipient_email_address", *s.Res.RecipientEmailAddress)

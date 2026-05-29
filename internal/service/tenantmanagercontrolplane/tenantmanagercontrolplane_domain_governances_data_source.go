@@ -224,6 +224,10 @@ func (s *TenantmanagercontrolplaneDomainGovernancesDataSourceCrud) SetData() err
 func DomainGovernanceSummaryToMap(obj oci_tenantmanagercontrolplane.DomainGovernanceSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
 	}

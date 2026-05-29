@@ -62,6 +62,13 @@ func TenantmanagercontrolplaneRecipientInvitationsDataSource() *schema.Resource 
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"features": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"freeform_tags": {
 										Type:     schema.TypeMap,
 										Computed: true,
@@ -225,6 +232,8 @@ func RecipientInvitationSummaryToMap(obj oci_tenantmanagercontrolplane.Recipient
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
+
+	result["features"] = obj.Features
 
 	result["freeform_tags"] = obj.FreeformTags
 
