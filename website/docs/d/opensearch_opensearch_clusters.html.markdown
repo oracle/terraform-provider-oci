@@ -67,6 +67,11 @@ The following attributes are exported:
 	* `open_search_api_certificate_id` - certificate to be used for OpenSearch cluster api communication
 	* `open_search_dashboard_certificate_id` - certificate to be used for OpenSearch dashboard api communication
 * `compartment_id` - The OCID of the compartment where the cluster is located.
+* `coordinator_node_count` - The number of coordinator nodes configured for the cluster.
+* `coordinator_node_host_memory_gb` - The amount of memory in GB, for the cluster's coordinator nodes.
+* `coordinator_node_host_ocpu_count` - The number of OCPUs configured for the cluster's coordinator nodes.
+* `coordinator_node_host_shape` - The node shape for the cluster's coordinator nodes.
+* `coordinator_node_host_type` - The instance type for the cluster's coordinator nodes.
 * `data_node_count` - The number of data nodes configured for the cluster.
 * `data_node_host_bare_metal_shape` - The bare metal shape for the cluster's data nodes.
 * `data_node_host_memory_gb` - The amount of memory in GB, for the cluster's data nodes.
