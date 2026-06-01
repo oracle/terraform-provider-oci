@@ -46,6 +46,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 			#Optional
 			capacity_reservation_id = oci_containerengine_capacity_reservation.test_capacity_reservation.id
 			fault_domains = var.node_pool_node_config_details_placement_configs_fault_domains
+			host_group_id = oci_identity_group.test_group.id
 			preemptible_node_config {
 				#Required
 				preemption_action {
@@ -60,6 +61,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
 		size = var.node_pool_node_config_details_size
 
 		#Optional
+		compute_cluster_id = oci_core_compute_cluster.test_compute_cluster.id
 		defined_tags = {"Operations.CostCenter"= "42"}
 		freeform_tags = {"Department"= "Finance"}
 		is_pv_encryption_in_transit_enabled = var.node_pool_node_config_details_is_pv_encryption_in_transit_enabled
@@ -161,6 +163,7 @@ The following arguments are supported:
 * `name` - (Required) (Updatable) The name of the node pool. Avoid entering confidential information.
 * `network_launch_type` - (Optional) (Updatable) Emulation type for the physical network interface card (NIC) for nodes
 * `node_config_details` - (Optional) (Updatable) The configuration of nodes in the node pool. Exactly one of the subnetIds or nodeConfigDetails properties must be specified. 
+	* `compute_cluster_id` - (Optional) The OCID of the Compute Cluster to be associated with the worker node instance.
 	* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 	* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 	* `is_pv_encryption_in_transit_enabled` - (Optional) (Updatable) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
@@ -177,6 +180,7 @@ The following arguments are supported:
 		* `availability_domain` - (Required) (Updatable) The availability domain in which to place nodes. Example: `Uocm:PHX-AD-1` 
 		* `capacity_reservation_id` - (Optional) (Updatable) The OCID of the compute capacity reservation in which to place the compute instance.
 		* `fault_domains` - (Optional) (Updatable) A list of fault domains in which to place nodes. 
+		* `host_group_id` - (Optional) (Updatable) The OCID of the Host Group to be associated with the worker node instance.
 		* `preemptible_node_config` - (Optional) (Updatable) Configuration options for preemptible nodes.
 			* `preemption_action` - (Required) (Updatable) The action to run when the preemptible node is interrupted for eviction.
 				* `is_preserve_boot_volume` - (Optional) (Updatable) Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified. 
@@ -247,6 +251,7 @@ The following attributes are exported:
 * `name` - The name of the node pool.
 * `network_launch_type` - Emulation type for the physical network interface card (NIC) for nodes
 * `node_config_details` - The configuration of nodes in the node pool.
+	* `compute_cluster_id` - The OCID of the Compute Cluster to be associated with the worker node instance.
 	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 	* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 	* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
@@ -263,6 +268,7 @@ The following attributes are exported:
 		* `availability_domain` - The availability domain in which to place nodes. Example: `Uocm:PHX-AD-1` 
 		* `capacity_reservation_id` - The OCID of the compute capacity reservation in which to place the compute instance.
 		* `fault_domains` - A list of fault domains in which to place nodes. 
+		* `host_group_id` - The OCID of the Host Group to be associated with the worker node instance.
 		* `preemptible_node_config` - Configuration options for preemptible nodes.
 			* `preemption_action` - The action to run when the preemptible node is interrupted for eviction.
 				* `is_preserve_boot_volume` - Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified. 
