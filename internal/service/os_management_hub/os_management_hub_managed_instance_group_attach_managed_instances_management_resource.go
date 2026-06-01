@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,10 +25,10 @@ func OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementResource
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOsManagementHubManagedInstanceGroupAttachManagedInstancesManagement,
-		Read:     readOsManagementHubManagedInstanceGroupAttachManagedInstancesManagement,
-		Delete:   deleteOsManagementHubManagedInstanceGroupAttachManagedInstancesManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOsManagementHubManagedInstanceGroupAttachManagedInstancesManagementWithContext,
+		ReadContext:   readOsManagementHubManagedInstanceGroupAttachManagedInstancesManagementWithContext,
+		DeleteContext: deleteOsManagementHubManagedInstanceGroupAttachManagedInstancesManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"managed_instance_group_id": {
@@ -80,20 +81,20 @@ func OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementResource
 	}
 }
 
-func createOsManagementHubManagedInstanceGroupAttachManagedInstancesManagement(d *schema.ResourceData, m interface{}) error {
+func createOsManagementHubManagedInstanceGroupAttachManagedInstancesManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagedInstanceGroupClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOsManagementHubManagedInstanceGroupAttachManagedInstancesManagement(d *schema.ResourceData, m interface{}) error {
+func readOsManagementHubManagedInstanceGroupAttachManagedInstancesManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteOsManagementHubManagedInstanceGroupAttachManagedInstancesManagement(d *schema.ResourceData, m interface{}) error {
+func deleteOsManagementHubManagedInstanceGroupAttachManagedInstancesManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -109,7 +110,7 @@ func (s *OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementReso
 	return *s.Res.Id
 }
 
-func (s *OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementResourceCrud) Get() error {
+func (s *OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.GetManagedInstanceGroupRequest{}
 
 	if managedInstanceGroupId, ok := s.D.GetOkExists("managed_instance_group_id"); ok {
@@ -119,7 +120,7 @@ func (s *OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementReso
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "os_management_hub")
 
-	response, err := s.Client.GetManagedInstanceGroup(context.Background(), request)
+	response, err := s.Client.GetManagedInstanceGroup(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -128,7 +129,7 @@ func (s *OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementReso
 	return nil
 }
 
-func (s *OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementResourceCrud) Create() error {
+func (s *OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.AttachManagedInstancesToManagedInstanceGroupRequest{}
 
 	if managedInstanceGroupId, ok := s.D.GetOkExists("managed_instance_group_id"); ok {
@@ -162,20 +163,20 @@ func (s *OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementReso
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.AttachManagedInstancesToManagedInstanceGroup(context.Background(), request)
+	response, err := s.Client.AttachManagedInstancesToManagedInstanceGroup(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getManagedInstanceGroupAttachManagedInstancesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getManagedInstanceGroupAttachManagedInstancesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementResourceCrud) getManagedInstanceGroupAttachManagedInstancesManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementResourceCrud) getManagedInstanceGroupAttachManagedInstancesManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_os_management_hub.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	managedInstanceGroupAttachManagedInstancesManagementId, err := managedInstanceGroupAttachManagedInstancesManagementWaitForWorkRequest(workId, "group",
+	managedInstanceGroupAttachManagedInstancesManagementId, err := managedInstanceGroupAttachManagedInstancesManagementWaitForWorkRequest(ctx, workId, "group",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -183,7 +184,7 @@ func (s *OsManagementHubManagedInstanceGroupAttachManagedInstancesManagementReso
 	}
 	s.D.SetId(*managedInstanceGroupAttachManagedInstancesManagementId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func managedInstanceGroupAttachManagedInstancesManagementWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -209,7 +210,7 @@ func managedInstanceGroupAttachManagedInstancesManagementWorkRequestShouldRetryF
 	}
 }
 
-func managedInstanceGroupAttachManagedInstancesManagementWaitForWorkRequest(wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
+func managedInstanceGroupAttachManagedInstancesManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_os_management_hub.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "os_management_hub")
 	retryPolicy.ShouldRetryOperation = managedInstanceGroupAttachManagedInstancesManagementWorkRequestShouldRetryFunc(timeout)
@@ -228,7 +229,7 @@ func managedInstanceGroupAttachManagedInstancesManagementWaitForWorkRequest(wId 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_os_management_hub.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -240,7 +241,7 @@ func managedInstanceGroupAttachManagedInstancesManagementWaitForWorkRequest(wId 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -257,14 +258,14 @@ func managedInstanceGroupAttachManagedInstancesManagementWaitForWorkRequest(wId 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_os_management_hub.OperationStatusFailed || response.Status == oci_os_management_hub.OperationStatusCanceled {
-		return nil, getErrorFromOsManagementHubManagedInstanceGroupAttachManagedInstancesManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOsManagementHubManagedInstanceGroupAttachManagedInstancesManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOsManagementHubManagedInstanceGroupAttachManagedInstancesManagementWorkRequest(client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOsManagementHubManagedInstanceGroupAttachManagedInstancesManagementWorkRequest(ctx context.Context, client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_os_management_hub.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,10 +25,10 @@ func OsManagementHubSoftwareSourceAddPackagesManagementResource() *schema.Resour
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOsManagementHubSoftwareSourceAddPackagesManagement,
-		Read:     readOsManagementHubSoftwareSourceAddPackagesManagement,
-		Delete:   deleteOsManagementHubSoftwareSourceAddPackagesManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOsManagementHubSoftwareSourceAddPackagesManagementWithContext,
+		ReadContext:   readOsManagementHubSoftwareSourceAddPackagesManagementWithContext,
+		DeleteContext: deleteOsManagementHubSoftwareSourceAddPackagesManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"packages": {
@@ -57,20 +58,20 @@ func OsManagementHubSoftwareSourceAddPackagesManagementResource() *schema.Resour
 	}
 }
 
-func createOsManagementHubSoftwareSourceAddPackagesManagement(d *schema.ResourceData, m interface{}) error {
+func createOsManagementHubSoftwareSourceAddPackagesManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubSoftwareSourceAddPackagesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).SoftwareSourceClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOsManagementHubSoftwareSourceAddPackagesManagement(d *schema.ResourceData, m interface{}) error {
+func readOsManagementHubSoftwareSourceAddPackagesManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteOsManagementHubSoftwareSourceAddPackagesManagement(d *schema.ResourceData, m interface{}) error {
+func deleteOsManagementHubSoftwareSourceAddPackagesManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -86,7 +87,7 @@ func (s *OsManagementHubSoftwareSourceAddPackagesManagementResourceCrud) ID() st
 	return *s.Res.GetId()
 }
 
-func (s *OsManagementHubSoftwareSourceAddPackagesManagementResourceCrud) Get() error {
+func (s *OsManagementHubSoftwareSourceAddPackagesManagementResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.GetSoftwareSourceRequest{}
 
 	if softwareSourceId, ok := s.D.GetOkExists("software_source_id"); ok {
@@ -96,7 +97,7 @@ func (s *OsManagementHubSoftwareSourceAddPackagesManagementResourceCrud) Get() e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "os_management_hub")
 
-	response, err := s.Client.GetSoftwareSource(context.Background(), request)
+	response, err := s.Client.GetSoftwareSource(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -105,7 +106,7 @@ func (s *OsManagementHubSoftwareSourceAddPackagesManagementResourceCrud) Get() e
 	return nil
 }
 
-func (s *OsManagementHubSoftwareSourceAddPackagesManagementResourceCrud) Create() error {
+func (s *OsManagementHubSoftwareSourceAddPackagesManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.AddPackagesToSoftwareSourceRequest{}
 
 	if isContinueOnMissingPackages, ok := s.D.GetOkExists("is_continue_on_missing_packages"); ok {
@@ -133,7 +134,7 @@ func (s *OsManagementHubSoftwareSourceAddPackagesManagementResourceCrud) Create(
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.AddPackagesToSoftwareSource(context.Background(), request)
+	response, err := s.Client.AddPackagesToSoftwareSource(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -143,17 +144,17 @@ func (s *OsManagementHubSoftwareSourceAddPackagesManagementResourceCrud) Create(
 		if softwareSourceId, ok := s.D.GetOkExists("software_source_id"); ok {
 			s.D.SetId(softwareSourceId.(string))
 		}
-		return s.Get()
+		return s.GetWithContext(ctx)
 	}
 
-	return s.getSoftwareSourceAddPackagesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getSoftwareSourceAddPackagesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OsManagementHubSoftwareSourceAddPackagesManagementResourceCrud) getSoftwareSourceAddPackagesManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OsManagementHubSoftwareSourceAddPackagesManagementResourceCrud) getSoftwareSourceAddPackagesManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_os_management_hub.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	softwareSourceAddPackagesManagementId, err := softwareSourceAddPackagesManagementWaitForWorkRequest(workId, "software_source",
+	softwareSourceAddPackagesManagementId, err := softwareSourceAddPackagesManagementWaitForWorkRequest(ctx, workId, "software_source",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -161,7 +162,7 @@ func (s *OsManagementHubSoftwareSourceAddPackagesManagementResourceCrud) getSoft
 	}
 	s.D.SetId(*softwareSourceAddPackagesManagementId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func softwareSourceAddPackagesManagementWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -187,7 +188,7 @@ func softwareSourceAddPackagesManagementWorkRequestShouldRetryFunc(timeout time.
 	}
 }
 
-func softwareSourceAddPackagesManagementWaitForWorkRequest(wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
+func softwareSourceAddPackagesManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_os_management_hub.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "os_management_hub")
 	retryPolicy.ShouldRetryOperation = softwareSourceAddPackagesManagementWorkRequestShouldRetryFunc(timeout)
@@ -206,7 +207,7 @@ func softwareSourceAddPackagesManagementWaitForWorkRequest(wId *string, entityTy
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_os_management_hub.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -218,7 +219,7 @@ func softwareSourceAddPackagesManagementWaitForWorkRequest(wId *string, entityTy
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -235,14 +236,14 @@ func softwareSourceAddPackagesManagementWaitForWorkRequest(wId *string, entityTy
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_os_management_hub.OperationStatusFailed || response.Status == oci_os_management_hub.OperationStatusCanceled {
-		return nil, getErrorFromOsManagementHubSoftwareSourceAddPackagesManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOsManagementHubSoftwareSourceAddPackagesManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOsManagementHubSoftwareSourceAddPackagesManagementWorkRequest(client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOsManagementHubSoftwareSourceAddPackagesManagementWorkRequest(ctx context.Context, client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_os_management_hub.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

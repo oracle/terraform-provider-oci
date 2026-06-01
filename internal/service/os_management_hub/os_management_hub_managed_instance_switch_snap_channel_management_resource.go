@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,10 +25,10 @@ func OsManagementHubManagedInstanceSwitchSnapChannelManagementResource() *schema
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOsManagementHubManagedInstanceSwitchSnapChannelManagement,
-		Read:     readOsManagementHubManagedInstanceSwitchSnapChannelManagement,
-		Delete:   deleteOsManagementHubManagedInstanceSwitchSnapChannelManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOsManagementHubManagedInstanceSwitchSnapChannelManagementWithContext,
+		ReadContext:   readOsManagementHubManagedInstanceSwitchSnapChannelManagementWithContext,
+		DeleteContext: deleteOsManagementHubManagedInstanceSwitchSnapChannelManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"managed_instance_id": {
@@ -100,20 +101,20 @@ func OsManagementHubManagedInstanceSwitchSnapChannelManagementResource() *schema
 	}
 }
 
-func createOsManagementHubManagedInstanceSwitchSnapChannelManagement(d *schema.ResourceData, m interface{}) error {
+func createOsManagementHubManagedInstanceSwitchSnapChannelManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubManagedInstanceSwitchSnapChannelManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagedInstanceClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOsManagementHubManagedInstanceSwitchSnapChannelManagement(d *schema.ResourceData, m interface{}) error {
+func readOsManagementHubManagedInstanceSwitchSnapChannelManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteOsManagementHubManagedInstanceSwitchSnapChannelManagement(d *schema.ResourceData, m interface{}) error {
+func deleteOsManagementHubManagedInstanceSwitchSnapChannelManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -129,7 +130,7 @@ func (s *OsManagementHubManagedInstanceSwitchSnapChannelManagementResourceCrud) 
 	return *s.Res.Id
 }
 
-func (s *OsManagementHubManagedInstanceSwitchSnapChannelManagementResourceCrud) Get() error {
+func (s *OsManagementHubManagedInstanceSwitchSnapChannelManagementResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.GetManagedInstanceRequest{}
 
 	if managedInstanceId, ok := s.D.GetOkExists("managed_instance_id"); ok {
@@ -139,7 +140,7 @@ func (s *OsManagementHubManagedInstanceSwitchSnapChannelManagementResourceCrud) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "os_management_hub")
 
-	response, err := s.Client.GetManagedInstance(context.Background(), request)
+	response, err := s.Client.GetManagedInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -148,7 +149,7 @@ func (s *OsManagementHubManagedInstanceSwitchSnapChannelManagementResourceCrud) 
 	return nil
 }
 
-func (s *OsManagementHubManagedInstanceSwitchSnapChannelManagementResourceCrud) Create() error {
+func (s *OsManagementHubManagedInstanceSwitchSnapChannelManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.SwitchSnapChannelOnManagedInstanceRequest{}
 
 	if managedInstanceId, ok := s.D.GetOkExists("managed_instance_id"); ok {
@@ -180,20 +181,20 @@ func (s *OsManagementHubManagedInstanceSwitchSnapChannelManagementResourceCrud) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.SwitchSnapChannelOnManagedInstance(context.Background(), request)
+	response, err := s.Client.SwitchSnapChannelOnManagedInstance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getManagedInstanceSwitchSnapChannelManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getManagedInstanceSwitchSnapChannelManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OsManagementHubManagedInstanceSwitchSnapChannelManagementResourceCrud) getManagedInstanceSwitchSnapChannelManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OsManagementHubManagedInstanceSwitchSnapChannelManagementResourceCrud) getManagedInstanceSwitchSnapChannelManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_os_management_hub.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	managedInstanceSwitchSnapChannelManagementId, err := managedInstanceSwitchSnapChannelManagementWaitForWorkRequest(workId, "instance",
+	managedInstanceSwitchSnapChannelManagementId, err := managedInstanceSwitchSnapChannelManagementWaitForWorkRequest(ctx, workId, "instance",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -201,7 +202,7 @@ func (s *OsManagementHubManagedInstanceSwitchSnapChannelManagementResourceCrud) 
 	}
 	s.D.SetId(*managedInstanceSwitchSnapChannelManagementId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func managedInstanceSwitchSnapChannelManagementWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -227,7 +228,7 @@ func managedInstanceSwitchSnapChannelManagementWorkRequestShouldRetryFunc(timeou
 	}
 }
 
-func managedInstanceSwitchSnapChannelManagementWaitForWorkRequest(wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
+func managedInstanceSwitchSnapChannelManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_os_management_hub.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "os_management_hub")
 	retryPolicy.ShouldRetryOperation = managedInstanceSwitchSnapChannelManagementWorkRequestShouldRetryFunc(timeout)
@@ -246,7 +247,7 @@ func managedInstanceSwitchSnapChannelManagementWaitForWorkRequest(wId *string, e
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_os_management_hub.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -258,7 +259,7 @@ func managedInstanceSwitchSnapChannelManagementWaitForWorkRequest(wId *string, e
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -275,14 +276,14 @@ func managedInstanceSwitchSnapChannelManagementWaitForWorkRequest(wId *string, e
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_os_management_hub.OperationStatusFailed || response.Status == oci_os_management_hub.OperationStatusCanceled {
-		return nil, getErrorFromOsManagementHubManagedInstanceSwitchSnapChannelManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOsManagementHubManagedInstanceSwitchSnapChannelManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOsManagementHubManagedInstanceSwitchSnapChannelManagementWorkRequest(client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOsManagementHubManagedInstanceSwitchSnapChannelManagementWorkRequest(ctx context.Context, client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_os_management_hub.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

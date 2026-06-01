@@ -7,6 +7,7 @@ import (
 	"context"
 	"io"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_os_management_hub "github.com/oracle/oci-go-sdk/v65/osmanagementhub"
 
@@ -20,15 +21,15 @@ func OsManagementHubSoftwareSourceManifestDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(OsManagementHubSoftwareSourceManifestResource(), fieldMap, readSingularOsManagementHubSoftwareSourceManifest)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(OsManagementHubSoftwareSourceManifestResource(), fieldMap, readSingularOsManagementHubSoftwareSourceManifestWithContext)
 }
 
-func readSingularOsManagementHubSoftwareSourceManifest(d *schema.ResourceData, m interface{}) error {
+func readSingularOsManagementHubSoftwareSourceManifestWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubSoftwareSourceManifestDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).SoftwareSourceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OsManagementHubSoftwareSourceManifestDataSourceCrud struct {
@@ -42,7 +43,7 @@ func (s *OsManagementHubSoftwareSourceManifestDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OsManagementHubSoftwareSourceManifestDataSourceCrud) Get() error {
+func (s *OsManagementHubSoftwareSourceManifestDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.GetSoftwareSourceManifestRequest{}
 
 	if softwareSourceId, ok := s.D.GetOkExists("software_source_id"); ok {
@@ -52,7 +53,7 @@ func (s *OsManagementHubSoftwareSourceManifestDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "os_management_hub")
 
-	response, err := s.Client.GetSoftwareSourceManifest(context.Background(), request)
+	response, err := s.Client.GetSoftwareSourceManifest(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -68,7 +69,7 @@ func (s *OsManagementHubSoftwareSourceManifestDataSourceCrud) Get() error {
 
 	request2.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "os_management_hub")
 
-	response2, err := s.Client.GetSoftwareSource(context.Background(), request2)
+	response2, err := s.Client.GetSoftwareSource(ctx, request2)
 	if err != nil {
 		return err
 	}

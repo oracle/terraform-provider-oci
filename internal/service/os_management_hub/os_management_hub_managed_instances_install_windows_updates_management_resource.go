@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,10 +25,10 @@ func OsManagementHubManagedInstancesInstallWindowsUpdatesManagementResource() *s
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOsManagementHubManagedInstancesInstallWindowsUpdatesManagement,
-		Read:     readOsManagementHubManagedInstancesInstallWindowsUpdatesManagement,
-		Delete:   deleteOsManagementHubManagedInstancesInstallWindowsUpdatesManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOsManagementHubManagedInstancesInstallWindowsUpdatesManagementWithContext,
+		ReadContext:   readOsManagementHubManagedInstancesInstallWindowsUpdatesManagementWithContext,
+		DeleteContext: deleteOsManagementHubManagedInstancesInstallWindowsUpdatesManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -81,20 +82,20 @@ func OsManagementHubManagedInstancesInstallWindowsUpdatesManagementResource() *s
 	}
 }
 
-func createOsManagementHubManagedInstancesInstallWindowsUpdatesManagement(d *schema.ResourceData, m interface{}) error {
+func createOsManagementHubManagedInstancesInstallWindowsUpdatesManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubManagedInstancesInstallWindowsUpdatesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagedInstanceClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOsManagementHubManagedInstancesInstallWindowsUpdatesManagement(d *schema.ResourceData, m interface{}) error {
+func readOsManagementHubManagedInstancesInstallWindowsUpdatesManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteOsManagementHubManagedInstancesInstallWindowsUpdatesManagement(d *schema.ResourceData, m interface{}) error {
+func deleteOsManagementHubManagedInstancesInstallWindowsUpdatesManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -110,7 +111,7 @@ func (s *OsManagementHubManagedInstancesInstallWindowsUpdatesManagementResourceC
 	return *s.Res
 }
 
-func (s *OsManagementHubManagedInstancesInstallWindowsUpdatesManagementResourceCrud) Create() error {
+func (s *OsManagementHubManagedInstancesInstallWindowsUpdatesManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.InstallAllWindowsUpdatesOnManagedInstancesInCompartmentRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -144,21 +145,21 @@ func (s *OsManagementHubManagedInstancesInstallWindowsUpdatesManagementResourceC
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.InstallAllWindowsUpdatesOnManagedInstancesInCompartment(context.Background(), request)
+	response, err := s.Client.InstallAllWindowsUpdatesOnManagedInstancesInCompartment(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	s.Res = request.CompartmentId
 	workId := response.OpcWorkRequestId
-	return s.getManagedInstancesInstallWindowsUpdatesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getManagedInstancesInstallWindowsUpdatesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OsManagementHubManagedInstancesInstallWindowsUpdatesManagementResourceCrud) getManagedInstancesInstallWindowsUpdatesManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OsManagementHubManagedInstancesInstallWindowsUpdatesManagementResourceCrud) getManagedInstancesInstallWindowsUpdatesManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_os_management_hub.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	managedInstancesInstallWindowsUpdatesManagementId, err := managedInstancesInstallWindowsUpdatesManagementWaitForWorkRequest(workId, "compartment",
+	managedInstancesInstallWindowsUpdatesManagementId, err := managedInstancesInstallWindowsUpdatesManagementWaitForWorkRequest(ctx, workId, "compartment",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -194,7 +195,7 @@ func managedInstancesInstallWindowsUpdatesManagementWorkRequestShouldRetryFunc(t
 	}
 }
 
-func managedInstancesInstallWindowsUpdatesManagementWaitForWorkRequest(wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
+func managedInstancesInstallWindowsUpdatesManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_os_management_hub.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "os_management_hub")
 	retryPolicy.ShouldRetryOperation = managedInstancesInstallWindowsUpdatesManagementWorkRequestShouldRetryFunc(timeout)
@@ -213,7 +214,7 @@ func managedInstancesInstallWindowsUpdatesManagementWaitForWorkRequest(wId *stri
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_os_management_hub.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -225,7 +226,7 @@ func managedInstancesInstallWindowsUpdatesManagementWaitForWorkRequest(wId *stri
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -242,14 +243,14 @@ func managedInstancesInstallWindowsUpdatesManagementWaitForWorkRequest(wId *stri
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_os_management_hub.OperationStatusFailed || response.Status == oci_os_management_hub.OperationStatusCanceled {
-		return nil, getErrorFromOsManagementHubManagedInstancesInstallWindowsUpdatesManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOsManagementHubManagedInstancesInstallWindowsUpdatesManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOsManagementHubManagedInstancesInstallWindowsUpdatesManagementWorkRequest(client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOsManagementHubManagedInstancesInstallWindowsUpdatesManagementWorkRequest(ctx context.Context, client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_os_management_hub.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

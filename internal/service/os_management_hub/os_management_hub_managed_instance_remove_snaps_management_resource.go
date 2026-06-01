@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,10 +25,10 @@ func OsManagementHubManagedInstanceRemoveSnapsManagementResource() *schema.Resou
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOsManagementHubManagedInstanceRemoveSnapsManagement,
-		Read:     readOsManagementHubManagedInstanceRemoveSnapsManagement,
-		Delete:   deleteOsManagementHubManagedInstanceRemoveSnapsManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOsManagementHubManagedInstanceRemoveSnapsManagementWithContext,
+		ReadContext:   readOsManagementHubManagedInstanceRemoveSnapsManagementWithContext,
+		DeleteContext: deleteOsManagementHubManagedInstanceRemoveSnapsManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"managed_instance_id": {
@@ -97,20 +98,20 @@ func OsManagementHubManagedInstanceRemoveSnapsManagementResource() *schema.Resou
 	}
 }
 
-func createOsManagementHubManagedInstanceRemoveSnapsManagement(d *schema.ResourceData, m interface{}) error {
+func createOsManagementHubManagedInstanceRemoveSnapsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubManagedInstanceRemoveSnapsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagedInstanceClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOsManagementHubManagedInstanceRemoveSnapsManagement(d *schema.ResourceData, m interface{}) error {
+func readOsManagementHubManagedInstanceRemoveSnapsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteOsManagementHubManagedInstanceRemoveSnapsManagement(d *schema.ResourceData, m interface{}) error {
+func deleteOsManagementHubManagedInstanceRemoveSnapsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -126,7 +127,7 @@ func (s *OsManagementHubManagedInstanceRemoveSnapsManagementResourceCrud) ID() s
 	return *s.Res.Id
 }
 
-func (s *OsManagementHubManagedInstanceRemoveSnapsManagementResourceCrud) Get() error {
+func (s *OsManagementHubManagedInstanceRemoveSnapsManagementResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.GetManagedInstanceRequest{}
 
 	if managedInstanceId, ok := s.D.GetOkExists("managed_instance_id"); ok {
@@ -136,7 +137,7 @@ func (s *OsManagementHubManagedInstanceRemoveSnapsManagementResourceCrud) Get() 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "os_management_hub")
 
-	response, err := s.Client.GetManagedInstance(context.Background(), request)
+	response, err := s.Client.GetManagedInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -145,7 +146,7 @@ func (s *OsManagementHubManagedInstanceRemoveSnapsManagementResourceCrud) Get() 
 	return nil
 }
 
-func (s *OsManagementHubManagedInstanceRemoveSnapsManagementResourceCrud) Create() error {
+func (s *OsManagementHubManagedInstanceRemoveSnapsManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.RemoveSnapsFromManagedInstanceRequest{}
 
 	if managedInstanceId, ok := s.D.GetOkExists("managed_instance_id"); ok {
@@ -183,20 +184,20 @@ func (s *OsManagementHubManagedInstanceRemoveSnapsManagementResourceCrud) Create
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.RemoveSnapsFromManagedInstance(context.Background(), request)
+	response, err := s.Client.RemoveSnapsFromManagedInstance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getManagedInstanceRemoveSnapsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getManagedInstanceRemoveSnapsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OsManagementHubManagedInstanceRemoveSnapsManagementResourceCrud) getManagedInstanceRemoveSnapsManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OsManagementHubManagedInstanceRemoveSnapsManagementResourceCrud) getManagedInstanceRemoveSnapsManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_os_management_hub.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	managedInstanceRemoveSnapsManagementId, err := managedInstanceRemoveSnapsManagementWaitForWorkRequest(workId, "instance",
+	managedInstanceRemoveSnapsManagementId, err := managedInstanceRemoveSnapsManagementWaitForWorkRequest(ctx, workId, "instance",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -204,7 +205,7 @@ func (s *OsManagementHubManagedInstanceRemoveSnapsManagementResourceCrud) getMan
 	}
 	s.D.SetId(*managedInstanceRemoveSnapsManagementId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func managedInstanceRemoveSnapsManagementWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -230,7 +231,7 @@ func managedInstanceRemoveSnapsManagementWorkRequestShouldRetryFunc(timeout time
 	}
 }
 
-func managedInstanceRemoveSnapsManagementWaitForWorkRequest(wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
+func managedInstanceRemoveSnapsManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_os_management_hub.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "os_management_hub")
 	retryPolicy.ShouldRetryOperation = managedInstanceRemoveSnapsManagementWorkRequestShouldRetryFunc(timeout)
@@ -249,7 +250,7 @@ func managedInstanceRemoveSnapsManagementWaitForWorkRequest(wId *string, entityT
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_os_management_hub.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -261,7 +262,7 @@ func managedInstanceRemoveSnapsManagementWaitForWorkRequest(wId *string, entityT
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -278,14 +279,14 @@ func managedInstanceRemoveSnapsManagementWaitForWorkRequest(wId *string, entityT
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_os_management_hub.OperationStatusFailed || response.Status == oci_os_management_hub.OperationStatusCanceled {
-		return nil, getErrorFromOsManagementHubManagedInstanceRemoveSnapsManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOsManagementHubManagedInstanceRemoveSnapsManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOsManagementHubManagedInstanceRemoveSnapsManagementWorkRequest(client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOsManagementHubManagedInstanceRemoveSnapsManagementWorkRequest(ctx context.Context, client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_os_management_hub.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

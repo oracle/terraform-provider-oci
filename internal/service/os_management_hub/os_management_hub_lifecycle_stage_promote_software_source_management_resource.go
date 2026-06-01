@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,10 +25,10 @@ func OsManagementHubLifecycleStagePromoteSoftwareSourceManagementResource() *sch
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOsManagementHubLifecycleStagePromoteSoftwareSourceManagement,
-		Read:     readOsManagementHubLifecycleStagePromoteSoftwareSourceManagement,
-		Delete:   deleteOsManagementHubLifecycleStagePromoteSoftwareSourceManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOsManagementHubLifecycleStagePromoteSoftwareSourceManagementWithContext,
+		ReadContext:   readOsManagementHubLifecycleStagePromoteSoftwareSourceManagementWithContext,
+		DeleteContext: deleteOsManagementHubLifecycleStagePromoteSoftwareSourceManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"lifecycle_stage_id": {
@@ -78,20 +79,20 @@ func OsManagementHubLifecycleStagePromoteSoftwareSourceManagementResource() *sch
 	}
 }
 
-func createOsManagementHubLifecycleStagePromoteSoftwareSourceManagement(d *schema.ResourceData, m interface{}) error {
+func createOsManagementHubLifecycleStagePromoteSoftwareSourceManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubLifecycleStagePromoteSoftwareSourceManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LifecycleEnvironmentClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOsManagementHubLifecycleStagePromoteSoftwareSourceManagement(d *schema.ResourceData, m interface{}) error {
+func readOsManagementHubLifecycleStagePromoteSoftwareSourceManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteOsManagementHubLifecycleStagePromoteSoftwareSourceManagement(d *schema.ResourceData, m interface{}) error {
+func deleteOsManagementHubLifecycleStagePromoteSoftwareSourceManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -107,7 +108,7 @@ func (s *OsManagementHubLifecycleStagePromoteSoftwareSourceManagementResourceCru
 	return *s.Res.Id
 }
 
-func (s *OsManagementHubLifecycleStagePromoteSoftwareSourceManagementResourceCrud) Get() error {
+func (s *OsManagementHubLifecycleStagePromoteSoftwareSourceManagementResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.GetLifecycleStageRequest{}
 
 	if lifecycleStageId, ok := s.D.GetOkExists("lifecycle_stage_id"); ok {
@@ -117,7 +118,7 @@ func (s *OsManagementHubLifecycleStagePromoteSoftwareSourceManagementResourceCru
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "os_management_hub")
 
-	response, err := s.Client.GetLifecycleStage(context.Background(), request)
+	response, err := s.Client.GetLifecycleStage(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -126,7 +127,7 @@ func (s *OsManagementHubLifecycleStagePromoteSoftwareSourceManagementResourceCru
 	return nil
 }
 
-func (s *OsManagementHubLifecycleStagePromoteSoftwareSourceManagementResourceCrud) Create() error {
+func (s *OsManagementHubLifecycleStagePromoteSoftwareSourceManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.PromoteSoftwareSourceToLifecycleStageRequest{}
 
 	if lifecycleStageId, ok := s.D.GetOkExists("lifecycle_stage_id"); ok {
@@ -152,20 +153,20 @@ func (s *OsManagementHubLifecycleStagePromoteSoftwareSourceManagementResourceCru
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.PromoteSoftwareSourceToLifecycleStage(context.Background(), request)
+	response, err := s.Client.PromoteSoftwareSourceToLifecycleStage(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getLifecycleStagePromoteSoftwareSourceManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getLifecycleStagePromoteSoftwareSourceManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OsManagementHubLifecycleStagePromoteSoftwareSourceManagementResourceCrud) getLifecycleStagePromoteSoftwareSourceManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OsManagementHubLifecycleStagePromoteSoftwareSourceManagementResourceCrud) getLifecycleStagePromoteSoftwareSourceManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_os_management_hub.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	lifecycleStagePromoteSoftwareSourceManagementId, err := lifecycleStagePromoteSoftwareSourceManagementWaitForWorkRequest(workId, "lifecycle_environment",
+	lifecycleStagePromoteSoftwareSourceManagementId, err := lifecycleStagePromoteSoftwareSourceManagementWaitForWorkRequest(ctx, workId, "lifecycle_environment",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -173,7 +174,7 @@ func (s *OsManagementHubLifecycleStagePromoteSoftwareSourceManagementResourceCru
 	}
 	s.D.SetId(*lifecycleStagePromoteSoftwareSourceManagementId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func lifecycleStagePromoteSoftwareSourceManagementWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -199,7 +200,7 @@ func lifecycleStagePromoteSoftwareSourceManagementWorkRequestShouldRetryFunc(tim
 	}
 }
 
-func lifecycleStagePromoteSoftwareSourceManagementWaitForWorkRequest(wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
+func lifecycleStagePromoteSoftwareSourceManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_os_management_hub.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "os_management_hub")
 	retryPolicy.ShouldRetryOperation = lifecycleStagePromoteSoftwareSourceManagementWorkRequestShouldRetryFunc(timeout)
@@ -218,7 +219,7 @@ func lifecycleStagePromoteSoftwareSourceManagementWaitForWorkRequest(wId *string
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_os_management_hub.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -230,7 +231,7 @@ func lifecycleStagePromoteSoftwareSourceManagementWaitForWorkRequest(wId *string
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -247,14 +248,14 @@ func lifecycleStagePromoteSoftwareSourceManagementWaitForWorkRequest(wId *string
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_os_management_hub.OperationStatusFailed || response.Status == oci_os_management_hub.OperationStatusCanceled {
-		return nil, getErrorFromOsManagementHubLifecycleStagePromoteSoftwareSourceManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOsManagementHubLifecycleStagePromoteSoftwareSourceManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOsManagementHubLifecycleStagePromoteSoftwareSourceManagementWorkRequest(client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOsManagementHubLifecycleStagePromoteSoftwareSourceManagementWorkRequest(ctx context.Context, client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_os_management_hub.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

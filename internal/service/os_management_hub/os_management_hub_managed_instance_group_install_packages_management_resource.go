@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,10 +25,10 @@ func OsManagementHubManagedInstanceGroupInstallPackagesManagementResource() *sch
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOsManagementHubManagedInstanceGroupInstallPackagesManagement,
-		Read:     readOsManagementHubManagedInstanceGroupInstallPackagesManagement,
-		Delete:   deleteOsManagementHubManagedInstanceGroupInstallPackagesManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOsManagementHubManagedInstanceGroupInstallPackagesManagementWithContext,
+		ReadContext:   readOsManagementHubManagedInstanceGroupInstallPackagesManagementWithContext,
+		DeleteContext: deleteOsManagementHubManagedInstanceGroupInstallPackagesManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"managed_instance_group_id": {
@@ -86,20 +87,20 @@ func OsManagementHubManagedInstanceGroupInstallPackagesManagementResource() *sch
 	}
 }
 
-func createOsManagementHubManagedInstanceGroupInstallPackagesManagement(d *schema.ResourceData, m interface{}) error {
+func createOsManagementHubManagedInstanceGroupInstallPackagesManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubManagedInstanceGroupInstallPackagesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagedInstanceGroupClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOsManagementHubManagedInstanceGroupInstallPackagesManagement(d *schema.ResourceData, m interface{}) error {
+func readOsManagementHubManagedInstanceGroupInstallPackagesManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteOsManagementHubManagedInstanceGroupInstallPackagesManagement(d *schema.ResourceData, m interface{}) error {
+func deleteOsManagementHubManagedInstanceGroupInstallPackagesManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -115,7 +116,7 @@ func (s *OsManagementHubManagedInstanceGroupInstallPackagesManagementResourceCru
 	return *s.Res.Id
 }
 
-func (s *OsManagementHubManagedInstanceGroupInstallPackagesManagementResourceCrud) Get() error {
+func (s *OsManagementHubManagedInstanceGroupInstallPackagesManagementResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.GetManagedInstanceGroupRequest{}
 
 	if managedInstanceGroupId, ok := s.D.GetOkExists("managed_instance_group_id"); ok {
@@ -125,7 +126,7 @@ func (s *OsManagementHubManagedInstanceGroupInstallPackagesManagementResourceCru
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "os_management_hub")
 
-	response, err := s.Client.GetManagedInstanceGroup(context.Background(), request)
+	response, err := s.Client.GetManagedInstanceGroup(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -134,7 +135,7 @@ func (s *OsManagementHubManagedInstanceGroupInstallPackagesManagementResourceCru
 	return nil
 }
 
-func (s *OsManagementHubManagedInstanceGroupInstallPackagesManagementResourceCrud) Create() error {
+func (s *OsManagementHubManagedInstanceGroupInstallPackagesManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.InstallPackagesOnManagedInstanceGroupRequest{}
 
 	if isLatest, ok := s.D.GetOkExists("is_latest"); ok {
@@ -173,20 +174,20 @@ func (s *OsManagementHubManagedInstanceGroupInstallPackagesManagementResourceCru
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.InstallPackagesOnManagedInstanceGroup(context.Background(), request)
+	response, err := s.Client.InstallPackagesOnManagedInstanceGroup(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getManagedInstanceGroupInstallPackagesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getManagedInstanceGroupInstallPackagesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OsManagementHubManagedInstanceGroupInstallPackagesManagementResourceCrud) getManagedInstanceGroupInstallPackagesManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OsManagementHubManagedInstanceGroupInstallPackagesManagementResourceCrud) getManagedInstanceGroupInstallPackagesManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_os_management_hub.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	managedInstanceGroupInstallPackagesManagementId, err := managedInstanceGroupInstallPackagesManagementWaitForWorkRequest(workId, "group",
+	managedInstanceGroupInstallPackagesManagementId, err := managedInstanceGroupInstallPackagesManagementWaitForWorkRequest(ctx, workId, "group",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -194,7 +195,7 @@ func (s *OsManagementHubManagedInstanceGroupInstallPackagesManagementResourceCru
 	}
 	s.D.SetId(*managedInstanceGroupInstallPackagesManagementId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func managedInstanceGroupInstallPackagesManagementWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -220,7 +221,7 @@ func managedInstanceGroupInstallPackagesManagementWorkRequestShouldRetryFunc(tim
 	}
 }
 
-func managedInstanceGroupInstallPackagesManagementWaitForWorkRequest(wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
+func managedInstanceGroupInstallPackagesManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_os_management_hub.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "os_management_hub")
 	retryPolicy.ShouldRetryOperation = managedInstanceGroupInstallPackagesManagementWorkRequestShouldRetryFunc(timeout)
@@ -239,7 +240,7 @@ func managedInstanceGroupInstallPackagesManagementWaitForWorkRequest(wId *string
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_os_management_hub.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -251,7 +252,7 @@ func managedInstanceGroupInstallPackagesManagementWaitForWorkRequest(wId *string
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -268,14 +269,14 @@ func managedInstanceGroupInstallPackagesManagementWaitForWorkRequest(wId *string
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_os_management_hub.OperationStatusFailed || response.Status == oci_os_management_hub.OperationStatusCanceled {
-		return nil, getErrorFromOsManagementHubManagedInstanceGroupInstallPackagesManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOsManagementHubManagedInstanceGroupInstallPackagesManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOsManagementHubManagedInstanceGroupInstallPackagesManagementWorkRequest(client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOsManagementHubManagedInstanceGroupInstallPackagesManagementWorkRequest(ctx context.Context, client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_os_management_hub.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

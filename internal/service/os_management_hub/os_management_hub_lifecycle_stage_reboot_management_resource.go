@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,10 +25,10 @@ func OsManagementHubLifecycleStageRebootManagementResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOsManagementHubLifecycleStageRebootManagement,
-		Read:     readOsManagementHubLifecycleStageRebootManagement,
-		Delete:   deleteOsManagementHubLifecycleStageRebootManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOsManagementHubLifecycleStageRebootManagementWithContext,
+		ReadContext:   readOsManagementHubLifecycleStageRebootManagementWithContext,
+		DeleteContext: deleteOsManagementHubLifecycleStageRebootManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"lifecycle_stage_id": {
@@ -78,20 +79,20 @@ func OsManagementHubLifecycleStageRebootManagementResource() *schema.Resource {
 	}
 }
 
-func createOsManagementHubLifecycleStageRebootManagement(d *schema.ResourceData, m interface{}) error {
+func createOsManagementHubLifecycleStageRebootManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubLifecycleStageRebootManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LifecycleEnvironmentClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOsManagementHubLifecycleStageRebootManagement(d *schema.ResourceData, m interface{}) error {
+func readOsManagementHubLifecycleStageRebootManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteOsManagementHubLifecycleStageRebootManagement(d *schema.ResourceData, m interface{}) error {
+func deleteOsManagementHubLifecycleStageRebootManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -107,7 +108,7 @@ func (s *OsManagementHubLifecycleStageRebootManagementResourceCrud) ID() string 
 	return *s.Res.Id
 }
 
-func (s *OsManagementHubLifecycleStageRebootManagementResourceCrud) Get() error {
+func (s *OsManagementHubLifecycleStageRebootManagementResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.GetLifecycleStageRequest{}
 
 	if lifecycleStageId, ok := s.D.GetOkExists("lifecycle_stage_id"); ok {
@@ -117,7 +118,7 @@ func (s *OsManagementHubLifecycleStageRebootManagementResourceCrud) Get() error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "os_management_hub")
 
-	response, err := s.Client.GetLifecycleStage(context.Background(), request)
+	response, err := s.Client.GetLifecycleStage(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -126,7 +127,7 @@ func (s *OsManagementHubLifecycleStageRebootManagementResourceCrud) Get() error 
 	return nil
 }
 
-func (s *OsManagementHubLifecycleStageRebootManagementResourceCrud) Create() error {
+func (s *OsManagementHubLifecycleStageRebootManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.RebootLifecycleStageRequest{}
 
 	if lifecycleStageId, ok := s.D.GetOkExists("lifecycle_stage_id"); ok {
@@ -152,20 +153,20 @@ func (s *OsManagementHubLifecycleStageRebootManagementResourceCrud) Create() err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.RebootLifecycleStage(context.Background(), request)
+	response, err := s.Client.RebootLifecycleStage(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getLifecycleStageRebootManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getLifecycleStageRebootManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OsManagementHubLifecycleStageRebootManagementResourceCrud) getLifecycleStageRebootManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OsManagementHubLifecycleStageRebootManagementResourceCrud) getLifecycleStageRebootManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_os_management_hub.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	lifecycleStageRebootManagementId, err := lifecycleStageRebootManagementWaitForWorkRequest(workId, "lifecycle_environment",
+	lifecycleStageRebootManagementId, err := lifecycleStageRebootManagementWaitForWorkRequest(ctx, workId, "lifecycle_environment",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -173,7 +174,7 @@ func (s *OsManagementHubLifecycleStageRebootManagementResourceCrud) getLifecycle
 	}
 	s.D.SetId(*lifecycleStageRebootManagementId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func lifecycleStageRebootManagementWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -199,7 +200,7 @@ func lifecycleStageRebootManagementWorkRequestShouldRetryFunc(timeout time.Durat
 	}
 }
 
-func lifecycleStageRebootManagementWaitForWorkRequest(wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
+func lifecycleStageRebootManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_os_management_hub.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "os_management_hub")
 	retryPolicy.ShouldRetryOperation = lifecycleStageRebootManagementWorkRequestShouldRetryFunc(timeout)
@@ -218,7 +219,7 @@ func lifecycleStageRebootManagementWaitForWorkRequest(wId *string, entityType st
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_os_management_hub.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -230,7 +231,7 @@ func lifecycleStageRebootManagementWaitForWorkRequest(wId *string, entityType st
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -247,14 +248,14 @@ func lifecycleStageRebootManagementWaitForWorkRequest(wId *string, entityType st
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_os_management_hub.OperationStatusFailed || response.Status == oci_os_management_hub.OperationStatusCanceled {
-		return nil, getErrorFromOsManagementHubLifecycleStageRebootManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOsManagementHubLifecycleStageRebootManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOsManagementHubLifecycleStageRebootManagementWorkRequest(client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOsManagementHubLifecycleStageRebootManagementWorkRequest(ctx context.Context, client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_os_management_hub.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

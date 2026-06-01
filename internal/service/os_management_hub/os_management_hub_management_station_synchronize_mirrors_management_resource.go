@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,10 +25,10 @@ func OsManagementHubManagementStationSynchronizeMirrorsManagementResource() *sch
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOsManagementHubManagementStationSynchronizeMirrorsManagement,
-		Read:     readOsManagementHubManagementStationSynchronizeMirrorsManagement,
-		Delete:   deleteOsManagementHubManagementStationSynchronizeMirrorsManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOsManagementHubManagementStationSynchronizeMirrorsManagementWithContext,
+		ReadContext:   readOsManagementHubManagementStationSynchronizeMirrorsManagementWithContext,
+		DeleteContext: deleteOsManagementHubManagementStationSynchronizeMirrorsManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"management_station_id": {
@@ -51,20 +52,20 @@ func OsManagementHubManagementStationSynchronizeMirrorsManagementResource() *sch
 	}
 }
 
-func createOsManagementHubManagementStationSynchronizeMirrorsManagement(d *schema.ResourceData, m interface{}) error {
+func createOsManagementHubManagementStationSynchronizeMirrorsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubManagementStationSynchronizeMirrorsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementStationClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOsManagementHubManagementStationSynchronizeMirrorsManagement(d *schema.ResourceData, m interface{}) error {
+func readOsManagementHubManagementStationSynchronizeMirrorsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteOsManagementHubManagementStationSynchronizeMirrorsManagement(d *schema.ResourceData, m interface{}) error {
+func deleteOsManagementHubManagementStationSynchronizeMirrorsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -80,7 +81,7 @@ func (s *OsManagementHubManagementStationSynchronizeMirrorsManagementResourceCru
 	return *s.Res.Id
 }
 
-func (s *OsManagementHubManagementStationSynchronizeMirrorsManagementResourceCrud) Get() error {
+func (s *OsManagementHubManagementStationSynchronizeMirrorsManagementResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.GetManagementStationRequest{}
 
 	if managementStationId, ok := s.D.GetOkExists("management_station_id"); ok {
@@ -90,7 +91,7 @@ func (s *OsManagementHubManagementStationSynchronizeMirrorsManagementResourceCru
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "os_management_hub")
 
-	response, err := s.Client.GetManagementStation(context.Background(), request)
+	response, err := s.Client.GetManagementStation(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -99,7 +100,7 @@ func (s *OsManagementHubManagementStationSynchronizeMirrorsManagementResourceCru
 	return nil
 }
 
-func (s *OsManagementHubManagementStationSynchronizeMirrorsManagementResourceCrud) Create() error {
+func (s *OsManagementHubManagementStationSynchronizeMirrorsManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.SynchronizeMirrorsRequest{}
 
 	if managementStationId, ok := s.D.GetOkExists("management_station_id"); ok {
@@ -122,20 +123,20 @@ func (s *OsManagementHubManagementStationSynchronizeMirrorsManagementResourceCru
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.SynchronizeMirrors(context.Background(), request)
+	response, err := s.Client.SynchronizeMirrors(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getManagementStationSynchronizeMirrorsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getManagementStationSynchronizeMirrorsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OsManagementHubManagementStationSynchronizeMirrorsManagementResourceCrud) getManagementStationSynchronizeMirrorsManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OsManagementHubManagementStationSynchronizeMirrorsManagementResourceCrud) getManagementStationSynchronizeMirrorsManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_os_management_hub.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	managementStationSynchronizeMirrorsManagementId, err := managementStationSynchronizeMirrorsManagementWaitForWorkRequest(workId, "instance",
+	managementStationSynchronizeMirrorsManagementId, err := managementStationSynchronizeMirrorsManagementWaitForWorkRequest(ctx, workId, "instance",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -143,7 +144,7 @@ func (s *OsManagementHubManagementStationSynchronizeMirrorsManagementResourceCru
 	}
 	s.D.SetId(*managementStationSynchronizeMirrorsManagementId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func managementStationSynchronizeMirrorsManagementWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -169,7 +170,7 @@ func managementStationSynchronizeMirrorsManagementWorkRequestShouldRetryFunc(tim
 	}
 }
 
-func managementStationSynchronizeMirrorsManagementWaitForWorkRequest(wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
+func managementStationSynchronizeMirrorsManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_os_management_hub.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "os_management_hub")
 	retryPolicy.ShouldRetryOperation = managementStationSynchronizeMirrorsManagementWorkRequestShouldRetryFunc(timeout)
@@ -188,7 +189,7 @@ func managementStationSynchronizeMirrorsManagementWaitForWorkRequest(wId *string
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_os_management_hub.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -200,7 +201,7 @@ func managementStationSynchronizeMirrorsManagementWaitForWorkRequest(wId *string
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -217,14 +218,14 @@ func managementStationSynchronizeMirrorsManagementWaitForWorkRequest(wId *string
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_os_management_hub.OperationStatusFailed || response.Status == oci_os_management_hub.OperationStatusCanceled {
-		return nil, getErrorFromOsManagementHubManagementStationSynchronizeMirrorsManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOsManagementHubManagementStationSynchronizeMirrorsManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOsManagementHubManagementStationSynchronizeMirrorsManagementWorkRequest(client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOsManagementHubManagementStationSynchronizeMirrorsManagementWorkRequest(ctx context.Context, client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_os_management_hub.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

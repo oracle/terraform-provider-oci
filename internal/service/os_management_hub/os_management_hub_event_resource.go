@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -25,11 +26,11 @@ func OsManagementHubEventResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOsManagementHubEvent,
-		Read:     readOsManagementHubEvent,
-		Update:   updateOsManagementHubEvent,
-		Delete:   deleteOsManagementHubEvent,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOsManagementHubEventWithContext,
+		ReadContext:   readOsManagementHubEventWithContext,
+		UpdateContext: updateOsManagementHubEventWithContext,
+		DeleteContext: deleteOsManagementHubEventWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"event_id": {
@@ -309,39 +310,39 @@ func OsManagementHubEventResource() *schema.Resource {
 	}
 }
 
-func createOsManagementHubEvent(d *schema.ResourceData, m interface{}) error {
+func createOsManagementHubEventWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubEventResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EventClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOsManagementHubEvent(d *schema.ResourceData, m interface{}) error {
+func readOsManagementHubEventWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubEventResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EventClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateOsManagementHubEvent(d *schema.ResourceData, m interface{}) error {
+func updateOsManagementHubEventWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubEventResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EventClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteOsManagementHubEvent(d *schema.ResourceData, m interface{}) error {
+func deleteOsManagementHubEventWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubEventResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EventClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OsManagementHubEventResourceCrud struct {
@@ -381,7 +382,7 @@ func (s *OsManagementHubEventResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *OsManagementHubEventResourceCrud) Create() error {
+func (s *OsManagementHubEventResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.UpdateEventRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -403,7 +404,7 @@ func (s *OsManagementHubEventResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.UpdateEvent(context.Background(), request)
+	response, err := s.Client.UpdateEvent(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -412,11 +413,11 @@ func (s *OsManagementHubEventResourceCrud) Create() error {
 	return nil
 }
 
-func (s *OsManagementHubEventResourceCrud) getEventFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OsManagementHubEventResourceCrud) getEventFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_os_management_hub.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	eventId, err := eventWaitForWorkRequest(workId, "event",
+	eventId, err := eventWaitForWorkRequest(ctx, workId, "event",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -424,7 +425,7 @@ func (s *OsManagementHubEventResourceCrud) getEventFromWorkRequest(workId *strin
 	}
 	s.D.SetId(*eventId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func eventWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -450,7 +451,7 @@ func eventWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_co
 	}
 }
 
-func eventWaitForWorkRequest(wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
+func eventWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_os_management_hub.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "os_management_hub")
 	retryPolicy.ShouldRetryOperation = eventWorkRequestShouldRetryFunc(timeout)
@@ -469,7 +470,7 @@ func eventWaitForWorkRequest(wId *string, entityType string, action oci_os_manag
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_os_management_hub.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -481,7 +482,7 @@ func eventWaitForWorkRequest(wId *string, entityType string, action oci_os_manag
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -498,14 +499,14 @@ func eventWaitForWorkRequest(wId *string, entityType string, action oci_os_manag
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_os_management_hub.OperationStatusFailed || response.Status == oci_os_management_hub.OperationStatusCanceled {
-		return nil, getErrorFromOsManagementHubEventWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOsManagementHubEventWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOsManagementHubEventWorkRequest(client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOsManagementHubEventWorkRequest(ctx context.Context, client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_os_management_hub.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -527,7 +528,7 @@ func getErrorFromOsManagementHubEventWorkRequest(client *oci_os_management_hub.W
 	return workRequestErr
 }
 
-func (s *OsManagementHubEventResourceCrud) Get() error {
+func (s *OsManagementHubEventResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.GetEventRequest{}
 
 	tmp := s.D.Id()
@@ -535,7 +536,7 @@ func (s *OsManagementHubEventResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.GetEvent(context.Background(), request)
+	response, err := s.Client.GetEvent(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -544,10 +545,10 @@ func (s *OsManagementHubEventResourceCrud) Get() error {
 	return nil
 }
 
-func (s *OsManagementHubEventResourceCrud) Update() error {
+func (s *OsManagementHubEventResourceCrud) UpdateWithContext(ctx context.Context) error {
 
 	if _, ok := s.D.GetOkExists("compartmentId"); ok && s.D.HasChange("compartmentId") {
-		err := s.ChangeEventCompartment()
+		err := s.ChangeEventCompartment(ctx)
 		if err != nil {
 			return err
 		}
@@ -555,7 +556,7 @@ func (s *OsManagementHubEventResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -585,7 +586,7 @@ func (s *OsManagementHubEventResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.UpdateEvent(context.Background(), request)
+	response, err := s.Client.UpdateEvent(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -594,7 +595,7 @@ func (s *OsManagementHubEventResourceCrud) Update() error {
 	return nil
 }
 
-func (s *OsManagementHubEventResourceCrud) Delete() error {
+func (s *OsManagementHubEventResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.DeleteEventRequest{}
 
 	tmp := s.D.Id()
@@ -602,7 +603,7 @@ func (s *OsManagementHubEventResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.DeleteEvent(context.Background(), request)
+	response, err := s.Client.DeleteEvent(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -610,7 +611,7 @@ func (s *OsManagementHubEventResourceCrud) Delete() error {
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
 	if workId != nil {
-		_, delWorkRequestErr := eventWaitForWorkRequest(workId, "event",
+		_, delWorkRequestErr := eventWaitForWorkRequest(ctx, workId, "event",
 			oci_os_management_hub.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 		return delWorkRequestErr
 	}
@@ -1352,7 +1353,7 @@ func (s *OsManagementHubEventResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *OsManagementHubEventResourceCrud) ChangeEventCompartment() error {
+func (s *OsManagementHubEventResourceCrud) ChangeEventCompartment(ctx context.Context) error {
 	request := oci_os_management_hub.ChangeEventCompartmentRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -1365,12 +1366,12 @@ func (s *OsManagementHubEventResourceCrud) ChangeEventCompartment() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	_, err := s.Client.ChangeEventCompartment(context.Background(), request)
+	_, err := s.Client.ChangeEventCompartment(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -2152,7 +2153,7 @@ func WorkRequestEventDataAdditionalDetailsToMap(obj *oci_os_management_hub.WorkR
 	return result
 }
 
-func (s *OsManagementHubEventResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *OsManagementHubEventResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_os_management_hub.ChangeEventCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -2163,12 +2164,12 @@ func (s *OsManagementHubEventResourceCrud) updateCompartment(compartment interfa
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	_, err := s.Client.ChangeEventCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeEventCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

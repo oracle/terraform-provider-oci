@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -25,10 +26,10 @@ func OsManagementHubSoftwareSourceManifestResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOsManagementHubSoftwareSourceManifest,
-		Read:     readOsManagementHubSoftwareSourceManifest,
-		Delete:   deleteOsManagementHubSoftwareSourceManifest,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOsManagementHubSoftwareSourceManifestWithContext,
+		ReadContext:   readOsManagementHubSoftwareSourceManifestWithContext,
+		DeleteContext: deleteOsManagementHubSoftwareSourceManifestWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"software_source_id": {
@@ -50,24 +51,24 @@ func OsManagementHubSoftwareSourceManifestResource() *schema.Resource {
 	}
 }
 
-func createOsManagementHubSoftwareSourceManifest(d *schema.ResourceData, m interface{}) error {
+func createOsManagementHubSoftwareSourceManifestWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubSoftwareSourceManifestResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).SoftwareSourceClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOsManagementHubSoftwareSourceManifest(d *schema.ResourceData, m interface{}) error {
+func readOsManagementHubSoftwareSourceManifestWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubSoftwareSourceManifestResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).SoftwareSourceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteOsManagementHubSoftwareSourceManifest(d *schema.ResourceData, m interface{}) error {
+func deleteOsManagementHubSoftwareSourceManifestWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -83,7 +84,7 @@ func (s *OsManagementHubSoftwareSourceManifestResourceCrud) ID() string {
 	return *s.Res.GetId()
 }
 
-func (s *OsManagementHubSoftwareSourceManifestResourceCrud) Create() error {
+func (s *OsManagementHubSoftwareSourceManifestResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.UpdateSoftwareSourceManifestRequest{}
 
 	contentRaw, ok := s.D.GetOkExists("content")
@@ -103,27 +104,27 @@ func (s *OsManagementHubSoftwareSourceManifestResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.UpdateSoftwareSourceManifest(context.Background(), request)
+	response, err := s.Client.UpdateSoftwareSourceManifest(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getSoftwareSourceManifestFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getSoftwareSourceManifestFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OsManagementHubSoftwareSourceManifestResourceCrud) getSoftwareSourceManifestFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OsManagementHubSoftwareSourceManifestResourceCrud) getSoftwareSourceManifestFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_os_management_hub.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	softwareSourceManifestId, err := softwareSourceManifestWaitForWorkRequest(workId, "software_source",
+	softwareSourceManifestId, err := softwareSourceManifestWaitForWorkRequest(ctx, workId, "software_source",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
 		return err
 	}
 	s.D.SetId(*softwareSourceManifestId)
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func softwareSourceManifestWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -149,7 +150,7 @@ func softwareSourceManifestWorkRequestShouldRetryFunc(timeout time.Duration) fun
 	}
 }
 
-func softwareSourceManifestWaitForWorkRequest(wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
+func softwareSourceManifestWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_os_management_hub.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "os_management_hub")
 	retryPolicy.ShouldRetryOperation = softwareSourceManifestWorkRequestShouldRetryFunc(timeout)
@@ -168,7 +169,7 @@ func softwareSourceManifestWaitForWorkRequest(wId *string, entityType string, ac
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_os_management_hub.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -180,7 +181,7 @@ func softwareSourceManifestWaitForWorkRequest(wId *string, entityType string, ac
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -197,14 +198,14 @@ func softwareSourceManifestWaitForWorkRequest(wId *string, entityType string, ac
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_os_management_hub.OperationStatusFailed || response.Status == oci_os_management_hub.OperationStatusCanceled {
-		return nil, getErrorFromOsManagementHubSoftwareSourceManifestWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOsManagementHubSoftwareSourceManifestWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOsManagementHubSoftwareSourceManifestWorkRequest(client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOsManagementHubSoftwareSourceManifestWorkRequest(ctx context.Context, client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_os_management_hub.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -226,7 +227,7 @@ func getErrorFromOsManagementHubSoftwareSourceManifestWorkRequest(client *oci_os
 	return workRequestErr
 }
 
-func (s *OsManagementHubSoftwareSourceManifestResourceCrud) Get() error {
+func (s *OsManagementHubSoftwareSourceManifestResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.GetSoftwareSourceRequest{}
 
 	if softwareSourceId, ok := s.D.GetOkExists("software_source_id"); ok {
@@ -236,7 +237,7 @@ func (s *OsManagementHubSoftwareSourceManifestResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "os_management_hub")
 
-	response, err := s.Client.GetSoftwareSource(context.Background(), request)
+	response, err := s.Client.GetSoftwareSource(ctx, request)
 	if err != nil {
 		return err
 	}
