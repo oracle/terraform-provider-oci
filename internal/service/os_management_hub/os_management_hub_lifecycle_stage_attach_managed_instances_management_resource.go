@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,10 +25,10 @@ func OsManagementHubLifecycleStageAttachManagedInstancesManagementResource() *sc
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOsManagementHubLifecycleStageAttachManagedInstancesManagement,
-		Read:     readOsManagementHubLifecycleStageAttachManagedInstancesManagement,
-		Delete:   deleteOsManagementHubLifecycleStageAttachManagedInstancesManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOsManagementHubLifecycleStageAttachManagedInstancesManagementWithContext,
+		ReadContext:   readOsManagementHubLifecycleStageAttachManagedInstancesManagementWithContext,
+		DeleteContext: deleteOsManagementHubLifecycleStageAttachManagedInstancesManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"lifecycle_stage_id": {
@@ -96,20 +97,20 @@ func OsManagementHubLifecycleStageAttachManagedInstancesManagementResource() *sc
 	}
 }
 
-func createOsManagementHubLifecycleStageAttachManagedInstancesManagement(d *schema.ResourceData, m interface{}) error {
+func createOsManagementHubLifecycleStageAttachManagedInstancesManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubLifecycleStageAttachManagedInstancesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LifecycleEnvironmentClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOsManagementHubLifecycleStageAttachManagedInstancesManagement(d *schema.ResourceData, m interface{}) error {
+func readOsManagementHubLifecycleStageAttachManagedInstancesManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteOsManagementHubLifecycleStageAttachManagedInstancesManagement(d *schema.ResourceData, m interface{}) error {
+func deleteOsManagementHubLifecycleStageAttachManagedInstancesManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -125,7 +126,7 @@ func (s *OsManagementHubLifecycleStageAttachManagedInstancesManagementResourceCr
 	return *s.Res.Id
 }
 
-func (s *OsManagementHubLifecycleStageAttachManagedInstancesManagementResourceCrud) Get() error {
+func (s *OsManagementHubLifecycleStageAttachManagedInstancesManagementResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.GetLifecycleStageRequest{}
 
 	if lifecycleStageId, ok := s.D.GetOkExists("lifecycle_stage_id"); ok {
@@ -135,7 +136,7 @@ func (s *OsManagementHubLifecycleStageAttachManagedInstancesManagementResourceCr
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "os_management_hub")
 
-	response, err := s.Client.GetLifecycleStage(context.Background(), request)
+	response, err := s.Client.GetLifecycleStage(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -144,7 +145,7 @@ func (s *OsManagementHubLifecycleStageAttachManagedInstancesManagementResourceCr
 	return nil
 }
 
-func (s *OsManagementHubLifecycleStageAttachManagedInstancesManagementResourceCrud) Create() error {
+func (s *OsManagementHubLifecycleStageAttachManagedInstancesManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.AttachManagedInstancesToLifecycleStageRequest{}
 
 	if lifecycleStageId, ok := s.D.GetOkExists("lifecycle_stage_id"); ok {
@@ -165,7 +166,7 @@ func (s *OsManagementHubLifecycleStageAttachManagedInstancesManagementResourceCr
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.AttachManagedInstancesToLifecycleStage(context.Background(), request)
+	response, err := s.Client.AttachManagedInstancesToLifecycleStage(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -173,16 +174,16 @@ func (s *OsManagementHubLifecycleStageAttachManagedInstancesManagementResourceCr
 	workId := response.OpcWorkRequestId
 	// FIXME: this will make test pass for now. We can revisit in the future to test the flow that generates workId.
 	if workId == nil {
-		return s.Get()
+		return s.GetWithContext(ctx)
 	}
-	return s.getLifecycleStageAttachManagedInstancesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getLifecycleStageAttachManagedInstancesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OsManagementHubLifecycleStageAttachManagedInstancesManagementResourceCrud) getLifecycleStageAttachManagedInstancesManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OsManagementHubLifecycleStageAttachManagedInstancesManagementResourceCrud) getLifecycleStageAttachManagedInstancesManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_os_management_hub.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	lifecycleStageAttachManagedInstancesManagementId, err := lifecycleStageAttachManagedInstancesManagementWaitForWorkRequest(workId, "lifecycle_environment",
+	lifecycleStageAttachManagedInstancesManagementId, err := lifecycleStageAttachManagedInstancesManagementWaitForWorkRequest(ctx, workId, "lifecycle_environment",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -190,7 +191,7 @@ func (s *OsManagementHubLifecycleStageAttachManagedInstancesManagementResourceCr
 	}
 	s.D.SetId(*lifecycleStageAttachManagedInstancesManagementId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func lifecycleStageAttachManagedInstancesManagementWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -216,7 +217,7 @@ func lifecycleStageAttachManagedInstancesManagementWorkRequestShouldRetryFunc(ti
 	}
 }
 
-func lifecycleStageAttachManagedInstancesManagementWaitForWorkRequest(wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
+func lifecycleStageAttachManagedInstancesManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_os_management_hub.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "os_management_hub")
 	retryPolicy.ShouldRetryOperation = lifecycleStageAttachManagedInstancesManagementWorkRequestShouldRetryFunc(timeout)
@@ -235,7 +236,7 @@ func lifecycleStageAttachManagedInstancesManagementWaitForWorkRequest(wId *strin
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_os_management_hub.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -247,7 +248,7 @@ func lifecycleStageAttachManagedInstancesManagementWaitForWorkRequest(wId *strin
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -264,14 +265,14 @@ func lifecycleStageAttachManagedInstancesManagementWaitForWorkRequest(wId *strin
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_os_management_hub.OperationStatusFailed || response.Status == oci_os_management_hub.OperationStatusCanceled {
-		return nil, getErrorFromOsManagementHubLifecycleStageAttachManagedInstancesManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOsManagementHubLifecycleStageAttachManagedInstancesManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOsManagementHubLifecycleStageAttachManagedInstancesManagementWorkRequest(client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOsManagementHubLifecycleStageAttachManagedInstancesManagementWorkRequest(ctx context.Context, client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_os_management_hub.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

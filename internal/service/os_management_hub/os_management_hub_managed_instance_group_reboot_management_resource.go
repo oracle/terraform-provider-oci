@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,10 +25,10 @@ func OsManagementHubManagedInstanceGroupRebootManagementResource() *schema.Resou
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOsManagementHubManagedInstanceGroupRebootManagement,
-		Read:     readOsManagementHubManagedInstanceGroupRebootManagement,
-		Delete:   deleteOsManagementHubManagedInstanceGroupRebootManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOsManagementHubManagedInstanceGroupRebootManagementWithContext,
+		ReadContext:   readOsManagementHubManagedInstanceGroupRebootManagementWithContext,
+		DeleteContext: deleteOsManagementHubManagedInstanceGroupRebootManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"managed_instance_group_id": {
@@ -78,20 +79,20 @@ func OsManagementHubManagedInstanceGroupRebootManagementResource() *schema.Resou
 	}
 }
 
-func createOsManagementHubManagedInstanceGroupRebootManagement(d *schema.ResourceData, m interface{}) error {
+func createOsManagementHubManagedInstanceGroupRebootManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubManagedInstanceGroupRebootManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagedInstanceGroupClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOsManagementHubManagedInstanceGroupRebootManagement(d *schema.ResourceData, m interface{}) error {
+func readOsManagementHubManagedInstanceGroupRebootManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteOsManagementHubManagedInstanceGroupRebootManagement(d *schema.ResourceData, m interface{}) error {
+func deleteOsManagementHubManagedInstanceGroupRebootManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -107,7 +108,7 @@ func (s *OsManagementHubManagedInstanceGroupRebootManagementResourceCrud) ID() s
 	return *s.Res.Id
 }
 
-func (s *OsManagementHubManagedInstanceGroupRebootManagementResourceCrud) Get() error {
+func (s *OsManagementHubManagedInstanceGroupRebootManagementResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.GetManagedInstanceGroupRequest{}
 
 	if managedInstanceGroupId, ok := s.D.GetOkExists("managed_instance_group_id"); ok {
@@ -117,7 +118,7 @@ func (s *OsManagementHubManagedInstanceGroupRebootManagementResourceCrud) Get() 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "os_management_hub")
 
-	response, err := s.Client.GetManagedInstanceGroup(context.Background(), request)
+	response, err := s.Client.GetManagedInstanceGroup(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -126,7 +127,7 @@ func (s *OsManagementHubManagedInstanceGroupRebootManagementResourceCrud) Get() 
 	return nil
 }
 
-func (s *OsManagementHubManagedInstanceGroupRebootManagementResourceCrud) Create() error {
+func (s *OsManagementHubManagedInstanceGroupRebootManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.RebootManagedInstanceGroupRequest{}
 
 	if managedInstanceGroupId, ok := s.D.GetOkExists("managed_instance_group_id"); ok {
@@ -152,20 +153,20 @@ func (s *OsManagementHubManagedInstanceGroupRebootManagementResourceCrud) Create
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.RebootManagedInstanceGroup(context.Background(), request)
+	response, err := s.Client.RebootManagedInstanceGroup(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getManagedInstanceGroupRebootManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getManagedInstanceGroupRebootManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OsManagementHubManagedInstanceGroupRebootManagementResourceCrud) getManagedInstanceGroupRebootManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OsManagementHubManagedInstanceGroupRebootManagementResourceCrud) getManagedInstanceGroupRebootManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_os_management_hub.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	managedInstanceGroupRebootManagementId, err := managedInstanceGroupRebootManagementWaitForWorkRequest(workId, "group",
+	managedInstanceGroupRebootManagementId, err := managedInstanceGroupRebootManagementWaitForWorkRequest(ctx, workId, "group",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -173,7 +174,7 @@ func (s *OsManagementHubManagedInstanceGroupRebootManagementResourceCrud) getMan
 	}
 	s.D.SetId(*managedInstanceGroupRebootManagementId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func managedInstanceGroupRebootManagementWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -199,7 +200,7 @@ func managedInstanceGroupRebootManagementWorkRequestShouldRetryFunc(timeout time
 	}
 }
 
-func managedInstanceGroupRebootManagementWaitForWorkRequest(wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
+func managedInstanceGroupRebootManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_os_management_hub.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "os_management_hub")
 	retryPolicy.ShouldRetryOperation = managedInstanceGroupRebootManagementWorkRequestShouldRetryFunc(timeout)
@@ -218,7 +219,7 @@ func managedInstanceGroupRebootManagementWaitForWorkRequest(wId *string, entityT
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_os_management_hub.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -230,7 +231,7 @@ func managedInstanceGroupRebootManagementWaitForWorkRequest(wId *string, entityT
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -247,14 +248,14 @@ func managedInstanceGroupRebootManagementWaitForWorkRequest(wId *string, entityT
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_os_management_hub.OperationStatusFailed || response.Status == oci_os_management_hub.OperationStatusCanceled {
-		return nil, getErrorFromOsManagementHubManagedInstanceGroupRebootManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOsManagementHubManagedInstanceGroupRebootManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOsManagementHubManagedInstanceGroupRebootManagementWorkRequest(client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOsManagementHubManagedInstanceGroupRebootManagementWorkRequest(ctx context.Context, client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_os_management_hub.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

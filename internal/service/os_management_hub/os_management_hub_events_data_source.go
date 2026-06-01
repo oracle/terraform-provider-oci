@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_os_management_hub "github.com/oracle/oci-go-sdk/v65/osmanagementhub"
@@ -17,7 +18,7 @@ import (
 
 func OsManagementHubEventsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readOsManagementHubEvents,
+		ReadContext: readOsManagementHubEventsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -85,12 +86,12 @@ func OsManagementHubEventsDataSource() *schema.Resource {
 	}
 }
 
-func readOsManagementHubEvents(d *schema.ResourceData, m interface{}) error {
+func readOsManagementHubEventsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubEventsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EventClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OsManagementHubEventsDataSourceCrud struct {
@@ -103,7 +104,7 @@ func (s *OsManagementHubEventsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OsManagementHubEventsDataSourceCrud) Get() error {
+func (s *OsManagementHubEventsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.ListEventsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -175,7 +176,7 @@ func (s *OsManagementHubEventsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "os_management_hub")
 
-	response, err := s.Client.ListEvents(context.Background(), request)
+	response, err := s.Client.ListEvents(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -184,7 +185,7 @@ func (s *OsManagementHubEventsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListEvents(context.Background(), request)
+		listResponse, err := s.Client.ListEvents(ctx, request)
 		if err != nil {
 			return err
 		}
