@@ -50,8 +50,8 @@ variable "node_pool_node_config_details_size" {
 }
 
 provider "oci" {
-  region = var.region
-  auth = "SecurityToken"
+  region              = var.region
+  auth                = "SecurityToken"
   config_file_profile = "terraform-federation-test"
 }
 
@@ -95,9 +95,9 @@ resource "oci_core_route_table" "test_route_table" {
 
 resource "oci_core_subnet" "nodePool_Subnet_1" {
   #Required
-  cidr_block          = "10.0.22.0/24"
-  compartment_id      = var.compartment_ocid
-  vcn_id              = oci_core_vcn.test_vcn.id
+  cidr_block     = "10.0.22.0/24"
+  compartment_id = var.compartment_ocid
+  vcn_id         = oci_core_vcn.test_vcn.id
 
   # Provider code tries to maintain compatibility with old versions.
   security_list_ids = [oci_core_vcn.test_vcn.default_security_list_id]
@@ -107,21 +107,40 @@ resource "oci_core_subnet" "nodePool_Subnet_1" {
 
 resource "oci_core_subnet" "clusterSubnet_1" {
   #Required
-  cidr_block          = "10.0.21.0/24"
-  compartment_id      = var.compartment_ocid
-  vcn_id              = oci_core_vcn.test_vcn.id
-  display_name        = "tfSubNet1ForClusters"
+  cidr_block     = "10.0.21.0/24"
+  compartment_id = var.compartment_ocid
+  vcn_id         = oci_core_vcn.test_vcn.id
+  display_name   = "tfSubNet1ForClusters"
 
   # Provider code tries to maintain compatibility with old versions.
   security_list_ids = [oci_core_vcn.test_vcn.default_security_list_id]
   route_table_id    = oci_core_route_table.test_route_table.id
 }
 
+resource "oci_core_compute_cluster" "test_compute_cluster" {
+  availability_domain = data.oci_identity_availability_domain.ad1.name
+  compartment_id      = var.compartment_ocid
+  display_name        = "TestComputeCluster"
+}
+
+resource "oci_core_compute_host_group" "test_host_group" {
+  availability_domain            = data.oci_identity_availability_domain.ad1.name
+  compartment_id                 = var.compartment_ocid
+  display_name                   = "testHostGroup"
+  is_targeted_placement_required = true
+
+  configurations {
+    target        = "BM.GPU4.8"
+    recycle_level = "SKIP_RECYCLE"
+  }
+}
+
 resource "oci_containerengine_cluster" "test_npn_cluster" {
   #Required
   compartment_id     = var.compartment_ocid
-  kubernetes_version = reverse(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)[0]
+  kubernetes_version = local.compute_cluster_node_pool_kubernetes_version
   name               = "tfTestCluster"
+  type               = "ENHANCED_CLUSTER"
   vcn_id             = oci_core_vcn.test_vcn.id
 
   cluster_pod_network_options {
@@ -294,6 +313,7 @@ resource "oci_containerengine_node_pool" "test_node_pool_secondary_vnics" {
   ssh_public_key      = var.node_pool_ssh_public_key
 }
 
+
 data "oci_containerengine_cluster_kube_config" "test_cluster_kube_config" {
     #Required
     cluster_id = oci_containerengine_cluster.test_npn_cluster.id
@@ -322,25 +342,75 @@ output "secondary_vnics_node_pool" {
   }
 }
 
+
+resource "oci_containerengine_node_pool" "compute_cluster_nodePool" {
+  compartment_id     = var.compartment_ocid
+  cluster_id         = oci_containerengine_cluster.test_npn_cluster.id
+  kubernetes_version = local.compute_cluster_node_pool_kubernetes_version
+  name               = "compute_cluster_nodePool"
+  node_shape         = "BM.GPU4.8"
+
+  node_config_details {
+    size               = 0
+    compute_cluster_id = oci_core_compute_cluster.test_compute_cluster.id
+
+    placement_configs {
+      availability_domain = data.oci_identity_availability_domain.ad1.name
+      subnet_id           = oci_core_subnet.nodePool_Subnet_1.id
+      host_group_id       = oci_core_compute_host_group.test_host_group.id
+    }
+
+    node_pool_pod_network_option_details {
+      #Required
+      cni_type       = var.node_pool_node_config_details_node_pool_pod_network_option_details_cni_type
+      pod_subnet_ids = [oci_core_subnet.nodePool_Subnet_1.id]
+    }
+  }
+
+  node_metadata = { "areLegacyImdsEndpointsDisabled" : "true" }
+  node_source_details {
+    #Required
+    image_id    = local.gpu_image_id
+    source_type = "IMAGE"
+  }
+}
+
+
 data "oci_containerengine_node_pool_option" "test_node_pool_option" {
   node_pool_option_id = "all"
-  compartment_id = var.compartment_ocid
+  compartment_id      = var.compartment_ocid
 }
 
 data "oci_core_images" "shape_specific_images" {
   #Required
   compartment_id = var.tenancy_ocid
-  shape = "VM.Standard2.1"
+  shape          = "VM.Standard2.1"
 }
 
 
 locals {
-  all_images = "${data.oci_core_images.shape_specific_images.images}"
-  all_sources = "${data.oci_containerengine_node_pool_option.test_node_pool_option.sources}"
+  compute_cluster_node_pool_kubernetes_version = "v1.35.2"
+  compute_cluster_node_pool_oke_image_version  = replace(local.compute_cluster_node_pool_kubernetes_version, "v", "")
 
-  compartment_images = [for image in local.all_images : image.id if length(regexall("Oracle-Linux-[0-9]*.[0-9]*-20[0-9]*",image.display_name)) > 0 ]
+  all_images  = data.oci_core_images.shape_specific_images.images
+  all_sources = data.oci_containerengine_node_pool_option.test_node_pool_option.sources
 
-  oracle_linux_images = [for source in local.all_sources : source.image_id if length(regexall("Oracle-Linux-[0-9]*.[0-9]*-20[0-9]*",source.source_name)) > 0]
+  compartment_images = [for image in local.all_images : image.id if length(regexall("Oracle-Linux-[0-9]*.[0-9]*-20[0-9]*", image.display_name)) > 0]
 
-  image_id = tolist(setintersection( toset(local.compartment_images), toset(local.oracle_linux_images)))[0]
+  oracle_linux_images = [for source in local.all_sources : source.image_id if length(regexall("Oracle-Linux-[0-9]*.[0-9]*-20[0-9]*", source.source_name)) > 0]
+
+  image_id = tolist(setintersection(toset(local.compartment_images), toset(local.oracle_linux_images)))[0]
+
+  gpu_compartment_images = [
+    for image in local.all_images : image.id
+    if length(regexall("Oracle-Linux-[0-9]+[.][0-9]+.*GPU.*20[0-9]+", image.display_name)) > 0
+  ]
+
+  gpu_oracle_linux_images = [
+    for source in local.all_sources : source.image_id
+    if length(regexall("Oracle-Linux-[0-9]+[.][0-9]+.*GPU.*20[0-9]+", source.source_name)) > 0 &&
+    length(regexall("OKE-${local.compute_cluster_node_pool_oke_image_version}-", source.source_name)) > 0
+  ]
+
+  gpu_image_id = local.gpu_oracle_linux_images[0]
 }

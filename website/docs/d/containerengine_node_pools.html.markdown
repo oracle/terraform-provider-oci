@@ -59,6 +59,7 @@ The following attributes are exported:
 * `name` - The name of the node pool.
 * `network_launch_type` - Emulation type for the physical network interface card (NIC) for nodes
 * `node_config_details` - The configuration of nodes in the node pool.
+	* `compute_cluster_id` - The OCID of the Compute Cluster to be associated with the worker node instance.
 	* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
 	* `kms_key_id` - The OCID of the Key Management Service key assigned to the boot volume.
 	* `node_pool_pod_network_option_details` - The CNI related configuration of pods in the node pool. 
@@ -75,6 +76,7 @@ The following attributes are exported:
 		* `availability_domain` - The availability domain in which to place nodes. Example: `Uocm:PHX-AD-1` 
 		* `capacity_reservation_id` - The OCID of the compute capacity reservation in which to place the compute instance.
 		* `fault_domains` - A list of fault domains in which to place nodes. 
+		* `host_group_id` - The OCID of the Host Group to be associated with the worker node instance.
 		* `preemptible_node_config` - Configuration options for preemptible nodes.
 			* `preemption_action` - The action to run when the preemptible node is interrupted for eviction.
 				* `is_preserve_boot_volume` - Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified. 

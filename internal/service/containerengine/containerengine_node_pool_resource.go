@@ -150,6 +150,10 @@ func ContainerengineNodePoolResource() *schema.Resource {
 											Type: schema.TypeString,
 										},
 									},
+									"host_group_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
 									"preemptible_node_config": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -205,6 +209,11 @@ func ContainerengineNodePoolResource() *schema.Resource {
 						},
 
 						// Optional
+						"compute_cluster_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
 						"is_pv_encryption_in_transit_enabled": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -1602,6 +1611,10 @@ func (s *ContainerengineNodePoolResourceCrud) SetData() error {
 func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodePoolNodeConfigDetails(fieldKeyFormat string) (oci_containerengine.CreateNodePoolNodeConfigDetails, error) {
 	result := oci_containerengine.CreateNodePoolNodeConfigDetails{}
 
+	if computeClusterId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "compute_cluster_id")); ok {
+		tmp := computeClusterId.(string)
+		result.ComputeClusterId = &tmp
+	}
 	if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pv_encryption_in_transit_enabled")); ok {
 		tmp := isPvEncryptionInTransitEnabled.(bool)
 		result.IsPvEncryptionInTransitEnabled = &tmp
@@ -1676,6 +1689,10 @@ func (s *ContainerengineNodePoolResourceCrud) mapToCreateNodePoolNodeConfigDetai
 
 func NodePoolNodeConfigDetailsToMap(obj *oci_containerengine.NodePoolNodeConfigDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.ComputeClusterId != nil {
+		result["compute_cluster_id"] = string(*obj.ComputeClusterId)
+	}
 
 	if obj.IsPvEncryptionInTransitEnabled != nil {
 		result["is_pv_encryption_in_transit_enabled"] = bool(*obj.IsPvEncryptionInTransitEnabled)
@@ -2174,6 +2191,11 @@ func (s *ContainerengineNodePoolResourceCrud) mapToNodePoolPlacementConfigDetail
 		}
 	}
 
+	if hostGroupId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "host_group_id")); ok {
+		tmp := hostGroupId.(string)
+		result.HostGroupId = &tmp
+	}
+
 	if preemptibleNodeConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preemptible_node_config")); ok {
 		if tmpList := preemptibleNodeConfig.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "preemptible_node_config"), 0)
@@ -2205,6 +2227,10 @@ func NodePoolPlacementConfigDetailsToMap(obj oci_containerengine.NodePoolPlaceme
 	}
 
 	result["fault_domains"] = obj.FaultDomains
+
+	if obj.HostGroupId != nil {
+		result["host_group_id"] = string(*obj.HostGroupId)
+	}
 
 	if obj.PreemptibleNodeConfig != nil {
 		result["preemptible_node_config"] = []interface{}{PreemptibleNodeConfigDetailsToMap(obj.PreemptibleNodeConfig)}
@@ -2514,6 +2540,11 @@ func placementConfigsHashCodeForSets(v interface{}) int {
 	if capacityReservationId, ok := m["capacity_reservation_id"]; ok && capacityReservationId != "" {
 		buf.WriteString(fmt.Sprintf("%v-", capacityReservationId))
 	}
+
+	if hostGroupId, ok := m["host_group_id"]; ok && hostGroupId != "" {
+		buf.WriteString(fmt.Sprintf("%v-", hostGroupId))
+	}
+
 	if preemptibleNodeConfig, ok := m["preemptible_node_config"]; ok {
 		if tmpList := preemptibleNodeConfig.([]interface{}); len(tmpList) > 0 {
 			buf.WriteString("preemptible_node_config-")
