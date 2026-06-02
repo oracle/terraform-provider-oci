@@ -144,9 +144,8 @@ func createDataSafeSqlCollectionWithContext(ctx context.Context, d *schema.Resou
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	err := tfresource.CreateResourceWithContext(ctx, d, sync)
-	if err != nil {
-		return tfresource.HandleDiagError(m, err)
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 
 	if _, ok := sync.D.GetOkExists("generate_sql_firewall_policy_trigger"); ok {
@@ -250,8 +249,7 @@ func updateDataSafeSqlCollectionWithContext(ctx context.Context, d *schema.Resou
 		}
 	}
 
-	err := tfresource.UpdateResourceWithContext(ctx, d, sync)
-	if err != nil {
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
 		return tfresource.HandleDiagError(m, err)
 	}
 

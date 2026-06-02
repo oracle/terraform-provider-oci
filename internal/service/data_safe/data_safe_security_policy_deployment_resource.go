@@ -121,9 +121,8 @@ func createDataSafeSecurityPolicyDeploymentWithContext(ctx context.Context, d *s
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	err := tfresource.CreateResourceWithContext(ctx, d, sync)
-	if err != nil {
-		return tfresource.HandleDiagError(m, err)
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 
 	if _, ok := sync.D.GetOkExists("deploy_trigger"); ok {
@@ -168,8 +167,7 @@ func updateDataSafeSecurityPolicyDeploymentWithContext(ctx context.Context, d *s
 			}
 		} else {
 			sync.D.Set("deploy_trigger", oldRaw)
-			err := fmt.Errorf("new value of trigger should be greater than the old value")
-			return tfresource.HandleDiagError(m, err)
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
@@ -190,8 +188,7 @@ func updateDataSafeSecurityPolicyDeploymentWithContext(ctx context.Context, d *s
 		}
 	}
 
-	err := tfresource.UpdateResourceWithContext(ctx, d, sync)
-	if err != nil {
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
 		return tfresource.HandleDiagError(m, err)
 	}
 
