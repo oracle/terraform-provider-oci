@@ -20,7 +20,7 @@ import (
 
 var (
 	DnsResolverEndpointRequiredOnlyResource = DnsResolverEndpointResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Required, acctest.Create, DnsResolverEndpointRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Required, acctest.Create, DnsResolverEndpointRequiredRepresentation)
 
 	DnsResolverEndpointResourceConfig = DnsResolverEndpointResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Update, DnsResolverEndpointRepresentation)
@@ -44,22 +44,34 @@ var (
 	}
 
 	DnsResolverEndpointRepresentation = map[string]interface{}{
-		"is_forwarding":      acctest.Representation{RepType: acctest.Required, Create: `true`},
-		"is_listening":       acctest.Representation{RepType: acctest.Required, Create: `false`},
-		"name":               acctest.Representation{RepType: acctest.Required, Create: `endpointName`},
-		"resolver_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_resolver.test_resolver.id}`},
-		"subnet_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"endpoint_type":      acctest.Representation{RepType: acctest.Optional, Create: `VNIC`},
-		"forwarding_address": acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
-		"scope":              acctest.Representation{RepType: acctest.Optional, Create: `PRIVATE`},
-		"nsg_ids":            acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
+		"is_forwarding":       acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"is_listening":        acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"name":                acctest.Representation{RepType: acctest.Required, Create: `endpointName`},
+		"resolver_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_resolver.test_resolver.id}`},
+		"subnet_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"endpoint_type":       acctest.Representation{RepType: acctest.Optional, Create: `VNIC`},
+		"forwarding_address":  acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
+		"scope":               acctest.Representation{RepType: acctest.Optional, Create: `PRIVATE`},
+		"nsg_ids":             acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"security_attributes": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.sensitivity.value": "low", "oracle-zpr.sensitivity.mode": "enforce"}, Update: map[string]string{"oracle-zpr.sensitivity.value": "medium", "oracle-zpr.sensitivity.mode": "enforce"}},
 	}
+
+	DnsResolverEndpointRequiredRepresentation = acctest.RepresentationCopyWithNewProperties(DnsResolverEndpointRepresentation, map[string]interface{}{
+		"name": acctest.Representation{RepType: acctest.Required, Create: `endpointNameRequired`},
+	})
 
 	DnsResolverEndpointRepresentationWithoutNsgId = acctest.RepresentationCopyWithRemovedProperties(DnsResolverEndpointRepresentation, []string{"nsg_ids"})
 
-	DnsResolverEndpointResourceDependencies = DnsResolverResourceDependencies +
+	DnsResolverEndpointBaseDependencies = DnsResolverResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation)
+	DnsResolverEndpointResourceDependencies = DnsResolverEndpointBaseDependencies +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Create, CoreCoreVcnDnsResolverAssociationSingularDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Required, acctest.Create, DnsResolverRepresentation)
 )
 
 // issue-routing-tag: dns/default
@@ -95,13 +107,11 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DnsResolverEndpointResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Create, CoreCoreVcnDnsResolverAssociationSingularDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Required, acctest.Create, DnsResolverRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Required, acctest.Create, DnsResolverEndpointRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Required, acctest.Create, DnsResolverEndpointRequiredRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "is_forwarding", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_listening", "false"),
-				resource.TestCheckResourceAttr(resourceName, "name", "endpointName"),
+				resource.TestCheckResourceAttr(resourceName, "name", "endpointNameRequired"),
 				resource.TestCheckResourceAttrSet(resourceName, "resolver_id"),
 
 				func(s *terraform.State) (err error) {
@@ -112,24 +122,27 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 		},
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DnsResolverEndpointResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Create, CoreCoreVcnDnsResolverAssociationSingularDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Required, acctest.Create, DnsResolverRepresentation),
+			Config: config + compartmentIdVariableStr + DnsResolverEndpointResourceDependencies,
 		},
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DnsResolverEndpointResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Create, CoreCoreVcnDnsResolverAssociationSingularDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Required, acctest.Create, DnsResolverRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Create, DnsResolverEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.example-tag-namespace-all.example-tag", "value"),
 				resource.TestCheckResourceAttr(resourceName, "endpoint_type", "VNIC"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.freeformTags", "freeformTags"),
 				resource.TestCheckResourceAttr(resourceName, "forwarding_address", "10.0.0.5"),
 				resource.TestCheckResourceAttr(resourceName, "is_forwarding", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_listening", "false"),
 				resource.TestCheckResourceAttr(resourceName, "name", "endpointName"),
 				resource.TestCheckResourceAttrSet(resourceName, "resolver_id"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.sensitivity.mode", "enforce"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.sensitivity.value", "low"),
 				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(resourceName, "self"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -151,18 +164,23 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DnsResolverEndpointResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Update, CoreCoreVcnDnsResolverAssociationSingularDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Required, acctest.Create, DnsResolverRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Update, DnsResolverEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.example-tag-namespace-all.example-tag", "updatedValue"),
 				resource.TestCheckResourceAttr(resourceName, "endpoint_type", "VNIC"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.freeformTags2", "freeformTags2"),
 				resource.TestCheckResourceAttr(resourceName, "forwarding_address", "10.0.0.5"),
 				resource.TestCheckResourceAttr(resourceName, "is_forwarding", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_listening", "false"),
 				resource.TestCheckResourceAttr(resourceName, "name", "endpointName"),
 				resource.TestCheckResourceAttrSet(resourceName, "resolver_id"),
 				resource.TestCheckResourceAttr(resourceName, "scope", "PRIVATE"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.sensitivity.mode", "enforce"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.oracle-zpr.sensitivity.value", "medium"),
 				resource.TestCheckResourceAttrSet(resourceName, "self"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
@@ -182,9 +200,7 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + compartmentIdVariableStr + DnsResolverEndpointResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Create, CoreCoreVcnDnsResolverAssociationSingularDataSourceRepresentation) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_resolver_endpoints", "test_resolver_endpoints", acctest.Optional, acctest.Update, DnsDnsResolverEndpointDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Required, acctest.Create, DnsResolverRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Update, DnsResolverEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "name", "endpointName"),
@@ -193,7 +209,14 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "resolver_endpoints.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "resolver_endpoints.0.compartment_id"),
+				resource.TestCheckResourceAttr(datasourceName, "resolver_endpoints.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "resolver_endpoints.0.defined_tags.example-tag-namespace-all.example-tag", "updatedValue"),
 				resource.TestCheckResourceAttr(datasourceName, "resolver_endpoints.0.endpoint_type", "VNIC"),
+				resource.TestCheckResourceAttr(datasourceName, "resolver_endpoints.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "resolver_endpoints.0.freeform_tags.freeformTags2", "freeformTags2"),
+				resource.TestCheckResourceAttr(datasourceName, "resolver_endpoints.0.security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(datasourceName, "resolver_endpoints.0.security_attributes.oracle-zpr.sensitivity.mode", "enforce"),
+				resource.TestCheckResourceAttr(datasourceName, "resolver_endpoints.0.security_attributes.oracle-zpr.sensitivity.value", "medium"),
 				resource.TestCheckResourceAttr(datasourceName, "resolver_endpoints.0.forwarding_address", "10.0.0.5"),
 				resource.TestCheckResourceAttr(datasourceName, "resolver_endpoints.0.is_forwarding", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "resolver_endpoints.0.is_listening", "false"),
@@ -208,15 +231,20 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + compartmentIdVariableStr + DnsResolverEndpointResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Required, acctest.Create, CoreCoreVcnDnsResolverAssociationSingularDataSourceRepresentation) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Update, DnsDnsResolverEndpointSingularDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Required, acctest.Create, DnsResolverRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver_endpoint", "test_resolver_endpoint", acctest.Optional, acctest.Update, DnsResolverEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "resolver_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "scope", "PRIVATE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.example-tag-namespace-all.example-tag", "updatedValue"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "endpoint_type", "VNIC"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.freeformTags2", "freeformTags2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_attributes.oracle-zpr.sensitivity.mode", "enforce"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_attributes.oracle-zpr.sensitivity.value", "medium"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "forwarding_address", "10.0.0.5"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_forwarding", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_listening", "false"),
@@ -229,7 +257,7 @@ func TestDnsResolverEndpointResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + DnsResolverEndpointRequiredOnlyResource,
+			Config:            config + compartmentIdVariableStr + DnsResolverEndpointRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateIdFunc: getResolverEndpointImportId(resourceName),

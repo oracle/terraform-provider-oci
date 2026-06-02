@@ -316,6 +316,18 @@ func (s *DnsSteeringPolicyResourceCrud) CreatedTarget() []string {
 	}
 }
 
+func (s *DnsSteeringPolicyResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_dns.SteeringPolicyLifecycleStateUpdating),
+	}
+}
+
+func (s *DnsSteeringPolicyResourceCrud) UpdatedTarget() []string {
+	return []string{
+		string(oci_dns.SteeringPolicyLifecycleStateActive),
+	}
+}
+
 func (s *DnsSteeringPolicyResourceCrud) DeletedPending() []string {
 	return []string{
 		string(oci_dns.SteeringPolicyLifecycleStateDeleting),

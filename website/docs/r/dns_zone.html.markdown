@@ -87,9 +87,9 @@ The following arguments are supported:
 
 	 **Example:** `{"Department": "Finance"}` 
 * `name` - (Required) The name of the zone.
-* `resolution_mode` - (Optional) (Updatable) The resolution mode of a zone defines behavior related to how query responses can be handled. 
-* `scope` - (Required) Specifies to operate only on resources that have a matching DNS scope. 
-* `view_id` - (Required) The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view.
+* `resolution_mode` - (Optional) (Updatable) The resolution mode of a zone defines behavior related to how query responses can be handled. See [Private DNS Zone Transparency](https://docs.cloud.oracle.com/iaas/Content/DNS/Tasks/privatedns.htm#use-cases__resolution) for more information. 
+* `scope` - (Optional) Specifies to operate only on resources that have a matching DNS scope. 
+* `view_id` - (Optional) The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view.
 * `zone_type` - (Required) The type of the zone. Must be either `PRIMARY` or `SECONDARY`. `SECONDARY` is only supported for GLOBAL zones. 
 
 
@@ -195,7 +195,9 @@ The following attributes are exported:
 * `id` - The OCID of the zone.
 * `is_protected` - A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.
 * `name` - The name of the zone.
-* `resolution_mode` - The resolution mode of a zone defines behavior related to how query responses can be handled. 
+* `nameservers` - The authoritative nameservers for the zone.
+	* `hostname` - The hostname of the nameserver.
+* `resolution_mode` - The resolution mode of a zone defines behavior related to how query responses can be handled. See [Private DNS Zone Transparency](https://docs.cloud.oracle.com/iaas/Content/DNS/Tasks/privatedns.htm#use-cases__resolution) for more information.
 * `scope` - The scope of the zone.
 * `self` - The canonical absolute URL of the resource.
 * `serial` - The current serial of the zone. As seen in the zone's SOA record. 

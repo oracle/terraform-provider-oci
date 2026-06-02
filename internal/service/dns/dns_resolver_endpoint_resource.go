@@ -59,6 +59,13 @@ func DnsResolverEndpointResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
 			"endpoint_type": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -74,6 +81,12 @@ func DnsResolverEndpointResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"listening_address": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -83,7 +96,6 @@ func DnsResolverEndpointResource() *schema.Resource {
 			"nsg_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
-				ForceNew: true,
 				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
@@ -94,9 +106,19 @@ func DnsResolverEndpointResource() *schema.Resource {
 				Optional: true,
 				ForceNew: true,
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"compartment_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"pe_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -113,6 +135,10 @@ func DnsResolverEndpointResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_updated": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"vnic_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -322,17 +348,33 @@ func (s *DnsResolverEndpointResourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
 
+		if v.PeId != nil {
+			s.D.Set("pe_id", *v.PeId)
+		}
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.VnicId != nil {
+			s.D.Set("vnic_id", *v.VnicId)
 		}
 
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
 
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
 		if v.ForwardingAddress != nil {
 			s.D.Set("forwarding_address", *v.ForwardingAddress)
 		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.IsForwarding != nil {
 			s.D.Set("is_forwarding", *v.IsForwarding)
@@ -348,6 +390,10 @@ func (s *DnsResolverEndpointResourceCrud) SetData() error {
 
 		if v.Name != nil {
 			s.D.Set("name", *v.Name)
+		}
+
+		if v.ResolverId != nil {
+			s.D.Set("resolver_id", *v.ResolverId)
 		}
 
 		if v.Self != nil {
@@ -421,13 +467,26 @@ func (s *DnsResolverEndpointResourceCrud) populateTopLevelPolymorphicCreateResol
 				details.NsgIds = tmp
 			}
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
 		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
 		if forwardingAddress, ok := s.D.GetOkExists("forwarding_address"); ok {
 			tmp := forwardingAddress.(string)
 			details.ForwardingAddress = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		if isForwarding, ok := s.D.GetOkExists("is_forwarding"); ok {
 			tmp := isForwarding.(bool)
@@ -484,6 +543,21 @@ func (s *DnsResolverEndpointResourceCrud) populateTopLevelPolymorphicUpdateResol
 				details.NsgIds = tmp
 			}
 		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		tmp := s.D.Id()
+		request.ResolverEndpointName = &tmp
 		if resolverEndpointName, ok := s.D.GetOkExists("name"); ok {
 			tmp := resolverEndpointName.(string)
 			request.ResolverEndpointName = &tmp

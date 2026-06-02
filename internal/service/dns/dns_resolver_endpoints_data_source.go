@@ -38,7 +38,7 @@ func DnsResolverEndpointsDataSource() *schema.Resource {
 			"resolver_endpoints": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     DnsResolverEndpointResource(),
+				Elem:     tfresource.GetDataSourceItemSchema(DnsResolverEndpointResource()),
 			},
 		},
 	}
@@ -120,16 +120,36 @@ func (s *DnsResolverEndpointsDataSourceCrud) SetData() error {
 		case oci_dns.ResolverVnicEndpointSummary:
 			result["endpoint_type"] = "VNIC"
 
+			if v.PeId != nil {
+				result["pe_id"] = string(*v.PeId)
+			}
+			if v.SecurityAttributes != nil {
+				result["security_attributes"] = tfresource.SecurityAttributesToMap(v.SecurityAttributes)
+			}
 			if v.SubnetId != nil {
 				result["subnet_id"] = string(*v.SubnetId)
+			}
+
+			if v.VnicId != nil {
+				result["vnic_id"] = string(*v.VnicId)
 			}
 
 			if v.CompartmentId != nil {
 				result["compartment_id"] = string(*v.CompartmentId)
 			}
 
+			if v.DefinedTags != nil {
+				result["defined_tags"] = tfresource.DefinedTagsToMap(v.DefinedTags)
+			}
+
 			if v.ForwardingAddress != nil {
 				result["forwarding_address"] = string(*v.ForwardingAddress)
+			}
+
+			result["freeform_tags"] = v.FreeformTags
+
+			if v.Id != nil {
+				result["id"] = string(*v.Id)
 			}
 
 			if v.IsForwarding != nil {
@@ -146,6 +166,10 @@ func (s *DnsResolverEndpointsDataSourceCrud) SetData() error {
 
 			if v.Name != nil {
 				result["name"] = string(*v.Name)
+			}
+
+			if v.ResolverId != nil {
+				result["resolver_id"] = string(*v.ResolverId)
 			}
 
 			if v.Self != nil {
