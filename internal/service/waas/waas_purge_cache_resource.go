@@ -98,7 +98,7 @@ func (s *WaasPurgeCacheResourceCrud) CreateWithContext(ctx context.Context) erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
-	response, err := s.Client.PurgeCache(context.Background(), request)
+	response, err := s.Client.PurgeCache(ctx, request)
 	if err != nil {
 		return err
 	}

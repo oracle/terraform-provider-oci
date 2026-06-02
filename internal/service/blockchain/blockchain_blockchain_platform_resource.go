@@ -608,7 +608,7 @@ func blockchainPlatformWaitForWorkRequest(ctx context.Context, wId *string, enti
 }
 
 func getErrorFromBlockchainPlatformWorkRequest(ctx context.Context, client *oci_blockchain.BlockchainPlatformClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_blockchain.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_blockchain.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

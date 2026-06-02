@@ -282,7 +282,7 @@ func securityAttributeWaitForWorkRequest(ctx context.Context, wId *string, entit
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetSecurityAttributeWorkRequest(context.Background(),
+			response, err = client.GetSecurityAttributeWorkRequest(ctx,
 				oci_security_attribute.GetSecurityAttributeWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -316,7 +316,7 @@ func securityAttributeWaitForWorkRequest(ctx context.Context, wId *string, entit
 }
 
 func getErrorFromSecurityAttributeSecurityAttributeWorkRequest(ctx context.Context, client *oci_security_attribute.SecurityAttributeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_security_attribute.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListSecurityAttributeWorkRequestErrors(context.Background(),
+	response, err := client.ListSecurityAttributeWorkRequestErrors(ctx,
 		oci_security_attribute.ListSecurityAttributeWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

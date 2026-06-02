@@ -146,7 +146,7 @@ func (s *WaasWaasPoliciesDataSourceCrud) GetWithContext(ctx context.Context) err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "waas")
 
-	response, err := s.Client.ListWaasPolicies(context.Background(), request)
+	response, err := s.Client.ListWaasPolicies(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -155,7 +155,7 @@ func (s *WaasWaasPoliciesDataSourceCrud) GetWithContext(ctx context.Context) err
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListWaasPolicies(context.Background(), request)
+		listResponse, err := s.Client.ListWaasPolicies(ctx, request)
 		if err != nil {
 			return err
 		}

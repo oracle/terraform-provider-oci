@@ -1075,7 +1075,7 @@ func (s *RedisRedisClusterResourceCrud) updateRedisCluster(ctx context.Context, 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "redis")
 
-	response, err := s.Client.UpdateRedisCluster(context.Background(), request)
+	response, err := s.Client.UpdateRedisCluster(ctx, request)
 	if err != nil {
 		return err
 	}

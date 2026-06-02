@@ -667,7 +667,7 @@ func (s *DatabaseDbHomeResourceCrud) CreateWithContext(ctx context.Context) erro
 
 			s.Res = &response.DbHome
 
-			err = s.getDatabaseInfo()
+			err = s.getDatabaseInfo(ctx)
 			if err != nil {
 				log.Printf("[ERROR] Could not get Database info for the dbHome: %v", err)
 			}
@@ -813,7 +813,7 @@ func (s *DatabaseDbHomeResourceCrud) UpdateWithContext(ctx context.Context) erro
 		} else {
 			// if state does contain a database and config does, issue an update database call
 			if s.Database == nil || s.Database.Id == nil {
-				err := s.getDatabaseInfo()
+				err := s.getDatabaseInfo(ctx)
 				if err != nil {
 					return fmt.Errorf("could not perform an Update as we could not get the databaseId in the dbHome: %v", err)
 				}
@@ -1981,7 +1981,7 @@ func (s *DatabaseDbHomeResourceCrud) deleteNestedDB(ctx context.Context) error {
 	return nil
 }
 
-func (s *DatabaseDbHomeResourceCrud) getDatabaseInfo() error {
+func (s *DatabaseDbHomeResourceCrud) getDatabaseInfo(ctx context.Context) error {
 	listDatabasesRequest := oci_database.ListDatabasesRequest{}
 
 	listDatabasesRequest.CompartmentId = s.Res.CompartmentId
@@ -1989,7 +1989,7 @@ func (s *DatabaseDbHomeResourceCrud) getDatabaseInfo() error {
 	listDatabasesRequest.SortBy = oci_database.ListDatabasesSortByTimecreated
 	listDatabasesRequest.SortOrder = oci_database.ListDatabasesSortOrderAsc
 	listDatabasesRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
-	listDatabasesResponse, err := s.Client.ListDatabases(context.Background(), listDatabasesRequest)
+	listDatabasesResponse, err := s.Client.ListDatabases(ctx, listDatabasesRequest)
 	if err != nil {
 		return err
 	}
@@ -2002,7 +2002,7 @@ func (s *DatabaseDbHomeResourceCrud) getDatabaseInfo() error {
 	getDatabaseRequest := oci_database.GetDatabaseRequest{}
 	getDatabaseRequest.DatabaseId = databaseId
 	getDatabaseRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
-	getDatabaseResponse, err := s.Client.GetDatabase(context.Background(), getDatabaseRequest)
+	getDatabaseResponse, err := s.Client.GetDatabase(ctx, getDatabaseRequest)
 	if err != nil {
 		return err
 	}

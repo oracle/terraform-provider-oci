@@ -1391,7 +1391,7 @@ func (s *DataLabelingServiceDatasetResourceCrud) updateLabelSet(ctx context.Cont
 		addDatasetLabelsRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_labeling_service")
 		addDatasetLabelsRequest.LabelSet = &oci_data_labeling_service.LabelSet{Items: labelSetDiffAdd}
 
-		response, err := s.Client.AddDatasetLabels(context.Background(), addDatasetLabelsRequest)
+		response, err := s.Client.AddDatasetLabels(ctx, addDatasetLabelsRequest)
 		if err != nil {
 			return err
 		}
@@ -1425,7 +1425,7 @@ func (s *DataLabelingServiceDatasetResourceCrud) updateLabelSet(ctx context.Cont
 		removeDatasetLabelsRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_labeling_service")
 		removeDatasetLabelsRequest.LabelSet = &oci_data_labeling_service.LabelSet{Items: labelSetDiffRemove}
 
-		response, err := s.Client.RemoveDatasetLabels(context.Background(), removeDatasetLabelsRequest)
+		response, err := s.Client.RemoveDatasetLabels(ctx, removeDatasetLabelsRequest)
 		if err != nil {
 			return err
 		}

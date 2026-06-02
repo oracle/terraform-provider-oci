@@ -381,7 +381,7 @@ func createDatascienceModelWithContext(ctx context.Context, d *schema.ResourceDa
 		}
 		sync.D.Set("state", oci_datascience.ModelLifecycleStateInactive)
 	}
-	if e := sync.CreateArtifact(); e != nil {
+	if e := sync.CreateArtifact(ctx); e != nil {
 		return tfresource.HandleDiagError(m, e)
 	}
 	sync.D.Set("empty_model", false)
@@ -620,7 +620,7 @@ func (s *DatascienceModelResourceCrud) GetWithContext(ctx context.Context) error
 	if emptyModel, ok := s.D.GetOkExists("empty_model"); ok {
 		tmp := emptyModel.(bool)
 		if !tmp {
-			err := s.GetArtifactHead()
+			err := s.GetArtifactHead(ctx)
 			if err != nil {
 				return err
 			}
@@ -1094,7 +1094,7 @@ func (s *DatascienceModelResourceCrud) ActivateModel(ctx context.Context) error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.ActivateModel(context.Background(), request)
+	_, err := s.Client.ActivateModel(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1111,7 +1111,7 @@ func (s *DatascienceModelResourceCrud) DeactivateModel(ctx context.Context) erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.DeactivateModel(context.Background(), request)
+	_, err := s.Client.DeactivateModel(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1120,7 +1120,7 @@ func (s *DatascienceModelResourceCrud) DeactivateModel(ctx context.Context) erro
 	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DatascienceModelResourceCrud) CreateArtifact() error {
+func (s *DatascienceModelResourceCrud) CreateArtifact(ctx context.Context) error {
 	request := oci_datascience.CreateModelArtifactRequest{}
 
 	if contentDisposition, ok := s.D.GetOkExists("artifact_content_disposition"); ok {
@@ -1151,14 +1151,14 @@ func (s *DatascienceModelResourceCrud) CreateArtifact() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.CreateModelArtifact(context.Background(), request)
+	_, err := s.Client.CreateModelArtifact(ctx, request)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (s *DatascienceModelResourceCrud) GetArtifactHead() error {
+func (s *DatascienceModelResourceCrud) GetArtifactHead(ctx context.Context) error {
 	request := oci_datascience.HeadModelArtifactRequest{}
 
 	tmp := s.D.Id()
@@ -1166,7 +1166,7 @@ func (s *DatascienceModelResourceCrud) GetArtifactHead() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "datascience")
 
-	response, err := s.Client.HeadModelArtifact(context.Background(), request)
+	response, err := s.Client.HeadModelArtifact(ctx, request)
 	if err != nil {
 		return err
 	}

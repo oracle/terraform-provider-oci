@@ -711,7 +711,7 @@ func (s *OdaOdaInstanceResourceCrud) StartOdaInstance(ctx context.Context) error
 	tmp := s.D.Id()
 	request.OdaInstanceId = &tmp
 
-	if _, err := s.Client.StartOdaInstance(context.Background(), request); err != nil {
+	if _, err := s.Client.StartOdaInstance(ctx, request); err != nil {
 		return err
 	}
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == state }
@@ -732,7 +732,7 @@ func (s *OdaOdaInstanceResourceCrud) StopOdaInstance(ctx context.Context) error 
 	tmp := s.D.Id()
 	request.OdaInstanceId = &tmp
 
-	if _, err := s.Client.StopOdaInstance(context.Background(), request); err != nil {
+	if _, err := s.Client.StopOdaInstance(ctx, request); err != nil {
 		return err
 	}
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == state }

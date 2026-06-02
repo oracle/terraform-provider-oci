@@ -1193,7 +1193,7 @@ func (s *DatascienceJobResourceCrud) GetWithContext(ctx context.Context) error {
 	if emptyArtifact, ok := s.D.GetOkExists("empty_artifact"); ok {
 		tmp := emptyArtifact.(bool)
 		if !tmp {
-			err := s.GetArtifactHead()
+			err := s.GetArtifactHead(ctx)
 			if err != nil {
 				return err
 			}
@@ -1206,7 +1206,7 @@ func (s *DatascienceJobResourceCrud) UpdateWithContext(ctx context.Context) erro
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -2340,7 +2340,7 @@ func StorageMountConfigurationDetailsToMap(obj oci_datascience.StorageMountConfi
 	return result
 }
 
-func (s *DatascienceJobResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatascienceJobResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_datascience.ChangeJobCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -2351,7 +2351,7 @@ func (s *DatascienceJobResourceCrud) updateCompartment(compartment interface{}) 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.ChangeJobCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeJobCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
@@ -2396,7 +2396,7 @@ func (s *DatascienceJobResourceCrud) CreateArtifact(ctx context.Context) error {
 	return nil
 }
 
-func (s *DatascienceJobResourceCrud) GetArtifactHead() error {
+func (s *DatascienceJobResourceCrud) GetArtifactHead(ctx context.Context) error {
 	request := oci_datascience.HeadJobArtifactRequest{}
 
 	tmp := s.D.Id()
@@ -2404,7 +2404,7 @@ func (s *DatascienceJobResourceCrud) GetArtifactHead() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "datascience")
 
-	response, err := s.Client.HeadJobArtifact(context.Background(), request)
+	response, err := s.Client.HeadJobArtifact(ctx, request)
 	if err != nil {
 		return err
 	}

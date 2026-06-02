@@ -278,7 +278,7 @@ func zprPolicyWaitForWorkRequest(ctx context.Context, wId *string, entityType st
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetZprPolicyWorkRequest(context.Background(),
+			response, err = client.GetZprPolicyWorkRequest(ctx,
 				oci_zpr.GetZprPolicyWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{

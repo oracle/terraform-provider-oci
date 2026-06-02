@@ -781,7 +781,7 @@ func (s *DataflowApplicationResourceCrud) DeleteWithContext(ctx context.Context)
 		request.ApplicationId = &tmp
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
-		response, err := s.Client.CascadingDeleteApplication(context.Background(), request)
+		response, err := s.Client.CascadingDeleteApplication(ctx, request)
 
 		if err != nil {
 			return err
@@ -827,7 +827,7 @@ func cascadingDeleteApplicationWaitForWorkRequest(ctx context.Context, wId *stri
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_dataflow.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -858,7 +858,7 @@ func cascadingDeleteApplicationWaitForWorkRequest(ctx context.Context, wId *stri
 	if identifier == nil ||
 		response.Status == oci_dataflow.WorkRequestStatusFailed ||
 		response.Status == oci_dataflow.WorkRequestStatusCancelled {
-		return nil, getErrorFromDataflowApplicationWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataflowApplicationWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
@@ -887,9 +887,9 @@ func applicationWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 	}
 }
 
-func getErrorFromDataflowApplicationWorkRequest(client *oci_dataflow.DataFlowClient, workId *string,
+func getErrorFromDataflowApplicationWorkRequest(ctx context.Context, client *oci_dataflow.DataFlowClient, workId *string,
 	retryPolicy *oci_common.RetryPolicy, entityType string, action oci_dataflow.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_dataflow.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

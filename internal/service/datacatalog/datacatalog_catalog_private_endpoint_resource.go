@@ -487,7 +487,7 @@ func (s *DatacatalogCatalogPrivateEndpointResourceCrud) detachCatalog(ctx contex
 		request.CatalogId = &detachCatalogId
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
-		response, err := s.Client.DetachCatalogPrivateEndpoint(context.Background(), request)
+		response, err := s.Client.DetachCatalogPrivateEndpoint(ctx, request)
 		if err != nil {
 			return err
 		}

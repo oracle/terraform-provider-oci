@@ -582,7 +582,7 @@ func modelWaitForWorkRequest(ctx context.Context, wId *string, entityType string
 }
 
 func getErrorFromAiVisionModelWorkRequest(ctx context.Context, client *oci_ai_vision.AIServiceVisionClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ai_vision.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_ai_vision.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

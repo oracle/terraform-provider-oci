@@ -357,7 +357,7 @@ func (s *DatascienceMlApplicationInstanceResourceCrud) getMlApplicationInstanceF
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, mlApplicationInstanceId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_datascience.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -416,7 +416,7 @@ func mlApplicationInstanceWaitForWorkRequest(ctx context.Context, wId *string, e
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_datascience.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -445,14 +445,14 @@ func mlApplicationInstanceWaitForWorkRequest(ctx context.Context, wId *string, e
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_datascience.WorkRequestStatusFailed || response.Status == oci_datascience.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatascienceMlApplicationInstanceWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatascienceMlApplicationInstanceWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatascienceMlApplicationInstanceWorkRequest(client *oci_datascience.DataScienceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatascienceMlApplicationInstanceWorkRequest(ctx context.Context, client *oci_datascience.DataScienceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_datascience.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -812,7 +812,7 @@ func (s *DatascienceMlApplicationInstanceResourceCrud) updateCompartment(ctx con
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.ChangeMlApplicationInstanceCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeMlApplicationInstanceCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}

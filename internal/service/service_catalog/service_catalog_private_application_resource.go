@@ -497,7 +497,7 @@ func (s *ServiceCatalogPrivateApplicationResourceCrud) DeleteWithContext(ctx con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "service_catalog")
 
-	_, err := s.Client.DeletePrivateApplication(context.Background(), request)
+	_, err := s.Client.DeletePrivateApplication(ctx, request)
 	return err
 
 	//if err != nil {

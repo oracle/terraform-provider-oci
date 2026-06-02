@@ -67,7 +67,7 @@ func (s *DatascienceModelDataSourceCrud) GetWithContext(ctx context.Context) err
 
 	headModelArtifactRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	headModelArtifactResponse, err := s.Client.HeadModelArtifact(context.Background(), headModelArtifactRequest)
+	headModelArtifactResponse, err := s.Client.HeadModelArtifact(ctx, headModelArtifactRequest)
 	if err != nil {
 		return err
 	}

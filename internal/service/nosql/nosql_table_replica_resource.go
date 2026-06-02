@@ -137,7 +137,7 @@ func (s *NosqlTableReplicaResourceCrud) CreateWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
-	response, err := s.Client.CreateReplica(context.Background(), request)
+	response, err := s.Client.CreateReplica(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -156,7 +156,7 @@ func (s *NosqlTableReplicaResourceCrud) getTableReplicaFromWorkRequest(ctx conte
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, tableReplicaId)
-		_, cancelErr := s.Client.DeleteWorkRequest(context.Background(),
+		_, cancelErr := s.Client.DeleteWorkRequest(ctx,
 			oci_nosql.DeleteWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -215,7 +215,7 @@ func tableReplicaWaitForWorkRequest(ctx context.Context, wId *string, entityType
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_nosql.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -304,7 +304,7 @@ func (s *NosqlTableReplicaResourceCrud) GetWithContext(ctx context.Context) erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
-	response, err := s.Client.GetTable(context.Background(), request)
+	response, err := s.Client.GetTable(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -339,7 +339,7 @@ func (s *NosqlTableReplicaResourceCrud) DeleteWithContext(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
-	response, err := s.Client.DeleteReplica(context.Background(), request)
+	response, err := s.Client.DeleteReplica(ctx, request)
 	if err != nil {
 		return err
 	}

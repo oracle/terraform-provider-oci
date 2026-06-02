@@ -190,7 +190,7 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) CreateWithContext(ctx 
 	getWorkRequestRequest := oci_analytics.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workId
 	getWorkRequestRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
-	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
+	workRequestResponse, err := s.Client.GetWorkRequest(ctx, getWorkRequestRequest)
 	s.WorkRequest = &workRequestResponse.WorkRequest
 	return returnError
 }
@@ -230,7 +230,7 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) getAnalyticsInstanceVa
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
-	response, err := s.Client.GetAnalyticsInstance(context.Background(), request)
+	response, err := s.Client.GetAnalyticsInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -350,7 +350,7 @@ func analyticsInstanceVanityUrlWaitForWorkRequest(ctx context.Context, wId *stri
 }
 
 func getErrorFromAnalyticsAnalyticsInstanceVanityUrlWorkRequest(ctx context.Context, client *oci_analytics.AnalyticsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_analytics.WorkRequestActionResultEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_analytics.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -383,7 +383,7 @@ func (s *AnalyticsAnalyticsInstanceVanityUrlResourceCrud) GetWithContext(ctx con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
-	response, err := s.Client.GetAnalyticsInstance(context.Background(), request)
+	response, err := s.Client.GetAnalyticsInstance(ctx, request)
 	if err != nil {
 		return err
 	}

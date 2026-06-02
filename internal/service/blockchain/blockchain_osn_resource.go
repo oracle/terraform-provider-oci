@@ -157,16 +157,16 @@ func (s *BlockchainOsnResourceCrud) CreateWithContext(ctx context.Context) error
 	}
 
 	workId := response.OpcWorkRequestId
-	s.setIdFromWorkRequest(workId)
+	s.setIdFromWorkRequest(ctx, workId)
 	return s.getOsnFromWorkRequest(ctx, request.BlockchainPlatformId, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "blockchain"), oci_blockchain.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *BlockchainOsnResourceCrud) setIdFromWorkRequest(workId *string) {
+func (s *BlockchainOsnResourceCrud) setIdFromWorkRequest(ctx context.Context, workId *string) {
 	var subTypeKey *string
 	var err error
 
 	workRequestResponse := oci_blockchain.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_blockchain.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

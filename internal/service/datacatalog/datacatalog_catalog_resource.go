@@ -631,7 +631,7 @@ func (s *DatacatalogCatalogResourceCrud) attachCatalogPrivateEndpoints(ctx conte
 		request.CatalogId = &catalogId
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
-		response, err := s.Client.AttachCatalogPrivateEndpoint(context.Background(), request)
+		response, err := s.Client.AttachCatalogPrivateEndpoint(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -652,7 +652,7 @@ func (s *DatacatalogCatalogResourceCrud) detachCatalogPrivateEndpoints(ctx conte
 		request.CatalogId = &catalogId
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
-		response, err := s.Client.DetachCatalogPrivateEndpoint(context.Background(), request)
+		response, err := s.Client.DetachCatalogPrivateEndpoint(ctx, request)
 		if err != nil {
 			return err
 		}

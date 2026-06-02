@@ -233,14 +233,14 @@ func (s *WaasHttpRedirectResourceCrud) CreateWithContext(ctx context.Context) er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
-	response, err := s.Client.CreateHttpRedirect(context.Background(), request)
+	response, err := s.Client.CreateHttpRedirect(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_waas.GetWorkRequestResponse{}
-	workRequestResponse, err = s.WaasClient.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.WaasClient.GetWorkRequest(ctx,
 		oci_waas.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -269,7 +269,7 @@ func (s *WaasHttpRedirectResourceCrud) getHttpRedirectFromWorkRequest(ctx contex
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, httpRedirectId)
-		_, cancelErr := s.WaasClient.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.WaasClient.CancelWorkRequest(ctx,
 			oci_waas.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -328,7 +328,7 @@ func httpRedirectWaitForWorkRequest(ctx context.Context, wId *string, entityType
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_waas.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -440,7 +440,7 @@ func (s *WaasHttpRedirectResourceCrud) UpdateWithContext(ctx context.Context) er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "waas")
 
-	response, err := s.Client.UpdateHttpRedirect(context.Background(), request)
+	response, err := s.Client.UpdateHttpRedirect(ctx, request)
 	if err != nil {
 		return err
 	}

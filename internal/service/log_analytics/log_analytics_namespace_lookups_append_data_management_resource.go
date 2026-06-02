@@ -139,7 +139,7 @@ func (s *LogAnalyticsNamespaceLookupsAppendDataManagementResourceCrud) CreateWit
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
-	response, err := s.Client.AppendLookupData(context.Background(), request)
+	response, err := s.Client.AppendLookupData(ctx, request)
 	if err != nil {
 		return err
 	}

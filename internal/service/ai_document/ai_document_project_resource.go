@@ -369,7 +369,7 @@ func projectWaitForWorkRequest(ctx context.Context, wId *string, entityType stri
 }
 
 func getErrorFromAiDocumentProjectWorkRequest(ctx context.Context, client *oci_ai_document.AIServiceDocumentClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ai_document.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_ai_document.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

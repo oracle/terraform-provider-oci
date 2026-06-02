@@ -432,7 +432,7 @@ func (s *LogAnalyticsNamespaceLookupResourceCrud) CreateWithContext(ctx context.
 
 	registerRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
-	_, err := s.Client.RegisterLookup(context.Background(), registerRequest)
+	_, err := s.Client.RegisterLookup(ctx, registerRequest)
 	if err != nil {
 		return err
 	}
@@ -550,7 +550,7 @@ func namespaceLookupWaitForGetLookup(ctx context.Context, namespaceName *string,
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetLookup(context.Background(),
+			response, err = client.GetLookup(ctx,
 				oci_log_analytics.GetLookupRequest{
 					NamespaceName: namespaceName,
 					LookupName:    lookupName,

@@ -333,7 +333,7 @@ func endpointWaitForWorkRequest(ctx context.Context, wId *string, entityType str
 }
 
 func getErrorFromAiLanguageEndpointWorkRequest(ctx context.Context, client *oci_ai_language.AIServiceLanguageClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ai_language.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_ai_language.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

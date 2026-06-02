@@ -777,12 +777,12 @@ func (s *OcvpClusterResourceCrud) UpdateWithContext(ctx context.Context) error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	_, err := s.Client.UpdateCluster(context.Background(), request)
+	_, err := s.Client.UpdateCluster(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if err = s.executeAttachDetachDatastoreClustersToCluster(); err != nil {
+	if err = s.executeAttachDetachDatastoreClustersToCluster(ctx); err != nil {
 		return err
 	}
 	return s.GetWithContext(ctx)
@@ -1224,7 +1224,7 @@ func VsphereUpgradeObjectToMap(obj oci_ocvp.VsphereUpgradeObject) map[string]int
 	return result
 }
 
-func (s *OcvpClusterResourceCrud) executeAttachDetachDatastoreClustersToCluster() error {
+func (s *OcvpClusterResourceCrud) executeAttachDetachDatastoreClustersToCluster(ctx context.Context) error {
 	var datastoreClusterIdsToDetach []string
 	var datastoreClusterIdsToAttach []string
 	if tmp, ok := s.D.GetOk("detach_datastore_cluster_ids"); ok && s.D.HasChange("detach_datastore_cluster_ids") {
@@ -1237,20 +1237,20 @@ func (s *OcvpClusterResourceCrud) executeAttachDetachDatastoreClustersToCluster(
 	}
 	for _, datastoreClusterId := range datastoreClusterIdsToDetach {
 		log.Printf("[DEBUG] detaching datastore cluster %v", datastoreClusterId)
-		if err := s.detachDatastoreClusterFromCluster(datastoreClusterId); err != nil {
+		if err := s.detachDatastoreClusterFromCluster(ctx, datastoreClusterId); err != nil {
 			return err
 		}
 	}
 	for _, datastoreClusterId := range datastoreClusterIdsToAttach {
 		log.Printf("[DEBUG] attaching datastore cluster %v", datastoreClusterId)
-		if err := s.attachDatastoreClusterToCluster(datastoreClusterId); err != nil {
+		if err := s.attachDatastoreClusterToCluster(ctx, datastoreClusterId); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func (s *OcvpClusterResourceCrud) attachDatastoreClusterToCluster(datastoreClusterId string) error {
+func (s *OcvpClusterResourceCrud) attachDatastoreClusterToCluster(ctx context.Context, datastoreClusterId string) error {
 	clusterId := s.D.Id()
 	request := oci_ocvp.AttachDatastoreClusterToClusterRequest{
 		DatastoreClusterId: &datastoreClusterId,
@@ -1259,7 +1259,7 @@ func (s *OcvpClusterResourceCrud) attachDatastoreClusterToCluster(datastoreClust
 		},
 	}
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
-	response, err := s.DatastoreClusterClient.AttachDatastoreClusterToCluster(context.Background(), request)
+	response, err := s.DatastoreClusterClient.AttachDatastoreClusterToCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1268,12 +1268,12 @@ func (s *OcvpClusterResourceCrud) attachDatastoreClusterToCluster(datastoreClust
 	return err
 }
 
-func (s *OcvpClusterResourceCrud) detachDatastoreClusterFromCluster(datastoreClusterId string) error {
+func (s *OcvpClusterResourceCrud) detachDatastoreClusterFromCluster(ctx context.Context, datastoreClusterId string) error {
 	request := oci_ocvp.DetachDatastoreClusterFromClusterRequest{
 		DatastoreClusterId: &datastoreClusterId,
 	}
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
-	response, err := s.DatastoreClusterClient.DetachDatastoreClusterFromCluster(context.Background(), request)
+	response, err := s.DatastoreClusterClient.DetachDatastoreClusterFromCluster(ctx, request)
 	if err != nil {
 		return err
 	}

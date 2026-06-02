@@ -226,14 +226,14 @@ func connectionAssignmentWaitForWorkRequest(ctx context.Context, wId *string, en
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if response.Status == oci_golden_gate.OperationStatusFailed || response.Status == oci_golden_gate.OperationStatusCanceled {
-		return nil, getErrorFromGoldenGateConnectionAssignmentWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromGoldenGateConnectionAssignmentWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return nil, nil
 }
 
-func getErrorFromGoldenGateConnectionAssignmentWorkRequest(client *oci_golden_gate.GoldenGateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_golden_gate.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromGoldenGateConnectionAssignmentWorkRequest(ctx context.Context, client *oci_golden_gate.GoldenGateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_golden_gate.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_golden_gate.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

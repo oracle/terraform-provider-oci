@@ -355,7 +355,7 @@ func (s *OpensearchOpensearchClusterPipelineResourceCrud) CreateWithContext(ctx 
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_opensearch.GetWorkRequestResponse{}
-	workRequestResponse, err = s.ClusterClient.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.ClusterClient.GetWorkRequest(ctx,
 		oci_opensearch.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -467,7 +467,7 @@ func opensearchClusterPipelineWaitForWorkRequest(ctx context.Context, wId *strin
 }
 
 func getErrorFromOpensearchOpensearchClusterPipelineWorkRequest(ctx context.Context, client *oci_opensearch.OpensearchClusterClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opensearch.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_opensearch.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

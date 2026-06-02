@@ -269,7 +269,7 @@ func (s *DatascienceDataSciencePrivateEndpointResourceCrud) getDataSciencePrivat
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, dataSciencePrivateEndpointId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_datascience.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -328,7 +328,7 @@ func dataSciencePrivateEndpointWaitForWorkRequest(ctx context.Context, wId *stri
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_datascience.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -357,14 +357,14 @@ func dataSciencePrivateEndpointWaitForWorkRequest(ctx context.Context, wId *stri
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_datascience.WorkRequestStatusFailed || response.Status == oci_datascience.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatascienceDataSciencePrivateEndpointWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatascienceDataSciencePrivateEndpointWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatascienceDataSciencePrivateEndpointWorkRequest(client *oci_datascience.DataScienceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatascienceDataSciencePrivateEndpointWorkRequest(ctx context.Context, client *oci_datascience.DataScienceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_datascience.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -407,7 +407,7 @@ func (s *DatascienceDataSciencePrivateEndpointResourceCrud) UpdateWithContext(ct
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -537,7 +537,7 @@ func (s *DatascienceDataSciencePrivateEndpointResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DatascienceDataSciencePrivateEndpointResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatascienceDataSciencePrivateEndpointResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_datascience.ChangeDataSciencePrivateEndpointCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -548,7 +548,7 @@ func (s *DatascienceDataSciencePrivateEndpointResourceCrud) updateCompartment(co
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.ChangeDataSciencePrivateEndpointCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeDataSciencePrivateEndpointCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
@@ -558,7 +558,7 @@ func (s *DatascienceDataSciencePrivateEndpointResourceCrud) updateCompartment(co
 	getPrivateEndpointRequest.DataSciencePrivateEndpointId = &tmp
 	getPrivateEndpointRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.GetDataSciencePrivateEndpoint(context.Background(), getPrivateEndpointRequest)
+	response, err := s.Client.GetDataSciencePrivateEndpoint(ctx, getPrivateEndpointRequest)
 	if err != nil {
 		return err
 	}

@@ -288,17 +288,17 @@ func nlbListenerWaitForWorkRequest(ctx context.Context, wId *string, action oci_
 
 	var workRequestErr error
 	if response.WorkRequest.Status == oci_network_load_balancer.OperationStatusFailed {
-		errorMessage := getErrorFromNlbListenerWorkRequest(response.WorkRequest, client, retryPolicy)
+		errorMessage := getErrorFromNlbListenerWorkRequest(ctx, response.WorkRequest, client, retryPolicy)
 		workRequestErr = fmt.Errorf("work request did not succeed, workId: %s, action: %s. Message: %s", *wId, action, errorMessage)
 	}
 
 	return identifier, workRequestErr
 }
 
-func getErrorFromNlbListenerWorkRequest(wr oci_network_load_balancer.WorkRequest,
+func getErrorFromNlbListenerWorkRequest(ctx context.Context, wr oci_network_load_balancer.WorkRequest,
 	client *oci_network_load_balancer.NetworkLoadBalancerClient, retryPolicy *oci_common.RetryPolicy) string {
 	// Fetch the list of work request errors
-	response, err := client.ListWorkRequestErrors(context.Background(),
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_network_load_balancer.ListWorkRequestErrorsRequest{
 			WorkRequestId: wr.Id,
 			CompartmentId: wr.CompartmentId,
@@ -342,7 +342,7 @@ func (s *NetworkLoadBalancerListenerResourceCrud) GetWithContext(ctx context.Con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
 
-	response, err := s.Client.GetListener(context.Background(), request)
+	response, err := s.Client.GetListener(ctx, request)
 	if err != nil {
 		return err
 	}

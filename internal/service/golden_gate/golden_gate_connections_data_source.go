@@ -81,7 +81,7 @@ func readGoldenGateConnectionsWithContext(ctx context.Context, d *schema.Resourc
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GoldenGateClient()
 
-	return tfresource.HandleDiagError(m, tfresource.ReadResource(sync))
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GoldenGateConnectionsDataSourceCrud struct {
@@ -94,7 +94,7 @@ func (s *GoldenGateConnectionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GoldenGateConnectionsDataSourceCrud) Get() error {
+func (s *GoldenGateConnectionsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_golden_gate.ListConnectionsRequest{}
 
 	if assignableDeploymentId, ok := s.D.GetOkExists("assignable_deployment_id"); ok {
@@ -153,7 +153,7 @@ func (s *GoldenGateConnectionsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "golden_gate")
 
-	response, err := s.Client.ListConnections(context.Background(), request)
+	response, err := s.Client.ListConnections(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -162,7 +162,7 @@ func (s *GoldenGateConnectionsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListConnections(context.Background(), request)
+		listResponse, err := s.Client.ListConnections(ctx, request)
 		if err != nil {
 			return err
 		}

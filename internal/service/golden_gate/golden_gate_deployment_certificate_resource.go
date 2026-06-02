@@ -302,7 +302,7 @@ func deploymentCertificateWaitForWorkRequest(ctx context.Context, wId *string, a
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_golden_gate.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -336,14 +336,14 @@ func deploymentCertificateWaitForWorkRequest(ctx context.Context, wId *string, a
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if certificateKey == nil || response.Status == oci_golden_gate.OperationStatusFailed || response.Status == oci_golden_gate.OperationStatusCanceled {
-		return nil, nil, getErrorFromGoldenGateDeploymentCertificateWorkRequest(client, wId, retryPolicy, "certificate", action)
+		return nil, nil, getErrorFromGoldenGateDeploymentCertificateWorkRequest(ctx, client, wId, retryPolicy, "certificate", action)
 	}
 
 	return certificateKey, deploymentId, nil
 }
 
-func getErrorFromGoldenGateDeploymentCertificateWorkRequest(client *oci_golden_gate.GoldenGateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_golden_gate.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromGoldenGateDeploymentCertificateWorkRequest(ctx context.Context, client *oci_golden_gate.GoldenGateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_golden_gate.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_golden_gate.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

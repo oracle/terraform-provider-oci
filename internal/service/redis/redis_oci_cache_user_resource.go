@@ -342,7 +342,7 @@ func ociCacheUserWaitForWorkRequest(ctx context.Context, wId *string, entityType
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_redis.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -378,7 +378,7 @@ func ociCacheUserWaitForWorkRequest(ctx context.Context, wId *string, entityType
 }
 
 func getErrorFromRedisOciCacheUserWorkRequest(ctx context.Context, client *oci_redis.RedisClusterClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_redis.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_redis.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

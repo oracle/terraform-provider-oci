@@ -1071,7 +1071,7 @@ func (s *DatasciencePipelineRunResourceCrud) CreateWithContext(ctx context.Conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.CreatePipelineRun(context.Background(), request)
+	response, err := s.Client.CreatePipelineRun(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1088,7 +1088,7 @@ func (s *DatasciencePipelineRunResourceCrud) GetWithContext(ctx context.Context)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.GetPipelineRun(context.Background(), request)
+	response, err := s.Client.GetPipelineRun(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1131,7 +1131,7 @@ func (s *DatasciencePipelineRunResourceCrud) UpdateWithContext(ctx context.Conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.UpdatePipelineRun(context.Background(), request)
+	response, err := s.Client.UpdatePipelineRun(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1153,7 +1153,7 @@ func (s *DatasciencePipelineRunResourceCrud) DeleteWithContext(ctx context.Conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.DeletePipelineRun(context.Background(), request)
+	_, err := s.Client.DeletePipelineRun(ctx, request)
 	return err
 }
 

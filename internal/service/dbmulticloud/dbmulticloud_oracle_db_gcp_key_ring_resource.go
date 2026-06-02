@@ -446,7 +446,7 @@ func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) GetWithContext(ctx context.
 func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) UpdateWithContext(ctx context.Context) error {
 
 	if s.D.HasChange("action") || s.D.HasChange("target_region") {
-		err := s.ReplicateOracleDbGcpKeyRing()
+		err := s.ReplicateOracleDbGcpKeyRing(ctx)
 		if err != nil {
 			return err
 		}
@@ -597,7 +597,7 @@ func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) ReplicateOracleDbGcpKeyRing() error {
+func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) ReplicateOracleDbGcpKeyRing(ctx context.Context) error {
 	request := oci_dbmulticloud.ReplicateOracleDbGcpKeyRingRequest{}
 
 	if action, ok := s.D.GetOkExists("action"); ok {
@@ -614,12 +614,12 @@ func (s *DbmulticloudOracleDbGcpKeyRingResourceCrud) ReplicateOracleDbGcpKeyRing
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	_, err := s.Client.ReplicateOracleDbGcpKeyRing(context.Background(), request)
+	_, err := s.Client.ReplicateOracleDbGcpKeyRing(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(context.Background(), s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

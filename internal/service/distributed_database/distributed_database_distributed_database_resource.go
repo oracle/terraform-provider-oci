@@ -2207,7 +2207,7 @@ func updateDistributedDatabaseDistributedDatabaseWithContext(
 
 	// Generate GSM CSR
 	if ok, _, newV := triggerBumped("generate_gsm_certificate_signing_request_trigger"); ok {
-		if err := sync.GenerateDistributedDatabaseGsmCertificateSigningRequest(); err != nil {
+		if err := sync.GenerateDistributedDatabaseGsmCertificateSigningRequest(ctx); err != nil {
 			return tfresource.HandleDiagError(m, err)
 		}
 		actionInvoked = true
@@ -2250,7 +2250,7 @@ func updateDistributedDatabaseDistributedDatabaseWithContext(
 
 	// Download GSM CSR
 	if ok, _, newV := triggerBumped("download_gsm_certificate_signing_request_trigger"); ok {
-		if err := sync.DownloadDistributedDatabaseGsmCertificateSigningRequest(); err != nil {
+		if err := sync.DownloadDistributedDatabaseGsmCertificateSigningRequest(ctx); err != nil {
 			return tfresource.HandleDiagError(m, err)
 		}
 		actionInvoked = true
@@ -2268,7 +2268,7 @@ func updateDistributedDatabaseDistributedDatabaseWithContext(
 
 	// Upload signed cert + generate wallet
 	if ok, _, newV := triggerBumped("upload_signed_certificate_and_generate_wallet_trigger"); ok {
-		if err := sync.UploadDistributedDatabaseSignedCertificateAndGenerateWallet(); err != nil {
+		if err := sync.UploadDistributedDatabaseSignedCertificateAndGenerateWallet(ctx); err != nil {
 			return tfresource.HandleDiagError(m, err)
 		}
 		actionInvoked = true
@@ -2975,7 +2975,7 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) Patch(ctx context.C
 	// provisioning failures can leave the DDB in FAILED with lifecycleDetails such as
 	// "Missing Infrastructure" while the resource remains recoverable in place.
 	stable := func() bool {
-		if err := s.Get(); err != nil {
+		if err := s.GetWithContext(ctx); err != nil {
 			log.Printf("[WARN] post-patch Get() failed: %v", err)
 			return false
 		}
@@ -2992,7 +2992,7 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) Patch(ctx context.C
 			isRecoverableShardProvisioningState(string(st), details)
 	}
 
-	if err := tfresource.WaitForResourceCondition(s, stable, s.D.Timeout(schema.TimeoutUpdate)); err != nil {
+	if err := tfresource.WaitForResourceConditionWithContext(ctx, s, stable, s.D.Timeout(schema.TimeoutUpdate)); err != nil {
 		return err
 	}
 
@@ -3693,7 +3693,7 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) ChangeDistributedDb
 	}
 
 	// Refresh after WR completion
-	if err := s.Get(); err != nil {
+	if err := s.GetWithContext(ctx); err != nil {
 		return err
 	}
 
@@ -3769,7 +3769,7 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) ConfigureDistribute
 	// After WR is completed, refresh resource and ensure it reaches a stable state.
 	// ConfigureSharding can legitimately leave the DADB in ACTIVE, INACTIVE, or NEEDS_ATTENTION.
 	stable := func() bool {
-		if err := s.Get(); err != nil {
+		if err := s.GetWithContext(ctx); err != nil {
 			log.Printf("[WARN] post-WR Get() failed: %v", err)
 			return false
 		}
@@ -3782,7 +3782,7 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) ConfigureDistribute
 			st == oci_distributed_database.DistributedDatabaseLifecycleStateNeedsAttention
 	}
 
-	if err := tfresource.WaitForResourceCondition(s, stable, s.D.Timeout(schema.TimeoutUpdate)); err != nil {
+	if err := tfresource.WaitForResourceConditionWithContext(ctx, s, stable, s.D.Timeout(schema.TimeoutUpdate)); err != nil {
 		return err
 	}
 
@@ -3793,7 +3793,7 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) ConfigureDistribute
 	return nil
 }
 
-func (s *DistributedDatabaseDistributedDatabaseResourceCrud) DownloadDistributedDatabaseGsmCertificateSigningRequest() error {
+func (s *DistributedDatabaseDistributedDatabaseResourceCrud) DownloadDistributedDatabaseGsmCertificateSigningRequest(ctx context.Context) error {
 	request := oci_distributed_database.DownloadDistributedDatabaseGsmCertificateSigningRequestRequest{}
 
 	idTmp := s.D.Id()
@@ -3827,7 +3827,7 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) DownloadDistributed
 		s.Res = &response.DistributedAutonomousDatabase
 		return nil
 	*/
-	_, err := s.Client.DownloadDistributedDatabaseGsmCertificateSigningRequest(context.Background(), request)
+	_, err := s.Client.DownloadDistributedDatabaseGsmCertificateSigningRequest(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -3841,7 +3841,7 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) DownloadDistributed
 		return waitErr
 	}*/
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(context.Background(), s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -3851,7 +3851,7 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) DownloadDistributed
 	return nil
 }
 
-func (s *DistributedDatabaseDistributedDatabaseResourceCrud) GenerateDistributedDatabaseGsmCertificateSigningRequest() error {
+func (s *DistributedDatabaseDistributedDatabaseResourceCrud) GenerateDistributedDatabaseGsmCertificateSigningRequest(ctx context.Context) error {
 	request := oci_distributed_database.GenerateDistributedDatabaseGsmCertificateSigningRequestRequest{}
 
 	/*if caBundleId, ok := s.D.GetOkExists("ca_bundle_id"); ok {
@@ -3904,7 +3904,7 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) GenerateDistributed
 		return err
 	}*/
 
-	_, err := s.Client.GenerateDistributedDatabaseGsmCertificateSigningRequest(context.Background(), request)
+	_, err := s.Client.GenerateDistributedDatabaseGsmCertificateSigningRequest(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -3919,7 +3919,7 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) GenerateDistributed
 		return waitErr
 	}*/
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(context.Background(), s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -4107,7 +4107,7 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) MoveDistributedData
 	val := s.D.Get("move_replication_unit_trigger")
 	s.D.Set("move_replication_unit_trigger", val)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func (s *DistributedDatabaseDistributedDatabaseResourceCrud) RecreateFailedDistributedDatabaseResource(ctx context.Context) error {
@@ -4141,10 +4141,10 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) RecreateFailedDistr
 	val := s.D.Get("recreate_failed_resource_trigger")
 	s.D.Set("recreate_failed_resource_trigger", val)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DistributedDatabaseDistributedDatabaseResourceCrud) UploadDistributedDatabaseSignedCertificateAndGenerateWallet() error {
+func (s *DistributedDatabaseDistributedDatabaseResourceCrud) UploadDistributedDatabaseSignedCertificateAndGenerateWallet(ctx context.Context) error {
 	request := oci_distributed_database.UploadDistributedDatabaseSignedCertificateAndGenerateWalletRequest{}
 
 	if caSignedCertificate, ok := s.D.GetOkExists("ca_signed_certificate"); ok {
@@ -4183,7 +4183,7 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) UploadDistributedDa
 		return err
 	}*/
 
-	_, err := s.Client.UploadDistributedDatabaseSignedCertificateAndGenerateWallet(context.Background(), request)
+	_, err := s.Client.UploadDistributedDatabaseSignedCertificateAndGenerateWallet(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -4198,7 +4198,7 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) UploadDistributedDa
 			return waitErr
 		}*/
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(context.Background(), s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -4288,7 +4288,7 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) ValidateDistributed
 	}
 
 	retentionPolicyFunc := func() bool {
-		if err := s.Get(); err != nil { // Refresh status
+		if err := s.GetWithContext(ctx); err != nil { // Refresh status
 			log.Printf("[WARN] Failed to refresh resource during wait: %v", err)
 			return false
 		}
@@ -4308,7 +4308,7 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) ValidateDistributed
 			return waitErr
 		}*/
 
-	if err := tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate)); err != nil {
+	if err := tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate)); err != nil {
 		return err
 	}
 
@@ -5831,9 +5831,6 @@ func (s *DistributedDatabaseDistributedDatabaseResourceCrud) mapToDistributedDbM
 // Add a thin adapter for compatibility.
 //
 // See JIRA: TOP-9399
-func (s *DistributedDatabaseDistributedDatabaseResourceCrud) Get() error {
-	return s.GetWithContext(context.Background())
-}
 
 // WORKAROUND FOR GENERATED CODE ISSUE:
 // Read/ToMap must operate on SDK model types, not Create*Details request types.

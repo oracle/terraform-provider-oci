@@ -418,7 +418,7 @@ func (s *CloudGuardDataSourceResourceCrud) CreateWithContext(ctx context.Context
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_cloud_guard.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_cloud_guard.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -506,7 +506,7 @@ func dataSourceWaitForWorkRequest(ctx context.Context, wId *string, entityType s
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_cloud_guard.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -531,14 +531,14 @@ func dataSourceWaitForWorkRequest(ctx context.Context, wId *string, entityType s
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_cloud_guard.OperationStatusFailed || response.Status == oci_cloud_guard.OperationStatusCanceled {
-		return nil, getErrorFromCloudGuardDataSourceWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromCloudGuardDataSourceWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromCloudGuardDataSourceWorkRequest(client *oci_cloud_guard.CloudGuardClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_cloud_guard.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromCloudGuardDataSourceWorkRequest(ctx context.Context, client *oci_cloud_guard.CloudGuardClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_cloud_guard.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_cloud_guard.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1171,7 +1171,7 @@ func (s *CloudGuardDataSourceResourceCrud) updateCompartment(ctx context.Context
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")
 
-	response, err := s.Client.ChangeDataSourceCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeDataSourceCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}

@@ -1271,7 +1271,7 @@ func (s *DatascienceModelDeploymentResourceCrud) getModelDeploymentFromWorkReque
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, modelDeploymentId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_datascience.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -1330,7 +1330,7 @@ func modelDeploymentWaitForWorkRequest(ctx context.Context, wId *string, entityT
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_datascience.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -1359,14 +1359,14 @@ func modelDeploymentWaitForWorkRequest(ctx context.Context, wId *string, entityT
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_datascience.WorkRequestStatusFailed || response.Status == oci_datascience.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatascienceModelDeploymentWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatascienceModelDeploymentWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatascienceModelDeploymentWorkRequest(client *oci_datascience.DataScienceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatascienceModelDeploymentWorkRequest(ctx context.Context, client *oci_datascience.DataScienceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_datascience.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1573,7 +1573,7 @@ func (s *DatascienceModelDeploymentResourceCrud) StartModelDeployment(ctx contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.ActivateModelDeployment(context.Background(), request)
+	_, err := s.Client.ActivateModelDeployment(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1590,7 +1590,7 @@ func (s *DatascienceModelDeploymentResourceCrud) StopModelDeployment(ctx context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.DeactivateModelDeployment(context.Background(), request)
+	_, err := s.Client.DeactivateModelDeployment(ctx, request)
 	if err != nil {
 		return err
 	}

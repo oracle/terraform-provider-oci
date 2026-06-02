@@ -381,7 +381,7 @@ func javaDownloadTokenWaitForWorkRequest(ctx context.Context, wId *string, entit
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_jms_java_downloads.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{

@@ -547,14 +547,14 @@ func backupWaitForWorkRequest(ctx context.Context, wId *string, entityType strin
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_psql.OperationStatusFailed || response.Status == oci_psql.OperationStatusCanceled {
-		return nil, getErrorFromPsqlBackupWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromPsqlBackupWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromPsqlBackupWorkRequest(client *oci_psql.PostgresqlClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_psql.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromPsqlBackupWorkRequest(ctx context.Context, client *oci_psql.PostgresqlClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_psql.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_psql.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -614,7 +614,7 @@ func (s *PsqlBackupResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -885,7 +885,7 @@ func SourceBackupDetailsToMap(obj *oci_psql.SourceBackupDetails) map[string]inte
 	return result
 }
 
-func (s *PsqlBackupResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *PsqlBackupResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_psql.ChangeBackupCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -896,7 +896,7 @@ func (s *PsqlBackupResourceCrud) updateCompartment(compartment interface{}) erro
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 
-	_, err := s.Client.ChangeBackupCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeBackupCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}

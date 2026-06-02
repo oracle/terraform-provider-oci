@@ -205,16 +205,16 @@ func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) CreateWithContext(ctx conte
 	}
 
 	workId := response.OpcWorkRequestId
-	s.setIdFromWorkRequest(workId)
+	s.setIdFromWorkRequest(ctx, workId)
 	return s.getOdaPrivateEndpointScanProxyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "oda"), oci_oda.WorkRequestResourceResourceActionCreate, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) setIdFromWorkRequest(workId *string) {
+func (s *OdaOdaPrivateEndpointScanProxyResourceCrud) setIdFromWorkRequest(ctx context.Context, workId *string) {
 	var identifier *string
 	var err error
 
 	workRequestResponse := oci_oda.GetWorkRequestResponse{}
-	workRequestResponse, err = s.OdaClient.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.OdaClient.GetWorkRequest(ctx,
 		oci_oda.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -292,7 +292,7 @@ func odaPrivateEndpointScanProxyWaitForWorkRequest(ctx context.Context, wId *str
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_oda.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{

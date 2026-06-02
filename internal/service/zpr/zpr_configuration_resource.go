@@ -193,7 +193,7 @@ func (s *ZprConfigurationResourceCrud) CreateWithContext(ctx context.Context) er
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_zpr.GetZprConfigurationWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetZprConfigurationWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetZprConfigurationWorkRequest(ctx,
 		oci_zpr.GetZprConfigurationWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -269,7 +269,7 @@ func configurationWaitForWorkRequest(ctx context.Context, wId *string, entityTyp
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetZprConfigurationWorkRequest(context.Background(),
+			response, err = client.GetZprConfigurationWorkRequest(ctx,
 				oci_zpr.GetZprConfigurationWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{

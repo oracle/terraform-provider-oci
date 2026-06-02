@@ -451,17 +451,17 @@ func networkLoadBalancersBackendSetsUnifiedWaitForWorkRequest(ctx context.Contex
 
 	var workRequestErr error
 	if response.WorkRequest.Status == oci_network_load_balancer.OperationStatusFailed {
-		errorMessage := getErrorFromNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedWorkRequest(response.WorkRequest, client, retryPolicy)
+		errorMessage := getErrorFromNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedWorkRequest(ctx, response.WorkRequest, client, retryPolicy)
 		workRequestErr = fmt.Errorf("work request did not succeed, workId: %s, action: %s. Message: %s", *wId, action, errorMessage)
 	}
 
 	return identifier, workRequestErr
 }
 
-func getErrorFromNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedWorkRequest(wr oci_network_load_balancer.WorkRequest,
+func getErrorFromNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedWorkRequest(ctx context.Context, wr oci_network_load_balancer.WorkRequest,
 	client *oci_network_load_balancer.NetworkLoadBalancerClient, retryPolicy *oci_common.RetryPolicy) string {
 	// Fetch the list of work request errors
-	response, err := client.ListWorkRequestErrors(context.Background(),
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_network_load_balancer.ListWorkRequestErrorsRequest{
 			WorkRequestId: wr.Id,
 			CompartmentId: wr.CompartmentId,

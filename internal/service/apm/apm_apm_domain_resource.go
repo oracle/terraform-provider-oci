@@ -311,7 +311,7 @@ func apmDomainWaitForWorkRequest(ctx context.Context, wId *string, entityType st
 }
 
 func getErrorFromApmControlPlaneWorkRequest(ctx context.Context, client *oci_apm.ApmDomainClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_apm.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_apm.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

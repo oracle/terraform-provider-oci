@@ -271,7 +271,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) CreateWithC
 	getWorkRequestRequest := oci_analytics.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workId
 	getWorkRequestRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
-	workRequestResponse, _ := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
+	workRequestResponse, _ := s.Client.GetWorkRequest(ctx, getWorkRequestRequest)
 	s.WorkRequest = &workRequestResponse.WorkRequest
 	return returnError
 }
@@ -286,7 +286,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) getAnalytic
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, analyticsInstanceId)
-		_, cancelErr := s.Client.DeleteWorkRequest(context.Background(),
+		_, cancelErr := s.Client.DeleteWorkRequest(ctx,
 			oci_analytics.DeleteWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -304,7 +304,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) getAnalytic
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
-	response, err := s.Client.GetAnalyticsInstance(context.Background(), request)
+	response, err := s.Client.GetAnalyticsInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -403,7 +403,7 @@ func analyticsInstancePrivateAccessChannelWaitForWorkRequest(ctx context.Context
 }
 
 func getErrorFromAnalyticsAnalyticsInstancePrivateAccessChannelWorkRequest(ctx context.Context, client *oci_analytics.AnalyticsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_analytics.WorkRequestActionResultEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_analytics.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -488,7 +488,7 @@ func (s *AnalyticsAnalyticsInstancePrivateAccessChannelResourceCrud) UpdateWithC
 	getRequest.PrivateAccessChannelKey = request.PrivateAccessChannelKey
 	getRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
-	getResponse, err := s.Client.GetPrivateAccessChannel(context.Background(), getRequest)
+	getResponse, err := s.Client.GetPrivateAccessChannel(ctx, getRequest)
 	if err != nil {
 		return err
 	}

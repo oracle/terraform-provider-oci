@@ -543,7 +543,7 @@ func managementAgentWaitForInstanceAgent(ctx context.Context, hostId *string, co
 				RetryPolicy: retryPolicy,
 			}
 
-			response, err := client.ListManagementAgents(context.Background(), request)
+			response, err := client.ListManagementAgents(ctx, request)
 
 			var state string
 			if len(response.Items) > 0 {
@@ -1036,7 +1036,7 @@ func (s *ManagementAgentManagementAgentResourceCrud) deployPlugin(ctx context.Co
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "management_agent")
 
-	response, err := s.Client.DeployPlugins(context.Background(), request)
+	response, err := s.Client.DeployPlugins(ctx, request)
 	if err != nil {
 		return err
 	}

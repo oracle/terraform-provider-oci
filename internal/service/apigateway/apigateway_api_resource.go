@@ -713,7 +713,7 @@ func apiWaitForValidation(ctx context.Context, apiId *string, timeout time.Durat
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetApi(context.Background(),
+			response, err = client.GetApi(ctx,
 				oci_apigateway.GetApiRequest{
 					ApiId: apiId,
 					RequestMetadata: oci_common.RequestMetadata{

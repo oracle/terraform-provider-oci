@@ -1519,7 +1519,7 @@ func (s *CloudBridgeAssetResourceCrud) UpdateWithContext(ctx context.Context) er
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		changeAssetTagsRequest.ChangeAssetTagsDetails.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
-	changeAssetTagsResponse, err := s.Client.ChangeAssetTags(context.Background(), changeAssetTagsRequest)
+	changeAssetTagsResponse, err := s.Client.ChangeAssetTags(ctx, changeAssetTagsRequest)
 	if err != nil {
 		return err
 	}

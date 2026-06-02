@@ -2055,7 +2055,7 @@ func waitForDistributedAutonomousDatabaseWorkRequestCompletion(ctx context.Conte
 		},
 		Timeout: timeout,
 	}
-	if _, err := stateConf.WaitForState(); err != nil {
+	if _, err := stateConf.WaitForStateContext(ctx); err != nil {
 		return err
 	}
 
@@ -2920,7 +2920,7 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) ChangeDis
 	}
 
 	// Refresh after WR completion
-	if err := s.Get(); err != nil {
+	if err := s.GetWithContext(ctx); err != nil {
 		return err
 	}
 
@@ -2975,7 +2975,7 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) Configure
 	val := s.D.Get("configure_gsm_wallet_trigger")
 	s.D.Set("configure_gsm_wallet_trigger", val)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 // NOTE (WORKREQUEST + STATE SETTLE):
@@ -3045,7 +3045,7 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) Configure
 	// After WR is completed, refresh resource and ensure it reaches a stable state.
 	// ConfigureSharding can legitimately leave the DADB in ACTIVE, INACTIVE, or NEEDS_ATTENTION.
 	stable := func() bool {
-		if err := s.Get(); err != nil {
+		if err := s.GetWithContext(ctx); err != nil {
 			log.Printf("[WARN] post-WR Get() failed: %v", err)
 			return false
 		}
@@ -3058,7 +3058,7 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) Configure
 			st == oci_distributed_database.DistributedAutonomousDatabaseLifecycleStateNeedsAttention
 	}
 
-	if err := tfresource.WaitForResourceCondition(s, stable, s.D.Timeout(schema.TimeoutUpdate)); err != nil {
+	if err := tfresource.WaitForResourceConditionWithContext(ctx, s, stable, s.D.Timeout(schema.TimeoutUpdate)); err != nil {
 		return err
 	}
 
@@ -3076,9 +3076,6 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) Configure
 // Add a thin adapter for compatibility.
 //
 // See JIRA: TOP-9399
-func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) Get() error {
-	return s.GetWithContext(context.Background())
-}
 
 func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) DownloadDistributedAutonomousDatabaseGsmCertificateSigningRequest(ctx context.Context) error {
 	request := oci_distributed_database.DownloadDistributedAutonomousDatabaseGsmCertificateSigningRequestRequest{}
@@ -3494,7 +3491,7 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) MoveDistr
 	val := s.D.Get("move_replication_unit_trigger")
 	s.D.Set("move_replication_unit_trigger", val)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) RecreateFailedDistributedAutonomousDatabaseResource(ctx context.Context) error {
@@ -3528,7 +3525,7 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) RecreateF
 	val := s.D.Get("recreate_failed_resource_trigger")
 	s.D.Set("recreate_failed_resource_trigger", val)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) UploadDistributedAutonomousDatabaseSignedCertificateAndGenerateWallet(ctx context.Context) error {
@@ -3579,7 +3576,7 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) UploadDis
 	_ = s.D.Set("upload_signed_certificate_and_generate_wallet_trigger", val)
 
 	// Optional: refresh resource after WR completes.
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) ValidateDistributedAutonomousDatabaseCaBundle(ctx context.Context) error {
@@ -3603,7 +3600,7 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) ValidateD
 	val := s.D.Get("validate_ca_bundle_trigger")
 	s.D.Set("validate_ca_bundle_trigger", val)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) ValidateDistributedAutonomousDatabaseNetwork(ctx context.Context) error {
@@ -3686,7 +3683,7 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) ValidateD
 	}
 
 	retentionPolicyFunc := func() bool {
-		if err := s.Get(); err != nil { // Refresh status
+		if err := s.GetWithContext(ctx); err != nil { // Refresh status
 			log.Printf("[WARN] Failed to refresh resource during wait: %v", err)
 			return false
 		}
@@ -3696,7 +3693,7 @@ func (s *DistributedDatabaseDistributedAutonomousDatabaseResourceCrud) ValidateD
 				s.Res.LifecycleState == oci_distributed_database.DistributedAutonomousDatabaseLifecycleStateNeedsAttention)
 	}
 
-	if err := tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate)); err != nil {
+	if err := tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate)); err != nil {
 		return err
 	}
 	// NOTE (TOP-9398):

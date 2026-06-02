@@ -293,7 +293,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) SetKmsKey(ctx context.Context, 
 	request.KmsKeyId = kmsKeyId
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
-	response, err := s.Client.SetKmsKey(context.Background(), request)
+	response, err := s.Client.SetKmsKey(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -522,7 +522,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) getAnalyticsInstanceFromWorkReq
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, analyticsInstanceId)
-		_, cancelErr := s.Client.DeleteWorkRequest(context.Background(),
+		_, cancelErr := s.Client.DeleteWorkRequest(ctx,
 			oci_analytics.DeleteWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -622,7 +622,7 @@ func analyticsInstanceWaitForWorkRequest(ctx context.Context, wId *string, entit
 }
 
 func getErrorFromAnalyticsAnalyticsInstanceWorkRequest(ctx context.Context, client *oci_analytics.AnalyticsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_analytics.WorkRequestActionResultEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_analytics.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -756,7 +756,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) UpdateWithContext(ctx context.C
 			scaleRequest.Capacity = &tmp
 
 			scaleRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
-			scaleResponse, err := s.Client.ScaleAnalyticsInstance(context.Background(), scaleRequest)
+			scaleResponse, err := s.Client.ScaleAnalyticsInstance(ctx, scaleRequest)
 
 			if err != nil {
 				return err
@@ -877,7 +877,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) StartAnalyticsInstance(ctx cont
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
-	_, err := s.Client.StartAnalyticsInstance(context.Background(), request)
+	_, err := s.Client.StartAnalyticsInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -894,7 +894,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) StopAnalyticsInstance(ctx conte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
-	_, err := s.Client.StopAnalyticsInstance(context.Background(), request)
+	_, err := s.Client.StopAnalyticsInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1157,7 +1157,7 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) updateNetworkEndpoint(ctx conte
 	changeEndPointRequest.NetworkEndpointDetails = networkEndpointDetails
 	changeEndPointRequest.AnalyticsInstanceId = &idTmp
 	changeEndPointRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
-	response, err := s.Client.ChangeAnalyticsInstanceNetworkEndpoint(context.Background(), changeEndPointRequest)
+	response, err := s.Client.ChangeAnalyticsInstanceNetworkEndpoint(ctx, changeEndPointRequest)
 	if err != nil {
 		return err
 	}

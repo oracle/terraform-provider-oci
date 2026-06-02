@@ -420,7 +420,7 @@ func semanticStoreWaitForWorkRequest(ctx context.Context, wId *string, entityTyp
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		log.Printf("[DEBUG]in stateconf %v\n", e)
 		return nil, e
 	}

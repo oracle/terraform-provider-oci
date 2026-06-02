@@ -572,7 +572,7 @@ func vbInstanceWaitForWorkRequest(ctx context.Context, wId *string, entityType s
 }
 
 func getErrorFromVisualBuilderVbInstanceWorkRequest(ctx context.Context, client *oci_visual_builder.VbInstanceClient, compartmentId *string, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_visual_builder.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_visual_builder.ListWorkRequestErrorsRequest{
 			CompartmentId: compartmentId,
 			WorkRequestId: workId,

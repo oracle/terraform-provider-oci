@@ -455,7 +455,7 @@ func (s *DbmulticloudOracleDbAzureVaultResourceCrud) GetWithContext(ctx context.
 func (s *DbmulticloudOracleDbAzureVaultResourceCrud) UpdateWithContext(ctx context.Context) error {
 
 	if s.D.HasChange("action") || s.D.HasChange("target_region") {
-		err := s.ReplicateOracleDbAzureVault()
+		err := s.ReplicateOracleDbAzureVault(ctx)
 		if err != nil {
 			return err
 		}
@@ -648,7 +648,7 @@ func (s *DbmulticloudOracleDbAzureVaultResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DbmulticloudOracleDbAzureVaultResourceCrud) ReplicateOracleDbAzureVault() error {
+func (s *DbmulticloudOracleDbAzureVaultResourceCrud) ReplicateOracleDbAzureVault(ctx context.Context) error {
 	request := oci_dbmulticloud.ReplicateOracleDbAzureVaultRequest{}
 
 	if action, ok := s.D.GetOkExists("action"); ok {
@@ -665,12 +665,12 @@ func (s *DbmulticloudOracleDbAzureVaultResourceCrud) ReplicateOracleDbAzureVault
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	_, err := s.Client.ReplicateOracleDbAzureVault(context.Background(), request)
+	_, err := s.Client.ReplicateOracleDbAzureVault(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(context.Background(), s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

@@ -313,7 +313,7 @@ func createLustreFileStorageLustreFileSystemWithContext(ctx context.Context, d *
 	}
 
 	if _, ok := sync.D.GetOkExists("override_maintenance_trigger"); ok {
-		if err := sync.OverrideMaintenance(); err != nil {
+		if err := sync.OverrideMaintenance(ctx); err != nil {
 			return tfresource.HandleDiagError(m, err)
 		}
 	}
@@ -339,7 +339,7 @@ func updateLustreFileStorageLustreFileSystemWithContext(ctx context.Context, d *
 		newValue := newRaw.(int)
 
 		if oldValue < newValue {
-			if err := sync.OverrideMaintenance(); err != nil {
+			if err := sync.OverrideMaintenance(ctx); err != nil {
 				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
@@ -887,7 +887,7 @@ func (s *LustreFileStorageLustreFileSystemResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *LustreFileStorageLustreFileSystemResourceCrud) OverrideMaintenance() error {
+func (s *LustreFileStorageLustreFileSystemResourceCrud) OverrideMaintenance(ctx context.Context) error {
 	request := oci_lustre_file_storage.OverrideMaintenanceRequest{}
 
 	if dateTimeDetails, ok := s.D.GetOkExists("date_time_details"); ok {
@@ -906,7 +906,7 @@ func (s *LustreFileStorageLustreFileSystemResourceCrud) OverrideMaintenance() er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "lustre_file_storage")
 
-	_, err := s.Client.OverrideMaintenance(context.Background(), request)
+	_, err := s.Client.OverrideMaintenance(ctx, request)
 	if err != nil {
 		return err
 	}

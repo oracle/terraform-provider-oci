@@ -769,7 +769,7 @@ func (s *PsqlDbSystemResourceCrud) CreateWithContext(ctx context.Context) error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 
-	response, err := s.Client.CreateDbSystem(context.Background(), request)
+	response, err := s.Client.CreateDbSystem(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -815,7 +815,7 @@ func (s *PsqlDbSystemResourceCrud) Patch(ctx context.Context) error {
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
-	response, err := s.Client.PatchDbSystem(context.Background(), request)
+	response, err := s.Client.PatchDbSystem(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -881,7 +881,7 @@ func dbSystemWaitForWorkRequest(ctx context.Context, wId *string, entityType str
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_psql.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -908,14 +908,14 @@ func dbSystemWaitForWorkRequest(ctx context.Context, wId *string, entityType str
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_psql.OperationStatusFailed || response.Status == oci_psql.OperationStatusCanceled {
-		return nil, getErrorFromPsqlDbSystemWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromPsqlDbSystemWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromPsqlDbSystemWorkRequest(client *oci_psql.PostgresqlClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_psql.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromPsqlDbSystemWorkRequest(ctx context.Context, client *oci_psql.PostgresqlClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_psql.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_psql.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -978,7 +978,7 @@ func (s *PsqlDbSystemResourceCrud) UpdateWithContext(ctx context.Context) error 
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -1281,7 +1281,7 @@ func (s *PsqlDbSystemResourceCrud) ResetMasterUserPassword(ctx context.Context) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 
-	_, err := s.Client.ResetMasterUserPassword(context.Background(), request)
+	_, err := s.Client.ResetMasterUserPassword(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -2104,7 +2104,7 @@ func UpdateDbConfigParamsToMap(obj *oci_psql.UpdateDbConfigParams) map[string]in
 	return result
 }
 
-func (s *PsqlDbSystemResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *PsqlDbSystemResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_psql.ChangeDbSystemCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -2115,7 +2115,7 @@ func (s *PsqlDbSystemResourceCrud) updateCompartment(compartment interface{}) er
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 
-	_, err := s.Client.ChangeDbSystemCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeDbSystemCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}

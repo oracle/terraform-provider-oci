@@ -155,7 +155,7 @@ func (s *WaasHttpRedirectsDataSourceCrud) GetWithContext(ctx context.Context) er
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListHttpRedirects(context.Background(), request)
+		listResponse, err := s.Client.ListHttpRedirects(ctx, request)
 		if err != nil {
 			return err
 		}

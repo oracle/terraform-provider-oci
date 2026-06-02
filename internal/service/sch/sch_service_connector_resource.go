@@ -1997,7 +1997,7 @@ func (s *SchServiceConnectorResourceCrud) StartSchResource(ctx context.Context) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "sch")
 
-	response, err := s.Client.ActivateServiceConnector(context.Background(), request)
+	response, err := s.Client.ActivateServiceConnector(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -2014,7 +2014,7 @@ func (s *SchServiceConnectorResourceCrud) StopSchResource(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "sch")
 
-	response, err := s.Client.DeactivateServiceConnector(context.Background(), request)
+	response, err := s.Client.DeactivateServiceConnector(ctx, request)
 	if err != nil {
 		return err
 	}

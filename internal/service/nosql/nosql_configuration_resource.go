@@ -170,7 +170,7 @@ func (s *NosqlConfigurationResourceCrud) getConfigurationFromWorkRequest(ctx con
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, configurationId)
-		_, cancelErr := s.Client.DeleteWorkRequest(context.Background(),
+		_, cancelErr := s.Client.DeleteWorkRequest(ctx,
 			oci_nosql.DeleteWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -229,7 +229,7 @@ func configurationWaitForWorkRequest(ctx context.Context, wId *string, entityTyp
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_nosql.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -259,14 +259,14 @@ func configurationWaitForWorkRequest(ctx context.Context, wId *string, entityTyp
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_nosql.WorkRequestStatusFailed || response.Status == oci_nosql.WorkRequestStatusCanceled {
-		return nil, getErrorFromNosqlConfigurationWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromNosqlConfigurationWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromNosqlConfigurationWorkRequest(client *oci_nosql.NosqlClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_nosql.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromNosqlConfigurationWorkRequest(ctx context.Context, client *oci_nosql.NosqlClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_nosql.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_nosql.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -305,7 +305,7 @@ func (s *NosqlConfigurationResourceCrud) GetWithContext(ctx context.Context) err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
-	response, err := s.Client.GetConfiguration(context.Background(), request)
+	response, err := s.Client.GetConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -332,7 +332,7 @@ func (s *NosqlConfigurationResourceCrud) updateConfiguration(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
-	response, err := s.Client.UpdateConfiguration(context.Background(), request)
+	response, err := s.Client.UpdateConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -352,7 +352,7 @@ func (s *NosqlConfigurationResourceCrud) unassignKmsKey(ctx context.Context) err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "nosql")
 
-	response, err := s.Client.UnassignKmsKey(context.Background(), request)
+	response, err := s.Client.UnassignKmsKey(ctx, request)
 	if err != nil {
 		return err
 	}

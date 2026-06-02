@@ -388,7 +388,7 @@ func goldenGateDeploymentBackupWaitForWorkRequest(ctx context.Context, wId *stri
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_golden_gate.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -417,14 +417,14 @@ func goldenGateDeploymentBackupWaitForWorkRequest(ctx context.Context, wId *stri
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_golden_gate.OperationStatusFailed || response.Status == oci_golden_gate.OperationStatusCanceled {
-		return nil, getErrorFromGoldenGateDeploymentBackupWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromGoldenGateDeploymentBackupWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromGoldenGateDeploymentBackupWorkRequest(client *oci_golden_gate.GoldenGateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_golden_gate.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromGoldenGateDeploymentBackupWorkRequest(ctx context.Context, client *oci_golden_gate.GoldenGateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_golden_gate.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_golden_gate.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

@@ -359,7 +359,7 @@ func javaDownloadReportWaitForWorkRequest(ctx context.Context, wId *string, enti
 }
 
 func getErrorFromJmsJavaDownloadsJavaDownloadReportWorkRequest(ctx context.Context, client *oci_jms_java_downloads.JavaDownloadClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_jms_java_downloads.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_jms_java_downloads.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

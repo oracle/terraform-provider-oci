@@ -848,7 +848,7 @@ func createDatasciencePipelineWithContext(ctx context.Context, d *schema.Resourc
 		if tmpList, ok := StepArtifact.([]interface{}); ok && len(tmpList) > 0 {
 			for i := range tmpList {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "step_artifact", i)
-				err := sync.CreateArtifact(fieldKeyFormat)
+				err := sync.CreateArtifact(ctx, fieldKeyFormat)
 				if err != nil {
 					return tfresource.HandleDiagError(m, err)
 				}
@@ -859,7 +859,7 @@ func createDatasciencePipelineWithContext(ctx context.Context, d *schema.Resourc
 	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func (s *DatasciencePipelineResourceCrud) CreateArtifact(fieldKeyFormat string) error {
+func (s *DatasciencePipelineResourceCrud) CreateArtifact(ctx context.Context, fieldKeyFormat string) error {
 	request := oci_datascience.CreateStepArtifactRequest{}
 
 	if contentDisposition, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "artifact_content_disposition")); ok {
@@ -895,7 +895,7 @@ func (s *DatasciencePipelineResourceCrud) CreateArtifact(fieldKeyFormat string) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.CreateStepArtifact(context.Background(), request)
+	_, err := s.Client.CreateStepArtifact(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1106,7 +1106,7 @@ func (s *DatasciencePipelineResourceCrud) getPipelineFromWorkRequest(ctx context
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, pipelineId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_datascience.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -1165,7 +1165,7 @@ func pipelineWaitForWorkRequest(ctx context.Context, wId *string, entityType str
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_datascience.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -1193,14 +1193,14 @@ func pipelineWaitForWorkRequest(ctx context.Context, wId *string, entityType str
 	}
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if response.Status == oci_datascience.WorkRequestStatusFailed || response.Status == oci_datascience.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatasciencePipelineWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatasciencePipelineWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatasciencePipelineWorkRequest(client *oci_datascience.DataScienceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatasciencePipelineWorkRequest(ctx context.Context, client *oci_datascience.DataScienceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_datascience.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1239,7 +1239,7 @@ func (s *DatasciencePipelineResourceCrud) GetWithContext(ctx context.Context) er
 	log.Printf("[DEBUG] the response from the pipeline get call is %v", s.Res)
 	// after we get the pipeline response, GET the head artifact for each of the custom_script steps
 	for _, item := range s.Res.StepDetails {
-		err := s.ExtractPipelineStepDetailsAndCallHeadArtifact(item)
+		err := s.ExtractPipelineStepDetailsAndCallHeadArtifact(ctx, item)
 		if err != nil {
 			return err
 		}
@@ -2199,11 +2199,11 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineStepContainerConfiguratio
 	return result, nil
 }
 
-func (s *DatasciencePipelineResourceCrud) ExtractPipelineStepDetailsAndCallHeadArtifact(obj oci_datascience.PipelineStepDetails) error {
+func (s *DatasciencePipelineResourceCrud) ExtractPipelineStepDetailsAndCallHeadArtifact(ctx context.Context, obj oci_datascience.PipelineStepDetails) error {
 	switch v := (obj).(type) {
 	case oci_datascience.PipelineCustomScriptStepDetails:
 		if v.StepName != nil && v.IsArtifactUploaded != nil {
-			if stepArtifact, err := s.GetArtifactHead(*v.StepName); stepArtifact != nil {
+			if stepArtifact, err := s.GetArtifactHead(ctx, *v.StepName); stepArtifact != nil {
 				if err != nil {
 					return err
 				} // if err
@@ -2833,7 +2833,7 @@ func (s *DatasciencePipelineResourceCrud) updateCompartment(ctx context.Context,
 	return nil
 }
 
-func (s *DatasciencePipelineResourceCrud) GetArtifactHead(stepName string) (interface{}, error) {
+func (s *DatasciencePipelineResourceCrud) GetArtifactHead(ctx context.Context, stepName string) (interface{}, error) {
 	request := oci_datascience.HeadStepArtifactRequest{}
 	result := StepArtifact{}
 
@@ -2843,7 +2843,7 @@ func (s *DatasciencePipelineResourceCrud) GetArtifactHead(stepName string) (inte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "datascience")
 
-	response, err := s.Client.HeadStepArtifact(context.Background(), request)
+	response, err := s.Client.HeadStepArtifact(ctx, request)
 	if err != nil {
 		return nil, err
 	}

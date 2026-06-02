@@ -191,16 +191,16 @@ func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) CreateWithConte
 	}
 
 	workId := response.OpcWorkRequestId
-	s.setIdFromWorkRequest(workId)
+	s.setIdFromWorkRequest(ctx, workId)
 	return s.getFusionEnvironmentRefreshActivityFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fusion_apps"), oci_fusion_apps.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) setIdFromWorkRequest(workId *string) {
+func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) setIdFromWorkRequest(ctx context.Context, workId *string) {
 	var identifier *string
 	var err error
 
 	workRequestResponse := oci_fusion_apps.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_fusion_apps.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

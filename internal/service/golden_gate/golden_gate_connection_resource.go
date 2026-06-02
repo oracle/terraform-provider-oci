@@ -979,7 +979,7 @@ func (s *GoldenGateConnectionResourceCrud) refreshConnection(ctx context.Context
 		refreshConnectionRequest.IsLockOverride = &tmp
 	}
 
-	response, err := s.Client.RefreshConnection(context.Background(), refreshConnectionRequest)
+	response, err := s.Client.RefreshConnection(ctx, refreshConnectionRequest)
 	if err != nil {
 		return err
 	}
@@ -992,7 +992,7 @@ func (s *GoldenGateConnectionResourceCrud) refreshConnection(ctx context.Context
 		return refreshWorkRequestErr
 	}
 
-	if e := s.GetWithContext(context.Background()); e != nil {
+	if e := s.GetWithContext(ctx); e != nil {
 		return e
 	}
 
@@ -1057,7 +1057,7 @@ func (s *GoldenGateConnectionResourceCrud) CreateWithContext(ctx context.Context
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
-	response, err := s.Client.CreateConnection(context.Background(), request)
+	response, err := s.Client.CreateConnection(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1128,7 +1128,7 @@ func connectionWaitForWorkRequest(ctx context.Context, wId *string, entityType s
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_golden_gate.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -1157,14 +1157,14 @@ func connectionWaitForWorkRequest(ctx context.Context, wId *string, entityType s
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_golden_gate.OperationStatusFailed || response.Status == oci_golden_gate.OperationStatusCanceled {
-		return nil, getErrorFromGoldenGateConnectionWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromGoldenGateConnectionWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromGoldenGateConnectionWorkRequest(client *oci_golden_gate.GoldenGateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_golden_gate.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromGoldenGateConnectionWorkRequest(ctx context.Context, client *oci_golden_gate.GoldenGateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_golden_gate.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_golden_gate.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

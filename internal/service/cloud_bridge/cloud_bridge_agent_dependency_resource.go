@@ -382,7 +382,7 @@ func agentDependencyWaitForWorkRequest(ctx context.Context, wId *string, entityT
 }
 
 func getErrorFromCloudBridgeAgentDependencyWorkRequest(ctx context.Context, client *oci_cloud_bridge.CommonClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_cloud_bridge.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_cloud_bridge.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

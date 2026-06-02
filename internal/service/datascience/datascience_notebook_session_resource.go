@@ -1069,7 +1069,7 @@ func (s *DatascienceNotebookSessionResourceCrud) ActivateNotebookSession(ctx con
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.ActivateNotebookSession(context.Background(), request)
+	_, err := s.Client.ActivateNotebookSession(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1086,7 +1086,7 @@ func (s *DatascienceNotebookSessionResourceCrud) DeactivateNotebookSession(ctx c
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	_, err := s.Client.DeactivateNotebookSession(context.Background(), request)
+	_, err := s.Client.DeactivateNotebookSession(ctx, request)
 	if err != nil {
 		return err
 	}

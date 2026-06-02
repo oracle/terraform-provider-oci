@@ -468,7 +468,7 @@ func (s *DbmulticloudOracleDbAwsKeyResourceCrud) GetWithContext(ctx context.Cont
 func (s *DbmulticloudOracleDbAwsKeyResourceCrud) UpdateWithContext(ctx context.Context) error {
 
 	if s.D.HasChange("action") || s.D.HasChange("target_region") {
-		err := s.ReplicateOracleDbAwsKey()
+		err := s.ReplicateOracleDbAwsKey(ctx)
 		if err != nil {
 			return err
 		}
@@ -627,7 +627,7 @@ func (s *DbmulticloudOracleDbAwsKeyResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DbmulticloudOracleDbAwsKeyResourceCrud) ReplicateOracleDbAwsKey() error {
+func (s *DbmulticloudOracleDbAwsKeyResourceCrud) ReplicateOracleDbAwsKey(ctx context.Context) error {
 	request := oci_dbmulticloud.ReplicateOracleDbAwsKeyRequest{}
 
 	if action, ok := s.D.GetOkExists("action"); ok {
@@ -644,12 +644,12 @@ func (s *DbmulticloudOracleDbAwsKeyResourceCrud) ReplicateOracleDbAwsKey() error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dbmulticloud")
 
-	_, err := s.Client.ReplicateOracleDbAwsKey(context.Background(), request)
+	_, err := s.Client.ReplicateOracleDbAwsKey(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedStateWithContext(context.Background(), s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

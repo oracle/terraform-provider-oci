@@ -505,7 +505,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) ApplyNetworkFirewallP
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_firewall")
 
-	response, err := s.Client.ApplyNetworkFirewallPolicy(context.Background(), request)
+	response, err := s.Client.ApplyNetworkFirewallPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -556,7 +556,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) CloneNetworkFirewallP
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_firewall")
 
-	response, err := s.Client.CloneNetworkFirewallPolicy(context.Background(), request)
+	response, err := s.Client.CloneNetworkFirewallPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -580,7 +580,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyResourceCrud) MigrateNetworkFirewal
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_firewall")
 
-	_, err := s.Client.MigrateNetworkFirewallPolicy(context.Background(), request)
+	_, err := s.Client.MigrateNetworkFirewallPolicy(ctx, request)
 	if err != nil {
 		return err
 	}

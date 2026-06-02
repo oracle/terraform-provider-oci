@@ -103,7 +103,7 @@ func (s *DnsZoneStageDnssecKeyVersionResourceCrud) CreateWithContext(ctx context
 	workId := response.OpcWorkRequestId
 
 	if workId != nil {
-		_, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "zone",
+		_, err := tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "zone",
 			oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err

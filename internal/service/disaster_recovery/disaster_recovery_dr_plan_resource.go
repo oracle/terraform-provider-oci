@@ -700,7 +700,7 @@ func (s *DisasterRecoveryDrPlanResourceCrud) RefreshDrPlan(ctx context.Context) 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery")
 
-	response, err := s.Client.RefreshDrPlan(context.Background(), request)
+	response, err := s.Client.RefreshDrPlan(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -731,7 +731,7 @@ func (s *DisasterRecoveryDrPlanResourceCrud) VerifyDrPlan(ctx context.Context) e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery")
 
-	response, err := s.Client.VerifyDrPlan(context.Background(), request)
+	response, err := s.Client.VerifyDrPlan(ctx, request)
 	if err != nil {
 		return err
 	}

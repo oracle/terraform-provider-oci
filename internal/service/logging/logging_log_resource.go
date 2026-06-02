@@ -292,15 +292,15 @@ func (s *LoggingLogResourceCrud) CreateWithContext(ctx context.Context) error {
 	}
 
 	workId := response.OpcWorkRequestId
-	s.setIdFromWorkRequest(workId)
+	s.setIdFromWorkRequest(ctx, workId)
 	return s.getLogFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
-func (s *LoggingLogResourceCrud) setIdFromWorkRequest(workId *string) {
+func (s *LoggingLogResourceCrud) setIdFromWorkRequest(ctx context.Context, workId *string) {
 	var identifier *string
 	var err error
 
 	workRequestResponse := oci_logging.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_logging.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -389,7 +389,7 @@ func logWaitForWorkRequest(ctx context.Context, wId *string, entityType string, 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_logging.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -785,7 +785,7 @@ func (s *LoggingLogResourceCrud) updateLogGroup(ctx context.Context, oldLogGroup
 
 	updateLogGroupRequest.ChangeLogLogGroupDetails = updateLogGroupDetails
 
-	response, err := s.Client.ChangeLogLogGroup(context.Background(), updateLogGroupRequest)
+	response, err := s.Client.ChangeLogLogGroup(ctx, updateLogGroupRequest)
 	if err != nil {
 		return err
 	}
