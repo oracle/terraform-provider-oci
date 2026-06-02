@@ -608,9 +608,8 @@ func createDataSafeSecurityAssessmentWithContext(ctx context.Context, d *schema.
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	err := tfresource.CreateResourceWithContext(ctx, d, sync)
-	if err != nil {
-		return tfresource.HandleDiagError(m, err)
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 
 	if _, ok := sync.D.GetOkExists("apply_template_trigger"); ok {
@@ -662,8 +661,7 @@ func updateDataSafeSecurityAssessmentWithContext(ctx context.Context, d *schema.
 			}
 		} else {
 			sync.D.Set("apply_template_trigger", oldRaw)
-			err := fmt.Errorf("new value of trigger should be greater than the old value")
-			return tfresource.HandleDiagError(m, err)
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
@@ -679,8 +677,7 @@ func updateDataSafeSecurityAssessmentWithContext(ctx context.Context, d *schema.
 			}
 		} else {
 			sync.D.Set("compare_to_template_baseline_trigger", oldRaw)
-			err := fmt.Errorf("new value of trigger should be greater than the old value")
-			return tfresource.HandleDiagError(m, err)
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
@@ -696,13 +693,11 @@ func updateDataSafeSecurityAssessmentWithContext(ctx context.Context, d *schema.
 			}
 		} else {
 			sync.D.Set("remove_template_trigger", oldRaw)
-			err := fmt.Errorf("new value of trigger should be greater than the old value")
-			return tfresource.HandleDiagError(m, err)
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
-	err := tfresource.UpdateResourceWithContext(ctx, d, sync)
-	if err != nil {
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
 		return tfresource.HandleDiagError(m, err)
 	}
 

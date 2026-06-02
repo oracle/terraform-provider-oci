@@ -115,9 +115,8 @@ func createDataSafeSecurityPolicyDeploymentManagementWithContext(ctx context.Con
 
 	targetType, ok := sync.D.GetOk("target_type")
 	if !ok || targetType == string(oci_data_safe.SecurityPolicyDeploymentTargetTypeDatabaseGroup) {
-		err := tfresource.CreateResourceWithContext(ctx, d, sync)
-		if err != nil {
-			return tfresource.HandleDiagError(m, err)
+		if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+			return tfresource.HandleDiagError(m, e)
 		}
 	}
 	err := sync.GetIdFromDbSecurityConfigWorkReq(ctx)
@@ -173,8 +172,7 @@ func updateDataSafeSecurityPolicyDeploymentManagementWithContext(ctx context.Con
 			}
 		} else {
 			sync.D.Set("deploy_trigger", oldRaw)
-			err := fmt.Errorf("new value of trigger should be greater than the old value")
-			return tfresource.HandleDiagError(m, err)
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
@@ -195,8 +193,7 @@ func updateDataSafeSecurityPolicyDeploymentManagementWithContext(ctx context.Con
 		}
 	}
 
-	err := tfresource.UpdateResourceWithContext(ctx, d, sync)
-	if err != nil {
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
 		return tfresource.HandleDiagError(m, err)
 	}
 

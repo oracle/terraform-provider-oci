@@ -209,8 +209,7 @@ func updateDataSafeDatabaseSecurityConfigWithContext(ctx context.Context, d *sch
 		}
 	}
 
-	err := tfresource.UpdateResourceWithContext(ctx, d, sync)
-	if err != nil {
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
 		return tfresource.HandleDiagError(m, err)
 	}
 
