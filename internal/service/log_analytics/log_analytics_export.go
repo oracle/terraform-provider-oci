@@ -159,9 +159,17 @@ func getLogAnalyticsNamespaceScheduledTaskId(resource *tf_export.OCIResource) (s
 }
 
 func getLogAnalyticsNamespaceIngestTimeRuleId(resource *tf_export.OCIResource) (string, error) {
+	ingestTimeRuleId := ""
+	if id, ok := resource.SourceAttributes["id"].(string); ok && id != "" {
+		ingestTimeRuleId = id
+	}
+	if ingestTimeRuleId == "" {
+		if id, ok := resource.SourceAttributes["ingest_time_rule_id"].(string); ok && id != "" {
+			ingestTimeRuleId = id
+		}
+	}
 
-	ingestTimeRuleId, ok := resource.SourceAttributes["id"].(string)
-	if !ok {
+	if ingestTimeRuleId == "" {
 		return "", fmt.Errorf("[ERROR] unable to find ingestTimeRuleId for LogAnalytics NamespaceIngestTimeRule")
 	}
 	namespace, ok := resource.SourceAttributes["namespace"].(string)
@@ -232,8 +240,8 @@ func findLogAnalyticsNamespaceLookups(ctx *tf_export.ResourceDiscoveryContext, t
 		}
 
 		if resource.TerraformName, err = tf_export.GenerateTerraformNameFromResource(resource.SourceAttributes, namespaceLookupResource.Schema); err != nil {
-			resource.TerraformName = fmt.Sprintf("%s_%s", parent.TerraformName, *namespaceLookup.Name)
-			resource.TerraformName = tf_export.CheckDuplicateResourceName(resource.TerraformName)
+			normalizedName := logAnalyticsTerraformNameSanitizer.ReplaceAllString(*namespaceLookup.Name, "-")
+			resource.TerraformName = tf_export.CheckDuplicateResourceName(fmt.Sprintf("%s_%s", "export", normalizedName))
 		}
 
 		results = append(results, resource)
@@ -401,7 +409,7 @@ func findLogAnalyticsNamespaceAssociations(ctx *tf_export.ResourceDiscoveryConte
 
 		if resource.TerraformName, err = tf_export.GenerateTerraformNameFromResource(resource.SourceAttributes, namespaceAssociationResource.Schema); err != nil {
 			entityName := getLogAnalyticsNamespaceAssociationStringAttribute(resource.SourceAttributes, "entity_name")
-			resource.TerraformName = getLogAnalyticsNamespaceAssociationTerraformName(parent.TerraformName, sourceName, entityName, entityId)
+			resource.TerraformName = getLogAnalyticsNamespaceAssociationTerraformName(sourceName, entityName, entityId)
 		}
 
 		results = append(results, resource)
@@ -410,14 +418,14 @@ func findLogAnalyticsNamespaceAssociations(ctx *tf_export.ResourceDiscoveryConte
 	return results, nil
 }
 
-func getLogAnalyticsNamespaceAssociationTerraformName(parentTerraformName string, sourceName string, entityName string, entityId string) string {
+func getLogAnalyticsNamespaceAssociationTerraformName(sourceName string, entityName string, entityId string) string {
 	associationName := entityName
 	if associationName == "" {
 		associationName = entityId
 	}
 
 	normalizedName := logAnalyticsTerraformNameSanitizer.ReplaceAllString(fmt.Sprintf("%s_%s", sourceName, associationName), "-")
-	return tf_export.CheckDuplicateResourceName(fmt.Sprintf("%s_%s", parentTerraformName, normalizedName))
+	return tf_export.CheckDuplicateResourceName(fmt.Sprintf("%s_%s", "export", normalizedName))
 }
 
 func getLogAnalyticsNamespaceStorageArchivalConfigId(resource *tf_export.OCIResource) (string, error) {
@@ -430,8 +438,17 @@ func getLogAnalyticsNamespaceStorageArchivalConfigId(resource *tf_export.OCIReso
 }
 
 func getLogAnalyticsLogAnalyticsLogGroupId(resource *tf_export.OCIResource) (string, error) {
-	logAnalyticsLogGroupId, ok := resource.SourceAttributes["id"].(string)
-	if !ok || logAnalyticsLogGroupId == "" {
+	logAnalyticsLogGroupId := ""
+	if id, ok := resource.SourceAttributes["id"].(string); ok && id != "" {
+		logAnalyticsLogGroupId = id
+	}
+	if logAnalyticsLogGroupId == "" {
+		if d, ok := resource.RawResource.(*schema.ResourceData); ok && d.Id() != "" {
+			logAnalyticsLogGroupId = d.Id()
+		}
+	}
+
+	if logAnalyticsLogGroupId == "" {
 		return "", fmt.Errorf("[ERROR] unable to find logAnalyticsLogGroupId for LogAnalytics LogAnalyticsLogGroup")
 	}
 
@@ -603,16 +620,16 @@ func findLogAnalyticsLogAnalyticsResourceCategoriesManagement(ctx *tf_export.Res
 
 		resourceId := resource.SourceAttributes["resource_id"].(string)
 		resourceType := resource.SourceAttributes["resource_type"].(string)
-		resource.TerraformName = getLogAnalyticsResourceCategoriesManagementTerraformName(parent.TerraformName, resourceType, resourceId)
+		resource.TerraformName = getLogAnalyticsResourceCategoriesManagementTerraformName(resourceType, resourceId)
 		results = append(results, resource)
 	}
 
 	return results, nil
 }
 
-func getLogAnalyticsResourceCategoriesManagementTerraformName(parentTerraformName string, resourceType string, resourceId string) string {
+func getLogAnalyticsResourceCategoriesManagementTerraformName(resourceType string, resourceId string) string {
 	normalizedName := logAnalyticsTerraformNameSanitizer.ReplaceAllString(fmt.Sprintf("%s_%s", resourceType, resourceId), "-")
-	return tf_export.CheckDuplicateResourceName(fmt.Sprintf("%s_%s", parentTerraformName, normalizedName))
+	return tf_export.CheckDuplicateResourceName(fmt.Sprintf("%s_%s", "export", normalizedName))
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
