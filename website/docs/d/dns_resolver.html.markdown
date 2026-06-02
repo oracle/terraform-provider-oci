@@ -51,12 +51,20 @@ The following attributes are exported:
 * `display_name` - The display name of the resolver. 
 * `endpoints` - Read-only array of endpoints for the resolver. 
 	* `compartment_id` - The OCID of the owning compartment. This will match the resolver that the resolver endpoint is under and will be updated if the resolver's compartment is changed. 
+	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+
+      **Example:** `{"Operations": {"CostCenter": "42"}}`
 	* `endpoint_type` - The type of resolver endpoint. VNIC is currently the only supported type. 
 	* `forwarding_address` - An IP address from which forwarded queries may be sent. For VNIC endpoints, this IP address must be part of the subnet and will be assigned by the system if unspecified when isForwarding is true. 
+	* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+    * `id` - The Terraform ID of the resolver endpoint.
 	* `is_forwarding` - A Boolean flag indicating whether or not the resolver endpoint is for forwarding. 
 	* `is_listening` - A Boolean flag indicating whether or not the resolver endpoint is for listening. 
 	* `listening_address` - An IP address to listen to queries on. For VNIC endpoints this IP address must be part of the subnet and will be assigned by the system if unspecified when isListening is true. 
 	* `name` - The name of the resolver endpoint. Must be unique, case-insensitive, within the resolver. 
+	* `pe_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint resource that this resolver endpoint corresponds to.
+    * `resolver_id` - The OCID of the resolver.
+	* `security_attributes` - [Security attributes](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels for a resource that can be referenced in a [Zero Trust Packet Routing](https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm) (ZPR) policy to control access to ZPR-supported resources.  Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
 	* `self` - The canonical absolute URL of the resource.
 	* `state` - The current state of the resource.
 	* `subnet_id` - The OCID of a subnet. Must be part of the VCN that the resolver is attached to.
@@ -66,6 +74,7 @@ The following attributes are exported:
 	* `time_updated` - The date and time the resource was last updated in "YYYY-MM-ddThh:mm:ssZ" format with a Z offset, as defined by RFC 3339.
 
 		**Example:** `2016-07-22T17:23:59:60Z` 
+	* `vnic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC resource that this resolver endpoint corresponds to.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 
 	 **Example:** `{"Department": "Finance"}` 
