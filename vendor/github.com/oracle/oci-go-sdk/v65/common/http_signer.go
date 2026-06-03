@@ -28,6 +28,12 @@ type KeyProvider interface {
 	KeyID() (string, error)
 }
 
+// signerProvider is an optional extension for key providers backed by a non-exportable key.
+// When implemented, request signing uses the returned crypto.Signer directly.
+type signerProvider interface {
+	PrivateKeySigner() (crypto.Signer, error)
+}
+
 const signerVersion = "1"
 
 // SignerBodyHashPredicate a function that allows to disable/enable body hashing
@@ -271,18 +277,33 @@ func (signer ociRequestSigner) computeSignature(request *http.Request) (signatur
 	hasher.Write([]byte(signingString))
 	hashed := hasher.Sum(nil)
 
-	privateKey, err := signer.KeyProvider.PrivateRSAKey()
-	if err != nil {
-		return
-	}
-
 	var unencodedSig []byte
 	var e error
-	switch signatureScheme := signer.SigningMethod.SignatureScheme; signatureScheme {
-	case PSS:
-		unencodedSig, e = rsa.SignPSS(rand.Reader, privateKey, crypto.SHA256, hashed, &signer.SigningMethod.RSAPSSOptions)
-	default:
-		unencodedSig, e = rsa.SignPKCS1v15(rand.Reader, privateKey, crypto.SHA256, hashed)
+	if provider, ok := signer.KeyProvider.(signerProvider); ok {
+		var keySigner crypto.Signer
+		keySigner, err = provider.PrivateKeySigner()
+		if err != nil {
+			return
+		}
+
+		var opts crypto.SignerOpts = crypto.SHA256
+		if signer.SigningMethod.SignatureScheme == PSS {
+			opts = &signer.SigningMethod.RSAPSSOptions
+		}
+		unencodedSig, e = keySigner.Sign(rand.Reader, hashed, opts)
+	} else {
+		var privateKey *rsa.PrivateKey
+		privateKey, err = signer.KeyProvider.PrivateRSAKey()
+		if err != nil {
+			return
+		}
+
+		switch signatureScheme := signer.SigningMethod.SignatureScheme; signatureScheme {
+		case PSS:
+			unencodedSig, e = rsa.SignPSS(rand.Reader, privateKey, crypto.SHA256, hashed, &signer.SigningMethod.RSAPSSOptions)
+		default:
+			unencodedSig, e = rsa.SignPKCS1v15(rand.Reader, privateKey, crypto.SHA256, hashed)
+		}
 	}
 
 	if e != nil {

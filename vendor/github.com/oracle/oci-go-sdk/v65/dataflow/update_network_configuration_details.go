@@ -57,6 +57,9 @@ type UpdateNetworkConfigurationDetails struct {
 
 	// The OCID of OCI Lake.
 	UserTenantId *string `mandatory:"false" json:"userTenantId"`
+
+	// The OCID of a subnet.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
 }
 
 func (m UpdateNetworkConfigurationDetails) String() string {
