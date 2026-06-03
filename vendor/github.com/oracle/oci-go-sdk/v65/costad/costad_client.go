@@ -145,7 +145,7 @@ func (client CostAdClient) createCostAlertSubscription(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cost-anomaly/20190111/CostAlertSubscription/CreateCostAlertSubscription"
 		err = common.PostProcessServiceError(err, "CostAd", "CreateCostAlertSubscription", apiReferenceLink)
 		return response, err
 	}
@@ -208,7 +208,7 @@ func (client CostAdClient) createCostAnomalyMonitor(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cost-anomaly/20190111/CostAnomalyMonitor/CreateCostAnomalyMonitor"
 		err = common.PostProcessServiceError(err, "CostAd", "CreateCostAnomalyMonitor", apiReferenceLink)
 		return response, err
 	}
@@ -266,7 +266,7 @@ func (client CostAdClient) deleteCostAlertSubscription(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cost-anomaly/20190111/CostAlertSubscription/DeleteCostAlertSubscription"
 		err = common.PostProcessServiceError(err, "CostAd", "DeleteCostAlertSubscription", apiReferenceLink)
 		return response, err
 	}
@@ -324,7 +324,7 @@ func (client CostAdClient) deleteCostAnomalyMonitor(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cost-anomaly/20190111/CostAnomalyMonitor/DeleteCostAnomalyMonitor"
 		err = common.PostProcessServiceError(err, "CostAd", "DeleteCostAnomalyMonitor", apiReferenceLink)
 		return response, err
 	}
@@ -387,7 +387,7 @@ func (client CostAdClient) disableCostAnomalyMonitor(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cost-anomaly/20190111/CostAnomalyMonitor/DisableCostAnomalyMonitor"
 		err = common.PostProcessServiceError(err, "CostAd", "DisableCostAnomalyMonitor", apiReferenceLink)
 		return response, err
 	}
@@ -450,7 +450,7 @@ func (client CostAdClient) enableCostAnomalyMonitor(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cost-anomaly/20190111/CostAnomalyMonitor/EnableCostAnomalyMonitor"
 		err = common.PostProcessServiceError(err, "CostAd", "EnableCostAnomalyMonitor", apiReferenceLink)
 		return response, err
 	}
@@ -508,7 +508,7 @@ func (client CostAdClient) getCostAlertSubscription(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cost-anomaly/20190111/CostAlertSubscription/GetCostAlertSubscription"
 		err = common.PostProcessServiceError(err, "CostAd", "GetCostAlertSubscription", apiReferenceLink)
 		return response, err
 	}
@@ -566,7 +566,7 @@ func (client CostAdClient) getCostAnomalyEvent(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cost-anomaly/20190111/CostAnomalyEvent/GetCostAnomalyEvent"
 		err = common.PostProcessServiceError(err, "CostAd", "GetCostAnomalyEvent", apiReferenceLink)
 		return response, err
 	}
@@ -624,7 +624,7 @@ func (client CostAdClient) getCostAnomalyMonitor(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cost-anomaly/20190111/CostAnomalyMonitor/GetCostAnomalyMonitor"
 		err = common.PostProcessServiceError(err, "CostAd", "GetCostAnomalyMonitor", apiReferenceLink)
 		return response, err
 	}
@@ -682,7 +682,7 @@ func (client CostAdClient) listCostAlertSubscriptions(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cost-anomaly/20190111/CostAlertSubscriptionCollection/ListCostAlertSubscriptions"
 		err = common.PostProcessServiceError(err, "CostAd", "ListCostAlertSubscriptions", apiReferenceLink)
 		return response, err
 	}
@@ -740,7 +740,7 @@ func (client CostAdClient) listCostAnomalyEvents(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cost-anomaly/20190111/CostAnomalyEventCollection/ListCostAnomalyEvents"
 		err = common.PostProcessServiceError(err, "CostAd", "ListCostAnomalyEvents", apiReferenceLink)
 		return response, err
 	}
@@ -798,7 +798,7 @@ func (client CostAdClient) listCostAnomalyMonitors(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cost-anomaly/20190111/CostAnomalyMonitorCollection/ListCostAnomalyMonitors"
 		err = common.PostProcessServiceError(err, "CostAd", "ListCostAnomalyMonitors", apiReferenceLink)
 		return response, err
 	}
@@ -856,7 +856,7 @@ func (client CostAdClient) summarizeCostAnomalyEventAnalytics(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cost-anomaly/20190111/CostAnomalyEvent/SummarizeCostAnomalyEventAnalytics"
 		err = common.PostProcessServiceError(err, "CostAd", "SummarizeCostAnomalyEventAnalytics", apiReferenceLink)
 		return response, err
 	}
@@ -914,7 +914,7 @@ func (client CostAdClient) updateCostAlertSubscription(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cost-anomaly/20190111/CostAlertSubscription/UpdateCostAlertSubscription"
 		err = common.PostProcessServiceError(err, "CostAd", "UpdateCostAlertSubscription", apiReferenceLink)
 		return response, err
 	}
@@ -972,7 +972,7 @@ func (client CostAdClient) updateCostAnomalyEvent(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cost-anomaly/20190111/CostAnomalyEvent/UpdateCostAnomalyEvent"
 		err = common.PostProcessServiceError(err, "CostAd", "UpdateCostAnomalyEvent", apiReferenceLink)
 		return response, err
 	}
@@ -1030,7 +1030,7 @@ func (client CostAdClient) updateCostAnomalyMonitor(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cost-anomaly/20190111/CostAnomalyMonitor/UpdateCostAnomalyMonitor"
 		err = common.PostProcessServiceError(err, "CostAd", "UpdateCostAnomalyMonitor", apiReferenceLink)
 		return response, err
 	}

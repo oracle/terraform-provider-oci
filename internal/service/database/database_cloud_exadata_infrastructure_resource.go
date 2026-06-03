@@ -303,6 +303,10 @@ func DatabaseCloudExadataInfrastructureResource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"max_size_gb": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"min_size_gb": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -978,6 +982,10 @@ func DefinedFileSystemConfigurationToMap(obj oci_database.DefinedFileSystemConfi
 
 	if obj.IsResizable != nil {
 		result["is_resizable"] = bool(*obj.IsResizable)
+	}
+
+	if obj.MaxSizeGb != nil {
+		result["max_size_gb"] = int(*obj.MaxSizeGb)
 	}
 
 	if obj.MinSizeGb != nil {

@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ManagedMySqlDatabase The details of the Managed MySQL Database.
+// ManagedMySqlDatabase The details of the Managed MySQL Database. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type ManagedMySqlDatabase struct {
 
 	// The OCID of the Managed MySQL Database.
@@ -38,7 +38,7 @@ type ManagedMySqlDatabase struct {
 	// The name of the Managed MySQL Database.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The customer's selected type for HeatWave management.
+	// The selected management type for a HeatWave MySQL DB system.
 	HeatWaveManagementType ManagedMySqlDatabaseHeatWaveManagementTypeEnum `mandatory:"false" json:"heatWaveManagementType,omitempty"`
 
 	// The name of the HeatWave cluster.

@@ -43,6 +43,7 @@ The following attributes are exported:
 * `nsg_ids` - The OCIDs of the network security groups that the private endpoint belongs to. 
 * `private_endpoint_status_details` - A message describing the status of the private endpoint connection of this resource. For example, it can be used to provide actionable information about the validity of the private endpoint connection.
 * `private_ip` - The private IP addresses assigned to the private endpoint. All IP addresses will be concatenated if it is RAC DBs. 
+* `security_attributes` - Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
 * `state` - The current state of the private endpoint.
 * `subnet_id` - The OCID of the subnet.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

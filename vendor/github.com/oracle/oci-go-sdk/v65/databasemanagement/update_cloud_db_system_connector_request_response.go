@@ -21,7 +21,7 @@ type UpdateCloudDbSystemConnectorRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud connector.
 	CloudDbSystemConnectorId *string `mandatory:"true" contributesTo:"path" name:"cloudDbSystemConnectorId"`
 
-	// The details required to update an cloud connector.
+	// The details required to update a cloud connector.
 	UpdateCloudDbSystemConnectorDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

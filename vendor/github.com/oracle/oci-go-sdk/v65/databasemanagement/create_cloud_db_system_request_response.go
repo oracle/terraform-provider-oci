@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateCloudDbSystem.go.html to see an example of how to use CreateCloudDbSystemRequest.
 type CreateCloudDbSystemRequest struct {
 
-	// The details required to create an cloud DB system.
+	// The details required to create a cloud DB system.
 	CreateCloudDbSystemDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

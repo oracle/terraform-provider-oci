@@ -32,6 +32,7 @@ resource "oci_database_management_db_management_private_endpoint" "test_db_manag
 	is_cluster = var.db_management_private_endpoint_is_cluster
 	is_dns_resolution_enabled = var.db_management_private_endpoint_is_dns_resolution_enabled
 	nsg_ids = var.db_management_private_endpoint_nsg_ids
+	security_attributes = var.db_management_private_endpoint_security_attributes
 }
 ```
 
@@ -47,6 +48,7 @@ The following arguments are supported:
 * `is_dns_resolution_enabled` - (Optional) Specifies whether the Database Management private endpoint has DNS proxy server enabled to resolve private host name.
 * `name` - (Required) (Updatable) The display name of the Database Management private endpoint.
 * `nsg_ids` - (Optional) (Updatable) The OCIDs of the Network Security Groups to which the Database Management private endpoint belongs. 
+* `security_attributes` - (Optional) (Updatable) Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
 
 
@@ -67,6 +69,7 @@ The following attributes are exported:
 * `name` - The display name of the Database Management private endpoint.
 * `nsg_ids` - The OCIDs of the Network Security Groups to which the Database Management private endpoint belongs. 
 * `private_ip` - The IP addresses assigned to the Database Management private endpoint. 
+* `security_attributes` - Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}` 
 * `state` - The current lifecycle state of the Database Management private endpoint.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). System tags can be viewed by users, but can only be created by the system.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 

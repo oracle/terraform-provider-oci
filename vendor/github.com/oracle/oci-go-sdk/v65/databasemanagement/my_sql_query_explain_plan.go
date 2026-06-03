@@ -17,13 +17,13 @@ import (
 	"strings"
 )
 
-// MySqlQueryExplainPlan The explain plan for a given MySQL query.
+// MySqlQueryExplainPlan The explain plan for a given MySQL query. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type MySqlQueryExplainPlan struct {
 
-	// The json format of the explain plan.
+	// The JSON format of the explain plan.
 	JsonExplain *string `mandatory:"true" json:"jsonExplain"`
 
-	// The version of the Json format of MySQL Explain.
+	// The version of the JSON format of the MySQL explain plan.
 	JsonExplainVersion MySqlJsonExplainVersionEnum `mandatory:"true" json:"jsonExplainVersion"`
 }
 

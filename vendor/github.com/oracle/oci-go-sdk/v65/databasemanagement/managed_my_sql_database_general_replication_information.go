@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ManagedMySqlDatabaseGeneralReplicationInformation General information about the replication of a MySQL server.
+// ManagedMySqlDatabaseGeneralReplicationInformation General information about the replication of a MySQL server. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type ManagedMySqlDatabaseGeneralReplicationInformation struct {
 
 	// This server's ID.

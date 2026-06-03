@@ -10,7 +10,8 @@ description: |-
 # Data Source: oci_database_management_managed_my_sql_databases
 This data source provides the list of Managed My Sql Databases in Oracle Cloud Infrastructure Database Management service.
 
-Gets the list of Managed MySQL Databases in a specific compartment.
+Gets the list of Managed MySQL Databases in a specific compartment. 
+MySQL support within Oracle Cloud Infrastructure Database Management service has been deprecated as of January 29, 2026.
 
 
 ## Example Usage
@@ -50,7 +51,7 @@ The following attributes are exported:
 * `name` - The name of the Managed MySQL Database.
 * `time_created` - The date and time the Managed Database was created.
 * `heat_wave_cluster_display_name` - The name of the HeatWave cluster.
-* `heat_wave_management_type` - The customer's selected type for HeatWave management.
+* `heat_wave_management_type` - The selected management type for a HeatWave MySQL DB system.
 * `heat_wave_memory_size` - The total memory belonging to the HeatWave cluster in GBs.
 * `heat_wave_node_shape` - Shape of the nodes in the HeatWave cluster.
 * `heat_wave_nodes` - The information about an individual HeatWave nodes in the cluster.

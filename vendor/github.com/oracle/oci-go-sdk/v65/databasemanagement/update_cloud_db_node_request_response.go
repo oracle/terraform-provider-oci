@@ -21,7 +21,7 @@ type UpdateCloudDbNodeRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud database node.
 	CloudDbNodeId *string `mandatory:"true" contributesTo:"path" name:"cloudDbNodeId"`
 
-	// The details required to update an cloud DB node.
+	// The details required to update a cloud DB node.
 	UpdateCloudDbNodeDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

@@ -21,7 +21,7 @@ import (
 // CloudDatabaseSummary The summary of a cloud database.
 type CloudDatabaseSummary struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud DB system.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The user-friendly name for the database. The name does not have to be unique.
@@ -30,13 +30,13 @@ type CloudDatabaseSummary struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The current lifecycle state of the external database resource.
+	// The current lifecycle state of the cloud database resource.
 	LifecycleState CloudDatabaseSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The date and time the external DB system was created.
+	// The date and time the cloud DB system was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The `DB_UNIQUE_NAME` of the external database.
+	// The `DB_UNIQUE_NAME` of the cloud database.
 	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
 
 	// The type of Oracle Database installation.
@@ -50,7 +50,7 @@ type CloudDatabaseSummary struct {
 	// if this is a Pluggable Database (PDB).
 	ParentContainerDatabaseId *string `mandatory:"false" json:"parentContainerDatabaseId"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB home.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud DB home.
 	CloudDbHomeId *string `mandatory:"false" json:"cloudDbHomeId"`
 
 	DbSystemInfo *CloudDbSystemBasicInfo `mandatory:"false" json:"dbSystemInfo"`

@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ManagedMySqlDatabaseCollection A collection of Managed MySQL Database objects.
+// ManagedMySqlDatabaseCollection A collection of Managed MySQL Database objects. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type ManagedMySqlDatabaseCollection struct {
 
 	// An array of ManagedMySqlDatabaseSummary resources.

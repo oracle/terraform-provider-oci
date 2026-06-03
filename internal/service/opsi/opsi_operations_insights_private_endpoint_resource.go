@@ -83,6 +83,13 @@ func OpsiOperationsInsightsPrivateEndpointResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+
 			"private_endpoint_status_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -231,6 +238,10 @@ func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) Create() error {
 		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 			request.NsgIds = tmp
 		}
+	}
+
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
 
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
@@ -443,6 +454,10 @@ func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.OperationsInsightsPrivateEndpointId = &tmp
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
 	response, err := s.Client.UpdateOperationsInsightsPrivateEndpoint(context.Background(), request)
@@ -518,6 +533,8 @@ func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) SetData() error {
 		s.D.Set("private_ip", *s.Res.PrivateIp)
 	}
 
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {
@@ -575,6 +592,8 @@ func OperationsInsightsPrivateEndpointSummaryToMap(obj oci_opsi.OperationsInsigh
 	if obj.PrivateEndpointStatusDetails != nil {
 		result["private_endpoint_status_details"] = string(*obj.PrivateEndpointStatusDetails)
 	}
+
+	result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
 
 	result["state"] = string(obj.LifecycleState)
 

@@ -98,6 +98,8 @@ func (s *DatabaseManagementDbManagementPrivateEndpointDataSourceCrud) SetData() 
 		s.D.Set("private_ip", *s.Res.PrivateIp)
 	}
 
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {

@@ -21,7 +21,7 @@ type EnableCloudDbSystemDatabaseManagementRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud DB system.
 	CloudDbSystemId *string `mandatory:"true" contributesTo:"path" name:"cloudDbSystemId"`
 
-	// The details required to enable Stack Monitoring for an cloud DB system.
+	// The details required to enable Stack Monitoring for a cloud DB system.
 	EnableCloudDbSystemDatabaseManagementDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

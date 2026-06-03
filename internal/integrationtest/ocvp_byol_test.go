@@ -69,6 +69,7 @@ var (
 		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: ocvpDefinedTag, Update: ocvpDefinedTagUpdate},
 		"description":     acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"site_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_ocvp_site.test_site.id}`},
 		"lifecycle":       acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRepresentation},
 	}
 
@@ -146,6 +147,7 @@ func TestOcvpByolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "entitlement_key", "AAAAA-BBBBB-CCCCC-DDDDD-EEEEE"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "site_id"),
 				resource.TestCheckResourceAttr(resourceName, "software_type", "VCF"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
@@ -182,6 +184,7 @@ func TestOcvpByolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "entitlement_key", "AAAAA-BBBBB-CCCCC-DDDDD-EEEEE"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "site_id"),
 				resource.TestCheckResourceAttr(resourceName, "software_type", "VCF"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
@@ -213,6 +216,7 @@ func TestOcvpByolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "entitlement_key", "AAAAA-BBBBB-CCCCC-DDDDD-HHHHH"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "site_id"),
 				resource.TestCheckResourceAttr(resourceName, "software_type", "VSAN"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),

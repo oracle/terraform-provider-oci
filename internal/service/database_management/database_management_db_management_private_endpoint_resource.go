@@ -86,6 +86,12 @@ func DatabaseManagementDbManagementPrivateEndpointResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"private_ip": {
@@ -233,6 +239,10 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) Create() err
 		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 			request.NsgIds = tmp
 		}
+	}
+
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
 
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
@@ -453,6 +463,10 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) Update() err
 		}
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
 	response, err := s.Client.UpdateDbManagementPrivateEndpoint(context.Background(), request)
@@ -521,6 +535,8 @@ func (s *DatabaseManagementDbManagementPrivateEndpointResourceCrud) SetData() er
 		s.D.Set("private_ip", *s.Res.PrivateIp)
 	}
 
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {
@@ -566,6 +582,8 @@ func DbManagementPrivateEndpointSummaryToMap(obj oci_database_management.DbManag
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
 	}
+
+	result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
 
 	result["state"] = string(obj.LifecycleState)
 

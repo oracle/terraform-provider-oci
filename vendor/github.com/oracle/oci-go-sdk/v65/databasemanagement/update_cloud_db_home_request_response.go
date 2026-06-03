@@ -21,7 +21,7 @@ type UpdateCloudDbHomeRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud database home.
 	CloudDbHomeId *string `mandatory:"true" contributesTo:"path" name:"cloudDbHomeId"`
 
-	// The details required to update an cloud DB home.
+	// The details required to update a cloud DB home.
 	UpdateCloudDbHomeDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

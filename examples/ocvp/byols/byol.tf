@@ -80,6 +80,10 @@ variable "byol_allocation_state" {
   default = "ACTIVE"
 }
 
+variable "byol_site_id" {
+  default = "site-id"
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -100,6 +104,7 @@ resource "oci_ocvp_byol" "test_byol" {
 
   #Optional
   description   = var.byol_description
+  site_id       = var.byol_site_id
   #defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.byol_defined_tags_value)
   #freeform_tags = var.byol_freeform_tags
 }

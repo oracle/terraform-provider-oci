@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ManagedMySqlDatabaseOutboundReplicationSummary An outbound replication record of a MySQL server.
+// ManagedMySqlDatabaseOutboundReplicationSummary An outbound replication record of a MySQL server. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type ManagedMySqlDatabaseOutboundReplicationSummary struct {
 
 	// The Universally Unique Identifier (UUID) value of the replica server.

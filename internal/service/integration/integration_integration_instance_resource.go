@@ -606,6 +606,7 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 			},
 			"system_tags": {
 				Type:     schema.TypeMap,
+				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
@@ -1376,6 +1377,8 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	} else {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(make(map[string]map[string]interface{})))
 	}
 
 	if s.Res.TimeCreated != nil {
@@ -1388,47 +1391,6 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 
 	return nil
 }
-
-/*
-func (s *IntegrationIntegrationInstanceResourceCrud) AddOracleManagedCustomEndpoint() error {
-	request := oci_integration.AddOracleManagedCustomEndpointRequest{}
-
-	if customEndpoint, ok := s.D.GetOkExists("custom_endpoint"); ok {
-
-		if tmpList := customEndpoint.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "custom_endpoint", 0)
-			tmp, err := s.mapToAddOracleManagedCustomEndpointDetails(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.DnsType = tmp.DnsType
-			request.DnsZoneName = tmp.DnsZoneName
-			request.Hostname = tmp.Hostname
-		}
-	}
-
-	idTmp := s.D.Id()
-	request.IntegrationInstanceId = &idTmp
-
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "integration")
-
-	response, err := s.Client.AddOracleManagedCustomEndpoint(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	workId := response.OpcWorkRequestId
-
-	if waitErr := s.getIntegrationInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "integration"), oci_integration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate)); waitErr != nil {
-		return waitErr
-	}
-
-	val := s.D.Get("add_oracle_managed_custom_endpoint_trigger")
-	s.D.Set("add_oracle_managed_custom_endpoint_trigger", val)
-
-	return nil
-}
-*/
 
 func (s *IntegrationIntegrationInstanceResourceCrud) AddLogAnalyticsLogGroup() error {
 	request := oci_integration.AddLogAnalyticsLogGroupRequest{}

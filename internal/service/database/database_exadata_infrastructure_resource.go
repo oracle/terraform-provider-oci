@@ -420,6 +420,10 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"max_size_gb": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"min_size_gb": {
 							Type:     schema.TypeInt,
 							Computed: true,

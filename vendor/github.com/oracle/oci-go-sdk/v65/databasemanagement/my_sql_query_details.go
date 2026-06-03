@@ -17,13 +17,13 @@ import (
 	"strings"
 )
 
-// MySqlQueryDetails The details of a given MySQL query, it consists of the query sample details, the explain plan and potential warnings.
+// MySqlQueryDetails The details of a given MySQL query, which consists of the query sample details, the explain plan, and potential warnings. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type MySqlQueryDetails struct {
 	QuerySampleDetails *MySqlQuerySampleDetails `mandatory:"true" json:"querySampleDetails"`
 
 	QueryExplainPlan *MySqlQueryExplainPlan `mandatory:"false" json:"queryExplainPlan"`
 
-	// The errors, warnings and notes that could be raised by the execution of the query.
+	// The errors, warnings, and notes that could be raised by the execution of the query.
 	QueryMessages []MySqlQueryMessage `mandatory:"false" json:"queryMessages"`
 }
 

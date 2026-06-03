@@ -21,7 +21,7 @@ type UpdateCloudClusterInstanceRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud cluster instance.
 	CloudClusterInstanceId *string `mandatory:"true" contributesTo:"path" name:"cloudClusterInstanceId"`
 
-	// The details required to update an cloud cluster instance.
+	// The details required to update a cloud cluster instance.
 	UpdateCloudClusterInstanceDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

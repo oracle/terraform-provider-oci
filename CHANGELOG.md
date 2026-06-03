@@ -1,3 +1,15 @@
+## 8.17.0 (June 2, 2026)
+
+### Added
+- Support for DBM - API changes for ZPR Security Attribute Support - API only
+- Support for Support VMware BYOL with VCF 5.2 (Fast Follow) && Bug Fix - Esxi host current_commitment and next_commitment variables do not not apply
+- Support for Exascale Phase 2.5 Ability to Provision More VMs
+- Support for OPSI - API changes for ZPR Security Attribute Support - API only
+
+### Bug Fix
+- TERSI-5365: Bug 39270780 - OIC3 : Terraform Service tag (system tags) going out of sync; cannot execute plan
+- Per-Tenancy Synchronization in oci_identity_policy provider to fix NoEtagMatch failures
+
 ## 8.16.0 (May 27, 2026)
 
 ### Added
