@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// MySqlChannelApplyError MySQL server replication channel name and error from its apply operation.
+// MySqlChannelApplyError MySQL server replication channel name and error from its apply operation. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type MySqlChannelApplyError struct {
 	ApplyError *MySqlApplyError `mandatory:"true" json:"applyError"`
 

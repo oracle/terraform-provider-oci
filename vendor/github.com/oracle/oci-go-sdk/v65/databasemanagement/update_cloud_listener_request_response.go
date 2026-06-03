@@ -21,7 +21,7 @@ type UpdateCloudListenerRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud listener.
 	CloudListenerId *string `mandatory:"true" contributesTo:"path" name:"cloudListenerId"`
 
-	// The details required to update an cloud listener.
+	// The details required to update a cloud listener.
 	UpdateCloudListenerDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

@@ -33,11 +33,11 @@ type CloudDbSystemDiscoverySummary struct {
 	// used for the cloud DB system discovery.
 	AgentId *string `mandatory:"true" json:"agentId"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent cloud DB Infrastructure. For VM Dbsystems ,
-	// it will be the DBSystem Id. For ExaCS and ExaCC,  it will be the cloudVmClusterId and vmClusterId respectively.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent cloud DB Infrastructure. For VM DB systems ,
+	// it will be the DBSystem ID. For ExaCS and ExaCC,  it will be the cloudVmClusterId and vmClusterId respectively.
 	DbaasParentInfrastructureId *string `mandatory:"true" json:"dbaasParentInfrastructureId"`
 
-	// The deployment type of cloud dbsystem.
+	// The deployment type of cloud DB system.
 	DeploymentType CloudDbSystemDeploymentTypeEnum `mandatory:"true" json:"deploymentType"`
 
 	// The current lifecycle state of the cloud DB system discovery resource.

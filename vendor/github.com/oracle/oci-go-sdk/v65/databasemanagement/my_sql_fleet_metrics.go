@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// MySqlFleetMetrics The details of the MySQL Database fleet health metrics.
+// MySqlFleetMetrics The details of the MySQL Database fleet health metrics. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type MySqlFleetMetrics struct {
 
 	// The beginning of the time range during which metric data is retrieved.

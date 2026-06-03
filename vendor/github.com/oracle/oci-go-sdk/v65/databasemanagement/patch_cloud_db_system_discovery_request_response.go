@@ -21,7 +21,7 @@ type PatchCloudDbSystemDiscoveryRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud DB system discovery.
 	CloudDbSystemDiscoveryId *string `mandatory:"true" contributesTo:"path" name:"cloudDbSystemDiscoveryId"`
 
-	// The details required to update an cloud DB system discovery.
+	// The details required to update a cloud DB system discovery.
 	PatchCloudDbSystemDiscoveryDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

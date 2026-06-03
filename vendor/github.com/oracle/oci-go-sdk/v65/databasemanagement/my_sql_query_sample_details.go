@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// MySqlQuerySampleDetails The details of a query sample including the query text, execution time and other details.
+// MySqlQuerySampleDetails The details of a query sample including the query text, execution time, and other details. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type MySqlQuerySampleDetails struct {
 
 	// The query sample mapped by MySQL to a given normalized query.
@@ -29,7 +29,7 @@ type MySqlQuerySampleDetails struct {
 	// The total amount of time that has been spent executing the query sample.
 	ExecutionTime *int64 `mandatory:"true" json:"executionTime"`
 
-	// The thread id of the connection.
+	// The thread ID of the connection.
 	ThreadId *int `mandatory:"true" json:"threadId"`
 
 	// The user who ran the query sample.

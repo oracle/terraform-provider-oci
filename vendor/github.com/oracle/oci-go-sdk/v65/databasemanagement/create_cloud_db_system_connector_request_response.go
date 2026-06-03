@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateCloudDbSystemConnector.go.html to see an example of how to use CreateCloudDbSystemConnectorRequest.
 type CreateCloudDbSystemConnectorRequest struct {
 
-	// The details required to create an cloud connector.
+	// The details required to create a cloud connector.
 	CreateCloudDbSystemConnectorDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

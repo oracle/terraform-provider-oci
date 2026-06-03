@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// MySqlFleetMetricDefinition The list of aggregated metrics for the Managed MySQL Databases in the fleet.
+// MySqlFleetMetricDefinition The list of aggregated metrics for the Managed MySQL Databases in the fleet. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type MySqlFleetMetricDefinition struct {
 
 	// The value of the metric.

@@ -21,7 +21,10 @@ type GetPreferredCredentialRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ManagedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"managedDatabaseId"`
 
-	// The name of the preferred credential.
+	// The name of the preferred credential. There are 3 built-in preferred credentials with display names and names as below:
+	//   Basic Monitoring(MONITORING)
+	//   Advanced diagnostics(PC_READ)
+	//   Administrator(PC_WRITE)
 	CredentialName *string `mandatory:"true" contributesTo:"path" name:"credentialName"`
 
 	// The client request ID for tracing.

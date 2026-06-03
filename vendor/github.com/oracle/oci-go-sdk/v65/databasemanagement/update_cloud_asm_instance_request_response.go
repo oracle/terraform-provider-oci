@@ -21,7 +21,7 @@ type UpdateCloudAsmInstanceRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud ASM instance.
 	CloudAsmInstanceId *string `mandatory:"true" contributesTo:"path" name:"cloudAsmInstanceId"`
 
-	// The details required to update an cloud ASM instance.
+	// The details required to update a cloud ASM instance.
 	UpdateCloudAsmInstanceDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.
