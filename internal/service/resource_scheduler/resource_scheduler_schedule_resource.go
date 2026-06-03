@@ -924,13 +924,12 @@ func (s *ResourceSchedulerScheduleResourceCrud) mapToParameter(fieldKeyFormat st
 					return details, fmt.Errorf("expected string, got %T", tmpList[0])
 				}
 
-				var bodyParameterMap map[string]interface{}
-				if err := json.Unmarshal([]byte(jsonStr), &bodyParameterMap); err != nil {
+				var bodyParameterValue interface{}
+				if err := json.Unmarshal([]byte(jsonStr), &bodyParameterValue); err != nil {
 					return details, fmt.Errorf("failed to parse JSON string: %v", err)
 				}
 
-				var bodyParameterInterface interface{} = bodyParameterMap
-				details.Value = &bodyParameterInterface
+				details.Value = &bodyParameterValue
 			}
 		}
 		baseObject = details
