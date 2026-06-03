@@ -24,7 +24,7 @@ resource "oci_bds_bds_instance_replace_node_action" "test_bds_instance_replace_n
   node_host_name  = var.node_host_name
 
   # Provide one of cluster_admin_password or secret_id
-  cluster_admin_password = "<admin-password>"
+  cluster_admin_password = "<your-value-in-base64>"
 
   # Optional
   node_backup_id = var.node_backup_id
