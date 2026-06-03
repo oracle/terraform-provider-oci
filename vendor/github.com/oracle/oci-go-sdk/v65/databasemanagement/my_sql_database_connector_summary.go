@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// MySqlDatabaseConnectorSummary Details of external database connector.
+// MySqlDatabaseConnectorSummary Details of external database connector. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type MySqlDatabaseConnectorSummary struct {
 
 	// OCID of MySQL Database Connector.

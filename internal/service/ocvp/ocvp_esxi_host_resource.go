@@ -233,6 +233,7 @@ func OcvpEsxiHostResource() *schema.Resource {
 			},
 			"current_commitment": {
 				Type:     schema.TypeString,
+				Optional: true,
 				Computed: true,
 			},
 			"grace_period_end_date": {
@@ -249,6 +250,7 @@ func OcvpEsxiHostResource() *schema.Resource {
 			},
 			"next_commitment": {
 				Type:     schema.TypeString,
+				Optional: true,
 				Computed: true,
 			},
 			"primary_vnic_mac_address": {
@@ -931,6 +933,11 @@ func (s *OcvpEsxiHostResourceCrud) InplaceUpgrade(nonUpgradeEsxiHostId string) e
 	upgradeHostRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 	upgradeHostRequest.EsxiHostId = &nonUpgradeEsxiHostId
 
+	if vcfAllocationId, ok := s.D.GetOkExists("vcf_byol_allocation_id"); ok {
+		tmp := vcfAllocationId.(string)
+		upgradeHostRequest.InplaceUpgradeDetails = oci_ocvp.InplaceUpgradeDetails{VcfByolAllocationId: &tmp}
+	}
+
 	upgradeResponse, err := s.Client.InplaceUpgrade(context.Background(), upgradeHostRequest)
 	if err != nil {
 		return err
@@ -964,11 +971,15 @@ func (s *OcvpEsxiHostResourceCrud) ReplaceHost(failedEsxiHostId string) error {
 	replaceHostRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 	replaceHostRequest.EsxiHostId = &failedEsxiHostId
 
+	if vcfAllocationId, ok := s.D.GetOkExists("vcf_byol_allocation_id"); ok {
+		tmp := vcfAllocationId.(string)
+		replaceHostRequest.ReplaceHostDetails = oci_ocvp.ReplaceHostDetails{VcfByolAllocationId: &tmp}
+	}
+
 	replaceHostResponse, replaceHostErr := s.Client.ReplaceHost(context.Background(), replaceHostRequest)
 	if replaceHostErr != nil {
 		return replaceHostErr
 	}
-
 	workId := replaceHostResponse.OpcWorkRequestId
 	s.setEsxiHostIdFromWorkRequest(workId)
 	return s.getEsxiHostFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))

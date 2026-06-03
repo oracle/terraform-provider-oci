@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// HeatWaveNode The information about an individual HeatWave node.
+// HeatWaveNode The information about an individual HeatWave node. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type HeatWaveNode struct {
 
 	// The ID associated with the HeatWave node.

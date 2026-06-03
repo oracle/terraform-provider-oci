@@ -51,9 +51,9 @@ The following arguments are supported:
 * `agent_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management agent used for the cloud DB system discovery. 
 * `cloud_db_system_discovery_id` - (Required) 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which the cloud DB system resides.
-* `dbaas_parent_infrastructure_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent cloud DB Infrastructure. For VM Dbsystems , it will be the DBSystem Id. For ExaCS and ExaCC,  it will be the cloudVmClusterId and vmClusterId respectively. 
+* `dbaas_parent_infrastructure_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent cloud DB Infrastructure. For VM DB systems, it will be the DBSystem ID. For ExaCS and ExaCC,  it will be the cloudVmClusterId and vmClusterId respectively. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
-* `deployment_type` - (Required) The deployment type of cloud dbsystem.
+* `deployment_type` - (Required) The deployment type of cloud DB system.
 * `display_name` - (Optional) (Updatable) The user-friendly name for the DB system. The name does not have to be unique.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `patch_operations` - (Optional) (Updatable) 
@@ -71,12 +71,12 @@ The following attributes are exported:
 
 * `agent_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management agent used for the cloud DB system discovery. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `dbaas_parent_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent cloud DB Infrastructure. For VM Dbsystems , it will be the DBSystem Id. For ExaCS and ExaCC,  it will be the cloudVmClusterId and vmClusterId respectively. 
+* `dbaas_parent_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent cloud DB Infrastructure. For VM DB systems , it will be the DBSystem ID. For ExaCS and ExaCC,  it will be the cloudVmClusterId and vmClusterId respectively. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
-* `deployment_type` - The deployment type of cloud dbsystem.
+* `deployment_type` - The deployment type of cloud DB system.
 * `discovered_components` - The list of DB system components that were found in the DB system discovery.
 	* `adr_home_directory` - The directory that stores tracing and logging incidents when Automatic Diagnostic Repository (ADR) is enabled.
-	* `asm_instances` - The list of asm instances for the cloud Asm.
+	* `asm_instances` - The list of ASM instances for the cloud Asm.
 		* `adr_home_directory` - The Automatic Diagnostic Repository (ADR) home directory for the ASM instance.
 		* `host_name` - The name of the host on which the ASM instance is running.
 		* `instance_name` - The name of the ASM instance.
@@ -163,7 +163,7 @@ The following attributes are exported:
 	* `db_type` - The type of Oracle Database. Indicates whether the database is a Container Database, Pluggable Database, or a Non-container Database. 
 	* `db_unique_name` - The `DB_UNIQUE_NAME` of the cloud database.
 	* `db_version` - The Oracle Database version.
-	* `dbaas_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the existing Dbaas Oracle Cloud Infrastructure resource matching the discovered DB system component.
+	* `dbaas_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the existing DBaas Oracle Cloud Infrastructure resource matching the discovered DB system component.
 	* `display_name` - The user-friendly name for the discovered DB system component. The name does not have to be unique.
 	* `endpoints` - The list of protocol addresses the listener is configured to listen on.
 		* `host` - The host name or IP address.

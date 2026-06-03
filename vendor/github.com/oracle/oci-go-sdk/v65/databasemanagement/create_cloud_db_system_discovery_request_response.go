@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateCloudDbSystemDiscovery.go.html to see an example of how to use CreateCloudDbSystemDiscoveryRequest.
 type CreateCloudDbSystemDiscoveryRequest struct {
 
-	// The details required to create an cloud DB system discovery.
+	// The details required to create a cloud DB system discovery.
 	CreateCloudDbSystemDiscoveryDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

@@ -1221,6 +1221,7 @@ func (client DbManagementClient) checkExternalExadataStorageConnector(ctx contex
 
 // CheckExternalMySqlDatabaseConnectorConnectionStatus Check the status of the external database connection specified in this connector.
 // This operation will refresh the connectionStatus and timeConnectionStatusLastUpdated fields.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 //
 // # See also
 //
@@ -2105,6 +2106,7 @@ func (client DbManagementClient) createExternalExadataStorageConnector(ctx conte
 }
 
 // CreateExternalMySqlDatabase Creates an external MySQL database.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 //
 // # See also
 //
@@ -2168,6 +2170,7 @@ func (client DbManagementClient) createExternalMySqlDatabase(ctx context.Context
 }
 
 // CreateExternalMySqlDatabaseConnector Creates an external MySQL connector resource.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 //
 // # See also
 //
@@ -3109,6 +3112,7 @@ func (client DbManagementClient) deleteExternalExadataStorageConnector(ctx conte
 }
 
 // DeleteExternalMySqlDatabase Deletes the Oracle Cloud Infrastructure resource representing an external MySQL database.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 //
 // # See also
 //
@@ -3166,6 +3170,7 @@ func (client DbManagementClient) deleteExternalMySqlDatabase(ctx context.Context
 }
 
 // DeleteExternalMySqlDatabaseConnector Deletes the Oracle Cloud Infrastructure resource representing an external MySQL database connector.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 //
 // # See also
 //
@@ -4149,6 +4154,7 @@ func (client DbManagementClient) disableExternalExadataInfrastructureManagement(
 }
 
 // DisableExternalMySqlDatabaseManagement Disables Database Management for an external MySQL Database.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 //
 // # See also
 //
@@ -5500,6 +5506,7 @@ func (client DbManagementClient) enableExternalExadataInfrastructureManagement(c
 }
 
 // EnableExternalMySqlDatabaseManagement Enables Database Management for an external MySQL Database.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 //
 // # See also
 //
@@ -8502,6 +8509,7 @@ func (client DbManagementClient) getExternalListener(ctx context.Context, reques
 }
 
 // GetExternalMySqlDatabase Retrieves the external MySQL database information.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 //
 // # See also
 //
@@ -8560,6 +8568,7 @@ func (client DbManagementClient) getExternalMySqlDatabase(ctx context.Context, r
 }
 
 // GetExternalMySqlDatabaseConnector Retrieves the MySQL database connector.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 //
 // # See also
 //
@@ -12327,6 +12336,7 @@ func (client DbManagementClient) listExternalListeners(ctx context.Context, requ
 }
 
 // ListExternalMySqlDatabases Gets the list of External MySQL Databases.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 //
 // # See also
 //
@@ -12686,6 +12696,7 @@ func (client DbManagementClient) listManagedDatabases(ctx context.Context, reque
 }
 
 // ListMySqlDatabaseConnectors Gets the list of External MySQL Database connectors.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 //
 // # See also
 //
@@ -17747,6 +17758,7 @@ func (client DbManagementClient) updateExternalListener(ctx context.Context, req
 }
 
 // UpdateExternalMysqlDatabase Updates the External Mysql Database.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 //
 // # See also
 //
@@ -17804,6 +17816,7 @@ func (client DbManagementClient) updateExternalMysqlDatabase(ctx context.Context
 }
 
 // UpdateExternalMysqlDatabaseConnector Updates the External Mysql Database Connector.
+// MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 //
 // # See also
 //

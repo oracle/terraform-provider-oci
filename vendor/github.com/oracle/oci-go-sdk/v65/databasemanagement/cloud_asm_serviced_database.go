@@ -23,7 +23,7 @@ type CloudAsmServicedDatabase struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud database.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the existing Dbaas OCI resource matching the discovered DB system component.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the existing DBaas OCI resource matching the discovered DB system component.
 	DbaasId *string `mandatory:"true" json:"dbaasId"`
 
 	// The user-friendly name for the database. The name does not have to be unique.

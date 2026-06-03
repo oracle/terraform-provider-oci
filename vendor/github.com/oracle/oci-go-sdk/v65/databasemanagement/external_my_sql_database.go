@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ExternalMySqlDatabase External database.
+// ExternalMySqlDatabase External database. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type ExternalMySqlDatabase struct {
 
 	// OCID of compartment for the External MySQL Database.

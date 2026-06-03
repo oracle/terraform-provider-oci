@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// MySqlDataSummary The SQL performance data record for a specific SQL query.
+// MySqlDataSummary The SQL performance data record for a specific SQL query. MySQL support within OCI Database Management service has been deprecated as of January 29, 2026.
 type MySqlDataSummary struct {
 
 	// The name of the default schema when executing the query. If a schema is not set as the default, then the value is NULL.
