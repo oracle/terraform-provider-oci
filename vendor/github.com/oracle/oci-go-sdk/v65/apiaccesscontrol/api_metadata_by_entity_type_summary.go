@@ -23,6 +23,9 @@ import (
 // ApiMetadataByEntityTypeSummary Summary information about a ApiMetadata.
 type ApiMetadataByEntityTypeSummary struct {
 
+	// The OCID of the compartment that contains the Service Provider Action.
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
 	// The entity Type to which the Api belongs to.
 	EntityType *string `mandatory:"false" json:"entityType"`
 

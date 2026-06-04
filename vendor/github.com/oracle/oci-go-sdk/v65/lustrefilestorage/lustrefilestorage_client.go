@@ -486,6 +486,65 @@ func (client LustreFileStorageClient) deleteObjectStorageLink(ctx context.Contex
 	return response, err
 }
 
+// FailoverSyncJob Triggers failover and host reselection for the object sync job in progress.
+// A default retry strategy applies to this operation FailoverSyncJob()
+func (client LustreFileStorageClient) FailoverSyncJob(ctx context.Context, request FailoverSyncJobRequest) (response FailoverSyncJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.failoverSyncJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = FailoverSyncJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = FailoverSyncJobResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(FailoverSyncJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into FailoverSyncJobResponse")
+	}
+	return
+}
+
+// failoverSyncJob implements the OCIOperation interface (enables retrying operations)
+func (client LustreFileStorageClient) failoverSyncJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/objectStorageLinks/{objectStorageLinkId}/actions/failoverSyncJob", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response FailoverSyncJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "lustreFileStorage", "FailoverSyncJob")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/lustre/20250228/ObjectStorageLink/FailoverSyncJob"
+		err = common.PostProcessServiceError(err, "LustreFileStorage", "FailoverSyncJob", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetComputeAndBlockPlacementValidation Validate compute and block placement from Compute and Block API
 // A default retry strategy applies to this operation GetComputeAndBlockPlacementValidation()
 func (client LustreFileStorageClient) GetComputeAndBlockPlacementValidation(ctx context.Context, request GetComputeAndBlockPlacementValidationRequest) (response GetComputeAndBlockPlacementValidationResponse, err error) {

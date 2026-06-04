@@ -22,11 +22,19 @@ import (
 // CreateSingleDockerArtifactDetails The representation of CreateSingleDockerArtifactDetails
 type CreateSingleDockerArtifactDetails struct {
 
+	// Optional flag that requires an OCI Vulnerability Scanning Service compliance report for this artifact before it can become active. When omitted, the value defaults to false.
+	IsVulnerabilityScanRequired *bool `mandatory:"false" json:"isVulnerabilityScanRequired"`
+
 	// image url.
 	ContainerUri *string `mandatory:"false" json:"containerUri"`
 
 	// image tag.
 	Tag *string `mandatory:"false" json:"tag"`
+}
+
+// GetIsVulnerabilityScanRequired returns IsVulnerabilityScanRequired
+func (m CreateSingleDockerArtifactDetails) GetIsVulnerabilityScanRequired() *bool {
+	return m.IsVulnerabilityScanRequired
 }
 
 func (m CreateSingleDockerArtifactDetails) String() string {

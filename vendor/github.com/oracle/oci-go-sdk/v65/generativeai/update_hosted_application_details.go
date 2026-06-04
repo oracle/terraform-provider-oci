@@ -29,8 +29,6 @@ type UpdateHostedApplicationDetails struct {
 
 	ScalingConfig *ScalingConfig `mandatory:"false" json:"scalingConfig"`
 
-	InboundAuthConfig *InboundAuthConfig `mandatory:"false" json:"inboundAuthConfig"`
-
 	// The list of environment variables for the Hosted Application.
 	// Defines a list of environment variables injected at runtime.
 	EnvironmentVariables []EnvironmentVariable `mandatory:"false" json:"environmentVariables"`
@@ -44,6 +42,8 @@ type UpdateHostedApplicationDetails struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	InboundAuthConfig *InboundAuthConfig `mandatory:"false" json:"inboundAuthConfig"`
 }
 
 func (m UpdateHostedApplicationDetails) String() string {

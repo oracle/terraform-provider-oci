@@ -44,6 +44,12 @@ type AutonomousDatabaseStandbySummary struct {
 
 	// The external logical zone where the local Autonomous Data Guard is located (Intended for multicloud use).
 	ExternalLocationZone *string `mandatory:"false" json:"externalLocationZone"`
+
+	// The multicloud placement value for the Autonomous AI Database. Use a CSP region for regional placement or a CSP physical zone for explicit AZ placement, for example `eastus` or `eastus-az1`.
+	ExternalLocation *string `mandatory:"false" json:"externalLocation"`
+
+	// The multicloud zone context for the Autonomous AI Database, for example the Azure subscription identifier required to interpret logical zones consistently.
+	ExternalLocationZoneContext *string `mandatory:"false" json:"externalLocationZoneContext"`
 }
 
 func (m AutonomousDatabaseStandbySummary) String() string {

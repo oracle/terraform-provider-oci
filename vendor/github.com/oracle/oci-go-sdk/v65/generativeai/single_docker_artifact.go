@@ -31,6 +31,9 @@ type SingleDockerArtifact struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the application.
 	HostedDeploymentId *string `mandatory:"false" json:"hostedDeploymentId"`
 
+	// Optional flag that requires an OCI Vulnerability Scanning Service compliance report for this artifact before it can become active. When not provided, the value defaults to false and the artifact is not blocked on a scan result.
+	IsVulnerabilityScanRequired *bool `mandatory:"false" json:"isVulnerabilityScanRequired"`
+
 	// image url.
 	ContainerUri *string `mandatory:"false" json:"containerUri"`
 
@@ -54,6 +57,11 @@ func (m SingleDockerArtifact) GetTimeCreated() *common.SDKTime {
 // GetHostedDeploymentId returns HostedDeploymentId
 func (m SingleDockerArtifact) GetHostedDeploymentId() *string {
 	return m.HostedDeploymentId
+}
+
+// GetIsVulnerabilityScanRequired returns IsVulnerabilityScanRequired
+func (m SingleDockerArtifact) GetIsVulnerabilityScanRequired() *bool {
+	return m.IsVulnerabilityScanRequired
 }
 
 // GetStatus returns Status

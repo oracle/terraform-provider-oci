@@ -31,17 +31,21 @@ type Artifact interface {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the application.
 	GetHostedDeploymentId() *string
 
+	// Optional flag that requires an OCI Vulnerability Scanning Service compliance report for this artifact before it can become active. When not provided, the value defaults to false and the artifact is not blocked on a scan result.
+	GetIsVulnerabilityScanRequired() *bool
+
 	// The current status of the artifact.
 	GetStatus() ArtifactStatusEnum
 }
 
 type artifact struct {
-	JsonData           []byte
-	Id                 *string            `mandatory:"false" json:"id"`
-	TimeCreated        *common.SDKTime    `mandatory:"false" json:"timeCreated"`
-	HostedDeploymentId *string            `mandatory:"false" json:"hostedDeploymentId"`
-	Status             ArtifactStatusEnum `mandatory:"false" json:"status,omitempty"`
-	ArtifactType       string             `json:"artifactType"`
+	JsonData                    []byte
+	Id                          *string            `mandatory:"false" json:"id"`
+	TimeCreated                 *common.SDKTime    `mandatory:"false" json:"timeCreated"`
+	HostedDeploymentId          *string            `mandatory:"false" json:"hostedDeploymentId"`
+	IsVulnerabilityScanRequired *bool              `mandatory:"false" json:"isVulnerabilityScanRequired"`
+	Status                      ArtifactStatusEnum `mandatory:"false" json:"status,omitempty"`
+	ArtifactType                string             `json:"artifactType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -58,6 +62,7 @@ func (m *artifact) UnmarshalJSON(data []byte) error {
 	m.Id = s.Model.Id
 	m.TimeCreated = s.Model.TimeCreated
 	m.HostedDeploymentId = s.Model.HostedDeploymentId
+	m.IsVulnerabilityScanRequired = s.Model.IsVulnerabilityScanRequired
 	m.Status = s.Model.Status
 	m.ArtifactType = s.Model.ArtifactType
 
@@ -98,6 +103,11 @@ func (m artifact) GetHostedDeploymentId() *string {
 	return m.HostedDeploymentId
 }
 
+// GetIsVulnerabilityScanRequired returns IsVulnerabilityScanRequired
+func (m artifact) GetIsVulnerabilityScanRequired() *bool {
+	return m.IsVulnerabilityScanRequired
+}
+
 // GetStatus returns Status
 func (m artifact) GetStatus() ArtifactStatusEnum {
 	return m.Status
@@ -130,18 +140,21 @@ const (
 	ArtifactStatusActive   ArtifactStatusEnum = "ACTIVE"
 	ArtifactStatusInactive ArtifactStatusEnum = "INACTIVE"
 	ArtifactStatusUpdating ArtifactStatusEnum = "UPDATING"
+	ArtifactStatusFailed   ArtifactStatusEnum = "FAILED"
 )
 
 var mappingArtifactStatusEnum = map[string]ArtifactStatusEnum{
 	"ACTIVE":   ArtifactStatusActive,
 	"INACTIVE": ArtifactStatusInactive,
 	"UPDATING": ArtifactStatusUpdating,
+	"FAILED":   ArtifactStatusFailed,
 }
 
 var mappingArtifactStatusEnumLowerCase = map[string]ArtifactStatusEnum{
 	"active":   ArtifactStatusActive,
 	"inactive": ArtifactStatusInactive,
 	"updating": ArtifactStatusUpdating,
+	"failed":   ArtifactStatusFailed,
 }
 
 // GetArtifactStatusEnumValues Enumerates the set of values for ArtifactStatusEnum
@@ -159,6 +172,7 @@ func GetArtifactStatusEnumStringValues() []string {
 		"ACTIVE",
 		"INACTIVE",
 		"UPDATING",
+		"FAILED",
 	}
 }
 

@@ -412,6 +412,136 @@ func (client LoggingManagementClient) changeLogPipelineCompartment(ctx context.C
 	return response, err
 }
 
+// ChangeLogPipelineDestinationAttachmentCompartment Moves a log pipeline destination attachment to a different compartment within the same tenancy. The parent log pipeline is supplied in the path.
+func (client LoggingManagementClient) ChangeLogPipelineDestinationAttachmentCompartment(ctx context.Context, request ChangeLogPipelineDestinationAttachmentCompartmentRequest) (response ChangeLogPipelineDestinationAttachmentCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeLogPipelineDestinationAttachmentCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeLogPipelineDestinationAttachmentCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeLogPipelineDestinationAttachmentCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeLogPipelineDestinationAttachmentCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeLogPipelineDestinationAttachmentCompartmentResponse")
+	}
+	return
+}
+
+// changeLogPipelineDestinationAttachmentCompartment implements the OCIOperation interface (enables retrying operations)
+func (client LoggingManagementClient) changeLogPipelineDestinationAttachmentCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/logPipelines/{logPipelineId}/logPipelineDestinationAttachments/{logPipelineDestinationAttachmentId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ChangeLogPipelineDestinationAttachmentCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loggingManagement", "ChangeLogPipelineDestinationAttachmentCompartment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogPipelineDestinationAttachment/ChangeLogPipelineDestinationAttachmentCompartment"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ChangeLogPipelineDestinationAttachmentCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeLogPipelineDestinationCompartment Moves a log pipeline destination to a different compartment within the same tenancy.
+func (client LoggingManagementClient) ChangeLogPipelineDestinationCompartment(ctx context.Context, request ChangeLogPipelineDestinationCompartmentRequest) (response ChangeLogPipelineDestinationCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeLogPipelineDestinationCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeLogPipelineDestinationCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeLogPipelineDestinationCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeLogPipelineDestinationCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeLogPipelineDestinationCompartmentResponse")
+	}
+	return
+}
+
+// changeLogPipelineDestinationCompartment implements the OCIOperation interface (enables retrying operations)
+func (client LoggingManagementClient) changeLogPipelineDestinationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/logPipelineDestinations/{logPipelineDestinationId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ChangeLogPipelineDestinationCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loggingManagement", "ChangeLogPipelineDestinationCompartment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogPipelineDestinationResource/ChangeLogPipelineDestinationCompartment"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ChangeLogPipelineDestinationCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeLogRuleCompartment Moves a log rule into a different compartment within the same tenancy.  When provided, the If-Match is checked against the resource ETag values.
 // For information about moving resources between compartments, see Moving Resources Between Compartments (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 func (client LoggingManagementClient) ChangeLogRuleCompartment(ctx context.Context, request ChangeLogRuleCompartmentRequest) (response ChangeLogRuleCompartmentResponse, err error) {
@@ -937,6 +1067,136 @@ func (client LoggingManagementClient) createLogPipeline(ctx context.Context, req
 	return response, err
 }
 
+// CreateLogPipelineDestination Contract-first endpoint. Not implemented yet.
+func (client LoggingManagementClient) CreateLogPipelineDestination(ctx context.Context, request CreateLogPipelineDestinationRequest) (response CreateLogPipelineDestinationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createLogPipelineDestination, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateLogPipelineDestinationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateLogPipelineDestinationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateLogPipelineDestinationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateLogPipelineDestinationResponse")
+	}
+	return
+}
+
+// createLogPipelineDestination implements the OCIOperation interface (enables retrying operations)
+func (client LoggingManagementClient) createLogPipelineDestination(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/logPipelineDestinations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response CreateLogPipelineDestinationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loggingManagement", "CreateLogPipelineDestination")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogPipelineDestinationResource/CreateLogPipelineDestination"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "CreateLogPipelineDestination", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateLogPipelineDestinationAttachment Contract-first endpoint. Not implemented yet. The parent log pipeline is supplied in the path and determines attachment compartment scope.
+func (client LoggingManagementClient) CreateLogPipelineDestinationAttachment(ctx context.Context, request CreateLogPipelineDestinationAttachmentRequest) (response CreateLogPipelineDestinationAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createLogPipelineDestinationAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateLogPipelineDestinationAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateLogPipelineDestinationAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateLogPipelineDestinationAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateLogPipelineDestinationAttachmentResponse")
+	}
+	return
+}
+
+// createLogPipelineDestinationAttachment implements the OCIOperation interface (enables retrying operations)
+func (client LoggingManagementClient) createLogPipelineDestinationAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/logPipelines/{logPipelineId}/logPipelineDestinationAttachments", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response CreateLogPipelineDestinationAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loggingManagement", "CreateLogPipelineDestinationAttachment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogPipelineDestinationAttachment/CreateLogPipelineDestinationAttachment"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "CreateLogPipelineDestinationAttachment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateLogRule Create log rule resource.
 func (client LoggingManagementClient) CreateLogRule(ctx context.Context, request CreateLogRuleRequest) (response CreateLogRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1425,6 +1685,126 @@ func (client LoggingManagementClient) deleteLogPipeline(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogPipeline/DeleteLogPipeline"
 		err = common.PostProcessServiceError(err, "LoggingManagement", "DeleteLogPipeline", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteLogPipelineDestination Contract-first endpoint. Not implemented yet.
+func (client LoggingManagementClient) DeleteLogPipelineDestination(ctx context.Context, request DeleteLogPipelineDestinationRequest) (response DeleteLogPipelineDestinationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteLogPipelineDestination, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteLogPipelineDestinationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteLogPipelineDestinationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteLogPipelineDestinationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteLogPipelineDestinationResponse")
+	}
+	return
+}
+
+// deleteLogPipelineDestination implements the OCIOperation interface (enables retrying operations)
+func (client LoggingManagementClient) deleteLogPipelineDestination(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/logPipelineDestinations/{logPipelineDestinationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response DeleteLogPipelineDestinationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loggingManagement", "DeleteLogPipelineDestination")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogPipelineDestinationResource/DeleteLogPipelineDestination"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "DeleteLogPipelineDestination", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteLogPipelineDestinationAttachment Contract-first endpoint. Not implemented yet. The parent log pipeline is supplied in the path.
+func (client LoggingManagementClient) DeleteLogPipelineDestinationAttachment(ctx context.Context, request DeleteLogPipelineDestinationAttachmentRequest) (response DeleteLogPipelineDestinationAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteLogPipelineDestinationAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteLogPipelineDestinationAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteLogPipelineDestinationAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteLogPipelineDestinationAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteLogPipelineDestinationAttachmentResponse")
+	}
+	return
+}
+
+// deleteLogPipelineDestinationAttachment implements the OCIOperation interface (enables retrying operations)
+func (client LoggingManagementClient) deleteLogPipelineDestinationAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/logPipelines/{logPipelineId}/logPipelineDestinationAttachments/{logPipelineDestinationAttachmentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response DeleteLogPipelineDestinationAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loggingManagement", "DeleteLogPipelineDestinationAttachment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogPipelineDestinationAttachment/DeleteLogPipelineDestinationAttachment"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "DeleteLogPipelineDestinationAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1982,6 +2362,126 @@ func (client LoggingManagementClient) getLogPipeline(ctx context.Context, reques
 	return response, err
 }
 
+// GetLogPipelineDestination Contract-first endpoint. Not implemented yet.
+func (client LoggingManagementClient) GetLogPipelineDestination(ctx context.Context, request GetLogPipelineDestinationRequest) (response GetLogPipelineDestinationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getLogPipelineDestination, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetLogPipelineDestinationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetLogPipelineDestinationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetLogPipelineDestinationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetLogPipelineDestinationResponse")
+	}
+	return
+}
+
+// getLogPipelineDestination implements the OCIOperation interface (enables retrying operations)
+func (client LoggingManagementClient) getLogPipelineDestination(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logPipelineDestinations/{logPipelineDestinationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetLogPipelineDestinationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loggingManagement", "GetLogPipelineDestination")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogPipelineDestinationResource/GetLogPipelineDestination"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "GetLogPipelineDestination", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetLogPipelineDestinationAttachment Contract-first endpoint. Not implemented yet. The parent log pipeline is supplied in the path.
+func (client LoggingManagementClient) GetLogPipelineDestinationAttachment(ctx context.Context, request GetLogPipelineDestinationAttachmentRequest) (response GetLogPipelineDestinationAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getLogPipelineDestinationAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetLogPipelineDestinationAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetLogPipelineDestinationAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetLogPipelineDestinationAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetLogPipelineDestinationAttachmentResponse")
+	}
+	return
+}
+
+// getLogPipelineDestinationAttachment implements the OCIOperation interface (enables retrying operations)
+func (client LoggingManagementClient) getLogPipelineDestinationAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logPipelines/{logPipelineId}/logPipelineDestinationAttachments/{logPipelineDestinationAttachmentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetLogPipelineDestinationAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loggingManagement", "GetLogPipelineDestinationAttachment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogPipelineDestinationAttachment/GetLogPipelineDestinationAttachment"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "GetLogPipelineDestinationAttachment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetLogRule Get log rule.
 func (client LoggingManagementClient) GetLogRule(ctx context.Context, request GetLogRuleRequest) (response GetLogRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2400,6 +2900,126 @@ func (client LoggingManagementClient) listLogGroups(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogGroupSummary/ListLogGroups"
 		err = common.PostProcessServiceError(err, "LoggingManagement", "ListLogGroups", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListLogPipelineDestinationAttachments Contract-first endpoint. Not implemented yet. Results are scoped to the parent log pipeline from the path.
+func (client LoggingManagementClient) ListLogPipelineDestinationAttachments(ctx context.Context, request ListLogPipelineDestinationAttachmentsRequest) (response ListLogPipelineDestinationAttachmentsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listLogPipelineDestinationAttachments, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListLogPipelineDestinationAttachmentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListLogPipelineDestinationAttachmentsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListLogPipelineDestinationAttachmentsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListLogPipelineDestinationAttachmentsResponse")
+	}
+	return
+}
+
+// listLogPipelineDestinationAttachments implements the OCIOperation interface (enables retrying operations)
+func (client LoggingManagementClient) listLogPipelineDestinationAttachments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logPipelines/{logPipelineId}/logPipelineDestinationAttachments", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListLogPipelineDestinationAttachmentsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loggingManagement", "ListLogPipelineDestinationAttachments")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogPipelineDestinationAttachment/ListLogPipelineDestinationAttachments"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ListLogPipelineDestinationAttachments", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListLogPipelineDestinations Contract-first endpoint. Not implemented yet.
+func (client LoggingManagementClient) ListLogPipelineDestinations(ctx context.Context, request ListLogPipelineDestinationsRequest) (response ListLogPipelineDestinationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listLogPipelineDestinations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListLogPipelineDestinationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListLogPipelineDestinationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListLogPipelineDestinationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListLogPipelineDestinationsResponse")
+	}
+	return
+}
+
+// listLogPipelineDestinations implements the OCIOperation interface (enables retrying operations)
+func (client LoggingManagementClient) listLogPipelineDestinations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/logPipelineDestinations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListLogPipelineDestinationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loggingManagement", "ListLogPipelineDestinations")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogPipelineDestinationResource/ListLogPipelineDestinations"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "ListLogPipelineDestinations", apiReferenceLink)
 		return response, err
 	}
 
@@ -3244,6 +3864,126 @@ func (client LoggingManagementClient) updateLogPipeline(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogPipeline/UpdateLogPipeline"
 		err = common.PostProcessServiceError(err, "LoggingManagement", "UpdateLogPipeline", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateLogPipelineDestination Contract-first endpoint. Not implemented yet.
+func (client LoggingManagementClient) UpdateLogPipelineDestination(ctx context.Context, request UpdateLogPipelineDestinationRequest) (response UpdateLogPipelineDestinationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateLogPipelineDestination, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateLogPipelineDestinationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateLogPipelineDestinationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateLogPipelineDestinationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateLogPipelineDestinationResponse")
+	}
+	return
+}
+
+// updateLogPipelineDestination implements the OCIOperation interface (enables retrying operations)
+func (client LoggingManagementClient) updateLogPipelineDestination(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/logPipelineDestinations/{logPipelineDestinationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UpdateLogPipelineDestinationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loggingManagement", "UpdateLogPipelineDestination")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogPipelineDestinationResource/UpdateLogPipelineDestination"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "UpdateLogPipelineDestination", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateLogPipelineDestinationAttachment Contract-first endpoint. Not implemented yet. The parent log pipeline is supplied in the path.
+func (client LoggingManagementClient) UpdateLogPipelineDestinationAttachment(ctx context.Context, request UpdateLogPipelineDestinationAttachmentRequest) (response UpdateLogPipelineDestinationAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateLogPipelineDestinationAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateLogPipelineDestinationAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateLogPipelineDestinationAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateLogPipelineDestinationAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateLogPipelineDestinationAttachmentResponse")
+	}
+	return
+}
+
+// updateLogPipelineDestinationAttachment implements the OCIOperation interface (enables retrying operations)
+func (client LoggingManagementClient) updateLogPipelineDestinationAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/logPipelines/{logPipelineId}/logPipelineDestinationAttachments/{logPipelineDestinationAttachmentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UpdateLogPipelineDestinationAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "loggingManagement", "UpdateLogPipelineDestinationAttachment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logging-management/20200531/LogPipelineDestinationAttachment/UpdateLogPipelineDestinationAttachment"
+		err = common.PostProcessServiceError(err, "LoggingManagement", "UpdateLogPipelineDestinationAttachment", apiReferenceLink)
 		return response, err
 	}
 

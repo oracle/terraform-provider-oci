@@ -41,7 +41,7 @@ type HostedDeploymentSummary struct {
 	// The date and time the hosted deployment was updated, in the format defined by RFC 3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the application.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the HostedApplication parent.
 	HostedApplicationId *string `mandatory:"false" json:"hostedApplicationId"`
 
 	ActiveArtifact Artifact `mandatory:"false" json:"activeArtifact"`

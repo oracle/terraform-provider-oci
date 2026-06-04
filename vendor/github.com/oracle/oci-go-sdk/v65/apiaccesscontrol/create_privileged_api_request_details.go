@@ -36,14 +36,14 @@ type CreatePrivilegedApiRequestDetails struct {
 	// Summary comment by the operator creating the access request.
 	ReasonSummary *string `mandatory:"true" json:"reasonSummary"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
 	// The OCID of the target resource associated with the access request. The operator raises an access request to get approval to access the target resource.
 	ResourceId *string `mandatory:"true" json:"resourceId"`
 
 	// List of api names, attributes for which approval is sought by the user.
 	PrivilegedOperationList []PrivilegedApiRequestOperationDetails `mandatory:"true" json:"privilegedOperationList"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// The subresource names requested for approval.
 	SubResourceNameList []string `mandatory:"false" json:"subResourceNameList"`

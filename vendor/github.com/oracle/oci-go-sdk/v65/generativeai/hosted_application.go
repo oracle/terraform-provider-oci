@@ -52,8 +52,6 @@ type HostedApplication struct {
 	// A list of storageConfigs managed by the OCI GenAI Platform and attached to the application.
 	StorageConfigs []StorageConfig `mandatory:"false" json:"storageConfigs"`
 
-	InboundAuthConfig *InboundAuthConfig `mandatory:"false" json:"inboundAuthConfig"`
-
 	NetworkingConfig *NetworkingConfig `mandatory:"false" json:"networkingConfig"`
 
 	// The list of environment variables for the Hosted Application.
@@ -73,6 +71,8 @@ type HostedApplication struct {
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	InboundAuthConfig *InboundAuthConfig `mandatory:"false" json:"inboundAuthConfig"`
 }
 
 func (m HostedApplication) String() string {

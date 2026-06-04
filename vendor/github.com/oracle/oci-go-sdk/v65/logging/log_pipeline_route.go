@@ -22,14 +22,14 @@ import (
 // Each Route processes events using the list of Functions and forwards the resulting data to configured Destinations.
 type LogPipelineRoute struct {
 
-	// List of destinations for the pipeline.
-	Destinations []LogPipelineDestination `mandatory:"true" json:"destinations"`
-
 	// Name of Log Pipeline Route.
 	Name *string `mandatory:"false" json:"name"`
 
 	// A list of Log Pipeline functions.
 	Functions []LogPipelineFunction `mandatory:"false" json:"functions"`
+
+	// List of destinations for the pipeline.
+	Destinations []LogPipelineDestination `mandatory:"false" json:"destinations"`
 }
 
 func (m LogPipelineRoute) String() string {

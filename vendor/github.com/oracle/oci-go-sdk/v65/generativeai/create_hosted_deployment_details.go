@@ -19,12 +19,8 @@ import (
 	"strings"
 )
 
-// CreateHostedDeploymentDetails The data to create a hosted deployment.
+// CreateHostedDeploymentDetails The data to create a hosted deployment. Exactly one of hostedApplicationId or hostedApplicationIamId must be provided.
 type CreateHostedDeploymentDetails struct {
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the application.
-	HostedApplicationId *string `mandatory:"true" json:"hostedApplicationId"`
-
 	ActiveArtifact Artifact `mandatory:"true" json:"activeArtifact"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
@@ -32,6 +28,9 @@ type CreateHostedDeploymentDetails struct {
 
 	// The compartment OCID to create the hosted deployment in.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the HostedApplication parent.
+	HostedApplicationId *string `mandatory:"false" json:"hostedApplicationId"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -65,9 +64,9 @@ func (m *CreateHostedDeploymentDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DisplayName         *string                           `json:"displayName"`
 		CompartmentId       *string                           `json:"compartmentId"`
+		HostedApplicationId *string                           `json:"hostedApplicationId"`
 		FreeformTags        map[string]string                 `json:"freeformTags"`
 		DefinedTags         map[string]map[string]interface{} `json:"definedTags"`
-		HostedApplicationId *string                           `json:"hostedApplicationId"`
 		ActiveArtifact      artifact                          `json:"activeArtifact"`
 	}{}
 
@@ -80,11 +79,11 @@ func (m *CreateHostedDeploymentDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.CompartmentId = model.CompartmentId
 
+	m.HostedApplicationId = model.HostedApplicationId
+
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
-
-	m.HostedApplicationId = model.HostedApplicationId
 
 	nn, e = model.ActiveArtifact.UnmarshalPolymorphicJSON(model.ActiveArtifact.JsonData)
 	if e != nil {

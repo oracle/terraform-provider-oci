@@ -359,6 +359,9 @@ type UpdateAutonomousDatabaseDetails struct {
 
 	// Preferred communication language locale for an Autonomous AI Database provided by user.
 	PreferredCommunicationLanguageLocale *string `mandatory:"false" json:"preferredCommunicationLanguageLocale"`
+
+	// The multicloud placement for local standby Autonomous AI Database. This field only applies when creating a local standby Autonomous AI Database. Use a CSP region for regional placement or a CSP physical zone for explicit AZ placement, for example `eastus` or `eastus-az1`.
+	LocalDataguardExternalLocation *string `mandatory:"false" json:"localDataguardExternalLocation"`
 }
 
 func (m UpdateAutonomousDatabaseDetails) String() string {
@@ -484,6 +487,7 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		IncludedDataStorageInTBs             *float64                                                             `json:"includedDataStorageInTBs"`
 		LocalAdgResourcePoolLeaderId         *string                                                              `json:"localAdgResourcePoolLeaderId"`
 		PreferredCommunicationLanguageLocale *string                                                              `json:"preferredCommunicationLanguageLocale"`
+		LocalDataguardExternalLocation       *string                                                              `json:"localDataguardExternalLocation"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -672,6 +676,8 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	m.LocalAdgResourcePoolLeaderId = model.LocalAdgResourcePoolLeaderId
 
 	m.PreferredCommunicationLanguageLocale = model.PreferredCommunicationLanguageLocale
+
+	m.LocalDataguardExternalLocation = model.LocalDataguardExternalLocation
 
 	return
 }

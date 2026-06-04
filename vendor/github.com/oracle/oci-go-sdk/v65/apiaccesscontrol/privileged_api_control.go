@@ -64,6 +64,9 @@ type PrivilegedApiControl struct {
 	// List of IAM user group ids who can approve an privilegedApi request associated with a target resource under the governance of this operator control.
 	ApproverGroupIdList []string `mandatory:"false" json:"approverGroupIdList"`
 
+	// List of Group containing the levels at which the users belonging to the group can authorize.
+	ApproverGroupLevelList []ApproverGroupLevel `mandatory:"false" json:"approverGroupLevelList"`
+
 	// resourceType for which the PrivilegedApiControl is applicable
 	ResourceType *string `mandatory:"false" json:"resourceType"`
 

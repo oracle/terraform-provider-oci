@@ -29,6 +29,9 @@ type ApproverDetail struct {
 	// The action done by the approver.
 	ApprovalAction *string `mandatory:"false" json:"approvalAction"`
 
+	// The group level at which the approver approved.
+	ApproverGroupLevel *int `mandatory:"false" json:"approverGroupLevel"`
+
 	// Comment specified by the approver of the request.
 	ApprovalComment *string `mandatory:"false" json:"approvalComment"`
 

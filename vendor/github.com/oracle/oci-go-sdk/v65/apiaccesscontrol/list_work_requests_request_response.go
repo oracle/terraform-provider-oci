@@ -15,7 +15,7 @@ import (
 type ListWorkRequestsRequest struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
-	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
 	WorkRequestId *string `mandatory:"false" contributesTo:"query" name:"workRequestId"`

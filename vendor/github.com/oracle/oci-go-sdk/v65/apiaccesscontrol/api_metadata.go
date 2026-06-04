@@ -51,8 +51,11 @@ type ApiMetadata struct {
 	// The name of the api to execute the api request.
 	ApiName *string `mandatory:"false" json:"apiName"`
 
-	// List of the fields that is use while calling post or put for the data.
+	// deprecated; Use attributes field instead.
 	Fields []string `mandatory:"false" json:"fields"`
+
+	// List of the fields that is use while calling post or put for the data.
+	Attributes []string `mandatory:"false" json:"attributes"`
 
 	// The date and time the PrivilegedApiControl was updated, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
