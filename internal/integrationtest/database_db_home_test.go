@@ -24,7 +24,12 @@ import (
 )
 
 var (
-	dbHomeVersionVariableStr           = "variable \"db_home_version\" { default = \"19.27.0.0\" }\n"
+	ignoreDatabaseDbHomeDefinedTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}
+
+	dbHomeVersion                      = utils.GetEnvSettingWithDefault("db_home_version", "19.28.0.0")
+	dbHomeVersionVariableStr           = fmt.Sprintf("variable \"db_home_version\" { default = \"%s\" }\n", dbHomeVersion)
 	DatabaseDbHomeRequiredOnlyResource = DatabaseDbHomeResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", acctest.Required, acctest.Create, dbHomeRepresentationSourceNone)
 
@@ -56,7 +61,6 @@ var (
 		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `createdDbHome`},
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_desupported_version":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"kms_key_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"kms_key_version_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_kms_key_version.test_key_version.id}`},
 		"source":                     acctest.Representation{RepType: acctest.Optional, Create: `DB_BACKUP`},
 		"vm_cluster_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
@@ -67,10 +71,11 @@ var (
 	}
 	DatabaseDbHomeRepresentationBase = map[string]interface{}{
 		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
+		"lifecycle":    acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDatabaseDbHomeDefinedTagsChangesRepresentation},
 	}
 	dbHomeRepresentationSourceNone = acctest.RepresentationCopyWithNewProperties(DatabaseDbHomeRepresentationBase, map[string]interface{}{
 		"database":     acctest.RepresentationGroup{RepType: acctest.Required, Group: dbHomeDatabaseRepresentationSourceNone},
-		"db_version":   acctest.Representation{RepType: acctest.Required, Create: `12.1.0.2`},
+		"db_version":   acctest.Representation{RepType: acctest.Required, Create: `19.0.0.0`},
 		"source":       acctest.Representation{RepType: acctest.Optional, Create: `NONE`},
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `createdDbHomeNone`},
 	})
@@ -106,10 +111,9 @@ var (
 		"display_name": acctest.Representation{RepType: acctest.Required, Create: `createdDbHomeBackup`},
 	})
 	dbHomeDatabaseRepresentationSourceDbBackup = map[string]interface{}{
-		"admin_password": acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
-		"backup_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_database_backup.test_backup.id}`},
-		// TDE wallet password is not required when backups are encrypted with customer-managed (Vault service) keys.
-		// "backup_tde_password": acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"admin_password":      acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"backup_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_database_backup.test_backup.id}`},
+		"backup_tde_password": acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		// Modifying db_name as mandatory. If not mandatory test fails with error "The specified database name 'tfDbName' exists."
 		// The test takes the backup of the DB created in the db_system which has the db_name=tfDbName.
 		// When db_home is created with source as "DB_BACKUP" and db_name is not provided, Service uses the db_name from the backup which is causing this test to fail.
@@ -206,7 +210,6 @@ var (
 		"db_home_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_db_home_vm_cluster_no_db.id}`},
 		"source":           acctest.Representation{RepType: acctest.Required, Create: `NONE`},
 		"db_version":       acctest.Representation{RepType: acctest.Optional, Create: `${var.db_home_version}`},
-		"kms_key_id":       acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"kms_key_rotation": acctest.Representation{RepType: acctest.Optional, Update: `1`},
 		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 	}
@@ -315,7 +318,7 @@ func TestDatabaseDbHomeTdeWalletPassword(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.admin_password", "BEstrO0ng_#11"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone0"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "db_system_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "db_version", "19.0.0.0"),
 				),
 			},
 
@@ -325,7 +328,7 @@ func TestDatabaseDbHomeTdeWalletPassword(t *testing.T) {
 			},
 			// verify Create with optionals
 			{
-				Config: config + compartmentIdVariableStr + DbHomeResourceVmClusterDependencies +
+				Config: config + compartmentIdVariableStr + dbHomeVersionVariableStr + DbHomeResourceVmClusterDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_none", acctest.Optional, acctest.Create, dbHomeRepresentationSourceNone),
 
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -347,7 +350,7 @@ func TestDatabaseDbHomeTdeWalletPassword(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.ncharacter_set", "AL16UTF16"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.pdb_name", "pdbName"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "db_system_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "db_version", "19.0.0.0"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "display_name", "createdDbHomeNone"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "source", "NONE"),
@@ -376,7 +379,7 @@ func TestDatabaseDbHomeTdeWalletPassword(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.ncharacter_set", "AL16UTF16"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.pdb_name", "pdbName"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "db_system_id"),
-					resource.TestCheckResourceAttr(resourceName+"_source_none", "db_version", "12.1.0.2"),
+					resource.TestCheckResourceAttr(resourceName+"_source_none", "db_version", "19.0.0.0"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "display_name", "createdDbHomeNone"),
 					resource.TestCheckResourceAttrSet(resourceName+"_source_none", "id"),
 					resource.TestCheckResourceAttr(resourceName+"_source_none", "source", "NONE"),
@@ -420,6 +423,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + vaultIdVariableStr + kmsKeyVersionIdVariableStr + DatabaseDbHomeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_db_backup", acctest.Required, acctest.Create, dbHomeRepresentationSourceDbBackup),
+			ExpectNonEmptyPlan: true,
 		},
 		// Create second backup for create db_home source database
 		{
@@ -439,7 +443,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.db_name", "dbNone0"),
 				resource.TestCheckResourceAttrSet(resourceName+"_source_none", "db_system_id"),
-				resource.TestCheckResourceAttr(resourceName+"_source_none", "db_version", "12.1.0.2"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "db_version", "19.0.0.0"),
 
 				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.#", "1"),
 				resource.TestCheckResourceAttr(resourceName+"_source_db_backup", "database.0.admin_password", "BEstrO0ng_#11"),
@@ -452,7 +456,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.#", "1"),
 				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "vm_cluster_id"),
-				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "db_version", `${var.db_home_version}`),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "db_version", dbHomeVersion),
 				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "source", "VM_CLUSTER_NEW"),
 
 				resource.TestCheckResourceAttr(resourceName+"_source_database", "database.#", "1"),
@@ -503,7 +507,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.ncharacter_set", "AL16UTF16"),
 				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.pdb_name", "pdbName"),
 				resource.TestCheckResourceAttrSet(resourceName+"_source_none", "db_system_id"),
-				resource.TestCheckResourceAttr(resourceName+"_source_none", "db_version", "12.1.0.2"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "db_version", "19.0.0.0"),
 				resource.TestCheckResourceAttr(resourceName+"_source_none", "display_name", "createdDbHomeNone"),
 				resource.TestCheckResourceAttrSet(resourceName+"_source_none", "id"),
 				//resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
@@ -541,7 +545,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.ncharacter_set", "AL16UTF16"),
 				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.pdb_name", "pdbName"),
 				resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "vm_cluster_id"),
-				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "db_version", `${var.db_home_version}`),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "db_version", dbHomeVersion),
 				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "display_name", "createdDbHomeVm"),
 				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "system_tags.%", "0"),
@@ -599,7 +603,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.ncharacter_set", "AL16UTF16"),
 				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.0.pdb_name", "pdbName"),
 				resource.TestCheckResourceAttrSet(resourceName+"_source_none", "db_system_id"),
-				resource.TestCheckResourceAttr(resourceName+"_source_none", "db_version", "12.1.0.2"),
+				resource.TestCheckResourceAttr(resourceName+"_source_none", "db_version", "19.0.0.0"),
 				resource.TestCheckResourceAttr(resourceName+"_source_none", "display_name", "createdDbHomeNone"),
 				resource.TestCheckResourceAttrSet(resourceName+"_source_none", "id"),
 				//resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
@@ -637,7 +641,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.ncharacter_set", "AL16UTF16"),
 				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "database.0.pdb_name", "pdbName"),
 				resource.TestCheckResourceAttrSet(resourceName+"_source_vm_cluster_new", "vm_cluster_id"),
-				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "db_version", `${var.db_home_version}`),
+				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "db_version", dbHomeVersion),
 				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "display_name", "createdDbHomeVm"),
 				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName+"_source_vm_cluster_new", "system_tags.%", "0"),
@@ -679,7 +683,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "db_homes.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.compartment_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.vm_cluster_id"),
-				resource.TestCheckResourceAttr(datasourceName, "db_homes.0.db_version", "12.1.0.2"),
+				resource.TestCheckResourceAttr(datasourceName, "db_homes.0.db_version", "19.0.0.0"),
 				resource.TestCheckResourceAttr(datasourceName, "db_homes.0.display_name", "createdDbHomeNone"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.id"),
 				//resource.TestCheckResourceAttrSet(datasourceName, "db_homes.0.kms_key_id"),
@@ -701,7 +705,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_id"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "db_version", "12.1.0.2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "db_version", "19.0.0.0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "createdDbHomeNone"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
@@ -847,7 +851,7 @@ func TestDatabaseDbHomeResource_exacs(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "display_name", "TFTestDbHome1"),
 					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "is_unified_auditing_enabled", "true"),
 					resource.TestCheckResourceAttrSet(resourceName+"_vm_cluster_no_db", "vm_cluster_id"),
-					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "db_version", `${var.db_home_version}`),
+					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "db_version", dbHomeVersion),
 					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "system_tags.%", "0"),
 				),
 			},
@@ -863,7 +867,7 @@ func TestDatabaseDbHomeResource_exacs(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "source", "VM_CLUSTER_NEW"),
 					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "display_name", "TFTestDbHome1"),
 					resource.TestCheckResourceAttrSet(resourceName+"_vm_cluster_no_db", "vm_cluster_id"),
-					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "db_version", `${var.db_home_version}`),
+					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "db_version", dbHomeVersion),
 					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "database.#", "0"),
 					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "system_tags.%", "0"),
 				),
@@ -908,7 +912,7 @@ func TestDatabaseDbHomeResource_exacs(t *testing.T) {
 
 			// Delete DB inside of dbHome
 			{
-				Config: config + compartmentIdVariableStr + DbHomeResourceVmClusterDependencies +
+				Config: config + compartmentIdVariableStr + dbHomeVersionVariableStr + DbHomeResourceVmClusterDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_vm_cluster_no_db", acctest.Optional, acctest.Update, dbHomeRepresentationSourceVmCluster) +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_db_vm_cluster_no_db", acctest.Required, acctest.Create, DatabaseDatabaseExacsRepresentation),
 
@@ -916,7 +920,7 @@ func TestDatabaseDbHomeResource_exacs(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "source", "VM_CLUSTER_NEW"),
 					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "display_name", "TFTestDbHome1"),
 					resource.TestCheckResourceAttrSet(resourceName+"_vm_cluster_no_db", "vm_cluster_id"),
-					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "db_version", `${var.db_home_version}`),
+					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "db_version", dbHomeVersion),
 					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "database.#", "0"),
 					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "system_tags.%", "0"),
 				),

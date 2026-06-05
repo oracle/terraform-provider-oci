@@ -584,7 +584,7 @@ func deleteDatabaseDbHomeWithContext(ctx context.Context, d *schema.ResourceData
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
+	return deleteDatabaseResourceWithReadBeforeDelete(ctx, d, m, sync)
 }
 
 type DatabaseDbHomeResourceCrud struct {
