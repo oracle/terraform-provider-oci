@@ -137,6 +137,7 @@ The following attributes are exported:
 	* `cron_expression` - Schedule cron expression
 	* `frequency` - The type of frequency
 	* `interval` - The interval of frequency.
+	* `initial_jitter_in_minutes` - Maximum number of minutes after `time_start` that the scheduler may use to randomly select the first execution time. This value is considered only when `is_random_start_time` is true.
 	* `is_random_start_time` - when true and timeStart is null, system generate a random start time between now and now + interval;  isRandomStartTime can be true if timeStart is null. 
 	* `recurrence` - This recurrence field conforms to RFC-5545 formatting
 	* `time_end` - The schedule end date time, if null, the schedule will never expire. Format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
