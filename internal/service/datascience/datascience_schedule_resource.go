@@ -598,6 +598,12 @@ func DatascienceScheduleResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Optional: true,
 						},
+						"initial_jitter_in_minutes": {
+							Type:         schema.TypeInt,
+							Optional:     true,
+							Computed:     true,
+							ValidateFunc: validation.IntAtLeast(30),
+						},
 						"is_random_start_time": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -2021,6 +2027,11 @@ func (s *DatascienceScheduleResourceCrud) mapToScheduleTrigger(fieldKeyFormat st
 			details.Interval = &tmp
 		}
 
+		if initialJitterInMinutes, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "initial_jitter_in_minutes")); ok {
+			tmp := initialJitterInMinutes.(int)
+			details.InitialJitterInMinutes = &tmp
+		}
+
 		if isRandomStartTime, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_random_start_time")); ok {
 			tmp := isRandomStartTime.(bool)
 			details.IsRandomStartTime = &tmp
@@ -2097,6 +2108,10 @@ func ScheduleTriggerToMap(obj *oci_datascience.ScheduleTrigger) map[string]inter
 
 		if v.Interval != nil {
 			result["interval"] = int(*v.Interval)
+		}
+
+		if v.InitialJitterInMinutes != nil {
+			result["initial_jitter_in_minutes"] = int(*v.InitialJitterInMinutes)
 		}
 
 		if v.IsRandomStartTime != nil {
