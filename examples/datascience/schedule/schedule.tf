@@ -106,6 +106,7 @@ resource "oci_datascience_schedule" "interval_schedule_example" {
     trigger_type = "INTERVAL"
     frequency = "HOURLY"
     interval = "12"
+    initial_jitter_in_minutes = 30
     is_random_start_time = "true"
   }
 }
