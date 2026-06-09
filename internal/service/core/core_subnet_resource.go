@@ -13,6 +13,7 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/internal/globalvar"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -26,11 +27,11 @@ func CoreSubnetResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCoreSubnet,
-		Read:     readCoreSubnet,
-		Update:   updateCoreSubnet,
-		Delete:   deleteCoreSubnet,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createCoreSubnetWithContext,
+		ReadContext:   readCoreSubnetWithContext,
+		UpdateContext: updateCoreSubnetWithContext,
+		DeleteContext: deleteCoreSubnetWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -167,38 +168,38 @@ func CoreSubnetResource() *schema.Resource {
 	}
 }
 
-func createCoreSubnet(d *schema.ResourceData, m interface{}) error {
+func createCoreSubnetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreSubnetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readCoreSubnet(d *schema.ResourceData, m interface{}) error {
+func readCoreSubnetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreSubnetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateCoreSubnet(d *schema.ResourceData, m interface{}) error {
+func updateCoreSubnetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreSubnetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteCoreSubnet(d *schema.ResourceData, m interface{}) error {
+func deleteCoreSubnetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreSubnetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type CoreSubnetResourceCrud struct {
@@ -237,7 +238,7 @@ func (s *CoreSubnetResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CoreSubnetResourceCrud) Create() error {
+func (s *CoreSubnetResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_core.CreateSubnetRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -354,7 +355,7 @@ func (s *CoreSubnetResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.CreateSubnet(context.Background(), request)
+	response, err := s.Client.CreateSubnet(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -363,7 +364,7 @@ func (s *CoreSubnetResourceCrud) Create() error {
 	return nil
 }
 
-func (s *CoreSubnetResourceCrud) Get() error {
+func (s *CoreSubnetResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetSubnetRequest{}
 
 	tmp := s.D.Id()
@@ -371,7 +372,7 @@ func (s *CoreSubnetResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.GetSubnet(context.Background(), request)
+	response, err := s.Client.GetSubnet(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -380,11 +381,11 @@ func (s *CoreSubnetResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CoreSubnetResourceCrud) Update() error {
+func (s *CoreSubnetResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -413,12 +414,12 @@ func (s *CoreSubnetResourceCrud) Update() error {
 	// Once that decision is made, the later UpdateSubnet request must avoid
 	// re-sending the IPv6 fields already handled by patch.
 	if usePatch {
-		if err := s.patchSubnet(ipv6PatchChanges); err != nil {
+		if err := s.patchSubnet(ctx, ipv6PatchChanges); err != nil {
 			return err
 		}
 		didPatch = true
 	} else {
-		if err := s.applyLegacySubnetIpv6Changes(ipv6PatchChanges); err != nil {
+		if err := s.applyLegacySubnetIpv6Changes(ctx, ipv6PatchChanges); err != nil {
 			return err
 		}
 	}
@@ -426,7 +427,7 @@ func (s *CoreSubnetResourceCrud) Update() error {
 	if _, ok := s.D.GetOkExists("ipv4cidr_blocks"); ok && s.D.HasChange("ipv4cidr_blocks") {
 		oldRaw, newRaw := s.D.GetChange("ipv4cidr_blocks")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateIpv4CidrBlocks(oldRaw, newRaw)
+			err := s.updateIpv4CidrBlocks(ctx, oldRaw, newRaw)
 			if err != nil {
 				return err
 			}
@@ -439,7 +440,7 @@ func (s *CoreSubnetResourceCrud) Update() error {
 	}
 
 	if shouldUpdateSubnet {
-		response, err := s.Client.UpdateSubnet(context.Background(), request)
+		response, err := s.Client.UpdateSubnet(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -449,13 +450,13 @@ func (s *CoreSubnetResourceCrud) Update() error {
 	}
 
 	if didPatch || s.Res == nil {
-		return s.Get()
+		return s.GetWithContext(ctx)
 	}
 
 	return nil
 }
 
-func (s *CoreSubnetResourceCrud) Delete() error {
+func (s *CoreSubnetResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_core.DeleteSubnetRequest{}
 
 	tmp := s.D.Id()
@@ -463,7 +464,7 @@ func (s *CoreSubnetResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, globalvar.CoreService, globalvar.SubnetService, globalvar.DeleteResource)
 
-	_, err := s.Client.DeleteSubnet(context.Background(), request)
+	_, err := s.Client.DeleteSubnet(ctx, request)
 	return err
 }
 
@@ -580,7 +581,7 @@ func isIpv6CidrBlockInList(ipv6CidrBlock string, ipv6CidrBlocks []string) bool {
 	return false
 }
 
-func (s *CoreSubnetResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *CoreSubnetResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_core.ChangeSubnetCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -591,19 +592,19 @@ func (s *CoreSubnetResourceCrud) updateCompartment(compartment interface{}) erro
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	_, err := s.Client.ChangeSubnetCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeSubnetCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	return nil
 }
 
-func (s *CoreSubnetResourceCrud) updateIpv6CidrBlocks(oldBlocks []string, newBlocks []string) error {
+func (s *CoreSubnetResourceCrud) updateIpv6CidrBlocks(ctx context.Context, oldBlocks []string, newBlocks []string) error {
 	canEdit, operation, changeCidr := ipv6CidrOneEditAway(oldBlocks, newBlocks)
 	if !canEdit {
 		return fmt.Errorf("only one add/remove or modification is allowed at once, new IPv6 cidr_block must be added at the end of list")
@@ -617,11 +618,11 @@ func (s *CoreSubnetResourceCrud) updateIpv6CidrBlocks(oldBlocks []string, newBlo
 		addIpv6SubnetCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 		addSubnetIpv6CidrDetails.Ipv6CidrBlock = &changeCidr
 		addIpv6SubnetCidrRequest.AddSubnetIpv6CidrDetails = addSubnetIpv6CidrDetails
-		response, err := s.Client.AddIpv6SubnetCidr(context.Background(), addIpv6SubnetCidrRequest)
+		response, err := s.Client.AddIpv6SubnetCidr(ctx, addIpv6SubnetCidrRequest)
 		if err != nil {
 			return err
 		}
-		err = s.waitForWorkRequest(response.OpcWorkRequestId)
+		err = s.waitForWorkRequest(ctx, response.OpcWorkRequestId)
 		if err != nil {
 			return err
 		}
@@ -635,11 +636,11 @@ func (s *CoreSubnetResourceCrud) updateIpv6CidrBlocks(oldBlocks []string, newBlo
 		removeIpv6SubnetCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 		removeSubnetIpv6CidrDetails.Ipv6CidrBlock = &changeCidr
 		removeIpv6SubnetCidrRequest.RemoveSubnetIpv6CidrDetails = removeSubnetIpv6CidrDetails
-		response, err := s.Client.RemoveIpv6SubnetCidr(context.Background(), removeIpv6SubnetCidrRequest)
+		response, err := s.Client.RemoveIpv6SubnetCidr(ctx, removeIpv6SubnetCidrRequest)
 		if err != nil {
 			return err
 		}
-		err = s.waitForWorkRequest(response.OpcWorkRequestId)
+		err = s.waitForWorkRequest(ctx, response.OpcWorkRequestId)
 		if err != nil {
 			return err
 		}
@@ -703,7 +704,7 @@ func ipv6CidrOneEditAway(oldBlocks []string, newBlocks []string) (bool, string, 
 	return false, "", ""
 }
 
-func (s *CoreSubnetResourceCrud) updateIpv4CidrBlocks(oldRaw interface{}, newRaw interface{}) error {
+func (s *CoreSubnetResourceCrud) updateIpv4CidrBlocks(ctx context.Context, oldRaw interface{}, newRaw interface{}) error {
 	interfaces := oldRaw.([]interface{})
 	oldBlocks := make([]string, len(interfaces))
 	for i := range interfaces {
@@ -742,11 +743,11 @@ func (s *CoreSubnetResourceCrud) updateIpv4CidrBlocks(oldRaw interface{}, newRaw
 			modifyIpv4SubnetCidrDetails.Ipv4CidrBlock = &oldCidr
 			modifyIpv4SubnetCidrDetails.UpdatedIpv4CidrBlock = &updateCidr
 			modifyIpv4SubnetCidrRequest.ModifyIpv4SubnetCidrDetails = modifyIpv4SubnetCidrDetails
-			response, err := s.Client.ModifyIpv4SubnetCidr(context.Background(), modifyIpv4SubnetCidrRequest)
+			response, err := s.Client.ModifyIpv4SubnetCidr(ctx, modifyIpv4SubnetCidrRequest)
 			if err != nil {
 				return err
 			}
-			err = s.waitForWorkRequest(response.OpcWorkRequestId)
+			err = s.waitForWorkRequest(ctx, response.OpcWorkRequestId)
 			if err != nil {
 				return err
 			}
@@ -761,11 +762,11 @@ func (s *CoreSubnetResourceCrud) updateIpv4CidrBlocks(oldRaw interface{}, newRaw
 			newCidr := edit.newCidr
 			addIpv4SubnetCidrDetails.Ipv4CidrBlock = &newCidr
 			addIpv4SubnetCidrRequest.AddIpv4SubnetCidrDetails = addIpv4SubnetCidrDetails
-			response, err := s.Client.AddIpv4SubnetCidr(context.Background(), addIpv4SubnetCidrRequest)
+			response, err := s.Client.AddIpv4SubnetCidr(ctx, addIpv4SubnetCidrRequest)
 			if err != nil {
 				return err
 			}
-			err = s.waitForWorkRequest(response.OpcWorkRequestId)
+			err = s.waitForWorkRequest(ctx, response.OpcWorkRequestId)
 			if err != nil {
 				return err
 			}
@@ -780,11 +781,11 @@ func (s *CoreSubnetResourceCrud) updateIpv4CidrBlocks(oldRaw interface{}, newRaw
 			oldCidr := edit.oldCidr
 			removeIpv4SubnetCidrDetails.Ipv4CidrBlock = &oldCidr
 			removeIpv4SubnetCidrRequest.RemoveIpv4SubnetCidrDetails = removeIpv4SubnetCidrDetails
-			response, err := s.Client.RemoveIpv4SubnetCidr(context.Background(), removeIpv4SubnetCidrRequest)
+			response, err := s.Client.RemoveIpv4SubnetCidr(ctx, removeIpv4SubnetCidrRequest)
 			if err != nil {
 				return err
 			}
-			err = s.waitForWorkRequest(response.OpcWorkRequestId)
+			err = s.waitForWorkRequest(ctx, response.OpcWorkRequestId)
 			if err != nil {
 				return err
 			}
@@ -862,9 +863,9 @@ func ipv4CidrOneEditAway(oldBlocks []string, newBlocks []string) ([]ipv4CidrEdit
 // the old add/remove behavior for ipv6cidr_blocks.
 //
 // The scalar ipv6cidr_block case is handled separately through UpdateSubnet.
-func (s *CoreSubnetResourceCrud) applyLegacySubnetIpv6Changes(changeSet subnetIpv6PatchChangeSet) error {
+func (s *CoreSubnetResourceCrud) applyLegacySubnetIpv6Changes(ctx context.Context, changeSet subnetIpv6PatchChangeSet) error {
 	if changeSet.ipv6CidrBlocksChanged {
-		if err := s.updateIpv6CidrBlocks(changeSet.oldIpv6CidrBlocks, changeSet.newIpv6CidrBlocks); err != nil {
+		if err := s.updateIpv6CidrBlocks(ctx, changeSet.oldIpv6CidrBlocks, changeSet.newIpv6CidrBlocks); err != nil {
 			return err
 		}
 	}
@@ -983,7 +984,7 @@ func (s *CoreSubnetResourceCrud) buildUpdateSubnetRequest(changeSet subnetIpv6Pa
 
 // patchSubnet uses GetSubnet first because PatchSubnet is optimistic and
 // asynchronous: the service requires If-Match and only returns a work request id.
-func (s *CoreSubnetResourceCrud) patchSubnet(changeSet subnetIpv6PatchChangeSet) error {
+func (s *CoreSubnetResourceCrud) patchSubnet(ctx context.Context, changeSet subnetIpv6PatchChangeSet) error {
 	instructions, err := changeSet.buildPatchInstructions()
 	if err != nil {
 		return err
@@ -1008,17 +1009,17 @@ func (s *CoreSubnetResourceCrud) patchSubnet(changeSet subnetIpv6PatchChangeSet)
 	}
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.PatchSubnet(context.Background(), request)
+	response, err := s.Client.PatchSubnet(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	return s.waitForWorkRequest(response.OpcWorkRequestId)
+	return s.waitForWorkRequest(ctx, response.OpcWorkRequestId)
 }
 
-func (s *CoreSubnetResourceCrud) waitForWorkRequest(workRequestId *string) error {
+func (s *CoreSubnetResourceCrud) waitForWorkRequest(ctx context.Context, workRequestId *string) error {
 	if workRequestId != nil {
-		_, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workRequestId, "subnet", oci_work_requests.WorkRequestResourceActionTypeInProgress, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err := tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workRequestId, "subnet", oci_work_requests.WorkRequestResourceActionTypeInProgress, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -1026,7 +1027,7 @@ func (s *CoreSubnetResourceCrud) waitForWorkRequest(workRequestId *string) error
 		// the matching work request resource action remains IN_PROGRESS. Re-read
 		// the work request so FAILED/CANCELED is surfaced to Terraform instead of
 		// treating the matching resource action as success.
-		return validateCoreWorkRequestStatus(context.Background(), s.WorkRequestClient, workRequestId, "subnet", s.DisableNotFoundRetries)
+		return validateCoreWorkRequestStatus(ctx, s.WorkRequestClient, workRequestId, "subnet", s.DisableNotFoundRetries)
 	}
 	return nil
 }

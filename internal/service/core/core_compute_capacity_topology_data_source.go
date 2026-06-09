@@ -6,6 +6,7 @@ package core
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
@@ -19,15 +20,15 @@ func CoreComputeCapacityTopologyDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(CoreComputeCapacityTopologyResource(), fieldMap, readSingularCoreComputeCapacityTopology)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(CoreComputeCapacityTopologyResource(), fieldMap, readSingularCoreComputeCapacityTopologyWithContext)
 }
 
-func readSingularCoreComputeCapacityTopology(d *schema.ResourceData, m interface{}) error {
+func readSingularCoreComputeCapacityTopologyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeCapacityTopologyDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreComputeCapacityTopologyDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *CoreComputeCapacityTopologyDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreComputeCapacityTopologyDataSourceCrud) Get() error {
+func (s *CoreComputeCapacityTopologyDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetComputeCapacityTopologyRequest{}
 
 	if computeCapacityTopologyId, ok := s.D.GetOkExists("compute_capacity_topology_id"); ok {
@@ -50,7 +51,7 @@ func (s *CoreComputeCapacityTopologyDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.GetComputeCapacityTopology(context.Background(), request)
+	response, err := s.Client.GetComputeCapacityTopology(ctx, request)
 	if err != nil {
 		return err
 	}

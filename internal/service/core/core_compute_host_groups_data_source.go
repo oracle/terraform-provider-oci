@@ -6,6 +6,7 @@ package core
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
@@ -15,7 +16,7 @@ import (
 
 func CoreComputeHostGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCoreComputeHostGroups,
+		ReadContext: readCoreComputeHostGroupsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -40,12 +41,12 @@ func CoreComputeHostGroupsDataSource() *schema.Resource {
 	}
 }
 
-func readCoreComputeHostGroups(d *schema.ResourceData, m interface{}) error {
+func readCoreComputeHostGroupsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeHostGroupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreComputeHostGroupsDataSourceCrud struct {
@@ -58,7 +59,7 @@ func (s *CoreComputeHostGroupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreComputeHostGroupsDataSourceCrud) Get() error {
+func (s *CoreComputeHostGroupsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.ListComputeHostGroupsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -68,7 +69,7 @@ func (s *CoreComputeHostGroupsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.ListComputeHostGroups(context.Background(), request)
+	response, err := s.Client.ListComputeHostGroups(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -77,7 +78,7 @@ func (s *CoreComputeHostGroupsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListComputeHostGroups(context.Background(), request)
+		listResponse, err := s.Client.ListComputeHostGroups(ctx, request)
 		if err != nil {
 			return err
 		}

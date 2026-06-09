@@ -6,6 +6,7 @@ package core
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
@@ -15,7 +16,7 @@ import (
 
 func CoreVcnsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCoreVcns,
+		ReadContext: readCoreVcnsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -39,12 +40,12 @@ func CoreVcnsDataSource() *schema.Resource {
 	}
 }
 
-func readCoreVcns(d *schema.ResourceData, m interface{}) error {
+func readCoreVcnsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreVcnsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreVcnsDataSourceCrud struct {
@@ -57,7 +58,7 @@ func (s *CoreVcnsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreVcnsDataSourceCrud) Get() error {
+func (s *CoreVcnsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.ListVcnsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -76,7 +77,7 @@ func (s *CoreVcnsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.ListVcns(context.Background(), request)
+	response, err := s.Client.ListVcns(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -85,7 +86,7 @@ func (s *CoreVcnsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListVcns(context.Background(), request)
+		listResponse, err := s.Client.ListVcns(ctx, request)
 		if err != nil {
 			return err
 		}

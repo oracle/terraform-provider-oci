@@ -7,6 +7,7 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
@@ -20,15 +21,15 @@ func CoreVtapDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(CoreVtapResource(), fieldMap, readSingularCoreVtap)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(CoreVtapResource(), fieldMap, readSingularCoreVtapWithContext)
 }
 
-func readSingularCoreVtap(d *schema.ResourceData, m interface{}) error {
+func readSingularCoreVtapWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreVtapDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreVtapDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *CoreVtapDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreVtapDataSourceCrud) Get() error {
+func (s *CoreVtapDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetVtapRequest{}
 
 	if vtapId, ok := s.D.GetOkExists("vtap_id"); ok {
@@ -51,7 +52,7 @@ func (s *CoreVtapDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.GetVtap(context.Background(), request)
+	response, err := s.Client.GetVtap(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
@@ -20,15 +21,15 @@ func CoreInstanceMaintenanceEventDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(CoreInstanceMaintenanceEventResource(), fieldMap, readSingularCoreInstanceMaintenanceEvent)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(CoreInstanceMaintenanceEventResource(), fieldMap, readSingularCoreInstanceMaintenanceEventWithContext)
 }
 
-func readSingularCoreInstanceMaintenanceEvent(d *schema.ResourceData, m interface{}) error {
+func readSingularCoreInstanceMaintenanceEventWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreInstanceMaintenanceEventDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreInstanceMaintenanceEventDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *CoreInstanceMaintenanceEventDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreInstanceMaintenanceEventDataSourceCrud) Get() error {
+func (s *CoreInstanceMaintenanceEventDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetInstanceMaintenanceEventRequest{}
 
 	if instanceMaintenanceEventId, ok := s.D.GetOkExists("instance_maintenance_event_id"); ok {
@@ -51,7 +52,7 @@ func (s *CoreInstanceMaintenanceEventDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.GetInstanceMaintenanceEvent(context.Background(), request)
+	response, err := s.Client.GetInstanceMaintenanceEvent(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -144,7 +145,6 @@ func (s *CoreInstanceMaintenanceEventDataSourceCrud) SetData() error {
 
 	if s.Res.TimeWindowStart != nil {
 		s.D.Set("time_window_start", s.Res.TimeWindowStart.Format(time.RFC3339Nano))
-		s.D.Set("time_window_start", s.Res.TimeWindowStart.String())
 	}
 
 	return nil

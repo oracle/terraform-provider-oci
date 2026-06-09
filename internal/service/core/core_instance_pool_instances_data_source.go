@@ -6,6 +6,7 @@ package core
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
@@ -15,7 +16,7 @@ import (
 
 func CoreInstancePoolInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCoreInstancePoolInstances,
+		ReadContext: readCoreInstancePoolInstancesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -39,12 +40,12 @@ func CoreInstancePoolInstancesDataSource() *schema.Resource {
 	}
 }
 
-func readCoreInstancePoolInstances(d *schema.ResourceData, m interface{}) error {
+func readCoreInstancePoolInstancesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreInstancePoolInstancesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreInstancePoolInstancesDataSourceCrud struct {
@@ -57,7 +58,7 @@ func (s *CoreInstancePoolInstancesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreInstancePoolInstancesDataSourceCrud) Get() error {
+func (s *CoreInstancePoolInstancesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.ListInstancePoolInstancesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -77,7 +78,7 @@ func (s *CoreInstancePoolInstancesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.ListInstancePoolInstances(context.Background(), request)
+	response, err := s.Client.ListInstancePoolInstances(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -86,7 +87,7 @@ func (s *CoreInstancePoolInstancesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListInstancePoolInstances(context.Background(), request)
+		listResponse, err := s.Client.ListInstancePoolInstances(ctx, request)
 		if err != nil {
 			return err
 		}

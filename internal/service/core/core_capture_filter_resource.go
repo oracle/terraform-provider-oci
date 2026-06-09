@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
@@ -21,11 +22,11 @@ func CoreCaptureFilterResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCoreCaptureFilter,
-		Read:     readCoreCaptureFilter,
-		Update:   updateCoreCaptureFilter,
-		Delete:   deleteCoreCaptureFilter,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createCoreCaptureFilterWithContext,
+		ReadContext:   readCoreCaptureFilterWithContext,
+		UpdateContext: updateCoreCaptureFilterWithContext,
+		DeleteContext: deleteCoreCaptureFilterWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -469,40 +470,40 @@ func CoreCaptureFilterResource() *schema.Resource {
 	}
 }
 
-func createCoreCaptureFilter(d *schema.ResourceData, m interface{}) error {
+func createCoreCaptureFilterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreCaptureFilterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readCoreCaptureFilter(d *schema.ResourceData, m interface{}) error {
+func readCoreCaptureFilterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreCaptureFilterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateCoreCaptureFilter(d *schema.ResourceData, m interface{}) error {
+func updateCoreCaptureFilterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreCaptureFilterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteCoreCaptureFilter(d *schema.ResourceData, m interface{}) error {
+func deleteCoreCaptureFilterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreCaptureFilterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type CoreCaptureFilterResourceCrud struct {
@@ -541,7 +542,7 @@ func (s *CoreCaptureFilterResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CoreCaptureFilterResourceCrud) Create() error {
+func (s *CoreCaptureFilterResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_core.CreateCaptureFilterRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -606,7 +607,7 @@ func (s *CoreCaptureFilterResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.CreateCaptureFilter(context.Background(), request)
+	response, err := s.Client.CreateCaptureFilter(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -615,7 +616,7 @@ func (s *CoreCaptureFilterResourceCrud) Create() error {
 	return nil
 }
 
-func (s *CoreCaptureFilterResourceCrud) Get() error {
+func (s *CoreCaptureFilterResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetCaptureFilterRequest{}
 
 	tmp := s.D.Id()
@@ -623,7 +624,7 @@ func (s *CoreCaptureFilterResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.GetCaptureFilter(context.Background(), request)
+	response, err := s.Client.GetCaptureFilter(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -632,11 +633,11 @@ func (s *CoreCaptureFilterResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CoreCaptureFilterResourceCrud) Update() error {
+func (s *CoreCaptureFilterResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -700,7 +701,7 @@ func (s *CoreCaptureFilterResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.UpdateCaptureFilter(context.Background(), request)
+	response, err := s.Client.UpdateCaptureFilter(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -709,7 +710,7 @@ func (s *CoreCaptureFilterResourceCrud) Update() error {
 	return nil
 }
 
-func (s *CoreCaptureFilterResourceCrud) Delete() error {
+func (s *CoreCaptureFilterResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_core.DeleteCaptureFilterRequest{}
 
 	tmp := s.D.Id()
@@ -717,7 +718,7 @@ func (s *CoreCaptureFilterResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	_, err := s.Client.DeleteCaptureFilter(context.Background(), request)
+	_, err := s.Client.DeleteCaptureFilter(ctx, request)
 	return err
 }
 
@@ -1122,7 +1123,7 @@ func VtapCaptureFilterRuleDetailsToMap(obj oci_core.VtapCaptureFilterRuleDetails
 	return result
 }
 
-func (s *CoreCaptureFilterResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *CoreCaptureFilterResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_core.ChangeCaptureFilterCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -1133,14 +1134,14 @@ func (s *CoreCaptureFilterResourceCrud) updateCompartment(compartment interface{
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.ChangeCaptureFilterCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeCaptureFilterCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "captureFilter", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "captureFilter", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

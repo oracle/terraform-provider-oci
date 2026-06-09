@@ -6,6 +6,7 @@ package core
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
@@ -19,15 +20,15 @@ func CoreSubnetDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(CoreSubnetResource(), fieldMap, readSingularCoreSubnet)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(CoreSubnetResource(), fieldMap, readSingularCoreSubnetWithContext)
 }
 
-func readSingularCoreSubnet(d *schema.ResourceData, m interface{}) error {
+func readSingularCoreSubnetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreSubnetDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreSubnetDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *CoreSubnetDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreSubnetDataSourceCrud) Get() error {
+func (s *CoreSubnetDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetSubnetRequest{}
 
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
@@ -50,7 +51,7 @@ func (s *CoreSubnetDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.GetSubnet(context.Background(), request)
+	response, err := s.Client.GetSubnet(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -9,6 +9,7 @@ import (
 	"log"
 	"strconv"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -23,11 +24,11 @@ func CoreVolumeBackupResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCoreVolumeBackup,
-		Read:     readCoreVolumeBackup,
-		Update:   updateCoreVolumeBackup,
-		Delete:   deleteCoreVolumeBackup,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createCoreVolumeBackupWithContext,
+		ReadContext:   readCoreVolumeBackupWithContext,
+		UpdateContext: updateCoreVolumeBackupWithContext,
+		DeleteContext: deleteCoreVolumeBackupWithContext,
 		Schema: map[string]*schema.Schema{
 			// Optional
 			"volume_id": {
@@ -155,7 +156,7 @@ func CoreVolumeBackupResource() *schema.Resource {
 	}
 }
 
-func createCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
+func createCoreVolumeBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockstorageClient()
@@ -163,19 +164,19 @@ func createCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
 
 	compartment, ok := sync.D.GetOkExists("compartment_id")
 
-	err := tfresource.CreateResource(d, sync)
+	err := tfresource.CreateResourceWithContext(ctx, d, sync)
 	if err != nil {
-		return err
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	if ok && compartment != *sync.Res.CompartmentId {
-		err = sync.updateCompartment(compartment)
+		err = sync.updateCompartment(ctx, compartment)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 		tmp := compartment.(string)
 		sync.Res.CompartmentId = &tmp
-		err := sync.Get()
+		err := sync.GetWithContext(ctx)
 		if err != nil {
 			log.Printf("error doing a Get() after compartment Update: %v", err)
 		}
@@ -187,32 +188,32 @@ func createCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func readCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
+func readCoreVolumeBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockstorageClient()
 	sync.workRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
+func updateCoreVolumeBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockstorageClient()
 	sync.workRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteCoreVolumeBackup(d *schema.ResourceData, m interface{}) error {
+func deleteCoreVolumeBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreVolumeBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockstorageClient()
 	sync.workRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type CoreVolumeBackupResourceCrud struct {
@@ -255,12 +256,12 @@ func (s *CoreVolumeBackupResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CoreVolumeBackupResourceCrud) Create() error {
+func (s *CoreVolumeBackupResourceCrud) CreateWithContext(ctx context.Context) error {
 	if s.isCopyCreate() {
-		return s.createVolumeBackupCopy()
+		return s.createVolumeBackupCopy(ctx)
 	}
 
-	return s.CreateVolumeBackup()
+	return s.CreateVolumeBackup(ctx)
 }
 
 func (s *CoreVolumeBackupResourceCrud) isCopyCreate() bool {
@@ -272,7 +273,7 @@ func (s *CoreVolumeBackupResourceCrud) isCopyCreate() bool {
 	return false
 }
 
-func (s *CoreVolumeBackupResourceCrud) createVolumeBackupCopy() error {
+func (s *CoreVolumeBackupResourceCrud) createVolumeBackupCopy(ctx context.Context) error {
 	copyVolumeBackupRequest := oci_core.CopyVolumeBackupRequest{}
 
 	configProvider := *s.Client.ConfigurationProvider()
@@ -313,7 +314,7 @@ func (s *CoreVolumeBackupResourceCrud) createVolumeBackupCopy() error {
 		copyVolumeBackupRequest.DisplayName = &tmp
 	}
 
-	response, err := s.SourceRegionClient.CopyVolumeBackup(context.Background(), copyVolumeBackupRequest)
+	response, err := s.SourceRegionClient.CopyVolumeBackup(ctx, copyVolumeBackupRequest)
 	if err != nil {
 		return err
 	}
@@ -323,14 +324,14 @@ func (s *CoreVolumeBackupResourceCrud) createVolumeBackupCopy() error {
 	s.Res = &response.VolumeBackup
 
 	if workRequestId != nil {
-		_, err := tfresource.WaitForWorkRequestWithErrorHandling(s.workRequestClient, workRequestId, "volumeBackup", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err := tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.workRequestClient, workRequestId, "volumeBackup", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
 	s.D.SetId(*s.Res.Id)
-	err = tfresource.WaitForResourceCondition(s, func() bool { return s.Res.LifecycleState == oci_core.VolumeBackupLifecycleStateAvailable }, s.D.Timeout(schema.TimeoutCreate))
+	err = tfresource.WaitForResourceConditionWithContext(ctx, s, func() bool { return s.Res.LifecycleState == oci_core.VolumeBackupLifecycleStateAvailable }, s.D.Timeout(schema.TimeoutCreate))
 	if err != nil {
 		return err
 	}
@@ -338,7 +339,7 @@ func (s *CoreVolumeBackupResourceCrud) createVolumeBackupCopy() error {
 	return nil
 }
 
-func (s *CoreVolumeBackupResourceCrud) CreateVolumeBackup() error {
+func (s *CoreVolumeBackupResourceCrud) CreateVolumeBackup(ctx context.Context) error {
 	request := oci_core.CreateVolumeBackupRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -374,7 +375,7 @@ func (s *CoreVolumeBackupResourceCrud) CreateVolumeBackup() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.CreateVolumeBackup(context.Background(), request)
+	response, err := s.Client.CreateVolumeBackup(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -383,7 +384,7 @@ func (s *CoreVolumeBackupResourceCrud) CreateVolumeBackup() error {
 	return nil
 }
 
-func (s *CoreVolumeBackupResourceCrud) Get() error {
+func (s *CoreVolumeBackupResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetVolumeBackupRequest{}
 
 	tmp := s.D.Id()
@@ -391,7 +392,7 @@ func (s *CoreVolumeBackupResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.GetVolumeBackup(context.Background(), request)
+	response, err := s.Client.GetVolumeBackup(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -400,11 +401,11 @@ func (s *CoreVolumeBackupResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CoreVolumeBackupResourceCrud) Update() error {
+func (s *CoreVolumeBackupResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -439,7 +440,7 @@ func (s *CoreVolumeBackupResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.UpdateVolumeBackup(context.Background(), request)
+	response, err := s.Client.UpdateVolumeBackup(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -448,7 +449,7 @@ func (s *CoreVolumeBackupResourceCrud) Update() error {
 	return nil
 }
 
-func (s *CoreVolumeBackupResourceCrud) Delete() error {
+func (s *CoreVolumeBackupResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_core.DeleteVolumeBackupRequest{}
 
 	tmp := s.D.Id()
@@ -456,7 +457,7 @@ func (s *CoreVolumeBackupResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	_, err := s.Client.DeleteVolumeBackup(context.Background(), request)
+	_, err := s.Client.DeleteVolumeBackup(ctx, request)
 	return err
 }
 
@@ -528,7 +529,7 @@ func (s *CoreVolumeBackupResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *CoreVolumeBackupResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *CoreVolumeBackupResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_core.ChangeVolumeBackupCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -539,12 +540,12 @@ func (s *CoreVolumeBackupResourceCrud) updateCompartment(compartment interface{}
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	_, err := s.Client.ChangeVolumeBackupCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeVolumeBackupCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

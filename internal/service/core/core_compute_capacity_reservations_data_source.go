@@ -10,13 +10,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 )
 
 func CoreComputeCapacityReservationsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCoreComputeCapacityReservations,
+		ReadContext: readCoreComputeCapacityReservationsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"availability_domain": {
@@ -44,12 +45,12 @@ func CoreComputeCapacityReservationsDataSource() *schema.Resource {
 	}
 }
 
-func readCoreComputeCapacityReservations(d *schema.ResourceData, m interface{}) error {
+func readCoreComputeCapacityReservationsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeCapacityReservationsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreComputeCapacityReservationsDataSourceCrud struct {
@@ -62,7 +63,7 @@ func (s *CoreComputeCapacityReservationsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreComputeCapacityReservationsDataSourceCrud) Get() error {
+func (s *CoreComputeCapacityReservationsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.ListComputeCapacityReservationsRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -86,7 +87,7 @@ func (s *CoreComputeCapacityReservationsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.ListComputeCapacityReservations(context.Background(), request)
+	response, err := s.Client.ListComputeCapacityReservations(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -95,7 +96,7 @@ func (s *CoreComputeCapacityReservationsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListComputeCapacityReservations(context.Background(), request)
+		listResponse, err := s.Client.ListComputeCapacityReservations(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -7,6 +7,7 @@ import (
 	"context"
 	"encoding/json"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
@@ -16,7 +17,7 @@ import (
 
 func CoreInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCoreInstances,
+		ReadContext: readCoreInstancesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"availability_domain": {
@@ -52,12 +53,12 @@ func CoreInstancesDataSource() *schema.Resource {
 	}
 }
 
-func readCoreInstances(d *schema.ResourceData, m interface{}) error {
+func readCoreInstancesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreInstancesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreInstancesDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *CoreInstancesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreInstancesDataSourceCrud) Get() error {
+func (s *CoreInstancesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.ListInstancesRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -104,7 +105,7 @@ func (s *CoreInstancesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.ListInstances(context.Background(), request)
+	response, err := s.Client.ListInstances(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -113,7 +114,7 @@ func (s *CoreInstancesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListInstances(context.Background(), request)
+		listResponse, err := s.Client.ListInstances(ctx, request)
 		if err != nil {
 			return err
 		}

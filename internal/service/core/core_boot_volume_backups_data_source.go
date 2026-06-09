@@ -10,13 +10,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 )
 
 func CoreBootVolumeBackupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCoreBootVolumeBackups,
+		ReadContext: readCoreBootVolumeBackupsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"boot_volume_id": {
@@ -48,12 +49,12 @@ func CoreBootVolumeBackupsDataSource() *schema.Resource {
 	}
 }
 
-func readCoreBootVolumeBackups(d *schema.ResourceData, m interface{}) error {
+func readCoreBootVolumeBackupsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreBootVolumeBackupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockstorageClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreBootVolumeBackupsDataSourceCrud struct {
@@ -66,7 +67,7 @@ func (s *CoreBootVolumeBackupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreBootVolumeBackupsDataSourceCrud) Get() error {
+func (s *CoreBootVolumeBackupsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.ListBootVolumeBackupsRequest{}
 
 	if bootVolumeId, ok := s.D.GetOkExists("boot_volume_id"); ok {
@@ -95,7 +96,7 @@ func (s *CoreBootVolumeBackupsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.ListBootVolumeBackups(context.Background(), request)
+	response, err := s.Client.ListBootVolumeBackups(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -104,7 +105,7 @@ func (s *CoreBootVolumeBackupsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListBootVolumeBackups(context.Background(), request)
+		listResponse, err := s.Client.ListBootVolumeBackups(ctx, request)
 		if err != nil {
 			return err
 		}

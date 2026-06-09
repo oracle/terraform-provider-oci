@@ -7,6 +7,7 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
@@ -17,7 +18,7 @@ import (
 
 func CoreImagesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCoreImages,
+		ReadContext: readCoreImagesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -69,12 +70,12 @@ func CoreImagesDataSource() *schema.Resource {
 	}
 }
 
-func readCoreImages(d *schema.ResourceData, m interface{}) error {
+func readCoreImagesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreImagesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreImagesDataSourceCrud struct {
@@ -87,7 +88,7 @@ func (s *CoreImagesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreImagesDataSourceCrud) Get() error {
+func (s *CoreImagesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.ListImagesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -129,7 +130,7 @@ func (s *CoreImagesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.ListImages(context.Background(), request)
+	response, err := s.Client.ListImages(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -138,7 +139,7 @@ func (s *CoreImagesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListImages(context.Background(), request)
+		listResponse, err := s.Client.ListImages(ctx, request)
 		if err != nil {
 			return err
 		}

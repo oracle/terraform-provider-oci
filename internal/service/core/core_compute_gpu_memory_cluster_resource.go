@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
@@ -22,11 +23,11 @@ func CoreComputeGpuMemoryClusterResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCoreComputeGpuMemoryCluster,
-		Read:     readCoreComputeGpuMemoryCluster,
-		Update:   updateCoreComputeGpuMemoryCluster,
-		Delete:   deleteCoreComputeGpuMemoryCluster,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createCoreComputeGpuMemoryClusterWithContext,
+		ReadContext:   readCoreComputeGpuMemoryClusterWithContext,
+		UpdateContext: updateCoreComputeGpuMemoryClusterWithContext,
+		DeleteContext: deleteCoreComputeGpuMemoryClusterWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -141,40 +142,40 @@ func CoreComputeGpuMemoryClusterResource() *schema.Resource {
 	}
 }
 
-func createCoreComputeGpuMemoryCluster(d *schema.ResourceData, m interface{}) error {
+func createCoreComputeGpuMemoryClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeGpuMemoryClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readCoreComputeGpuMemoryCluster(d *schema.ResourceData, m interface{}) error {
+func readCoreComputeGpuMemoryClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeGpuMemoryClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateCoreComputeGpuMemoryCluster(d *schema.ResourceData, m interface{}) error {
+func updateCoreComputeGpuMemoryClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeGpuMemoryClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteCoreComputeGpuMemoryCluster(d *schema.ResourceData, m interface{}) error {
+func deleteCoreComputeGpuMemoryClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeGpuMemoryClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type CoreComputeGpuMemoryClusterResourceCrud struct {
@@ -225,7 +226,7 @@ func (s *CoreComputeGpuMemoryClusterResourceCrud) UpdatedTarget() []string {
 	}
 }
 
-func (s *CoreComputeGpuMemoryClusterResourceCrud) Create() error {
+func (s *CoreComputeGpuMemoryClusterResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_core.CreateComputeGpuMemoryClusterRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -299,7 +300,7 @@ func (s *CoreComputeGpuMemoryClusterResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.CreateComputeGpuMemoryCluster(context.Background(), request)
+	response, err := s.Client.CreateComputeGpuMemoryCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -315,7 +316,7 @@ func (s *CoreComputeGpuMemoryClusterResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "computegpumemorycluster", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "computegpumemorycluster", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
@@ -323,10 +324,10 @@ func (s *CoreComputeGpuMemoryClusterResourceCrud) Create() error {
 			return err
 		}
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *CoreComputeGpuMemoryClusterResourceCrud) Get() error {
+func (s *CoreComputeGpuMemoryClusterResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetComputeGpuMemoryClusterRequest{}
 
 	tmp := s.D.Id()
@@ -334,7 +335,7 @@ func (s *CoreComputeGpuMemoryClusterResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.GetComputeGpuMemoryCluster(context.Background(), request)
+	response, err := s.Client.GetComputeGpuMemoryCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -343,11 +344,11 @@ func (s *CoreComputeGpuMemoryClusterResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CoreComputeGpuMemoryClusterResourceCrud) Update() error {
+func (s *CoreComputeGpuMemoryClusterResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -409,22 +410,22 @@ func (s *CoreComputeGpuMemoryClusterResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.UpdateComputeGpuMemoryCluster(context.Background(), request)
+	response, err := s.Client.UpdateComputeGpuMemoryCluster(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "computegpumemorycluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "computegpumemorycluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *CoreComputeGpuMemoryClusterResourceCrud) Delete() error {
+func (s *CoreComputeGpuMemoryClusterResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_core.DeleteComputeGpuMemoryClusterRequest{}
 
 	tmp := s.D.Id()
@@ -432,14 +433,14 @@ func (s *CoreComputeGpuMemoryClusterResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.DeleteComputeGpuMemoryCluster(context.Background(), request)
+	response, err := s.Client.DeleteComputeGpuMemoryCluster(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "computegpumemorycluster", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "computegpumemorycluster", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -676,7 +677,7 @@ func ComputeGpuMemoryClusterScaleConfigToMap(obj *oci_core.ComputeGpuMemoryClust
 	return result
 }
 
-func (s *CoreComputeGpuMemoryClusterResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *CoreComputeGpuMemoryClusterResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_core.ChangeComputeGpuMemoryClusterCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -687,12 +688,12 @@ func (s *CoreComputeGpuMemoryClusterResourceCrud) updateCompartment(compartment 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	_, err := s.Client.ChangeComputeGpuMemoryClusterCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeComputeGpuMemoryClusterCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

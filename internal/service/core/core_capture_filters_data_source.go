@@ -6,6 +6,7 @@ package core
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
@@ -15,7 +16,7 @@ import (
 
 func CoreCaptureFiltersDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCoreCaptureFilters,
+		ReadContext: readCoreCaptureFiltersWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -43,12 +44,12 @@ func CoreCaptureFiltersDataSource() *schema.Resource {
 	}
 }
 
-func readCoreCaptureFilters(d *schema.ResourceData, m interface{}) error {
+func readCoreCaptureFiltersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreCaptureFiltersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreCaptureFiltersDataSourceCrud struct {
@@ -61,7 +62,7 @@ func (s *CoreCaptureFiltersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreCaptureFiltersDataSourceCrud) Get() error {
+func (s *CoreCaptureFiltersDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.ListCaptureFiltersRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -84,7 +85,7 @@ func (s *CoreCaptureFiltersDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.ListCaptureFilters(context.Background(), request)
+	response, err := s.Client.ListCaptureFilters(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -93,7 +94,7 @@ func (s *CoreCaptureFiltersDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListCaptureFilters(context.Background(), request)
+		listResponse, err := s.Client.ListCaptureFilters(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -29,10 +30,10 @@ func CoreImageResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("2h"),
 			Delete: tfresource.GetTimeoutDuration("2h"),
 		},
-		Create: createCoreImage,
-		Read:   readCoreImage,
-		Update: updateCoreImage,
-		Delete: deleteCoreImage,
+		CreateContext: createCoreImageWithContext,
+		ReadContext:   readCoreImageWithContext,
+		UpdateContext: updateCoreImageWithContext,
+		DeleteContext: deleteCoreImageWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -231,40 +232,40 @@ func CoreImageResource() *schema.Resource {
 	}
 }
 
-func createCoreImage(d *schema.ResourceData, m interface{}) error {
+func createCoreImageWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreImageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readCoreImage(d *schema.ResourceData, m interface{}) error {
+func readCoreImageWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreImageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateCoreImage(d *schema.ResourceData, m interface{}) error {
+func updateCoreImageWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreImageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteCoreImage(d *schema.ResourceData, m interface{}) error {
+func deleteCoreImageWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreImageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type CoreImageResourceCrud struct {
@@ -304,7 +305,7 @@ func (s *CoreImageResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CoreImageResourceCrud) Create() error {
+func (s *CoreImageResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_core.CreateImageRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -351,7 +352,7 @@ func (s *CoreImageResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.CreateImage(context.Background(), request)
+	response, err := s.Client.CreateImage(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -366,7 +367,7 @@ func (s *CoreImageResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "image", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "image", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
@@ -375,10 +376,10 @@ func (s *CoreImageResourceCrud) Create() error {
 		}
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *CoreImageResourceCrud) Get() error {
+func (s *CoreImageResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetImageRequest{}
 
 	tmp := s.D.Id()
@@ -386,7 +387,7 @@ func (s *CoreImageResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.GetImage(context.Background(), request)
+	response, err := s.Client.GetImage(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -395,11 +396,11 @@ func (s *CoreImageResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CoreImageResourceCrud) Update() error {
+func (s *CoreImageResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -429,7 +430,7 @@ func (s *CoreImageResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.UpdateImage(context.Background(), request)
+	response, err := s.Client.UpdateImage(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -438,7 +439,7 @@ func (s *CoreImageResourceCrud) Update() error {
 	return nil
 }
 
-func (s *CoreImageResourceCrud) Delete() error {
+func (s *CoreImageResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_core.DeleteImageRequest{}
 
 	tmp := s.D.Id()
@@ -446,7 +447,7 @@ func (s *CoreImageResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	_, err := s.Client.DeleteImage(context.Background(), request)
+	_, err := s.Client.DeleteImage(ctx, request)
 	return err
 }
 
@@ -589,7 +590,7 @@ func InstanceAgentFeaturesToMap(obj *oci_core.InstanceAgentFeatures) map[string]
 	return result
 }
 
-func (s *CoreImageResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *CoreImageResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_core.ChangeImageCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -600,12 +601,12 @@ func (s *CoreImageResourceCrud) updateCompartment(compartment interface{}) error
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	_, err := s.Client.ChangeImageCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeImageCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

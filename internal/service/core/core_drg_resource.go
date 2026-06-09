@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -22,11 +23,11 @@ func CoreDrgResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCoreDrg,
-		Read:     readCoreDrg,
-		Update:   updateCoreDrg,
-		Delete:   deleteCoreDrg,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createCoreDrgWithContext,
+		ReadContext:   readCoreDrgWithContext,
+		UpdateContext: updateCoreDrgWithContext,
+		DeleteContext: deleteCoreDrgWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -104,40 +105,40 @@ func CoreDrgResource() *schema.Resource {
 	}
 }
 
-func createCoreDrg(d *schema.ResourceData, m interface{}) error {
+func createCoreDrgWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreDrgResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readCoreDrg(d *schema.ResourceData, m interface{}) error {
+func readCoreDrgWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreDrgResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateCoreDrg(d *schema.ResourceData, m interface{}) error {
+func updateCoreDrgWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreDrgResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteCoreDrg(d *schema.ResourceData, m interface{}) error {
+func deleteCoreDrgWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreDrgResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type CoreDrgResourceCrud struct {
@@ -177,7 +178,7 @@ func (s *CoreDrgResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CoreDrgResourceCrud) Create() error {
+func (s *CoreDrgResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_core.CreateDrgRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -204,7 +205,7 @@ func (s *CoreDrgResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.CreateDrg(context.Background(), request)
+	response, err := s.Client.CreateDrg(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -213,7 +214,7 @@ func (s *CoreDrgResourceCrud) Create() error {
 	return nil
 }
 
-func (s *CoreDrgResourceCrud) Get() error {
+func (s *CoreDrgResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetDrgRequest{}
 
 	tmp := s.D.Id()
@@ -221,7 +222,7 @@ func (s *CoreDrgResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.GetDrg(context.Background(), request)
+	response, err := s.Client.GetDrg(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -231,18 +232,18 @@ func (s *CoreDrgResourceCrud) Get() error {
 	statusRequest := oci_core.GetDrgRedundancyStatusRequest{}
 	statusRequest.DrgId = &tmp
 
-	if redundancyStatusResponse, err := s.Client.GetDrgRedundancyStatus(context.Background(), statusRequest); err == nil {
+	if redundancyStatusResponse, err := s.Client.GetDrgRedundancyStatus(ctx, statusRequest); err == nil {
 		s.RedundancyStatus = &redundancyStatusResponse.DrgRedundancyStatus
 	}
 
 	return err
 }
 
-func (s *CoreDrgResourceCrud) Update() error {
+func (s *CoreDrgResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -283,7 +284,7 @@ func (s *CoreDrgResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.UpdateDrg(context.Background(), request)
+	response, err := s.Client.UpdateDrg(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -292,7 +293,7 @@ func (s *CoreDrgResourceCrud) Update() error {
 	return nil
 }
 
-func (s *CoreDrgResourceCrud) Delete() error {
+func (s *CoreDrgResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_core.DeleteDrgRequest{}
 
 	tmp := s.D.Id()
@@ -300,7 +301,7 @@ func (s *CoreDrgResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	_, err := s.Client.DeleteDrg(context.Background(), request)
+	_, err := s.Client.DeleteDrg(ctx, request)
 	return err
 }
 
@@ -394,7 +395,7 @@ func DefaultDrgRouteTablesToMap(obj *oci_core.DefaultDrgRouteTables) map[string]
 	return result
 }
 
-func (s *CoreDrgResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *CoreDrgResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_core.ChangeDrgCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -405,7 +406,7 @@ func (s *CoreDrgResourceCrud) updateCompartment(compartment interface{}) error {
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	_, err := s.Client.ChangeDrgCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeDrgCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
@@ -417,7 +418,7 @@ func (s *CoreDrgResourceCrud) updateCompartment(compartment interface{}) error {
 	tmp := s.D.Id()
 	request.DrgId = &tmp
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
-	_, err = s.Client.GetDrg(context.Background(), request)
+	_, err = s.Client.GetDrg(ctx, request)
 	if err != nil {
 		return err
 	}

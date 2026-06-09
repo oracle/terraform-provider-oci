@@ -6,6 +6,7 @@ package core
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
@@ -19,15 +20,15 @@ func CoreCaptureFilterDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(CoreCaptureFilterResource(), fieldMap, readSingularCoreCaptureFilter)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(CoreCaptureFilterResource(), fieldMap, readSingularCoreCaptureFilterWithContext)
 }
 
-func readSingularCoreCaptureFilter(d *schema.ResourceData, m interface{}) error {
+func readSingularCoreCaptureFilterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreCaptureFilterDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreCaptureFilterDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *CoreCaptureFilterDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreCaptureFilterDataSourceCrud) Get() error {
+func (s *CoreCaptureFilterDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetCaptureFilterRequest{}
 
 	if captureFilterId, ok := s.D.GetOkExists("capture_filter_id"); ok {
@@ -50,7 +51,7 @@ func (s *CoreCaptureFilterDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.GetCaptureFilter(context.Background(), request)
+	response, err := s.Client.GetCaptureFilter(ctx, request)
 	if err != nil {
 		return err
 	}

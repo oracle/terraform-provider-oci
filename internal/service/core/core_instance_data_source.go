@@ -8,6 +8,7 @@ import (
 
 	"log"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
@@ -21,17 +22,17 @@ func CoreInstanceDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(CoreInstanceResource(), fieldMap, readSingularCoreInstance)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(CoreInstanceResource(), fieldMap, readSingularCoreInstanceWithContext)
 }
 
-func readSingularCoreInstance(d *schema.ResourceData, m interface{}) error {
+func readSingularCoreInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreInstanceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 	sync.VirtualNetworkClient = m.(*client.OracleClients).VirtualNetworkClient()
 	sync.BlockStorageClient = m.(*client.OracleClients).BlockstorageClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreInstanceDataSourceCrud struct {
@@ -42,7 +43,7 @@ func (s *CoreInstanceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreInstanceDataSourceCrud) Get() error {
+func (s *CoreInstanceDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetInstanceRequest{}
 
 	if instanceId, ok := s.D.GetOkExists("instance_id"); ok {
@@ -52,7 +53,7 @@ func (s *CoreInstanceDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.GetInstance(context.Background(), request)
+	response, err := s.Client.GetInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -215,7 +216,7 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 		s.D.Set("shape_config", nil)
 	}
 
-	bootVolume, bootVolumeErr := s.getBootVolume()
+	bootVolume, bootVolumeErr := s.getBootVolume(context.Background())
 	if bootVolumeErr != nil {
 		log.Printf("[WARN] Could not get the boot volume: %q", bootVolumeErr)
 	}
@@ -258,7 +259,7 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.LifecycleState == oci_core.InstanceLifecycleStateRunning {
-		vnic, vnicError := s.getPrimaryVnic()
+		vnic, vnicError := s.getPrimaryVnic(context.Background())
 		if vnicError != nil || vnic == nil {
 			log.Printf("[WARN] Primary VNIC could not be found during instance refresh: %q", vnicError)
 		} else {

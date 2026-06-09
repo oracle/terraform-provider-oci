@@ -9,6 +9,7 @@ import (
 	"log"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -24,11 +25,11 @@ func CoreComputeCapacityTopologyResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCoreComputeCapacityTopology,
-		Read:     readCoreComputeCapacityTopology,
-		Update:   updateCoreComputeCapacityTopology,
-		Delete:   deleteCoreComputeCapacityTopology,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createCoreComputeCapacityTopologyWithContext,
+		ReadContext:   readCoreComputeCapacityTopologyWithContext,
+		UpdateContext: updateCoreComputeCapacityTopologyWithContext,
+		DeleteContext: deleteCoreComputeCapacityTopologyWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -107,40 +108,40 @@ func CoreComputeCapacityTopologyResource() *schema.Resource {
 	}
 }
 
-func createCoreComputeCapacityTopology(d *schema.ResourceData, m interface{}) error {
+func createCoreComputeCapacityTopologyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeCapacityTopologyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readCoreComputeCapacityTopology(d *schema.ResourceData, m interface{}) error {
+func readCoreComputeCapacityTopologyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeCapacityTopologyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateCoreComputeCapacityTopology(d *schema.ResourceData, m interface{}) error {
+func updateCoreComputeCapacityTopologyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeCapacityTopologyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteCoreComputeCapacityTopology(d *schema.ResourceData, m interface{}) error {
+func deleteCoreComputeCapacityTopologyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeCapacityTopologyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type CoreComputeCapacityTopologyResourceCrud struct {
@@ -179,7 +180,7 @@ func (s *CoreComputeCapacityTopologyResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CoreComputeCapacityTopologyResourceCrud) Create() error {
+func (s *CoreComputeCapacityTopologyResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_core.CreateComputeCapacityTopologyRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -222,7 +223,7 @@ func (s *CoreComputeCapacityTopologyResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.CreateComputeCapacityTopology(context.Background(), request)
+	response, err := s.Client.CreateComputeCapacityTopology(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -237,7 +238,7 @@ func (s *CoreComputeCapacityTopologyResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "computecapacitytopology", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "computecapacitytopology", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
@@ -249,10 +250,10 @@ func (s *CoreComputeCapacityTopologyResourceCrud) Create() error {
 		identifier = s.Res.Id
 		s.D.SetId(*identifier)
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *CoreComputeCapacityTopologyResourceCrud) Get() error {
+func (s *CoreComputeCapacityTopologyResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetComputeCapacityTopologyRequest{}
 
 	tmp := s.D.Id()
@@ -260,7 +261,7 @@ func (s *CoreComputeCapacityTopologyResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.GetComputeCapacityTopology(context.Background(), request)
+	response, err := s.Client.GetComputeCapacityTopology(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -269,11 +270,11 @@ func (s *CoreComputeCapacityTopologyResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CoreComputeCapacityTopologyResourceCrud) Update() error {
+func (s *CoreComputeCapacityTopologyResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -314,22 +315,22 @@ func (s *CoreComputeCapacityTopologyResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.UpdateComputeCapacityTopology(context.Background(), request)
+	response, err := s.Client.UpdateComputeCapacityTopology(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "computecapacitytopology", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "computecapacitytopology", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *CoreComputeCapacityTopologyResourceCrud) Delete() error {
+func (s *CoreComputeCapacityTopologyResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_core.DeleteComputeCapacityTopologyRequest{}
 
 	tmp := s.D.Id()
@@ -337,14 +338,14 @@ func (s *CoreComputeCapacityTopologyResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.DeleteComputeCapacityTopology(context.Background(), request)
+	response, err := s.Client.DeleteComputeCapacityTopology(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "computecapacitytopology", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "computecapacitytopology", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -491,7 +492,7 @@ func CapacitySourceToMap(obj *oci_core.CapacitySource) map[string]interface{} {
 	return result
 }
 
-func (s *CoreComputeCapacityTopologyResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *CoreComputeCapacityTopologyResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_core.ChangeComputeCapacityTopologyCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -502,14 +503,14 @@ func (s *CoreComputeCapacityTopologyResourceCrud) updateCompartment(compartment 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.ChangeComputeCapacityTopologyCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeComputeCapacityTopologyCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "computecapacitytopology", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "computecapacitytopology", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

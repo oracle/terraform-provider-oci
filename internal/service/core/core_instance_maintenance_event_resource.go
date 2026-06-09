@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -22,11 +23,11 @@ func CoreInstanceMaintenanceEventResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCoreInstanceMaintenanceEvent,
-		Read:     readCoreInstanceMaintenanceEvent,
-		Update:   updateCoreInstanceMaintenanceEvent,
-		Delete:   deleteCoreInstanceMaintenanceEvent,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createCoreInstanceMaintenanceEventWithContext,
+		ReadContext:   readCoreInstanceMaintenanceEventWithContext,
+		UpdateContext: updateCoreInstanceMaintenanceEventWithContext,
+		DeleteContext: deleteCoreInstanceMaintenanceEventWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"instance_maintenance_event_id": {
@@ -152,33 +153,33 @@ func CoreInstanceMaintenanceEventResource() *schema.Resource {
 	}
 }
 
-func createCoreInstanceMaintenanceEvent(d *schema.ResourceData, m interface{}) error {
+func createCoreInstanceMaintenanceEventWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreInstanceMaintenanceEventResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readCoreInstanceMaintenanceEvent(d *schema.ResourceData, m interface{}) error {
+func readCoreInstanceMaintenanceEventWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreInstanceMaintenanceEventResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateCoreInstanceMaintenanceEvent(d *schema.ResourceData, m interface{}) error {
+func updateCoreInstanceMaintenanceEventWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreInstanceMaintenanceEventResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteCoreInstanceMaintenanceEvent(d *schema.ResourceData, m interface{}) error {
+func deleteCoreInstanceMaintenanceEventWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -214,7 +215,7 @@ func (s *CoreInstanceMaintenanceEventResourceCrud) DeletedTarget() []string {
 	return []string{}
 }
 
-func (s *CoreInstanceMaintenanceEventResourceCrud) Create() error {
+func (s *CoreInstanceMaintenanceEventResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_core.UpdateInstanceMaintenanceEventRequest{}
 
 	if alternativeResolutionAction, ok := s.D.GetOkExists("alternative_resolution_action"); ok {
@@ -243,7 +244,7 @@ func (s *CoreInstanceMaintenanceEventResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if instanceMaintenanceEventId, ok := s.D.GetOkExists("instance_maintenance_event_id"); ok {
+	if instanceMaintenanceEventId, ok := s.D.GetOkExists("id"); ok {
 		tmp := instanceMaintenanceEventId.(string)
 		request.InstanceMaintenanceEventId = &tmp
 	}
@@ -258,7 +259,7 @@ func (s *CoreInstanceMaintenanceEventResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.UpdateInstanceMaintenanceEvent(context.Background(), request)
+	response, err := s.Client.UpdateInstanceMaintenanceEvent(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -272,7 +273,7 @@ func (s *CoreInstanceMaintenanceEventResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "instancemaintenanceevent", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "instancemaintenanceevent", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
@@ -280,10 +281,10 @@ func (s *CoreInstanceMaintenanceEventResourceCrud) Create() error {
 			return err
 		}
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *CoreInstanceMaintenanceEventResourceCrud) Get() error {
+func (s *CoreInstanceMaintenanceEventResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetInstanceMaintenanceEventRequest{}
 
 	tmp := s.D.Id()
@@ -291,7 +292,7 @@ func (s *CoreInstanceMaintenanceEventResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.GetInstanceMaintenanceEvent(context.Background(), request)
+	response, err := s.Client.GetInstanceMaintenanceEvent(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -300,7 +301,7 @@ func (s *CoreInstanceMaintenanceEventResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CoreInstanceMaintenanceEventResourceCrud) Update() error {
+func (s *CoreInstanceMaintenanceEventResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_core.UpdateInstanceMaintenanceEventRequest{}
 
 	if alternativeResolutionAction, ok := s.D.GetOkExists("alternative_resolution_action"); ok {
@@ -342,19 +343,19 @@ func (s *CoreInstanceMaintenanceEventResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.UpdateInstanceMaintenanceEvent(context.Background(), request)
+	response, err := s.Client.UpdateInstanceMaintenanceEvent(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "instanceMaintenanceEvent", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "instanceMaintenanceEvent", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func (s *CoreInstanceMaintenanceEventResourceCrud) SetData() error {

@@ -10,6 +10,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 )
@@ -20,15 +21,15 @@ func CoreBootVolumeBackupDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(CoreBootVolumeBackupResource(), fieldMap, readSingularCoreBootVolumeBackup)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(CoreBootVolumeBackupResource(), fieldMap, readSingularCoreBootVolumeBackupWithContext)
 }
 
-func readSingularCoreBootVolumeBackup(d *schema.ResourceData, m interface{}) error {
+func readSingularCoreBootVolumeBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreBootVolumeBackupDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BlockstorageClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreBootVolumeBackupDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *CoreBootVolumeBackupDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreBootVolumeBackupDataSourceCrud) Get() error {
+func (s *CoreBootVolumeBackupDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetBootVolumeBackupRequest{}
 
 	if bootVolumeBackupId, ok := s.D.GetOkExists("boot_volume_backup_id"); ok {
@@ -51,7 +52,7 @@ func (s *CoreBootVolumeBackupDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.GetBootVolumeBackup(context.Background(), request)
+	response, err := s.Client.GetBootVolumeBackup(ctx, request)
 	if err != nil {
 		return err
 	}

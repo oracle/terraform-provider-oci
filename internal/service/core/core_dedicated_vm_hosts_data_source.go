@@ -6,6 +6,7 @@ package core
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
@@ -15,7 +16,7 @@ import (
 
 func CoreDedicatedVmHostsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCoreDedicatedVmHosts,
+		ReadContext: readCoreDedicatedVmHostsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"availability_domain": {
@@ -63,12 +64,12 @@ func CoreDedicatedVmHostsDataSource() *schema.Resource {
 	}
 }
 
-func readCoreDedicatedVmHosts(d *schema.ResourceData, m interface{}) error {
+func readCoreDedicatedVmHostsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreDedicatedVmHostsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreDedicatedVmHostsDataSourceCrud struct {
@@ -81,7 +82,7 @@ func (s *CoreDedicatedVmHostsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreDedicatedVmHostsDataSourceCrud) Get() error {
+func (s *CoreDedicatedVmHostsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.ListDedicatedVmHostsRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -130,7 +131,7 @@ func (s *CoreDedicatedVmHostsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.ListDedicatedVmHosts(context.Background(), request)
+	response, err := s.Client.ListDedicatedVmHosts(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -139,7 +140,7 @@ func (s *CoreDedicatedVmHostsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDedicatedVmHosts(context.Background(), request)
+		listResponse, err := s.Client.ListDedicatedVmHosts(ctx, request)
 		if err != nil {
 			return err
 		}

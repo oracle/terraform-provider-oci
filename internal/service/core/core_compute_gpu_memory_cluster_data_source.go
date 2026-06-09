@@ -7,6 +7,7 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
@@ -20,15 +21,15 @@ func CoreComputeGpuMemoryClusterDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(CoreComputeGpuMemoryClusterResource(), fieldMap, readSingularCoreComputeGpuMemoryCluster)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(CoreComputeGpuMemoryClusterResource(), fieldMap, readSingularCoreComputeGpuMemoryClusterWithContext)
 }
 
-func readSingularCoreComputeGpuMemoryCluster(d *schema.ResourceData, m interface{}) error {
+func readSingularCoreComputeGpuMemoryClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeGpuMemoryClusterDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreComputeGpuMemoryClusterDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *CoreComputeGpuMemoryClusterDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreComputeGpuMemoryClusterDataSourceCrud) Get() error {
+func (s *CoreComputeGpuMemoryClusterDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetComputeGpuMemoryClusterRequest{}
 
 	if computeGpuMemoryClusterId, ok := s.D.GetOkExists("compute_gpu_memory_cluster_id"); ok {
@@ -51,7 +52,7 @@ func (s *CoreComputeGpuMemoryClusterDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.GetComputeGpuMemoryCluster(context.Background(), request)
+	response, err := s.Client.GetComputeGpuMemoryCluster(ctx, request)
 	if err != nil {
 		return err
 	}

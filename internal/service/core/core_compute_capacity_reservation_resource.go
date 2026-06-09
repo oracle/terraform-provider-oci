@@ -13,6 +13,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
@@ -24,11 +25,11 @@ func CoreComputeCapacityReservationResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCoreComputeCapacityReservation,
-		Read:     readCoreComputeCapacityReservation,
-		Update:   updateCoreComputeCapacityReservation,
-		Delete:   deleteCoreComputeCapacityReservation,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createCoreComputeCapacityReservationWithContext,
+		ReadContext:   readCoreComputeCapacityReservationWithContext,
+		UpdateContext: updateCoreComputeCapacityReservationWithContext,
+		DeleteContext: deleteCoreComputeCapacityReservationWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -188,40 +189,40 @@ func CoreComputeCapacityReservationResource() *schema.Resource {
 	}
 }
 
-func createCoreComputeCapacityReservation(d *schema.ResourceData, m interface{}) error {
+func createCoreComputeCapacityReservationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeCapacityReservationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readCoreComputeCapacityReservation(d *schema.ResourceData, m interface{}) error {
+func readCoreComputeCapacityReservationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeCapacityReservationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateCoreComputeCapacityReservation(d *schema.ResourceData, m interface{}) error {
+func updateCoreComputeCapacityReservationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeCapacityReservationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteCoreComputeCapacityReservation(d *schema.ResourceData, m interface{}) error {
+func deleteCoreComputeCapacityReservationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeCapacityReservationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type CoreComputeCapacityReservationResourceCrud struct {
@@ -261,7 +262,7 @@ func (s *CoreComputeCapacityReservationResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CoreComputeCapacityReservationResourceCrud) Create() error {
+func (s *CoreComputeCapacityReservationResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_core.CreateComputeCapacityReservationRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -318,7 +319,7 @@ func (s *CoreComputeCapacityReservationResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.CreateComputeCapacityReservation(context.Background(), request)
+	response, err := s.Client.CreateComputeCapacityReservation(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -332,7 +333,7 @@ func (s *CoreComputeCapacityReservationResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "capacityreservation", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+	identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "capacityreservation", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
@@ -340,10 +341,10 @@ func (s *CoreComputeCapacityReservationResourceCrud) Create() error {
 		return err
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *CoreComputeCapacityReservationResourceCrud) Get() error {
+func (s *CoreComputeCapacityReservationResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetComputeCapacityReservationRequest{}
 
 	tmp := s.D.Id()
@@ -351,7 +352,7 @@ func (s *CoreComputeCapacityReservationResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.GetComputeCapacityReservation(context.Background(), request)
+	response, err := s.Client.GetComputeCapacityReservation(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -360,11 +361,11 @@ func (s *CoreComputeCapacityReservationResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CoreComputeCapacityReservationResourceCrud) Update() error {
+func (s *CoreComputeCapacityReservationResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -418,23 +419,23 @@ func (s *CoreComputeCapacityReservationResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.UpdateComputeCapacityReservation(context.Background(), request)
+	response, err := s.Client.UpdateComputeCapacityReservation(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "capacityreservation", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "capacityreservation", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *CoreComputeCapacityReservationResourceCrud) Delete() error {
+func (s *CoreComputeCapacityReservationResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_core.DeleteComputeCapacityReservationRequest{}
 
 	tmp := s.D.Id()
@@ -442,20 +443,20 @@ func (s *CoreComputeCapacityReservationResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.DeleteComputeCapacityReservation(context.Background(), request)
+	response, err := s.Client.DeleteComputeCapacityReservation(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "capacityreservation", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "capacityreservation", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func (s *CoreComputeCapacityReservationResourceCrud) SetData() error {
@@ -677,7 +678,7 @@ func InstanceReservationShapeConfigDetailsToMap(obj *oci_core.InstanceReservatio
 	return result
 }
 
-func (s *CoreComputeCapacityReservationResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *CoreComputeCapacityReservationResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_core.ChangeComputeCapacityReservationCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -688,14 +689,14 @@ func (s *CoreComputeCapacityReservationResourceCrud) updateCompartment(compartme
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.ChangeComputeCapacityReservationCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeComputeCapacityReservationCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "capacityreservation", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "capacityreservation", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

@@ -7,6 +7,7 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
@@ -20,15 +21,15 @@ func CoreImageDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(CoreImageResource(), fieldMap, readSingularCoreImage)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(CoreImageResource(), fieldMap, readSingularCoreImageWithContext)
 }
 
-func readSingularCoreImage(d *schema.ResourceData, m interface{}) error {
+func readSingularCoreImageWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreImageDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreImageDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *CoreImageDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreImageDataSourceCrud) Get() error {
+func (s *CoreImageDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetImageRequest{}
 
 	if imageId, ok := s.D.GetOkExists("image_id"); ok {
@@ -51,7 +52,7 @@ func (s *CoreImageDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.GetImage(context.Background(), request)
+	response, err := s.Client.GetImage(ctx, request)
 	if err != nil {
 		return err
 	}

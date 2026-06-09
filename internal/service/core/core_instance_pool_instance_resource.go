@@ -11,6 +11,7 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -25,10 +26,10 @@ func CoreInstancePoolInstanceResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCoreInstancePoolInstance,
-		Read:     readCoreInstancePoolInstance,
-		Delete:   deleteCoreInstancePoolInstance,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createCoreInstancePoolInstanceWithContext,
+		ReadContext:   readCoreInstancePoolInstanceWithContext,
+		DeleteContext: deleteCoreInstancePoolInstanceWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"instance_id": {
@@ -131,30 +132,30 @@ func CoreInstancePoolInstanceResource() *schema.Resource {
 	}
 }
 
-func createCoreInstancePoolInstance(d *schema.ResourceData, m interface{}) error {
+func createCoreInstancePoolInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreInstancePoolInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeManagementClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readCoreInstancePoolInstance(d *schema.ResourceData, m interface{}) error {
+func readCoreInstancePoolInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreInstancePoolInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteCoreInstancePoolInstance(d *schema.ResourceData, m interface{}) error {
+func deleteCoreInstancePoolInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreInstancePoolInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeManagementClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type CoreInstancePoolInstanceResourceCrud struct {
@@ -187,7 +188,7 @@ func (s *CoreInstancePoolInstanceResourceCrud) DeletedPending() []string {
 	}
 }
 
-func (s *CoreInstancePoolInstanceResourceCrud) Create() error {
+func (s *CoreInstancePoolInstanceResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_core.AttachInstancePoolInstanceRequest{}
 
 	if instanceId, ok := s.D.GetOkExists("instance_id"); ok {
@@ -202,7 +203,7 @@ func (s *CoreInstancePoolInstanceResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.AttachInstancePoolInstance(context.Background(), request)
+	response, err := s.Client.AttachInstancePoolInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -214,7 +215,7 @@ func (s *CoreInstancePoolInstanceResourceCrud) Create() error {
 		var identifier *string
 		var err error
 		s.D.SetId(s.ID())
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "instancepool", oci_work_requests.WorkRequestResourceActionTypeRelated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "instancepool", oci_work_requests.WorkRequestResourceActionTypeRelated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
@@ -226,7 +227,7 @@ func (s *CoreInstancePoolInstanceResourceCrud) Create() error {
 	return nil
 }
 
-func (s *CoreInstancePoolInstanceResourceCrud) Get() error {
+func (s *CoreInstancePoolInstanceResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetInstancePoolInstanceRequest{}
 	instancePoolId, instanceId, err := parseInstancePoolInstanceCompositeId(s.D.Id())
 	if err == nil {
@@ -238,7 +239,7 @@ func (s *CoreInstancePoolInstanceResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.GetInstancePoolInstance(context.Background(), request)
+	response, err := s.Client.GetInstancePoolInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -247,7 +248,7 @@ func (s *CoreInstancePoolInstanceResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CoreInstancePoolInstanceResourceCrud) Delete() error {
+func (s *CoreInstancePoolInstanceResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_core.DetachInstancePoolInstanceRequest{}
 	instancePoolId, instanceId, err := parseInstancePoolInstanceCompositeId(s.D.Id())
 	if err == nil {
@@ -269,14 +270,14 @@ func (s *CoreInstancePoolInstanceResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.DetachInstancePoolInstance(context.Background(), request)
+	response, err := s.Client.DetachInstancePoolInstance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		identifier, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "instancepool", oci_work_requests.WorkRequestResourceActionTypeRelated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err := tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "instancepool", oci_work_requests.WorkRequestResourceActionTypeRelated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}

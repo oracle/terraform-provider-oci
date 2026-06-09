@@ -6,6 +6,7 @@ package core
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
@@ -15,7 +16,7 @@ import (
 
 func CoreComputeCapacityTopologiesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCoreComputeCapacityTopologies,
+		ReadContext: readCoreComputeCapacityTopologiesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"availability_domain": {
@@ -48,12 +49,12 @@ func CoreComputeCapacityTopologiesDataSource() *schema.Resource {
 	}
 }
 
-func readCoreComputeCapacityTopologies(d *schema.ResourceData, m interface{}) error {
+func readCoreComputeCapacityTopologiesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeCapacityTopologiesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreComputeCapacityTopologiesDataSourceCrud struct {
@@ -66,7 +67,7 @@ func (s *CoreComputeCapacityTopologiesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreComputeCapacityTopologiesDataSourceCrud) Get() error {
+func (s *CoreComputeCapacityTopologiesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.ListComputeCapacityTopologiesRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -86,7 +87,7 @@ func (s *CoreComputeCapacityTopologiesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.ListComputeCapacityTopologies(context.Background(), request)
+	response, err := s.Client.ListComputeCapacityTopologies(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -95,7 +96,7 @@ func (s *CoreComputeCapacityTopologiesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListComputeCapacityTopologies(context.Background(), request)
+		listResponse, err := s.Client.ListComputeCapacityTopologies(ctx, request)
 		if err != nil {
 			return err
 		}

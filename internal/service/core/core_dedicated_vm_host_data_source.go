@@ -6,6 +6,7 @@ package core
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
@@ -19,15 +20,15 @@ func CoreDedicatedVmHostDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(CoreDedicatedVmHostResource(), fieldMap, readSingularCoreDedicatedVmHost)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(CoreDedicatedVmHostResource(), fieldMap, readSingularCoreDedicatedVmHostWithContext)
 }
 
-func readSingularCoreDedicatedVmHost(d *schema.ResourceData, m interface{}) error {
+func readSingularCoreDedicatedVmHostWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreDedicatedVmHostDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreDedicatedVmHostDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *CoreDedicatedVmHostDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreDedicatedVmHostDataSourceCrud) Get() error {
+func (s *CoreDedicatedVmHostDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetDedicatedVmHostRequest{}
 
 	if dedicatedVmHostId, ok := s.D.GetOkExists("dedicated_vm_host_id"); ok {
@@ -50,7 +51,7 @@ func (s *CoreDedicatedVmHostDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.GetDedicatedVmHost(context.Background(), request)
+	response, err := s.Client.GetDedicatedVmHost(ctx, request)
 	if err != nil {
 		return err
 	}

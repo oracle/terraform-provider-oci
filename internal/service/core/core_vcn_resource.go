@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"slices"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
@@ -24,10 +25,10 @@ func CoreVcnResource() *schema.Resource {
 		},
 		CustomizeDiff: suppressMatchingByoipv6CidrDetailsDiff,
 		Timeouts:      tfresource.DefaultTimeout,
-		Create:        createCoreVcn,
-		Read:          readCoreVcn,
-		Update:        updateCoreVcn,
-		Delete:        deleteCoreVcn,
+		CreateContext: createCoreVcnWithContext,
+		ReadContext:   readCoreVcnWithContext,
+		UpdateContext: updateCoreVcnWithContext,
+		DeleteContext: deleteCoreVcnWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -168,41 +169,41 @@ func CoreVcnResource() *schema.Resource {
 	}
 }
 
-func createCoreVcn(d *schema.ResourceData, m interface{}) error {
+func createCoreVcnWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreVcnResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readCoreVcn(d *schema.ResourceData, m interface{}) error {
+func readCoreVcnWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreVcnResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateCoreVcn(d *schema.ResourceData, m interface{}) error {
+func updateCoreVcnWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreVcnResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteCoreVcn(d *schema.ResourceData, m interface{}) error {
+func deleteCoreVcnWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreVcnResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type CoreVcnResourceCrud struct {
@@ -241,7 +242,7 @@ func (s *CoreVcnResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CoreVcnResourceCrud) Create() error {
+func (s *CoreVcnResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_core.CreateVcnRequest{}
 
 	if byoipv6CidrDetails, ok := s.D.GetOkExists("byoipv6cidr_details"); ok {
@@ -336,7 +337,7 @@ func (s *CoreVcnResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.CreateVcn(context.Background(), request)
+	response, err := s.Client.CreateVcn(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -345,8 +346,8 @@ func (s *CoreVcnResourceCrud) Create() error {
 	return nil
 }
 
-func (s *CoreVcnResourceCrud) Get() error {
-	response, err := s.getVcn()
+func (s *CoreVcnResourceCrud) GetWithContext(ctx context.Context) error {
+	response, err := s.getVcn(ctx)
 	if err != nil {
 		return err
 	}
@@ -355,7 +356,7 @@ func (s *CoreVcnResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CoreVcnResourceCrud) getVcn() (oci_core.GetVcnResponse, error) {
+func (s *CoreVcnResourceCrud) getVcn(ctx context.Context) (oci_core.GetVcnResponse, error) {
 	request := oci_core.GetVcnRequest{}
 
 	tmp := s.D.Id()
@@ -363,14 +364,14 @@ func (s *CoreVcnResourceCrud) getVcn() (oci_core.GetVcnResponse, error) {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	return s.Client.GetVcn(context.Background(), request)
+	return s.Client.GetVcn(ctx, request)
 }
 
-func (s *CoreVcnResourceCrud) Update() error {
+func (s *CoreVcnResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -391,11 +392,11 @@ func (s *CoreVcnResourceCrud) Update() error {
 			isOracleGuaAllocationEnabled := true
 			addVcnIpv6CidrDetails.IsOracleGuaAllocationEnabled = &isOracleGuaAllocationEnabled
 			enableIPv6Request.AddVcnIpv6CidrDetails = addVcnIpv6CidrDetails
-			response, err := s.Client.AddIpv6VcnCidr(context.Background(), enableIPv6Request)
+			response, err := s.Client.AddIpv6VcnCidr(ctx, enableIPv6Request)
 			if err != nil {
 				return err
 			}
-			if err := s.waitForWorkRequest(response.OpcWorkRequestId); err != nil {
+			if err := s.waitForWorkRequest(ctx, response.OpcWorkRequestId); err != nil {
 				return err
 			}
 		}
@@ -411,13 +412,13 @@ func (s *CoreVcnResourceCrud) Update() error {
 	}
 
 	if shouldUsePatch {
-		err := s.patchVcn(ipv6PatchChangeSet)
+		err := s.patchVcn(ctx, ipv6PatchChangeSet)
 		if err != nil {
 			return err
 		}
 	} else {
 		if ipv6PatchChangeSet.byoipv6CidrDetailsChanged {
-			err := s.updateByoIpv6CidrBlocks(ipv6PatchChangeSet.oldByoipv6CidrDetails, ipv6PatchChangeSet.newByoipv6CidrDetails)
+			err := s.updateByoIpv6CidrBlocks(ctx, ipv6PatchChangeSet.oldByoipv6CidrDetails, ipv6PatchChangeSet.newByoipv6CidrDetails)
 			if err != nil {
 				return err
 			}
@@ -425,7 +426,7 @@ func (s *CoreVcnResourceCrud) Update() error {
 
 		// ULA
 		if ipv6PatchChangeSet.ipv6PrivateCidrChanged {
-			err := s.updateIpv6CidrBlocks(ipv6PatchChangeSet.oldIpv6PrivateCidrs, ipv6PatchChangeSet.newIpv6PrivateCidrs)
+			err := s.updateIpv6CidrBlocks(ctx, ipv6PatchChangeSet.oldIpv6PrivateCidrs, ipv6PatchChangeSet.newIpv6PrivateCidrs)
 			if err != nil {
 				return err
 			}
@@ -434,7 +435,7 @@ func (s *CoreVcnResourceCrud) Update() error {
 
 	removedOracleGuaCidr := false
 	if cidr, ok := oracleGuaCidrForRemoval(s.D); ok {
-		if err := s.removeIpv6VcnCidr(cidr); err != nil {
+		if err := s.removeIpv6VcnCidr(ctx, cidr); err != nil {
 			return err
 		}
 		removedOracleGuaCidr = true
@@ -443,7 +444,7 @@ func (s *CoreVcnResourceCrud) Update() error {
 	if _, ok := s.D.GetOkExists("cidr_blocks"); ok && s.D.HasChange("cidr_blocks") {
 		oldRaw, newRaw := s.D.GetChange("cidr_blocks")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCidrBlocks(oldRaw, newRaw)
+			err := s.updateCidrBlocks(ctx, oldRaw, newRaw)
 			if err != nil {
 				return err
 			}
@@ -456,7 +457,7 @@ func (s *CoreVcnResourceCrud) Update() error {
 	}
 
 	if shouldUpdateVcn {
-		response, err := s.Client.UpdateVcn(context.Background(), request)
+		response, err := s.Client.UpdateVcn(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -466,7 +467,7 @@ func (s *CoreVcnResourceCrud) Update() error {
 	}
 
 	if shouldUsePatch || removedOracleGuaCidr || s.Res == nil {
-		return s.Get()
+		return s.GetWithContext(ctx)
 	}
 
 	return nil
@@ -496,7 +497,7 @@ func oracleGuaCidrForRemoval(d *schema.ResourceData) (string, bool) {
 	return ipv6CidrBlocks[0], true
 }
 
-func (s *CoreVcnResourceCrud) removeIpv6VcnCidr(cidr string) error {
+func (s *CoreVcnResourceCrud) removeIpv6VcnCidr(ctx context.Context, cidr string) error {
 	removeIpv6VcnCidrRequest := oci_core.RemoveIpv6VcnCidrRequest{}
 	removeVcnIpv6CidrDetails := oci_core.RemoveVcnIpv6CidrDetails{}
 	idTmp := s.D.Id()
@@ -504,14 +505,14 @@ func (s *CoreVcnResourceCrud) removeIpv6VcnCidr(cidr string) error {
 	removeIpv6VcnCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 	removeVcnIpv6CidrDetails.Ipv6CidrBlock = &cidr
 	removeIpv6VcnCidrRequest.RemoveVcnIpv6CidrDetails = removeVcnIpv6CidrDetails
-	response, err := s.Client.RemoveIpv6VcnCidr(context.Background(), removeIpv6VcnCidrRequest)
+	response, err := s.Client.RemoveIpv6VcnCidr(ctx, removeIpv6VcnCidrRequest)
 	if err != nil {
 		return err
 	}
-	return s.waitForWorkRequest(response.OpcWorkRequestId)
+	return s.waitForWorkRequest(ctx, response.OpcWorkRequestId)
 }
 
-func (s *CoreVcnResourceCrud) updateByoIpv6CidrBlocks(oldByoipCidrDetails []oci_core.Byoipv6CidrDetails, newByoipCidrDetails []oci_core.Byoipv6CidrDetails) error {
+func (s *CoreVcnResourceCrud) updateByoIpv6CidrBlocks(ctx context.Context, oldByoipCidrDetails []oci_core.Byoipv6CidrDetails, newByoipCidrDetails []oci_core.Byoipv6CidrDetails) error {
 	canEdit, operation, byoipv6CidrDetails := oneEditAwayByoipv6(oldByoipCidrDetails, newByoipCidrDetails)
 	if !canEdit {
 		return fmt.Errorf("only one add/remove is allowed at once, new byoipv6_cidr_block must be added at the end of list")
@@ -528,11 +529,11 @@ func (s *CoreVcnResourceCrud) updateByoIpv6CidrBlocks(oldByoipCidrDetails []oci_
 		addIpv6VcnCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 		addVcnIpv6CidrDetails.Byoipv6CidrDetail = &byoipv6CidrDetails
 		addIpv6VcnCidrRequest.AddVcnIpv6CidrDetails = addVcnIpv6CidrDetails
-		response, err := s.Client.AddIpv6VcnCidr(context.Background(), addIpv6VcnCidrRequest)
+		response, err := s.Client.AddIpv6VcnCidr(ctx, addIpv6VcnCidrRequest)
 		if err != nil {
 			return err
 		}
-		err = s.waitForWorkRequest(response.OpcWorkRequestId)
+		err = s.waitForWorkRequest(ctx, response.OpcWorkRequestId)
 		if err != nil {
 			return err
 		}
@@ -545,11 +546,11 @@ func (s *CoreVcnResourceCrud) updateByoIpv6CidrBlocks(oldByoipCidrDetails []oci_
 		removeIpv6VcnCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 		removeVcnIpv6CidrDetails.Ipv6CidrBlock = byoipv6CidrDetails.Ipv6CidrBlock
 		removeIpv6VcnCidrRequest.RemoveVcnIpv6CidrDetails = removeVcnIpv6CidrDetails
-		response, err := s.Client.RemoveIpv6VcnCidr(context.Background(), removeIpv6VcnCidrRequest)
+		response, err := s.Client.RemoveIpv6VcnCidr(ctx, removeIpv6VcnCidrRequest)
 		if err != nil {
 			return err
 		}
-		err = s.waitForWorkRequest(response.OpcWorkRequestId)
+		err = s.waitForWorkRequest(ctx, response.OpcWorkRequestId)
 		if err != nil {
 			return err
 		}
@@ -557,7 +558,7 @@ func (s *CoreVcnResourceCrud) updateByoIpv6CidrBlocks(oldByoipCidrDetails []oci_
 	return nil
 }
 
-func (s *CoreVcnResourceCrud) updateIpv6CidrBlocks(oldBlocks []string, newBlocks []string) error {
+func (s *CoreVcnResourceCrud) updateIpv6CidrBlocks(ctx context.Context, oldBlocks []string, newBlocks []string) error {
 	canEdit, operation, oldCidr, newCidr := oneEditAway(oldBlocks, newBlocks)
 	if !canEdit {
 		return fmt.Errorf("only one add/remove is allowed at once, new ipv6_cidr_block must be added at the end of list")
@@ -572,11 +573,11 @@ func (s *CoreVcnResourceCrud) updateIpv6CidrBlocks(oldBlocks []string, newBlocks
 		addIpv6VcnCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 		addVcnIpv6CidrDetails.Ipv6PrivateCidrBlock = &newCidr
 		addIpv6VcnCidrRequest.AddVcnIpv6CidrDetails = addVcnIpv6CidrDetails
-		response, err := s.Client.AddIpv6VcnCidr(context.Background(), addIpv6VcnCidrRequest)
+		response, err := s.Client.AddIpv6VcnCidr(ctx, addIpv6VcnCidrRequest)
 		if err != nil {
 			return err
 		}
-		err = s.waitForWorkRequest(response.OpcWorkRequestId)
+		err = s.waitForWorkRequest(ctx, response.OpcWorkRequestId)
 		if err != nil {
 			return err
 		}
@@ -589,11 +590,11 @@ func (s *CoreVcnResourceCrud) updateIpv6CidrBlocks(oldBlocks []string, newBlocks
 		removeIpv6VcnCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 		removeVcnIpv6CidrDetails.Ipv6CidrBlock = &oldCidr
 		removeIpv6VcnCidrRequest.RemoveVcnIpv6CidrDetails = removeVcnIpv6CidrDetails
-		response, err := s.Client.RemoveIpv6VcnCidr(context.Background(), removeIpv6VcnCidrRequest)
+		response, err := s.Client.RemoveIpv6VcnCidr(ctx, removeIpv6VcnCidrRequest)
 		if err != nil {
 			return err
 		}
-		err = s.waitForWorkRequest(response.OpcWorkRequestId)
+		err = s.waitForWorkRequest(ctx, response.OpcWorkRequestId)
 		if err != nil {
 			return err
 		}
@@ -601,7 +602,7 @@ func (s *CoreVcnResourceCrud) updateIpv6CidrBlocks(oldBlocks []string, newBlocks
 	return nil
 }
 
-func (s *CoreVcnResourceCrud) patchVcn(changeSet vcnIpv6PatchChangeSet) error {
+func (s *CoreVcnResourceCrud) patchVcn(ctx context.Context, changeSet vcnIpv6PatchChangeSet) error {
 	instructions, err := changeSet.buildPatchInstructions()
 	if err != nil {
 		return err
@@ -611,7 +612,7 @@ func (s *CoreVcnResourceCrud) patchVcn(changeSet vcnIpv6PatchChangeSet) error {
 		return nil
 	}
 
-	getResponse, err := s.getVcn()
+	getResponse, err := s.getVcn(ctx)
 	if err != nil {
 		return err
 	}
@@ -626,12 +627,12 @@ func (s *CoreVcnResourceCrud) patchVcn(changeSet vcnIpv6PatchChangeSet) error {
 	}
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.PatchVcn(context.Background(), request)
+	response, err := s.Client.PatchVcn(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	return s.waitForWorkRequest(response.OpcWorkRequestId)
+	return s.waitForWorkRequest(ctx, response.OpcWorkRequestId)
 }
 
 // buildUpdateVcnRequest assembles the standard UpdateVcn payload for every
@@ -703,9 +704,9 @@ func (s *CoreVcnResourceCrud) buildUpdateVcnRequest() (oci_core.UpdateVcnRequest
 	return request, shouldUpdateVcn, nil
 }
 
-func (s *CoreVcnResourceCrud) waitForWorkRequest(workRequestId *string) error {
+func (s *CoreVcnResourceCrud) waitForWorkRequest(ctx context.Context, workRequestId *string) error {
 	if workRequestId != nil {
-		_, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workRequestId, "vcn", oci_work_requests.WorkRequestResourceActionTypeInProgress, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err := tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workRequestId, "vcn", oci_work_requests.WorkRequestResourceActionTypeInProgress, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -713,12 +714,12 @@ func (s *CoreVcnResourceCrud) waitForWorkRequest(workRequestId *string) error {
 		// matching work request resource action remains IN_PROGRESS. Re-read the
 		// work request so FAILED/CANCELED is surfaced to Terraform instead of
 		// treating the matching resource action as success.
-		return validateCoreWorkRequestStatus(context.Background(), s.WorkRequestClient, workRequestId, "vcn", s.DisableNotFoundRetries)
+		return validateCoreWorkRequestStatus(ctx, s.WorkRequestClient, workRequestId, "vcn", s.DisableNotFoundRetries)
 	}
 	return nil
 }
 
-func (s *CoreVcnResourceCrud) Delete() error {
+func (s *CoreVcnResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_core.DeleteVcnRequest{}
 
 	tmp := s.D.Id()
@@ -726,7 +727,7 @@ func (s *CoreVcnResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	_, err := s.Client.DeleteVcn(context.Background(), request)
+	_, err := s.Client.DeleteVcn(ctx, request)
 	return err
 }
 
@@ -889,7 +890,7 @@ func Byoipv6CidrDetailsToMap(obj oci_core.Byoipv6CidrDetails) map[string]interfa
 	return result
 }
 
-func (s *CoreVcnResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *CoreVcnResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_core.ChangeVcnCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -900,19 +901,19 @@ func (s *CoreVcnResourceCrud) updateCompartment(compartment interface{}) error {
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	_, err := s.Client.ChangeVcnCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeVcnCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	return nil
 }
 
-func (s *CoreVcnResourceCrud) updateCidrBlocks(oldRaw interface{}, newRaw interface{}) error {
+func (s *CoreVcnResourceCrud) updateCidrBlocks(ctx context.Context, oldRaw interface{}, newRaw interface{}) error {
 	interfaces := oldRaw.([]interface{})
 	oldBlocks := make([]string, len(interfaces))
 	for i := range interfaces {
@@ -937,11 +938,11 @@ func (s *CoreVcnResourceCrud) updateCidrBlocks(oldRaw interface{}, newRaw interf
 		addVcnCidrRequest.VcnId = &idTmp
 		addVcnCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 		addVcnCidrRequest.CidrBlock = &newCidr
-		response, err := s.Client.AddVcnCidr(context.Background(), addVcnCidrRequest)
+		response, err := s.Client.AddVcnCidr(ctx, addVcnCidrRequest)
 		if err != nil {
 			return err
 		}
-		if err := s.waitForWorkRequest(response.OpcWorkRequestId); err != nil {
+		if err := s.waitForWorkRequest(ctx, response.OpcWorkRequestId); err != nil {
 			return err
 		}
 	}
@@ -951,11 +952,11 @@ func (s *CoreVcnResourceCrud) updateCidrBlocks(oldRaw interface{}, newRaw interf
 		removeVcnCidrRequest.VcnId = &idTmp
 		removeVcnCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 		removeVcnCidrRequest.CidrBlock = &oldCidr
-		response, err := s.Client.RemoveVcnCidr(context.Background(), removeVcnCidrRequest)
+		response, err := s.Client.RemoveVcnCidr(ctx, removeVcnCidrRequest)
 		if err != nil {
 			return err
 		}
-		if err := s.waitForWorkRequest(response.OpcWorkRequestId); err != nil {
+		if err := s.waitForWorkRequest(ctx, response.OpcWorkRequestId); err != nil {
 			return err
 		}
 	}
@@ -966,11 +967,11 @@ func (s *CoreVcnResourceCrud) updateCidrBlocks(oldRaw interface{}, newRaw interf
 		modifyVcnCidrRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 		modifyVcnCidrRequest.OriginalCidrBlock = &oldCidr
 		modifyVcnCidrRequest.NewCidrBlock = &newCidr
-		response, err := s.Client.ModifyVcnCidr(context.Background(), modifyVcnCidrRequest)
+		response, err := s.Client.ModifyVcnCidr(ctx, modifyVcnCidrRequest)
 		if err != nil {
 			return err
 		}
-		if err := s.waitForWorkRequest(response.OpcWorkRequestId); err != nil {
+		if err := s.waitForWorkRequest(ctx, response.OpcWorkRequestId); err != nil {
 			return err
 		}
 	}

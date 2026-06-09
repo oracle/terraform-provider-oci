@@ -6,6 +6,7 @@ package core
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
@@ -15,7 +16,7 @@ import (
 
 func CoreComputeGpuMemoryClustersDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCoreComputeGpuMemoryClusters,
+		ReadContext: readCoreComputeGpuMemoryClustersWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"availability_domain": {
@@ -60,12 +61,12 @@ func CoreComputeGpuMemoryClustersDataSource() *schema.Resource {
 	}
 }
 
-func readCoreComputeGpuMemoryClusters(d *schema.ResourceData, m interface{}) error {
+func readCoreComputeGpuMemoryClustersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeGpuMemoryClustersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreComputeGpuMemoryClustersDataSourceCrud struct {
@@ -78,7 +79,7 @@ func (s *CoreComputeGpuMemoryClustersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreComputeGpuMemoryClustersDataSourceCrud) Get() error {
+func (s *CoreComputeGpuMemoryClustersDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.ListComputeGpuMemoryClustersRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -113,7 +114,7 @@ func (s *CoreComputeGpuMemoryClustersDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.ListComputeGpuMemoryClusters(context.Background(), request)
+	response, err := s.Client.ListComputeGpuMemoryClusters(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -122,7 +123,7 @@ func (s *CoreComputeGpuMemoryClustersDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListComputeGpuMemoryClusters(context.Background(), request)
+		listResponse, err := s.Client.ListComputeGpuMemoryClusters(ctx, request)
 		if err != nil {
 			return err
 		}

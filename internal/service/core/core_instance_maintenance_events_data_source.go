@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
@@ -17,7 +18,7 @@ import (
 
 func CoreInstanceMaintenanceEventsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readCoreInstanceMaintenanceEvents,
+		ReadContext: readCoreInstanceMaintenanceEventsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -57,12 +58,12 @@ func CoreInstanceMaintenanceEventsDataSource() *schema.Resource {
 	}
 }
 
-func readCoreInstanceMaintenanceEvents(d *schema.ResourceData, m interface{}) error {
+func readCoreInstanceMaintenanceEventsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreInstanceMaintenanceEventsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreInstanceMaintenanceEventsDataSourceCrud struct {
@@ -75,7 +76,7 @@ func (s *CoreInstanceMaintenanceEventsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreInstanceMaintenanceEventsDataSourceCrud) Get() error {
+func (s *CoreInstanceMaintenanceEventsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.ListInstanceMaintenanceEventsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -120,7 +121,7 @@ func (s *CoreInstanceMaintenanceEventsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.ListInstanceMaintenanceEvents(context.Background(), request)
+	response, err := s.Client.ListInstanceMaintenanceEvents(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -129,7 +130,7 @@ func (s *CoreInstanceMaintenanceEventsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListInstanceMaintenanceEvents(context.Background(), request)
+		listResponse, err := s.Client.ListInstanceMaintenanceEvents(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -6,6 +6,7 @@ package core
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
@@ -19,15 +20,15 @@ func CoreVcnDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(CoreVcnResource(), fieldMap, readSingularCoreVcn)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(CoreVcnResource(), fieldMap, readSingularCoreVcnWithContext)
 }
 
-func readSingularCoreVcn(d *schema.ResourceData, m interface{}) error {
+func readSingularCoreVcnWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreVcnDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).VirtualNetworkClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type CoreVcnDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *CoreVcnDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *CoreVcnDataSourceCrud) Get() error {
+func (s *CoreVcnDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetVcnRequest{}
 
 	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
@@ -50,7 +51,7 @@ func (s *CoreVcnDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.GetVcn(context.Background(), request)
+	response, err := s.Client.GetVcn(ctx, request)
 	if err != nil {
 		return err
 	}
