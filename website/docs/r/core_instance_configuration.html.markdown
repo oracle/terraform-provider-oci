@@ -672,7 +672,7 @@ The following arguments are supported:
 				* `SCSI` - Emulated SCSI disk.
 				* `IDE` - Emulated IDE disk.
 				* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
-				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
+				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images.
 		* `metadata` - (Applicable when instance_type=compute) Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 
 			A metadata service runs on every launched instance. The service is an HTTP endpoint listening on 169.254.169.254. You can use the service to:
@@ -925,7 +925,8 @@ The following arguments are supported:
 			* `licensing_configs` - (Applicable when instance_type=instance_options) List of licensing configurations associated with target launch values.
 				* `license_type` - (Optional) License Type for the OS license.
 					* `OCI_PROVIDED` - Oracle Cloud Infrastructure provided license (e.g. metered $/OCPU-hour).
-					* `BRING_YOUR_OWN_LICENSE` - Bring your own license. 
+					* `BRING_YOUR_OWN_LICENSE` - Bring your own license.
+					* `PARTNER_PROVIDED` - Partner provided license. 
 				* `type` - (Required) Operating System type of the Configuration.
 			* `metadata` - (Applicable when instance_type=instance_options) Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 
@@ -1243,7 +1244,7 @@ The following attributes are exported:
 				* `SCSI` - Emulated SCSI disk.
 				* `IDE` - Emulated IDE disk.
 				* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
-				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
+				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images.
 		* `metadata` - Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 
 			A metadata service runs on every launched instance. The service is an HTTP endpoint listening on 169.254.169.254. You can use the service to:
@@ -1490,7 +1491,8 @@ The following attributes are exported:
 			* `licensing_configs` - List of licensing configurations associated with target launch values.
 				* `license_type` - License Type for the OS license.
 					* `OCI_PROVIDED` - Oracle Cloud Infrastructure provided license (e.g. metered $/OCPU-hour).
-					* `BRING_YOUR_OWN_LICENSE` - Bring your own license. 
+					* `BRING_YOUR_OWN_LICENSE` - Bring your own license.
+					* `PARTNER_PROVIDED` - Partner provided license. 
 				* `type` - Operating System type of the Configuration.
 			* `metadata` - Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 

@@ -148,6 +148,10 @@ var (
 	CoreInstanceConfigurationInstanceDetailsLaunchRepresentationForDenseShape = acctest.GetUpdatedRepresentationCopy("launch_details",
 		acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentationForDenseShape},
 		CoreInstanceConfigurationInstanceDetailsLaunchRepresentation)
+	CoreInstanceConfigurationInstanceDetailsLaunchRepresentationWithPartnerProvidedLicensingConfigs = map[string]interface{}{
+		"instance_type":  acctest.Representation{RepType: acctest.Required, Create: `compute`},
+		"launch_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentationWithPartnerProvidedLicensingConfigs},
+	}
 
 	CoreInstanceConfigurationInstanceDetailsBlockRepresentation = map[string]interface{}{
 		"instance_type": acctest.Representation{RepType: acctest.Required, Create: `compute`},
@@ -228,6 +232,15 @@ var (
 		"security_attributes":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.fleet-update.value": "test", "oracle-zpr.fleet-update.mode": "enforce", "oracle-zpr.sensitivity.value": "test", "oracle-zpr.sensitivity.mode": "enforce"}},
 		"shape_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceShapeConfigRepresentation},
 		"licensing_configs":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsOptionsLaunchDetailsLicensingConfigsRepresentation},
+	}
+	CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentationWithPartnerProvidedLicensingConfigs = map[string]interface{}{
+		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"create_vnic_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsPartnerProvidedLicensingConfigsRepresentation},
+		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
+		"shape":               acctest.Representation{RepType: acctest.Optional, Create: InstanceConfigurationVmShape},
+		"source_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsPartnerProvidedLicensingConfigsRepresentation},
+		"licensing_configs":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsOptionsLaunchDetailsPartnerProvidedLicensingConfigsRepresentation},
 	}
 	CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentationImageFilters = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
@@ -354,6 +367,11 @@ var (
 		"subnet_cidr":                              acctest.Representation{RepType: acctest.Optional, Create: `subnetCidr`},
 		"subnet_id":                                acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
+	CoreInstanceConfigurationInstanceDetailsLaunchDetailsCreateVnicDetailsPartnerProvidedLicensingConfigsRepresentation = map[string]interface{}{
+		"assign_public_ip": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
+		"subnet_id":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
+	}
 	CoreInstanceConfigurationInstanceDetailsOptionsLaunchDetailsInstanceOptionsRepresentation = map[string]interface{}{
 		"are_legacy_imds_endpoints_disabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
@@ -373,6 +391,9 @@ var (
 		"type":         acctest.Representation{RepType: acctest.Required, Create: `WINDOWS`},
 		"license_type": acctest.Representation{RepType: acctest.Optional, Create: `OCI_PROVIDED`},
 	}
+	CoreInstanceConfigurationInstanceDetailsOptionsLaunchDetailsPartnerProvidedLicensingConfigsRepresentation = acctest.GetUpdatedRepresentationCopy("license_type",
+		acctest.Representation{RepType: acctest.Optional, Create: `PARTNER_PROVIDED`},
+		CoreInstanceConfigurationInstanceDetailsOptionsLaunchDetailsLicensingConfigsRepresentation)
 	CoreInstanceConfigurationInstanceDetailsOptionsLaunchDetailsPlacementConstraintDetailsRepresentation = map[string]interface{}{
 		"compute_host_group_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compute_host_group_id}`},
 		"type":                  acctest.Representation{RepType: acctest.Required, Create: `HOST_GROUP`},
@@ -381,6 +402,10 @@ var (
 		"source_type":             acctest.Representation{RepType: acctest.Required, Create: `image`},
 		"image_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.InstanceImageOCID[var.region]}`},
 		"boot_volume_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `55`},
+	}
+	CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsPartnerProvidedLicensingConfigsRepresentation = map[string]interface{}{
+		"source_type": acctest.Representation{RepType: acctest.Required, Create: `image`},
+		"image_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.image_id}`},
 	}
 	CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentationImageFilters = map[string]interface{}{
 		"source_type":                          acctest.Representation{RepType: acctest.Required, Create: `image`},
@@ -479,6 +504,24 @@ var (
 
 	CoreInstanceConfigurationResourceDependencies = CoreInstanceConfigurationResourceDependenciesWithoutKms +
 		KeyResourceDependencyConfig
+	CoreInstanceConfigurationPartnerProvidedLicensingConfigDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(CoreSubnetRepresentation, []string{"defined_tags", "lifecycle"}),
+		map[string]interface{}{
+			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(
+			acctest.RepresentationCopyWithRemovedProperties(CoreVcnRepresentation, []string{"defined_tags", "lifecycle", "security_attributes"}),
+			map[string]interface{}{
+				"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
+			})) +
+		AvailabilityDomainConfig
+	CoreInstanceConfigurationPartnerProvidedLicensingConfigRepresentation = map[string]interface{}{
+		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
+		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
+		"instance_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchRepresentationWithPartnerProvidedLicensingConfigs},
+		"source":           acctest.Representation{RepType: acctest.Optional, Create: `NONE`},
+	}
 	InstanceConfigurationVmShape         = `VM.Standard2.1`
 	InstanceConfigurationVmShapeForFlex  = `VM.Standard.E3.Flex`
 	InstanceConfigurationVmShapeForDense = `VM.DenseIO.E4.Flex`
@@ -1074,6 +1117,61 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 				"cluster_placement_group_id",
 			},
 			ResourceName: resourceName,
+		},
+	})
+}
+
+// issue-routing-tag: core/computeManagement
+func TestCoreInstanceConfigurationResource_partnerProvidedLicensingConfig(t *testing.T) {
+	httpreplay.SetScenario("TestCoreInstanceConfigurationResource_partnerProvidedLicensingConfig")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	imageId := utils.GetEnvSettingWithBlankDefault("image_id")
+	imageIdVariableStr := fmt.Sprintf("variable \"image_id\" { default = \"%s\" }\n", imageId)
+
+	resourceName := "oci_core_instance_configuration.test_instance_configuration"
+	datasourceName := "data.oci_core_instance_configurations.test_instance_configurations"
+	singularDatasourceName := "data.oci_core_instance_configuration.test_instance_configuration"
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { acctest.PreCheck(t) },
+		Providers: map[string]*schema.Provider{
+			"oci": acctest.TestAccProvider,
+		},
+		CheckDestroy: testAccCheckCoreInstanceConfigurationDestroy,
+		Steps: []resource.TestStep{
+			{
+				Config: config +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_configurations", "test_instance_configurations", acctest.Optional, acctest.Create, CoreCoreInstanceConfigurationDataSourceRepresentation) +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Required, acctest.Create, CoreCoreInstanceConfigurationSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + imageIdVariableStr + CoreInstanceConfigurationPartnerProvidedLicensingConfigDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create, CoreInstanceConfigurationPartnerProvidedLicensingConfigRepresentation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "backend-servers"),
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.licensing_configs.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.licensing_configs.0.license_type", "PARTNER_PROVIDED"),
+					resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.licensing_configs.0.type", "WINDOWS"),
+					resource.TestCheckResourceAttr(datasourceName, "instance_configurations.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instance_configurations.0.compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "instance_configurations.0.display_name", "backend-servers"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instance_configurations.0.id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_configuration_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.launch_details.0.licensing_configs.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.launch_details.0.licensing_configs.0.license_type", "PARTNER_PROVIDED"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.launch_details.0.licensing_configs.0.type", "WINDOWS"),
+				),
+			},
 		},
 	})
 }
