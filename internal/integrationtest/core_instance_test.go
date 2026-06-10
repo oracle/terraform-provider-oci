@@ -47,6 +47,9 @@ var (
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":               acctest.Representation{RepType: acctest.Optional, Create: `RUNNING`},
 		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceDataSourceFilterRepresentation}}
+	CoreCoreInstancePartnerProvidedDataSourceRepresentation = acctest.GetUpdatedRepresentationCopy("availability_domain",
+		acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
+		CoreCoreInstanceDataSourceRepresentation)
 	CoreInstanceDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_instance.test_instance.id}`}},
@@ -373,6 +376,9 @@ var (
 		"type":         acctest.Representation{RepType: acctest.Required, Create: `WINDOWS`},
 		"license_type": acctest.Representation{RepType: acctest.Optional, Create: `OCI_PROVIDED`, Update: `BRING_YOUR_OWN_LICENSE`},
 	}
+	CoreInstancePartnerProvidedLicensingConfigsRepresentation = acctest.GetUpdatedRepresentationCopy("license_type",
+		acctest.Representation{RepType: acctest.Optional, Create: `PARTNER_PROVIDED`, Update: `PARTNER_PROVIDED`},
+		CoreInstanceLicensingConfigsRepresentation)
 	CoreInstancePlacementConstraintDetailsRepresentation = map[string]interface{}{
 		"type":                       acctest.Representation{RepType: acctest.Required, Create: `COMPUTE_BARE_METAL_HOST`},
 		"compute_bare_metal_host_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compute_bare_metal_host_id}`},
@@ -462,6 +468,18 @@ data "oci_kms_keys" "test_keys_dependency_RSA" {
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
 		CoreKeyResourceDependencyConfig
+
+	CoreInstancePartnerProvidedLicensingConfigDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(CoreSubnetRepresentation, []string{"defined_tags", "lifecycle"}),
+		map[string]interface{}{
+			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
+		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(
+			acctest.RepresentationCopyWithRemovedProperties(CoreVcnRepresentation, []string{"defined_tags", "lifecycle", "security_attributes"}),
+			map[string]interface{}{
+				"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
+			})) +
+		AvailabilityDomainConfig
 
 	CoreInstanceResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Update, CoreDedicatedVmHostRepresentation) +
 		CoreInstanceResourceDependenciesWithoutDHV
@@ -889,6 +907,14 @@ data "oci_kms_keys" "test_keys_dependency_RSA" {
 		"licensing_configs":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceLicensingConfigsRepresentation},
 		"subnet_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
+	InstanceRepresentationWithPartnerProvidedLicensingConfigs = acctest.RepresentationCopyWithNewProperties(
+		acctest.GetUpdatedRepresentationCopy("licensing_configs",
+			acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstancePartnerProvidedLicensingConfigsRepresentation},
+			InstanceRepresentationWithLicensingConfigs),
+		map[string]interface{}{
+			"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
+			"instance_options":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceInstanceOptionsRepresentation},
+		})
 	// ---- Launch with AIE flag ----
 	InstanceRepresentationWithAieFlag = map[string]interface{}{
 		"availability_domain":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
@@ -2352,6 +2378,65 @@ func TestAccResourceCoreInstance_UpdateLicensingConfig(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "licensing_configs.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "licensing_configs.0.os_version"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "licensing_configs.0.license_type", "BRING_YOUR_OWN_LICENSE"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "licensing_configs.0.type", "WINDOWS"),
+				),
+			},
+		},
+	})
+}
+
+func TestAccResourceCoreInstance_PartnerProvidedLicensingConfig(t *testing.T) {
+	httpreplay.SetScenario("TestAccResourceCoreInstance_PartnerProvidedLicensingConfig")
+	defer httpreplay.SaveScenario()
+	provider := acctest.TestAccProvider
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	imageId := utils.GetEnvSettingWithBlankDefault("image_id")
+	imageIdVariableStr := fmt.Sprintf("variable \"image_id\" { default = \"%s\" }\n", imageId)
+
+	managementEndpoint := utils.GetEnvSettingWithBlankDefault("management_endpoint")
+	managementEndpointStr := fmt.Sprintf("variable \"management_endpoint\" { default = \"%s\" }\n", managementEndpoint)
+	datasourceName := "data.oci_core_instances.test_instances"
+	singularDatasourceName := "data.oci_core_instance.test_instance"
+
+	resourceName := "oci_core_instance.test_instance"
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { acctest.PreCheck(t) },
+		Providers: map[string]*schema.Provider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckCoreInstanceDestroy,
+		Steps: []resource.TestStep{
+			{
+				Config: config +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_core_instances", "test_instances", acctest.Optional, acctest.Create, CoreCoreInstancePartnerProvidedDataSourceRepresentation) +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create, CoreCoreInstanceSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + managementEndpointStr + CoreInstancePartnerProvidedLicensingConfigDependencies + imageIdVariableStr +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create, InstanceRepresentationWithPartnerProvidedLicensingConfigs),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "licensing_configs.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "licensing_configs.0.os_version"),
+					resource.TestCheckResourceAttr(resourceName, "licensing_configs.0.license_type", "PARTNER_PROVIDED"),
+					resource.TestCheckResourceAttr(resourceName, "licensing_configs.0.type", "WINDOWS"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.#", "1"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.licensing_configs.#", "1"),
+					resource.TestCheckResourceAttrSet(datasourceName, "instances.0.licensing_configs.0.os_version"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.licensing_configs.0.license_type", "PARTNER_PROVIDED"),
+					resource.TestCheckResourceAttr(datasourceName, "instances.0.licensing_configs.0.type", "WINDOWS"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "licensing_configs.#", "1"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "licensing_configs.0.os_version"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "licensing_configs.0.license_type", "PARTNER_PROVIDED"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "licensing_configs.0.type", "WINDOWS"),
 				),
 			},
