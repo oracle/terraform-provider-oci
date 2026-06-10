@@ -30,6 +30,9 @@ type DbSystemEndpoint struct {
 	// The network address of the DB System.
 	Hostname *string `mandatory:"false" json:"hostname"`
 
+	// The internet protocol (IP) version of the IP address.
+	IpAddressVersion DbSystemEndpointIpAddressVersionEnum `mandatory:"false" json:"ipAddressVersion,omitempty"`
+
 	// The access modes from the client that this endpoint supports.
 	Modes []DbSystemEndpointModesEnum `mandatory:"false" json:"modes,omitempty"`
 
@@ -57,6 +60,9 @@ func (m DbSystemEndpoint) String() string {
 func (m DbSystemEndpoint) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingDbSystemEndpointIpAddressVersionEnum(string(m.IpAddressVersion)); !ok && m.IpAddressVersion != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpAddressVersion: %s. Supported values are: %s.", m.IpAddressVersion, strings.Join(GetDbSystemEndpointIpAddressVersionEnumStringValues(), ",")))
+	}
 	for _, val := range m.Modes {
 		if _, ok := GetMappingDbSystemEndpointModesEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Modes: %s. Supported values are: %s.", val, strings.Join(GetDbSystemEndpointModesEnumStringValues(), ",")))
@@ -73,6 +79,48 @@ func (m DbSystemEndpoint) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// DbSystemEndpointIpAddressVersionEnum Enum with underlying type: string
+type DbSystemEndpointIpAddressVersionEnum string
+
+// Set of constants representing the allowable values for DbSystemEndpointIpAddressVersionEnum
+const (
+	DbSystemEndpointIpAddressVersionIpv4 DbSystemEndpointIpAddressVersionEnum = "IPV4"
+	DbSystemEndpointIpAddressVersionIpv6 DbSystemEndpointIpAddressVersionEnum = "IPV6"
+)
+
+var mappingDbSystemEndpointIpAddressVersionEnum = map[string]DbSystemEndpointIpAddressVersionEnum{
+	"IPV4": DbSystemEndpointIpAddressVersionIpv4,
+	"IPV6": DbSystemEndpointIpAddressVersionIpv6,
+}
+
+var mappingDbSystemEndpointIpAddressVersionEnumLowerCase = map[string]DbSystemEndpointIpAddressVersionEnum{
+	"ipv4": DbSystemEndpointIpAddressVersionIpv4,
+	"ipv6": DbSystemEndpointIpAddressVersionIpv6,
+}
+
+// GetDbSystemEndpointIpAddressVersionEnumValues Enumerates the set of values for DbSystemEndpointIpAddressVersionEnum
+func GetDbSystemEndpointIpAddressVersionEnumValues() []DbSystemEndpointIpAddressVersionEnum {
+	values := make([]DbSystemEndpointIpAddressVersionEnum, 0)
+	for _, v := range mappingDbSystemEndpointIpAddressVersionEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDbSystemEndpointIpAddressVersionEnumStringValues Enumerates the set of values in String for DbSystemEndpointIpAddressVersionEnum
+func GetDbSystemEndpointIpAddressVersionEnumStringValues() []string {
+	return []string{
+		"IPV4",
+		"IPV6",
+	}
+}
+
+// GetMappingDbSystemEndpointIpAddressVersionEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDbSystemEndpointIpAddressVersionEnum(val string) (DbSystemEndpointIpAddressVersionEnum, bool) {
+	enum, ok := mappingDbSystemEndpointIpAddressVersionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // DbSystemEndpointModesEnum Enum with underlying type: string

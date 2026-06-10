@@ -71,7 +71,7 @@ func newComputeClientFromBaseClient(baseClient common.BaseClient, configProvider
 
 // SetRegion overrides the region of this client.
 func (client *ComputeClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("iaas", "https://iaas.{region}.{secondLevelDomain}")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("iaas", "https://iaas.{region}.{dualStack?ds.oci.:}{secondLevelDomain}", "iaas")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -93,6 +93,12 @@ func (client *ComputeClient) setConfigurationProvider(configProvider common.Conf
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *ComputeClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
+// Default value is false
+func (client *ComputeClient) EnableDualStackEndpoints(enableDualStack bool) {
+	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
 }
 
 // AcceptShieldedIntegrityPolicy Accept the changes to the PCR values in the measured boot report.
@@ -141,6 +147,13 @@ func (client ComputeClient) acceptShieldedIntegrityPolicy(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response AcceptShieldedIntegrityPolicyResponse
 	var httpResponse *http.Response
@@ -198,6 +211,13 @@ func (client ComputeClient) addImageShapeCompatibilityEntry(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response AddImageShapeCompatibilityEntryResponse
 	var httpResponse *http.Response
@@ -262,6 +282,13 @@ func (client ComputeClient) applyHostConfiguration(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ApplyHostConfigurationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ApplyHostConfiguration")
@@ -323,6 +350,13 @@ func (client ComputeClient) attachBootVolume(ctx context.Context, request common
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response AttachBootVolumeResponse
 	var httpResponse *http.Response
@@ -386,6 +420,13 @@ func (client ComputeClient) attachComputeHostGroupHost(ctx context.Context, requ
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response AttachComputeHostGroupHostResponse
 	var httpResponse *http.Response
@@ -451,6 +492,13 @@ func (client ComputeClient) attachVnic(ctx context.Context, request common.OCIRe
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response AttachVnicResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "AttachVnic")
@@ -512,6 +560,13 @@ func (client ComputeClient) attachVolume(ctx context.Context, request common.OCI
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response AttachVolumeResponse
 	var httpResponse *http.Response
@@ -589,6 +644,13 @@ func (client ComputeClient) captureConsoleHistory(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CaptureConsoleHistoryResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "CaptureConsoleHistory")
@@ -653,6 +715,13 @@ func (client ComputeClient) changeComputeCapacityReservationCompartment(ctx cont
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeComputeCapacityReservationCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ChangeComputeCapacityReservationCompartment")
@@ -716,6 +785,13 @@ func (client ComputeClient) changeComputeCapacityTopologyCompartment(ctx context
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeComputeCapacityTopologyCompartmentResponse
 	var httpResponse *http.Response
@@ -782,6 +858,13 @@ func (client ComputeClient) changeComputeClusterCompartment(ctx context.Context,
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeComputeClusterCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ChangeComputeClusterCompartment")
@@ -845,6 +928,13 @@ func (client ComputeClient) changeComputeGpuMemoryClusterCompartment(ctx context
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeComputeGpuMemoryClusterCompartmentResponse
 	var httpResponse *http.Response
@@ -910,6 +1000,13 @@ func (client ComputeClient) changeComputeGpuMemoryFabricCompartment(ctx context.
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeComputeGpuMemoryFabricCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ChangeComputeGpuMemoryFabricCompartment")
@@ -974,6 +1071,13 @@ func (client ComputeClient) changeComputeHostCompartment(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeComputeHostCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ChangeComputeHostCompartment")
@@ -1037,6 +1141,13 @@ func (client ComputeClient) changeComputeHostGroupCompartment(ctx context.Contex
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeComputeHostGroupCompartmentResponse
 	var httpResponse *http.Response
@@ -1104,6 +1215,13 @@ func (client ComputeClient) changeComputeImageCapabilitySchemaCompartment(ctx co
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeComputeImageCapabilitySchemaCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ChangeComputeImageCapabilitySchemaCompartment")
@@ -1165,6 +1283,13 @@ func (client ComputeClient) changeDedicatedVmHostCompartment(ctx context.Context
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeDedicatedVmHostCompartmentResponse
 	var httpResponse *http.Response
@@ -1230,6 +1355,13 @@ func (client ComputeClient) changeImageCompartment(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeImageCompartmentResponse
 	var httpResponse *http.Response
@@ -1297,6 +1429,13 @@ func (client ComputeClient) changeInstanceCompartment(ctx context.Context, reque
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeInstanceCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ChangeInstanceCompartment")
@@ -1360,6 +1499,13 @@ func (client ComputeClient) checkHostConfiguration(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CheckHostConfigurationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "CheckHostConfiguration")
@@ -1422,6 +1568,13 @@ func (client ComputeClient) createAppCatalogSubscription(ctx context.Context, re
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateAppCatalogSubscriptionResponse
 	var httpResponse *http.Response
@@ -1490,6 +1643,13 @@ func (client ComputeClient) createComputeCapacityReport(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateComputeCapacityReportResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "CreateComputeCapacityReport")
@@ -1556,6 +1716,13 @@ func (client ComputeClient) createComputeCapacityReservation(ctx context.Context
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateComputeCapacityReservationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "CreateComputeCapacityReservation")
@@ -1621,6 +1788,13 @@ func (client ComputeClient) createComputeCapacityTopology(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateComputeCapacityTopologyResponse
 	var httpResponse *http.Response
@@ -1692,6 +1866,13 @@ func (client ComputeClient) createComputeCluster(ctx context.Context, request co
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateComputeClusterResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "CreateComputeCluster")
@@ -1754,6 +1935,13 @@ func (client ComputeClient) createComputeGpuMemoryCluster(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateComputeGpuMemoryClusterResponse
 	var httpResponse *http.Response
@@ -1818,6 +2006,13 @@ func (client ComputeClient) createComputeHostGroup(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateComputeHostGroupResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "CreateComputeHostGroup")
@@ -1880,6 +2075,13 @@ func (client ComputeClient) createComputeImageCapabilitySchema(ctx context.Conte
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateComputeImageCapabilitySchemaResponse
 	var httpResponse *http.Response
@@ -1945,6 +2147,13 @@ func (client ComputeClient) createDedicatedVmHost(ctx context.Context, request c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateDedicatedVmHostResponse
 	var httpResponse *http.Response
@@ -2025,6 +2234,13 @@ func (client ComputeClient) createImage(ctx context.Context, request common.OCIR
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateImageResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "CreateImage")
@@ -2090,6 +2306,13 @@ func (client ComputeClient) createInstanceConsoleConnection(ctx context.Context,
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateInstanceConsoleConnectionResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "CreateInstanceConsoleConnection")
@@ -2146,6 +2369,13 @@ func (client ComputeClient) deleteAppCatalogSubscription(ctx context.Context, re
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteAppCatalogSubscriptionResponse
 	var httpResponse *http.Response
@@ -2204,6 +2434,13 @@ func (client ComputeClient) deleteComputeCapacityReservation(ctx context.Context
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteComputeCapacityReservationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "DeleteComputeCapacityReservation")
@@ -2261,6 +2498,13 @@ func (client ComputeClient) deleteComputeCapacityTopology(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteComputeCapacityTopologyResponse
 	var httpResponse *http.Response
@@ -2322,6 +2566,13 @@ func (client ComputeClient) deleteComputeCluster(ctx context.Context, request co
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteComputeClusterResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "DeleteComputeCluster")
@@ -2380,6 +2631,13 @@ func (client ComputeClient) deleteComputeGpuMemoryCluster(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteComputeGpuMemoryClusterResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "DeleteComputeGpuMemoryCluster")
@@ -2436,6 +2694,13 @@ func (client ComputeClient) deleteComputeHostGroup(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteComputeHostGroupResponse
 	var httpResponse *http.Response
@@ -2494,6 +2759,13 @@ func (client ComputeClient) deleteComputeImageCapabilitySchema(ctx context.Conte
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteComputeImageCapabilitySchemaResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "DeleteComputeImageCapabilitySchema")
@@ -2550,6 +2822,13 @@ func (client ComputeClient) deleteConsoleHistory(ctx context.Context, request co
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteConsoleHistoryResponse
 	var httpResponse *http.Response
@@ -2610,6 +2889,13 @@ func (client ComputeClient) deleteDedicatedVmHost(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteDedicatedVmHostResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "DeleteDedicatedVmHost")
@@ -2667,6 +2953,13 @@ func (client ComputeClient) deleteImage(ctx context.Context, request common.OCIR
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteImageResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "DeleteImage")
@@ -2723,6 +3016,13 @@ func (client ComputeClient) deleteInstanceConsoleConnection(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteInstanceConsoleConnectionResponse
 	var httpResponse *http.Response
@@ -2782,6 +3082,13 @@ func (client ComputeClient) detachBootVolume(ctx context.Context, request common
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DetachBootVolumeResponse
 	var httpResponse *http.Response
@@ -2845,6 +3152,13 @@ func (client ComputeClient) detachComputeHostGroupHost(ctx context.Context, requ
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DetachComputeHostGroupHostResponse
 	var httpResponse *http.Response
@@ -2911,6 +3225,13 @@ func (client ComputeClient) detachVnic(ctx context.Context, request common.OCIRe
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DetachVnicResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "DetachVnic")
@@ -2969,6 +3290,13 @@ func (client ComputeClient) detachVolume(ctx context.Context, request common.OCI
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DetachVolumeResponse
 	var httpResponse *http.Response
@@ -3039,6 +3367,13 @@ func (client ComputeClient) exportImage(ctx context.Context, request common.OCIR
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ExportImageResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ExportImage")
@@ -3096,6 +3431,13 @@ func (client ComputeClient) getAppCatalogListing(ctx context.Context, request co
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetAppCatalogListingResponse
 	var httpResponse *http.Response
@@ -3155,6 +3497,13 @@ func (client ComputeClient) getAppCatalogListingAgreements(ctx context.Context, 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetAppCatalogListingAgreementsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "GetAppCatalogListingAgreements")
@@ -3213,6 +3562,13 @@ func (client ComputeClient) getAppCatalogListingResourceVersion(ctx context.Cont
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetAppCatalogListingResourceVersionResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "GetAppCatalogListingResourceVersion")
@@ -3270,6 +3626,13 @@ func (client ComputeClient) getBootVolumeAttachment(ctx context.Context, request
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetBootVolumeAttachmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "GetBootVolumeAttachment")
@@ -3326,6 +3689,13 @@ func (client ComputeClient) getComputeCapacityReservation(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetComputeCapacityReservationResponse
 	var httpResponse *http.Response
@@ -3385,6 +3755,13 @@ func (client ComputeClient) getComputeCapacityTopology(ctx context.Context, requ
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetComputeCapacityTopologyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "GetComputeCapacityTopology")
@@ -3442,6 +3819,13 @@ func (client ComputeClient) getComputeCluster(ctx context.Context, request commo
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetComputeClusterResponse
 	var httpResponse *http.Response
@@ -3501,6 +3885,13 @@ func (client ComputeClient) getComputeGlobalImageCapabilitySchema(ctx context.Co
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetComputeGlobalImageCapabilitySchemaResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "GetComputeGlobalImageCapabilitySchema")
@@ -3559,6 +3950,13 @@ func (client ComputeClient) getComputeGlobalImageCapabilitySchemaVersion(ctx con
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetComputeGlobalImageCapabilitySchemaVersionResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "GetComputeGlobalImageCapabilitySchemaVersion")
@@ -3615,6 +4013,13 @@ func (client ComputeClient) getComputeGpuMemoryCluster(ctx context.Context, requ
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetComputeGpuMemoryClusterResponse
 	var httpResponse *http.Response
@@ -3674,6 +4079,13 @@ func (client ComputeClient) getComputeGpuMemoryFabric(ctx context.Context, reque
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetComputeGpuMemoryFabricResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "GetComputeGpuMemoryFabric")
@@ -3731,6 +4143,13 @@ func (client ComputeClient) getComputeHost(ctx context.Context, request common.O
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetComputeHostResponse
 	var httpResponse *http.Response
@@ -3790,6 +4209,13 @@ func (client ComputeClient) getComputeHostGroup(ctx context.Context, request com
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetComputeHostGroupResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "GetComputeHostGroup")
@@ -3847,6 +4273,13 @@ func (client ComputeClient) getComputeImageCapabilitySchema(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetComputeImageCapabilitySchemaResponse
 	var httpResponse *http.Response
@@ -3907,6 +4340,13 @@ func (client ComputeClient) getConsoleHistory(ctx context.Context, request commo
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetConsoleHistoryResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "GetConsoleHistory")
@@ -3966,6 +4406,13 @@ func (client ComputeClient) getConsoleHistoryContent(ctx context.Context, reques
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetConsoleHistoryContentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "GetConsoleHistoryContent")
@@ -4023,6 +4470,13 @@ func (client ComputeClient) getDedicatedVmHost(ctx context.Context, request comm
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetDedicatedVmHostResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "GetDedicatedVmHost")
@@ -4079,6 +4533,13 @@ func (client ComputeClient) getFirmwareBundle(ctx context.Context, request commo
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetFirmwareBundleResponse
 	var httpResponse *http.Response
@@ -4138,6 +4599,13 @@ func (client ComputeClient) getImage(ctx context.Context, request common.OCIRequ
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetImageResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "GetImage")
@@ -4195,6 +4663,13 @@ func (client ComputeClient) getImageShapeCompatibilityEntry(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetImageShapeCompatibilityEntryResponse
 	var httpResponse *http.Response
@@ -4255,6 +4730,13 @@ func (client ComputeClient) getInstance(ctx context.Context, request common.OCIR
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetInstanceResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "GetInstance")
@@ -4312,6 +4794,13 @@ func (client ComputeClient) getInstanceConsoleConnection(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetInstanceConsoleConnectionResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "GetInstanceConsoleConnection")
@@ -4368,6 +4857,13 @@ func (client ComputeClient) getInstanceMaintenanceEvent(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetInstanceMaintenanceEventResponse
 	var httpResponse *http.Response
@@ -4427,6 +4923,13 @@ func (client ComputeClient) getInstanceMaintenanceReboot(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetInstanceMaintenanceRebootResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "GetInstanceMaintenanceReboot")
@@ -4483,6 +4986,13 @@ func (client ComputeClient) getMeasuredBootReport(ctx context.Context, request c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetMeasuredBootReportResponse
 	var httpResponse *http.Response
@@ -4541,6 +5051,13 @@ func (client ComputeClient) getVnicAttachment(ctx context.Context, request commo
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetVnicAttachmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "GetVnicAttachment")
@@ -4597,6 +5114,13 @@ func (client ComputeClient) getVolumeAttachment(ctx context.Context, request com
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetVolumeAttachmentResponse
 	var httpResponse *http.Response
@@ -4655,6 +5179,13 @@ func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Con
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetWindowsInstanceInitialCredentialsResponse
 	var httpResponse *http.Response
@@ -4747,6 +5278,13 @@ func (client ComputeClient) instanceAction(ctx context.Context, request common.O
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response InstanceActionResponse
 	var httpResponse *http.Response
@@ -4849,6 +5387,13 @@ func (client ComputeClient) launchInstance(ctx context.Context, request common.O
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response LaunchInstanceResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "LaunchInstance")
@@ -4906,6 +5451,13 @@ func (client ComputeClient) listAppCatalogListingResourceVersions(ctx context.Co
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListAppCatalogListingResourceVersionsResponse
 	var httpResponse *http.Response
@@ -4965,6 +5517,13 @@ func (client ComputeClient) listAppCatalogListings(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListAppCatalogListingsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ListAppCatalogListings")
@@ -5022,6 +5581,13 @@ func (client ComputeClient) listAppCatalogSubscriptions(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListAppCatalogSubscriptionsResponse
 	var httpResponse *http.Response
@@ -5081,6 +5647,13 @@ func (client ComputeClient) listBootVolumeAttachments(ctx context.Context, reque
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListBootVolumeAttachmentsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ListBootVolumeAttachments")
@@ -5138,6 +5711,13 @@ func (client ComputeClient) listComputeCapacityReservationInstanceShapes(ctx con
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListComputeCapacityReservationInstanceShapesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ListComputeCapacityReservationInstanceShapes")
@@ -5194,6 +5774,13 @@ func (client ComputeClient) listComputeCapacityReservationInstances(ctx context.
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListComputeCapacityReservationInstancesResponse
 	var httpResponse *http.Response
@@ -5254,6 +5841,13 @@ func (client ComputeClient) listComputeCapacityReservations(ctx context.Context,
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListComputeCapacityReservationsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ListComputeCapacityReservations")
@@ -5313,6 +5907,13 @@ func (client ComputeClient) listComputeCapacityTopologies(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListComputeCapacityTopologiesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ListComputeCapacityTopologies")
@@ -5370,6 +5971,13 @@ func (client ComputeClient) listComputeCapacityTopologyComputeBareMetalHosts(ctx
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListComputeCapacityTopologyComputeBareMetalHostsResponse
 	var httpResponse *http.Response
@@ -5429,6 +6037,13 @@ func (client ComputeClient) listComputeCapacityTopologyComputeHpcIslands(ctx con
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListComputeCapacityTopologyComputeHpcIslandsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ListComputeCapacityTopologyComputeHpcIslands")
@@ -5486,6 +6101,13 @@ func (client ComputeClient) listComputeCapacityTopologyComputeNetworkBlocks(ctx 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListComputeCapacityTopologyComputeNetworkBlocksResponse
 	var httpResponse *http.Response
@@ -5545,6 +6167,13 @@ func (client ComputeClient) listComputeClusters(ctx context.Context, request com
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListComputeClustersResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ListComputeClusters")
@@ -5602,6 +6231,13 @@ func (client ComputeClient) listComputeGlobalImageCapabilitySchemaVersions(ctx c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListComputeGlobalImageCapabilitySchemaVersionsResponse
 	var httpResponse *http.Response
@@ -5661,6 +6297,13 @@ func (client ComputeClient) listComputeGlobalImageCapabilitySchemas(ctx context.
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListComputeGlobalImageCapabilitySchemasResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ListComputeGlobalImageCapabilitySchemas")
@@ -5718,6 +6361,13 @@ func (client ComputeClient) listComputeGpuMemoryClusterInstances(ctx context.Con
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListComputeGpuMemoryClusterInstancesResponse
 	var httpResponse *http.Response
@@ -5777,6 +6427,13 @@ func (client ComputeClient) listComputeGpuMemoryClusters(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListComputeGpuMemoryClustersResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ListComputeGpuMemoryClusters")
@@ -5834,6 +6491,13 @@ func (client ComputeClient) listComputeGpuMemoryFabrics(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListComputeGpuMemoryFabricsResponse
 	var httpResponse *http.Response
@@ -5893,6 +6557,13 @@ func (client ComputeClient) listComputeHostGroups(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListComputeHostGroupsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ListComputeHostGroups")
@@ -5950,6 +6621,13 @@ func (client ComputeClient) listComputeHosts(ctx context.Context, request common
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListComputeHostsResponse
 	var httpResponse *http.Response
@@ -6009,6 +6687,13 @@ func (client ComputeClient) listComputeImageCapabilitySchemas(ctx context.Contex
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListComputeImageCapabilitySchemasResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ListComputeImageCapabilitySchemas")
@@ -6065,6 +6750,13 @@ func (client ComputeClient) listConsoleHistories(ctx context.Context, request co
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListConsoleHistoriesResponse
 	var httpResponse *http.Response
@@ -6124,6 +6816,13 @@ func (client ComputeClient) listDedicatedVmHostInstanceShapes(ctx context.Contex
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListDedicatedVmHostInstanceShapesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ListDedicatedVmHostInstanceShapes")
@@ -6181,6 +6880,13 @@ func (client ComputeClient) listDedicatedVmHostInstances(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListDedicatedVmHostInstancesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ListDedicatedVmHostInstances")
@@ -6237,6 +6943,13 @@ func (client ComputeClient) listDedicatedVmHostShapes(ctx context.Context, reque
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListDedicatedVmHostShapesResponse
 	var httpResponse *http.Response
@@ -6297,6 +7010,13 @@ func (client ComputeClient) listDedicatedVmHosts(ctx context.Context, request co
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListDedicatedVmHostsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ListDedicatedVmHosts")
@@ -6355,6 +7075,13 @@ func (client ComputeClient) listFirmwareBundles(ctx context.Context, request com
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListFirmwareBundlesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ListFirmwareBundles")
@@ -6412,6 +7139,13 @@ func (client ComputeClient) listImageShapeCompatibilityEntries(ctx context.Conte
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListImageShapeCompatibilityEntriesResponse
 	var httpResponse *http.Response
@@ -6479,6 +7213,13 @@ func (client ComputeClient) listImages(ctx context.Context, request common.OCIRe
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListImagesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ListImages")
@@ -6537,6 +7278,13 @@ func (client ComputeClient) listInstanceConsoleConnections(ctx context.Context, 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListInstanceConsoleConnectionsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ListInstanceConsoleConnections")
@@ -6594,6 +7342,13 @@ func (client ComputeClient) listInstanceDevices(ctx context.Context, request com
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListInstanceDevicesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ListInstanceDevices")
@@ -6650,6 +7405,13 @@ func (client ComputeClient) listInstanceMaintenanceEvents(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListInstanceMaintenanceEventsResponse
 	var httpResponse *http.Response
@@ -6712,6 +7474,13 @@ func (client ComputeClient) listInstances(ctx context.Context, request common.OC
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListInstancesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ListInstances")
@@ -6769,6 +7538,13 @@ func (client ComputeClient) listShapes(ctx context.Context, request common.OCIRe
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListShapesResponse
 	var httpResponse *http.Response
@@ -6828,6 +7604,13 @@ func (client ComputeClient) listVnicAttachments(ctx context.Context, request com
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListVnicAttachmentsResponse
 	var httpResponse *http.Response
@@ -6905,6 +7688,13 @@ func (client ComputeClient) listVolumeAttachments(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListVolumeAttachmentsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "ListVolumeAttachments")
@@ -6961,6 +7751,13 @@ func (client ComputeClient) removeImageShapeCompatibilityEntry(ctx context.Conte
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response RemoveImageShapeCompatibilityEntryResponse
 	var httpResponse *http.Response
@@ -7027,6 +7824,13 @@ func (client ComputeClient) terminateInstance(ctx context.Context, request commo
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response TerminateInstanceResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "TerminateInstance")
@@ -7086,6 +7890,13 @@ func (client ComputeClient) updateComputeCapacityReservation(ctx context.Context
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateComputeCapacityReservationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "UpdateComputeCapacityReservation")
@@ -7143,6 +7954,13 @@ func (client ComputeClient) updateComputeCapacityTopology(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateComputeCapacityTopologyResponse
 	var httpResponse *http.Response
@@ -7211,6 +8029,13 @@ func (client ComputeClient) updateComputeCluster(ctx context.Context, request co
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateComputeClusterResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "UpdateComputeCluster")
@@ -7273,6 +8098,13 @@ func (client ComputeClient) updateComputeGpuMemoryCluster(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateComputeGpuMemoryClusterResponse
 	var httpResponse *http.Response
@@ -7338,6 +8170,13 @@ func (client ComputeClient) updateComputeGpuMemoryFabric(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateComputeGpuMemoryFabricResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "UpdateComputeGpuMemoryFabric")
@@ -7400,6 +8239,13 @@ func (client ComputeClient) updateComputeHost(ctx context.Context, request commo
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateComputeHostResponse
 	var httpResponse *http.Response
@@ -7464,6 +8310,13 @@ func (client ComputeClient) updateComputeHostGroup(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateComputeHostGroupResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "UpdateComputeHostGroup")
@@ -7521,6 +8374,13 @@ func (client ComputeClient) updateComputeImageCapabilitySchema(ctx context.Conte
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateComputeImageCapabilitySchemaResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "UpdateComputeImageCapabilitySchema")
@@ -7577,6 +8437,13 @@ func (client ComputeClient) updateConsoleHistory(ctx context.Context, request co
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateConsoleHistoryResponse
 	var httpResponse *http.Response
@@ -7641,6 +8508,13 @@ func (client ComputeClient) updateDedicatedVmHost(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateDedicatedVmHostResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "UpdateDedicatedVmHost")
@@ -7702,6 +8576,13 @@ func (client ComputeClient) updateImage(ctx context.Context, request common.OCIR
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateImageResponse
 	var httpResponse *http.Response
@@ -7769,6 +8650,13 @@ func (client ComputeClient) updateInstance(ctx context.Context, request common.O
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateInstanceResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "UpdateInstance")
@@ -7825,6 +8713,13 @@ func (client ComputeClient) updateInstanceConsoleConnection(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateInstanceConsoleConnectionResponse
 	var httpResponse *http.Response
@@ -7889,6 +8784,13 @@ func (client ComputeClient) updateInstanceMaintenanceEvent(ctx context.Context, 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateInstanceMaintenanceEventResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "compute", "UpdateInstanceMaintenanceEvent")
@@ -7945,6 +8847,13 @@ func (client ComputeClient) updateVolumeAttachment(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateVolumeAttachmentResponse
 	var httpResponse *http.Response

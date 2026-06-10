@@ -34,6 +34,10 @@ type ChannelSourceMysql struct {
 
 	AnonymousTransactionsHandling AnonymousTransactionsHandling `mandatory:"false" json:"anonymousTransactionsHandling"`
 
+	// Whether the connection of the channel will be requested using the IPv6 address of
+	// the dual stack DB system or not. Default: False.
+	MustUseIpv6OnDualStack *bool `mandatory:"false" json:"mustUseIpv6OnDualStack"`
+
 	// The SSL mode of the Channel.
 	SslMode ChannelSourceMysqlSslModeEnum `mandatory:"true" json:"sslMode"`
 }
@@ -76,6 +80,7 @@ func (m *ChannelSourceMysql) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		SslCaCertificate              cacertificate                 `json:"sslCaCertificate"`
 		AnonymousTransactionsHandling anonymoustransactionshandling `json:"anonymousTransactionsHandling"`
+		MustUseIpv6OnDualStack        *bool                         `json:"mustUseIpv6OnDualStack"`
 		Hostname                      *string                       `json:"hostname"`
 		Port                          *int                          `json:"port"`
 		Username                      *string                       `json:"username"`
@@ -106,6 +111,8 @@ func (m *ChannelSourceMysql) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.AnonymousTransactionsHandling = nil
 	}
+
+	m.MustUseIpv6OnDualStack = model.MustUseIpv6OnDualStack
 
 	m.Hostname = model.Hostname
 

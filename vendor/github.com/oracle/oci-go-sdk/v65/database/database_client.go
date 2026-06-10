@@ -21949,6 +21949,68 @@ func (client DatabaseClient) reorderScheduledActions(ctx context.Context, reques
 	return response, err
 }
 
+// RescheduleManagedDbSoftwareUpdate Reschedule the Managed Database Software Update
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RescheduleManagedDbSoftwareUpdate.go.html to see an example of how to use RescheduleManagedDbSoftwareUpdate API.
+func (client DatabaseClient) RescheduleManagedDbSoftwareUpdate(ctx context.Context, request RescheduleManagedDbSoftwareUpdateRequest) (response RescheduleManagedDbSoftwareUpdateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.rescheduleManagedDbSoftwareUpdate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RescheduleManagedDbSoftwareUpdateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RescheduleManagedDbSoftwareUpdateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RescheduleManagedDbSoftwareUpdateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RescheduleManagedDbSoftwareUpdateResponse")
+	}
+	return
+}
+
+// rescheduleManagedDbSoftwareUpdate implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) rescheduleManagedDbSoftwareUpdate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/actions/rescheduleManagedDbSoftwareUpdate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RescheduleManagedDbSoftwareUpdateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "RescheduleManagedDbSoftwareUpdate")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/RescheduleManagedDbSoftwareUpdate"
+		err = common.PostProcessServiceError(err, "Database", "RescheduleManagedDbSoftwareUpdate", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ResizeVmClusterNetwork Adds or removes Db server network nodes to extend or shrink the existing VM cluster network. Applies to Exadata
 // Cloud@Customer instances only.
 //

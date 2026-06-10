@@ -23,8 +23,6 @@ import (
 )
 
 // InstanceConfiguration An instance configuration is a template that defines the settings to use when creating Compute instances.
-// For more information about instance configurations, see
-// Managing Compute Instances (https://docs.oracle.com/iaas/Content/Compute/Concepts/instancemanagement.htm).
 type InstanceConfiguration struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
