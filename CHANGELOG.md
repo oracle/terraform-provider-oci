@@ -16,9 +16,9 @@
 - Support for OPSI - API changes for ZPR Security Attribute Support - API only
 
 ### Bug Fix
-- added Autonomous Test Changes for Sub Test in ADBCC
+- Added Autonomous Test Changes for Sub Test in ADBCC
 - Update domains user example to avoid default password value
-- TERSI-5365: Bug 39270780 - OIC3 : Terraform Service tag (system tags) going out of sync; cannot execute plan
+- OIC3 : Terraform Service tag (system tags) going out of sync; cannot execute plan
 - Per-Tenancy Synchronization in oci_identity_policy provider to fix NoEtagMatch failures
 
 ## 8.17.0 (June 2, 2026)
