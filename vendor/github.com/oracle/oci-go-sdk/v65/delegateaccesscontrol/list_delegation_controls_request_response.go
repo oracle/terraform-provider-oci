@@ -136,16 +136,19 @@ type ListDelegationControlsResourceTypeEnum string
 const (
 	ListDelegationControlsResourceTypeVmcluster      ListDelegationControlsResourceTypeEnum = "VMCLUSTER"
 	ListDelegationControlsResourceTypeCloudvmcluster ListDelegationControlsResourceTypeEnum = "CLOUDVMCLUSTER"
+	ListDelegationControlsResourceTypeExadbvmcluster ListDelegationControlsResourceTypeEnum = "EXADBVMCLUSTER"
 )
 
 var mappingListDelegationControlsResourceTypeEnum = map[string]ListDelegationControlsResourceTypeEnum{
 	"VMCLUSTER":      ListDelegationControlsResourceTypeVmcluster,
 	"CLOUDVMCLUSTER": ListDelegationControlsResourceTypeCloudvmcluster,
+	"EXADBVMCLUSTER": ListDelegationControlsResourceTypeExadbvmcluster,
 }
 
 var mappingListDelegationControlsResourceTypeEnumLowerCase = map[string]ListDelegationControlsResourceTypeEnum{
 	"vmcluster":      ListDelegationControlsResourceTypeVmcluster,
 	"cloudvmcluster": ListDelegationControlsResourceTypeCloudvmcluster,
+	"exadbvmcluster": ListDelegationControlsResourceTypeExadbvmcluster,
 }
 
 // GetListDelegationControlsResourceTypeEnumValues Enumerates the set of values for ListDelegationControlsResourceTypeEnum
@@ -162,6 +165,7 @@ func GetListDelegationControlsResourceTypeEnumStringValues() []string {
 	return []string{
 		"VMCLUSTER",
 		"CLOUDVMCLUSTER",
+		"EXADBVMCLUSTER",
 	}
 }
 

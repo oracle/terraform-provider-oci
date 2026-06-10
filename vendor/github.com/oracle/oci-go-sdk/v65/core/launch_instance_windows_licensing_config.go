@@ -28,6 +28,7 @@ type LaunchInstanceWindowsLicensingConfig struct {
 	// License Type for the OS license.
 	// * `OCI_PROVIDED` - OCI provided license (e.g. metered $/OCPU-hour).
 	// * `BRING_YOUR_OWN_LICENSE` - Bring your own license.
+	// * `PARTNER_PROVIDED` - Partner provided license.
 	LicenseType LaunchInstanceLicensingConfigLicenseTypeEnum `mandatory:"false" json:"licenseType,omitempty"`
 }
 

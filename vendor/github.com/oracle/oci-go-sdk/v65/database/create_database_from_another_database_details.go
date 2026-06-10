@@ -56,6 +56,8 @@ type CreateDatabaseFromAnotherDatabaseDetails struct {
 
 	StorageSizeDetails *DatabaseStorageSizeDetails `mandatory:"false" json:"storageSizeDetails"`
 
+	ManagedSoftwareUpdateDetails *ManagedSoftwareUpdateInputDetails `mandatory:"false" json:"managedSoftwareUpdateDetails"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
 	VmClusterId *string `mandatory:"false" json:"vmClusterId"`
 }
@@ -79,19 +81,20 @@ func (m CreateDatabaseFromAnotherDatabaseDetails) ValidateEnumValue() (bool, err
 // UnmarshalJSON unmarshals from json
 func (m *CreateDatabaseFromAnotherDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		BackupTDEPassword                  *string                           `json:"backupTDEPassword"`
-		DbUniqueName                       *string                           `json:"dbUniqueName"`
-		DbName                             *string                           `json:"dbName"`
-		TimeStampForPointInTimeRecovery    *common.SDKTime                   `json:"timeStampForPointInTimeRecovery"`
-		PluggableDatabases                 []string                          `json:"pluggableDatabases"`
-		FreeformTags                       map[string]string                 `json:"freeformTags"`
-		DefinedTags                        map[string]map[string]interface{} `json:"definedTags"`
-		SidPrefix                          *string                           `json:"sidPrefix"`
-		SourceEncryptionKeyLocationDetails encryptionkeylocationdetails      `json:"sourceEncryptionKeyLocationDetails"`
-		StorageSizeDetails                 *DatabaseStorageSizeDetails       `json:"storageSizeDetails"`
-		VmClusterId                        *string                           `json:"vmClusterId"`
-		DatabaseId                         *string                           `json:"databaseId"`
-		AdminPassword                      *string                           `json:"adminPassword"`
+		BackupTDEPassword                  *string                            `json:"backupTDEPassword"`
+		DbUniqueName                       *string                            `json:"dbUniqueName"`
+		DbName                             *string                            `json:"dbName"`
+		TimeStampForPointInTimeRecovery    *common.SDKTime                    `json:"timeStampForPointInTimeRecovery"`
+		PluggableDatabases                 []string                           `json:"pluggableDatabases"`
+		FreeformTags                       map[string]string                  `json:"freeformTags"`
+		DefinedTags                        map[string]map[string]interface{}  `json:"definedTags"`
+		SidPrefix                          *string                            `json:"sidPrefix"`
+		SourceEncryptionKeyLocationDetails encryptionkeylocationdetails       `json:"sourceEncryptionKeyLocationDetails"`
+		StorageSizeDetails                 *DatabaseStorageSizeDetails        `json:"storageSizeDetails"`
+		ManagedSoftwareUpdateDetails       *ManagedSoftwareUpdateInputDetails `json:"managedSoftwareUpdateDetails"`
+		VmClusterId                        *string                            `json:"vmClusterId"`
+		DatabaseId                         *string                            `json:"databaseId"`
+		AdminPassword                      *string                            `json:"adminPassword"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -126,6 +129,8 @@ func (m *CreateDatabaseFromAnotherDatabaseDetails) UnmarshalJSON(data []byte) (e
 	}
 
 	m.StorageSizeDetails = model.StorageSizeDetails
+
+	m.ManagedSoftwareUpdateDetails = model.ManagedSoftwareUpdateDetails
 
 	m.VmClusterId = model.VmClusterId
 

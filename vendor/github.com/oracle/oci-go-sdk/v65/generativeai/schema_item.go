@@ -20,6 +20,8 @@ import (
 
 // SchemaItem Represents a database schema identified by name. This is the simplest schema definition and includes only schema name now. Additional configuration options may be supported in extended forms later.
 type SchemaItem struct {
+
+	// Specifies the name.
 	Name *string `mandatory:"true" json:"name"`
 }
 

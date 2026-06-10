@@ -28,6 +28,8 @@ type UpdateReadEndpointDetails struct {
 	// "dotted-quad" style IPv4 address.
 	ReadEndpointIpAddress *string `mandatory:"false" json:"readEndpointIpAddress"`
 
+	ReadEndpointIpv6AddressIpv6SubnetCidrPairDetails *Ipv6AddressIpv6SubnetCidrPairDetails `mandatory:"false" json:"readEndpointIpv6AddressIpv6SubnetCidrPairDetails"`
+
 	// The hostname for the read endpoint of the DB System. Used for DNS.
 	// The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN)
 	// (for example, "dbsystem-1" in FQDN "dbsystem-1.subnet123.vcn1.oraclevcn.com").

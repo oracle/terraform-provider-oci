@@ -43,6 +43,8 @@ type UpdateDatabaseDetails struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	ManagedSoftwareUpdateDetails *ManagedSoftwareUpdateInputDetails `mandatory:"false" json:"managedSoftwareUpdateDetails"`
+
 	PatchOptions *PatchOptions `mandatory:"false" json:"patchOptions"`
 }
 

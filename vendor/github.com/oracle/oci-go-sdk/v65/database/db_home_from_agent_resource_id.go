@@ -75,6 +75,9 @@ type DbHomeFromAgentResourceId struct {
 
 	// Indicates whether unified autiding is enabled or not.
 	IsUnifiedAuditingEnabled *bool `mandatory:"false" json:"isUnifiedAuditingEnabled"`
+
+	// Represents database home will be managed by oracle or customer
+	HomeType DbHomeFromAgentResourceIdHomeTypeEnum `mandatory:"false" json:"homeType,omitempty"`
 }
 
 func (m DbHomeFromAgentResourceId) String() string {
@@ -90,6 +93,9 @@ func (m DbHomeFromAgentResourceId) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDbHomeFromAgentResourceIdLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDbHomeFromAgentResourceIdHomeTypeEnum(string(m.HomeType)); !ok && m.HomeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HomeType: %s. Supported values are: %s.", m.HomeType, strings.Join(GetDbHomeFromAgentResourceIdHomeTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -151,5 +157,47 @@ func GetDbHomeFromAgentResourceIdLifecycleStateEnumStringValues() []string {
 // GetMappingDbHomeFromAgentResourceIdLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDbHomeFromAgentResourceIdLifecycleStateEnum(val string) (DbHomeFromAgentResourceIdLifecycleStateEnum, bool) {
 	enum, ok := mappingDbHomeFromAgentResourceIdLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DbHomeFromAgentResourceIdHomeTypeEnum Enum with underlying type: string
+type DbHomeFromAgentResourceIdHomeTypeEnum string
+
+// Set of constants representing the allowable values for DbHomeFromAgentResourceIdHomeTypeEnum
+const (
+	DbHomeFromAgentResourceIdHomeTypeOracleManaged   DbHomeFromAgentResourceIdHomeTypeEnum = "ORACLE_MANAGED"
+	DbHomeFromAgentResourceIdHomeTypeCustomerManaged DbHomeFromAgentResourceIdHomeTypeEnum = "CUSTOMER_MANAGED"
+)
+
+var mappingDbHomeFromAgentResourceIdHomeTypeEnum = map[string]DbHomeFromAgentResourceIdHomeTypeEnum{
+	"ORACLE_MANAGED":   DbHomeFromAgentResourceIdHomeTypeOracleManaged,
+	"CUSTOMER_MANAGED": DbHomeFromAgentResourceIdHomeTypeCustomerManaged,
+}
+
+var mappingDbHomeFromAgentResourceIdHomeTypeEnumLowerCase = map[string]DbHomeFromAgentResourceIdHomeTypeEnum{
+	"oracle_managed":   DbHomeFromAgentResourceIdHomeTypeOracleManaged,
+	"customer_managed": DbHomeFromAgentResourceIdHomeTypeCustomerManaged,
+}
+
+// GetDbHomeFromAgentResourceIdHomeTypeEnumValues Enumerates the set of values for DbHomeFromAgentResourceIdHomeTypeEnum
+func GetDbHomeFromAgentResourceIdHomeTypeEnumValues() []DbHomeFromAgentResourceIdHomeTypeEnum {
+	values := make([]DbHomeFromAgentResourceIdHomeTypeEnum, 0)
+	for _, v := range mappingDbHomeFromAgentResourceIdHomeTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDbHomeFromAgentResourceIdHomeTypeEnumStringValues Enumerates the set of values in String for DbHomeFromAgentResourceIdHomeTypeEnum
+func GetDbHomeFromAgentResourceIdHomeTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_MANAGED",
+		"CUSTOMER_MANAGED",
+	}
+}
+
+// GetMappingDbHomeFromAgentResourceIdHomeTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDbHomeFromAgentResourceIdHomeTypeEnum(val string) (DbHomeFromAgentResourceIdHomeTypeEnum, bool) {
+	enum, ok := mappingDbHomeFromAgentResourceIdHomeTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

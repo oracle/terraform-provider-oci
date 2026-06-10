@@ -84,6 +84,10 @@ func (s *CoreIpv6DataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.Hostname != nil {
+		s.D.Set("hostname", *s.Res.Hostname)
+	}
+
 	if s.Res.IpAddress != nil {
 		s.D.Set("ip_address", *s.Res.IpAddress)
 	}

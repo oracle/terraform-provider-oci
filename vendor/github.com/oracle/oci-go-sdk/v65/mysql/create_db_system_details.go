@@ -106,6 +106,15 @@ type CreateDbSystemDetails struct {
 	// "dotted-quad" style IPv4 address.
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
 
+	// Whether to allocate an IPv6 address at DB system creation from an
+	// IPv6 enabled subnet. When provided you may optionally
+	// provide an IPv6 prefix (ipv6AddressIpv6SubnetCidrPairDetails) of your
+	// choice to assign the IPv6 address from. If ipv6AddressIpv6SubnetCidrPairDetails
+	// is not provided then an IPv6 prefix is chosen for you.
+	IsIpv6Enabled *bool `mandatory:"false" json:"isIpv6Enabled"`
+
+	Ipv6AddressIpv6SubnetCidrPairDetails *Ipv6AddressIpv6SubnetCidrPairDetails `mandatory:"false" json:"ipv6AddressIpv6SubnetCidrPairDetails"`
+
 	// The port for primary endpoint of the DB System to listen on.
 	Port *int `mandatory:"false" json:"port"`
 
@@ -194,43 +203,45 @@ func (m CreateDbSystemDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName            *string                              `json:"displayName"`
-		Description            *string                              `json:"description"`
-		Rest                   *CreateRestDetails                   `json:"rest"`
-		DatabaseConsole        *CreateDatabaseConsoleDetails        `json:"databaseConsole"`
-		IsHighlyAvailable      *bool                                `json:"isHighlyAvailable"`
-		AvailabilityDomain     *string                              `json:"availabilityDomain"`
-		FaultDomain            *string                              `json:"faultDomain"`
-		ConfigurationId        *string                              `json:"configurationId"`
-		MysqlVersion           *string                              `json:"mysqlVersion"`
-		NsgIds                 []string                             `json:"nsgIds"`
-		SecurityAttributes     map[string]map[string]interface{}    `json:"securityAttributes"`
-		AdminUsername          *string                              `json:"adminUsername"`
-		AdminPassword          *string                              `json:"adminPassword"`
-		DataStorageSizeInGBs   *int                                 `json:"dataStorageSizeInGBs"`
-		DataStorage            *DataStorageDetails                  `json:"dataStorage"`
-		HostnameLabel          *string                              `json:"hostnameLabel"`
-		IpAddress              *string                              `json:"ipAddress"`
-		Port                   *int                                 `json:"port"`
-		PortX                  *int                                 `json:"portX"`
-		BackupPolicy           *CreateBackupPolicyDetails           `json:"backupPolicy"`
-		Source                 createdbsystemsourcedetails          `json:"source"`
-		Maintenance            *CreateMaintenanceDetails            `json:"maintenance"`
-		FreeformTags           map[string]string                    `json:"freeformTags"`
-		DefinedTags            map[string]map[string]interface{}    `json:"definedTags"`
-		DeletionPolicy         *CreateDeletionPolicyDetails         `json:"deletionPolicy"`
-		CrashRecovery          CrashRecoveryStatusEnum              `json:"crashRecovery"`
-		DatabaseManagement     DatabaseManagementStatusEnum         `json:"databaseManagement"`
-		SecureConnections      *SecureConnectionDetails             `json:"secureConnections"`
-		EncryptData            *EncryptDataDetails                  `json:"encryptData"`
-		DatabaseMode           DbSystemDatabaseModeEnum             `json:"databaseMode"`
-		AccessMode             DbSystemAccessModeEnum               `json:"accessMode"`
-		CustomerContacts       []CustomerContact                    `json:"customerContacts"`
-		ReadEndpoint           *CreateReadEndpointDetails           `json:"readEndpoint"`
-		TelemetryConfiguration *CreateTelemetryConfigurationDetails `json:"telemetryConfiguration"`
-		CompartmentId          *string                              `json:"compartmentId"`
-		ShapeName              *string                              `json:"shapeName"`
-		SubnetId               *string                              `json:"subnetId"`
+		DisplayName                          *string                               `json:"displayName"`
+		Description                          *string                               `json:"description"`
+		Rest                                 *CreateRestDetails                    `json:"rest"`
+		DatabaseConsole                      *CreateDatabaseConsoleDetails         `json:"databaseConsole"`
+		IsHighlyAvailable                    *bool                                 `json:"isHighlyAvailable"`
+		AvailabilityDomain                   *string                               `json:"availabilityDomain"`
+		FaultDomain                          *string                               `json:"faultDomain"`
+		ConfigurationId                      *string                               `json:"configurationId"`
+		MysqlVersion                         *string                               `json:"mysqlVersion"`
+		NsgIds                               []string                              `json:"nsgIds"`
+		SecurityAttributes                   map[string]map[string]interface{}     `json:"securityAttributes"`
+		AdminUsername                        *string                               `json:"adminUsername"`
+		AdminPassword                        *string                               `json:"adminPassword"`
+		DataStorageSizeInGBs                 *int                                  `json:"dataStorageSizeInGBs"`
+		DataStorage                          *DataStorageDetails                   `json:"dataStorage"`
+		HostnameLabel                        *string                               `json:"hostnameLabel"`
+		IpAddress                            *string                               `json:"ipAddress"`
+		IsIpv6Enabled                        *bool                                 `json:"isIpv6Enabled"`
+		Ipv6AddressIpv6SubnetCidrPairDetails *Ipv6AddressIpv6SubnetCidrPairDetails `json:"ipv6AddressIpv6SubnetCidrPairDetails"`
+		Port                                 *int                                  `json:"port"`
+		PortX                                *int                                  `json:"portX"`
+		BackupPolicy                         *CreateBackupPolicyDetails            `json:"backupPolicy"`
+		Source                               createdbsystemsourcedetails           `json:"source"`
+		Maintenance                          *CreateMaintenanceDetails             `json:"maintenance"`
+		FreeformTags                         map[string]string                     `json:"freeformTags"`
+		DefinedTags                          map[string]map[string]interface{}     `json:"definedTags"`
+		DeletionPolicy                       *CreateDeletionPolicyDetails          `json:"deletionPolicy"`
+		CrashRecovery                        CrashRecoveryStatusEnum               `json:"crashRecovery"`
+		DatabaseManagement                   DatabaseManagementStatusEnum          `json:"databaseManagement"`
+		SecureConnections                    *SecureConnectionDetails              `json:"secureConnections"`
+		EncryptData                          *EncryptDataDetails                   `json:"encryptData"`
+		DatabaseMode                         DbSystemDatabaseModeEnum              `json:"databaseMode"`
+		AccessMode                           DbSystemAccessModeEnum                `json:"accessMode"`
+		CustomerContacts                     []CustomerContact                     `json:"customerContacts"`
+		ReadEndpoint                         *CreateReadEndpointDetails            `json:"readEndpoint"`
+		TelemetryConfiguration               *CreateTelemetryConfigurationDetails  `json:"telemetryConfiguration"`
+		CompartmentId                        *string                               `json:"compartmentId"`
+		ShapeName                            *string                               `json:"shapeName"`
+		SubnetId                             *string                               `json:"subnetId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -271,6 +282,10 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	m.HostnameLabel = model.HostnameLabel
 
 	m.IpAddress = model.IpAddress
+
+	m.IsIpv6Enabled = model.IsIpv6Enabled
+
+	m.Ipv6AddressIpv6SubnetCidrPairDetails = model.Ipv6AddressIpv6SubnetCidrPairDetails
 
 	m.Port = model.Port
 

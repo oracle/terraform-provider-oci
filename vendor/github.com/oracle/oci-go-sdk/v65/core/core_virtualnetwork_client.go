@@ -73,7 +73,7 @@ func newVirtualNetworkClientFromBaseClient(baseClient common.BaseClient, configP
 
 // SetRegion overrides the region of this client.
 func (client *VirtualNetworkClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("iaas", "https://iaas.{region}.{secondLevelDomain}")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("iaas", "https://iaas.{region}.{dualStack?ds.oci.:}{secondLevelDomain}", "iaas")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -95,6 +95,12 @@ func (client *VirtualNetworkClient) setConfigurationProvider(configProvider comm
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *VirtualNetworkClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
+// Default value is false
+func (client *VirtualNetworkClient) EnableDualStackEndpoints(enableDualStack bool) {
+	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
 }
 
 // AddDrgRouteDistributionStatements Adds one or more route distribution statements to the specified route distribution.
@@ -138,6 +144,13 @@ func (client VirtualNetworkClient) addDrgRouteDistributionStatements(ctx context
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response AddDrgRouteDistributionStatementsResponse
 	var httpResponse *http.Response
@@ -200,6 +213,13 @@ func (client VirtualNetworkClient) addDrgRouteRules(ctx context.Context, request
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response AddDrgRouteRulesResponse
 	var httpResponse *http.Response
@@ -264,6 +284,13 @@ func (client VirtualNetworkClient) addIpv4SubnetCidr(ctx context.Context, reques
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response AddIpv4SubnetCidrResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "AddIpv4SubnetCidr")
@@ -325,6 +352,13 @@ func (client VirtualNetworkClient) addIpv6SubnetCidr(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response AddIpv6SubnetCidrResponse
 	var httpResponse *http.Response
@@ -389,6 +423,13 @@ func (client VirtualNetworkClient) addIpv6VcnCidr(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response AddIpv6VcnCidrResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "AddIpv6VcnCidr")
@@ -445,6 +486,13 @@ func (client VirtualNetworkClient) addNetworkSecurityGroupSecurityRules(ctx cont
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response AddNetworkSecurityGroupSecurityRulesResponse
 	var httpResponse *http.Response
@@ -508,6 +556,13 @@ func (client VirtualNetworkClient) addPublicIpPoolCapacity(ctx context.Context, 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response AddPublicIpPoolCapacityResponse
 	var httpResponse *http.Response
@@ -575,6 +630,13 @@ func (client VirtualNetworkClient) addVcnCidr(ctx context.Context, request commo
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response AddVcnCidrResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "AddVcnCidr")
@@ -632,6 +694,13 @@ func (client VirtualNetworkClient) advertiseByoipRange(ctx context.Context, requ
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response AdvertiseByoipRangeResponse
 	var httpResponse *http.Response
@@ -698,6 +767,13 @@ func (client VirtualNetworkClient) attachServiceId(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response AttachServiceIdResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "AttachServiceId")
@@ -753,6 +829,13 @@ func (client VirtualNetworkClient) bulkAddVirtualCircuitPublicPrefixes(ctx conte
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response BulkAddVirtualCircuitPublicPrefixesResponse
 	var httpResponse *http.Response
@@ -817,6 +900,13 @@ func (client VirtualNetworkClient) bulkCreateIpv6s(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response BulkCreateIpv6sResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "BulkCreateIpv6s")
@@ -879,6 +969,13 @@ func (client VirtualNetworkClient) bulkCreatePrivateIps(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response BulkCreatePrivateIpsResponse
 	var httpResponse *http.Response
@@ -943,6 +1040,13 @@ func (client VirtualNetworkClient) bulkDeleteIpv6s(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response BulkDeleteIpv6sResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "BulkDeleteIpv6s")
@@ -1006,6 +1110,13 @@ func (client VirtualNetworkClient) bulkDeletePrivateIps(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response BulkDeletePrivateIpsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "BulkDeletePrivateIps")
@@ -1061,6 +1172,13 @@ func (client VirtualNetworkClient) bulkDeleteVirtualCircuitPublicPrefixes(ctx co
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response BulkDeleteVirtualCircuitPublicPrefixesResponse
 	var httpResponse *http.Response
@@ -1125,6 +1243,13 @@ func (client VirtualNetworkClient) bulkDetachIpv6s(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response BulkDetachIpv6sResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "BulkDetachIpv6s")
@@ -1187,6 +1312,13 @@ func (client VirtualNetworkClient) bulkDetachPrivateIps(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response BulkDetachPrivateIpsResponse
 	var httpResponse *http.Response
@@ -1251,6 +1383,13 @@ func (client VirtualNetworkClient) bulkUpdateIpv6s(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response BulkUpdateIpv6sResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "BulkUpdateIpv6s")
@@ -1313,6 +1452,13 @@ func (client VirtualNetworkClient) bulkUpdatePrivateIps(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response BulkUpdatePrivateIpsResponse
 	var httpResponse *http.Response
@@ -1379,6 +1525,13 @@ func (client VirtualNetworkClient) changeByoasnCompartment(ctx context.Context, 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeByoasnCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ChangeByoasnCompartment")
@@ -1443,6 +1596,13 @@ func (client VirtualNetworkClient) changeByoipRangeCompartment(ctx context.Conte
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeByoipRangeCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ChangeByoipRangeCompartment")
@@ -1506,6 +1666,13 @@ func (client VirtualNetworkClient) changeCaptureFilterCompartment(ctx context.Co
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeCaptureFilterCompartmentResponse
 	var httpResponse *http.Response
@@ -1572,6 +1739,13 @@ func (client VirtualNetworkClient) changeCpeCompartment(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeCpeCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ChangeCpeCompartment")
@@ -1636,6 +1810,13 @@ func (client VirtualNetworkClient) changeCrossConnectCompartment(ctx context.Con
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeCrossConnectCompartmentResponse
 	var httpResponse *http.Response
@@ -1702,6 +1883,13 @@ func (client VirtualNetworkClient) changeCrossConnectGroupCompartment(ctx contex
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeCrossConnectGroupCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ChangeCrossConnectGroupCompartment")
@@ -1766,6 +1954,13 @@ func (client VirtualNetworkClient) changeDhcpOptionsCompartment(ctx context.Cont
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeDhcpOptionsCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ChangeDhcpOptionsCompartment")
@@ -1829,6 +2024,13 @@ func (client VirtualNetworkClient) changeDrgCompartment(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeDrgCompartmentResponse
 	var httpResponse *http.Response
@@ -1895,6 +2097,13 @@ func (client VirtualNetworkClient) changeIPSecConnectionCompartment(ctx context.
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeIPSecConnectionCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ChangeIPSecConnectionCompartment")
@@ -1958,6 +2167,13 @@ func (client VirtualNetworkClient) changeInternetGatewayCompartment(ctx context.
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeInternetGatewayCompartmentResponse
 	var httpResponse *http.Response
@@ -2023,6 +2239,13 @@ func (client VirtualNetworkClient) changeLocalPeeringGatewayCompartment(ctx cont
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeLocalPeeringGatewayCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ChangeLocalPeeringGatewayCompartment")
@@ -2087,6 +2310,13 @@ func (client VirtualNetworkClient) changeNatGatewayCompartment(ctx context.Conte
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeNatGatewayCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ChangeNatGatewayCompartment")
@@ -2149,6 +2379,13 @@ func (client VirtualNetworkClient) changeNetworkSecurityGroupCompartment(ctx con
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeNetworkSecurityGroupCompartmentResponse
 	var httpResponse *http.Response
@@ -2216,6 +2453,13 @@ func (client VirtualNetworkClient) changePublicIpCompartment(ctx context.Context
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangePublicIpCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ChangePublicIpCompartment")
@@ -2279,6 +2523,13 @@ func (client VirtualNetworkClient) changePublicIpPoolCompartment(ctx context.Con
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangePublicIpPoolCompartmentResponse
 	var httpResponse *http.Response
@@ -2345,6 +2596,13 @@ func (client VirtualNetworkClient) changeRemotePeeringConnectionCompartment(ctx 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeRemotePeeringConnectionCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ChangeRemotePeeringConnectionCompartment")
@@ -2408,6 +2666,13 @@ func (client VirtualNetworkClient) changeRouteTableCompartment(ctx context.Conte
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeRouteTableCompartmentResponse
 	var httpResponse *http.Response
@@ -2473,6 +2738,13 @@ func (client VirtualNetworkClient) changeSecurityListCompartment(ctx context.Con
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeSecurityListCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ChangeSecurityListCompartment")
@@ -2536,6 +2808,13 @@ func (client VirtualNetworkClient) changeServiceGatewayCompartment(ctx context.C
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeServiceGatewayCompartmentResponse
 	var httpResponse *http.Response
@@ -2601,6 +2880,13 @@ func (client VirtualNetworkClient) changeSubnetCompartment(ctx context.Context, 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeSubnetCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ChangeSubnetCompartment")
@@ -2664,6 +2950,13 @@ func (client VirtualNetworkClient) changeVcnCompartment(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeVcnCompartmentResponse
 	var httpResponse *http.Response
@@ -2730,6 +3023,13 @@ func (client VirtualNetworkClient) changeVirtualCircuitCompartment(ctx context.C
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeVirtualCircuitCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ChangeVirtualCircuitCompartment")
@@ -2793,6 +3093,13 @@ func (client VirtualNetworkClient) changeVlanCompartment(ctx context.Context, re
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeVlanCompartmentResponse
 	var httpResponse *http.Response
@@ -2858,6 +3165,13 @@ func (client VirtualNetworkClient) changeVtapCompartment(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeVtapCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ChangeVtapCompartment")
@@ -2920,6 +3234,13 @@ func (client VirtualNetworkClient) connectLocalPeeringGateways(ctx context.Conte
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ConnectLocalPeeringGatewaysResponse
 	var httpResponse *http.Response
@@ -2985,6 +3306,13 @@ func (client VirtualNetworkClient) connectRemotePeeringConnections(ctx context.C
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ConnectRemotePeeringConnectionsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ConnectRemotePeeringConnections")
@@ -3048,6 +3376,13 @@ func (client VirtualNetworkClient) createByoasn(ctx context.Context, request com
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateByoasnResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "CreateByoasn")
@@ -3109,6 +3444,13 @@ func (client VirtualNetworkClient) createByoipRange(ctx context.Context, request
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateByoipRangeResponse
 	var httpResponse *http.Response
@@ -3177,6 +3519,13 @@ func (client VirtualNetworkClient) createCaptureFilter(ctx context.Context, requ
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateCaptureFilterResponse
 	var httpResponse *http.Response
@@ -3251,6 +3600,13 @@ func (client VirtualNetworkClient) createCpe(ctx context.Context, request common
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateCpeResponse
 	var httpResponse *http.Response
@@ -3330,6 +3686,13 @@ func (client VirtualNetworkClient) createCrossConnect(ctx context.Context, reque
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateCrossConnectResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "CreateCrossConnect")
@@ -3405,6 +3768,13 @@ func (client VirtualNetworkClient) createCrossConnectGroup(ctx context.Context, 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateCrossConnectGroupResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "CreateCrossConnectGroup")
@@ -3475,6 +3845,13 @@ func (client VirtualNetworkClient) createDhcpOptions(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateDhcpOptionsResponse
 	var httpResponse *http.Response
@@ -3547,6 +3924,13 @@ func (client VirtualNetworkClient) createDrg(ctx context.Context, request common
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateDrgResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "CreateDrg")
@@ -3617,6 +4001,13 @@ func (client VirtualNetworkClient) createDrgAttachment(ctx context.Context, requ
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateDrgAttachmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "CreateDrgAttachment")
@@ -3682,6 +4073,13 @@ func (client VirtualNetworkClient) createDrgRouteDistribution(ctx context.Contex
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateDrgRouteDistributionResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "CreateDrgRouteDistribution")
@@ -3744,6 +4142,13 @@ func (client VirtualNetworkClient) createDrgRouteTable(ctx context.Context, requ
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateDrgRouteTableResponse
 	var httpResponse *http.Response
@@ -3830,6 +4235,13 @@ func (client VirtualNetworkClient) createIPSecConnection(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateIPSecConnectionResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "CreateIPSecConnection")
@@ -3907,6 +4319,13 @@ func (client VirtualNetworkClient) createInternetGateway(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateInternetGatewayResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "CreateInternetGateway")
@@ -3969,6 +4388,13 @@ func (client VirtualNetworkClient) createIpv6(ctx context.Context, request commo
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateIpv6Response
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "CreateIpv6")
@@ -4030,6 +4456,13 @@ func (client VirtualNetworkClient) createLocalPeeringGateway(ctx context.Context
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateLocalPeeringGatewayResponse
 	var httpResponse *http.Response
@@ -4094,6 +4527,13 @@ func (client VirtualNetworkClient) createNatGateway(ctx context.Context, request
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateNatGatewayResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "CreateNatGateway")
@@ -4155,6 +4595,13 @@ func (client VirtualNetworkClient) createNetworkSecurityGroup(ctx context.Contex
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateNetworkSecurityGroupResponse
 	var httpResponse *http.Response
@@ -4219,6 +4666,13 @@ func (client VirtualNetworkClient) createPrivateIp(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreatePrivateIpResponse
 	var httpResponse *http.Response
@@ -4298,6 +4752,13 @@ func (client VirtualNetworkClient) createPublicIp(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreatePublicIpResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "CreatePublicIp")
@@ -4359,6 +4820,13 @@ func (client VirtualNetworkClient) createPublicIpPool(ctx context.Context, reque
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreatePublicIpPoolResponse
 	var httpResponse *http.Response
@@ -4422,6 +4890,13 @@ func (client VirtualNetworkClient) createRemotePeeringConnection(ctx context.Con
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateRemotePeeringConnectionResponse
 	var httpResponse *http.Response
@@ -4497,6 +4972,13 @@ func (client VirtualNetworkClient) createRouteTable(ctx context.Context, request
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateRouteTableResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "CreateRouteTable")
@@ -4570,6 +5052,13 @@ func (client VirtualNetworkClient) createSecurityList(ctx context.Context, reque
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateSecurityListResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "CreateSecurityList")
@@ -4639,6 +5128,13 @@ func (client VirtualNetworkClient) createServiceGateway(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateServiceGatewayResponse
 	var httpResponse *http.Response
@@ -4726,6 +5222,13 @@ func (client VirtualNetworkClient) createSubnet(ctx context.Context, request com
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateSubnetResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "CreateSubnet")
@@ -4812,6 +5315,13 @@ func (client VirtualNetworkClient) createVcn(ctx context.Context, request common
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateVcnResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "CreateVcn")
@@ -4892,6 +5402,13 @@ func (client VirtualNetworkClient) createVirtualCircuit(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateVirtualCircuitResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "CreateVirtualCircuit")
@@ -4953,6 +5470,13 @@ func (client VirtualNetworkClient) createVlan(ctx context.Context, request commo
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateVlanResponse
 	var httpResponse *http.Response
@@ -5022,6 +5546,13 @@ func (client VirtualNetworkClient) createVtap(ctx context.Context, request commo
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateVtapResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "CreateVtap")
@@ -5081,6 +5612,13 @@ func (client VirtualNetworkClient) deleteByoasn(ctx context.Context, request com
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteByoasnResponse
 	var httpResponse *http.Response
@@ -5143,6 +5681,13 @@ func (client VirtualNetworkClient) deleteByoipRange(ctx context.Context, request
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteByoipRangeResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "DeleteByoipRange")
@@ -5200,6 +5745,13 @@ func (client VirtualNetworkClient) deleteCaptureFilter(ctx context.Context, requ
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteCaptureFilterResponse
 	var httpResponse *http.Response
@@ -5261,6 +5813,13 @@ func (client VirtualNetworkClient) deleteCpe(ctx context.Context, request common
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteCpeResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "DeleteCpe")
@@ -5319,6 +5878,13 @@ func (client VirtualNetworkClient) deleteCrossConnect(ctx context.Context, reque
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteCrossConnectResponse
 	var httpResponse *http.Response
@@ -5380,6 +5946,13 @@ func (client VirtualNetworkClient) deleteCrossConnectGroup(ctx context.Context, 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteCrossConnectGroupResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "DeleteCrossConnectGroup")
@@ -5439,6 +6012,13 @@ func (client VirtualNetworkClient) deleteDhcpOptions(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteDhcpOptionsResponse
 	var httpResponse *http.Response
@@ -5500,6 +6080,13 @@ func (client VirtualNetworkClient) deleteDrg(ctx context.Context, request common
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteDrgResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "DeleteDrg")
@@ -5559,6 +6146,13 @@ func (client VirtualNetworkClient) deleteDrgAttachment(ctx context.Context, requ
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteDrgAttachmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "DeleteDrgAttachment")
@@ -5617,6 +6211,13 @@ func (client VirtualNetworkClient) deleteDrgRouteDistribution(ctx context.Contex
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteDrgRouteDistributionResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "DeleteDrgRouteDistribution")
@@ -5673,6 +6274,13 @@ func (client VirtualNetworkClient) deleteDrgRouteTable(ctx context.Context, requ
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteDrgRouteTableResponse
 	var httpResponse *http.Response
@@ -5738,6 +6346,13 @@ func (client VirtualNetworkClient) deleteIPSecConnection(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteIPSecConnectionResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "DeleteIPSecConnection")
@@ -5798,6 +6413,13 @@ func (client VirtualNetworkClient) deleteInternetGateway(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteInternetGatewayResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "DeleteInternetGateway")
@@ -5855,6 +6477,13 @@ func (client VirtualNetworkClient) deleteIpv6(ctx context.Context, request commo
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteIpv6Response
 	var httpResponse *http.Response
@@ -5915,6 +6544,13 @@ func (client VirtualNetworkClient) deleteLocalPeeringGateway(ctx context.Context
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteLocalPeeringGatewayResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "DeleteLocalPeeringGateway")
@@ -5974,6 +6610,13 @@ func (client VirtualNetworkClient) deleteNatGateway(ctx context.Context, request
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteNatGatewayResponse
 	var httpResponse *http.Response
@@ -6036,6 +6679,13 @@ func (client VirtualNetworkClient) deleteNetworkSecurityGroup(ctx context.Contex
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteNetworkSecurityGroupResponse
 	var httpResponse *http.Response
@@ -6101,6 +6751,13 @@ func (client VirtualNetworkClient) deletePrivateIp(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeletePrivateIpResponse
 	var httpResponse *http.Response
@@ -6170,6 +6827,13 @@ func (client VirtualNetworkClient) deletePublicIp(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeletePublicIpResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "DeletePublicIp")
@@ -6228,6 +6892,13 @@ func (client VirtualNetworkClient) deletePublicIpPool(ctx context.Context, reque
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeletePublicIpPoolResponse
 	var httpResponse *http.Response
@@ -6289,6 +6960,13 @@ func (client VirtualNetworkClient) deleteRemotePeeringConnection(ctx context.Con
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteRemotePeeringConnectionResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "DeleteRemotePeeringConnection")
@@ -6348,6 +7026,13 @@ func (client VirtualNetworkClient) deleteRouteTable(ctx context.Context, request
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteRouteTableResponse
 	var httpResponse *http.Response
@@ -6409,6 +7094,13 @@ func (client VirtualNetworkClient) deleteSecurityList(ctx context.Context, reque
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteSecurityListResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "DeleteSecurityList")
@@ -6466,6 +7158,13 @@ func (client VirtualNetworkClient) deleteServiceGateway(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteServiceGatewayResponse
 	var httpResponse *http.Response
@@ -6525,6 +7224,13 @@ func (client VirtualNetworkClient) deleteSubnet(ctx context.Context, request com
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteSubnetResponse
 	var httpResponse *http.Response
@@ -6587,6 +7293,13 @@ func (client VirtualNetworkClient) deleteVcn(ctx context.Context, request common
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteVcnResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "DeleteVcn")
@@ -6648,6 +7361,13 @@ func (client VirtualNetworkClient) deleteVirtualCircuit(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteVirtualCircuitResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "DeleteVirtualCircuit")
@@ -6704,6 +7424,13 @@ func (client VirtualNetworkClient) deleteVlan(ctx context.Context, request commo
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteVlanResponse
 	var httpResponse *http.Response
@@ -6762,6 +7489,13 @@ func (client VirtualNetworkClient) deleteVtap(ctx context.Context, request commo
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteVtapResponse
 	var httpResponse *http.Response
@@ -6830,6 +7564,13 @@ func (client VirtualNetworkClient) detachServiceId(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DetachServiceIdResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "DetachServiceId")
@@ -6886,6 +7627,13 @@ func (client VirtualNetworkClient) getAllDrgAttachments(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetAllDrgAttachmentsResponse
 	var httpResponse *http.Response
@@ -6945,6 +7693,13 @@ func (client VirtualNetworkClient) getAllowedIkeIPSecParameters(ctx context.Cont
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetAllowedIkeIPSecParametersResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetAllowedIkeIPSecParameters")
@@ -7003,6 +7758,13 @@ func (client VirtualNetworkClient) getByoasn(ctx context.Context, request common
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetByoasnResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetByoasn")
@@ -7059,6 +7821,13 @@ func (client VirtualNetworkClient) getByoipRange(ctx context.Context, request co
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetByoipRangeResponse
 	var httpResponse *http.Response
@@ -7117,6 +7886,13 @@ func (client VirtualNetworkClient) getCaptureFilter(ctx context.Context, request
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetCaptureFilterResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetCaptureFilter")
@@ -7174,6 +7950,13 @@ func (client VirtualNetworkClient) getCpe(ctx context.Context, request common.OC
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetCpeResponse
 	var httpResponse *http.Response
@@ -7247,6 +8030,13 @@ func (client VirtualNetworkClient) getCpeDeviceConfigContent(ctx context.Context
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetCpeDeviceConfigContentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetCpeDeviceConfigContent")
@@ -7311,6 +8101,13 @@ func (client VirtualNetworkClient) getCpeDeviceShape(ctx context.Context, reques
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetCpeDeviceShapeResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetCpeDeviceShape")
@@ -7368,6 +8165,13 @@ func (client VirtualNetworkClient) getCrossConnect(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetCrossConnectResponse
 	var httpResponse *http.Response
@@ -7427,6 +8231,13 @@ func (client VirtualNetworkClient) getCrossConnectGroup(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetCrossConnectGroupResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetCrossConnectGroup")
@@ -7484,6 +8295,13 @@ func (client VirtualNetworkClient) getCrossConnectLetterOfAuthority(ctx context.
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetCrossConnectLetterOfAuthorityResponse
 	var httpResponse *http.Response
@@ -7543,6 +8361,13 @@ func (client VirtualNetworkClient) getCrossConnectStatus(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetCrossConnectStatusResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetCrossConnectStatus")
@@ -7599,6 +8424,13 @@ func (client VirtualNetworkClient) getDhcpOptions(ctx context.Context, request c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetDhcpOptionsResponse
 	var httpResponse *http.Response
@@ -7657,6 +8489,13 @@ func (client VirtualNetworkClient) getDrg(ctx context.Context, request common.OC
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetDrgResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetDrg")
@@ -7713,6 +8552,13 @@ func (client VirtualNetworkClient) getDrgAttachment(ctx context.Context, request
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetDrgAttachmentResponse
 	var httpResponse *http.Response
@@ -7773,6 +8619,13 @@ func (client VirtualNetworkClient) getDrgRedundancyStatus(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetDrgRedundancyStatusResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetDrgRedundancyStatus")
@@ -7830,6 +8683,13 @@ func (client VirtualNetworkClient) getDrgRouteDistribution(ctx context.Context, 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetDrgRouteDistributionResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetDrgRouteDistribution")
@@ -7886,6 +8746,13 @@ func (client VirtualNetworkClient) getDrgRouteTable(ctx context.Context, request
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetDrgRouteTableResponse
 	var httpResponse *http.Response
@@ -7946,6 +8813,13 @@ func (client VirtualNetworkClient) getFastConnectProviderService(ctx context.Con
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetFastConnectProviderServiceResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetFastConnectProviderService")
@@ -8004,6 +8878,13 @@ func (client VirtualNetworkClient) getFastConnectProviderServiceKey(ctx context.
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetFastConnectProviderServiceKeyResponse
 	var httpResponse *http.Response
@@ -8065,6 +8946,13 @@ func (client VirtualNetworkClient) getIPSecConnection(ctx context.Context, reque
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetIPSecConnectionResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetIPSecConnection")
@@ -8125,6 +9013,13 @@ func (client VirtualNetworkClient) getIPSecConnectionDeviceConfig(ctx context.Co
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetIPSecConnectionDeviceConfigResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetIPSecConnectionDeviceConfig")
@@ -8183,6 +9078,13 @@ func (client VirtualNetworkClient) getIPSecConnectionDeviceStatus(ctx context.Co
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetIPSecConnectionDeviceStatusResponse
 	var httpResponse *http.Response
@@ -8244,6 +9146,13 @@ func (client VirtualNetworkClient) getIPSecConnectionTunnel(ctx context.Context,
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetIPSecConnectionTunnelResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetIPSecConnectionTunnel")
@@ -8301,6 +9210,13 @@ func (client VirtualNetworkClient) getIPSecConnectionTunnelError(ctx context.Con
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetIPSecConnectionTunnelErrorResponse
 	var httpResponse *http.Response
@@ -8361,6 +9277,13 @@ func (client VirtualNetworkClient) getIPSecConnectionTunnelSharedSecret(ctx cont
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetIPSecConnectionTunnelSharedSecretResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetIPSecConnectionTunnelSharedSecret")
@@ -8417,6 +9340,13 @@ func (client VirtualNetworkClient) getInternetGateway(ctx context.Context, reque
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetInternetGatewayResponse
 	var httpResponse *http.Response
@@ -8491,6 +9421,13 @@ func (client VirtualNetworkClient) getIpsecCpeDeviceConfigContent(ctx context.Co
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetIpsecCpeDeviceConfigContentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetIpsecCpeDeviceConfigContent")
@@ -8550,6 +9487,13 @@ func (client VirtualNetworkClient) getIpv6(ctx context.Context, request common.O
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetIpv6Response
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetIpv6")
@@ -8607,6 +9551,13 @@ func (client VirtualNetworkClient) getLocalPeeringGateway(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetLocalPeeringGatewayResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetLocalPeeringGateway")
@@ -8663,6 +9614,13 @@ func (client VirtualNetworkClient) getNatGateway(ctx context.Context, request co
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetNatGatewayResponse
 	var httpResponse *http.Response
@@ -8725,6 +9683,13 @@ func (client VirtualNetworkClient) getNetworkSecurityGroup(ctx context.Context, 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetNetworkSecurityGroupResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetNetworkSecurityGroup")
@@ -8781,6 +9746,13 @@ func (client VirtualNetworkClient) getNetworkingTopology(ctx context.Context, re
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetNetworkingTopologyResponse
 	var httpResponse *http.Response
@@ -8841,6 +9813,13 @@ func (client VirtualNetworkClient) getPrivateIp(ctx context.Context, request com
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetPrivateIpResponse
 	var httpResponse *http.Response
@@ -8906,6 +9885,13 @@ func (client VirtualNetworkClient) getPublicIp(ctx context.Context, request comm
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetPublicIpResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetPublicIp")
@@ -8965,6 +9951,13 @@ func (client VirtualNetworkClient) getPublicIpByIpAddress(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetPublicIpByIpAddressResponse
 	var httpResponse *http.Response
@@ -9032,6 +10025,13 @@ func (client VirtualNetworkClient) getPublicIpByPrivateIpId(ctx context.Context,
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetPublicIpByPrivateIpIdResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetPublicIpByPrivateIpId")
@@ -9088,6 +10088,13 @@ func (client VirtualNetworkClient) getPublicIpPool(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetPublicIpPoolResponse
 	var httpResponse *http.Response
@@ -9147,6 +10154,13 @@ func (client VirtualNetworkClient) getRemotePeeringConnection(ctx context.Contex
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetRemotePeeringConnectionResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetRemotePeeringConnection")
@@ -9203,6 +10217,13 @@ func (client VirtualNetworkClient) getResourceIpInventory(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetResourceIpInventoryResponse
 	var httpResponse *http.Response
@@ -9261,6 +10282,13 @@ func (client VirtualNetworkClient) getRouteTable(ctx context.Context, request co
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetRouteTableResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetRouteTable")
@@ -9317,6 +10345,13 @@ func (client VirtualNetworkClient) getSecurityList(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetSecurityListResponse
 	var httpResponse *http.Response
@@ -9375,6 +10410,13 @@ func (client VirtualNetworkClient) getService(ctx context.Context, request commo
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetServiceResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetService")
@@ -9431,6 +10473,13 @@ func (client VirtualNetworkClient) getServiceGateway(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetServiceGatewayResponse
 	var httpResponse *http.Response
@@ -9489,6 +10538,13 @@ func (client VirtualNetworkClient) getSubnet(ctx context.Context, request common
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetSubnetResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetSubnet")
@@ -9545,6 +10601,13 @@ func (client VirtualNetworkClient) getSubnetCidrUtilization(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetSubnetCidrUtilizationResponse
 	var httpResponse *http.Response
@@ -9603,6 +10666,13 @@ func (client VirtualNetworkClient) getSubnetIpInventory(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetSubnetIpInventoryResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetSubnetIpInventory")
@@ -9659,6 +10729,13 @@ func (client VirtualNetworkClient) getSubnetTopology(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetSubnetTopologyResponse
 	var httpResponse *http.Response
@@ -9721,6 +10798,13 @@ func (client VirtualNetworkClient) getTunnelCpeDeviceConfig(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetTunnelCpeDeviceConfigResponse
 	var httpResponse *http.Response
@@ -9794,6 +10878,13 @@ func (client VirtualNetworkClient) getTunnelCpeDeviceConfigContent(ctx context.C
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetTunnelCpeDeviceConfigContentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetTunnelCpeDeviceConfigContent")
@@ -9849,6 +10940,13 @@ func (client VirtualNetworkClient) getUpgradeStatus(ctx context.Context, request
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetUpgradeStatusResponse
 	var httpResponse *http.Response
@@ -9907,6 +11005,13 @@ func (client VirtualNetworkClient) getVcn(ctx context.Context, request common.OC
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetVcnResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetVcn")
@@ -9963,6 +11068,13 @@ func (client VirtualNetworkClient) getVcnDnsResolverAssociation(ctx context.Cont
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetVcnDnsResolverAssociationResponse
 	var httpResponse *http.Response
@@ -10026,6 +11138,13 @@ func (client VirtualNetworkClient) getVcnOverlap(ctx context.Context, request co
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetVcnOverlapResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetVcnOverlap")
@@ -10082,6 +11201,13 @@ func (client VirtualNetworkClient) getVcnTopology(ctx context.Context, request c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetVcnTopologyResponse
 	var httpResponse *http.Response
@@ -10141,6 +11267,13 @@ func (client VirtualNetworkClient) getVirtualCircuit(ctx context.Context, reques
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetVirtualCircuitResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetVirtualCircuit")
@@ -10197,6 +11330,13 @@ func (client VirtualNetworkClient) getVlan(ctx context.Context, request common.O
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetVlanResponse
 	var httpResponse *http.Response
@@ -10258,6 +11398,13 @@ func (client VirtualNetworkClient) getVnic(ctx context.Context, request common.O
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetVnicResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "GetVnic")
@@ -10314,6 +11461,13 @@ func (client VirtualNetworkClient) getVtap(ctx context.Context, request common.O
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetVtapResponse
 	var httpResponse *http.Response
@@ -10377,6 +11531,13 @@ func (client VirtualNetworkClient) ipv6VnicDetach(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response Ipv6VnicDetachResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "Ipv6VnicDetach")
@@ -10435,6 +11596,13 @@ func (client VirtualNetworkClient) listAllowedPeerRegionsForRemotePeering(ctx co
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListAllowedPeerRegionsForRemotePeeringResponse
 	var httpResponse *http.Response
@@ -10495,6 +11663,13 @@ func (client VirtualNetworkClient) listByoasns(ctx context.Context, request comm
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListByoasnsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListByoasns")
@@ -10552,6 +11727,13 @@ func (client VirtualNetworkClient) listByoipAllocatedRanges(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListByoipAllocatedRangesResponse
 	var httpResponse *http.Response
@@ -10611,6 +11793,13 @@ func (client VirtualNetworkClient) listByoipRanges(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListByoipRangesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListByoipRanges")
@@ -10667,6 +11856,13 @@ func (client VirtualNetworkClient) listCaptureFilters(ctx context.Context, reque
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListCaptureFiltersResponse
 	var httpResponse *http.Response
@@ -10735,6 +11931,13 @@ func (client VirtualNetworkClient) listCpeDeviceShapes(ctx context.Context, requ
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListCpeDeviceShapesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListCpeDeviceShapes")
@@ -10793,6 +11996,13 @@ func (client VirtualNetworkClient) listCpes(ctx context.Context, request common.
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListCpesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListCpes")
@@ -10850,6 +12060,13 @@ func (client VirtualNetworkClient) listCrossConnectGroups(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListCrossConnectGroupsResponse
 	var httpResponse *http.Response
@@ -10910,6 +12127,13 @@ func (client VirtualNetworkClient) listCrossConnectLocations(ctx context.Context
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListCrossConnectLocationsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListCrossConnectLocations")
@@ -10969,6 +12193,13 @@ func (client VirtualNetworkClient) listCrossConnectMappings(ctx context.Context,
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListCrossConnectMappingsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListCrossConnectMappings")
@@ -11027,6 +12258,13 @@ func (client VirtualNetworkClient) listCrossConnects(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListCrossConnectsResponse
 	var httpResponse *http.Response
@@ -11088,6 +12326,13 @@ func (client VirtualNetworkClient) listCrossconnectPortSpeedShapes(ctx context.C
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListCrossconnectPortSpeedShapesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListCrossconnectPortSpeedShapes")
@@ -11147,6 +12392,13 @@ func (client VirtualNetworkClient) listDhcpOptions(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListDhcpOptionsResponse
 	var httpResponse *http.Response
@@ -11209,6 +12461,13 @@ func (client VirtualNetworkClient) listDrgAttachments(ctx context.Context, reque
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListDrgAttachmentsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListDrgAttachments")
@@ -11265,6 +12524,13 @@ func (client VirtualNetworkClient) listDrgRouteDistributionStatements(ctx contex
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListDrgRouteDistributionStatementsResponse
 	var httpResponse *http.Response
@@ -11325,6 +12591,13 @@ func (client VirtualNetworkClient) listDrgRouteDistributions(ctx context.Context
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListDrgRouteDistributionsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListDrgRouteDistributions")
@@ -11381,6 +12654,13 @@ func (client VirtualNetworkClient) listDrgRouteRules(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListDrgRouteRulesResponse
 	var httpResponse *http.Response
@@ -11440,6 +12720,13 @@ func (client VirtualNetworkClient) listDrgRouteTables(ctx context.Context, reque
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListDrgRouteTablesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListDrgRouteTables")
@@ -11496,6 +12783,13 @@ func (client VirtualNetworkClient) listDrgs(ctx context.Context, request common.
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListDrgsResponse
 	var httpResponse *http.Response
@@ -11559,6 +12853,13 @@ func (client VirtualNetworkClient) listFastConnectProviderServices(ctx context.C
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListFastConnectProviderServicesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListFastConnectProviderServices")
@@ -11619,6 +12920,13 @@ func (client VirtualNetworkClient) listFastConnectProviderVirtualCircuitBandwidt
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListFastConnectProviderVirtualCircuitBandwidthShapesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListFastConnectProviderVirtualCircuitBandwidthShapes")
@@ -11676,6 +12984,13 @@ func (client VirtualNetworkClient) listIPSecConnectionTunnelRoutes(ctx context.C
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListIPSecConnectionTunnelRoutesResponse
 	var httpResponse *http.Response
@@ -11735,6 +13050,13 @@ func (client VirtualNetworkClient) listIPSecConnectionTunnelSecurityAssociations
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListIPSecConnectionTunnelSecurityAssociationsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListIPSecConnectionTunnelSecurityAssociations")
@@ -11792,6 +13114,13 @@ func (client VirtualNetworkClient) listIPSecConnectionTunnels(ctx context.Contex
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListIPSecConnectionTunnelsResponse
 	var httpResponse *http.Response
@@ -11852,6 +13181,13 @@ func (client VirtualNetworkClient) listIPSecConnections(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListIPSecConnectionsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListIPSecConnections")
@@ -11910,6 +13246,13 @@ func (client VirtualNetworkClient) listInternetGateways(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListInternetGatewaysResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListInternetGateways")
@@ -11966,6 +13309,13 @@ func (client VirtualNetworkClient) listIpInventory(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListIpInventoryResponse
 	var httpResponse *http.Response
@@ -12030,6 +13380,13 @@ func (client VirtualNetworkClient) listIpv6s(ctx context.Context, request common
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListIpv6sResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListIpv6s")
@@ -12087,6 +13444,13 @@ func (client VirtualNetworkClient) listLocalPeeringGateways(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListLocalPeeringGatewaysResponse
 	var httpResponse *http.Response
@@ -12146,6 +13510,13 @@ func (client VirtualNetworkClient) listNatGateways(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListNatGatewaysResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListNatGateways")
@@ -12202,6 +13573,13 @@ func (client VirtualNetworkClient) listNetworkSecurityGroupSecurityRules(ctx con
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListNetworkSecurityGroupSecurityRulesResponse
 	var httpResponse *http.Response
@@ -12260,6 +13638,13 @@ func (client VirtualNetworkClient) listNetworkSecurityGroupVnics(ctx context.Con
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListNetworkSecurityGroupVnicsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListNetworkSecurityGroupVnics")
@@ -12317,6 +13702,13 @@ func (client VirtualNetworkClient) listNetworkSecurityGroups(ctx context.Context
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListNetworkSecurityGroupsResponse
 	var httpResponse *http.Response
@@ -12388,6 +13780,13 @@ func (client VirtualNetworkClient) listPrivateIps(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListPrivateIpsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListPrivateIps")
@@ -12445,6 +13844,13 @@ func (client VirtualNetworkClient) listPublicIpPools(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListPublicIpPoolsResponse
 	var httpResponse *http.Response
@@ -12521,6 +13927,13 @@ func (client VirtualNetworkClient) listPublicIps(ctx context.Context, request co
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListPublicIpsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListPublicIps")
@@ -12579,6 +13992,13 @@ func (client VirtualNetworkClient) listRemotePeeringConnections(ctx context.Cont
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListRemotePeeringConnectionsResponse
 	var httpResponse *http.Response
@@ -12640,6 +14060,13 @@ func (client VirtualNetworkClient) listRouteTables(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListRouteTablesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListRouteTables")
@@ -12697,6 +14124,13 @@ func (client VirtualNetworkClient) listSecurityLists(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListSecurityListsResponse
 	var httpResponse *http.Response
@@ -12756,6 +14190,13 @@ func (client VirtualNetworkClient) listServiceGateways(ctx context.Context, requ
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListServiceGatewaysResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListServiceGateways")
@@ -12813,6 +14254,13 @@ func (client VirtualNetworkClient) listServices(ctx context.Context, request com
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListServicesResponse
 	var httpResponse *http.Response
@@ -12872,6 +14320,13 @@ func (client VirtualNetworkClient) listSubnets(ctx context.Context, request comm
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListSubnetsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListSubnets")
@@ -12928,6 +14383,13 @@ func (client VirtualNetworkClient) listVcns(ctx context.Context, request common.
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListVcnsResponse
 	var httpResponse *http.Response
@@ -12987,6 +14449,13 @@ func (client VirtualNetworkClient) listVirtualCircuitAssociatedTunnels(ctx conte
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListVirtualCircuitAssociatedTunnelsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListVirtualCircuitAssociatedTunnels")
@@ -13044,6 +14513,13 @@ func (client VirtualNetworkClient) listVirtualCircuitBandwidthShapes(ctx context
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListVirtualCircuitBandwidthShapesResponse
 	var httpResponse *http.Response
@@ -13104,6 +14580,13 @@ func (client VirtualNetworkClient) listVirtualCircuitPublicPrefixes(ctx context.
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListVirtualCircuitPublicPrefixesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListVirtualCircuitPublicPrefixes")
@@ -13162,6 +14645,13 @@ func (client VirtualNetworkClient) listVirtualCircuits(ctx context.Context, requ
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListVirtualCircuitsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListVirtualCircuits")
@@ -13219,6 +14709,13 @@ func (client VirtualNetworkClient) listVlans(ctx context.Context, request common
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListVlansResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListVlans")
@@ -13275,6 +14772,13 @@ func (client VirtualNetworkClient) listVtaps(ctx context.Context, request common
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListVtapsResponse
 	var httpResponse *http.Response
@@ -13344,6 +14848,13 @@ func (client VirtualNetworkClient) modifyIpv4SubnetCidr(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ModifyIpv4SubnetCidrResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ModifyIpv4SubnetCidr")
@@ -13411,6 +14922,13 @@ func (client VirtualNetworkClient) modifyVcnCidr(ctx context.Context, request co
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ModifyVcnCidrResponse
 	var httpResponse *http.Response
@@ -13484,6 +15002,13 @@ func (client VirtualNetworkClient) patchSubnet(ctx context.Context, request comm
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response PatchSubnetResponse
 	var httpResponse *http.Response
@@ -13563,6 +15088,13 @@ func (client VirtualNetworkClient) patchVcn(ctx context.Context, request common.
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response PatchVcnResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "PatchVcn")
@@ -13625,6 +15157,13 @@ func (client VirtualNetworkClient) privateIpVnicDetach(ctx context.Context, requ
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response PrivateIpVnicDetachResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "PrivateIpVnicDetach")
@@ -13681,6 +15220,13 @@ func (client VirtualNetworkClient) removeDrgRouteDistributionStatements(ctx cont
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response RemoveDrgRouteDistributionStatementsResponse
 	var httpResponse *http.Response
@@ -13739,6 +15285,13 @@ func (client VirtualNetworkClient) removeDrgRouteRules(ctx context.Context, requ
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response RemoveDrgRouteRulesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "RemoveDrgRouteRules")
@@ -13795,6 +15348,13 @@ func (client VirtualNetworkClient) removeExportDrgRouteDistribution(ctx context.
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response RemoveExportDrgRouteDistributionResponse
 	var httpResponse *http.Response
@@ -13853,6 +15413,13 @@ func (client VirtualNetworkClient) removeImportDrgRouteDistribution(ctx context.
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response RemoveImportDrgRouteDistributionResponse
 	var httpResponse *http.Response
@@ -13917,6 +15484,13 @@ func (client VirtualNetworkClient) removeIpv4SubnetCidr(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response RemoveIpv4SubnetCidrResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "RemoveIpv4SubnetCidr")
@@ -13978,6 +15552,13 @@ func (client VirtualNetworkClient) removeIpv6SubnetCidr(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response RemoveIpv6SubnetCidrResponse
 	var httpResponse *http.Response
@@ -14041,6 +15622,13 @@ func (client VirtualNetworkClient) removeIpv6VcnCidr(ctx context.Context, reques
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response RemoveIpv6VcnCidrResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "RemoveIpv6VcnCidr")
@@ -14097,6 +15685,13 @@ func (client VirtualNetworkClient) removeNetworkSecurityGroupSecurityRules(ctx c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response RemoveNetworkSecurityGroupSecurityRulesResponse
 	var httpResponse *http.Response
@@ -14159,6 +15754,13 @@ func (client VirtualNetworkClient) removePublicIpPoolCapacity(ctx context.Contex
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response RemovePublicIpPoolCapacityResponse
 	var httpResponse *http.Response
@@ -14225,6 +15827,13 @@ func (client VirtualNetworkClient) removeVcnCidr(ctx context.Context, request co
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response RemoveVcnCidrResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "RemoveVcnCidr")
@@ -14288,6 +15897,13 @@ func (client VirtualNetworkClient) setOriginAsn(ctx context.Context, request com
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response SetOriginAsnResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "SetOriginAsn")
@@ -14344,6 +15960,13 @@ func (client VirtualNetworkClient) setOriginAsnToOracle(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response SetOriginAsnToOracleResponse
 	var httpResponse *http.Response
@@ -14402,6 +16025,13 @@ func (client VirtualNetworkClient) updateByoasn(ctx context.Context, request com
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateByoasnResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateByoasn")
@@ -14459,6 +16089,13 @@ func (client VirtualNetworkClient) updateByoipRange(ctx context.Context, request
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateByoipRangeResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateByoipRange")
@@ -14515,6 +16152,13 @@ func (client VirtualNetworkClient) updateCaptureFilter(ctx context.Context, requ
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateCaptureFilterResponse
 	var httpResponse *http.Response
@@ -14575,6 +16219,13 @@ func (client VirtualNetworkClient) updateCpe(ctx context.Context, request common
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateCpeResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateCpe")
@@ -14632,6 +16283,13 @@ func (client VirtualNetworkClient) updateCrossConnect(ctx context.Context, reque
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateCrossConnectResponse
 	var httpResponse *http.Response
@@ -14692,6 +16350,13 @@ func (client VirtualNetworkClient) updateCrossConnectGroup(ctx context.Context, 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateCrossConnectGroupResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateCrossConnectGroup")
@@ -14751,6 +16416,13 @@ func (client VirtualNetworkClient) updateDhcpOptions(ctx context.Context, reques
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateDhcpOptionsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateDhcpOptions")
@@ -14807,6 +16479,13 @@ func (client VirtualNetworkClient) updateDrg(ctx context.Context, request common
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateDrgResponse
 	var httpResponse *http.Response
@@ -14866,6 +16545,13 @@ func (client VirtualNetworkClient) updateDrgAttachment(ctx context.Context, requ
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateDrgAttachmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateDrgAttachment")
@@ -14922,6 +16608,13 @@ func (client VirtualNetworkClient) updateDrgRouteDistribution(ctx context.Contex
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateDrgRouteDistributionResponse
 	var httpResponse *http.Response
@@ -14980,6 +16673,13 @@ func (client VirtualNetworkClient) updateDrgRouteDistributionStatements(ctx cont
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateDrgRouteDistributionStatementsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateDrgRouteDistributionStatements")
@@ -15037,6 +16737,13 @@ func (client VirtualNetworkClient) updateDrgRouteRules(ctx context.Context, requ
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateDrgRouteRulesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateDrgRouteRules")
@@ -15093,6 +16800,13 @@ func (client VirtualNetworkClient) updateDrgRouteTable(ctx context.Context, requ
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateDrgRouteTableResponse
 	var httpResponse *http.Response
@@ -15153,6 +16867,13 @@ func (client VirtualNetworkClient) updateIPSecConnection(ctx context.Context, re
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateIPSecConnectionResponse
 	var httpResponse *http.Response
@@ -15220,6 +16941,13 @@ func (client VirtualNetworkClient) updateIPSecConnectionTunnel(ctx context.Conte
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateIPSecConnectionTunnelResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateIPSecConnectionTunnel")
@@ -15278,6 +17006,13 @@ func (client VirtualNetworkClient) updateIPSecConnectionTunnelSharedSecret(ctx c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateIPSecConnectionTunnelSharedSecretResponse
 	var httpResponse *http.Response
@@ -15338,6 +17073,13 @@ func (client VirtualNetworkClient) updateInternetGateway(ctx context.Context, re
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateInternetGatewayResponse
 	var httpResponse *http.Response
@@ -15401,6 +17143,13 @@ func (client VirtualNetworkClient) updateIpv6(ctx context.Context, request commo
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateIpv6Response
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateIpv6")
@@ -15458,6 +17207,13 @@ func (client VirtualNetworkClient) updateLocalPeeringGateway(ctx context.Context
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateLocalPeeringGatewayResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateLocalPeeringGateway")
@@ -15514,6 +17270,13 @@ func (client VirtualNetworkClient) updateNatGateway(ctx context.Context, request
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateNatGatewayResponse
 	var httpResponse *http.Response
@@ -15582,6 +17345,13 @@ func (client VirtualNetworkClient) updateNetworkSecurityGroup(ctx context.Contex
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateNetworkSecurityGroupResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateNetworkSecurityGroup")
@@ -15638,6 +17408,13 @@ func (client VirtualNetworkClient) updateNetworkSecurityGroupSecurityRules(ctx c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateNetworkSecurityGroupSecurityRulesResponse
 	var httpResponse *http.Response
@@ -15703,6 +17480,13 @@ func (client VirtualNetworkClient) updatePrivateIp(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdatePrivateIpResponse
 	var httpResponse *http.Response
@@ -15792,6 +17576,13 @@ func (client VirtualNetworkClient) updatePublicIp(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdatePublicIpResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdatePublicIp")
@@ -15848,6 +17639,13 @@ func (client VirtualNetworkClient) updatePublicIpPool(ctx context.Context, reque
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdatePublicIpPoolResponse
 	var httpResponse *http.Response
@@ -15907,6 +17705,13 @@ func (client VirtualNetworkClient) updateRemotePeeringConnection(ctx context.Con
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateRemotePeeringConnectionResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateRemotePeeringConnection")
@@ -15965,6 +17770,13 @@ func (client VirtualNetworkClient) updateRouteTable(ctx context.Context, request
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateRouteTableResponse
 	var httpResponse *http.Response
@@ -16026,6 +17838,13 @@ func (client VirtualNetworkClient) updateSecurityList(ctx context.Context, reque
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateSecurityListResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateSecurityList")
@@ -16084,6 +17903,13 @@ func (client VirtualNetworkClient) updateServiceGateway(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateServiceGatewayResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateServiceGateway")
@@ -16140,6 +17966,13 @@ func (client VirtualNetworkClient) updateSubnet(ctx context.Context, request com
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateSubnetResponse
 	var httpResponse *http.Response
@@ -16206,6 +18039,13 @@ func (client VirtualNetworkClient) updateTunnelCpeDeviceConfig(ctx context.Conte
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateTunnelCpeDeviceConfigResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateTunnelCpeDeviceConfig")
@@ -16262,6 +18102,13 @@ func (client VirtualNetworkClient) updateVcn(ctx context.Context, request common
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateVcnResponse
 	var httpResponse *http.Response
@@ -16342,6 +18189,13 @@ func (client VirtualNetworkClient) updateVirtualCircuit(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateVirtualCircuitResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateVirtualCircuit")
@@ -16400,6 +18254,13 @@ func (client VirtualNetworkClient) updateVlan(ctx context.Context, request commo
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateVlanResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateVlan")
@@ -16457,6 +18318,13 @@ func (client VirtualNetworkClient) updateVnic(ctx context.Context, request commo
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateVnicResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateVnic")
@@ -16513,6 +18381,13 @@ func (client VirtualNetworkClient) updateVtap(ctx context.Context, request commo
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateVtapResponse
 	var httpResponse *http.Response
@@ -16576,6 +18451,13 @@ func (client VirtualNetworkClient) upgradeDrg(ctx context.Context, request commo
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpgradeDrgResponse
 	var httpResponse *http.Response
@@ -16641,6 +18523,13 @@ func (client VirtualNetworkClient) validateByoasn(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ValidateByoasnResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ValidateByoasn")
@@ -16699,6 +18588,13 @@ func (client VirtualNetworkClient) validateByoipRange(ctx context.Context, reque
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ValidateByoipRangeResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ValidateByoipRange")
@@ -16755,6 +18651,13 @@ func (client VirtualNetworkClient) withdrawByoipRange(ctx context.Context, reque
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response WithdrawByoipRangeResponse
 	var httpResponse *http.Response

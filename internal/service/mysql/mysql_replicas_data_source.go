@@ -185,6 +185,10 @@ func (s *MysqlReplicasDataSourceCrud) SetData() error {
 			replica["ip_address"] = *r.IpAddress
 		}
 
+		if r.Ipv6Address != nil {
+			replica["ipv6address"] = *r.Ipv6Address
+		}
+
 		if r.IsDeleteProtected != nil {
 			replica["is_delete_protected"] = *r.IsDeleteProtected
 		}

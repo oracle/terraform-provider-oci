@@ -1,3 +1,26 @@
+## 8.18.0 (June 10, 2026)
+
+### Added
+- Support for IdentityPropagationTrust JWT/RPST and X509/UPST Terraform attributes
+- Support for Delegate Access Control for Exadata Database Service on Exascale Infrastructure
+- Support for Oracle assisted Patching on ExaDB-XS
+- Support for Public connectivity for Kafka clusters
+- Support for exporting LOGAN Log Groups and Ingest Time Rules
+- Support for IPv6 Single Stack Support for P0 Customers
+- Support for Improve visibility of mapping between GMC and GMF
+- Support for Self-Hosted Models: Improved DAC user experience for hardware shapes for DAC hardware.
+- Support for MHS - IPv6 support on MySQL endpoints
+- Support for DBM - API changes for ZPR Security Attribute Support - API only
+- Support for Support VMware BYOL with VCF 5.2 (Fast Follow) && Bug Fix - Esxi host current_commitment and next_commitment variables do not not apply
+- Support for Exascale Phase 2.5 Ability to Provision More VMs
+- Support for OPSI - API changes for ZPR Security Attribute Support - API only
+
+### Bug Fix
+- Added Autonomous Test Changes for Sub Test in ADBCC
+- Update domains user example to avoid default password value
+- OIC3 : Terraform Service tag (system tags) going out of sync; cannot execute plan
+- Per-Tenancy Synchronization in oci_identity_policy provider to fix NoEtagMatch failures
+
 ## 8.17.0 (June 2, 2026)
 
 ### Added

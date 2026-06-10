@@ -176,12 +176,22 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 		s.D.Set("ip_address", *s.Res.IpAddress)
 	}
 
+	if s.Res.Ipv6AddressIpv6SubnetCidrPairDetails != nil {
+		s.D.Set("ipv6address_ipv6subnet_cidr_pair_details", []interface{}{Ipv6AddressIpv6SubnetCidrPairDetailsToMap(s.Res.Ipv6AddressIpv6SubnetCidrPairDetails)})
+	} else {
+		s.D.Set("ipv6address_ipv6subnet_cidr_pair_details", nil)
+	}
+
 	if s.Res.IsHeatWaveClusterAttached != nil {
 		s.D.Set("is_heat_wave_cluster_attached", *s.Res.IsHeatWaveClusterAttached)
 	}
 
 	if s.Res.IsHighlyAvailable != nil {
 		s.D.Set("is_highly_available", *s.Res.IsHighlyAvailable)
+	}
+
+	if s.Res.IsIpv6Enabled != nil {
+		s.D.Set("is_ipv6enabled", *s.Res.IsIpv6Enabled)
 	}
 
 	if s.Res.LifecycleDetails != nil {

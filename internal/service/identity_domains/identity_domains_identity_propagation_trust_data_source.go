@@ -125,6 +125,12 @@ func (s *IdentityDomainsIdentityPropagationTrustDataSourceCrud) SetData() error 
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.CACertChain != nil {
+		s.D.Set("ca_cert_chain", []interface{}{IdentityPropagationTrustCaCertChainToMap(s.Res.CACertChain)})
+	} else {
+		s.D.Set("ca_cert_chain", nil)
+	}
+
 	if s.Res.AccountId != nil {
 		s.D.Set("account_id", *s.Res.AccountId)
 	}
@@ -136,6 +142,14 @@ func (s *IdentityDomainsIdentityPropagationTrustDataSourceCrud) SetData() error 
 	if s.Res.AllowImpersonation != nil {
 		s.D.Set("allow_impersonation", *s.Res.AllowImpersonation)
 	}
+
+	s.D.Set("claim_propagations", s.Res.ClaimPropagations)
+
+	claimValidations := []interface{}{}
+	for _, item := range s.Res.ClaimValidations {
+		claimValidations = append(claimValidations, IdentityPropagationTrustClaimValidationsToMap(item))
+	}
+	s.D.Set("claim_validations", claimValidations)
 
 	if s.Res.ClientClaimName != nil {
 		s.D.Set("client_claim_name", *s.Res.ClientClaimName)
@@ -180,6 +194,10 @@ func (s *IdentityDomainsIdentityPropagationTrustDataSourceCrud) SetData() error 
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
+
+	if s.Res.ImpersonatingResource != nil {
+		s.D.Set("impersonating_resource", *s.Res.ImpersonatingResource)
+	}
 
 	impersonationServiceUsers := []interface{}{}
 	for _, item := range s.Res.ImpersonationServiceUsers {

@@ -226,6 +226,12 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 			database["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		if r.ManagedSoftwareUpdateDetails != nil {
+			database["managed_software_update_details"] = []interface{}{ManagedSoftwareUpdateDetailsToMap(r.ManagedSoftwareUpdateDetails)}
+		} else {
+			database["managed_software_update_details"] = nil
+		}
+
 		if r.NcharacterSet != nil {
 			database["ncharacter_set"] = *r.NcharacterSet
 		}

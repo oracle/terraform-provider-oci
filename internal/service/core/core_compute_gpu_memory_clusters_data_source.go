@@ -34,6 +34,10 @@ func CoreComputeGpuMemoryClustersDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"compute_gpu_memory_fabric_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -92,9 +96,14 @@ func (s *CoreComputeGpuMemoryClustersDataSourceCrud) Get() error {
 		request.ComputeClusterId = &tmp
 	}
 
-	if computeGpuMemoryClusterId, ok := s.D.GetOkExists("id"); ok {
+	if computeGpuMemoryClusterId, ok := s.D.GetOkExists("compute_gpu_memory_cluster_id"); ok {
 		tmp := computeGpuMemoryClusterId.(string)
 		request.ComputeGpuMemoryClusterId = &tmp
+	}
+
+	if computeGpuMemoryFabricId, ok := s.D.GetOkExists("compute_gpu_memory_fabric_id"); ok {
+		tmp := computeGpuMemoryFabricId.(string)
+		request.ComputeGpuMemoryFabricId = &tmp
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {

@@ -113,6 +113,11 @@ func MysqlChannelResource() *schema.Resource {
 								},
 							},
 						},
+						"must_use_ipv6on_dual_stack": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"port": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -735,6 +740,10 @@ func (s *MysqlChannelResourceCrud) mapToCreateChannelSourceDetails(fieldKeyForma
 			tmp := hostname.(string)
 			details.Hostname = &tmp
 		}
+		if mustUseIpv6OnDualStack, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "must_use_ipv6on_dual_stack")); ok {
+			tmp := mustUseIpv6OnDualStack.(bool)
+			details.MustUseIpv6OnDualStack = &tmp
+		}
 		if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
 			tmp := password.(string)
 			details.Password = &tmp
@@ -794,6 +803,10 @@ func (s *MysqlChannelResourceCrud) mapToUpdateChannelSourceDetails(fieldKeyForma
 			tmp := hostname.(string)
 			details.Hostname = &tmp
 		}
+		if mustUseIpv6OnDualStack, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "must_use_ipv6on_dual_stack")); ok {
+			tmp := mustUseIpv6OnDualStack.(bool)
+			details.MustUseIpv6OnDualStack = &tmp
+		}
 		if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
 			tmp := password.(string)
 			details.Password = &tmp
@@ -845,6 +858,10 @@ func (s *MysqlChannelResourceCrud) ChannelSourceToMap(obj *oci_mysql.ChannelSour
 
 		if v.Hostname != nil {
 			result["hostname"] = string(*v.Hostname)
+		}
+
+		if v.MustUseIpv6OnDualStack != nil {
+			result["must_use_ipv6on_dual_stack"] = bool(*v.MustUseIpv6OnDualStack)
 		}
 
 		if v.Port != nil {

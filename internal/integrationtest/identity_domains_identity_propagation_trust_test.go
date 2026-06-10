@@ -5,11 +5,19 @@ package integrationtest
 
 import (
 	"context"
+	"crypto/rand"
+	"crypto/rsa"
+	"crypto/x509"
+	"crypto/x509/pkix"
+	"encoding/pem"
 	"fmt"
 	"log"
+	"math/big"
 	"regexp"
 	"strconv"
+	"strings"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
@@ -302,6 +310,148 @@ func TestIdentityDomainsIdentityPropagationTrustResource_basic(t *testing.T) {
 			ResourceName: resourceName,
 		},
 	})
+}
+
+// issue-routing-tag: identity_domains/default
+func TestIdentityDomainsIdentityPropagationTrustResource_jwtRpst(t *testing.T) {
+	httpreplay.SetScenario("TestIdentityDomainsIdentityPropagationTrustResource_jwtRpst")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	resourceName := "oci_identity_domains_identity_propagation_trust.test_identity_propagation_trust_jwt"
+	suffix := strconv.FormatInt(time.Now().UnixNano(), 10)
+
+	jwtConfig := fmt.Sprintf(`
+resource "oci_identity_domains_identity_propagation_trust" "test_identity_propagation_trust_jwt" {
+  idcs_endpoint = data.oci_identity_domain.test_domain.url
+  issuer        = "issuer_%s"
+  name          = "name_%s"
+  schemas       = ["urn:ietf:params:scim:schemas:oracle:idcs:IdentityPropagationTrust"]
+  type          = "JWT"
+  oauth_clients = ["oauthClients"]
+  public_key_endpoint = "${data.oci_identity_domain.test_domain.url}/admin/v1/SigningCert/jwk"
+  allow_impersonation = true
+  impersonating_resource = "test_jwt_rpst"
+  claim_propagations = ["ext_user_displayname", "ext_tok_type", "ext_aud"]
+  claim_validations {
+    name  = "sub_mappingattr"
+    value = "userName"
+  }
+  client_claim_name = "clientClaimName"
+  client_claim_values = ["clientClaimValues"]
+  subject_type = "Resource"
+  subject_mapping_attribute = "userName"
+}
+`, suffix, suffix)
+
+	acctest.ResourceTest(t, testAccCheckIdentityDomainsIdentityPropagationTrustDestroy, []resource.TestStep{
+		{
+			Config: config + compartmentIdVariableStr + TestDomainDependencies + jwtConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "type", "JWT"),
+				resource.TestCheckResourceAttr(resourceName, "allow_impersonation", "true"),
+				resource.TestCheckResourceAttr(resourceName, "subject_type", "Resource"),
+				resource.TestCheckResourceAttr(resourceName, "subject_mapping_attribute", "userName"),
+				resource.TestCheckResourceAttr(resourceName, "claim_propagations.#", "3"),
+				resource.TestCheckResourceAttr(resourceName, "claim_validations.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "claim_validations.0.name", "sub_mappingattr"),
+				resource.TestCheckResourceAttr(resourceName, "impersonating_resource", "test_jwt_rpst"),
+				resource.TestCheckResourceAttrSet(resourceName, "public_key_endpoint"),
+			),
+		},
+	})
+}
+
+// issue-routing-tag: identity_domains/default
+func TestIdentityDomainsIdentityPropagationTrustResource_x509Upst(t *testing.T) {
+	httpreplay.SetScenario("TestIdentityDomainsIdentityPropagationTrustResource_x509Upst")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	resourceName := "oci_identity_domains_identity_propagation_trust.test_identity_propagation_trust_x509"
+	suffix := strconv.FormatInt(time.Now().UnixNano(), 10)
+
+	rootCert := generateSelfSignedRootCertPem(t)
+	escapedRootCert := strings.ReplaceAll(strings.TrimSpace(rootCert), `"`, `\"`)
+	escapedRootCert = strings.ReplaceAll(escapedRootCert, "\n", `\n`)
+	certVar := fmt.Sprintf("variable \"x509_root_ca_pem\" { default = \"%s\" }\n", escapedRootCert)
+
+	x509Config := fmt.Sprintf(`
+resource "oci_identity_domains_identity_propagation_trust" "test_identity_propagation_trust_x509" {
+  idcs_endpoint = data.oci_identity_domain.test_domain.url
+  issuer        = "x509_issuer_%s"
+  name          = "x509_name_%s"
+  schemas       = ["urn:ietf:params:scim:schemas:oracle:idcs:IdentityPropagationTrust"]
+  type          = "X509"
+  oauth_clients = ["oauthClients"]
+  subject_type  = "Resource"
+  subject_mapping_attribute = "userName"
+
+  ca_cert_chain {
+    root_cas = [var.x509_root_ca_pem]
+  }
+}
+`, suffix, suffix)
+
+	acctest.ResourceTest(t, testAccCheckIdentityDomainsIdentityPropagationTrustDestroy, []resource.TestStep{
+		{
+			Config: config + compartmentIdVariableStr + certVar + TestDomainDependencies + x509Config,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "type", "X509"),
+				resource.TestCheckResourceAttr(resourceName, "subject_type", "Resource"),
+				resource.TestCheckResourceAttr(resourceName, "subject_mapping_attribute", "userName"),
+				resource.TestCheckResourceAttr(resourceName, "ca_cert_chain.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ca_cert_chain.0.root_cas.#", "1"),
+			),
+		},
+	})
+}
+
+func generateSelfSignedRootCertPem(t *testing.T) string {
+	t.Helper()
+
+	privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
+	if err != nil {
+		t.Fatalf("failed to generate rsa key: %v", err)
+	}
+
+	serialNumberLimit := new(big.Int).Lsh(big.NewInt(1), 128)
+	serialNumber, err := rand.Int(rand.Reader, serialNumberLimit)
+	if err != nil {
+		t.Fatalf("failed to generate serial number: %v", err)
+	}
+
+	template := x509.Certificate{
+		SerialNumber: serialNumber,
+		Subject: pkix.Name{
+			CommonName:   "Terraform Test Root CA",
+			Organization: []string{"Oracle"},
+			Country:      []string{"US"},
+		},
+		NotBefore:             time.Now().Add(-1 * time.Hour),
+		NotAfter:              time.Now().AddDate(10, 0, 0),
+		KeyUsage:              x509.KeyUsageCertSign | x509.KeyUsageCRLSign,
+		BasicConstraintsValid: true,
+		IsCA:                  true,
+		MaxPathLen:            2,
+	}
+
+	derBytes, err := x509.CreateCertificate(rand.Reader, &template, &template, &privateKey.PublicKey, privateKey)
+	if err != nil {
+		t.Fatalf("failed to create certificate: %v", err)
+	}
+
+	block := &pem.Block{Type: "CERTIFICATE", Bytes: derBytes}
+	pemBytes := pem.EncodeToMemory(block)
+	if len(pemBytes) == 0 {
+		t.Fatalf("failed to encode certificate to PEM")
+	}
+
+	return string(pemBytes)
 }
 
 func testAccCheckIdentityDomainsIdentityPropagationTrustDestroy(s *terraform.State) error {

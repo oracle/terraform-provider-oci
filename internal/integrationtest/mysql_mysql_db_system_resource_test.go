@@ -486,6 +486,72 @@ func TestMysqlMysqlDbSystemResource_sourceBackup(t *testing.T) {
 	})
 }
 
+func TestMysqlMysqlDbSystemResource_sourceBackup_ipv6(t *testing.T) {
+	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_sourceBackup_ipv6")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_mysql_mysql_db_system.test_mysql_db_system"
+
+	backupRepresentation := acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(MysqlMysqlBackupRepresentation, []string{"defined_tags"}),
+		map[string]interface{}{})
+
+	backupPolicyRepresentation := acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(MysqlMysqlDbSystemBackupPolicyRepresentation, []string{"defined_tags"}),
+		map[string]interface{}{})
+
+	backupDbSystemRepresentation := acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(MysqlDbSystemIpv6Representation, []string{"backup_policy", "is_ipv6enabled"}),
+		map[string]interface{}{
+			"backup_policy":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: backupPolicyRepresentation},
+			"is_ipv6enabled": acctest.Representation{RepType: acctest.Required, Create: `true`},
+		})
+
+	dbSystemRepresentation := acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(MysqlDbSystemIpv6Representation, []string{"source"}),
+		map[string]interface{}{
+			"source": acctest.RepresentationGroup{RepType: acctest.Required, Group: mysqlDbSystemSourceRepresentation},
+		})
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// verify Create from backup (ipv6)
+		{
+			Config: config + compartmentIdVariableStr + MysqlMysqlDbSystemIpv6ResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_backup", "test_mysql_backup", acctest.Required, acctest.Create, backupRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_backup_db_system", acctest.Required, acctest.Create, backupDbSystemRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Create, dbSystemRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "source.0.backup_id"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "BACKUP"),
+				resource.TestCheckResourceAttr(resourceName, "ipv6address_ipv6subnet_cidr_pair_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "ipv6address_ipv6subnet_cidr_pair_details.0.ipv6address"),
+				resource.TestCheckResourceAttr(resourceName, "is_ipv6enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "endpoints.#", "2"),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "endpoints", map[string]string{
+					"ip_address_version": "IPV6",
+					"resource_type":      "DBSYSTEM",
+				}, []string{"ip_address"}),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "endpoints", map[string]string{
+					"ip_address_version": "IPV4",
+					"resource_type":      "DBSYSTEM",
+				}, []string{"ip_address"}),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+	})
+}
+
 // issue-routing-tag: mysql/default
 func TestMysqlMysqlDbSystemResource_sourceImport(t *testing.T) {
 	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_sourceImport")

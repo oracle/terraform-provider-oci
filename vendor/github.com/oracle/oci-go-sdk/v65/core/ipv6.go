@@ -84,6 +84,9 @@ type Ipv6 struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the IP address or VNIC will use. For more information, see
 	// Per-resource Routing (https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing).
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
+
+	// The hostname associated with the IPv6 address. Only the hostname label, not the FQDN.
+	Hostname *string `mandatory:"false" json:"hostname"`
 }
 
 func (m Ipv6) String() string {
