@@ -168,6 +168,12 @@ func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.ManagedSoftwareUpdateDetails != nil {
+		s.D.Set("managed_software_update_details", []interface{}{ManagedSoftwareUpdateDetailsToMap(s.Res.ManagedSoftwareUpdateDetails)})
+	} else {
+		s.D.Set("managed_software_update_details", nil)
+	}
+
 	if s.Res.NcharacterSet != nil {
 		s.D.Set("ncharacter_set", *s.Res.NcharacterSet)
 	}

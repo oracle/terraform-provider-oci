@@ -4,8 +4,8 @@
 
 // Oracle Delegate Access Control API
 //
-// Oracle Delegate Access Control allows ExaCC and ExaCS customers to delegate management of their Exadata resources operators outside their tenancies.
-// With Delegate Access Control, Support Providers can deliver managed services using comprehensive and robust tooling built on the OCI platform.
+// Oracle Delegate Access Control allows customers of Oracle Exadata Database Service on Cloud@Customer (ExaDB-C@C), Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D), and Oracle Exadata Database Service on Exascale Infrastructure (ExaDB-XS) to delegate management of their Exadata resources operators outside their tenancies.
+// With Delegate Access Control, Service Providers can deliver managed services using comprehensive and robust tooling built on the OCI platform.
 // Customers maintain control over who has access to the delegated resources in their tenancy and what actions can be taken.
 // Enterprises managing resources across multiple tenants can use Delegate Access Control to streamline management tasks.
 // Using logging service, customers can view a near real-time audit report of all actions performed by a Service Provider operator.
@@ -67,8 +67,11 @@ type DelegatedResourceAccessRequest struct {
 	// List of Service Provider Action names for which approval is sought by the support operator user. The list of pre-defined Service Provider Actions can be obtained from the ListServiceProviderActions API.
 	RequestedActionNames []string `mandatory:"false" json:"requestedActionNames"`
 
-	// List of Database unique names for which access is requested. This parameter is required for DLGT_MGMT_SYS_MAINT_ACCESS cage when database access in needed.
+	// List of Database unique names for which access is requested. This parameter is required when database access in needed.
 	DatabaseNameList []string `mandatory:"false" json:"databaseNameList"`
+
+	// List of Database ID for which access is requested. This parameter is required when database access is needed.
+	DatabaseIdList []string `mandatory:"false" json:"databaseIdList"`
 
 	// List of Service Provider Service Types being provided by the support operator user.
 	ProvidedServiceTypes []ServiceProviderServiceTypeEnum `mandatory:"false" json:"providedServiceTypes,omitempty"`

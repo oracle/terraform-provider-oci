@@ -127,6 +127,11 @@ type DatabaseSummary struct {
 
 	StorageSizeDetails *DatabaseStorageSizeResponseDetails `mandatory:"false" json:"storageSizeDetails"`
 
+	ManagedSoftwareUpdateDetails *ManagedSoftwareUpdateDetails `mandatory:"false" json:"managedSoftwareUpdateDetails"`
+
+	// Represents database will be under oracle managed home or customer managed home
+	HomeType DatabaseSummaryHomeTypeEnum `mandatory:"false" json:"homeType,omitempty"`
+
 	// The patch version of the database.
 	PatchVersion *string `mandatory:"false" json:"patchVersion"`
 }
@@ -144,6 +149,9 @@ func (m DatabaseSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDatabaseSummaryLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDatabaseSummaryHomeTypeEnum(string(m.HomeType)); !ok && m.HomeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HomeType: %s. Supported values are: %s.", m.HomeType, strings.Join(GetDatabaseSummaryHomeTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -183,6 +191,8 @@ func (m *DatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		DataGuardGroup                             *DataGuardGroup                     `json:"dataGuardGroup"`
 		EncryptionKeyLocationDetails               encryptionkeylocationdetails        `json:"encryptionKeyLocationDetails"`
 		StorageSizeDetails                         *DatabaseStorageSizeResponseDetails `json:"storageSizeDetails"`
+		ManagedSoftwareUpdateDetails               *ManagedSoftwareUpdateDetails       `json:"managedSoftwareUpdateDetails"`
+		HomeType                                   DatabaseSummaryHomeTypeEnum         `json:"homeType"`
 		PatchVersion                               *string                             `json:"patchVersion"`
 		Id                                         *string                             `json:"id"`
 		CompartmentId                              *string                             `json:"compartmentId"`
@@ -263,6 +273,10 @@ func (m *DatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.StorageSizeDetails = model.StorageSizeDetails
+
+	m.ManagedSoftwareUpdateDetails = model.ManagedSoftwareUpdateDetails
+
+	m.HomeType = model.HomeType
 
 	m.PatchVersion = model.PatchVersion
 
@@ -350,5 +364,47 @@ func GetDatabaseSummaryLifecycleStateEnumStringValues() []string {
 // GetMappingDatabaseSummaryLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDatabaseSummaryLifecycleStateEnum(val string) (DatabaseSummaryLifecycleStateEnum, bool) {
 	enum, ok := mappingDatabaseSummaryLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DatabaseSummaryHomeTypeEnum Enum with underlying type: string
+type DatabaseSummaryHomeTypeEnum string
+
+// Set of constants representing the allowable values for DatabaseSummaryHomeTypeEnum
+const (
+	DatabaseSummaryHomeTypeOracleManaged   DatabaseSummaryHomeTypeEnum = "ORACLE_MANAGED"
+	DatabaseSummaryHomeTypeCustomerManaged DatabaseSummaryHomeTypeEnum = "CUSTOMER_MANAGED"
+)
+
+var mappingDatabaseSummaryHomeTypeEnum = map[string]DatabaseSummaryHomeTypeEnum{
+	"ORACLE_MANAGED":   DatabaseSummaryHomeTypeOracleManaged,
+	"CUSTOMER_MANAGED": DatabaseSummaryHomeTypeCustomerManaged,
+}
+
+var mappingDatabaseSummaryHomeTypeEnumLowerCase = map[string]DatabaseSummaryHomeTypeEnum{
+	"oracle_managed":   DatabaseSummaryHomeTypeOracleManaged,
+	"customer_managed": DatabaseSummaryHomeTypeCustomerManaged,
+}
+
+// GetDatabaseSummaryHomeTypeEnumValues Enumerates the set of values for DatabaseSummaryHomeTypeEnum
+func GetDatabaseSummaryHomeTypeEnumValues() []DatabaseSummaryHomeTypeEnum {
+	values := make([]DatabaseSummaryHomeTypeEnum, 0)
+	for _, v := range mappingDatabaseSummaryHomeTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDatabaseSummaryHomeTypeEnumStringValues Enumerates the set of values in String for DatabaseSummaryHomeTypeEnum
+func GetDatabaseSummaryHomeTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_MANAGED",
+		"CUSTOMER_MANAGED",
+	}
+}
+
+// GetMappingDatabaseSummaryHomeTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDatabaseSummaryHomeTypeEnum(val string) (DatabaseSummaryHomeTypeEnum, bool) {
+	enum, ok := mappingDatabaseSummaryHomeTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

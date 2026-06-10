@@ -130,6 +130,8 @@ data "oci_core_compute_gpu_memory_clusters" "test_compute_gpu_memory_clusters" {
 
   #Optional
   availability_domain           = data.oci_identity_availability_domain.ad.name
+  compute_gpu_memory_cluster_id = oci_core_compute_gpu_memory_cluster.test_compute_gpu_memory_cluster.id
+  compute_gpu_memory_fabric_id  = oci_core_compute_gpu_memory_cluster.test_compute_gpu_memory_cluster.gpu_memory_fabric_id
 }
 
 output "output_list_gpu_memory_clusters" {

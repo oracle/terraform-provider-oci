@@ -28,6 +28,9 @@ type ListComputeGpuMemoryClustersRequest struct {
 	// A filter to return only the listings that matches the given GPU memory cluster id.
 	ComputeGpuMemoryClusterId *string `mandatory:"false" contributesTo:"query" name:"computeGpuMemoryClusterId"`
 
+	// A filter to return only the listings that matches the given GPU memory fabric id.
+	ComputeGpuMemoryFabricId *string `mandatory:"false" contributesTo:"query" name:"computeGpuMemoryFabricId"`
+
 	// The name of the availability domain.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" contributesTo:"query" name:"availabilityDomain"`

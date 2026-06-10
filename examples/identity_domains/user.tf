@@ -165,10 +165,6 @@ variable "user_nick_name" {
   default = "nickName"
 }
 
-variable "user_password" {
-  default = "BEstrO0ng_#11"
-}
-
 variable "user_phone_numbers_display" {
   default = "display"
 }
@@ -772,7 +768,6 @@ resource "oci_identity_domains_user" "test_user" {
   }
   locale    = var.user_locale
   nick_name = var.user_nick_name
-  password  = var.user_password
   phone_numbers {
     #Required
     type  = var.user_phone_numbers_type
@@ -1112,4 +1107,3 @@ data "oci_identity_domains_users" "test_users" {
   # resource_type_schema_version = var.user_resource_type_schema_version
   start_index = var.user_start_index
 }
-

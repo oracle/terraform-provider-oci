@@ -10488,7 +10488,7 @@ func (client IdentityDomainsClient) listIdentityPropagationTrusts(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityPropagationTrusts/ListIdentityPropagationTrusts"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/IdentityPropagationTrust/ListIdentityPropagationTrusts"
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListIdentityPropagationTrusts", apiReferenceLink)
 		return response, err
 	}

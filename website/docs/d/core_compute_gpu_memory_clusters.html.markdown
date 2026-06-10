@@ -24,6 +24,7 @@ data "oci_core_compute_gpu_memory_clusters" "test_compute_gpu_memory_clusters" {
 	availability_domain = var.compute_gpu_memory_cluster_availability_domain
 	compute_cluster_id = oci_core_compute_cluster.test_compute_cluster.id
 	compute_gpu_memory_cluster_id = oci_core_compute_gpu_memory_cluster.test_compute_gpu_memory_cluster.id
+	compute_gpu_memory_fabric_id = oci_core_compute_gpu_memory_fabric.test_compute_gpu_memory_fabric.id
 	display_name = var.compute_gpu_memory_cluster_display_name
 }
 ```
@@ -36,6 +37,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `compute_cluster_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute cluster. A [compute cluster](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) is a remote direct memory access (RDMA) network group. 
 * `compute_gpu_memory_cluster_id` - (Optional) A filter to return only the listings that matches the given GPU memory cluster id. 
+* `compute_gpu_memory_fabric_id` - (Optional) A filter to return only the listings that matches the given GPU memory fabric id. 
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
 
 

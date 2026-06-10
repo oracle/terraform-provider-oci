@@ -172,6 +172,8 @@ func (s *DatabaseDbHomesDataSourceCrud) SetData() error {
 
 		dbHome["freeform_tags"] = r.FreeformTags
 
+		dbHome["home_type"] = r.HomeType
+
 		if r.Id != nil {
 			dbHome["id"] = *r.Id
 			dbHome["db_home_id"] = *r.Id

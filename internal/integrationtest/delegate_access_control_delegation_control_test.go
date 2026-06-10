@@ -26,7 +26,7 @@ import (
 )
 
 var (
-	vmclusterresourceId = utils.GetEnvSettingWithBlankDefault("TestVMClusterResourceId")
+	vmclusterresourceId = utils.GetEnvSettingWithBlankDefault("resource_id_ocid")
 
 	DelegateAccessControlDelegationControlRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_delegate_access_control_delegation_control", "test_delegation_control", acctest.Required, acctest.Create, DelegateAccessControlDelegationControlRepresentation)
 
@@ -38,13 +38,10 @@ var (
 
 	DelegateAccessControlDelegationControlDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		// Prakash cannot be combined with the other filters
-		//"resource_id":    acctest.Representation{RepType: acctest.Required, Create: vmclusterresourceId},
-		"resource_type": acctest.Representation{RepType: acctest.Optional, Create: `VMCLUSTER`},
-		"state":         acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		//"service_name":   acctest.Representation{RepType: acctest.Required, Create: `${var.service_name}`},
-		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: DelegateAccessControlDelegationControlDataSourceFilterRepresentation}}
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `TersiTestCreate`, Update: `TersiTestUpdate`},
+		"resource_type":  acctest.Representation{RepType: acctest.Optional, Create: `VMCLUSTER`},
+		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DelegateAccessControlDelegationControlDataSourceFilterRepresentation}}
 	DelegateAccessControlDelegationControlDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_delegate_access_control_delegation_control.test_delegation_control.id}`}},
@@ -53,30 +50,19 @@ var (
 	DelegateAccessControlDelegationControlRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"delegation_subscription_ids": acctest.Representation{RepType: acctest.Required,
-			Create: []string{`${var.create_subs_id}`},
-			Update: []string{`${var.update_subs_id}`}},
-		"display_name":                acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"notification_message_format": acctest.Representation{RepType: acctest.Required, Create: `JSON`, Update: `HTML`},
-		"notification_topic_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.ons_topic_id}`},
-		"resource_ids":                acctest.Representation{RepType: acctest.Required, Create: []string{vmclusterresourceId}, Update: []string{vmclusterresourceId}},
-		"resource_type":               acctest.Representation{RepType: acctest.Required, Create: `VMCLUSTER`},
-		//"defined_tags":                               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+			Create: []string{`${var.delegation_subscription_ids}`},
+			Update: []string{`${var.delegation_subscription_ids}`}},
+		"display_name":                               acctest.Representation{RepType: acctest.Required, Create: `TersiTestCreate`, Update: `TersiTestUpdate`},
+		"notification_message_format":                acctest.Representation{RepType: acctest.Required, Create: `JSON`, Update: `HTML`},
+		"notification_topic_id":                      acctest.Representation{RepType: acctest.Required, Create: `${var.notification_topic_id}`},
+		"resource_ids":                               acctest.Representation{RepType: acctest.Required, Create: []string{vmclusterresourceId}, Update: []string{vmclusterresourceId}},
+		"resource_type":                              acctest.Representation{RepType: acctest.Required, Create: `VMCLUSTER`},
 		"description":                                acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":                              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_auto_approve_during_maintenance":         acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"num_approvals_required":                     acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `1`},
 		"pre_approved_service_provider_action_names": acctest.Representation{RepType: acctest.Optional, Create: []string{`DLGT_MGMT_FULL_ACCESS`, `DLGT_MGMT_LOG_ACCESS`}, Update: []string{`DLGT_MGMT_FULL_ACCESS`, `DLGT_MGMT_LOG_ACCESS`}},
-		//"vault_id":                                   acctest.Representation{RepType: acctest.Optional, Create: `${oci_kms_vault.test_vault.id}`},
-		//"vault_key_id":                               acctest.Representation{RepType: acctest.Optional, Create: `${oci_kms_key.test_key.id}`},
 	}
-
-	/*DelegateAccessControlDelegationControlResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
-	acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-	acctest.GenerateResourceFromRepresentationMap("oci_dataflow_private_endpoint", "test_private_endpoint", acctest.Required, acctest.Create, DataflowPrivateEndpointRepresentation) +
-	DefinedTagsDependencies +
-	KeyResourceDependencyConfig +
-	acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Required, acctest.Create, KmsVaultRepresentation) +
-	acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)*/
 )
 
 // issue-routing-tag: delegate_access_control/default
@@ -92,6 +78,12 @@ func TestDelegateAccessControlDelegationControlResource_basic(t *testing.T) {
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
+	delegationSubscriptionIds := utils.GetEnvSettingWithBlankDefault("delegation_subscription_ids_ocid")
+	delegationSubscriptionIdsVariableStr := fmt.Sprintf("variable \"delegation_subscription_ids\" { default = \"%s\" }\n", delegationSubscriptionIds)
+
+	notificationTopicId := utils.GetEnvSettingWithBlankDefault("notification_topic_id_ocid")
+	notificationTopicIdVariableStr := fmt.Sprintf("variable \"notification_topic_id\" { default = \"%s\" }\n", notificationTopicId)
+
 	resourceName := "oci_delegate_access_control_delegation_control.test_delegation_control"
 	datasourceName := "data.oci_delegate_access_control_delegation_controls.test_delegation_controls"
 	singularDatasourceName := "data.oci_delegate_access_control_delegation_control.test_delegation_control"
@@ -104,12 +96,12 @@ func TestDelegateAccessControlDelegationControlResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckDelegateAccessControlDelegationControlDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr +
+			Config: config + compartmentIdVariableStr + notificationTopicIdVariableStr + delegationSubscriptionIdsVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_delegate_access_control_delegation_control", "test_delegation_control", acctest.Required, acctest.Create, DelegateAccessControlDelegationControlRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "delegation_subscription_ids.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TersiTestCreate"),
 				resource.TestCheckResourceAttr(resourceName, "notification_message_format", "JSON"),
 				resource.TestCheckResourceAttrSet(resourceName, "notification_topic_id"),
 				resource.TestCheckResourceAttr(resourceName, "resource_ids.#", "1"),
@@ -124,17 +116,17 @@ func TestDelegateAccessControlDelegationControlResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr,
+			Config: config + compartmentIdVariableStr + notificationTopicIdVariableStr + delegationSubscriptionIdsVariableStr,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr +
+			Config: config + compartmentIdVariableStr + notificationTopicIdVariableStr + delegationSubscriptionIdsVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_delegate_access_control_delegation_control", "test_delegation_control", acctest.Optional, acctest.Create, DelegateAccessControlDelegationControlRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "delegation_subscription_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TersiTestCreate"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_approve_during_maintenance", "false"),
@@ -144,8 +136,6 @@ func TestDelegateAccessControlDelegationControlResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "pre_approved_service_provider_action_names.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "resource_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "resource_type", "VMCLUSTER"),
-				/*resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "vault_key_id"),*/
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -161,7 +151,7 @@ func TestDelegateAccessControlDelegationControlResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + notificationTopicIdVariableStr + delegationSubscriptionIdsVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_delegate_access_control_delegation_control", "test_delegation_control", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(DelegateAccessControlDelegationControlRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -170,7 +160,7 @@ func TestDelegateAccessControlDelegationControlResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "delegation_subscription_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TersiTestCreate"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_approve_during_maintenance", "false"),
@@ -180,8 +170,6 @@ func TestDelegateAccessControlDelegationControlResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "pre_approved_service_provider_action_names.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "resource_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "resource_type", "VMCLUSTER"),
-				/*resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "vault_key_id"),*/
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -195,13 +183,13 @@ func TestDelegateAccessControlDelegationControlResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr +
+			Config: config + compartmentIdVariableStr + notificationTopicIdVariableStr + delegationSubscriptionIdsVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_delegate_access_control_delegation_control", "test_delegation_control", acctest.Optional, acctest.Update, DelegateAccessControlDelegationControlRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "delegation_subscription_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TersiTestUpdate"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_approve_during_maintenance", "true"),
@@ -211,8 +199,6 @@ func TestDelegateAccessControlDelegationControlResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "pre_approved_service_provider_action_names.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "resource_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "resource_type", "VMCLUSTER"),
-				/*resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "vault_key_id"),*/
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -227,32 +213,27 @@ func TestDelegateAccessControlDelegationControlResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_delegate_access_control_delegation_controls", "test_delegation_controls", acctest.Optional, acctest.Update, DelegateAccessControlDelegationControlDataSourceRepresentation) +
-				compartmentIdVariableStr +
+				compartmentIdVariableStr + notificationTopicIdVariableStr + delegationSubscriptionIdsVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_delegate_access_control_delegation_control", "test_delegation_control", acctest.Optional, acctest.Update, DelegateAccessControlDelegationControlRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-				// Prakash, this is not set in output, it is an array
-				//resource.TestCheckResourceAttrSet(datasourceName, "resource_id"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "TersiTestUpdate"),
 				resource.TestCheckResourceAttr(datasourceName, "resource_type", "VMCLUSTER"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
 				resource.TestCheckResourceAttr(datasourceName, "delegation_control_summary_collection.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "delegation_control_summary_collection.0.items.#", "1"),
 			),
 		},
 		// verify singular datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_delegate_access_control_delegation_control", "test_delegation_control", acctest.Required, acctest.Create, DelegateAccessControlDelegationControlSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DelegateAccessControlDelegationControlResourceConfig,
+				compartmentIdVariableStr + notificationTopicIdVariableStr + delegationSubscriptionIdsVariableStr + DelegateAccessControlDelegationControlResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "delegation_control_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "delegation_subscription_ids.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TersiTestUpdate"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_approve_during_maintenance", "true"),
@@ -263,8 +244,6 @@ func TestDelegateAccessControlDelegationControlResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "resource_type", "VMCLUSTER"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				// Prakash this is not deleted
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "time_deleted"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},

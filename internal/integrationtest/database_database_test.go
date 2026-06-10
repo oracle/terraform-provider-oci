@@ -6,6 +6,8 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"math/rand"
+	"strings"
 	"testing"
 	"time"
 
@@ -379,10 +381,45 @@ var (
 		"lifecycle":  acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseIgnoreDefinedTagsRepresentation},
 	}
 
+	ExaDbXsOracleManagedDatabaseRepresentation = map[string]interface{}{
+		"database":  acctest.RepresentationGroup{RepType: acctest.Required, Group: ExaDbXsOracleManagedDatabaseDatabaseRepresentation},
+		"source":    acctest.Representation{RepType: acctest.Required, Create: `NONE`},
+		"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseIgnoreDefinedTagsRepresentation},
+	}
+
+	ScheduleManagedSoftwareManagementRepresentation = map[string]interface{}{
+		"database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.database_id}`},
+	}
+
+	ManagedSoftwareDetails = map[string]interface{}{
+		"is_enrolled":        acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"preference_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: PreferenceDetails},
+	}
+
+	PreferenceDetails = map[string]interface{}{
+		"update_mode":            acctest.Representation{RepType: acctest.Optional, Create: `ROLLING`},
+		"days_of_week":           acctest.Representation{RepType: acctest.Optional, Create: []string{`FRIDAY`}, Update: []string{`SATURDAY`}},
+		"hour_of_day":            acctest.Representation{RepType: acctest.Optional, Create: `14`, Update: `17`},
+		"version_scheme_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: VersionSchemeDetails},
+	}
+
+	VersionSchemeDetails = map[string]interface{}{
+		"major_version":      acctest.Representation{RepType: acctest.Optional, Create: `26.0.0.0`},
+		"version_preference": acctest.Representation{RepType: acctest.Optional, Create: "ORACLE_DB_N"},
+		"source":             acctest.Representation{RepType: acctest.Optional, Create: "VERSION_SERIES"},
+	}
+
 	ExaDbXs19cDatabaseDatabaseRepresentation = map[string]interface{}{
 		"admin_password":       acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"db_name":              acctest.Representation{RepType: acctest.Required, Create: `XS19C`},
 		"storage_size_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseDatabaseDatabaseStorageSizeDetailsRepresentation},
+	}
+
+	ExaDbXsOracleManagedDatabaseDatabaseRepresentation = map[string]interface{}{
+		"admin_password":                  acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"db_name":                         acctest.Representation{RepType: acctest.Required, Create: fmt.Sprintf(`XS%s`, generateResourceID())},
+		"managed_software_update_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ManagedSoftwareDetails},
+		"vm_cluster_id":                   acctest.Representation{RepType: acctest.Optional, Create: `${var.exadb_vm_cluster_id}`},
 	}
 
 	DatabaseDatabaseDatabaseStorageSizeDetailsRepresentation = map[string]interface{}{
@@ -400,10 +437,26 @@ var (
 	ExaDbXs19cDatabaseRepresentationDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Optional, acctest.Create, ExaDbXs19cDbHomeRepresentationSourceNone) +
 		`
       variable exadb_vm_cluster_id {}
-	
+
       data "oci_database_exadb_vm_cluster" "test_exadb_vm_cluster" {
           exadb_vm_cluster_id = var.exadb_vm_cluster_id
       }
+    `
+
+	ExaDbXsOracleMangedDatabaseRepresentationDependencies = `
+      variable exadb_vm_cluster_id {}
+
+      data "oci_database_exadb_vm_cluster" "test_exadb_vm_cluster" {
+          exadb_vm_cluster_id = var.exadb_vm_cluster_id
+      }
+    `
+
+	ExaDbXsScheduleMRDatabaseRepresentationDependencies = `
+      variable database_id {}
+
+      data "oci_database_database" "schedule_database" {
+          database_id = var.database_id
+ }
     `
 
 	DatabaseExacsDatabaseRepresentation = map[string]interface{}{
@@ -692,10 +745,6 @@ var (
 		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DbBackupConfigZdlraBackupDestinationDetailsRepresentation},
 	}
 
-	dbHomeDatabaseDbrsRepresentation = acctest.RepresentationCopyWithNewProperties(dbHomeDatabaseRepresentationSourceNone, map[string]interface{}{
-		"db_backup_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDatabaseDatabaseDbBackupConfigDbrsRepresentation},
-	})
-
 	DatabaseDbHomeRepresentationBase2 = map[string]interface{}{
 		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
 	}
@@ -781,9 +830,6 @@ var (
 	DatabaseDatabaseDatabaseResourceDependencies = DatabaseDatabaseResourceDependencies2 +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_dbrs", acctest.Required, acctest.Create, dbHomeDbrsRepresentation)
 
-	DatabaseExacsDatabaseResourceDependencies = DbHomeResourceVmClusterDependencies + //DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_vm_cluster_no_db", acctest.Required, acctest.Create, dbHomeRepresentationSourceVmCluster)
-
 	DatabaseDatabaseResourceDbrsDependencies = ExaBaseDependencies + DefinedTagsDependencies + AvailabilityDomainConfig + KeyResourceDependencyConfig2 +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_dbrs", acctest.Required, acctest.Create, dbHomeDbrsRepresentation)
 
@@ -816,6 +862,17 @@ var (
 
 var existingResourceId string
 var newDBHomeResourceID string
+var scheduleTime string
+
+func generateResourceID() string {
+	rand.Seed(time.Now().UnixNano())
+	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	b := make([]byte, 3)
+	for i := range b {
+		b[i] = charset[rand.Intn(len(charset))]
+	}
+	return string(b)
+}
 
 // issue-routing-tag: database/default
 func TestDatabaseDatabaseResource_basic(t *testing.T) {
@@ -1220,7 +1277,6 @@ func TestDatabaseDatabaseResource_CreateDatabaseFromAnotherDatabaseDetails(t *te
 			),
 		},
 	})
-
 }
 
 func TestDatabaseDatabaseResource_update(t *testing.T) {
@@ -1902,7 +1958,11 @@ func TestExaccHsmDatabaseResource_basic(t *testing.T) {
 func testAccCheckDatabaseDatabaseDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
-	for _, rs := range s.RootModule().Resources {
+	for resourceName, rs := range s.RootModule().Resources {
+		// We are skipping destroy check as data prefix are used for data source in provider
+		if strings.HasPrefix(resourceName, "data.") {
+			continue
+		}
 		if rs.Type == "oci_database_database" {
 			noResourceFound = false
 			request := oci_database.GetDatabaseRequest{}

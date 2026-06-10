@@ -4,8 +4,8 @@
 
 // Oracle Delegate Access Control API
 //
-// Oracle Delegate Access Control allows ExaCC and ExaCS customers to delegate management of their Exadata resources operators outside their tenancies.
-// With Delegate Access Control, Support Providers can deliver managed services using comprehensive and robust tooling built on the OCI platform.
+// Oracle Delegate Access Control allows customers of Oracle Exadata Database Service on Cloud@Customer (ExaDB-C@C), Oracle Exadata Database Service on Dedicated Infrastructure (ExaDB-D), and Oracle Exadata Database Service on Exascale Infrastructure (ExaDB-XS) to delegate management of their Exadata resources operators outside their tenancies.
+// With Delegate Access Control, Service Providers can deliver managed services using comprehensive and robust tooling built on the OCI platform.
 // Customers maintain control over who has access to the delegated resources in their tenancy and what actions can be taken.
 // Enterprises managing resources across multiple tenants can use Delegate Access Control to streamline management tasks.
 // Using logging service, customers can view a near real-time audit report of all actions performed by a Service Provider operator.
@@ -39,6 +39,9 @@ type DelegatedResourceAccessRequestApprovalDetails struct {
 
 	// Additional message specified by the approver of the request.
 	ApproverAdditionalMessage *string `mandatory:"false" json:"approverAdditionalMessage"`
+
+	// Time when the access request was approved or rejected by the customer in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format, e.g. '2020-05-22T21:10:29.600Z'.
+	TimeOfAction *common.SDKTime `mandatory:"false" json:"timeOfAction"`
 }
 
 func (m DelegatedResourceAccessRequestApprovalDetails) String() string {

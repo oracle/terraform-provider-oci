@@ -22,6 +22,10 @@ func DelegateAccessControlServiceProviderActionDataSource() *schema.Resource {
 				Required: true,
 			},
 			// Computed
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"component": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -32,6 +36,10 @@ func DelegateAccessControlServiceProviderActionDataSource() *schema.Resource {
 			},
 			"description": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"is_ssh_access_allowed": {
+				Type:     schema.TypeBool,
 				Computed: true,
 			},
 			"name": {
@@ -122,6 +130,10 @@ func (s *DelegateAccessControlServiceProviderActionDataSourceCrud) SetData() err
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
 	if s.Res.Component != nil {
 		s.D.Set("component", *s.Res.Component)
 	}
@@ -132,6 +144,10 @@ func (s *DelegateAccessControlServiceProviderActionDataSourceCrud) SetData() err
 
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
+	}
+
+	if s.Res.IsSshAccessAllowed != nil {
+		s.D.Set("is_ssh_access_allowed", *s.Res.IsSshAccessAllowed)
 	}
 
 	if s.Res.Name != nil {

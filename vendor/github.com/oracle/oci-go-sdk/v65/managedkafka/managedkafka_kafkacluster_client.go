@@ -693,6 +693,64 @@ func (client KafkaClusterClient) enableSuperuser(ctx context.Context, request co
 	return response, err
 }
 
+// GetAddon Gets information about a KafkaClusterAddon.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managedkafka/GetAddon.go.html to see an example of how to use GetAddon API.
+// A default retry strategy applies to this operation GetAddon()
+func (client KafkaClusterClient) GetAddon(ctx context.Context, request GetAddonRequest) (response GetAddonResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAddon, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAddonResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAddonResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAddonResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAddonResponse")
+	}
+	return
+}
+
+// getAddon implements the OCIOperation interface (enables retrying operations)
+func (client KafkaClusterClient) getAddon(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/kafkaClusters/{kafkaClusterId}/addons/{addonName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAddonResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "kafkaCluster", "GetAddon")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaClusterAddon/GetAddon"
+		err = common.PostProcessServiceError(err, "KafkaCluster", "GetAddon", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &kafkaclusteraddon{})
+	return response, err
+}
+
 // GetKafkaCluster Gets information about a KafkaCluster.
 //
 // # See also
@@ -918,6 +976,185 @@ func (client KafkaClusterClient) getWorkRequest(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "KafkaCluster", "GetWorkRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// InstallAddon Installs a KafkaClusterAddon.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managedkafka/InstallAddon.go.html to see an example of how to use InstallAddon API.
+// A default retry strategy applies to this operation InstallAddon()
+func (client KafkaClusterClient) InstallAddon(ctx context.Context, request InstallAddonRequest) (response InstallAddonResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.installAddon, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = InstallAddonResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = InstallAddonResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(InstallAddonResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into InstallAddonResponse")
+	}
+	return
+}
+
+// installAddon implements the OCIOperation interface (enables retrying operations)
+func (client KafkaClusterClient) installAddon(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/kafkaClusters/{kafkaClusterId}/addons", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response InstallAddonResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "kafkaCluster", "InstallAddon")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaCluster/InstallAddon"
+		err = common.PostProcessServiceError(err, "KafkaCluster", "InstallAddon", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &kafkaclusteraddon{})
+	return response, err
+}
+
+// ListAddonOptions Gets a list of supported KafkaClusterAddons.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managedkafka/ListAddonOptions.go.html to see an example of how to use ListAddonOptions API.
+// A default retry strategy applies to this operation ListAddonOptions()
+func (client KafkaClusterClient) ListAddonOptions(ctx context.Context, request ListAddonOptionsRequest) (response ListAddonOptionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAddonOptions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAddonOptionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAddonOptionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAddonOptionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAddonOptionsResponse")
+	}
+	return
+}
+
+// listAddonOptions implements the OCIOperation interface (enables retrying operations)
+func (client KafkaClusterClient) listAddonOptions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/addonOptions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAddonOptionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "kafkaCluster", "ListAddonOptions")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/AddonOptionCollection/ListAddonOptions"
+		err = common.PostProcessServiceError(err, "KafkaCluster", "ListAddonOptions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAddons Gets a list of KafkaClusterAddons.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managedkafka/ListAddons.go.html to see an example of how to use ListAddons API.
+// A default retry strategy applies to this operation ListAddons()
+func (client KafkaClusterClient) ListAddons(ctx context.Context, request ListAddonsRequest) (response ListAddonsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAddons, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAddonsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAddonsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAddonsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAddonsResponse")
+	}
+	return
+}
+
+// listAddons implements the OCIOperation interface (enables retrying operations)
+func (client KafkaClusterClient) listAddons(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/kafkaClusters/{kafkaClusterId}/addons", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAddonsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "kafkaCluster", "ListAddons")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaCluster/ListAddons"
+		err = common.PostProcessServiceError(err, "KafkaCluster", "ListAddons", apiReferenceLink)
 		return response, err
 	}
 
@@ -1328,6 +1565,122 @@ func (client KafkaClusterClient) listWorkRequests(ctx context.Context, request c
 	}
 
 	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UninstallAddon Uninstalls a KafkaClusterAddon in a provisioned cluster.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managedkafka/UninstallAddon.go.html to see an example of how to use UninstallAddon API.
+// A default retry strategy applies to this operation UninstallAddon()
+func (client KafkaClusterClient) UninstallAddon(ctx context.Context, request UninstallAddonRequest) (response UninstallAddonResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.uninstallAddon, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UninstallAddonResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UninstallAddonResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UninstallAddonResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UninstallAddonResponse")
+	}
+	return
+}
+
+// uninstallAddon implements the OCIOperation interface (enables retrying operations)
+func (client KafkaClusterClient) uninstallAddon(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/kafkaClusters/{kafkaClusterId}/addons/{addonName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UninstallAddonResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "kafkaCluster", "UninstallAddon")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaCluster/UninstallAddon"
+		err = common.PostProcessServiceError(err, "KafkaCluster", "UninstallAddon", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateAddon Installs updates on the existing KafkaClusterAddon.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managedkafka/UpdateAddon.go.html to see an example of how to use UpdateAddon API.
+// A default retry strategy applies to this operation UpdateAddon()
+func (client KafkaClusterClient) UpdateAddon(ctx context.Context, request UpdateAddonRequest) (response UpdateAddonResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateAddon, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateAddonResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateAddonResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateAddonResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateAddonResponse")
+	}
+	return
+}
+
+// updateAddon implements the OCIOperation interface (enables retrying operations)
+func (client KafkaClusterClient) updateAddon(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/kafkaClusters/{kafkaClusterId}/addons/{addonName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateAddonResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "kafkaCluster", "UpdateAddon")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/kafka/20240901/KafkaCluster/UpdateAddon"
+		err = common.PostProcessServiceError(err, "KafkaCluster", "UpdateAddon", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &kafkaclusteraddon{})
 	return response, err
 }
 

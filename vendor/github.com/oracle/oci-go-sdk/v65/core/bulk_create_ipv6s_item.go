@@ -58,6 +58,9 @@ type BulkCreateIpv6sItem struct {
 	// The IPv6 prefix allocated to the subnet. This is required if more than one IPv6 prefix exists on the subnet.
 	Ipv6SubnetCidr *string `mandatory:"false" json:"ipv6SubnetCidr"`
 
+	// The hostname associated with the IPv6 address. Only the hostname label, not the FQDN.
+	Hostname *string `mandatory:"false" json:"hostname"`
+
 	// Length of the CIDR range. Optional field to specify a flexible CIDR.
 	CidrPrefixLength *int `mandatory:"false" json:"cidrPrefixLength"`
 }

@@ -119,6 +119,9 @@ var (
 
 	MysqlChannelResourceDependencies = MysqlMysqlDbSystemResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Create, MysqlMysqlDbSystemRepresentation) + caCertificateVariableStr
+
+	MysqlChannelIpv6ResourceDependencies = MysqlMysqlDbSystemIpv6ResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Create, MysqlDbSystemIpv6Representation) + caCertificateVariableStr
 )
 
 // issue-routing-tag: mysql/default
@@ -182,6 +185,7 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "source.0.anonymous_transactions_handling.0.policy", "ASSIGN_MANUAL_UUID"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.anonymous_transactions_handling.0.uuid", "ae1b699d-0036-49c4-900c-4fc43335dfb2"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.hostname", "hostname.my.company.com"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.must_use_ipv6on_dual_stack", "false"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.port", "3300"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "MYSQL"),
@@ -224,6 +228,7 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "source.0.anonymous_transactions_handling.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.anonymous_transactions_handling.0.policy", "ERROR_ON_ANONYMOUS"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.hostname", "hostname2.my.company.com"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.must_use_ipv6on_dual_stack", "false"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.port", "3306"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "MYSQL"),
@@ -271,6 +276,7 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "channels.0.source.0.anonymous_transactions_handling.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "channels.0.source.0.anonymous_transactions_handling.0.policy", "ERROR_ON_ANONYMOUS"),
 				resource.TestCheckResourceAttr(datasourceName, "channels.0.source.0.hostname", "hostname2.my.company.com"),
+				resource.TestCheckResourceAttr(datasourceName, "channels.0.source.0.must_use_ipv6on_dual_stack", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "channels.0.source.0.port", "3306"),
 				resource.TestCheckResourceAttr(datasourceName, "channels.0.source.0.source_type", "MYSQL"),
 				resource.TestCheckResourceAttr(datasourceName, "channels.0.source.0.ssl_ca_certificate.#", "1"),
@@ -309,6 +315,7 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.anonymous_transactions_handling.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.anonymous_transactions_handling.0.policy", "ERROR_ON_ANONYMOUS"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.hostname", "hostname2.my.company.com"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.must_use_ipv6on_dual_stack", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.port", "3306"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.source_type", "MYSQL"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.ssl_ca_certificate.#", "1"),
@@ -338,6 +345,70 @@ func TestMysqlChannelResource_basic(t *testing.T) {
 				"source.0.password",
 			},
 			ResourceName: resourceName,
+		},
+	})
+}
+
+func TestMysqlChannelResource_ipv6(t *testing.T) {
+	httpreplay.SetScenario("TestMysqlChannelResource_ipv6")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_mysql_channel.test_channel"
+
+	mysqlChannelSourceIpv6Representation := acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(MysqlChannelSourceRepresentation, []string{"must_use_ipv6on_dual_stack", "ssl_mode", "anonymous_transactions_handling"}),
+		map[string]interface{}{
+			"must_use_ipv6on_dual_stack": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `false`},
+			"ssl_mode":                   acctest.Representation{RepType: acctest.Required, Create: `REQUIRED`},
+		})
+
+	mysqlChannelIpv6Representation := acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(MysqlChannelRepresentation, []string{"source", "defined_tags", "freeform_tags"}),
+		map[string]interface{}{
+			"source": acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlChannelSourceIpv6Representation},
+		})
+
+	acctest.ResourceTest(t, testAccCheckMysqlChannelDestroy, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + compartmentIdVariableStr + MysqlChannelIpv6ResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Optional, acctest.Create, mysqlChannelIpv6Representation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.hostname", "hostname.my.company.com"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "MYSQL"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.ssl_mode", "REQUIRED"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.username", "username"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.must_use_ipv6on_dual_stack", "true"),
+				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "target.0.db_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.target_type", "DBSYSTEM"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// Update must_use_ipv6on_dual_stack (ipv6 -> ipv4)
+		{
+			Config: config + compartmentIdVariableStr + MysqlChannelIpv6ResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Optional, acctest.Update, mysqlChannelIpv6Representation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.must_use_ipv6on_dual_stack", "false"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
 	})
 }

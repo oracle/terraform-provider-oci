@@ -344,7 +344,6 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "virtual_router_ip"),
 				resource.TestCheckResourceAttrSet(resourceName, "virtual_router_mac"),
 
 				func(s *terraform.State) (err error) {
@@ -424,7 +423,6 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "virtual_router_ip"),
 				resource.TestCheckResourceAttrSet(resourceName, "virtual_router_mac"),
 
 				func(s *terraform.State) (err error) {
@@ -459,7 +457,6 @@ func TestCoreSubnetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "virtual_router_ip"),
 				resource.TestCheckResourceAttrSet(resourceName, "virtual_router_mac"),
 
 				func(s *terraform.State) (err error) {

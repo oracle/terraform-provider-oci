@@ -65,6 +65,7 @@ The following attributes are exported:
 		* `policy` - Specifies how the replication channel handles anonymous transactions.
 		* `uuid` - The UUID that is used as a prefix when generating transaction identifiers for anonymous transactions coming from the source. You can change the UUID later. 
 	* `hostname` - The network address of the MySQL instance.
+	* `must_use_ipv6on_dual_stack` - Whether the connection of the channel will be requested using the IPv6 address of the dual stack DB system or not. Default: False. 
 	* `port` - The port the source MySQL instance listens on.
 	* `source_type` - The specific source identifier.
 	* `ssl_ca_certificate` - The CA certificate of the server used for VERIFY_IDENTITY and VERIFY_CA ssl modes.
