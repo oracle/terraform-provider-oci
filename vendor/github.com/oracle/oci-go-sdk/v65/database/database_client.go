@@ -4927,6 +4927,64 @@ func (client DatabaseClient) createDbHome(ctx context.Context, request common.OC
 	return response, err
 }
 
+// CreateDbNodeBootVolumeBackup Creates a manual boot volume backup for the specified database node.
+func (client DatabaseClient) CreateDbNodeBootVolumeBackup(ctx context.Context, request CreateDbNodeBootVolumeBackupRequest) (response CreateDbNodeBootVolumeBackupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createDbNodeBootVolumeBackup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDbNodeBootVolumeBackupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDbNodeBootVolumeBackupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateDbNodeBootVolumeBackupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateDbNodeBootVolumeBackupResponse")
+	}
+	return
+}
+
+// createDbNodeBootVolumeBackup implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) createDbNodeBootVolumeBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dbNodeBootVolumeBackups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateDbNodeBootVolumeBackupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "CreateDbNodeBootVolumeBackup")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbNodeBootVolumeBackup/CreateDbNodeBootVolumeBackup"
+		err = common.PostProcessServiceError(err, "Database", "CreateDbNodeBootVolumeBackup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateExadataInfrastructure Creates an Exadata infrastructure resource. Applies to Exadata Cloud@Customer instances only.
 // To create an Exadata Cloud Service infrastructure resource, use the  CreateCloudExadataInfrastructure operation.
 func (client DatabaseClient) CreateExadataInfrastructure(ctx context.Context, request CreateExadataInfrastructureRequest) (response CreateExadataInfrastructureResponse, err error) {
@@ -7290,6 +7348,59 @@ func (client DatabaseClient) deleteDbHome(ctx context.Context, request common.OC
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbHome/DeleteDbHome"
 		err = common.PostProcessServiceError(err, "Database", "DeleteDbHome", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteDbNodeBootVolumeBackup Deletes a database node boot volume backup.
+func (client DatabaseClient) DeleteDbNodeBootVolumeBackup(ctx context.Context, request DeleteDbNodeBootVolumeBackupRequest) (response DeleteDbNodeBootVolumeBackupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteDbNodeBootVolumeBackup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDbNodeBootVolumeBackupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDbNodeBootVolumeBackupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteDbNodeBootVolumeBackupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteDbNodeBootVolumeBackupResponse")
+	}
+	return
+}
+
+// deleteDbNodeBootVolumeBackup implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) deleteDbNodeBootVolumeBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dbNodeBootVolumeBackups/{dbNodeBootVolumeBackupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteDbNodeBootVolumeBackupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "DeleteDbNodeBootVolumeBackup")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbNodeBootVolumeBackup/DeleteDbNodeBootVolumeBackup"
+		err = common.PostProcessServiceError(err, "Database", "DeleteDbNodeBootVolumeBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -13044,6 +13155,59 @@ func (client DatabaseClient) getDbNode(ctx context.Context, request common.OCIRe
 	return response, err
 }
 
+// GetDbNodeBootVolumeBackup Gets the details of the specified boot volume backup.
+func (client DatabaseClient) GetDbNodeBootVolumeBackup(ctx context.Context, request GetDbNodeBootVolumeBackupRequest) (response GetDbNodeBootVolumeBackupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDbNodeBootVolumeBackup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDbNodeBootVolumeBackupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDbNodeBootVolumeBackupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDbNodeBootVolumeBackupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDbNodeBootVolumeBackupResponse")
+	}
+	return
+}
+
+// getDbNodeBootVolumeBackup implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getDbNodeBootVolumeBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbNodeBootVolumeBackups/{dbNodeBootVolumeBackupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDbNodeBootVolumeBackupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "GetDbNodeBootVolumeBackup")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbNodeBootVolumeBackup/GetDbNodeBootVolumeBackup"
+		err = common.PostProcessServiceError(err, "Database", "GetDbNodeBootVolumeBackup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetDbServer Gets information about the Exadata Db server.
 func (client DatabaseClient) GetDbServer(ctx context.Context, request GetDbServerRequest) (response GetDbServerResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -18059,6 +18223,59 @@ func (client DatabaseClient) listDbHomes(ctx context.Context, request common.OCI
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbHome/ListDbHomes"
 		err = common.PostProcessServiceError(err, "Database", "ListDbHomes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDbNodeBootVolumeBackups Lists the database node boot volume backups.
+func (client DatabaseClient) ListDbNodeBootVolumeBackups(ctx context.Context, request ListDbNodeBootVolumeBackupsRequest) (response ListDbNodeBootVolumeBackupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDbNodeBootVolumeBackups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDbNodeBootVolumeBackupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDbNodeBootVolumeBackupsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDbNodeBootVolumeBackupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDbNodeBootVolumeBackupsResponse")
+	}
+	return
+}
+
+// listDbNodeBootVolumeBackups implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listDbNodeBootVolumeBackups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbNodeBootVolumeBackups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDbNodeBootVolumeBackupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "ListDbNodeBootVolumeBackups")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbNodeBootVolumeBackup/ListDbNodeBootVolumeBackups"
+		err = common.PostProcessServiceError(err, "Database", "ListDbNodeBootVolumeBackups", apiReferenceLink)
 		return response, err
 	}
 

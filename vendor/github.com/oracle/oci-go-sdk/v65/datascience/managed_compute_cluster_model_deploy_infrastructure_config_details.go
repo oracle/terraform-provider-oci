@@ -22,7 +22,7 @@ type ManagedComputeClusterModelDeployInfrastructureConfigDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a Compute Target.
 	ComputeTargetId *string `mandatory:"true" json:"computeTargetId"`
 
-	ModelDeploymentResourceConfiguration *ManagedComputeClusterModelDeploymentResourceConfiguration `mandatory:"false" json:"modelDeploymentResourceConfiguration"`
+	ModelDeploymentResourceConfiguration *ManagedComputeClusterModelDeploymentResourceConfiguration `mandatory:"true" json:"modelDeploymentResourceConfiguration"`
 
 	ScalingPolicy ManagedComputeClusterWorkloadScalingPolicy `mandatory:"false" json:"scalingPolicy"`
 
@@ -62,10 +62,10 @@ func (m ManagedComputeClusterModelDeployInfrastructureConfigDetails) MarshalJSON
 // UnmarshalJSON unmarshals from json
 func (m *ManagedComputeClusterModelDeployInfrastructureConfigDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		ModelDeploymentResourceConfiguration *ManagedComputeClusterModelDeploymentResourceConfiguration `json:"modelDeploymentResourceConfiguration"`
 		ScalingPolicy                        managedcomputeclusterworkloadscalingpolicy                 `json:"scalingPolicy"`
 		NetworkConfiguration                 managedcomputeclustermodeldeploymentnetworkconfiguration   `json:"networkConfiguration"`
 		ComputeTargetId                      *string                                                    `json:"computeTargetId"`
+		ModelDeploymentResourceConfiguration *ManagedComputeClusterModelDeploymentResourceConfiguration `json:"modelDeploymentResourceConfiguration"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -73,8 +73,6 @@ func (m *ManagedComputeClusterModelDeployInfrastructureConfigDetails) UnmarshalJ
 		return
 	}
 	var nn interface{}
-	m.ModelDeploymentResourceConfiguration = model.ModelDeploymentResourceConfiguration
-
 	nn, e = model.ScalingPolicy.UnmarshalPolymorphicJSON(model.ScalingPolicy.JsonData)
 	if e != nil {
 		return
@@ -96,6 +94,8 @@ func (m *ManagedComputeClusterModelDeployInfrastructureConfigDetails) UnmarshalJ
 	}
 
 	m.ComputeTargetId = model.ComputeTargetId
+
+	m.ModelDeploymentResourceConfiguration = model.ModelDeploymentResourceConfiguration
 
 	return
 }

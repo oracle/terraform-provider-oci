@@ -1605,6 +1605,68 @@ func (client DatabaseRecoveryClient) listWorkRequests(ctx context.Context, reque
 	return response, err
 }
 
+// RequestSummarizedProtectedDatabaseAnalytics Returns aggregated metrics, grouped by requested dimensions, for protected databases in a specified compartment.
+// This API accepts filters in the request body, as shown below:
+// ```
+//
+//	"filters": {
+//	  "lifecycleState": ["ACTIVE", "UPDATING"]
+//	}
+//
+// ```
+// A default retry strategy applies to this operation RequestSummarizedProtectedDatabaseAnalytics()
+func (client DatabaseRecoveryClient) RequestSummarizedProtectedDatabaseAnalytics(ctx context.Context, request RequestSummarizedProtectedDatabaseAnalyticsRequest) (response RequestSummarizedProtectedDatabaseAnalyticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.requestSummarizedProtectedDatabaseAnalytics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RequestSummarizedProtectedDatabaseAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RequestSummarizedProtectedDatabaseAnalyticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RequestSummarizedProtectedDatabaseAnalyticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RequestSummarizedProtectedDatabaseAnalyticsResponse")
+	}
+	return
+}
+
+// requestSummarizedProtectedDatabaseAnalytics implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseRecoveryClient) requestSummarizedProtectedDatabaseAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/protectedDatabaseAnalytics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RequestSummarizedProtectedDatabaseAnalyticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "RequestSummarizedProtectedDatabaseAnalytics")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabaseAnalyticsCollection/RequestSummarizedProtectedDatabaseAnalytics"
+		err = common.PostProcessServiceError(err, "DatabaseRecovery", "RequestSummarizedProtectedDatabaseAnalytics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ScheduleProtectedDatabaseDeletion Defines a preferred schedule to delete a protected database after you terminate the source database.
 // Only the user or the Oracle Database service that created the protected database is allowed to modify or delete it.
 // The default schedule is DELETE_AFTER_72_HOURS, so that the delete operation can occur 72 hours (3 days) after the source database is terminated.
@@ -1660,6 +1722,76 @@ func (client DatabaseRecoveryClient) scheduleProtectedDatabaseDeletion(ctx conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/ScheduleProtectedDatabaseDeletion"
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ScheduleProtectedDatabaseDeletion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SummarizeProtectedDatabaseAnalytics Returns aggregated metrics, grouped by requested dimensions, for protected databases in a specified compartment.
+// For example:
+// ```
+//
+//	{
+//	  "items": [
+//	    {
+//	      "dimensions": { "protectionPolicyId": "ocid1.policy.silver.." },
+//	      "metricName": "count",
+//	      "value": 21,
+//	      "metadata": { "displayName": "Silver", "retentionDays": 35, "isPredefinedPolicy": true }
+//	    },
+//	    ...
+//	  ]
+//	}
+//
+// ```
+// A default retry strategy applies to this operation SummarizeProtectedDatabaseAnalytics()
+func (client DatabaseRecoveryClient) SummarizeProtectedDatabaseAnalytics(ctx context.Context, request SummarizeProtectedDatabaseAnalyticsRequest) (response SummarizeProtectedDatabaseAnalyticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.summarizeProtectedDatabaseAnalytics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SummarizeProtectedDatabaseAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SummarizeProtectedDatabaseAnalyticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SummarizeProtectedDatabaseAnalyticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SummarizeProtectedDatabaseAnalyticsResponse")
+	}
+	return
+}
+
+// summarizeProtectedDatabaseAnalytics implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseRecoveryClient) summarizeProtectedDatabaseAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/protectedDatabaseAnalytics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SummarizeProtectedDatabaseAnalyticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "databaseRecovery", "SummarizeProtectedDatabaseAnalytics")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabaseAnalyticsCollection/SummarizeProtectedDatabaseAnalytics"
+		err = common.PostProcessServiceError(err, "DatabaseRecovery", "SummarizeProtectedDatabaseAnalytics", apiReferenceLink)
 		return response, err
 	}
 

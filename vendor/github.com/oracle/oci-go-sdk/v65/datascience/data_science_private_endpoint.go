@@ -59,6 +59,10 @@ type DataSciencePrivateEndpoint struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// Details of the state of Data Science private endpoint.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 

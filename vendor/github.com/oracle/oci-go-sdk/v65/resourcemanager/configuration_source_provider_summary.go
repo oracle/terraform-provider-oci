@@ -46,6 +46,9 @@ type ConfigurationSourceProviderSummary interface {
 
 	GetPrivateServerConfigDetails() *PrivateServerConfigDetails
 
+	// Indicates whether this configuration source provider uses legacy Bitbucket Cloud username/app-password credentials and must be migrated.
+	GetIsMigrationRequired() *bool
+
 	// Free-form tags associated with the resource. Each tag is a key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -71,6 +74,7 @@ type configurationsourceprovidersummary struct {
 	TimeCreated                *common.SDKTime                               `mandatory:"false" json:"timeCreated"`
 	LifecycleState             ConfigurationSourceProviderLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 	PrivateServerConfigDetails *PrivateServerConfigDetails                   `mandatory:"false" json:"privateServerConfigDetails"`
+	IsMigrationRequired        *bool                                         `mandatory:"false" json:"isMigrationRequired"`
 	FreeformTags               map[string]string                             `mandatory:"false" json:"freeformTags"`
 	DefinedTags                map[string]map[string]interface{}             `mandatory:"false" json:"definedTags"`
 	SystemTags                 map[string]map[string]interface{}             `mandatory:"false" json:"systemTags"`
@@ -95,6 +99,7 @@ func (m *configurationsourceprovidersummary) UnmarshalJSON(data []byte) error {
 	m.TimeCreated = s.Model.TimeCreated
 	m.LifecycleState = s.Model.LifecycleState
 	m.PrivateServerConfigDetails = s.Model.PrivateServerConfigDetails
+	m.IsMigrationRequired = s.Model.IsMigrationRequired
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
@@ -116,12 +121,12 @@ func (m *configurationsourceprovidersummary) UnmarshalPolymorphicJSON(data []byt
 		mm := GitlabAccessTokenConfigurationSourceProviderSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "BITBUCKET_CLOUD_USERNAME_APPPASSWORD":
-		mm := BitbucketCloudUsernameAppPasswordConfigurationSourceProviderSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "BITBUCKET_SERVER_ACCESS_TOKEN":
 		mm := BitbucketServerAccessTokenConfigurationSourceProviderSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "BITBUCKET_CLOUD_ACCESS_TOKEN":
+		mm := BitbucketCloudEmailApiTokenConfigurationSourceProviderSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "GITHUB_ACCESS_TOKEN":
@@ -167,6 +172,11 @@ func (m configurationsourceprovidersummary) GetLifecycleState() ConfigurationSou
 // GetPrivateServerConfigDetails returns PrivateServerConfigDetails
 func (m configurationsourceprovidersummary) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
 	return m.PrivateServerConfigDetails
+}
+
+// GetIsMigrationRequired returns IsMigrationRequired
+func (m configurationsourceprovidersummary) GetIsMigrationRequired() *bool {
+	return m.IsMigrationRequired
 }
 
 // GetFreeformTags returns FreeformTags

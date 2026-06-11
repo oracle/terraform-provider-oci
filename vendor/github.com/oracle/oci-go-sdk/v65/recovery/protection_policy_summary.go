@@ -38,7 +38,10 @@ type ProtectionPolicySummary struct {
 	// An RFC3339 formatted datetime string that specifies the exact date and time for the retention lock to take effect and permanently lock the retention period defined in the policy.
 	PolicyLockedDateTime *string `mandatory:"false" json:"policyLockedDateTime"`
 
-	// Indicates whether the protection policy enforces Recovery Service to retain backups in the same cloud service environment where your Oracle Database is provisioned.
+	// In a multicloud environment, this parameter indicates whether backups must be stored in the same cloud location where the database is provisioned.
+	// The `mustEnforceCloudLocality` defaults to `FALSE` which indicates that Recovery Service stores backups in Oracle Cloud by default.
+	// If you want Recovery Service to store the protected database backups in the same cloud location as the database, then set `mustEnforceCloudLocality` to `TRUE`, particularly for protection policies linked to Oracle Multicloud Databases. For example, for Oracle Database@Azure, Recovery Service stores the protected database backups in Microsoft Azure if you have set `mustEnforceCloudLocality` to `TRUE` in the chosen protection policy.
+	// In Oracle-defined protection policies for multicloud databases, the `mustEnforceCloudLocality` value defaults to `TRUE`. In Oracle-defined standard protection policies, the `mustEnforceCloudLocality` value defaults to `FALSE`. Oracle-defined protection policies cannot be modified.
 	MustEnforceCloudLocality *bool `mandatory:"false" json:"mustEnforceCloudLocality"`
 
 	// The time the Protection Policy was created. An RFC3339 formatted datetime string

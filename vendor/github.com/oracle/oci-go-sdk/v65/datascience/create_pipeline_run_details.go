@@ -57,6 +57,10 @@ type CreatePipelineRunDetails struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 }
 
 func (m CreatePipelineRunDetails) String() string {
@@ -89,6 +93,7 @@ func (m *CreatePipelineRunDetails) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags                                 map[string]string                           `json:"freeformTags"`
 		DefinedTags                                  map[string]map[string]interface{}           `json:"definedTags"`
 		SystemTags                                   map[string]map[string]interface{}           `json:"systemTags"`
+		SecurityAttributes                           map[string]map[string]interface{}           `json:"securityAttributes"`
 		CompartmentId                                *string                                     `json:"compartmentId"`
 		PipelineId                                   *string                                     `json:"pipelineId"`
 	}{}
@@ -137,6 +142,8 @@ func (m *CreatePipelineRunDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.SystemTags = model.SystemTags
+
+	m.SecurityAttributes = model.SecurityAttributes
 
 	m.CompartmentId = model.CompartmentId
 

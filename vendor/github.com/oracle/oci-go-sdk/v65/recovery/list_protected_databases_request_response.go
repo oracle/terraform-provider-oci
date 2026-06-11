@@ -32,6 +32,12 @@ type ListProtectedDatabasesRequest struct {
 	// The recovery service subnet OCID.
 	RecoveryServiceSubnetId *string `mandatory:"false" contributesTo:"query" name:"recoveryServiceSubnetId"`
 
+	// A filter to return only the resources that match the specified health.
+	Health ListProtectedDatabasesHealthEnum `mandatory:"false" contributesTo:"query" name:"health" omitEmpty:"true"`
+
+	// Optional filter to return only resources whose isRedoLogsEnabled matches the specified value.
+	IsRedoLogsEnabled *bool `mandatory:"false" contributesTo:"query" name:"isRedoLogsEnabled"`
+
 	// Filter for cloud location of protected database.
 	BackupCloudLocation ListProtectedDatabasesBackupCloudLocationEnum `mandatory:"false" contributesTo:"query" name:"backupCloudLocation" omitEmpty:"true"`
 
@@ -94,6 +100,9 @@ func (request ListProtectedDatabasesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingListProtectedDatabasesLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListProtectedDatabasesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListProtectedDatabasesHealthEnum(string(request.Health)); !ok && request.Health != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Health: %s. Supported values are: %s.", request.Health, strings.Join(GetListProtectedDatabasesHealthEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListProtectedDatabasesBackupCloudLocationEnum(string(request.BackupCloudLocation)); !ok && request.BackupCloudLocation != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupCloudLocation: %s. Supported values are: %s.", request.BackupCloudLocation, strings.Join(GetListProtectedDatabasesBackupCloudLocationEnumStringValues(), ",")))
@@ -197,6 +206,52 @@ func GetListProtectedDatabasesLifecycleStateEnumStringValues() []string {
 // GetMappingListProtectedDatabasesLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListProtectedDatabasesLifecycleStateEnum(val string) (ListProtectedDatabasesLifecycleStateEnum, bool) {
 	enum, ok := mappingListProtectedDatabasesLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListProtectedDatabasesHealthEnum Enum with underlying type: string
+type ListProtectedDatabasesHealthEnum string
+
+// Set of constants representing the allowable values for ListProtectedDatabasesHealthEnum
+const (
+	ListProtectedDatabasesHealthProtected ListProtectedDatabasesHealthEnum = "PROTECTED"
+	ListProtectedDatabasesHealthWarning   ListProtectedDatabasesHealthEnum = "WARNING"
+	ListProtectedDatabasesHealthAlert     ListProtectedDatabasesHealthEnum = "ALERT"
+)
+
+var mappingListProtectedDatabasesHealthEnum = map[string]ListProtectedDatabasesHealthEnum{
+	"PROTECTED": ListProtectedDatabasesHealthProtected,
+	"WARNING":   ListProtectedDatabasesHealthWarning,
+	"ALERT":     ListProtectedDatabasesHealthAlert,
+}
+
+var mappingListProtectedDatabasesHealthEnumLowerCase = map[string]ListProtectedDatabasesHealthEnum{
+	"protected": ListProtectedDatabasesHealthProtected,
+	"warning":   ListProtectedDatabasesHealthWarning,
+	"alert":     ListProtectedDatabasesHealthAlert,
+}
+
+// GetListProtectedDatabasesHealthEnumValues Enumerates the set of values for ListProtectedDatabasesHealthEnum
+func GetListProtectedDatabasesHealthEnumValues() []ListProtectedDatabasesHealthEnum {
+	values := make([]ListProtectedDatabasesHealthEnum, 0)
+	for _, v := range mappingListProtectedDatabasesHealthEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListProtectedDatabasesHealthEnumStringValues Enumerates the set of values in String for ListProtectedDatabasesHealthEnum
+func GetListProtectedDatabasesHealthEnumStringValues() []string {
+	return []string{
+		"PROTECTED",
+		"WARNING",
+		"ALERT",
+	}
+}
+
+// GetMappingListProtectedDatabasesHealthEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListProtectedDatabasesHealthEnum(val string) (ListProtectedDatabasesHealthEnum, bool) {
+	enum, ok := mappingListProtectedDatabasesHealthEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

@@ -41,6 +41,10 @@ type CreateNotebookSessionDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	NotebookSessionRuntimeConfigDetails *NotebookSessionRuntimeConfigDetails `mandatory:"false" json:"notebookSessionRuntimeConfigDetails"`
 
 	NotebookSessionEnvironmentConfigDetails NotebookSessionEnvironmentConfigDetails `mandatory:"false" json:"notebookSessionEnvironmentConfigDetails"`
@@ -77,6 +81,7 @@ func (m *CreateNotebookSessionDetails) UnmarshalJSON(data []byte) (e error) {
 		NotebookSessionConfigDetails                        *NotebookSessionConfigDetails           `json:"notebookSessionConfigDetails"`
 		FreeformTags                                        map[string]string                       `json:"freeformTags"`
 		DefinedTags                                         map[string]map[string]interface{}       `json:"definedTags"`
+		SecurityAttributes                                  map[string]map[string]interface{}       `json:"securityAttributes"`
 		NotebookSessionRuntimeConfigDetails                 *NotebookSessionRuntimeConfigDetails    `json:"notebookSessionRuntimeConfigDetails"`
 		NotebookSessionEnvironmentConfigDetails             notebooksessionenvironmentconfigdetails `json:"notebookSessionEnvironmentConfigDetails"`
 		NotebookSessionLogConfigDetails                     *NotebookSessionLogConfigDetails        `json:"notebookSessionLogConfigDetails"`
@@ -100,6 +105,8 @@ func (m *CreateNotebookSessionDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SecurityAttributes = model.SecurityAttributes
 
 	m.NotebookSessionRuntimeConfigDetails = model.NotebookSessionRuntimeConfigDetails
 

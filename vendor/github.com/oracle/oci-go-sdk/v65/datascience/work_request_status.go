@@ -18,30 +18,33 @@ type WorkRequestStatusEnum string
 
 // Set of constants representing the allowable values for WorkRequestStatusEnum
 const (
-	WorkRequestStatusAccepted   WorkRequestStatusEnum = "ACCEPTED"
-	WorkRequestStatusInProgress WorkRequestStatusEnum = "IN_PROGRESS"
-	WorkRequestStatusFailed     WorkRequestStatusEnum = "FAILED"
-	WorkRequestStatusSucceeded  WorkRequestStatusEnum = "SUCCEEDED"
-	WorkRequestStatusCanceling  WorkRequestStatusEnum = "CANCELING"
-	WorkRequestStatusCanceled   WorkRequestStatusEnum = "CANCELED"
+	WorkRequestStatusAccepted           WorkRequestStatusEnum = "ACCEPTED"
+	WorkRequestStatusInProgress         WorkRequestStatusEnum = "IN_PROGRESS"
+	WorkRequestStatusFailed             WorkRequestStatusEnum = "FAILED"
+	WorkRequestStatusSucceeded          WorkRequestStatusEnum = "SUCCEEDED"
+	WorkRequestStatusPartiallySucceeded WorkRequestStatusEnum = "PARTIALLY_SUCCEEDED"
+	WorkRequestStatusCanceling          WorkRequestStatusEnum = "CANCELING"
+	WorkRequestStatusCanceled           WorkRequestStatusEnum = "CANCELED"
 )
 
 var mappingWorkRequestStatusEnum = map[string]WorkRequestStatusEnum{
-	"ACCEPTED":    WorkRequestStatusAccepted,
-	"IN_PROGRESS": WorkRequestStatusInProgress,
-	"FAILED":      WorkRequestStatusFailed,
-	"SUCCEEDED":   WorkRequestStatusSucceeded,
-	"CANCELING":   WorkRequestStatusCanceling,
-	"CANCELED":    WorkRequestStatusCanceled,
+	"ACCEPTED":            WorkRequestStatusAccepted,
+	"IN_PROGRESS":         WorkRequestStatusInProgress,
+	"FAILED":              WorkRequestStatusFailed,
+	"SUCCEEDED":           WorkRequestStatusSucceeded,
+	"PARTIALLY_SUCCEEDED": WorkRequestStatusPartiallySucceeded,
+	"CANCELING":           WorkRequestStatusCanceling,
+	"CANCELED":            WorkRequestStatusCanceled,
 }
 
 var mappingWorkRequestStatusEnumLowerCase = map[string]WorkRequestStatusEnum{
-	"accepted":    WorkRequestStatusAccepted,
-	"in_progress": WorkRequestStatusInProgress,
-	"failed":      WorkRequestStatusFailed,
-	"succeeded":   WorkRequestStatusSucceeded,
-	"canceling":   WorkRequestStatusCanceling,
-	"canceled":    WorkRequestStatusCanceled,
+	"accepted":            WorkRequestStatusAccepted,
+	"in_progress":         WorkRequestStatusInProgress,
+	"failed":              WorkRequestStatusFailed,
+	"succeeded":           WorkRequestStatusSucceeded,
+	"partially_succeeded": WorkRequestStatusPartiallySucceeded,
+	"canceling":           WorkRequestStatusCanceling,
+	"canceled":            WorkRequestStatusCanceled,
 }
 
 // GetWorkRequestStatusEnumValues Enumerates the set of values for WorkRequestStatusEnum
@@ -60,6 +63,7 @@ func GetWorkRequestStatusEnumStringValues() []string {
 		"IN_PROGRESS",
 		"FAILED",
 		"SUCCEEDED",
+		"PARTIALLY_SUCCEEDED",
 		"CANCELING",
 		"CANCELED",
 	}

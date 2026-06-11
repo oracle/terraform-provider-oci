@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// SingleModelDeploymentFlexConfigurationDetails The single model model deployment flex configuration details.
+// SingleModelDeploymentFlexConfigurationDetails The configuration details for a single-model deployment with flexible, decoupled infrastructure and model configuration.
 type SingleModelDeploymentFlexConfigurationDetails struct {
 	ModelConfigurationDetails *SingleModelConfigurationDetails `mandatory:"true" json:"modelConfigurationDetails"`
 

@@ -42,6 +42,9 @@ type GithubAccessTokenConfigurationSourceProviderSummary struct {
 
 	PrivateServerConfigDetails *PrivateServerConfigDetails `mandatory:"false" json:"privateServerConfigDetails"`
 
+	// Indicates whether this configuration source provider uses legacy Bitbucket Cloud username/app-password credentials and must be migrated.
+	IsMigrationRequired *bool `mandatory:"false" json:"isMigrationRequired"`
+
 	// Free-form tags associated with the resource. Each tag is a key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -100,6 +103,11 @@ func (m GithubAccessTokenConfigurationSourceProviderSummary) GetLifecycleState()
 // GetPrivateServerConfigDetails returns PrivateServerConfigDetails
 func (m GithubAccessTokenConfigurationSourceProviderSummary) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
 	return m.PrivateServerConfigDetails
+}
+
+// GetIsMigrationRequired returns IsMigrationRequired
+func (m GithubAccessTokenConfigurationSourceProviderSummary) GetIsMigrationRequired() *bool {
+	return m.IsMigrationRequired
 }
 
 // GetFreeformTags returns FreeformTags

@@ -1563,6 +1563,61 @@ func (client DataScienceClient) changeScheduleCompartment(ctx context.Context, r
 	return response, err
 }
 
+// ComputeTargetCustomNetworkingPermissionVerification Internal-only endpoint to validate future-state compute target vRP-style permissions for
+// customer subnet/VNIC custom networking operations before invoking privileged
+// Service Principal-based compute and virtual network APIs.
+func (client DataScienceClient) ComputeTargetCustomNetworkingPermissionVerification(ctx context.Context, request ComputeTargetCustomNetworkingPermissionVerificationRequest) (response ComputeTargetCustomNetworkingPermissionVerificationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.computeTargetCustomNetworkingPermissionVerification, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ComputeTargetCustomNetworkingPermissionVerificationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ComputeTargetCustomNetworkingPermissionVerificationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ComputeTargetCustomNetworkingPermissionVerificationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ComputeTargetCustomNetworkingPermissionVerificationResponse")
+	}
+	return
+}
+
+// computeTargetCustomNetworkingPermissionVerification implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) computeTargetCustomNetworkingPermissionVerification(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeTargets/{computeTargetId}/actions/verifyCustomNetworkingOperation", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ComputeTargetCustomNetworkingPermissionVerificationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ComputeTargetCustomNetworkingPermissionVerification")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ComputeTargetCustomNetworkingPermissionVerificationDetails/ComputeTargetCustomNetworkingPermissionVerification"
+		err = common.PostProcessServiceError(err, "DataScience", "ComputeTargetCustomNetworkingPermissionVerification", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateComputeTarget Creates a new compute target resource.
 // A default retry strategy applies to this operation CreateComputeTarget()
 func (client DataScienceClient) CreateComputeTarget(ctx context.Context, request CreateComputeTargetRequest) (response CreateComputeTargetResponse, err error) {

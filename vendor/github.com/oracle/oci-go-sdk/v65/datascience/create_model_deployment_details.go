@@ -48,6 +48,10 @@ type CreateModelDeploymentDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 }
 
 func (m CreateModelDeploymentDetails) String() string {
@@ -79,6 +83,7 @@ func (m *CreateModelDeploymentDetails) UnmarshalJSON(data []byte) (e error) {
 		EndpointProtocolDetails             *ModelDeploymentEndpointProtocolList `json:"endpointProtocolDetails"`
 		FreeformTags                        map[string]string                    `json:"freeformTags"`
 		DefinedTags                         map[string]map[string]interface{}    `json:"definedTags"`
+		SecurityAttributes                  map[string]map[string]interface{}    `json:"securityAttributes"`
 		ProjectId                           *string                              `json:"projectId"`
 		CompartmentId                       *string                              `json:"compartmentId"`
 		ModelDeploymentConfigurationDetails modeldeploymentconfigurationdetails  `json:"modelDeploymentConfigurationDetails"`
@@ -102,6 +107,8 @@ func (m *CreateModelDeploymentDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SecurityAttributes = model.SecurityAttributes
 
 	m.ProjectId = model.ProjectId
 
