@@ -14,6 +14,8 @@ Gets the specified stack.
 For more information, see
 [Getting a Stack's Details](https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/get-stack.htm).
 
+For ZIP-upload stacks, this data source downloads the stack configuration archive and stores it in Terraform state as base64 so refreshes preserve the config source. Large archives can noticeably increase state size.
+
 
 ## Example Usage
 
@@ -39,6 +41,7 @@ The following attributes are exported:
 * `config_source` - Location of the Terraform configuration.
     * `config_source_type` - Specifies the `configSourceType` for uploading the Terraform configuration. Presently, the .zip file type (`ZIP_UPLOAD`) is the only supported `configSourceType`.
     * `working_directory` - File path to the directory from which Terraform runs. If not specified, we use the root directory.
+    * `zip_file_base64encoded` - For ZIP-upload stacks, the downloaded ZIP archive content stored in Terraform state as base64.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}`
 * `description` - General description of the stack.
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
