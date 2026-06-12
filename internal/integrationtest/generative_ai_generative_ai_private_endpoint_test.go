@@ -39,6 +39,7 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `pe_1234`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_generative_ai_generative_ai_private_endpoint.test_generative_ai_private_endpoint.id}`},
+		"resource_type":  acctest.Representation{RepType: acctest.Optional, Create: `APPLICATION`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiGenerativeAiPrivateEndpointDataSourceFilterRepresentation}}
 	GenerativeAiGenerativeAiPrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
@@ -47,13 +48,15 @@ var (
 	}
 
 	GenerativeAiGenerativeAiPrivateEndpointRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"dns_prefix":     acctest.Representation{RepType: acctest.Required, Create: `dnsPrefix`, Update: `dnsPrefix2`},
-		"subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `pe_1234`, Update: `displayName2`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"nsg_ids":        acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"dns_prefix":         acctest.Representation{RepType: acctest.Required, Create: `dnsPrefix`, Update: `dnsPrefix2`},
+		"subnet_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"description":        acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `pe_1234`, Update: `displayName2`},
+		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_allow_on_demand": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"nsg_ids":            acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"resource_type":      acctest.Representation{RepType: acctest.Optional, Create: `APPLICATION`},
 	}
 
 	GenerativeAiGenerativeAiPrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
@@ -117,6 +120,8 @@ func TestGenerativeAiGenerativeAiPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "fqdn"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_allow_on_demand", "false"),
+				resource.TestCheckResourceAttr(resourceName, "resource_type", "APPLICATION"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
@@ -147,6 +152,8 @@ func TestGenerativeAiGenerativeAiPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "fqdn"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_allow_on_demand", "false"),
+				resource.TestCheckResourceAttr(resourceName, "resource_type", "APPLICATION"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
@@ -172,6 +179,8 @@ func TestGenerativeAiGenerativeAiPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "fqdn"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_allow_on_demand", "true"),
+				resource.TestCheckResourceAttr(resourceName, "resource_type", "APPLICATION"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
@@ -193,6 +202,7 @@ func TestGenerativeAiGenerativeAiPrivateEndpointResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "resource_type", "APPLICATION"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
@@ -214,6 +224,7 @@ func TestGenerativeAiGenerativeAiPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_ip"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "resource_type", "APPLICATION"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 			),
 		},

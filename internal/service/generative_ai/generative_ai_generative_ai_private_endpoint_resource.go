@@ -78,6 +78,12 @@ func GenerativeAiGenerativeAiPrivateEndpointResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"resource_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"fqdn": {
@@ -232,6 +238,10 @@ func (s *GenerativeAiGenerativeAiPrivateEndpointResourceCrud) Create() error {
 		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 			request.NsgIds = tmp
 		}
+	}
+
+	if resourceType, ok := s.D.GetOkExists("resource_type"); ok {
+		request.ResourceType = oci_generative_ai.GenerativeAiPrivateEndpointResourceTypeEnum(resourceType.(string))
 	}
 
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
@@ -515,6 +525,8 @@ func (s *GenerativeAiGenerativeAiPrivateEndpointResourceCrud) SetData() error {
 		s.D.Set("private_endpoint_ip", *s.Res.PrivateEndpointIp)
 	}
 
+	s.D.Set("resource_type", s.Res.ResourceType)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {
@@ -572,6 +584,8 @@ func GenerativeAiPrivateEndpointSummaryToMap(obj oci_generative_ai.GenerativeAiP
 	if obj.PrivateEndpointIp != nil {
 		result["private_endpoint_ip"] = string(*obj.PrivateEndpointIp)
 	}
+
+	result["resource_type"] = string(obj.ResourceType)
 
 	result["state"] = string(obj.LifecycleState)
 

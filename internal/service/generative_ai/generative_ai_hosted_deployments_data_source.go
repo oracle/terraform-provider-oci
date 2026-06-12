@@ -6,6 +6,7 @@ package generative_ai
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_generative_ai "github.com/oracle/oci-go-sdk/v65/generativeai"
 
@@ -13,11 +14,15 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
-func GenerativeAiGenerativeAiPrivateEndpointsDataSource() *schema.Resource {
+func GenerativeAiHostedDeploymentsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readGenerativeAiGenerativeAiPrivateEndpoints,
+		ReadContext: readGenerativeAiHostedDeploymentsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"application_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -30,15 +35,11 @@ func GenerativeAiGenerativeAiPrivateEndpointsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"resource_type": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"generative_ai_private_endpoint_collection": {
+			"hosted_deployment_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
@@ -47,7 +48,7 @@ func GenerativeAiGenerativeAiPrivateEndpointsDataSource() *schema.Resource {
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
-							Elem:     tfresource.GetDataSourceItemSchema(GenerativeAiGenerativeAiPrivateEndpointResource()),
+							Elem:     tfresource.GetDataSourceItemSchema(GenerativeAiHostedDeploymentResource()),
 						},
 					},
 				},
@@ -56,26 +57,31 @@ func GenerativeAiGenerativeAiPrivateEndpointsDataSource() *schema.Resource {
 	}
 }
 
-func readGenerativeAiGenerativeAiPrivateEndpoints(d *schema.ResourceData, m interface{}) error {
-	sync := &GenerativeAiGenerativeAiPrivateEndpointsDataSourceCrud{}
+func readGenerativeAiHostedDeploymentsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	sync := &GenerativeAiHostedDeploymentsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-type GenerativeAiGenerativeAiPrivateEndpointsDataSourceCrud struct {
+type GenerativeAiHostedDeploymentsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_generative_ai.GenerativeAiClient
-	Res    *oci_generative_ai.ListGenerativeAiPrivateEndpointsResponse
+	Res    *oci_generative_ai.ListHostedDeploymentsResponse
 }
 
-func (s *GenerativeAiGenerativeAiPrivateEndpointsDataSourceCrud) VoidState() {
+func (s *GenerativeAiHostedDeploymentsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GenerativeAiGenerativeAiPrivateEndpointsDataSourceCrud) Get() error {
-	request := oci_generative_ai.ListGenerativeAiPrivateEndpointsRequest{}
+func (s *GenerativeAiHostedDeploymentsDataSourceCrud) GetWithContext(ctx context.Context) error {
+	request := oci_generative_ai.ListHostedDeploymentsRequest{}
+
+	if applicationId, ok := s.D.GetOkExists("application_id"); ok {
+		tmp := applicationId.(string)
+		request.ApplicationId = &tmp
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -92,17 +98,13 @@ func (s *GenerativeAiGenerativeAiPrivateEndpointsDataSourceCrud) Get() error {
 		request.Id = &tmp
 	}
 
-	if resourceType, ok := s.D.GetOkExists("resource_type"); ok {
-		request.ResourceType = oci_generative_ai.GenerativeAiPrivateEndpointResourceTypeEnum(resourceType.(string))
-	}
-
 	if state, ok := s.D.GetOkExists("state"); ok {
-		request.LifecycleState = oci_generative_ai.GenerativeAiPrivateEndpointLifecycleStateEnum(state.(string))
+		request.LifecycleState = oci_generative_ai.HostedDeploymentLifecycleStateEnum(state.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "generative_ai")
 
-	response, err := s.Client.ListGenerativeAiPrivateEndpoints(context.Background(), request)
+	response, err := s.Client.ListHostedDeployments(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -111,7 +113,7 @@ func (s *GenerativeAiGenerativeAiPrivateEndpointsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListGenerativeAiPrivateEndpoints(context.Background(), request)
+		listResponse, err := s.Client.ListHostedDeployments(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -123,28 +125,28 @@ func (s *GenerativeAiGenerativeAiPrivateEndpointsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *GenerativeAiGenerativeAiPrivateEndpointsDataSourceCrud) SetData() error {
+func (s *GenerativeAiHostedDeploymentsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
 
-	s.D.SetId(tfresource.GenerateDataSourceHashID("GenerativeAiGenerativeAiPrivateEndpointsDataSource-", GenerativeAiGenerativeAiPrivateEndpointsDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("GenerativeAiHostedDeploymentsDataSource-", GenerativeAiHostedDeploymentsDataSource(), s.D))
 	resources := []map[string]interface{}{}
-	generativeAiPrivateEndpoint := map[string]interface{}{}
+	hostedDeployment := map[string]interface{}{}
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {
-		items = append(items, GenerativeAiPrivateEndpointSummaryToMap(item))
+		items = append(items, HostedDeploymentSummaryToMap(item))
 	}
-	generativeAiPrivateEndpoint["items"] = items
+	hostedDeployment["items"] = items
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, GenerativeAiGenerativeAiPrivateEndpointsDataSource().Schema["generative_ai_private_endpoint_collection"].Elem.(*schema.Resource).Schema)
-		generativeAiPrivateEndpoint["items"] = items
+		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, GenerativeAiHostedDeploymentsDataSource().Schema["hosted_deployment_collection"].Elem.(*schema.Resource).Schema)
+		hostedDeployment["items"] = items
 	}
 
-	resources = append(resources, generativeAiPrivateEndpoint)
-	if err := s.D.Set("generative_ai_private_endpoint_collection", resources); err != nil {
+	resources = append(resources, hostedDeployment)
+	if err := s.D.Set("hosted_deployment_collection", resources); err != nil {
 		return err
 	}
 
