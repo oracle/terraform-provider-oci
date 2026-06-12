@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	oci_generative_ai "github.com/oracle/oci-go-sdk/v65/generativeai"
+
 	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
 )
 
@@ -12,7 +13,7 @@ func init() {
 	tf_export.RegisterCompartmentGraphs("generative_ai", generativeAiResourceGraph)
 }
 
-// Custom models are exposed to user but should not be part of their stack in resource discovery
+// Custom models are exposed to users but base models should not be part of their stack in resource discovery.
 func processExcludingBaseModels(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_export.OCIResource) ([]*tf_export.OCIResource, error) {
 	results := []*tf_export.OCIResource{}
 	for _, resource := range resources {
@@ -33,6 +34,7 @@ var exportGenerativeAiDedicatedAiClusterHints = &tf_export.TerraformResourceHint
 	DatasourceItemsAttr:    "dedicated_ai_cluster_collection",
 	IsDatasourceCollection: true,
 	ResourceAbbreviation:   "dedicated_ai_cluster",
+	RequireResourceRefresh: true,
 	DiscoverableLifecycleStates: []string{
 		string(oci_generative_ai.DedicatedAiClusterLifecycleStateActive),
 		string(oci_generative_ai.DedicatedAiClusterLifecycleStateNeedsAttention),
@@ -81,6 +83,7 @@ var exportGenerativeAiImportedModelHints = &tf_export.TerraformResourceHints{
 	DatasourceItemsAttr:    "imported_model_collection",
 	IsDatasourceCollection: true,
 	ResourceAbbreviation:   "imported_model",
+	RequireResourceRefresh: true,
 	DiscoverableLifecycleStates: []string{
 		string(oci_generative_ai.ImportedModelLifecycleStateActive),
 	},
@@ -98,6 +101,18 @@ var exportGenerativeAiSemanticStoreHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportGenerativeAiProjectHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_generative_ai_project",
+	DatasourceClass:        "oci_generative_ai_projects",
+	DatasourceItemsAttr:    "generative_ai_project_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "project",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_generative_ai.GenerativeAiProjectLifecycleStateActive),
+	},
+}
+
 var generativeAiResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportGenerativeAiDedicatedAiClusterHints},
@@ -106,5 +121,6 @@ var generativeAiResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportGenerativeAiGenerativeAiPrivateEndpointHints},
 		{TerraformResourceHints: exportGenerativeAiImportedModelHints},
 		{TerraformResourceHints: exportGenerativeAiSemanticStoreHints},
+		{TerraformResourceHints: exportGenerativeAiProjectHints},
 	},
 }
