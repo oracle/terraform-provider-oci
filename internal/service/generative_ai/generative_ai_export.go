@@ -89,6 +89,42 @@ var exportGenerativeAiImportedModelHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportGenerativeAiHostedApplicationStorageHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_generative_ai_hosted_application_storage",
+	DatasourceClass:        "oci_generative_ai_hosted_application_storages",
+	DatasourceItemsAttr:    "hosted_application_storage_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "hosted_application_storage",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_generative_ai.HostedApplicationStorageLifecycleStateActive),
+	},
+}
+
+var exportGenerativeAiHostedApplicationHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_generative_ai_hosted_application",
+	DatasourceClass:        "oci_generative_ai_hosted_applications",
+	DatasourceItemsAttr:    "hosted_application_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "hosted_application",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_generative_ai.HostedApplicationLifecycleStateActive),
+	},
+}
+
+var exportGenerativeAiHostedDeploymentHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_generative_ai_hosted_deployment",
+	DatasourceClass:        "oci_generative_ai_hosted_deployments",
+	DatasourceItemsAttr:    "hosted_deployment_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "hosted_deployment",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_generative_ai.HostedDeploymentLifecycleStateActive),
+	},
+}
+
 var exportGenerativeAiSemanticStoreHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_generative_ai_semantic_store",
 	DatasourceClass:        "oci_generative_ai_semantic_stores",
@@ -120,6 +156,9 @@ var generativeAiResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportGenerativeAiModelHints},
 		{TerraformResourceHints: exportGenerativeAiGenerativeAiPrivateEndpointHints},
 		{TerraformResourceHints: exportGenerativeAiImportedModelHints},
+		{TerraformResourceHints: exportGenerativeAiHostedApplicationStorageHints},
+		{TerraformResourceHints: exportGenerativeAiHostedApplicationHints},
+		{TerraformResourceHints: exportGenerativeAiHostedDeploymentHints},
 		{TerraformResourceHints: exportGenerativeAiSemanticStoreHints},
 		{TerraformResourceHints: exportGenerativeAiProjectHints},
 	},
