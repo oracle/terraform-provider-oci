@@ -17,6 +17,7 @@ import (
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -39,11 +40,11 @@ func FleetAppsManagementSchedulerDefinitionResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createFleetAppsManagementSchedulerDefinition,
-		Read:     readFleetAppsManagementSchedulerDefinition,
-		Update:   updateFleetAppsManagementSchedulerDefinition,
-		Delete:   deleteFleetAppsManagementSchedulerDefinition,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createFleetAppsManagementSchedulerDefinitionWithContext,
+		ReadContext:   readFleetAppsManagementSchedulerDefinitionWithContext,
+		UpdateContext: updateFleetAppsManagementSchedulerDefinitionWithContext,
+		DeleteContext: deleteFleetAppsManagementSchedulerDefinitionWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"action_groups": {
@@ -336,40 +337,40 @@ func FleetAppsManagementSchedulerDefinitionResource() *schema.Resource {
 	}
 }
 
-func createFleetAppsManagementSchedulerDefinition(d *schema.ResourceData, m interface{}) error {
+func createFleetAppsManagementSchedulerDefinitionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementSchedulerDefinitionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementOperationsClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readFleetAppsManagementSchedulerDefinition(d *schema.ResourceData, m interface{}) error {
+func readFleetAppsManagementSchedulerDefinitionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementSchedulerDefinitionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementOperationsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateFleetAppsManagementSchedulerDefinition(d *schema.ResourceData, m interface{}) error {
+func updateFleetAppsManagementSchedulerDefinitionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementSchedulerDefinitionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementOperationsClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteFleetAppsManagementSchedulerDefinition(d *schema.ResourceData, m interface{}) error {
+func deleteFleetAppsManagementSchedulerDefinitionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementSchedulerDefinitionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementOperationsClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type FleetAppsManagementSchedulerDefinitionResourceCrud struct {
@@ -408,7 +409,7 @@ func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) DeletedTarget() []s
 	}
 }
 
-func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) Create() error {
+func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.CreateSchedulerDefinitionRequest{}
 
 	if actionGroups, ok := s.D.GetOkExists("action_groups"); ok {
@@ -493,7 +494,7 @@ func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.CreateSchedulerDefinition(context.Background(), request)
+	response, err := s.Client.CreateSchedulerDefinition(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -504,14 +505,14 @@ func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getSchedulerDefinitionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getSchedulerDefinitionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) getSchedulerDefinitionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) getSchedulerDefinitionFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_fleet_apps_management.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	schedulerDefinitionId, err := schedulerDefinitionWaitForWorkRequest(workId, "schedulerdefinition",
+	schedulerDefinitionId, err := schedulerDefinitionWaitForWorkRequest(ctx, workId, "schedulerdefinition",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -519,7 +520,7 @@ func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) getSchedulerDefinit
 	}
 	s.D.SetId(*schedulerDefinitionId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func schedulerDefinitionWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -545,7 +546,7 @@ func schedulerDefinitionWorkRequestShouldRetryFunc(timeout time.Duration) func(r
 	}
 }
 
-func schedulerDefinitionWaitForWorkRequest(wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
+func schedulerDefinitionWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "fleet_apps_management")
 	retryPolicy.ShouldRetryOperation = schedulerDefinitionWorkRequestShouldRetryFunc(timeout)
@@ -564,7 +565,7 @@ func schedulerDefinitionWaitForWorkRequest(wId *string, entityType string, actio
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_fleet_apps_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -576,7 +577,7 @@ func schedulerDefinitionWaitForWorkRequest(wId *string, entityType string, actio
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -609,14 +610,14 @@ func schedulerDefinitionWaitForWorkRequest(wId *string, entityType string, actio
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_fleet_apps_management.OperationStatusFailed || response.Status == oci_fleet_apps_management.OperationStatusCanceled {
-		return nil, getErrorFromFleetAppsManagementSchedulerDefinitionWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromFleetAppsManagementSchedulerDefinitionWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromFleetAppsManagementSchedulerDefinitionWorkRequest(client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromFleetAppsManagementSchedulerDefinitionWorkRequest(ctx context.Context, client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_fleet_apps_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -638,7 +639,7 @@ func getErrorFromFleetAppsManagementSchedulerDefinitionWorkRequest(client *oci_f
 	return workRequestErr
 }
 
-func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) Get() error {
+func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.GetSchedulerDefinitionRequest{}
 
 	tmp := s.D.Id()
@@ -646,7 +647,7 @@ func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.GetSchedulerDefinition(context.Background(), request)
+	response, err := s.Client.GetSchedulerDefinition(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -655,7 +656,7 @@ func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) Update() error {
+func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.UpdateSchedulerDefinitionRequest{}
 
 	if actionGroups, ok := s.D.GetOkExists("action_groups"); ok {
@@ -730,16 +731,16 @@ func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.UpdateSchedulerDefinition(context.Background(), request)
+	response, err := s.Client.UpdateSchedulerDefinition(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getSchedulerDefinitionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getSchedulerDefinitionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) Delete() error {
+func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.DeleteSchedulerDefinitionRequest{}
 
 	tmp := s.D.Id()
@@ -747,7 +748,7 @@ func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	_, err := s.Client.DeleteSchedulerDefinition(context.Background(), request)
+	_, err := s.Client.DeleteSchedulerDefinition(ctx, request)
 	return err
 }
 
@@ -1316,43 +1317,42 @@ func TaskArgumentToMap(obj oci_fleet_apps_management.TaskArgument) map[string]in
 	return result
 }
 
-//=======
 //
-//func createFleetAppsManagementSchedulerDefinition(d *schema.ResourceData, m interface{}) error {
+//func createFleetAppsManagementSchedulerDefinitionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 //	sync := &FleetAppsManagementSchedulerDefinitionResourceCrud{}
 //	sync.D = d
 //	sync.Client = m.(*client.OracleClients).FleetAppsManagementOperationsClient()
 //	sync.FleetClient = m.(*client.OracleClients).FleetAppsManagementClient()
 //
-//	return tfresource.CreateResource(d, sync)
+//	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 //}
 //
-//func readFleetAppsManagementSchedulerDefinition(d *schema.ResourceData, m interface{}) error {
+//func readFleetAppsManagementSchedulerDefinitionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 //	sync := &FleetAppsManagementSchedulerDefinitionResourceCrud{}
 //	sync.D = d
 //	sync.Client = m.(*client.OracleClients).FleetAppsManagementOperationsClient()
 //	sync.FleetClient = m.(*client.OracleClients).FleetAppsManagementClient()
 //
-//	return tfresource.ReadResource(sync)
+//	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 //}
 //
-//func updateFleetAppsManagementSchedulerDefinition(d *schema.ResourceData, m interface{}) error {
+//func updateFleetAppsManagementSchedulerDefinitionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 //	sync := &FleetAppsManagementSchedulerDefinitionResourceCrud{}
 //	sync.D = d
 //	sync.Client = m.(*client.OracleClients).FleetAppsManagementOperationsClient()
 //	sync.FleetClient = m.(*client.OracleClients).FleetAppsManagementClient()
 //
-//	return tfresource.UpdateResource(d, sync)
+//	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 //}
 //
-//func deleteFleetAppsManagementSchedulerDefinition(d *schema.ResourceData, m interface{}) error {
+//func deleteFleetAppsManagementSchedulerDefinitionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 //	sync := &FleetAppsManagementSchedulerDefinitionResourceCrud{}
 //	sync.D = d
 //	sync.Client = m.(*client.OracleClients).FleetAppsManagementOperationsClient()
 //	sync.FleetClient = m.(*client.OracleClients).FleetAppsManagementClient()
 //	sync.DisableNotFoundRetries = true
 //
-//	return tfresource.DeleteResource(d, sync)
+//	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 //}
 //
 //type FleetAppsManagementSchedulerDefinitionResourceCrud struct {
@@ -1391,7 +1391,7 @@ func TaskArgumentToMap(obj oci_fleet_apps_management.TaskArgument) map[string]in
 //	}
 //}
 //
-//func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) Create() error {
+//func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) CreateWithContext(ctx context.Context) error {
 //	request := oci_fleet_apps_management.CreateSchedulerDefinitionRequest{}
 //
 //	if actionGroups, ok := s.D.GetOkExists("action_groups"); ok {
@@ -1473,7 +1473,7 @@ func TaskArgumentToMap(obj oci_fleet_apps_management.TaskArgument) map[string]in
 //
 //	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 //
-//	response, err := s.Client.CreateSchedulerDefinition(context.Background(), request)
+//	response, err := s.Client.CreateSchedulerDefinition(ctx, request)
 //	if err != nil {
 //		return err
 //	}
@@ -1485,15 +1485,15 @@ func TaskArgumentToMap(obj oci_fleet_apps_management.TaskArgument) map[string]in
 //	if identifier != nil {
 //		s.D.SetId(*identifier)
 //	}
-//	return s.Get()
-//	//return s.getSchedulerDefinitionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+//	return s.GetWithContext(ctx)
+//	//return s.getSchedulerDefinitionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 //}
 //
-//func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) getSchedulerDefinitionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+//func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) getSchedulerDefinitionFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 //	actionTypeEnum oci_fleet_apps_management.ActionTypeEnum, timeout time.Duration) error {
 //
 //	// Wait until it finishes
-//	schedulerDefinitionId, err := schedulerDefinitionWaitForWorkRequest(workId, "schedulerdefinition",
+//	schedulerDefinitionId, err := schedulerDefinitionWaitForWorkRequest(ctx, workId, "schedulerdefinition",
 //		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.FleetClient)
 //
 //	if err != nil {
@@ -1501,7 +1501,7 @@ func TaskArgumentToMap(obj oci_fleet_apps_management.TaskArgument) map[string]in
 //	}
 //	s.D.SetId(*schedulerDefinitionId)
 //
-//	return s.Get()
+//	return s.GetWithContext(ctx)
 //}
 //
 //func schedulerDefinitionWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -1527,7 +1527,7 @@ func TaskArgumentToMap(obj oci_fleet_apps_management.TaskArgument) map[string]in
 //	}
 //}
 //
-//func schedulerDefinitionWaitForWorkRequest(wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
+//func schedulerDefinitionWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
 //	timeout time.Duration, disableFoundRetries bool, client *oci_fleet_apps_management.FleetAppsManagementClient) (*string, error) {
 //	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "fleet_apps_management")
 //	retryPolicy.ShouldRetryOperation = schedulerDefinitionWorkRequestShouldRetryFunc(timeout)
@@ -1546,7 +1546,7 @@ func TaskArgumentToMap(obj oci_fleet_apps_management.TaskArgument) map[string]in
 //		},
 //		Refresh: func() (interface{}, string, error) {
 //			var err error
-//			response, err = client.GetWorkRequest(context.Background(),
+//			response, err = client.GetWorkRequest(ctx,
 //				oci_fleet_apps_management.GetWorkRequestRequest{
 //					WorkRequestId: wId,
 //					RequestMetadata: oci_common.RequestMetadata{
@@ -1558,7 +1558,7 @@ func TaskArgumentToMap(obj oci_fleet_apps_management.TaskArgument) map[string]in
 //		},
 //		Timeout: timeout,
 //	}
-//	if _, e := stateConf.WaitForState(); e != nil {
+//	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 //		return nil, e
 //	}
 //
@@ -1575,14 +1575,14 @@ func TaskArgumentToMap(obj oci_fleet_apps_management.TaskArgument) map[string]in
 //
 //	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 //	if identifier == nil || response.Status == oci_fleet_apps_management.OperationStatusFailed || response.Status == oci_fleet_apps_management.OperationStatusCanceled {
-//		return nil, getErrorFromFleetAppsManagementSchedulerDefinitionWorkRequest(client, wId, retryPolicy, entityType, action)
+//		return nil, getErrorFromFleetAppsManagementSchedulerDefinitionWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 //	}
 //
 //	return identifier, nil
 //}
 //
-//func getErrorFromFleetAppsManagementSchedulerDefinitionWorkRequest(client *oci_fleet_apps_management.FleetAppsManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
-//	response, err := client.ListWorkRequestErrors(context.Background(),
+//func getErrorFromFleetAppsManagementSchedulerDefinitionWorkRequest(ctx context.Context, client *oci_fleet_apps_management.FleetAppsManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
+//	response, err := client.ListWorkRequestErrors(ctx,
 //		oci_fleet_apps_management.ListWorkRequestErrorsRequest{
 //			WorkRequestId: workId,
 //			RequestMetadata: oci_common.RequestMetadata{
@@ -1604,7 +1604,7 @@ func TaskArgumentToMap(obj oci_fleet_apps_management.TaskArgument) map[string]in
 //	return workRequestErr
 //}
 //
-//func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) Get() error {
+//func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) GetWithContext(ctx context.Context) error {
 //	request := oci_fleet_apps_management.GetSchedulerDefinitionRequest{}
 //
 //	tmp := s.D.Id()
@@ -1612,7 +1612,7 @@ func TaskArgumentToMap(obj oci_fleet_apps_management.TaskArgument) map[string]in
 //
 //	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 //
-//	response, err := s.Client.GetSchedulerDefinition(context.Background(), request)
+//	response, err := s.Client.GetSchedulerDefinition(ctx, request)
 //	if err != nil {
 //		return err
 //	}
@@ -1621,7 +1621,7 @@ func TaskArgumentToMap(obj oci_fleet_apps_management.TaskArgument) map[string]in
 //	return nil
 //}
 //
-//func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) Update() error {
+//func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) UpdateWithContext(ctx context.Context) error {
 //	request := oci_fleet_apps_management.UpdateSchedulerDefinitionRequest{}
 //
 //	if actionGroups, ok := s.D.GetOkExists("action_groups"); ok {
@@ -1701,19 +1701,19 @@ func TaskArgumentToMap(obj oci_fleet_apps_management.TaskArgument) map[string]in
 //
 //	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 //
-//	_, err := s.Client.UpdateSchedulerDefinition(context.Background(), request)
+//	_, err := s.Client.UpdateSchedulerDefinition(ctx, request)
 //	if err != nil {
 //		return err
 //	}
 //
 //	// Update returns incorrect workRequestId header
 //	//workId := response.OpcWorkRequestId
-//	return s.Get()
-//	//return s.getSchedulerDefinitionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+//	return s.GetWithContext(ctx)
+//	//return s.getSchedulerDefinitionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 //
 //}
 //
-//func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) Delete() error {
+//func (s *FleetAppsManagementSchedulerDefinitionResourceCrud) DeleteWithContext(ctx context.Context) error {
 //	request := oci_fleet_apps_management.DeleteSchedulerDefinitionRequest{}
 //
 //	tmp := s.D.Id()
@@ -1721,7 +1721,7 @@ func TaskArgumentToMap(obj oci_fleet_apps_management.TaskArgument) map[string]in
 //
 //	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 //
-//	_, err := s.Client.DeleteSchedulerDefinition(context.Background(), request)
+//	_, err := s.Client.DeleteSchedulerDefinition(ctx, request)
 //	return err
 //}
 //
@@ -2156,4 +2156,3 @@ func TaskArgumentToMap(obj oci_fleet_apps_management.TaskArgument) map[string]in
 //
 //	return result
 //}
-//>>>>>>> theirs

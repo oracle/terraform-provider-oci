@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -26,11 +27,11 @@ func FleetAppsManagementCatalogItemResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createFleetAppsManagementCatalogItem,
-		Read:     readFleetAppsManagementCatalogItem,
-		Update:   updateFleetAppsManagementCatalogItem,
-		Delete:   deleteFleetAppsManagementCatalogItem,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createFleetAppsManagementCatalogItemWithContext,
+		ReadContext:   readFleetAppsManagementCatalogItemWithContext,
+		UpdateContext: updateFleetAppsManagementCatalogItemWithContext,
+		DeleteContext: deleteFleetAppsManagementCatalogItemWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -325,35 +326,35 @@ func MaskedUriSuppressDiff(k, old, new string, d *schema.ResourceData) bool {
 	// Otherwise, allow the difference to be displayed
 	return false
 }
-func createFleetAppsManagementCatalogItem(d *schema.ResourceData, m interface{}) error {
+func createFleetAppsManagementCatalogItemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementCatalogItemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementCatalogClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 
 	if _, ok := sync.D.GetOkExists("clone_catalog_item_trigger"); ok {
-		err := sync.CloneCatalogItem()
+		err := sync.CloneCatalogItem(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 	return nil
 
 }
 
-func readFleetAppsManagementCatalogItem(d *schema.ResourceData, m interface{}) error {
+func readFleetAppsManagementCatalogItemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementCatalogItemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementCatalogClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateFleetAppsManagementCatalogItem(d *schema.ResourceData, m interface{}) error {
+func updateFleetAppsManagementCatalogItemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementCatalogItemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementCatalogClient()
@@ -364,32 +365,33 @@ func updateFleetAppsManagementCatalogItem(d *schema.ResourceData, m interface{})
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.CloneCatalogItem()
+			err := sync.CloneCatalogItem(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("clone_catalog_item_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			err := fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	return nil
 }
 
-func deleteFleetAppsManagementCatalogItem(d *schema.ResourceData, m interface{}) error {
+func deleteFleetAppsManagementCatalogItemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementCatalogItemResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementCatalogClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type FleetAppsManagementCatalogItemResourceCrud struct {
@@ -428,7 +430,7 @@ func (s *FleetAppsManagementCatalogItemResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *FleetAppsManagementCatalogItemResourceCrud) Create() error {
+func (s *FleetAppsManagementCatalogItemResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.CreateCatalogItemRequest{}
 
 	if catalogSourcePayload, ok := s.D.GetOkExists("catalog_source_payload"); ok {
@@ -507,14 +509,14 @@ func (s *FleetAppsManagementCatalogItemResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.CreateCatalogItem(context.Background(), request)
+	response, err := s.Client.CreateCatalogItem(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_fleet_apps_management.GetWorkRequestResponse{}
-	workRequestResponse, err = s.WorkRequestClient.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.WorkRequestClient.GetWorkRequest(ctx,
 		oci_fleet_apps_management.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -530,14 +532,14 @@ func (s *FleetAppsManagementCatalogItemResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getCatalogItemFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getCatalogItemFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *FleetAppsManagementCatalogItemResourceCrud) getCatalogItemFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *FleetAppsManagementCatalogItemResourceCrud) getCatalogItemFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_fleet_apps_management.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	catalogItemId, err := catalogItemWaitForWorkRequest(workId, "famscatalogitem",
+	catalogItemId, err := catalogItemWaitForWorkRequest(ctx, workId, "famscatalogitem",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -545,7 +547,7 @@ func (s *FleetAppsManagementCatalogItemResourceCrud) getCatalogItemFromWorkReque
 	}
 	s.D.SetId(*catalogItemId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func catalogItemWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -571,7 +573,7 @@ func catalogItemWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 	}
 }
 
-func catalogItemWaitForWorkRequest(wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
+func catalogItemWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "fleet_apps_management")
 	retryPolicy.ShouldRetryOperation = catalogItemWorkRequestShouldRetryFunc(timeout)
@@ -590,7 +592,7 @@ func catalogItemWaitForWorkRequest(wId *string, entityType string, action oci_fl
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_fleet_apps_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -602,7 +604,7 @@ func catalogItemWaitForWorkRequest(wId *string, entityType string, action oci_fl
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -619,14 +621,14 @@ func catalogItemWaitForWorkRequest(wId *string, entityType string, action oci_fl
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_fleet_apps_management.OperationStatusFailed || response.Status == oci_fleet_apps_management.OperationStatusCanceled {
-		return nil, getErrorFromFleetAppsManagementCatalogItemWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromFleetAppsManagementCatalogItemWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromFleetAppsManagementCatalogItemWorkRequest(client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromFleetAppsManagementCatalogItemWorkRequest(ctx context.Context, client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_fleet_apps_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -648,7 +650,7 @@ func getErrorFromFleetAppsManagementCatalogItemWorkRequest(client *oci_fleet_app
 	return workRequestErr
 }
 
-func (s *FleetAppsManagementCatalogItemResourceCrud) Get() error {
+func (s *FleetAppsManagementCatalogItemResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.GetCatalogItemRequest{}
 
 	tmp := s.D.Id()
@@ -656,7 +658,7 @@ func (s *FleetAppsManagementCatalogItemResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.GetCatalogItem(context.Background(), request)
+	response, err := s.Client.GetCatalogItem(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -665,10 +667,10 @@ func (s *FleetAppsManagementCatalogItemResourceCrud) Get() error {
 	return nil
 }
 
-func (s *FleetAppsManagementCatalogItemResourceCrud) Update() error {
+func (s *FleetAppsManagementCatalogItemResourceCrud) UpdateWithContext(ctx context.Context) error {
 
 	if _, ok := s.D.GetOkExists("compartmentId"); ok && s.D.HasChange("compartmentId") {
-		err := s.ChangeCatalogItemCompartment()
+		err := s.ChangeCatalogItemCompartment(ctx)
 		if err != nil {
 			return err
 		}
@@ -676,7 +678,7 @@ func (s *FleetAppsManagementCatalogItemResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -721,16 +723,16 @@ func (s *FleetAppsManagementCatalogItemResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.UpdateCatalogItem(context.Background(), request)
+	response, err := s.Client.UpdateCatalogItem(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getCatalogItemFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getCatalogItemFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *FleetAppsManagementCatalogItemResourceCrud) Delete() error {
+func (s *FleetAppsManagementCatalogItemResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.DeleteCatalogItemRequest{}
 
 	tmp := s.D.Id()
@@ -738,14 +740,14 @@ func (s *FleetAppsManagementCatalogItemResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.DeleteCatalogItem(context.Background(), request)
+	response, err := s.Client.DeleteCatalogItem(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := catalogItemWaitForWorkRequest(workId, "famscatalogitem",
+	_, delWorkRequestErr := catalogItemWaitForWorkRequest(ctx, workId, "famscatalogitem",
 		oci_fleet_apps_management.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
@@ -846,7 +848,7 @@ func (s *FleetAppsManagementCatalogItemResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *FleetAppsManagementCatalogItemResourceCrud) CloneCatalogItem() error {
+func (s *FleetAppsManagementCatalogItemResourceCrud) CloneCatalogItem(ctx context.Context) error {
 	request := oci_fleet_apps_management.CloneCatalogItemRequest{}
 
 	idTmp := s.D.Id()
@@ -864,12 +866,12 @@ func (s *FleetAppsManagementCatalogItemResourceCrud) CloneCatalogItem() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.CloneCatalogItem(context.Background(), request)
+	response, err := s.Client.CloneCatalogItem(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -880,7 +882,7 @@ func (s *FleetAppsManagementCatalogItemResourceCrud) CloneCatalogItem() error {
 	return nil
 }
 
-func (s *FleetAppsManagementCatalogItemResourceCrud) ChangeCatalogItemCompartment() error {
+func (s *FleetAppsManagementCatalogItemResourceCrud) ChangeCatalogItemCompartment(ctx context.Context) error {
 	request := oci_fleet_apps_management.ChangeCatalogItemCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -893,12 +895,12 @@ func (s *FleetAppsManagementCatalogItemResourceCrud) ChangeCatalogItemCompartmen
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	_, err := s.Client.ChangeCatalogItemCompartment(context.Background(), request)
+	_, err := s.Client.ChangeCatalogItemCompartment(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -1239,7 +1241,7 @@ func CatalogSourcePayloadToMap(obj *oci_fleet_apps_management.CatalogSourcePaylo
 	return result
 }
 
-func (s *FleetAppsManagementCatalogItemResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *FleetAppsManagementCatalogItemResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_fleet_apps_management.ChangeCatalogItemCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -1250,11 +1252,11 @@ func (s *FleetAppsManagementCatalogItemResourceCrud) updateCompartment(compartme
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.ChangeCatalogItemCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeCatalogItemCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getCatalogItemFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getCatalogItemFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

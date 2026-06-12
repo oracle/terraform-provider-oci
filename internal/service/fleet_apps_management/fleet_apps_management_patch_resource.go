@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -25,11 +26,11 @@ func FleetAppsManagementPatchResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createFleetAppsManagementPatch,
-		Read:     readFleetAppsManagementPatch,
-		Update:   updateFleetAppsManagementPatch,
-		Delete:   deleteFleetAppsManagementPatch,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createFleetAppsManagementPatchWithContext,
+		ReadContext:   readFleetAppsManagementPatchWithContext,
+		UpdateContext: updateFleetAppsManagementPatchWithContext,
+		DeleteContext: deleteFleetAppsManagementPatchWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"artifact_details": {
@@ -309,40 +310,40 @@ func FleetAppsManagementPatchResource() *schema.Resource {
 	}
 }
 
-func createFleetAppsManagementPatch(d *schema.ResourceData, m interface{}) error {
+func createFleetAppsManagementPatchWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementPatchResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementOperationsClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readFleetAppsManagementPatch(d *schema.ResourceData, m interface{}) error {
+func readFleetAppsManagementPatchWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementPatchResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementOperationsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateFleetAppsManagementPatch(d *schema.ResourceData, m interface{}) error {
+func updateFleetAppsManagementPatchWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementPatchResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementOperationsClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteFleetAppsManagementPatch(d *schema.ResourceData, m interface{}) error {
+func deleteFleetAppsManagementPatchWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementPatchResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementOperationsClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type FleetAppsManagementPatchResourceCrud struct {
@@ -379,7 +380,7 @@ func (s *FleetAppsManagementPatchResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *FleetAppsManagementPatchResourceCrud) Create() error {
+func (s *FleetAppsManagementPatchResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.CreatePatchRequest{}
 
 	if artifactDetails, ok := s.D.GetOkExists("artifact_details"); ok {
@@ -473,7 +474,7 @@ func (s *FleetAppsManagementPatchResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.CreatePatch(context.Background(), request)
+	response, err := s.Client.CreatePatch(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -482,11 +483,11 @@ func (s *FleetAppsManagementPatchResourceCrud) Create() error {
 	return nil
 }
 
-func (s *FleetAppsManagementPatchResourceCrud) getPatchFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *FleetAppsManagementPatchResourceCrud) getPatchFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_fleet_apps_management.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	patchId, err := patchWaitForWorkRequest(workId, "patch",
+	patchId, err := patchWaitForWorkRequest(ctx, workId, "patch",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -494,7 +495,7 @@ func (s *FleetAppsManagementPatchResourceCrud) getPatchFromWorkRequest(workId *s
 	}
 	s.D.SetId(*patchId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func patchWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -520,7 +521,7 @@ func patchWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_co
 	}
 }
 
-func patchWaitForWorkRequest(wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
+func patchWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "fleet_apps_management")
 	retryPolicy.ShouldRetryOperation = patchWorkRequestShouldRetryFunc(timeout)
@@ -539,7 +540,7 @@ func patchWaitForWorkRequest(wId *string, entityType string, action oci_fleet_ap
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_fleet_apps_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -551,7 +552,7 @@ func patchWaitForWorkRequest(wId *string, entityType string, action oci_fleet_ap
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -568,14 +569,14 @@ func patchWaitForWorkRequest(wId *string, entityType string, action oci_fleet_ap
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_fleet_apps_management.OperationStatusFailed || response.Status == oci_fleet_apps_management.OperationStatusCanceled {
-		return nil, getErrorFromFleetAppsManagementPatchWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromFleetAppsManagementPatchWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromFleetAppsManagementPatchWorkRequest(client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromFleetAppsManagementPatchWorkRequest(ctx context.Context, client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_fleet_apps_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -597,7 +598,7 @@ func getErrorFromFleetAppsManagementPatchWorkRequest(client *oci_fleet_apps_mana
 	return workRequestErr
 }
 
-func (s *FleetAppsManagementPatchResourceCrud) Get() error {
+func (s *FleetAppsManagementPatchResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.GetPatchRequest{}
 
 	tmp := s.D.Id()
@@ -605,7 +606,7 @@ func (s *FleetAppsManagementPatchResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.GetPatch(context.Background(), request)
+	response, err := s.Client.GetPatch(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -614,11 +615,11 @@ func (s *FleetAppsManagementPatchResourceCrud) Get() error {
 	return nil
 }
 
-func (s *FleetAppsManagementPatchResourceCrud) Update() error {
+func (s *FleetAppsManagementPatchResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -710,16 +711,16 @@ func (s *FleetAppsManagementPatchResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.UpdatePatch(context.Background(), request)
+	response, err := s.Client.UpdatePatch(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getPatchFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getPatchFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *FleetAppsManagementPatchResourceCrud) Delete() error {
+func (s *FleetAppsManagementPatchResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.DeletePatchRequest{}
 
 	tmp := s.D.Id()
@@ -727,14 +728,14 @@ func (s *FleetAppsManagementPatchResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.DeletePatch(context.Background(), request)
+	response, err := s.Client.DeletePatch(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := patchWaitForWorkRequest(workId, "patch",
+	_, delWorkRequestErr := patchWaitForWorkRequest(ctx, workId, "patch",
 		oci_fleet_apps_management.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
@@ -1178,7 +1179,7 @@ func PlatformSpecificArtifactToMap(obj oci_fleet_apps_management.PlatformSpecifi
 	return result
 }
 
-func (s *FleetAppsManagementPatchResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *FleetAppsManagementPatchResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_fleet_apps_management.ChangePatchCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1189,52 +1190,51 @@ func (s *FleetAppsManagementPatchResourceCrud) updateCompartment(compartment int
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.ChangePatchCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangePatchCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getPatchFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getPatchFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-//=======
 //
-//func createFleetAppsManagementPatch(d *schema.ResourceData, m interface{}) error {
+//func createFleetAppsManagementPatchWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 //	sync := &FleetAppsManagementPatchResourceCrud{}
 //	sync.D = d
 //	sync.Client = m.(*client.OracleClients).FleetAppsManagementOperationsClient()
 //	sync.FleetClient = m.(*client.OracleClients).FleetAppsManagementClient()
 //
-//	return tfresource.CreateResource(d, sync)
+//	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 //}
 //
-//func readFleetAppsManagementPatch(d *schema.ResourceData, m interface{}) error {
+//func readFleetAppsManagementPatchWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 //	sync := &FleetAppsManagementPatchResourceCrud{}
 //	sync.D = d
 //	sync.Client = m.(*client.OracleClients).FleetAppsManagementOperationsClient()
 //	sync.FleetClient = m.(*client.OracleClients).FleetAppsManagementClient()
 //
-//	return tfresource.ReadResource(sync)
+//	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 //}
 //
-//func updateFleetAppsManagementPatch(d *schema.ResourceData, m interface{}) error {
+//func updateFleetAppsManagementPatchWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 //	sync := &FleetAppsManagementPatchResourceCrud{}
 //	sync.D = d
 //	sync.Client = m.(*client.OracleClients).FleetAppsManagementOperationsClient()
 //	sync.FleetClient = m.(*client.OracleClients).FleetAppsManagementClient()
 //
-//	return tfresource.UpdateResource(d, sync)
+//	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 //}
 //
-//func deleteFleetAppsManagementPatch(d *schema.ResourceData, m interface{}) error {
+//func deleteFleetAppsManagementPatchWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 //	sync := &FleetAppsManagementPatchResourceCrud{}
 //	sync.D = d
 //	sync.Client = m.(*client.OracleClients).FleetAppsManagementOperationsClient()
 //	sync.FleetClient = m.(*client.OracleClients).FleetAppsManagementClient()
 //	sync.DisableNotFoundRetries = true
 //
-//	return tfresource.DeleteResource(d, sync)
+//	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 //}
 //
 //type FleetAppsManagementPatchResourceCrud struct {
@@ -1271,7 +1271,7 @@ func (s *FleetAppsManagementPatchResourceCrud) updateCompartment(compartment int
 //	}
 //}
 //
-//func (s *FleetAppsManagementPatchResourceCrud) Create() error {
+//func (s *FleetAppsManagementPatchResourceCrud) CreateWithContext(ctx context.Context) error {
 //	request := oci_fleet_apps_management.CreatePatchRequest{}
 //
 //	if artifactDetails, ok := s.D.GetOkExists("artifact_details"); ok {
@@ -1365,7 +1365,7 @@ func (s *FleetAppsManagementPatchResourceCrud) updateCompartment(compartment int
 //
 //	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 //
-//	response, err := s.Client.CreatePatch(context.Background(), request)
+//	response, err := s.Client.CreatePatch(ctx, request)
 //	if err != nil {
 //		return err
 //	}
@@ -1374,11 +1374,11 @@ func (s *FleetAppsManagementPatchResourceCrud) updateCompartment(compartment int
 //	return nil
 //}
 //
-//func (s *FleetAppsManagementPatchResourceCrud) getPatchFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+//func (s *FleetAppsManagementPatchResourceCrud) getPatchFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 //	actionTypeEnum oci_fleet_apps_management.ActionTypeEnum, timeout time.Duration) error {
 //
 //	// Wait until it finishes
-//	patchId, err := patchWaitForWorkRequest(workId, "patch",
+//	patchId, err := patchWaitForWorkRequest(ctx, workId, "patch",
 //		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.FleetClient)
 //
 //	if err != nil {
@@ -1386,7 +1386,7 @@ func (s *FleetAppsManagementPatchResourceCrud) updateCompartment(compartment int
 //	}
 //	s.D.SetId(*patchId)
 //
-//	return s.Get()
+//	return s.GetWithContext(ctx)
 //}
 //
 //func patchWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -1412,7 +1412,7 @@ func (s *FleetAppsManagementPatchResourceCrud) updateCompartment(compartment int
 //	}
 //}
 //
-//func patchWaitForWorkRequest(wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
+//func patchWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
 //	timeout time.Duration, disableFoundRetries bool, client *oci_fleet_apps_management.FleetAppsManagementClient) (*string, error) {
 //	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "fleet_apps_management")
 //	retryPolicy.ShouldRetryOperation = patchWorkRequestShouldRetryFunc(timeout)
@@ -1431,7 +1431,7 @@ func (s *FleetAppsManagementPatchResourceCrud) updateCompartment(compartment int
 //		},
 //		Refresh: func() (interface{}, string, error) {
 //			var err error
-//			response, err = client.GetWorkRequest(context.Background(),
+//			response, err = client.GetWorkRequest(ctx,
 //				oci_fleet_apps_management.GetWorkRequestRequest{
 //					WorkRequestId: wId,
 //					RequestMetadata: oci_common.RequestMetadata{
@@ -1443,7 +1443,7 @@ func (s *FleetAppsManagementPatchResourceCrud) updateCompartment(compartment int
 //		},
 //		Timeout: timeout,
 //	}
-//	if _, e := stateConf.WaitForState(); e != nil {
+//	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 //		return nil, e
 //	}
 //
@@ -1460,14 +1460,14 @@ func (s *FleetAppsManagementPatchResourceCrud) updateCompartment(compartment int
 //
 //	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 //	if identifier == nil || response.Status == oci_fleet_apps_management.OperationStatusFailed || response.Status == oci_fleet_apps_management.OperationStatusCanceled {
-//		return nil, getErrorFromFleetAppsManagementPatchWorkRequest(client, wId, retryPolicy, entityType, action)
+//		return nil, getErrorFromFleetAppsManagementPatchWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 //	}
 //
 //	return identifier, nil
 //}
 //
-//func getErrorFromFleetAppsManagementPatchWorkRequest(client *oci_fleet_apps_management.FleetAppsManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
-//	response, err := client.ListWorkRequestErrors(context.Background(),
+//func getErrorFromFleetAppsManagementPatchWorkRequest(ctx context.Context, client *oci_fleet_apps_management.FleetAppsManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
+//	response, err := client.ListWorkRequestErrors(ctx,
 //		oci_fleet_apps_management.ListWorkRequestErrorsRequest{
 //			WorkRequestId: workId,
 //			RequestMetadata: oci_common.RequestMetadata{
@@ -1489,7 +1489,7 @@ func (s *FleetAppsManagementPatchResourceCrud) updateCompartment(compartment int
 //	return workRequestErr
 //}
 //
-//func (s *FleetAppsManagementPatchResourceCrud) Get() error {
+//func (s *FleetAppsManagementPatchResourceCrud) GetWithContext(ctx context.Context) error {
 //	request := oci_fleet_apps_management.GetPatchRequest{}
 //
 //	tmp := s.D.Id()
@@ -1497,7 +1497,7 @@ func (s *FleetAppsManagementPatchResourceCrud) updateCompartment(compartment int
 //
 //	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 //
-//	response, err := s.Client.GetPatch(context.Background(), request)
+//	response, err := s.Client.GetPatch(ctx, request)
 //	if err != nil {
 //		return err
 //	}
@@ -1506,7 +1506,7 @@ func (s *FleetAppsManagementPatchResourceCrud) updateCompartment(compartment int
 //	return nil
 //}
 //
-//func (s *FleetAppsManagementPatchResourceCrud) Update() error {
+//func (s *FleetAppsManagementPatchResourceCrud) UpdateWithContext(ctx context.Context) error {
 //	request := oci_fleet_apps_management.UpdatePatchRequest{}
 //
 //	if artifactDetails, ok := s.D.GetOkExists("artifact_details"); ok {
@@ -1598,16 +1598,16 @@ func (s *FleetAppsManagementPatchResourceCrud) updateCompartment(compartment int
 //
 //	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 //
-//	response, err := s.Client.UpdatePatch(context.Background(), request)
+//	response, err := s.Client.UpdatePatch(ctx, request)
 //	if err != nil {
 //		return err
 //	}
 //
 //	workId := response.OpcWorkRequestId
-//	return s.getPatchFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+//	return s.getPatchFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 //}
 //
-//func (s *FleetAppsManagementPatchResourceCrud) Delete() error {
+//func (s *FleetAppsManagementPatchResourceCrud) DeleteWithContext(ctx context.Context) error {
 //	request := oci_fleet_apps_management.DeletePatchRequest{}
 //
 //	tmp := s.D.Id()
@@ -1615,14 +1615,14 @@ func (s *FleetAppsManagementPatchResourceCrud) updateCompartment(compartment int
 //
 //	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 //
-//	response, err := s.Client.DeletePatch(context.Background(), request)
+//	response, err := s.Client.DeletePatch(ctx, request)
 //	if err != nil {
 //		return err
 //	}
 //
 //	workId := response.OpcWorkRequestId
 //	// Wait until it finishes
-//	_, delWorkRequestErr := patchWaitForWorkRequest(workId, "patch",
+//	_, delWorkRequestErr := patchWaitForWorkRequest(ctx, workId, "patch",
 //		oci_fleet_apps_management.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.FleetClient)
 //	return delWorkRequestErr
 //}
@@ -2036,4 +2036,3 @@ func (s *FleetAppsManagementPatchResourceCrud) updateCompartment(compartment int
 //
 //	return result
 //}
-//>>>>>>> theirs

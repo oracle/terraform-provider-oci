@@ -6,6 +6,7 @@ package fleet_apps_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
@@ -15,7 +16,7 @@ import (
 
 func FleetAppsManagementFleetResourcesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readFleetAppsManagementFleetResources,
+		ReadContext: readFleetAppsManagementFleetResourcesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"display_name": {
@@ -56,12 +57,12 @@ func FleetAppsManagementFleetResourcesDataSource() *schema.Resource {
 	}
 }
 
-func readFleetAppsManagementFleetResources(d *schema.ResourceData, m interface{}) error {
+func readFleetAppsManagementFleetResourcesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementFleetResourcesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementFleetResourcesDataSourceCrud struct {
@@ -74,7 +75,7 @@ func (s *FleetAppsManagementFleetResourcesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementFleetResourcesDataSourceCrud) Get() error {
+func (s *FleetAppsManagementFleetResourcesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.ListFleetResourcesRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -103,7 +104,7 @@ func (s *FleetAppsManagementFleetResourcesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.ListFleetResources(context.Background(), request)
+	response, err := s.Client.ListFleetResources(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -112,7 +113,7 @@ func (s *FleetAppsManagementFleetResourcesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListFleetResources(context.Background(), request)
+		listResponse, err := s.Client.ListFleetResources(ctx, request)
 		if err != nil {
 			return err
 		}

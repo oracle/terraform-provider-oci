@@ -6,6 +6,7 @@ package fleet_apps_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
@@ -15,7 +16,7 @@ import (
 
 func FleetAppsManagementRunbooksDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readFleetAppsManagementRunbooks,
+		ReadContext: readFleetAppsManagementRunbooksWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -64,12 +65,12 @@ func FleetAppsManagementRunbooksDataSource() *schema.Resource {
 	}
 }
 
-func readFleetAppsManagementRunbooks(d *schema.ResourceData, m interface{}) error {
+func readFleetAppsManagementRunbooksWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementRunbooksDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementRunbooksClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementRunbooksDataSourceCrud struct {
@@ -82,7 +83,7 @@ func (s *FleetAppsManagementRunbooksDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementRunbooksDataSourceCrud) Get() error {
+func (s *FleetAppsManagementRunbooksDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.ListRunbooksRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -120,7 +121,7 @@ func (s *FleetAppsManagementRunbooksDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.ListRunbooks(context.Background(), request)
+	response, err := s.Client.ListRunbooks(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -129,7 +130,7 @@ func (s *FleetAppsManagementRunbooksDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListRunbooks(context.Background(), request)
+		listResponse, err := s.Client.ListRunbooks(ctx, request)
 		if err != nil {
 			return err
 		}

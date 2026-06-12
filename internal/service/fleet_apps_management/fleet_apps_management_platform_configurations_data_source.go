@@ -6,6 +6,7 @@ package fleet_apps_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
@@ -15,7 +16,7 @@ import (
 
 func FleetAppsManagementPlatformConfigurationsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readFleetAppsManagementPlatformConfigurations,
+		ReadContext: readFleetAppsManagementPlatformConfigurationsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -64,12 +65,12 @@ func FleetAppsManagementPlatformConfigurationsDataSource() *schema.Resource {
 	}
 }
 
-func readFleetAppsManagementPlatformConfigurations(d *schema.ResourceData, m interface{}) error {
+func readFleetAppsManagementPlatformConfigurationsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementPlatformConfigurationsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementAdminClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementPlatformConfigurationsDataSourceCrud struct {
@@ -82,7 +83,7 @@ func (s *FleetAppsManagementPlatformConfigurationsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementPlatformConfigurationsDataSourceCrud) Get() error {
+func (s *FleetAppsManagementPlatformConfigurationsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.ListPlatformConfigurationsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -119,7 +120,7 @@ func (s *FleetAppsManagementPlatformConfigurationsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.ListPlatformConfigurations(context.Background(), request)
+	response, err := s.Client.ListPlatformConfigurations(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -128,7 +129,7 @@ func (s *FleetAppsManagementPlatformConfigurationsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListPlatformConfigurations(context.Background(), request)
+		listResponse, err := s.Client.ListPlatformConfigurations(ctx, request)
 		if err != nil {
 			return err
 		}

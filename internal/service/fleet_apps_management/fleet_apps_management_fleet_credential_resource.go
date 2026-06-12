@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -22,11 +23,11 @@ import (
 
 func FleetAppsManagementFleetCredentialResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createFleetAppsManagementFleetCredential,
-		Read:     readFleetAppsManagementFleetCredential,
-		Update:   updateFleetAppsManagementFleetCredential,
-		Delete:   deleteFleetAppsManagementFleetCredential,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createFleetAppsManagementFleetCredentialWithContext,
+		ReadContext:   readFleetAppsManagementFleetCredentialWithContext,
+		UpdateContext: updateFleetAppsManagementFleetCredentialWithContext,
+		DeleteContext: deleteFleetAppsManagementFleetCredentialWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -241,40 +242,40 @@ func FleetAppsManagementFleetCredentialResource() *schema.Resource {
 	}
 }
 
-func createFleetAppsManagementFleetCredential(d *schema.ResourceData, m interface{}) error {
+func createFleetAppsManagementFleetCredentialWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementFleetCredentialResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readFleetAppsManagementFleetCredential(d *schema.ResourceData, m interface{}) error {
+func readFleetAppsManagementFleetCredentialWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementFleetCredentialResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateFleetAppsManagementFleetCredential(d *schema.ResourceData, m interface{}) error {
+func updateFleetAppsManagementFleetCredentialWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementFleetCredentialResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteFleetAppsManagementFleetCredential(d *schema.ResourceData, m interface{}) error {
+func deleteFleetAppsManagementFleetCredentialWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementFleetCredentialResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type FleetAppsManagementFleetCredentialResourceCrud struct {
@@ -309,7 +310,7 @@ func (s *FleetAppsManagementFleetCredentialResourceCrud) DeletedTarget() []strin
 	}
 }
 
-func (s *FleetAppsManagementFleetCredentialResourceCrud) Create() error {
+func (s *FleetAppsManagementFleetCredentialResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.CreateFleetCredentialRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -357,7 +358,7 @@ func (s *FleetAppsManagementFleetCredentialResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.CreateFleetCredential(context.Background(), request)
+	response, err := s.Client.CreateFleetCredential(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -368,14 +369,14 @@ func (s *FleetAppsManagementFleetCredentialResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getFleetCredentialFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getFleetCredentialFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *FleetAppsManagementFleetCredentialResourceCrud) getFleetCredentialFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *FleetAppsManagementFleetCredentialResourceCrud) getFleetCredentialFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_fleet_apps_management.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	fleetCredentialId, err := fleetCredentialWaitForWorkRequest(workId, "fleetcredential",
+	fleetCredentialId, err := fleetCredentialWaitForWorkRequest(ctx, workId, "fleetcredential",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -383,7 +384,7 @@ func (s *FleetAppsManagementFleetCredentialResourceCrud) getFleetCredentialFromW
 	}
 	s.D.SetId(*fleetCredentialId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func fleetCredentialWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -409,7 +410,7 @@ func fleetCredentialWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 	}
 }
 
-func fleetCredentialWaitForWorkRequest(wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
+func fleetCredentialWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "fleet_apps_management")
 	retryPolicy.ShouldRetryOperation = fleetCredentialWorkRequestShouldRetryFunc(timeout)
@@ -428,7 +429,7 @@ func fleetCredentialWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_fleet_apps_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -440,7 +441,7 @@ func fleetCredentialWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -457,14 +458,14 @@ func fleetCredentialWaitForWorkRequest(wId *string, entityType string, action oc
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_fleet_apps_management.OperationStatusFailed || response.Status == oci_fleet_apps_management.OperationStatusCanceled {
-		return nil, getErrorFromFleetAppsManagementFleetCredentialWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromFleetAppsManagementFleetCredentialWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromFleetAppsManagementFleetCredentialWorkRequest(client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromFleetAppsManagementFleetCredentialWorkRequest(ctx context.Context, client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_fleet_apps_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -486,7 +487,7 @@ func getErrorFromFleetAppsManagementFleetCredentialWorkRequest(client *oci_fleet
 	return workRequestErr
 }
 
-func (s *FleetAppsManagementFleetCredentialResourceCrud) Get() error {
+func (s *FleetAppsManagementFleetCredentialResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.GetFleetCredentialRequest{}
 
 	tmp := s.D.Id()
@@ -499,7 +500,7 @@ func (s *FleetAppsManagementFleetCredentialResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.GetFleetCredential(context.Background(), request)
+	response, err := s.Client.GetFleetCredential(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -508,7 +509,7 @@ func (s *FleetAppsManagementFleetCredentialResourceCrud) Get() error {
 	return nil
 }
 
-func (s *FleetAppsManagementFleetCredentialResourceCrud) Update() error {
+func (s *FleetAppsManagementFleetCredentialResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.UpdateFleetCredentialRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -559,16 +560,16 @@ func (s *FleetAppsManagementFleetCredentialResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.UpdateFleetCredential(context.Background(), request)
+	response, err := s.Client.UpdateFleetCredential(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getFleetCredentialFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getFleetCredentialFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *FleetAppsManagementFleetCredentialResourceCrud) Delete() error {
+func (s *FleetAppsManagementFleetCredentialResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.DeleteFleetCredentialRequest{}
 
 	tmp := s.D.Id()
@@ -581,14 +582,14 @@ func (s *FleetAppsManagementFleetCredentialResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.DeleteFleetCredential(context.Background(), request)
+	response, err := s.Client.DeleteFleetCredential(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := fleetCredentialWaitForWorkRequest(workId, "fleetcredential",
+	_, delWorkRequestErr := fleetCredentialWaitForWorkRequest(ctx, workId, "fleetcredential",
 		oci_fleet_apps_management.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }

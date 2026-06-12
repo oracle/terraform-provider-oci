@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
@@ -17,7 +18,7 @@ import (
 
 func FleetAppsManagementPatchesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readFleetAppsManagementPatches,
+		ReadContext: readFleetAppsManagementPatchesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -82,12 +83,12 @@ func FleetAppsManagementPatchesDataSource() *schema.Resource {
 	}
 }
 
-func readFleetAppsManagementPatches(d *schema.ResourceData, m interface{}) error {
+func readFleetAppsManagementPatchesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementPatchesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementOperationsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementPatchesDataSourceCrud struct {
@@ -100,7 +101,7 @@ func (s *FleetAppsManagementPatchesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementPatchesDataSourceCrud) Get() error {
+func (s *FleetAppsManagementPatchesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.ListPatchesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -164,7 +165,7 @@ func (s *FleetAppsManagementPatchesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.ListPatches(context.Background(), request)
+	response, err := s.Client.ListPatches(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -173,7 +174,7 @@ func (s *FleetAppsManagementPatchesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListPatches(context.Background(), request)
+		listResponse, err := s.Client.ListPatches(ctx, request)
 		if err != nil {
 			return err
 		}

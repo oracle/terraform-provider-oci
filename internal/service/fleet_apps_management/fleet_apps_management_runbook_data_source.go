@@ -6,6 +6,7 @@ package fleet_apps_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
@@ -19,15 +20,15 @@ func FleetAppsManagementRunbookDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(FleetAppsManagementRunbookResource(), fieldMap, readSingularFleetAppsManagementRunbook)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(FleetAppsManagementRunbookResource(), fieldMap, readSingularFleetAppsManagementRunbookWithContext)
 }
 
-func readSingularFleetAppsManagementRunbook(d *schema.ResourceData, m interface{}) error {
+func readSingularFleetAppsManagementRunbookWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementRunbookDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementRunbooksClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementRunbookDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *FleetAppsManagementRunbookDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementRunbookDataSourceCrud) Get() error {
+func (s *FleetAppsManagementRunbookDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.GetRunbookRequest{}
 
 	if runbookId, ok := s.D.GetOkExists("runbook_id"); ok {
@@ -50,7 +51,7 @@ func (s *FleetAppsManagementRunbookDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.GetRunbook(context.Background(), request)
+	response, err := s.Client.GetRunbook(ctx, request)
 	if err != nil {
 		return err
 	}

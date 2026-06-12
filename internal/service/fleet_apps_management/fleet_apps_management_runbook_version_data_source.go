@@ -6,6 +6,7 @@ package fleet_apps_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
@@ -19,15 +20,15 @@ func FleetAppsManagementRunbookVersionDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(FleetAppsManagementRunbookVersionResource(), fieldMap, readSingularFleetAppsManagementRunbookVersion)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(FleetAppsManagementRunbookVersionResource(), fieldMap, readSingularFleetAppsManagementRunbookVersionWithContext)
 }
 
-func readSingularFleetAppsManagementRunbookVersion(d *schema.ResourceData, m interface{}) error {
+func readSingularFleetAppsManagementRunbookVersionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementRunbookVersionDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementRunbooksClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementRunbookVersionDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *FleetAppsManagementRunbookVersionDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementRunbookVersionDataSourceCrud) Get() error {
+func (s *FleetAppsManagementRunbookVersionDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.GetRunbookVersionRequest{}
 
 	if runbookVersionId, ok := s.D.GetOkExists("runbook_version_id"); ok {
@@ -50,7 +51,7 @@ func (s *FleetAppsManagementRunbookVersionDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.GetRunbookVersion(context.Background(), request)
+	response, err := s.Client.GetRunbookVersion(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -6,6 +6,7 @@ package fleet_apps_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
@@ -15,7 +16,7 @@ import (
 
 func FleetAppsManagementTaskRecordsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readFleetAppsManagementTaskRecords,
+		ReadContext: readFleetAppsManagementTaskRecordsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -64,12 +65,12 @@ func FleetAppsManagementTaskRecordsDataSource() *schema.Resource {
 	}
 }
 
-func readFleetAppsManagementTaskRecords(d *schema.ResourceData, m interface{}) error {
+func readFleetAppsManagementTaskRecordsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementTaskRecordsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementRunbooksClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementTaskRecordsDataSourceCrud struct {
@@ -82,7 +83,7 @@ func (s *FleetAppsManagementTaskRecordsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementTaskRecordsDataSourceCrud) Get() error {
+func (s *FleetAppsManagementTaskRecordsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.ListTaskRecordsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -120,7 +121,7 @@ func (s *FleetAppsManagementTaskRecordsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.ListTaskRecords(context.Background(), request)
+	response, err := s.Client.ListTaskRecords(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -129,7 +130,7 @@ func (s *FleetAppsManagementTaskRecordsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListTaskRecords(context.Background(), request)
+		listResponse, err := s.Client.ListTaskRecords(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -141,7 +142,7 @@ func (s *FleetAppsManagementTaskRecordsDataSourceCrud) Get() error {
 	return nil
 }
 
-// func (s *FleetAppsManagementTaskRecordsDataSourceCrud) Get() error {
+// func (s *FleetAppsManagementTaskRecordsDataSourceCrud) GetWithContext(ctx context.Context) error {
 // 	request := oci_fleet_apps_management.ListTaskRecordsRequest{}
 
 // 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -180,7 +181,7 @@ func (s *FleetAppsManagementTaskRecordsDataSourceCrud) Get() error {
 // 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
 // 	allItems := []oci_fleet_apps_management.TaskRecordSummary{}
-// 	response, err := s.Client.ListTaskRecords(context.Background(), request)
+// 	response, err := s.Client.ListTaskRecords(ctx, request)
 // 	if err != nil {
 // 		return err
 // 	}
@@ -191,7 +192,7 @@ func (s *FleetAppsManagementTaskRecordsDataSourceCrud) Get() error {
 // 	request.Page = s.Res.OpcNextPage
 
 // 	for request.Page != nil && *request.Page != "" {
-// 		listResponse, err := s.Client.ListTaskRecords(context.Background(), request)
+// 		listResponse, err := s.Client.ListTaskRecords(ctx, request)
 // 		if err != nil {
 // 			return err
 // 		}

@@ -6,6 +6,7 @@ package fleet_apps_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
@@ -15,7 +16,7 @@ import (
 
 func FleetAppsManagementCompliancePolicyRulesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readFleetAppsManagementCompliancePolicyRules,
+		ReadContext: readFleetAppsManagementCompliancePolicyRulesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -60,12 +61,12 @@ func FleetAppsManagementCompliancePolicyRulesDataSource() *schema.Resource {
 	}
 }
 
-func readFleetAppsManagementCompliancePolicyRules(d *schema.ResourceData, m interface{}) error {
+func readFleetAppsManagementCompliancePolicyRulesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementCompliancePolicyRulesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementAdminClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementCompliancePolicyRulesDataSourceCrud struct {
@@ -78,7 +79,7 @@ func (s *FleetAppsManagementCompliancePolicyRulesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementCompliancePolicyRulesDataSourceCrud) Get() error {
+func (s *FleetAppsManagementCompliancePolicyRulesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.ListCompliancePolicyRulesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -112,7 +113,7 @@ func (s *FleetAppsManagementCompliancePolicyRulesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.ListCompliancePolicyRules(context.Background(), request)
+	response, err := s.Client.ListCompliancePolicyRules(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -121,7 +122,7 @@ func (s *FleetAppsManagementCompliancePolicyRulesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListCompliancePolicyRules(context.Background(), request)
+		listResponse, err := s.Client.ListCompliancePolicyRules(ctx, request)
 		if err != nil {
 			return err
 		}

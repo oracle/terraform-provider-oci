@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -25,11 +26,11 @@ func FleetAppsManagementRunbookVersionResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createFleetAppsManagementRunbookVersion,
-		Read:     readFleetAppsManagementRunbookVersion,
-		Update:   updateFleetAppsManagementRunbookVersion,
-		Delete:   deleteFleetAppsManagementRunbookVersion,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createFleetAppsManagementRunbookVersionWithContext,
+		ReadContext:   readFleetAppsManagementRunbookVersionWithContext,
+		UpdateContext: updateFleetAppsManagementRunbookVersionWithContext,
+		DeleteContext: deleteFleetAppsManagementRunbookVersionWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"execution_workflow_details": {
@@ -969,40 +970,40 @@ func FleetAppsManagementRunbookVersionResource() *schema.Resource {
 	}
 }
 
-func createFleetAppsManagementRunbookVersion(d *schema.ResourceData, m interface{}) error {
+func createFleetAppsManagementRunbookVersionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementRunbookVersionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementRunbooksClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readFleetAppsManagementRunbookVersion(d *schema.ResourceData, m interface{}) error {
+func readFleetAppsManagementRunbookVersionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementRunbookVersionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementRunbooksClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateFleetAppsManagementRunbookVersion(d *schema.ResourceData, m interface{}) error {
+func updateFleetAppsManagementRunbookVersionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementRunbookVersionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementRunbooksClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteFleetAppsManagementRunbookVersion(d *schema.ResourceData, m interface{}) error {
+func deleteFleetAppsManagementRunbookVersionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementRunbookVersionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementRunbooksClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type FleetAppsManagementRunbookVersionResourceCrud struct {
@@ -1043,7 +1044,7 @@ func (s *FleetAppsManagementRunbookVersionResourceCrud) DeletedTarget() []string
 	}
 }
 
-func (s *FleetAppsManagementRunbookVersionResourceCrud) Create() error {
+func (s *FleetAppsManagementRunbookVersionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.CreateRunbookVersionRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -1121,7 +1122,7 @@ func (s *FleetAppsManagementRunbookVersionResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.CreateRunbookVersion(context.Background(), request)
+	response, err := s.Client.CreateRunbookVersion(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1132,14 +1133,14 @@ func (s *FleetAppsManagementRunbookVersionResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getRunbookVersionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getRunbookVersionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *FleetAppsManagementRunbookVersionResourceCrud) getRunbookVersionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *FleetAppsManagementRunbookVersionResourceCrud) getRunbookVersionFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_fleet_apps_management.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	runbookVersionId, err := runbookVersionWaitForWorkRequest(workId, "runbookversion",
+	runbookVersionId, err := runbookVersionWaitForWorkRequest(ctx, workId, "runbookversion",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -1147,7 +1148,7 @@ func (s *FleetAppsManagementRunbookVersionResourceCrud) getRunbookVersionFromWor
 	}
 	s.D.SetId(*runbookVersionId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func runbookVersionWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -1173,7 +1174,7 @@ func runbookVersionWorkRequestShouldRetryFunc(timeout time.Duration) func(respon
 	}
 }
 
-func runbookVersionWaitForWorkRequest(wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
+func runbookVersionWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "fleet_apps_management")
 	retryPolicy.ShouldRetryOperation = runbookVersionWorkRequestShouldRetryFunc(timeout)
@@ -1192,7 +1193,7 @@ func runbookVersionWaitForWorkRequest(wId *string, entityType string, action oci
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_fleet_apps_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -1204,7 +1205,7 @@ func runbookVersionWaitForWorkRequest(wId *string, entityType string, action oci
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -1221,14 +1222,14 @@ func runbookVersionWaitForWorkRequest(wId *string, entityType string, action oci
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_fleet_apps_management.OperationStatusFailed || response.Status == oci_fleet_apps_management.OperationStatusCanceled {
-		return nil, getErrorFromFleetAppsManagementRunbookVersionWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromFleetAppsManagementRunbookVersionWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromFleetAppsManagementRunbookVersionWorkRequest(client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromFleetAppsManagementRunbookVersionWorkRequest(ctx context.Context, client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_fleet_apps_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1250,7 +1251,7 @@ func getErrorFromFleetAppsManagementRunbookVersionWorkRequest(client *oci_fleet_
 	return workRequestErr
 }
 
-func (s *FleetAppsManagementRunbookVersionResourceCrud) Get() error {
+func (s *FleetAppsManagementRunbookVersionResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.GetRunbookVersionRequest{}
 
 	tmp := s.D.Id()
@@ -1258,7 +1259,7 @@ func (s *FleetAppsManagementRunbookVersionResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.GetRunbookVersion(context.Background(), request)
+	response, err := s.Client.GetRunbookVersion(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1267,7 +1268,7 @@ func (s *FleetAppsManagementRunbookVersionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *FleetAppsManagementRunbookVersionResourceCrud) Update() error {
+func (s *FleetAppsManagementRunbookVersionResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.UpdateRunbookVersionRequest{}
 
 	if executionWorkflowDetails, ok := s.D.GetOkExists("execution_workflow_details"); ok {
@@ -1331,16 +1332,16 @@ func (s *FleetAppsManagementRunbookVersionResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.UpdateRunbookVersion(context.Background(), request)
+	response, err := s.Client.UpdateRunbookVersion(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getRunbookVersionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getRunbookVersionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *FleetAppsManagementRunbookVersionResourceCrud) Delete() error {
+func (s *FleetAppsManagementRunbookVersionResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.DeleteRunbookVersionRequest{}
 
 	tmp := s.D.Id()
@@ -1348,14 +1349,14 @@ func (s *FleetAppsManagementRunbookVersionResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.DeleteRunbookVersion(context.Background(), request)
+	response, err := s.Client.DeleteRunbookVersion(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := runbookVersionWaitForWorkRequest(workId, "runbookversion",
+	_, delWorkRequestErr := runbookVersionWaitForWorkRequest(ctx, workId, "runbookversion",
 		oci_fleet_apps_management.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }

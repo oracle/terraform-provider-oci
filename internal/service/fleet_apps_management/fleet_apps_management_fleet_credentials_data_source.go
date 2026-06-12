@@ -6,6 +6,7 @@ package fleet_apps_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
@@ -15,7 +16,7 @@ import (
 
 func FleetAppsManagementFleetCredentialsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readFleetAppsManagementFleetCredentials,
+		ReadContext: readFleetAppsManagementFleetCredentialsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -68,12 +69,12 @@ func FleetAppsManagementFleetCredentialsDataSource() *schema.Resource {
 	}
 }
 
-func readFleetAppsManagementFleetCredentials(d *schema.ResourceData, m interface{}) error {
+func readFleetAppsManagementFleetCredentialsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementFleetCredentialsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementFleetCredentialsDataSourceCrud struct {
@@ -86,7 +87,7 @@ func (s *FleetAppsManagementFleetCredentialsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementFleetCredentialsDataSourceCrud) Get() error {
+func (s *FleetAppsManagementFleetCredentialsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.ListFleetCredentialsRequest{}
 
 	// if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -129,7 +130,7 @@ func (s *FleetAppsManagementFleetCredentialsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.ListFleetCredentials(context.Background(), request)
+	response, err := s.Client.ListFleetCredentials(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -138,7 +139,7 @@ func (s *FleetAppsManagementFleetCredentialsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListFleetCredentials(context.Background(), request)
+		listResponse, err := s.Client.ListFleetCredentials(ctx, request)
 		if err != nil {
 			return err
 		}

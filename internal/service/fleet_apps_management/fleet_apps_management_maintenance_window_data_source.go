@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
@@ -20,15 +21,15 @@ func FleetAppsManagementMaintenanceWindowDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(FleetAppsManagementMaintenanceWindowResource(), fieldMap, readSingularFleetAppsManagementMaintenanceWindow)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(FleetAppsManagementMaintenanceWindowResource(), fieldMap, readSingularFleetAppsManagementMaintenanceWindowWithContext)
 }
 
-func readSingularFleetAppsManagementMaintenanceWindow(d *schema.ResourceData, m interface{}) error {
+func readSingularFleetAppsManagementMaintenanceWindowWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementMaintenanceWindowDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementMaintenanceWindowClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementMaintenanceWindowDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *FleetAppsManagementMaintenanceWindowDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementMaintenanceWindowDataSourceCrud) Get() error {
+func (s *FleetAppsManagementMaintenanceWindowDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.GetMaintenanceWindowRequest{}
 
 	if maintenanceWindowId, ok := s.D.GetOkExists("maintenance_window_id"); ok {
@@ -51,7 +52,7 @@ func (s *FleetAppsManagementMaintenanceWindowDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.GetMaintenanceWindow(context.Background(), request)
+	response, err := s.Client.GetMaintenanceWindow(ctx, request)
 	if err != nil {
 		return err
 	}

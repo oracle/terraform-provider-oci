@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
@@ -20,15 +21,15 @@ func FleetAppsManagementCatalogItemDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(FleetAppsManagementCatalogItemResource(), fieldMap, readSingularFleetAppsManagementCatalogItem)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(FleetAppsManagementCatalogItemResource(), fieldMap, readSingularFleetAppsManagementCatalogItemWithContext)
 }
 
-func readSingularFleetAppsManagementCatalogItem(d *schema.ResourceData, m interface{}) error {
+func readSingularFleetAppsManagementCatalogItemWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementCatalogItemDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementCatalogClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementCatalogItemDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *FleetAppsManagementCatalogItemDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementCatalogItemDataSourceCrud) Get() error {
+func (s *FleetAppsManagementCatalogItemDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.GetCatalogItemRequest{}
 
 	if catalogItemId, ok := s.D.GetOkExists("catalog_item_id"); ok {
@@ -51,7 +52,7 @@ func (s *FleetAppsManagementCatalogItemDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.GetCatalogItem(context.Background(), request)
+	response, err := s.Client.GetCatalogItem(ctx, request)
 	if err != nil {
 		return err
 	}

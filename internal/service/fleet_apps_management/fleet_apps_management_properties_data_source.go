@@ -6,6 +6,7 @@ package fleet_apps_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
@@ -15,7 +16,7 @@ import (
 
 func FleetAppsManagementPropertiesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readFleetAppsManagementProperties,
+		ReadContext: readFleetAppsManagementPropertiesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -60,12 +61,12 @@ func FleetAppsManagementPropertiesDataSource() *schema.Resource {
 	}
 }
 
-func readFleetAppsManagementProperties(d *schema.ResourceData, m interface{}) error {
+func readFleetAppsManagementPropertiesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementPropertiesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementAdminClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementPropertiesDataSourceCrud struct {
@@ -78,7 +79,7 @@ func (s *FleetAppsManagementPropertiesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementPropertiesDataSourceCrud) Get() error {
+func (s *FleetAppsManagementPropertiesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.ListPropertiesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -110,7 +111,7 @@ func (s *FleetAppsManagementPropertiesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.ListProperties(context.Background(), request)
+	response, err := s.Client.ListProperties(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -119,7 +120,7 @@ func (s *FleetAppsManagementPropertiesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListProperties(context.Background(), request)
+		listResponse, err := s.Client.ListProperties(ctx, request)
 		if err != nil {
 			return err
 		}

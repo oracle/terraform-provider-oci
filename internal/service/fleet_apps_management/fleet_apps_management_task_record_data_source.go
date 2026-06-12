@@ -6,6 +6,7 @@ package fleet_apps_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
@@ -19,15 +20,15 @@ func FleetAppsManagementTaskRecordDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(FleetAppsManagementTaskRecordResource(), fieldMap, readSingularFleetAppsManagementTaskRecord)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(FleetAppsManagementTaskRecordResource(), fieldMap, readSingularFleetAppsManagementTaskRecordWithContext)
 }
 
-func readSingularFleetAppsManagementTaskRecord(d *schema.ResourceData, m interface{}) error {
+func readSingularFleetAppsManagementTaskRecordWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementTaskRecordDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementRunbooksClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementTaskRecordDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *FleetAppsManagementTaskRecordDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementTaskRecordDataSourceCrud) Get() error {
+func (s *FleetAppsManagementTaskRecordDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.GetTaskRecordRequest{}
 
 	if taskRecordId, ok := s.D.GetOkExists("task_record_id"); ok {
@@ -50,7 +51,7 @@ func (s *FleetAppsManagementTaskRecordDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.GetTaskRecord(context.Background(), request)
+	response, err := s.Client.GetTaskRecord(ctx, request)
 	if err != nil {
 		return err
 	}

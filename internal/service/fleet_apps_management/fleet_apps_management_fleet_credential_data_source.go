@@ -6,6 +6,7 @@ package fleet_apps_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
@@ -23,15 +24,15 @@ func FleetAppsManagementFleetCredentialDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(FleetAppsManagementFleetCredentialResource(), fieldMap, readSingularFleetAppsManagementFleetCredential)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(FleetAppsManagementFleetCredentialResource(), fieldMap, readSingularFleetAppsManagementFleetCredentialWithContext)
 }
 
-func readSingularFleetAppsManagementFleetCredential(d *schema.ResourceData, m interface{}) error {
+func readSingularFleetAppsManagementFleetCredentialWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementFleetCredentialDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementFleetCredentialDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *FleetAppsManagementFleetCredentialDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementFleetCredentialDataSourceCrud) Get() error {
+func (s *FleetAppsManagementFleetCredentialDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.GetFleetCredentialRequest{}
 
 	if fleetCredentialId, ok := s.D.GetOkExists("fleet_credential_id"); ok {
@@ -59,7 +60,7 @@ func (s *FleetAppsManagementFleetCredentialDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.GetFleetCredential(context.Background(), request)
+	response, err := s.Client.GetFleetCredential(ctx, request)
 	if err != nil {
 		return err
 	}

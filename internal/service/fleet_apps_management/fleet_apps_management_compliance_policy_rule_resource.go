@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -25,11 +26,11 @@ func FleetAppsManagementCompliancePolicyRuleResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createFleetAppsManagementCompliancePolicyRule,
-		Read:     readFleetAppsManagementCompliancePolicyRule,
-		Update:   updateFleetAppsManagementCompliancePolicyRule,
-		Delete:   deleteFleetAppsManagementCompliancePolicyRule,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createFleetAppsManagementCompliancePolicyRuleWithContext,
+		ReadContext:   readFleetAppsManagementCompliancePolicyRuleWithContext,
+		UpdateContext: updateFleetAppsManagementCompliancePolicyRuleWithContext,
+		DeleteContext: deleteFleetAppsManagementCompliancePolicyRuleWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compliance_policy_id": {
@@ -172,40 +173,40 @@ func FleetAppsManagementCompliancePolicyRuleResource() *schema.Resource {
 	}
 }
 
-func createFleetAppsManagementCompliancePolicyRule(d *schema.ResourceData, m interface{}) error {
+func createFleetAppsManagementCompliancePolicyRuleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementCompliancePolicyRuleResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementAdminClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readFleetAppsManagementCompliancePolicyRule(d *schema.ResourceData, m interface{}) error {
+func readFleetAppsManagementCompliancePolicyRuleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementCompliancePolicyRuleResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementAdminClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateFleetAppsManagementCompliancePolicyRule(d *schema.ResourceData, m interface{}) error {
+func updateFleetAppsManagementCompliancePolicyRuleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementCompliancePolicyRuleResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementAdminClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteFleetAppsManagementCompliancePolicyRule(d *schema.ResourceData, m interface{}) error {
+func deleteFleetAppsManagementCompliancePolicyRuleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementCompliancePolicyRuleResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementAdminClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type FleetAppsManagementCompliancePolicyRuleResourceCrud struct {
@@ -244,7 +245,7 @@ func (s *FleetAppsManagementCompliancePolicyRuleResourceCrud) DeletedTarget() []
 	}
 }
 
-func (s *FleetAppsManagementCompliancePolicyRuleResourceCrud) Create() error {
+func (s *FleetAppsManagementCompliancePolicyRuleResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.CreateCompliancePolicyRuleRequest{}
 
 	if compliancePolicyId, ok := s.D.GetOkExists("compliance_policy_id"); ok {
@@ -325,7 +326,7 @@ func (s *FleetAppsManagementCompliancePolicyRuleResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.CreateCompliancePolicyRule(context.Background(), request)
+	response, err := s.Client.CreateCompliancePolicyRule(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -336,14 +337,14 @@ func (s *FleetAppsManagementCompliancePolicyRuleResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getCompliancePolicyRuleFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getCompliancePolicyRuleFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *FleetAppsManagementCompliancePolicyRuleResourceCrud) getCompliancePolicyRuleFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *FleetAppsManagementCompliancePolicyRuleResourceCrud) getCompliancePolicyRuleFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_fleet_apps_management.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	compliancePolicyRuleId, err := compliancePolicyRuleWaitForWorkRequest(workId, "compliancepolicyrule",
+	compliancePolicyRuleId, err := compliancePolicyRuleWaitForWorkRequest(ctx, workId, "compliancepolicyrule",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -351,7 +352,7 @@ func (s *FleetAppsManagementCompliancePolicyRuleResourceCrud) getCompliancePolic
 	}
 	s.D.SetId(*compliancePolicyRuleId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func compliancePolicyRuleWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -377,7 +378,7 @@ func compliancePolicyRuleWorkRequestShouldRetryFunc(timeout time.Duration) func(
 	}
 }
 
-func compliancePolicyRuleWaitForWorkRequest(wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
+func compliancePolicyRuleWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "fleet_apps_management")
 	retryPolicy.ShouldRetryOperation = compliancePolicyRuleWorkRequestShouldRetryFunc(timeout)
@@ -396,7 +397,7 @@ func compliancePolicyRuleWaitForWorkRequest(wId *string, entityType string, acti
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_fleet_apps_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -408,7 +409,7 @@ func compliancePolicyRuleWaitForWorkRequest(wId *string, entityType string, acti
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -425,14 +426,14 @@ func compliancePolicyRuleWaitForWorkRequest(wId *string, entityType string, acti
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_fleet_apps_management.OperationStatusFailed || response.Status == oci_fleet_apps_management.OperationStatusCanceled {
-		return nil, getErrorFromFleetAppsManagementCompliancePolicyRuleWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromFleetAppsManagementCompliancePolicyRuleWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromFleetAppsManagementCompliancePolicyRuleWorkRequest(client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromFleetAppsManagementCompliancePolicyRuleWorkRequest(ctx context.Context, client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_fleet_apps_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -454,7 +455,7 @@ func getErrorFromFleetAppsManagementCompliancePolicyRuleWorkRequest(client *oci_
 	return workRequestErr
 }
 
-func (s *FleetAppsManagementCompliancePolicyRuleResourceCrud) Get() error {
+func (s *FleetAppsManagementCompliancePolicyRuleResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.GetCompliancePolicyRuleRequest{}
 
 	tmp := s.D.Id()
@@ -462,7 +463,7 @@ func (s *FleetAppsManagementCompliancePolicyRuleResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.GetCompliancePolicyRule(context.Background(), request)
+	response, err := s.Client.GetCompliancePolicyRule(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -471,7 +472,7 @@ func (s *FleetAppsManagementCompliancePolicyRuleResourceCrud) Get() error {
 	return nil
 }
 
-func (s *FleetAppsManagementCompliancePolicyRuleResourceCrud) Update() error {
+func (s *FleetAppsManagementCompliancePolicyRuleResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.UpdateCompliancePolicyRuleRequest{}
 
 	tmp := s.D.Id()
@@ -545,16 +546,16 @@ func (s *FleetAppsManagementCompliancePolicyRuleResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.UpdateCompliancePolicyRule(context.Background(), request)
+	response, err := s.Client.UpdateCompliancePolicyRule(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getCompliancePolicyRuleFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getCompliancePolicyRuleFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *FleetAppsManagementCompliancePolicyRuleResourceCrud) Delete() error {
+func (s *FleetAppsManagementCompliancePolicyRuleResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.DeleteCompliancePolicyRuleRequest{}
 
 	tmp := s.D.Id()
@@ -562,14 +563,14 @@ func (s *FleetAppsManagementCompliancePolicyRuleResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.DeleteCompliancePolicyRule(context.Background(), request)
+	response, err := s.Client.DeleteCompliancePolicyRule(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := compliancePolicyRuleWaitForWorkRequest(workId, "compliancepolicyrule",
+	_, delWorkRequestErr := compliancePolicyRuleWaitForWorkRequest(ctx, workId, "compliancepolicyrule",
 		oci_fleet_apps_management.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }

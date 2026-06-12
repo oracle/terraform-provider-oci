@@ -8,6 +8,7 @@ import (
 	//"fmt"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
@@ -18,7 +19,7 @@ import (
 
 func FleetAppsManagementMaintenanceWindowsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readFleetAppsManagementMaintenanceWindows,
+		ReadContext: readFleetAppsManagementMaintenanceWindowsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -59,12 +60,12 @@ func FleetAppsManagementMaintenanceWindowsDataSource() *schema.Resource {
 	}
 }
 
-func readFleetAppsManagementMaintenanceWindows(d *schema.ResourceData, m interface{}) error {
+func readFleetAppsManagementMaintenanceWindowsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementMaintenanceWindowsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementMaintenanceWindowClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementMaintenanceWindowsDataSourceCrud struct {
@@ -77,7 +78,7 @@ func (s *FleetAppsManagementMaintenanceWindowsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementMaintenanceWindowsDataSourceCrud) Get() error {
+func (s *FleetAppsManagementMaintenanceWindowsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.ListMaintenanceWindowsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -109,7 +110,7 @@ func (s *FleetAppsManagementMaintenanceWindowsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.ListMaintenanceWindows(context.Background(), request)
+	response, err := s.Client.ListMaintenanceWindows(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -118,7 +119,7 @@ func (s *FleetAppsManagementMaintenanceWindowsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListMaintenanceWindows(context.Background(), request)
+		listResponse, err := s.Client.ListMaintenanceWindows(ctx, request)
 		if err != nil {
 			return err
 		}

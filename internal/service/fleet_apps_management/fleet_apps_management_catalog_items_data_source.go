@@ -6,6 +6,7 @@ package fleet_apps_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
@@ -15,7 +16,7 @@ import (
 
 func FleetAppsManagementCatalogItemsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readFleetAppsManagementCatalogItems,
+		ReadContext: readFleetAppsManagementCatalogItemsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"catalog_listing_id": {
@@ -68,12 +69,12 @@ func FleetAppsManagementCatalogItemsDataSource() *schema.Resource {
 	}
 }
 
-func readFleetAppsManagementCatalogItems(d *schema.ResourceData, m interface{}) error {
+func readFleetAppsManagementCatalogItemsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementCatalogItemsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementCatalogClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementCatalogItemsDataSourceCrud struct {
@@ -86,7 +87,7 @@ func (s *FleetAppsManagementCatalogItemsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementCatalogItemsDataSourceCrud) Get() error {
+func (s *FleetAppsManagementCatalogItemsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.ListCatalogItemsRequest{}
 
 	if catalogListingId, ok := s.D.GetOkExists("catalog_listing_id"); ok {
@@ -128,7 +129,7 @@ func (s *FleetAppsManagementCatalogItemsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.ListCatalogItems(context.Background(), request)
+	response, err := s.Client.ListCatalogItems(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -137,7 +138,7 @@ func (s *FleetAppsManagementCatalogItemsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListCatalogItems(context.Background(), request)
+		listResponse, err := s.Client.ListCatalogItems(ctx, request)
 		if err != nil {
 			return err
 		}

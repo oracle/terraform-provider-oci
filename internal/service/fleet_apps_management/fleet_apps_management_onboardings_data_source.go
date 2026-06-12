@@ -6,6 +6,7 @@ package fleet_apps_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
@@ -15,7 +16,7 @@ import (
 
 func FleetAppsManagementOnboardingsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readFleetAppsManagementOnboardings,
+		ReadContext: readFleetAppsManagementOnboardingsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -48,12 +49,12 @@ func FleetAppsManagementOnboardingsDataSource() *schema.Resource {
 	}
 }
 
-func readFleetAppsManagementOnboardings(d *schema.ResourceData, m interface{}) error {
+func readFleetAppsManagementOnboardingsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementOnboardingsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementAdminClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementOnboardingsDataSourceCrud struct {
@@ -66,7 +67,7 @@ func (s *FleetAppsManagementOnboardingsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementOnboardingsDataSourceCrud) Get() error {
+func (s *FleetAppsManagementOnboardingsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.ListOnboardingsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -85,7 +86,7 @@ func (s *FleetAppsManagementOnboardingsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.ListOnboardings(context.Background(), request)
+	response, err := s.Client.ListOnboardings(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -94,7 +95,7 @@ func (s *FleetAppsManagementOnboardingsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOnboardings(context.Background(), request)
+		listResponse, err := s.Client.ListOnboardings(ctx, request)
 		if err != nil {
 			return err
 		}

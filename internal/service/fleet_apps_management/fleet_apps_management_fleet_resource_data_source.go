@@ -6,6 +6,7 @@ package fleet_apps_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
@@ -23,15 +24,15 @@ func FleetAppsManagementFleetResourceDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(FleetAppsManagementFleetResourceResource(), fieldMap, readSingularFleetAppsManagementFleetResource)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(FleetAppsManagementFleetResourceResource(), fieldMap, readSingularFleetAppsManagementFleetResourceWithContext)
 }
 
-func readSingularFleetAppsManagementFleetResource(d *schema.ResourceData, m interface{}) error {
+func readSingularFleetAppsManagementFleetResourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementFleetResourceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementFleetResourceDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *FleetAppsManagementFleetResourceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementFleetResourceDataSourceCrud) Get() error {
+func (s *FleetAppsManagementFleetResourceDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.GetFleetResourceRequest{}
 
 	if fleetId, ok := s.D.GetOkExists("fleet_id"); ok {
@@ -59,7 +60,7 @@ func (s *FleetAppsManagementFleetResourceDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.GetFleetResource(context.Background(), request)
+	response, err := s.Client.GetFleetResource(ctx, request)
 	if err != nil {
 		return err
 	}

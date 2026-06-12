@@ -6,6 +6,7 @@ package fleet_apps_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
@@ -19,15 +20,15 @@ func FleetAppsManagementSchedulerDefinitionDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(FleetAppsManagementSchedulerDefinitionResource(), fieldMap, readSingularFleetAppsManagementSchedulerDefinition)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(FleetAppsManagementSchedulerDefinitionResource(), fieldMap, readSingularFleetAppsManagementSchedulerDefinitionWithContext)
 }
 
-func readSingularFleetAppsManagementSchedulerDefinition(d *schema.ResourceData, m interface{}) error {
+func readSingularFleetAppsManagementSchedulerDefinitionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementSchedulerDefinitionDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementOperationsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementSchedulerDefinitionDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *FleetAppsManagementSchedulerDefinitionDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementSchedulerDefinitionDataSourceCrud) Get() error {
+func (s *FleetAppsManagementSchedulerDefinitionDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.GetSchedulerDefinitionRequest{}
 
 	if schedulerDefinitionId, ok := s.D.GetOkExists("scheduler_definition_id"); ok {
@@ -50,7 +51,7 @@ func (s *FleetAppsManagementSchedulerDefinitionDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.GetSchedulerDefinition(context.Background(), request)
+	response, err := s.Client.GetSchedulerDefinition(ctx, request)
 	if err != nil {
 		return err
 	}

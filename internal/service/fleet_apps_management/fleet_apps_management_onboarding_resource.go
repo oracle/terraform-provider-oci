@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -23,10 +24,10 @@ func FleetAppsManagementOnboardingResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createFleetAppsManagementOnboarding,
-		Read:     readFleetAppsManagementOnboarding,
-		Delete:   deleteFleetAppsManagementOnboarding,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createFleetAppsManagementOnboardingWithContext,
+		ReadContext:   readFleetAppsManagementOnboardingWithContext,
+		DeleteContext: deleteFleetAppsManagementOnboardingWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -249,33 +250,33 @@ func FleetAppsManagementOnboardingResource() *schema.Resource {
 	}
 }
 
-func createFleetAppsManagementOnboarding(d *schema.ResourceData, m interface{}) error {
+func createFleetAppsManagementOnboardingWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementOnboardingResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementAdminClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readFleetAppsManagementOnboarding(d *schema.ResourceData, m interface{}) error {
+func readFleetAppsManagementOnboardingWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementOnboardingResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementAdminClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteFleetAppsManagementOnboarding(d *schema.ResourceData, m interface{}) error {
+func deleteFleetAppsManagementOnboardingWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementOnboardingResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementAdminClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
-func (s *FleetAppsManagementOnboardingResourceCrud) Delete() error {
+func (s *FleetAppsManagementOnboardingResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.DeleteOnboardingRequest{}
 
 	tmp := s.D.Id()
@@ -283,14 +284,14 @@ func (s *FleetAppsManagementOnboardingResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.DeleteOnboarding(context.Background(), request)
+	response, err := s.Client.DeleteOnboarding(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait til it finishes
-	_, delWorkRequestErr := onboardingWaitForWorkRequest(workId, "famsonboarding", oci_fleet_apps_management.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
+	_, delWorkRequestErr := onboardingWaitForWorkRequest(ctx, workId, "famsonboarding", oci_fleet_apps_management.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
 
@@ -331,7 +332,7 @@ func (s *FleetAppsManagementOnboardingResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *FleetAppsManagementOnboardingResourceCrud) Create() error {
+func (s *FleetAppsManagementOnboardingResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.CreateOnboardingRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -363,14 +364,14 @@ func (s *FleetAppsManagementOnboardingResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.CreateOnboarding(context.Background(), request)
+	response, err := s.Client.CreateOnboarding(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_fleet_apps_management.GetWorkRequestResponse{}
-	workRequestResponse, err = s.WorkRequestClient.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.WorkRequestClient.GetWorkRequest(ctx,
 		oci_fleet_apps_management.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -386,14 +387,14 @@ func (s *FleetAppsManagementOnboardingResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getOnboardingFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getOnboardingFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *FleetAppsManagementOnboardingResourceCrud) getOnboardingFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *FleetAppsManagementOnboardingResourceCrud) getOnboardingFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_fleet_apps_management.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	onboardingId, err := onboardingWaitForWorkRequest(workId, "famsonboarding",
+	onboardingId, err := onboardingWaitForWorkRequest(ctx, workId, "famsonboarding",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -401,7 +402,7 @@ func (s *FleetAppsManagementOnboardingResourceCrud) getOnboardingFromWorkRequest
 	}
 	s.D.SetId(*onboardingId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func onboardingWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -427,7 +428,7 @@ func onboardingWorkRequestShouldRetryFunc(timeout time.Duration) func(response o
 	}
 }
 
-func onboardingWaitForWorkRequest(wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
+func onboardingWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "fleet_apps_management")
 	retryPolicy.ShouldRetryOperation = onboardingWorkRequestShouldRetryFunc(timeout)
@@ -446,7 +447,7 @@ func onboardingWaitForWorkRequest(wId *string, entityType string, action oci_fle
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_fleet_apps_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -465,7 +466,7 @@ func onboardingWaitForWorkRequest(wId *string, entityType string, action oci_fle
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -482,14 +483,14 @@ func onboardingWaitForWorkRequest(wId *string, entityType string, action oci_fle
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_fleet_apps_management.OperationStatusFailed || response.Status == oci_fleet_apps_management.OperationStatusCanceled {
-		return nil, getErrorFromFleetAppsManagementOnboardingWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromFleetAppsManagementOnboardingWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromFleetAppsManagementOnboardingWorkRequest(client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromFleetAppsManagementOnboardingWorkRequest(ctx context.Context, client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_fleet_apps_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -511,7 +512,7 @@ func getErrorFromFleetAppsManagementOnboardingWorkRequest(client *oci_fleet_apps
 	return workRequestErr
 }
 
-func (s *FleetAppsManagementOnboardingResourceCrud) Get() error {
+func (s *FleetAppsManagementOnboardingResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.GetOnboardingRequest{}
 
 	tmp := s.D.Id()
@@ -519,7 +520,7 @@ func (s *FleetAppsManagementOnboardingResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.GetOnboarding(context.Background(), request)
+	response, err := s.Client.GetOnboarding(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -697,27 +698,26 @@ func OnboardingSummaryToMap(obj oci_fleet_apps_management.OnboardingSummary) map
 	return result
 }
 
-//=======
 //
-//func createFleetAppsManagementOnboarding(d *schema.ResourceData, m interface{}) error {
+//func createFleetAppsManagementOnboardingWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 //	sync := &FleetAppsManagementOnboardingResourceCrud{}
 //	sync.D = d
 //	sync.Client = m.(*client.OracleClients).FleetAppsManagementAdminClient()
 //	sync.FleetClient = m.(*client.OracleClients).FleetAppsManagementClient()
 //
-//	return tfresource.CreateResource(d, sync)
+//	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 //}
 //
-//func readFleetAppsManagementOnboarding(d *schema.ResourceData, m interface{}) error {
+//func readFleetAppsManagementOnboardingWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 //	sync := &FleetAppsManagementOnboardingResourceCrud{}
 //	sync.D = d
 //	sync.Client = m.(*client.OracleClients).FleetAppsManagementAdminClient()
 //	sync.FleetClient = m.(*client.OracleClients).FleetAppsManagementClient()
 //
-//	return tfresource.ReadResource(sync)
+//	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 //}
 //
-//func deleteFleetAppsManagementOnboarding(d *schema.ResourceData, m interface{}) error {
+//func deleteFleetAppsManagementOnboardingWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 //	return nil
 //}
 //
@@ -758,7 +758,7 @@ func OnboardingSummaryToMap(obj oci_fleet_apps_management.OnboardingSummary) map
 //	}
 //}
 //
-//func (s *FleetAppsManagementOnboardingResourceCrud) Create() error {
+//func (s *FleetAppsManagementOnboardingResourceCrud) CreateWithContext(ctx context.Context) error {
 //	request := oci_fleet_apps_management.CreateOnboardingRequest{}
 //
 //	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -778,22 +778,22 @@ func OnboardingSummaryToMap(obj oci_fleet_apps_management.OnboardingSummary) map
 //
 //	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 //
-//	response, err := s.Client.CreateOnboarding(context.Background(), request)
+//	response, err := s.Client.CreateOnboarding(ctx, request)
 //	if err != nil {
 //		return err
 //	}
 //
 //	s.D.SetId(*response.Id)
 //
-//	return s.Get()
+//	return s.GetWithContext(ctx)
 //	// This does not return a work request.
 //}
 //
-//func (s *FleetAppsManagementOnboardingResourceCrud) getOnboardingFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+//func (s *FleetAppsManagementOnboardingResourceCrud) getOnboardingFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 //	actionTypeEnum oci_fleet_apps_management.ActionTypeEnum, timeout time.Duration) error {
 //
 //	// Wait until it finishes
-//	onboardingId, err := onboardingWaitForWorkRequest(workId, "onboarding",
+//	onboardingId, err := onboardingWaitForWorkRequest(ctx, workId, "onboarding",
 //		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.FleetClient)
 //
 //	if err != nil {
@@ -801,7 +801,7 @@ func OnboardingSummaryToMap(obj oci_fleet_apps_management.OnboardingSummary) map
 //	}
 //	s.D.SetId(*onboardingId)
 //
-//	return s.Get()
+//	return s.GetWithContext(ctx)
 //}
 //
 //func onboardingWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -827,7 +827,7 @@ func OnboardingSummaryToMap(obj oci_fleet_apps_management.OnboardingSummary) map
 //	}
 //}
 //
-//func onboardingWaitForWorkRequest(wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
+//func onboardingWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
 //	timeout time.Duration, disableFoundRetries bool, client *oci_fleet_apps_management.FleetAppsManagementClient) (*string, error) {
 //	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "fleet_apps_management")
 //	retryPolicy.ShouldRetryOperation = onboardingWorkRequestShouldRetryFunc(timeout)
@@ -846,7 +846,7 @@ func OnboardingSummaryToMap(obj oci_fleet_apps_management.OnboardingSummary) map
 //		},
 //		Refresh: func() (interface{}, string, error) {
 //			var err error
-//			response, err = client.GetWorkRequest(context.Background(),
+//			response, err = client.GetWorkRequest(ctx,
 //				oci_fleet_apps_management.GetWorkRequestRequest{
 //					WorkRequestId: wId,
 //					RequestMetadata: oci_common.RequestMetadata{
@@ -858,7 +858,7 @@ func OnboardingSummaryToMap(obj oci_fleet_apps_management.OnboardingSummary) map
 //		},
 //		Timeout: timeout,
 //	}
-//	if _, e := stateConf.WaitForState(); e != nil {
+//	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 //		return nil, e
 //	}
 //
@@ -875,14 +875,14 @@ func OnboardingSummaryToMap(obj oci_fleet_apps_management.OnboardingSummary) map
 //
 //	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 //	if identifier == nil || response.Status == oci_fleet_apps_management.OperationStatusFailed || response.Status == oci_fleet_apps_management.OperationStatusCanceled {
-//		return nil, getErrorFromFleetAppsManagementOnboardingWorkRequest(client, wId, retryPolicy, entityType, action)
+//		return nil, getErrorFromFleetAppsManagementOnboardingWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 //	}
 //
 //	return identifier, nil
 //}
 //
-//func getErrorFromFleetAppsManagementOnboardingWorkRequest(client *oci_fleet_apps_management.FleetAppsManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
-//	response, err := client.ListWorkRequestErrors(context.Background(),
+//func getErrorFromFleetAppsManagementOnboardingWorkRequest(ctx context.Context, client *oci_fleet_apps_management.FleetAppsManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
+//	response, err := client.ListWorkRequestErrors(ctx,
 //		oci_fleet_apps_management.ListWorkRequestErrorsRequest{
 //			WorkRequestId: workId,
 //			RequestMetadata: oci_common.RequestMetadata{
@@ -904,7 +904,7 @@ func OnboardingSummaryToMap(obj oci_fleet_apps_management.OnboardingSummary) map
 //	return workRequestErr
 //}
 //
-//func (s *FleetAppsManagementOnboardingResourceCrud) Get() error {
+//func (s *FleetAppsManagementOnboardingResourceCrud) GetWithContext(ctx context.Context) error {
 //
 //	// FAMS 1.0 API does not have a GET for Onboarding. We need to do a List with the ID
 //	//  and convert the Summary.  FAMS 1.2 API will add the appropriate GET call.
@@ -925,7 +925,7 @@ func OnboardingSummaryToMap(obj oci_fleet_apps_management.OnboardingSummary) map
 //
 //	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 //
-//	response, err := s.Client.ListOnboardings(context.Background(), request)
+//	response, err := s.Client.ListOnboardings(ctx, request)
 //	if err != nil {
 //		return err
 //	}
@@ -1061,4 +1061,3 @@ func OnboardingSummaryToMap(obj oci_fleet_apps_management.OnboardingSummary) map
 //
 //	return result
 //}
-//>>>>>>> theirs

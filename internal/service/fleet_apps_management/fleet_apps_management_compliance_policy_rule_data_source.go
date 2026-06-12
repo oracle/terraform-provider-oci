@@ -6,6 +6,7 @@ package fleet_apps_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
@@ -19,15 +20,15 @@ func FleetAppsManagementCompliancePolicyRuleDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(FleetAppsManagementCompliancePolicyRuleResource(), fieldMap, readSingularFleetAppsManagementCompliancePolicyRule)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(FleetAppsManagementCompliancePolicyRuleResource(), fieldMap, readSingularFleetAppsManagementCompliancePolicyRuleWithContext)
 }
 
-func readSingularFleetAppsManagementCompliancePolicyRule(d *schema.ResourceData, m interface{}) error {
+func readSingularFleetAppsManagementCompliancePolicyRuleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementCompliancePolicyRuleDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementAdminClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementCompliancePolicyRuleDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *FleetAppsManagementCompliancePolicyRuleDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementCompliancePolicyRuleDataSourceCrud) Get() error {
+func (s *FleetAppsManagementCompliancePolicyRuleDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.GetCompliancePolicyRuleRequest{}
 
 	if compliancePolicyRuleId, ok := s.D.GetOkExists("compliance_policy_rule_id"); ok {
@@ -50,7 +51,7 @@ func (s *FleetAppsManagementCompliancePolicyRuleDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.GetCompliancePolicyRule(context.Background(), request)
+	response, err := s.Client.GetCompliancePolicyRule(ctx, request)
 	if err != nil {
 		return err
 	}

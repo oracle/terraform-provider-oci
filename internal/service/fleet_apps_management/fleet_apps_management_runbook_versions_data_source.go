@@ -6,6 +6,7 @@ package fleet_apps_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
@@ -15,7 +16,7 @@ import (
 
 func FleetAppsManagementRunbookVersionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readFleetAppsManagementRunbookVersions,
+		ReadContext: readFleetAppsManagementRunbookVersionsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -60,12 +61,12 @@ func FleetAppsManagementRunbookVersionsDataSource() *schema.Resource {
 	}
 }
 
-func readFleetAppsManagementRunbookVersions(d *schema.ResourceData, m interface{}) error {
+func readFleetAppsManagementRunbookVersionsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementRunbookVersionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementRunbooksClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementRunbookVersionsDataSourceCrud struct {
@@ -78,7 +79,7 @@ func (s *FleetAppsManagementRunbookVersionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementRunbookVersionsDataSourceCrud) Get() error {
+func (s *FleetAppsManagementRunbookVersionsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.ListRunbookVersionsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -107,7 +108,7 @@ func (s *FleetAppsManagementRunbookVersionsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.ListRunbookVersions(context.Background(), request)
+	response, err := s.Client.ListRunbookVersions(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -116,7 +117,7 @@ func (s *FleetAppsManagementRunbookVersionsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListRunbookVersions(context.Background(), request)
+		listResponse, err := s.Client.ListRunbookVersions(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -23,11 +24,11 @@ func FleetAppsManagementMaintenanceWindowResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createFleetAppsManagementMaintenanceWindow,
-		Read:     readFleetAppsManagementMaintenanceWindow,
-		Update:   updateFleetAppsManagementMaintenanceWindow,
-		Delete:   deleteFleetAppsManagementMaintenanceWindow,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createFleetAppsManagementMaintenanceWindowWithContext,
+		ReadContext:   readFleetAppsManagementMaintenanceWindowWithContext,
+		UpdateContext: updateFleetAppsManagementMaintenanceWindowWithContext,
+		DeleteContext: deleteFleetAppsManagementMaintenanceWindowWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -115,40 +116,40 @@ func FleetAppsManagementMaintenanceWindowResource() *schema.Resource {
 	}
 }
 
-func createFleetAppsManagementMaintenanceWindow(d *schema.ResourceData, m interface{}) error {
+func createFleetAppsManagementMaintenanceWindowWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementMaintenanceWindowResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementMaintenanceWindowClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readFleetAppsManagementMaintenanceWindow(d *schema.ResourceData, m interface{}) error {
+func readFleetAppsManagementMaintenanceWindowWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementMaintenanceWindowResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementMaintenanceWindowClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateFleetAppsManagementMaintenanceWindow(d *schema.ResourceData, m interface{}) error {
+func updateFleetAppsManagementMaintenanceWindowWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementMaintenanceWindowResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementMaintenanceWindowClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteFleetAppsManagementMaintenanceWindow(d *schema.ResourceData, m interface{}) error {
+func deleteFleetAppsManagementMaintenanceWindowWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementMaintenanceWindowResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementMaintenanceWindowClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).FleetAppsManagementFleetAppsManagementWorkRequestClient()
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type FleetAppsManagementMaintenanceWindowResourceCrud struct {
@@ -186,7 +187,7 @@ func (s *FleetAppsManagementMaintenanceWindowResourceCrud) DeletedTarget() []str
 	}
 }
 
-func (s *FleetAppsManagementMaintenanceWindowResourceCrud) Create() error {
+func (s *FleetAppsManagementMaintenanceWindowResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.CreateMaintenanceWindowRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -246,7 +247,7 @@ func (s *FleetAppsManagementMaintenanceWindowResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.CreateMaintenanceWindow(context.Background(), request)
+	response, err := s.Client.CreateMaintenanceWindow(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -255,11 +256,11 @@ func (s *FleetAppsManagementMaintenanceWindowResourceCrud) Create() error {
 	return nil
 }
 
-func (s *FleetAppsManagementMaintenanceWindowResourceCrud) getMaintenanceWindowFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *FleetAppsManagementMaintenanceWindowResourceCrud) getMaintenanceWindowFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_fleet_apps_management.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	maintenanceWindowId, err := maintenanceWindowWaitForWorkRequest(workId, "maintenance-window",
+	maintenanceWindowId, err := maintenanceWindowWaitForWorkRequest(ctx, workId, "maintenance-window",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -267,7 +268,7 @@ func (s *FleetAppsManagementMaintenanceWindowResourceCrud) getMaintenanceWindowF
 	}
 	s.D.SetId(*maintenanceWindowId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func maintenanceWindowWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -293,7 +294,7 @@ func maintenanceWindowWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 	}
 }
 
-func maintenanceWindowWaitForWorkRequest(wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
+func maintenanceWindowWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_fleet_apps_management.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "fleet_apps_management")
 	retryPolicy.ShouldRetryOperation = maintenanceWindowWorkRequestShouldRetryFunc(timeout)
@@ -312,7 +313,7 @@ func maintenanceWindowWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_fleet_apps_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -324,7 +325,7 @@ func maintenanceWindowWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -341,14 +342,14 @@ func maintenanceWindowWaitForWorkRequest(wId *string, entityType string, action 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_fleet_apps_management.OperationStatusFailed || response.Status == oci_fleet_apps_management.OperationStatusCanceled {
-		return nil, getErrorFromFleetAppsManagementMaintenanceWindowWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromFleetAppsManagementMaintenanceWindowWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromFleetAppsManagementMaintenanceWindowWorkRequest(client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromFleetAppsManagementMaintenanceWindowWorkRequest(ctx context.Context, client *oci_fleet_apps_management.FleetAppsManagementWorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_fleet_apps_management.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_fleet_apps_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -370,7 +371,7 @@ func getErrorFromFleetAppsManagementMaintenanceWindowWorkRequest(client *oci_fle
 	return workRequestErr
 }
 
-func (s *FleetAppsManagementMaintenanceWindowResourceCrud) Get() error {
+func (s *FleetAppsManagementMaintenanceWindowResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.GetMaintenanceWindowRequest{}
 
 	tmp := s.D.Id()
@@ -378,7 +379,7 @@ func (s *FleetAppsManagementMaintenanceWindowResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.GetMaintenanceWindow(context.Background(), request)
+	response, err := s.Client.GetMaintenanceWindow(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -387,7 +388,7 @@ func (s *FleetAppsManagementMaintenanceWindowResourceCrud) Get() error {
 	return nil
 }
 
-func (s *FleetAppsManagementMaintenanceWindowResourceCrud) Update() error {
+func (s *FleetAppsManagementMaintenanceWindowResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.UpdateMaintenanceWindowRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -445,16 +446,16 @@ func (s *FleetAppsManagementMaintenanceWindowResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.UpdateMaintenanceWindow(context.Background(), request)
+	response, err := s.Client.UpdateMaintenanceWindow(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getMaintenanceWindowFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getMaintenanceWindowFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management"), oci_fleet_apps_management.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *FleetAppsManagementMaintenanceWindowResourceCrud) Delete() error {
+func (s *FleetAppsManagementMaintenanceWindowResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.DeleteMaintenanceWindowRequest{}
 
 	tmp := s.D.Id()
@@ -462,14 +463,14 @@ func (s *FleetAppsManagementMaintenanceWindowResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "fleet_apps_management")
 
-	response, err := s.Client.DeleteMaintenanceWindow(context.Background(), request)
+	response, err := s.Client.DeleteMaintenanceWindow(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := maintenanceWindowWaitForWorkRequest(workId, "maintenance-window",
+	_, delWorkRequestErr := maintenanceWindowWaitForWorkRequest(ctx, workId, "maintenance-window",
 		oci_fleet_apps_management.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }

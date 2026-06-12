@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
@@ -20,15 +21,15 @@ func FleetAppsManagementPatchDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(FleetAppsManagementPatchResource(), fieldMap, readSingularFleetAppsManagementPatch)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(FleetAppsManagementPatchResource(), fieldMap, readSingularFleetAppsManagementPatchWithContext)
 }
 
-func readSingularFleetAppsManagementPatch(d *schema.ResourceData, m interface{}) error {
+func readSingularFleetAppsManagementPatchWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &FleetAppsManagementPatchDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FleetAppsManagementOperationsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type FleetAppsManagementPatchDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *FleetAppsManagementPatchDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *FleetAppsManagementPatchDataSourceCrud) Get() error {
+func (s *FleetAppsManagementPatchDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_fleet_apps_management.GetPatchRequest{}
 
 	if patchId, ok := s.D.GetOkExists("patch_id"); ok {
@@ -51,7 +52,7 @@ func (s *FleetAppsManagementPatchDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
 
-	response, err := s.Client.GetPatch(context.Background(), request)
+	response, err := s.Client.GetPatch(ctx, request)
 	if err != nil {
 		return err
 	}
