@@ -7,11 +7,11 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_functions "github.com/oracle/oci-go-sdk/v65/functions"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func FunctionsFunctionDataSource() *schema.Resource {
@@ -20,7 +20,21 @@ func FunctionsFunctionDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(FunctionsFunctionResource(), fieldMap, readSingularFunctionsFunction)
+	dataSourceSchema := tfresource.GetSingularDataSourceItemSchema(FunctionsFunctionResource(), fieldMap, readSingularFunctionsFunction)
+	clearManagedResourceOnlyValidationFromFunctionDataSource(dataSourceSchema)
+	return dataSourceSchema
+}
+
+// functionsFunctionDataSourceItemSchema reuses the function schema for list data source items.
+func functionsFunctionDataSourceItemSchema() *schema.Resource {
+	dataSourceItemSchema := tfresource.GetDataSourceItemSchema(FunctionsFunctionResource())
+	clearManagedResourceOnlyValidationFromFunctionDataSource(dataSourceItemSchema)
+	return dataSourceItemSchema
+}
+
+// clearManagedResourceOnlyValidationFromFunctionDataSource removes plan-only resource validation from reads.
+func clearManagedResourceOnlyValidationFromFunctionDataSource(dataSourceSchema *schema.Resource) {
+	dataSourceSchema.ValidateRawResourceConfigFuncs = nil
 }
 
 func readSingularFunctionsFunction(d *schema.ResourceData, m interface{}) error {
@@ -101,14 +115,6 @@ func (s *FunctionsFunctionDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	if s.Res.Image != nil {
-		s.D.Set("image", *s.Res.Image)
-	}
-
-	if s.Res.ImageDigest != nil {
-		s.D.Set("image_digest", *s.Res.ImageDigest)
-	}
-
 	if s.Res.InvokeEndpoint != nil {
 		s.D.Set("invoke_endpoint", *s.Res.InvokeEndpoint)
 	}
@@ -135,8 +141,18 @@ func (s *FunctionsFunctionDataSourceCrud) SetData() error {
 			sourceDetailsArray = append(sourceDetailsArray, sourceDetailsMap)
 		}
 		s.D.Set("source_details", sourceDetailsArray)
+
+		// During the compatibility window, expose deprecated top-level image fields for
+		// container-image functions even though source_details is canonical.
+		switch v := s.Res.SourceDetails.(type) {
+		case oci_functions.ContainerImageFunctionSourceDetails:
+			setLegacyContainerImageFields(s.D, v.Image, v.ImageDigest)
+		default:
+			clearLegacyContainerImageFields(s.D)
+		}
 	} else {
 		s.D.Set("source_details", nil)
+		clearLegacyContainerImageFields(s.D)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

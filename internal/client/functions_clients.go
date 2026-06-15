@@ -10,8 +10,31 @@ import (
 )
 
 func init() {
+	RegisterOracleClient("oci_functions.WorkRequestManagementClient", &OracleClient{InitClientFn: initFunctionsWorkRequestManagementClient})
 	RegisterOracleClient("oci_functions.FunctionsInvokeClient", &OracleClient{InitClientFn: initFunctionsFunctionsInvokeClient})
 	RegisterOracleClient("oci_functions.FunctionsManagementClient", &OracleClient{InitClientFn: initFunctionsFunctionsManagementClient})
+}
+
+// initFunctionsWorkRequestManagementClient wires the Functions work request client into provider client setup.
+func initFunctionsWorkRequestManagementClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_functions.NewWorkRequestManagementClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+// FunctionsWorkRequestManagementClient returns the client used to poll async Functions operations.
+func (m *OracleClients) FunctionsWorkRequestManagementClient() *oci_functions.WorkRequestManagementClient {
+	return m.GetClient("oci_functions.WorkRequestManagementClient").(*oci_functions.WorkRequestManagementClient)
 }
 
 func initFunctionsFunctionsInvokeClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

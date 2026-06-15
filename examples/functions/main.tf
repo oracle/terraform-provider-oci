@@ -34,8 +34,8 @@ resource "oci_core_route_table" "test_route_table" {
 }
 
 resource "oci_core_network_security_group" "test_network_security_group" {
-    compartment_id = var.compartment_ocid
-    vcn_id         = oci_core_vcn.test_vcn.id
+  compartment_id = var.compartment_ocid
+  vcn_id         = oci_core_vcn.test_vcn.id
 }
 
 resource "oci_core_subnet" "test_subnet" {
@@ -93,7 +93,7 @@ resource "oci_functions_application" "test_application" {
 
   security_attributes = {
     "oracle-zpr.sensitivity.value" = "low"
-    "oracle-zpr.sensitivity.mode" = "enforce"
+    "oracle-zpr.sensitivity.mode"  = "enforce"
   }
   logging {
 
@@ -116,12 +116,12 @@ resource "oci_functions_function" "test_function" {
   #Required
   application_id = oci_functions_application.test_application.id
   display_name   = "example-function-test"
-  image          = var.function_image
   memory_in_mbs  = var.function_memory_in_mbs
+  image = var.function_image
+  image_digest = var.function_image_digest
 
   #Optional
   config             = var.config
-  image_digest       = var.function_image_digest
   timeout_in_seconds = var.function_timeout_in_seconds
   trace_config {
     is_enabled = var.function_trace_config.is_enabled
@@ -129,19 +129,111 @@ resource "oci_functions_function" "test_function" {
 
   provisioned_concurrency_config {
     strategy = "CONSTANT"
-    count = 40
+    count    = 40
   }
 
   detached_mode_timeout_in_seconds = var.function_detached_mode_timeout_in_seconds
   failure_destination {
-    kind = "QUEUE"
+    kind       = "QUEUE"
     channel_id = "failure123"
-    queue_id = oci_queue_queue.test_queue.id
+    queue_id   = oci_queue_queue.test_queue.id
   }
 
   success_destination {
-    kind = "STREAM"
+    kind      = "STREAM"
     stream_id = oci_streaming_stream.test_stream.id
+  }
+}
+
+data "oci_functions_functions_runtimes" "test_archive_runtimes" {
+  name  = var.function_runtime_name
+  state = "ACTIVE"
+}
+
+data "oci_functions_functions_runtime_versions" "test_archive_runtime_versions" {
+  functions_runtime_id = data.oci_functions_functions_runtimes.test_archive_runtimes.functions_runtime_collection[0].items[0].id
+  is_current_version   = true
+  state                = "ACTIVE"
+}
+
+resource "oci_functions_function" "test_container_image_function" {
+  application_id = oci_functions_application.test_application.id
+  display_name   = "example-container-image-fn"
+  memory_in_mbs  = var.function_memory_in_mbs
+  source_details {
+    source_type  = "CONTAINER_IMAGE"
+    image        = var.function_image
+    image_digest = var.function_image_digest
+  }
+}
+
+resource "oci_functions_function" "test_object_archive_function_update" {
+  application_id = oci_functions_application.test_application.id
+  display_name   = "example-object-archive-function-update"
+  memory_in_mbs  = var.function_memory_in_mbs
+
+  source_details {
+    source_type = "ARCHIVE"
+    handler     = var.function_archive_handler
+
+    archive_source_details {
+      archive_source_type = "OBJECT_STORAGE_ARCHIVE"
+      namespace           = var.function_archive_namespace
+      bucket              = var.function_archive_bucket
+      object              = var.function_archive_object
+      object_version_id   = var.function_archive_object_version_id
+    }
+
+    runtime_config {
+      runtime_config_type    = "FUNCTION_UPDATE"
+      functions_runtime_name = data.oci_functions_functions_runtimes.test_archive_runtimes.functions_runtime_collection[0].items[0].name
+    }
+  }
+}
+
+resource "oci_functions_function" "test_object_archive_manual" {
+  application_id = oci_functions_application.test_application.id
+  display_name   = "example-object-archive-manual"
+  memory_in_mbs  = var.function_memory_in_mbs
+
+  source_details {
+    source_type = "ARCHIVE"
+    handler     = var.function_archive_handler
+
+    archive_source_details {
+      archive_source_type = "OBJECT_STORAGE_ARCHIVE"
+      namespace           = var.function_archive_namespace
+      bucket              = var.function_archive_bucket
+      object              = var.function_archive_object
+      object_version_id   = var.function_archive_object_version_id
+    }
+
+    runtime_config {
+      runtime_config_type          = "MANUAL"
+      functions_runtime_name       = data.oci_functions_functions_runtimes.test_archive_runtimes.functions_runtime_collection[0].items[0].name
+      functions_runtime_version_id = data.oci_functions_functions_runtime_versions.test_archive_runtime_versions.functions_runtime_version_collection[0].items[0].id
+    }
+  }
+}
+
+resource "oci_functions_function" "test_direct_archive_function" {
+  application_id = oci_functions_application.test_application.id
+  display_name   = "example-direct-archive-function"
+  memory_in_mbs  = var.function_memory_in_mbs
+
+  source_details {
+    source_type = "ARCHIVE"
+    handler     = var.function_archive_handler
+
+    archive_source_details {
+      archive_source_type = "DIRECT_ARCHIVE"
+      archive_file        = filebase64(var.function_direct_archive_file_path)
+    }
+
+    runtime_config {
+      runtime_config_type    = "FUNCTION_UPDATE"
+      functions_runtime_name = data.oci_functions_functions_runtimes.test_archive_runtimes.functions_runtime_collection[0].items[0].name
+    }
   }
 }
 
@@ -175,11 +267,11 @@ data "oci_functions_pbf_listing_triggers" "test_triggers" {
 
 resource "oci_functions_function" "test_pre_built_function" {
   application_id = oci_functions_application.test_application.id
-  display_name = "example-pre-built-function"
-  memory_in_mbs = var.function_memory_in_mbs
+  display_name   = "example-pre-built-function"
+  memory_in_mbs  = var.function_memory_in_mbs
   source_details {
     pbf_listing_id = var.pbf_listing_id
-    source_type = "PRE_BUILT_FUNCTIONS"
+    source_type    = "PRE_BUILT_FUNCTIONS"
   }
 }
 
@@ -204,7 +296,7 @@ data "oci_functions_functions" "test_functions" {
 }
 
 resource "time_sleep" "wait_function_provisioning" {
-  depends_on      = [oci_functions_function.test_function]
+  depends_on = [oci_functions_function.test_function]
 
   create_duration = "5s"
 }
