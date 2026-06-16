@@ -18,27 +18,30 @@ type SenderInvitationStatusEnum string
 
 // Set of constants representing the allowable values for SenderInvitationStatusEnum
 const (
-	SenderInvitationStatusPending  SenderInvitationStatusEnum = "PENDING"
-	SenderInvitationStatusCanceled SenderInvitationStatusEnum = "CANCELED"
-	SenderInvitationStatusAccepted SenderInvitationStatusEnum = "ACCEPTED"
-	SenderInvitationStatusExpired  SenderInvitationStatusEnum = "EXPIRED"
-	SenderInvitationStatusFailed   SenderInvitationStatusEnum = "FAILED"
+	SenderInvitationStatusPending       SenderInvitationStatusEnum = "PENDING"
+	SenderInvitationStatusCanceled      SenderInvitationStatusEnum = "CANCELED"
+	SenderInvitationStatusAccepted      SenderInvitationStatusEnum = "ACCEPTED"
+	SenderInvitationStatusExpired       SenderInvitationStatusEnum = "EXPIRED"
+	SenderInvitationStatusFailed        SenderInvitationStatusEnum = "FAILED"
+	SenderInvitationStatusNotApplicable SenderInvitationStatusEnum = "NOT_APPLICABLE"
 )
 
 var mappingSenderInvitationStatusEnum = map[string]SenderInvitationStatusEnum{
-	"PENDING":  SenderInvitationStatusPending,
-	"CANCELED": SenderInvitationStatusCanceled,
-	"ACCEPTED": SenderInvitationStatusAccepted,
-	"EXPIRED":  SenderInvitationStatusExpired,
-	"FAILED":   SenderInvitationStatusFailed,
+	"PENDING":        SenderInvitationStatusPending,
+	"CANCELED":       SenderInvitationStatusCanceled,
+	"ACCEPTED":       SenderInvitationStatusAccepted,
+	"EXPIRED":        SenderInvitationStatusExpired,
+	"FAILED":         SenderInvitationStatusFailed,
+	"NOT_APPLICABLE": SenderInvitationStatusNotApplicable,
 }
 
 var mappingSenderInvitationStatusEnumLowerCase = map[string]SenderInvitationStatusEnum{
-	"pending":  SenderInvitationStatusPending,
-	"canceled": SenderInvitationStatusCanceled,
-	"accepted": SenderInvitationStatusAccepted,
-	"expired":  SenderInvitationStatusExpired,
-	"failed":   SenderInvitationStatusFailed,
+	"pending":        SenderInvitationStatusPending,
+	"canceled":       SenderInvitationStatusCanceled,
+	"accepted":       SenderInvitationStatusAccepted,
+	"expired":        SenderInvitationStatusExpired,
+	"failed":         SenderInvitationStatusFailed,
+	"not_applicable": SenderInvitationStatusNotApplicable,
 }
 
 // GetSenderInvitationStatusEnumValues Enumerates the set of values for SenderInvitationStatusEnum
@@ -58,6 +61,7 @@ func GetSenderInvitationStatusEnumStringValues() []string {
 		"ACCEPTED",
 		"EXPIRED",
 		"FAILED",
+		"NOT_APPLICABLE",
 	}
 }
 

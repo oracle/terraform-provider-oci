@@ -137,7 +137,7 @@ variable "node_count" {
 }
 
 variable "data_storage_percentage" {
-  default = "40"
+  default = "80"
 }
 
 variable "time_zone" {

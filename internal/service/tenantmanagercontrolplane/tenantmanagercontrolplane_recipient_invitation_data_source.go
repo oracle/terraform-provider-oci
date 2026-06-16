@@ -35,6 +35,13 @@ func TenantmanagercontrolplaneRecipientInvitationDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"features": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -139,6 +146,8 @@ func (s *TenantmanagercontrolplaneRecipientInvitationDataSourceCrud) SetData() e
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("features", s.Res.Features)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 

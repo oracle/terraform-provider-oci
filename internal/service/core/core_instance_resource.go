@@ -3777,8 +3777,12 @@ func (s *CoreInstanceResourceCrud) mapToUpdateInstanceShapeConfigDetails(fieldKe
 	}
 
 	if localVolumeSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "local_volume_size_in_gbs")); ok {
-		tmp := localVolumeSizeInGBs.(int)
-		result.LocalVolumeSizeInGBs = &tmp
+		if s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "local_volume_size_in_gbs")) {
+			tmp := localVolumeSizeInGBs.(int)
+			if tmp > 0 {
+				result.LocalVolumeSizeInGBs = &tmp
+			}
+		}
 	}
 
 	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {

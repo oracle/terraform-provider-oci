@@ -119,24 +119,30 @@ type DbNodeActionActionEnum string
 
 // Set of constants representing the allowable values for DbNodeActionActionEnum
 const (
-	DbNodeActionActionStop      DbNodeActionActionEnum = "STOP"
-	DbNodeActionActionStart     DbNodeActionActionEnum = "START"
-	DbNodeActionActionSoftreset DbNodeActionActionEnum = "SOFTRESET"
-	DbNodeActionActionReset     DbNodeActionActionEnum = "RESET"
+	DbNodeActionActionStop       DbNodeActionActionEnum = "STOP"
+	DbNodeActionActionForcestop  DbNodeActionActionEnum = "FORCESTOP"
+	DbNodeActionActionForcereset DbNodeActionActionEnum = "FORCERESET"
+	DbNodeActionActionStart      DbNodeActionActionEnum = "START"
+	DbNodeActionActionSoftreset  DbNodeActionActionEnum = "SOFTRESET"
+	DbNodeActionActionReset      DbNodeActionActionEnum = "RESET"
 )
 
 var mappingDbNodeActionActionEnum = map[string]DbNodeActionActionEnum{
-	"STOP":      DbNodeActionActionStop,
-	"START":     DbNodeActionActionStart,
-	"SOFTRESET": DbNodeActionActionSoftreset,
-	"RESET":     DbNodeActionActionReset,
+	"STOP":       DbNodeActionActionStop,
+	"FORCESTOP":  DbNodeActionActionForcestop,
+	"FORCERESET": DbNodeActionActionForcereset,
+	"START":      DbNodeActionActionStart,
+	"SOFTRESET":  DbNodeActionActionSoftreset,
+	"RESET":      DbNodeActionActionReset,
 }
 
 var mappingDbNodeActionActionEnumLowerCase = map[string]DbNodeActionActionEnum{
-	"stop":      DbNodeActionActionStop,
-	"start":     DbNodeActionActionStart,
-	"softreset": DbNodeActionActionSoftreset,
-	"reset":     DbNodeActionActionReset,
+	"stop":       DbNodeActionActionStop,
+	"forcestop":  DbNodeActionActionForcestop,
+	"forcereset": DbNodeActionActionForcereset,
+	"start":      DbNodeActionActionStart,
+	"softreset":  DbNodeActionActionSoftreset,
+	"reset":      DbNodeActionActionReset,
 }
 
 // GetDbNodeActionActionEnumValues Enumerates the set of values for DbNodeActionActionEnum
@@ -152,6 +158,8 @@ func GetDbNodeActionActionEnumValues() []DbNodeActionActionEnum {
 func GetDbNodeActionActionEnumStringValues() []string {
 	return []string{
 		"STOP",
+		"FORCESTOP",
+		"FORCERESET",
 		"START",
 		"SOFTRESET",
 		"RESET",

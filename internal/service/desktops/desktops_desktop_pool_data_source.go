@@ -147,6 +147,8 @@ func (s *DesktopsDesktopPoolDataSourceCrud) SetData() error {
 		s.D.Set("private_access_details", nil)
 	}
 
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+
 	if s.Res.SessionLifecycleActions != nil {
 		s.D.Set("session_lifecycle_actions", []interface{}{DesktopSessionLifecycleActionsToMap(s.Res.SessionLifecycleActions)})
 	} else {

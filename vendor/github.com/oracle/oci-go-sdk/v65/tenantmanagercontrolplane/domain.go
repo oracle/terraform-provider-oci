@@ -36,6 +36,9 @@ type Domain struct {
 	// The code that the owner of the domain will need to add as a TXT record to their domain.
 	TxtRecord *string `mandatory:"true" json:"txtRecord"`
 
+	// The OCID of the tenancy that has started the registration process for this domain.
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
 	// Date-time when this domain was created. An RFC 3339-formatted date and time string.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 

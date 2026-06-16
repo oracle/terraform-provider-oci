@@ -196,27 +196,30 @@ type ListSenderInvitationsStatusEnum string
 
 // Set of constants representing the allowable values for ListSenderInvitationsStatusEnum
 const (
-	ListSenderInvitationsStatusPending  ListSenderInvitationsStatusEnum = "PENDING"
-	ListSenderInvitationsStatusCanceled ListSenderInvitationsStatusEnum = "CANCELED"
-	ListSenderInvitationsStatusAccepted ListSenderInvitationsStatusEnum = "ACCEPTED"
-	ListSenderInvitationsStatusExpired  ListSenderInvitationsStatusEnum = "EXPIRED"
-	ListSenderInvitationsStatusFailed   ListSenderInvitationsStatusEnum = "FAILED"
+	ListSenderInvitationsStatusPending       ListSenderInvitationsStatusEnum = "PENDING"
+	ListSenderInvitationsStatusCanceled      ListSenderInvitationsStatusEnum = "CANCELED"
+	ListSenderInvitationsStatusAccepted      ListSenderInvitationsStatusEnum = "ACCEPTED"
+	ListSenderInvitationsStatusExpired       ListSenderInvitationsStatusEnum = "EXPIRED"
+	ListSenderInvitationsStatusFailed        ListSenderInvitationsStatusEnum = "FAILED"
+	ListSenderInvitationsStatusNotApplicable ListSenderInvitationsStatusEnum = "NOT_APPLICABLE"
 )
 
 var mappingListSenderInvitationsStatusEnum = map[string]ListSenderInvitationsStatusEnum{
-	"PENDING":  ListSenderInvitationsStatusPending,
-	"CANCELED": ListSenderInvitationsStatusCanceled,
-	"ACCEPTED": ListSenderInvitationsStatusAccepted,
-	"EXPIRED":  ListSenderInvitationsStatusExpired,
-	"FAILED":   ListSenderInvitationsStatusFailed,
+	"PENDING":        ListSenderInvitationsStatusPending,
+	"CANCELED":       ListSenderInvitationsStatusCanceled,
+	"ACCEPTED":       ListSenderInvitationsStatusAccepted,
+	"EXPIRED":        ListSenderInvitationsStatusExpired,
+	"FAILED":         ListSenderInvitationsStatusFailed,
+	"NOT_APPLICABLE": ListSenderInvitationsStatusNotApplicable,
 }
 
 var mappingListSenderInvitationsStatusEnumLowerCase = map[string]ListSenderInvitationsStatusEnum{
-	"pending":  ListSenderInvitationsStatusPending,
-	"canceled": ListSenderInvitationsStatusCanceled,
-	"accepted": ListSenderInvitationsStatusAccepted,
-	"expired":  ListSenderInvitationsStatusExpired,
-	"failed":   ListSenderInvitationsStatusFailed,
+	"pending":        ListSenderInvitationsStatusPending,
+	"canceled":       ListSenderInvitationsStatusCanceled,
+	"accepted":       ListSenderInvitationsStatusAccepted,
+	"expired":        ListSenderInvitationsStatusExpired,
+	"failed":         ListSenderInvitationsStatusFailed,
+	"not_applicable": ListSenderInvitationsStatusNotApplicable,
 }
 
 // GetListSenderInvitationsStatusEnumValues Enumerates the set of values for ListSenderInvitationsStatusEnum
@@ -236,6 +239,7 @@ func GetListSenderInvitationsStatusEnumStringValues() []string {
 		"ACCEPTED",
 		"EXPIRED",
 		"FAILED",
+		"NOT_APPLICABLE",
 	}
 }
 

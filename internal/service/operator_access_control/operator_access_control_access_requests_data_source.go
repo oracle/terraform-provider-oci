@@ -24,6 +24,10 @@ func OperatorAccessControlAccessRequestsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"num_days": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 			"resource_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -322,6 +326,11 @@ func (s *OperatorAccessControlAccessRequestsDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
+	if numDays, ok := s.D.GetOkExists("num_days"); ok {
+		tmp := numDays.(int)
+		request.NumDays = &tmp
+	}
+
 	if resourceName, ok := s.D.GetOkExists("resource_name"); ok {
 		tmp := resourceName.(string)
 		request.ResourceName = &tmp
@@ -397,6 +406,8 @@ func AccessRequestsSummaryToMap(obj oci_operator_access_control.AccessRequestSum
 	if obj.AccessReasonSummary != nil {
 		result["access_reason_summary"] = string(*obj.AccessReasonSummary)
 	}
+
+	result["action_requests_list"] = obj.ActionRequestsList
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)

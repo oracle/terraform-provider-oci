@@ -18,18 +18,21 @@ type InvitationSubjectEnum string
 
 // Set of constants representing the allowable values for InvitationSubjectEnum
 const (
-	InvitationSubjectLink       InvitationSubjectEnum = "LINK"
-	InvitationSubjectGovernance InvitationSubjectEnum = "GOVERNANCE"
+	InvitationSubjectLink             InvitationSubjectEnum = "LINK"
+	InvitationSubjectGovernance       InvitationSubjectEnum = "GOVERNANCE"
+	InvitationSubjectExtendedFeatures InvitationSubjectEnum = "EXTENDED_FEATURES"
 )
 
 var mappingInvitationSubjectEnum = map[string]InvitationSubjectEnum{
-	"LINK":       InvitationSubjectLink,
-	"GOVERNANCE": InvitationSubjectGovernance,
+	"LINK":              InvitationSubjectLink,
+	"GOVERNANCE":        InvitationSubjectGovernance,
+	"EXTENDED_FEATURES": InvitationSubjectExtendedFeatures,
 }
 
 var mappingInvitationSubjectEnumLowerCase = map[string]InvitationSubjectEnum{
-	"link":       InvitationSubjectLink,
-	"governance": InvitationSubjectGovernance,
+	"link":              InvitationSubjectLink,
+	"governance":        InvitationSubjectGovernance,
+	"extended_features": InvitationSubjectExtendedFeatures,
 }
 
 // GetInvitationSubjectEnumValues Enumerates the set of values for InvitationSubjectEnum
@@ -46,6 +49,7 @@ func GetInvitationSubjectEnumStringValues() []string {
 	return []string{
 		"LINK",
 		"GOVERNANCE",
+		"EXTENDED_FEATURES",
 	}
 }
 

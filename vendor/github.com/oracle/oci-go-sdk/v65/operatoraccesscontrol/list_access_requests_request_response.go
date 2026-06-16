@@ -30,6 +30,9 @@ type ListAccessRequestsRequest struct {
 	// A filter to return only resources whose lifecycleState matches the given AccessRequest lifecycleState.
 	LifecycleState ListAccessRequestsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// The number of days since when the user wants to search .
+	NumDays *int `mandatory:"false" contributesTo:"query" name:"numDays"`
+
 	// Query start time in UTC in ISO 8601 format(inclusive).
 	// Example 2019-10-30T00:00:00Z (yyyy-MM-ddThh:mm:ssZ).
 	// timeIntervalStart and timeIntervalEnd parameters are used together.

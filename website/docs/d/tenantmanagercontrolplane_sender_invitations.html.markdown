@@ -54,6 +54,10 @@ The following attributes are exported:
 * `display_name` - A user-created name to describe the invitation. Avoid entering confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - OCID of the sender invitation.
+* `invitation_features` - List of features that the invitation is being sent for. Each feature would create one link, of that type.
+	* `name` - Name of the feature.
+	* `recipient_invitation_id` - recipientInvitationId for this feature.
+	* `status` - Status of the sender invitation.
 * `recipient_email_address` - Email address of the recipient.
 * `recipient_invitation_id` - OCID of the corresponding recipient invitation.
 * `recipient_tenancy_id` - OCID of the recipient tenancy.

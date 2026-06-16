@@ -79,6 +79,26 @@ func (s *OpensearchOpensearchClusterDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.CoordinatorNodeCount != nil {
+		s.D.Set("coordinator_node_count", *s.Res.CoordinatorNodeCount)
+	}
+
+	if s.Res.CoordinatorNodeHostMemoryGB != nil {
+		s.D.Set("coordinator_node_host_memory_gb", *s.Res.CoordinatorNodeHostMemoryGB)
+	}
+
+	if s.Res.CoordinatorNodeHostOcpuCount != nil {
+		s.D.Set("coordinator_node_host_ocpu_count", *s.Res.CoordinatorNodeHostOcpuCount)
+	}
+
+	if s.Res.CoordinatorNodeHostShape != nil {
+		s.D.Set("coordinator_node_host_shape", *s.Res.CoordinatorNodeHostShape)
+	}
+
+	if s.Res.CoordinatorNodeHostType != "" {
+		s.D.Set("coordinator_node_host_type", s.Res.CoordinatorNodeHostType)
+	}
+
 	if s.Res.DataNodeCount != nil {
 		s.D.Set("data_node_count", *s.Res.DataNodeCount)
 	}

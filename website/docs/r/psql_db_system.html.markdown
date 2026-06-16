@@ -22,19 +22,6 @@ Creates a new database system.
 resource "oci_psql_db_system" "test_db_system" {
 	#Required
 	compartment_id = var.compartment_id
-	credentials {
-		#Required
-		password_details {
-			#Required
-			password_type = var.db_system_credentials_password_details_password_type
-
-			#Optional
-			password = var.db_system_credentials_password_details_password
-			secret_id = oci_vault_secret.test_secret.id
-			secret_version = var.db_system_credentials_password_details_secret_version
-		}
-		username = var.db_system_credentials_username
-	}
 	db_version = var.db_system_db_version
 	display_name = var.db_system_display_name
 	network_details {
@@ -59,6 +46,20 @@ resource "oci_psql_db_system" "test_db_system" {
 
 	#Optional
 	config_id = oci_apm_config_config.test_config.id
+	credentials {
+		#Required for stand alone dbsystem
+		#Optional for standby dbsystem
+		password_details {
+			#Required
+			password_type = var.db_system_credentials_password_details_password_type
+
+			#Optional
+			password = var.db_system_credentials_password_details_password
+			secret_id = oci_vault_secret.test_secret.id
+			secret_version = var.db_system_credentials_password_details_secret_version
+		}
+		username = var.db_system_credentials_username
+	}
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	description = var.db_system_description
 	freeform_tags = {"bar-key"= "value"}
@@ -94,6 +95,24 @@ resource "oci_psql_db_system" "test_db_system" {
 		}
 		maintenance_window_start = var.db_system_management_policy_maintenance_window_start
 	}
+	odsp_insight_details {
+		#Required
+		kind = var.db_system_odsp_insight_details_kind
+
+		#Optional
+		odsp_insight_list {
+
+			#Optional
+			insight_type = var.db_system_odsp_insight_details_odsp_insight_list_insight_type
+			retention_period_in_days = var.db_system_odsp_insight_details_odsp_insight_list_retention_period_in_days
+		}
+	}
+	replication_config {
+
+		#Optional
+		is_rpo_enforced = var.db_system_replication_config_is_rpo_enforced
+		rpo_in_seconds = var.db_system_replication_config_rpo_in_seconds
+	}
 	source {
 		#Required
 		source_type = var.db_system_source_source_type
@@ -101,6 +120,7 @@ resource "oci_psql_db_system" "test_db_system" {
 		#Optional
 		backup_id = oci_psql_backup.test_backup.id
 		is_having_restore_config_overrides = var.db_system_source_is_having_restore_config_overrides
+		primary_db_system_id = oci_psql_db_system.test_db_system.id
 	}
 	system_type = var.db_system_system_type
 
@@ -123,25 +143,25 @@ The following arguments are supported:
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the database system.
 * `config_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration associated with the database system.
 * `apply_config` - (Optional) Whether a configuration update requires a restart of the database instance or a reload of the configuration. Some configuration changes require a restart of database instances to be applied. Apply config can be passed as `RESTART` or `RELOAD`
-* `credentials` - (Optional) Initial database system credentials that the database system will be provisioned with. The password details are not visible on any subsequent operation, such as GET /dbSystems/{dbSystemId}. 
-	* `password_details` - (Required) Details for the database system password. Password can be passed as `VaultSecretPasswordDetails` or `PlainTextPasswordDetails`. 
+* `credentials` - (Optional) Initial database system credentials that the database system will be provisioned with. The password details are not visible on any subsequent operation, such as GET /dbSystems/{dbSystemId}.
+	* `password_details` - (Required) Details for the database system password. Password can be passed as `VaultSecretPasswordDetails` or `PlainTextPasswordDetails`.
 		* `password` - (Required when password_type=PLAIN_TEXT) The database system password.
 		* `password_type` - (Required) The password type.
 		* `secret_id` - (Required when password_type=VAULT_SECRET) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret where the password is stored.
 		* `secret_version` - (Required when password_type=VAULT_SECRET) The secret version of the stored password.
 	* `username` - (Required) The database system administrator username.
 * `db_version` - (Required) Version of database system software.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}`
 * `description` - (Optional) (Updatable) A user-provided description of a database system.
 * `display_name` - (Required) (Updatable) A user-friendly display name for the database system. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
-* `instance_count` - (Optional) Count of database instances nodes to be created in the database system. 
+* `instance_count` - (Optional) Count of database instances nodes to be created in the database system.
 * `instance_memory_size_in_gbs` - (Optional) (Updatable) The total amount of memory available to each database instance node, in gigabytes.
 * `instance_ocpu_count` - (Optional) (Updatable) The total number of OCPUs available to each database instance node.
-* `instances_details` - (Optional) Details of database instances nodes to be created. This parameter is optional. If specified, its size must match `instanceCount`. 
+* `instances_details` - (Optional) Details of database instances nodes to be created. This parameter is optional. If specified, its size must match `instanceCount`.
 	* `description` - (Optional) A user-provided description of the database instance node.
 	* `display_name` - (Optional) Display name of the database instance node. Avoid entering confidential information.
-	* `private_ip` - (Optional) Private IP in customer subnet that will be assigned to the database instance node. This value is optional. If the IP is not provided, the IP will be chosen from the available IP addresses in the specified subnet. 
+	* `private_ip` - (Optional) Private IP in customer subnet that will be assigned to the database instance node. This value is optional. If the IP is not provided, the IP will be chosen from the available IP addresses in the specified subnet.
 * `management_policy` - (Optional) (Updatable) PostgreSQL database system management policy update details.
 	* `backup_policy` - (Optional) (Updatable) PostgreSQL database system backup policy.
 		* `backup_start` - (Required when kind=DAILY | MONTHLY | WEEKLY) (Updatable) Hour of the day when the backup starts.
@@ -149,33 +169,46 @@ The following arguments are supported:
 			* `compartment_id` - (Required) (Updatable) target compartment to place a new backup
 			* `regions` - (Optional) (Updatable) List of region names of the remote region
 			* `retention_period` - (Optional) (Updatable) Retention period in days of the backup copy.
-		* `days_of_the_month` - (Required when kind=MONTHLY) (Updatable) Day of the month when the backup should start. To ensure that the backup runs monthly, the latest day of the month that you can use to schedule a backup is the the 28th day. 
+		* `days_of_the_month` - (Required when kind=MONTHLY) (Updatable) Day of the month when the backup should start. To ensure that the backup runs monthly, the latest day of the month that you can use to schedule a backup is the the 28th day.
 		* `days_of_the_week` - (Required when kind=WEEKLY) (Updatable) The day of the week that the backup starts.
 		* `kind` - (Optional) (Updatable) The kind of backup policy.
 		* `retention_days` - (Optional) (Updatable) How many days the data should be stored after the database system deletion.
 	* `maintenance_window_start` - (Optional) (Updatable) The start of the maintenance window in UTC.
 
-		This string is of the format: "{day-of-week} {time-of-day}". "{day-of-week}" is a case-insensitive string like "mon", "tue", &c. "{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero. 
+		This string is of the format: "{day-of-week} {time-of-day}". "{day-of-week}" is a case-insensitive string like "mon", "tue", &c. "{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero.
 * `network_details` - (Required) (Updatable) Network details for the database system.
 	* `is_reader_endpoint_enabled` - (Optional) (Updatable) Specifies if the reader endpoint is enabled on the dbSystem.
 	* `nsg_ids` - (Optional) (Updatable) List of customer Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the database system.
-	* `primary_db_endpoint_private_ip` - (Optional) Private IP in customer subnet. The value is optional. If the IP is not provided, the IP will be chosen from the available IP addresses from the specified subnet. 
+	* `primary_db_endpoint_private_ip` - (Optional) Private IP in customer subnet. The value is optional. If the IP is not provided, the IP will be chosen from the available IP addresses from the specified subnet.
 	* `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer subnet associated with the database system.
+* `odsp_insight_details` - (Optional) (Updatable) ODSP Insight details for the database system.
+	* `kind` - (Required) (Updatable) Specifies the management of Insight for the dbSystem.
+	* `odsp_insight_list` - (Required when kind=ENABLED) (Updatable) List of ODSP Insight and their configurations.
+		* `insight_type` - (Required when kind=ENABLED) (Updatable) Type of Insight collected for the database system.
+		* `retention_period_in_days` - (Applicable when kind=ENABLED) (Updatable) Retention period for Insight data, in days. Current supported value is 7 days. the system default is 7 days.
+* `replication_config` - (Optional) (Updatable) Details of the replication configuration that is applicable when database system gets the  PRIMARY_DB_SYSTEM role.
+
+	This configuration does not have any effect on database systems with other roles.
+	* `is_rpo_enforced` - (Optional) (Updatable) Specify if Recovery point objective (RPO) enforcement needs to be enabled on the database  system.
+	* `rpo_in_seconds` - (Optional) (Updatable) Specifies the Recovery point objective (RPO) in seconds that will be enforced, if the  `isRpoEnforced` flag is true.
 * `shape` - (Required) (Updatable) The name of the shape for the database instance node. Use the /shapes API for accepted shapes. Example: `VM.Standard.E4.Flex`
 * `patch_operations` - (Optional) (Updatable) For adding and removing from read replica database instances. Please remove the patch_operations after it is applied. Update the instance_count arrodrandly. Cannot be specified when creating the resource.
-	* `operation` - (Required) The operation can be one of these values: `INSERT`, `REMOVE`. 
+	* `operation` - (Required) The operation can be one of these values: `INSERT`, `REMOVE`.
 	* `selection` - (Required) In case of `INSERT`, selection is `instances`. In case of `REMOVE`, selection is `instances[?id == '${var.instance_id}']`.
 	* `value` - (Required when operation=INSERT) Specify instance details such as displayName, description or privateIp. Example: `{"displayName": "value"}`.
+* `apply_change_mode_to_stand_alone` - (Optional) Specify change mode to apply when converting from warm standby to standalone. It can be set to 'IMMEDIATELY' or 'REPLAY_PENDING_UPDATES'. If source.primary_db_system_id is disabled, `REPLAY_PENDING_UPDATES` is used by default.
 * `source` - (Optional) The source of the database system.
 	* `backup_id` - (Required when source_type=BACKUP) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database system backup.
 	* `is_having_restore_config_overrides` - (Applicable when source_type=BACKUP) Deprecated. Don't use.
-	* `source_type` - (Required) The source descriminator. Example: `{"source_type": "BACKUP"}`.
+	* `primary_db_system_id` - (Required when source_type=DB_SYSTEM) The [OCID] of the primary database system.
+	* `source_type` - (Required) The source descriminator.
 * `storage_details` - (Required) (Updatable) Storage details of the database system.
-	* `availability_domain` - (Optional) Specifies the availability domain of AD-local storage. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified. 
+	* `availability_domain` - (Optional) Specifies the availability domain of AD-local storage. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified.
 	* `iops` - (Applicable when system_type=OCI_OPTIMIZED_STORAGE) (Updatable) Guaranteed input/output storage requests per second (IOPS) available to the database system. Find more about the supported Peformance Tiers [here](https://docs.oracle.com/en-us/iaas/Content/postgresql/performance-tiers.htm).
-	* `is_regionally_durable` - (Required) Specifies if the block volume used for the database system is regional or AD-local. If not specified, it will be set to false. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified. 
+	* `is_regionally_durable` - (Required) Specifies if the block volume used for the database system is regional or AD-local. If not specified, it will be set to false. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified.
 	* `system_type` - (Required) Type of the database system.
 * `system_type` - (Optional) Type of the database system.
+* `state` - (Optional) (Updatable) The target state for the Db System. Could be set to `ACTIVE` or `INACTIVE`.
 
 
 ** IMPORTANT **
@@ -189,10 +222,10 @@ The following attributes are exported:
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the database system.
 * `config_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration associated with the database system.
 * `db_version` - The major and minor versions of the database system software.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}`
 * `description` - A description of the database system.
 * `display_name` - A user-friendly display name for the database system. Avoid entering confidential information.
-* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
 * `id` - A unique identifier for the database system. Immutable on creation.
 * `instance_count` - Count of instances, or nodes, in the database system.
 * `instance_memory_size_in_gbs` - The total amount of memory available to each database instance node, in gigabytes.
@@ -204,8 +237,18 @@ The following attributes are exported:
 	* `id` - A unique identifier for the database instance node. Immutable on creation.
 	* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	* `state` - The current state of the database instance node.
-	* `time_created` - The date and time that the database instance node was created, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
-	* `time_updated` - The date and time that the database instance node was updated, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
+	* `time_created` - The date and time that the database instance node was created, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z`
+	* `time_updated` - The date and time that the database instance node was updated, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z`
+* `kerberos_auth_details` - Kerberos Authentication details for the database system.
+	* `backup_credentials` - Optional. List of Kerberos Credentials previously configured for the dbsystem. Currently supports only one entry.
+		* `keytab_secret_id` - The OCID of the secret where the Kerberos keytab file is stored as base64 text.
+		* `keytab_secret_version` - The secret version of the stored Kerberos keytab file.
+		* `realm_name` - Kerberos realm name.  https://docs.oracle.com/cd/E36784_01/html/E37126/kplanning-27.html Realm names can consist of any ASCII string. Usually, the realm name is the same as your DNS domain name  except that the realm name is in uppercase. This convention helps differentiate problems with the Kerberos  service from problems with the DNS namespace, while keeping a name that is familiar. You can use any string,  but configuration and maintenance might then require more work. Use realm names that follow the standard  Internet naming structure.
+	* `credentials` - List of Kerberos Credentials to be configured for the dbsystem. Currently supports only one entry.
+		* `keytab_secret_id` - The OCID of the secret where the Kerberos keytab file is stored as base64 text.
+		* `keytab_secret_version` - The secret version of the stored Kerberos keytab file.
+		* `realm_name` - Kerberos realm name.  https://docs.oracle.com/cd/E36784_01/html/E37126/kplanning-27.html Realm names can consist of any ASCII string. Usually, the realm name is the same as your DNS domain name  except that the realm name is in uppercase. This convention helps differentiate problems with the Kerberos  service from problems with the DNS namespace, while keeping a name that is familiar. You can use any string,  but configuration and maintenance might then require more work. Use realm names that follow the standard  Internet naming structure.
+	* `kind` - Specifies the management of Kerberos Authentication for the dbSystem.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `management_policy` - PostgreSQL database system management policy.
 	* `backup_policy` - PostgreSQL database system backup policy.
@@ -214,38 +257,50 @@ The following attributes are exported:
 			* `compartment_id` - target compartment to place a new backup
 			* `regions` - List of region names of the remote region
 			* `retention_period` - Retention period in days of the backup copy.
-		* `days_of_the_month` - Day of the month when the backup should start. To ensure that the backup runs monthly, the latest day of the month that you can use to schedule a backup is the the 28th day. 
+		* `days_of_the_month` - Day of the month when the backup should start. To ensure that the backup runs monthly, the latest day of the month that you can use to schedule a backup is the the 28th day.
 		* `days_of_the_week` - The day of the week that the backup starts.
 		* `kind` - The kind of backup policy.
 		* `retention_days` - How many days the data should be stored after the database system deletion.
-	* `maintenance_window_start` - The start of the maintenance window. 
+	* `maintenance_window_start` - The start of the maintenance window.
 * `network_details` - Network details for the database system.
 	* `is_reader_endpoint_enabled` - Specifies if the reader endpoint is enabled on the dbSystem.
 	* `nsg_ids` - List of customer Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the database system.
-	* `primary_db_endpoint_private_ip` - Private IP in customer subnet. The value is optional. If the IP is not provided, the IP will be chosen from the available IP addresses from the specified subnet. 
+	* `primary_db_endpoint_private_ip` - Private IP in customer subnet. The value is optional. If the IP is not provided, the IP will be chosen from the available IP addresses from the specified subnet.
 	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer subnet associated with the database system.
-* `shape` - The name of the shape for the database instance. Example: `VM.Standard.E4.Flex` 
+* `odsp_insight_details` - ODSP Insight details for the database system.
+	* `kind` - Specifies the management of Insight for the dbSystem.
+	* `odsp_insight_list` - List of ODSP Insight and their configurations.
+		* `insight_type` - Type of Insight collected for the database system.
+		* `retention_period_in_days` - Retention period for Insight data, in days. Current supported value is 7 days. the system default is 7 days.
+* `replication_config` - Replication configuration that is applicable on database systems with the PRIMARY_DB_SYSTEM  role.
+
+	This configuration does not have any effect on database systems with other roles.
+	* `is_rpo_enforced` - Specifies if Recovery point objective (RPO) enforcement is enabled on the database system.
+	* `rpo_in_seconds` - Specifies the Recovery point objective (RPO) in seconds that will be enforced, if the  `isRpoEnforced` flag is true.
+* `shape` - The name of the shape for the database instance. Example: `VM.Standard.E4.Flex`
 * `source` - The source of the database system.
 	* `backup_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database system backup.
 	* `is_having_restore_config_overrides` - Deprecated. Don't use.
-	* `source_type` - The source descriminator. 
+	* `primary_db_system_id` - The [OCID] of the primary database system.
+	* `source_type` - The source descriminator.
 * `state` - The current state of the database system.
 * `storage_details` - Storage details of the database system.
-	* `availability_domain` - Specifies the availability domain of AD-local storage. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified. 
+	* `availability_domain` - Specifies the availability domain of AD-local storage. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified.
 	* `iops` - Guaranteed input/output storage requests per second (IOPS) available to the database system.
-	* `is_regionally_durable` - Specifies if the block volume used for the database system is regional or AD-local. If not specified, it will be set to false. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified. 
+	* `is_regionally_durable` - Specifies if the block volume used for the database system is regional or AD-local. If not specified, it will be set to false. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified.
 	* `system_type` - Type of the database system.
-* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `system_role` - Type of the database system.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}`
 * `system_type` - Type of the database system.
-* `time_created` - The date and time that the database system was created, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
-* `time_updated` - The date and time that the database system was updated, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - The date and time that the database system was created, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z`
+* `time_updated` - The date and time that the database system was updated, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z`
 
 ## Timeouts
 
 The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
-	* `create` - (Defaults to 20 minutes), when creating the Db System
-	* `update` - (Defaults to 20 minutes), when updating the Db System
-	* `delete` - (Defaults to 20 minutes), when destroying the Db System
+	* `create` - (Defaults to 1 hour), when creating the Db System
+	* `update` - (Defaults to 1 hour), when updating the Db System
+	* `delete` - (Defaults to 1 hour), when destroying the Db System
 
 
 ## Import
@@ -255,4 +310,3 @@ DbSystems can be imported using the `id`, e.g.
 ```
 $ terraform import oci_psql_db_system.test_db_system "id"
 ```
-

@@ -30,7 +30,7 @@ data "oci_apm_data_keys" "test_data_keys" {
 
 The following arguments are supported:
 
-* `apm_domain_id` - (Required) The OCID of the APM domain
+* `apm_domain_id` - (Required) The OCID of the APM domain.
 * `data_key_type` - (Optional) Data key type.
 
 

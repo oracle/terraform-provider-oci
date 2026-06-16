@@ -56,13 +56,14 @@ var (
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_free_tier":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"lifecycle":     acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+		"log_group_id":  acctest.Representation{RepType: acctest.Optional, Create: `logGroupId1`, Update: `logGroupId2`},
 	}
+
+	ApmDomainResourceDependencies = DefinedTagsDependencies
 
 	ignoreDefinedTagsDifferencesRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
-
-	ApmDomainResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: apm/default
@@ -118,6 +119,7 @@ func TestApmApmDomainResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_free_tier", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -145,6 +147,7 @@ func TestApmApmDomainResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_free_tier", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -167,6 +170,7 @@ func TestApmApmDomainResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_free_tier", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "log_group_id"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -195,6 +199,7 @@ func TestApmApmDomainResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "apm_domains.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "apm_domains.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "apm_domains.0.is_free_tier", "false"),
+				resource.TestCheckResourceAttrSet(datasourceName, "apm_domains.0.log_group_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "apm_domains.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "apm_domains.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "apm_domains.0.time_updated"),

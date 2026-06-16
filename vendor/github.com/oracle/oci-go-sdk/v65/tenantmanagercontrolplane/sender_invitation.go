@@ -51,6 +51,9 @@ type SenderInvitation struct {
 	// Email address of the recipient.
 	RecipientEmailAddress *string `mandatory:"false" json:"recipientEmailAddress"`
 
+	// List of features that the invitation is being sent for. Each feature would create one link, of that type.
+	InvitationFeatures []InvitationFeature `mandatory:"false" json:"invitationFeatures"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

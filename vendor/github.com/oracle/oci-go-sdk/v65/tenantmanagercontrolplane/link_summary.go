@@ -42,6 +42,9 @@ type LinkSummary struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// The feature associated with this link. Default value is CORE.
+	Feature *string `mandatory:"false" json:"feature"`
 }
 
 func (m LinkSummary) String() string {

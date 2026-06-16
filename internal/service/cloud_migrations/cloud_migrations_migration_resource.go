@@ -91,6 +91,12 @@ func CloudMigrationsMigrationResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"lifecycle_details": {
@@ -235,6 +241,10 @@ func (s *CloudMigrationsMigrationResourceCrud) Create() error {
 	if replicationScheduleId, ok := s.D.GetOkExists("replication_schedule_id"); ok {
 		tmp := replicationScheduleId.(string)
 		request.ReplicationScheduleId = &tmp
+	}
+
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations")
@@ -449,6 +459,10 @@ func (s *CloudMigrationsMigrationResourceCrud) Update() error {
 		request.ReplicationScheduleId = &tmp
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_migrations")
 
 	response, err := s.Client.UpdateMigration(context.Background(), request)
@@ -515,6 +529,12 @@ func (s *CloudMigrationsMigrationResourceCrud) SetData() error {
 
 	if s.Res.ReplicationScheduleId != nil {
 		s.D.Set("replication_schedule_id", *s.Res.ReplicationScheduleId)
+	}
+
+	if s.Res.SecurityAttributes != nil {
+		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+	} else {
+		s.D.Set("security_attributes", map[string]string{})
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -594,6 +614,8 @@ func MigrationSummaryToMap(obj oci_cloud_migrations.MigrationSummary) map[string
 	if obj.ReplicationScheduleId != nil {
 		result["replication_schedule_id"] = string(*obj.ReplicationScheduleId)
 	}
+
+	result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
 
 	result["state"] = string(obj.LifecycleState)
 
