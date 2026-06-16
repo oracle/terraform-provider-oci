@@ -871,8 +871,7 @@ func (s *DevopsDeployEnvironmentResourceCrud) mapToNetworkChannel(fieldKeyFormat
 	case strings.ToLower("SERVICE_VNIC_CHANNEL"):
 		details := oci_devops.ServiceVnicChannel{}
 		if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
-			set := nsgIds.(*schema.Set)
-			interfaces := set.List()
+			interfaces := nsgIds.([]interface{})
 			tmp := make([]string, len(interfaces))
 			for i := range interfaces {
 				if interfaces[i] != nil {

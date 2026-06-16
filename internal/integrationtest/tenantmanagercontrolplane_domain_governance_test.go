@@ -63,7 +63,7 @@ func TestTenantmanagercontrolplaneDomainGovernanceResource_basic(t *testing.T) {
 	fmt.Printf("Data Source Config: %s\n", dataSourceConfig)
 	fmt.Printf("Singular Data Source Config: %s\n", singularDataSourceConfig)
 
-	acctest.ResourceTest(t, nil, []resource.TestStep{
+	testSteps := []resource.TestStep{
 		// verify datasource
 		{
 			Config: dataSourceConfig,
@@ -71,12 +71,15 @@ func TestTenantmanagercontrolplaneDomainGovernanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "domain_governance_collection.#"),
 			),
 		},
-		// verify singular datasource
-		{
+	}
+
+	if domainGovernanceId != "" {
+		testSteps = append(testSteps, resource.TestStep{
 			Config: singularDataSourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "domain_governance_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "freeform_tags.%"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_governance_enabled"),
@@ -86,6 +89,8 @@ func TestTenantmanagercontrolplaneDomainGovernanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
-		},
-	})
+		})
+	}
+
+	acctest.ResourceTest(t, nil, testSteps)
 }

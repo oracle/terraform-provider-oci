@@ -26,6 +26,10 @@ func TenantmanagercontrolplaneLinkDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"feature": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"parent_tenancy_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -96,6 +100,10 @@ func (s *TenantmanagercontrolplaneLinkDataSourceCrud) SetData() error {
 
 	if s.Res.ChildTenancyId != nil {
 		s.D.Set("child_tenancy_id", *s.Res.ChildTenancyId)
+	}
+
+	if s.Res.Feature != nil {
+		s.D.Set("feature", *s.Res.Feature)
 	}
 
 	if s.Res.ParentTenancyId != nil {

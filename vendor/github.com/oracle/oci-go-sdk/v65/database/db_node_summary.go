@@ -68,6 +68,9 @@ type DbNodeSummary struct {
 	// **Note:** Applies only to Exadata Cloud Service.
 	BackupVnic2Id *string `mandatory:"false" json:"backupVnic2Id"`
 
+	// Actions that can be performed on the database node, depending on its current lifecycle state.
+	AvailableActions []DbNodeSummaryAvailableActionsEnum `mandatory:"false" json:"availableActions,omitempty"`
+
 	// The host name for the database node.
 	Hostname *string `mandatory:"false" json:"hostname"`
 
@@ -142,6 +145,12 @@ func (m DbNodeSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingDbNodeSummaryLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDbNodeSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+
+	for _, val := range m.AvailableActions {
+		if _, ok := GetMappingDbNodeSummaryAvailableActionsEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailableActions: %s. Supported values are: %s.", val, strings.Join(GetDbNodeSummaryAvailableActionsEnumStringValues(), ",")))
+		}
 	}
 
 	if _, ok := GetMappingDbNodeSummaryMaintenanceTypeEnum(string(m.MaintenanceType)); !ok && m.MaintenanceType != "" {
@@ -223,6 +232,64 @@ func GetDbNodeSummaryLifecycleStateEnumStringValues() []string {
 // GetMappingDbNodeSummaryLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDbNodeSummaryLifecycleStateEnum(val string) (DbNodeSummaryLifecycleStateEnum, bool) {
 	enum, ok := mappingDbNodeSummaryLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DbNodeSummaryAvailableActionsEnum Enum with underlying type: string
+type DbNodeSummaryAvailableActionsEnum string
+
+// Set of constants representing the allowable values for DbNodeSummaryAvailableActionsEnum
+const (
+	DbNodeSummaryAvailableActionsStop       DbNodeSummaryAvailableActionsEnum = "STOP"
+	DbNodeSummaryAvailableActionsForcestop  DbNodeSummaryAvailableActionsEnum = "FORCESTOP"
+	DbNodeSummaryAvailableActionsForcereset DbNodeSummaryAvailableActionsEnum = "FORCERESET"
+	DbNodeSummaryAvailableActionsStart      DbNodeSummaryAvailableActionsEnum = "START"
+	DbNodeSummaryAvailableActionsSoftreset  DbNodeSummaryAvailableActionsEnum = "SOFTRESET"
+	DbNodeSummaryAvailableActionsReset      DbNodeSummaryAvailableActionsEnum = "RESET"
+)
+
+var mappingDbNodeSummaryAvailableActionsEnum = map[string]DbNodeSummaryAvailableActionsEnum{
+	"STOP":       DbNodeSummaryAvailableActionsStop,
+	"FORCESTOP":  DbNodeSummaryAvailableActionsForcestop,
+	"FORCERESET": DbNodeSummaryAvailableActionsForcereset,
+	"START":      DbNodeSummaryAvailableActionsStart,
+	"SOFTRESET":  DbNodeSummaryAvailableActionsSoftreset,
+	"RESET":      DbNodeSummaryAvailableActionsReset,
+}
+
+var mappingDbNodeSummaryAvailableActionsEnumLowerCase = map[string]DbNodeSummaryAvailableActionsEnum{
+	"stop":       DbNodeSummaryAvailableActionsStop,
+	"forcestop":  DbNodeSummaryAvailableActionsForcestop,
+	"forcereset": DbNodeSummaryAvailableActionsForcereset,
+	"start":      DbNodeSummaryAvailableActionsStart,
+	"softreset":  DbNodeSummaryAvailableActionsSoftreset,
+	"reset":      DbNodeSummaryAvailableActionsReset,
+}
+
+// GetDbNodeSummaryAvailableActionsEnumValues Enumerates the set of values for DbNodeSummaryAvailableActionsEnum
+func GetDbNodeSummaryAvailableActionsEnumValues() []DbNodeSummaryAvailableActionsEnum {
+	values := make([]DbNodeSummaryAvailableActionsEnum, 0)
+	for _, v := range mappingDbNodeSummaryAvailableActionsEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDbNodeSummaryAvailableActionsEnumStringValues Enumerates the set of values in String for DbNodeSummaryAvailableActionsEnum
+func GetDbNodeSummaryAvailableActionsEnumStringValues() []string {
+	return []string{
+		"STOP",
+		"FORCESTOP",
+		"FORCERESET",
+		"START",
+		"SOFTRESET",
+		"RESET",
+	}
+}
+
+// GetMappingDbNodeSummaryAvailableActionsEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDbNodeSummaryAvailableActionsEnum(val string) (DbNodeSummaryAvailableActionsEnum, bool) {
+	enum, ok := mappingDbNodeSummaryAvailableActionsEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

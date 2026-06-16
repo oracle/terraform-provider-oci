@@ -22,6 +22,10 @@ func TenantmanagercontrolplaneDomainDataSource() *schema.Resource {
 				Required: true,
 			},
 			// Computed
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -112,6 +116,10 @@ func (s *TenantmanagercontrolplaneDomainDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(*s.Res.Id)
+
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))

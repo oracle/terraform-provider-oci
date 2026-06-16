@@ -33,6 +33,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `child_tenancy_id` - OCID of the child tenancy.
+* `feature` - The feature associated with this link. Default value is CORE.
 * `id` - OCID of the link.
 * `parent_tenancy_id` - OCID of the parent tenancy.
 * `state` - Lifecycle state of the link.

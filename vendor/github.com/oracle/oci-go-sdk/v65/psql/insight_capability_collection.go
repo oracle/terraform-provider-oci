@@ -2,12 +2,13 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// OpenSearch Service API
+// PGSQL Control Plane API
 //
-// The OpenSearch service API provides access to OCI Search Service with OpenSearch.
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
-package opensearch
+package psql
 
 import (
 	"fmt"
@@ -15,21 +16,21 @@ import (
 	"strings"
 )
 
-// CustomerLoggingDetails Customer logging configuration
-type CustomerLoggingDetails struct {
+// InsightCapabilityCollection PostgreSQL insight capabilities collection.
+type InsightCapabilityCollection struct {
 
-	// the age of an index after which the index will get deleted by ISM policy
-	LogRetentionDays *int `mandatory:"true" json:"logRetentionDays"`
+	// PostgreSQL insight capabilities list.
+	Items []InsightCapabilitySummary `mandatory:"true" json:"items"`
 }
 
-func (m CustomerLoggingDetails) String() string {
+func (m InsightCapabilityCollection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CustomerLoggingDetails) ValidateEnumValue() (bool, error) {
+func (m InsightCapabilityCollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

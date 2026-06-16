@@ -35,8 +35,6 @@ type CreateDbSystemDetails struct {
 	// Example: `VM.Standard.E4.Flex`
 	Shape *string `mandatory:"true" json:"shape"`
 
-	Credentials *Credentials `mandatory:"true" json:"credentials"`
-
 	NetworkDetails *NetworkDetails `mandatory:"true" json:"networkDetails"`
 
 	// A user-provided description of a database system.
@@ -61,9 +59,15 @@ type CreateDbSystemDetails struct {
 	// If specified, its size must match `instanceCount`.
 	InstancesDetails []CreateDbInstanceDetails `mandatory:"false" json:"instancesDetails"`
 
+	Credentials *Credentials `mandatory:"false" json:"credentials"`
+
 	ManagementPolicy *ManagementPolicyDetails `mandatory:"false" json:"managementPolicy"`
 
 	Source SourceDetails `mandatory:"false" json:"source"`
+
+	ReplicationConfig *CreateReplicationConfigDetails `mandatory:"false" json:"replicationConfig"`
+
+	OdspInsightDetails OdspInsightDetails `mandatory:"false" json:"odspInsightDetails"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -103,8 +107,11 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		InstanceMemorySizeInGBs *int                              `json:"instanceMemorySizeInGBs"`
 		InstanceCount           *int                              `json:"instanceCount"`
 		InstancesDetails        []CreateDbInstanceDetails         `json:"instancesDetails"`
+		Credentials             *Credentials                      `json:"credentials"`
 		ManagementPolicy        *ManagementPolicyDetails          `json:"managementPolicy"`
 		Source                  sourcedetails                     `json:"source"`
+		ReplicationConfig       *CreateReplicationConfigDetails   `json:"replicationConfig"`
+		OdspInsightDetails      odspinsightdetails                `json:"odspInsightDetails"`
 		FreeformTags            map[string]string                 `json:"freeformTags"`
 		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
 		DisplayName             *string                           `json:"displayName"`
@@ -112,7 +119,6 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		DbVersion               *string                           `json:"dbVersion"`
 		StorageDetails          storagedetails                    `json:"storageDetails"`
 		Shape                   *string                           `json:"shape"`
-		Credentials             *Credentials                      `json:"credentials"`
 		NetworkDetails          *NetworkDetails                   `json:"networkDetails"`
 	}{}
 
@@ -135,6 +141,8 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.InstancesDetails = make([]CreateDbInstanceDetails, len(model.InstancesDetails))
 	copy(m.InstancesDetails, model.InstancesDetails)
+	m.Credentials = model.Credentials
+
 	m.ManagementPolicy = model.ManagementPolicy
 
 	nn, e = model.Source.UnmarshalPolymorphicJSON(model.Source.JsonData)
@@ -145,6 +153,18 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		m.Source = nn.(SourceDetails)
 	} else {
 		m.Source = nil
+	}
+
+	m.ReplicationConfig = model.ReplicationConfig
+
+	nn, e = model.OdspInsightDetails.UnmarshalPolymorphicJSON(model.OdspInsightDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.OdspInsightDetails = nn.(OdspInsightDetails)
+	} else {
+		m.OdspInsightDetails = nil
 	}
 
 	m.FreeformTags = model.FreeformTags
@@ -168,8 +188,6 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.Shape = model.Shape
-
-	m.Credentials = model.Credentials
 
 	m.NetworkDetails = model.NetworkDetails
 

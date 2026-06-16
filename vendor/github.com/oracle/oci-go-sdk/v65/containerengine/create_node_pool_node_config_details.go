@@ -40,6 +40,9 @@ type CreateNodePoolNodeConfigDetails struct {
 	// Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
 	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
 
+	// The OCID of the Compute Cluster to be associated with the worker node instance.
+	ComputeClusterId *string `mandatory:"false" json:"computeClusterId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -76,6 +79,7 @@ func (m *CreateNodePoolNodeConfigDetails) UnmarshalJSON(data []byte) (e error) {
 		NsgIds                          []string                          `json:"nsgIds"`
 		KmsKeyId                        *string                           `json:"kmsKeyId"`
 		IsPvEncryptionInTransitEnabled  *bool                             `json:"isPvEncryptionInTransitEnabled"`
+		ComputeClusterId                *string                           `json:"computeClusterId"`
 		FreeformTags                    map[string]string                 `json:"freeformTags"`
 		DefinedTags                     map[string]map[string]interface{} `json:"definedTags"`
 		NodePoolPodNetworkOptionDetails nodepoolpodnetworkoptiondetails   `json:"nodePoolPodNetworkOptionDetails"`
@@ -93,6 +97,8 @@ func (m *CreateNodePoolNodeConfigDetails) UnmarshalJSON(data []byte) (e error) {
 	m.KmsKeyId = model.KmsKeyId
 
 	m.IsPvEncryptionInTransitEnabled = model.IsPvEncryptionInTransitEnabled
+
+	m.ComputeClusterId = model.ComputeClusterId
 
 	m.FreeformTags = model.FreeformTags
 

@@ -27,7 +27,7 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 		},
 		Timeouts: &schema.ResourceTimeout{
 			Create: tfresource.GetTimeoutDuration("45m"),
-			Update: tfresource.GetTimeoutDuration("45m"),
+			Update: tfresource.GetTimeoutDuration("90m"),
 			Delete: tfresource.GetTimeoutDuration("45m"),
 		},
 		Create: createOpensearchOpensearchCluster,
@@ -155,6 +155,32 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"coordinator_node_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"coordinator_node_host_memory_gb": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"coordinator_node_host_ocpu_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"coordinator_node_host_shape": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"coordinator_node_host_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 
 			// Optional
@@ -700,6 +726,30 @@ func (s *OpensearchOpensearchClusterResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if coordinatorNodeCount, ok := s.D.GetOkExists("coordinator_node_count"); ok {
+		tmp := coordinatorNodeCount.(int)
+		request.CoordinatorNodeCount = &tmp
+	}
+
+	if coordinatorNodeHostMemoryGB, ok := s.D.GetOkExists("coordinator_node_host_memory_gb"); ok {
+		tmp := coordinatorNodeHostMemoryGB.(int)
+		request.CoordinatorNodeHostMemoryGB = &tmp
+	}
+
+	if coordinatorNodeHostOcpuCount, ok := s.D.GetOkExists("coordinator_node_host_ocpu_count"); ok {
+		tmp := coordinatorNodeHostOcpuCount.(int)
+		request.CoordinatorNodeHostOcpuCount = &tmp
+	}
+
+	if coordinatorNodeHostShape, ok := s.D.GetOkExists("coordinator_node_host_shape"); ok {
+		tmp := coordinatorNodeHostShape.(string)
+		request.CoordinatorNodeHostShape = &tmp
+	}
+
+	if coordinatorNodeHostType, ok := s.D.GetOkExists("coordinator_node_host_type"); ok {
+		request.CoordinatorNodeHostType = oci_opensearch.CoordinatorNodeHostTypeEnum(coordinatorNodeHostType.(string))
+	}
+
 	if dataNodeCount, ok := s.D.GetOkExists("data_node_count"); ok {
 		tmp := dataNodeCount.(int)
 		request.DataNodeCount = &tmp
@@ -1145,7 +1195,9 @@ func (s *OpensearchOpensearchClusterResourceCrud) Get() error {
 }
 
 func (s *OpensearchOpensearchClusterResourceCrud) HorizontalConditionMet() (result bool) {
-	if _, ok := s.D.GetOkExists("data_node_count"); ok && s.D.HasChange("data_node_count") {
+	if _, ok := s.D.GetOkExists("coordinator_node_count"); ok && s.D.HasChange("coordinator_node_count") {
+		return true
+	} else if _, ok := s.D.GetOkExists("data_node_count"); ok && s.D.HasChange("data_node_count") {
 		return true
 	} else if _, ok := s.D.GetOkExists("master_node_count"); ok && s.D.HasChange("master_node_count") {
 		return true
@@ -1160,7 +1212,13 @@ func (s *OpensearchOpensearchClusterResourceCrud) HorizontalConditionMet() (resu
 }
 
 func (s *OpensearchOpensearchClusterResourceCrud) VerticalConditionMet() (result bool) {
-	if _, ok := s.D.GetOkExists("master_node_host_ocpu_count"); ok && s.D.HasChange("master_node_host_ocpu_count") {
+	if _, ok := s.D.GetOkExists("coordinator_node_host_ocpu_count"); ok && s.D.HasChange("coordinator_node_host_ocpu_count") {
+		return true
+	} else if _, ok := s.D.GetOkExists("coordinator_node_host_memory_gb"); ok && s.D.HasChange("coordinator_node_host_memory_gb") {
+		return true
+	} else if _, ok := s.D.GetOkExists("coordinator_node_host_shape"); ok && s.D.HasChange("coordinator_node_host_shape") {
+		return true
+	} else if _, ok := s.D.GetOkExists("master_node_host_ocpu_count"); ok && s.D.HasChange("master_node_host_ocpu_count") {
 		return true
 	} else if _, ok := s.D.GetOkExists("master_node_host_memory_gb"); ok && s.D.HasChange("master_node_host_memory_gb") {
 		return true
@@ -1200,6 +1258,32 @@ func (s *OpensearchOpensearchClusterResourceCrud) VerticalConditionMet() (result
 	return false
 }
 
+func (s *OpensearchOpensearchClusterResourceCrud) UpdateConditionMet() (result bool) {
+	updateFields := []string{
+		"certificate_config",
+		"defined_tags",
+		"display_name",
+		"freeform_tags",
+		"load_balancer_config",
+		"maintenance_details",
+		"outbound_cluster_config",
+		"reverse_connection_endpoint_customer_ips",
+		"security_attributes",
+		"security_master_user_name",
+		"security_master_user_password_hash",
+		"security_mode",
+		"security_saml_config",
+		"software_version",
+	}
+
+	for _, field := range updateFields {
+		if s.D.HasChange(field) {
+			return true
+		}
+	}
+	return false
+}
+
 func (s *OpensearchOpensearchClusterResourceCrud) Update() error {
 	if s.HorizontalConditionMet() {
 		log.Println("Horizontal Resize Begin...")
@@ -1215,6 +1299,10 @@ func (s *OpensearchOpensearchClusterResourceCrud) Update() error {
 		if err != nil {
 			return err
 		}
+	}
+
+	if !s.UpdateConditionMet() {
+		return nil
 	}
 
 	request := oci_opensearch.UpdateOpensearchClusterRequest{}
@@ -1376,6 +1464,26 @@ func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.CoordinatorNodeCount != nil {
+		s.D.Set("coordinator_node_count", *s.Res.CoordinatorNodeCount)
+	}
+
+	if s.Res.CoordinatorNodeHostMemoryGB != nil {
+		s.D.Set("coordinator_node_host_memory_gb", *s.Res.CoordinatorNodeHostMemoryGB)
+	}
+
+	if s.Res.CoordinatorNodeHostOcpuCount != nil {
+		s.D.Set("coordinator_node_host_ocpu_count", *s.Res.CoordinatorNodeHostOcpuCount)
+	}
+
+	if s.Res.CoordinatorNodeHostShape != nil {
+		s.D.Set("coordinator_node_host_shape", *s.Res.CoordinatorNodeHostShape)
+	}
+
+	if s.Res.CoordinatorNodeHostType != "" {
+		s.D.Set("coordinator_node_host_type", s.Res.CoordinatorNodeHostType)
 	}
 
 	if s.Res.DataNodeCount != nil {
@@ -1707,6 +1815,11 @@ func (s *OpensearchOpensearchClusterResourceCrud) ResizeOpensearchClusterHorizon
 	tfresource.ShortRetryTime = tfresource.LongRetryTime * 5
 	request := oci_opensearch.ResizeOpensearchClusterHorizontalRequest{}
 
+	if coordinatorNodeCount, ok := s.D.GetOkExists("coordinator_node_count"); ok {
+		tmp := coordinatorNodeCount.(int)
+		request.CoordinatorNodeCount = &tmp
+	}
+
 	if dataNodeCount, ok := s.D.GetOkExists("data_node_count"); ok {
 		tmp := dataNodeCount.(int)
 		request.DataNodeCount = &tmp
@@ -1737,21 +1850,33 @@ func (s *OpensearchOpensearchClusterResourceCrud) ResizeOpensearchClusterHorizon
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch")
 
-	_, err := s.Client.ResizeOpensearchClusterHorizontal(context.Background(), request)
+	response, err := s.Client.ResizeOpensearchClusterHorizontal(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
-		return waitErr
-	}
-
-	return nil
+	workId := response.OpcWorkRequestId
+	return s.getOpensearchClusterFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch"), oci_opensearch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *OpensearchOpensearchClusterResourceCrud) ResizeOpensearchClusterVertical() error {
 	tfresource.ShortRetryTime = tfresource.LongRetryTime * 5
 	request := oci_opensearch.ResizeOpensearchClusterVerticalRequest{}
+
+	if coordinatorNodeHostMemoryGB, ok := s.D.GetOkExists("coordinator_node_host_memory_gb"); ok {
+		tmp := coordinatorNodeHostMemoryGB.(int)
+		request.CoordinatorNodeHostMemoryGB = &tmp
+	}
+
+	if coordinatorNodeHostOcpuCount, ok := s.D.GetOkExists("coordinator_node_host_ocpu_count"); ok {
+		tmp := coordinatorNodeHostOcpuCount.(int)
+		request.CoordinatorNodeHostOcpuCount = &tmp
+	}
+
+	if coordinatorNodeHostShape, ok := s.D.GetOkExists("coordinator_node_host_shape"); ok {
+		tmp := coordinatorNodeHostShape.(string)
+		request.CoordinatorNodeHostShape = &tmp
+	}
 
 	if dataNodeHostMemoryGB, ok := s.D.GetOkExists("data_node_host_memory_gb"); ok {
 		tmp := dataNodeHostMemoryGB.(int)
@@ -1848,16 +1973,13 @@ func (s *OpensearchOpensearchClusterResourceCrud) ResizeOpensearchClusterVertica
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch")
 
-	_, err := s.Client.ResizeOpensearchClusterVertical(context.Background(), request)
+	response, err := s.Client.ResizeOpensearchClusterVertical(context.Background(), request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
-		return waitErr
-	}
-
-	return nil
+	workId := response.OpcWorkRequestId
+	return s.getOpensearchClusterFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch"), oci_opensearch.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *OpensearchOpensearchClusterResourceCrud) mapToCreateMaintenanceDetails(fieldKeyFormat string) (oci_opensearch.CreateMaintenanceDetails, error) {

@@ -13,8 +13,10 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_psql_db_system", PsqlDbSystemDataSource())
 	tfresource.RegisterDatasource("oci_psql_db_system_connection_detail", PsqlDbSystemConnectionDetailDataSource())
 	tfresource.RegisterDatasource("oci_psql_db_system_primary_db_instance", PsqlDbSystemPrimaryDbInstanceDataSource())
+	tfresource.RegisterDatasource("oci_psql_db_system_replicas", PsqlDbSystemReplicasDataSource())
 	tfresource.RegisterDatasource("oci_psql_db_systems", PsqlDbSystemsDataSource())
 	tfresource.RegisterDatasource("oci_psql_default_configuration", PsqlDefaultConfigurationDataSource())
 	tfresource.RegisterDatasource("oci_psql_default_configurations", PsqlDefaultConfigurationsDataSource())
+	tfresource.RegisterDatasource("oci_psql_insight_capabilities", PsqlInsightCapabilitiesDataSource())
 	tfresource.RegisterDatasource("oci_psql_shapes", PsqlShapesDataSource())
 }

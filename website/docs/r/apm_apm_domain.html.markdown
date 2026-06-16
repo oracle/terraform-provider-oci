@@ -30,6 +30,7 @@ resource "oci_apm_apm_domain" "test_apm_domain" {
 	description = var.apm_domain_description
 	freeform_tags = {"bar-key"= "value"}
 	is_free_tier = var.apm_domain_is_free_tier
+	log_group_id = oci_logging_log_group.test_log_group.id
 }
 ```
 
@@ -43,6 +44,7 @@ The following arguments are supported:
 * `display_name` - (Required) (Updatable) Display name of the APM domain.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `is_free_tier` - (Optional) Indicates whether this is an "Always Free" resource. The default value is false.
+* `log_group_id` - (Optional) (Updatable) The OCID of the Log Analytics log group to which the data uploaded to this APM domain will be mapped to.
 
 
 ** IMPORTANT **
@@ -60,6 +62,7 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - Unique identifier that is immutable on creation.
 * `is_free_tier` - Indicates if this is an Always Free resource.
+* `log_group_id` - The OCID of the Log Analytics log group to which the data uploaded to this APM domain will be mapped to.
 * `state` - The current lifecycle state of the APM domain.
 * `time_created` - The time the APM domain was created, expressed in RFC 3339 timestamp format.
 * `time_updated` - The time the APM domain was updated, expressed in RFC 3339 timestamp format.

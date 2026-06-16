@@ -40,6 +40,9 @@ type DbSystem struct {
 	// Type of the database system.
 	SystemType DbSystemSystemTypeEnum `mandatory:"true" json:"systemType"`
 
+	// Type of the database system.
+	SystemRole DbSystemSystemRoleEnum `mandatory:"true" json:"systemRole"`
+
 	// The major and minor versions of the database system software.
 	DbVersion *string `mandatory:"true" json:"dbVersion"`
 
@@ -85,6 +88,8 @@ type DbSystem struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	ReplicationConfig *ReplicationConfig `mandatory:"false" json:"replicationConfig"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the configuration associated with the database system.
 	ConfigId *string `mandatory:"false" json:"configId"`
 
@@ -95,6 +100,10 @@ type DbSystem struct {
 	Instances []DbInstance `mandatory:"false" json:"instances"`
 
 	Source SourceDetails `mandatory:"false" json:"source"`
+
+	KerberosAuthDetails KerberosAuthDetails `mandatory:"false" json:"kerberosAuthDetails"`
+
+	OdspInsightDetails OdspInsightDetails `mandatory:"false" json:"odspInsightDetails"`
 }
 
 func (m DbSystem) String() string {
@@ -111,6 +120,9 @@ func (m DbSystem) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingDbSystemSystemTypeEnum(string(m.SystemType)); !ok && m.SystemType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SystemType: %s. Supported values are: %s.", m.SystemType, strings.Join(GetDbSystemSystemTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDbSystemSystemRoleEnum(string(m.SystemRole)); !ok && m.SystemRole != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SystemRole: %s. Supported values are: %s.", m.SystemRole, strings.Join(GetDbSystemSystemRoleEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
@@ -129,16 +141,20 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags            map[string]string                 `json:"freeformTags"`
 		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags              map[string]map[string]interface{} `json:"systemTags"`
+		ReplicationConfig       *ReplicationConfig                `json:"replicationConfig"`
 		ConfigId                *string                           `json:"configId"`
 		InstanceCount           *int                              `json:"instanceCount"`
 		Instances               []DbInstance                      `json:"instances"`
 		Source                  sourcedetails                     `json:"source"`
+		KerberosAuthDetails     kerberosauthdetails               `json:"kerberosAuthDetails"`
+		OdspInsightDetails      odspinsightdetails                `json:"odspInsightDetails"`
 		Id                      *string                           `json:"id"`
 		DisplayName             *string                           `json:"displayName"`
 		CompartmentId           *string                           `json:"compartmentId"`
 		TimeCreated             *common.SDKTime                   `json:"timeCreated"`
 		LifecycleState          DbSystemLifecycleStateEnum        `json:"lifecycleState"`
 		SystemType              DbSystemSystemTypeEnum            `json:"systemType"`
+		SystemRole              DbSystemSystemRoleEnum            `json:"systemRole"`
 		DbVersion               *string                           `json:"dbVersion"`
 		Shape                   *string                           `json:"shape"`
 		InstanceOcpuCount       *int                              `json:"instanceOcpuCount"`
@@ -167,6 +183,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 
 	m.SystemTags = model.SystemTags
 
+	m.ReplicationConfig = model.ReplicationConfig
+
 	m.ConfigId = model.ConfigId
 
 	m.InstanceCount = model.InstanceCount
@@ -183,6 +201,26 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		m.Source = nil
 	}
 
+	nn, e = model.KerberosAuthDetails.UnmarshalPolymorphicJSON(model.KerberosAuthDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.KerberosAuthDetails = nn.(KerberosAuthDetails)
+	} else {
+		m.KerberosAuthDetails = nil
+	}
+
+	nn, e = model.OdspInsightDetails.UnmarshalPolymorphicJSON(model.OdspInsightDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.OdspInsightDetails = nn.(OdspInsightDetails)
+	} else {
+		m.OdspInsightDetails = nil
+	}
+
 	m.Id = model.Id
 
 	m.DisplayName = model.DisplayName
@@ -194,6 +232,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	m.LifecycleState = model.LifecycleState
 
 	m.SystemType = model.SystemType
+
+	m.SystemRole = model.SystemRole
 
 	m.DbVersion = model.DbVersion
 
@@ -321,5 +361,55 @@ func GetDbSystemSystemTypeEnumStringValues() []string {
 // GetMappingDbSystemSystemTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDbSystemSystemTypeEnum(val string) (DbSystemSystemTypeEnum, bool) {
 	enum, ok := mappingDbSystemSystemTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DbSystemSystemRoleEnum Enum with underlying type: string
+type DbSystemSystemRoleEnum string
+
+// Set of constants representing the allowable values for DbSystemSystemRoleEnum
+const (
+	DbSystemSystemRoleStandaloneDbSystem  DbSystemSystemRoleEnum = "STANDALONE_DB_SYSTEM"
+	DbSystemSystemRolePrimaryDbSystem     DbSystemSystemRoleEnum = "PRIMARY_DB_SYSTEM"
+	DbSystemSystemRoleWarmStandbyDbSystem DbSystemSystemRoleEnum = "WARM_STANDBY_DB_SYSTEM"
+	DbSystemSystemRolePilotLightDbSystem  DbSystemSystemRoleEnum = "PILOT_LIGHT_DB_SYSTEM"
+)
+
+var mappingDbSystemSystemRoleEnum = map[string]DbSystemSystemRoleEnum{
+	"STANDALONE_DB_SYSTEM":   DbSystemSystemRoleStandaloneDbSystem,
+	"PRIMARY_DB_SYSTEM":      DbSystemSystemRolePrimaryDbSystem,
+	"WARM_STANDBY_DB_SYSTEM": DbSystemSystemRoleWarmStandbyDbSystem,
+	"PILOT_LIGHT_DB_SYSTEM":  DbSystemSystemRolePilotLightDbSystem,
+}
+
+var mappingDbSystemSystemRoleEnumLowerCase = map[string]DbSystemSystemRoleEnum{
+	"standalone_db_system":   DbSystemSystemRoleStandaloneDbSystem,
+	"primary_db_system":      DbSystemSystemRolePrimaryDbSystem,
+	"warm_standby_db_system": DbSystemSystemRoleWarmStandbyDbSystem,
+	"pilot_light_db_system":  DbSystemSystemRolePilotLightDbSystem,
+}
+
+// GetDbSystemSystemRoleEnumValues Enumerates the set of values for DbSystemSystemRoleEnum
+func GetDbSystemSystemRoleEnumValues() []DbSystemSystemRoleEnum {
+	values := make([]DbSystemSystemRoleEnum, 0)
+	for _, v := range mappingDbSystemSystemRoleEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDbSystemSystemRoleEnumStringValues Enumerates the set of values in String for DbSystemSystemRoleEnum
+func GetDbSystemSystemRoleEnumStringValues() []string {
+	return []string{
+		"STANDALONE_DB_SYSTEM",
+		"PRIMARY_DB_SYSTEM",
+		"WARM_STANDBY_DB_SYSTEM",
+		"PILOT_LIGHT_DB_SYSTEM",
+	}
+}
+
+// GetMappingDbSystemSystemRoleEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDbSystemSystemRoleEnum(val string) (DbSystemSystemRoleEnum, bool) {
+	enum, ok := mappingDbSystemSystemRoleEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

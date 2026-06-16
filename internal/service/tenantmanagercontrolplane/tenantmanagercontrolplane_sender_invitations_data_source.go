@@ -71,6 +71,14 @@ func TenantmanagercontrolplaneSenderInvitationsDataSource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"features": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"freeform_tags": {
 										Type:     schema.TypeMap,
 										Optional: true,
@@ -95,6 +103,31 @@ func TenantmanagercontrolplaneSenderInvitationsDataSource() *schema.Resource {
 									"id": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+									"invitation_features": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"recipient_invitation_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"status": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
 									},
 									"recipient_invitation_id": {
 										Type:     schema.TypeString,
@@ -226,6 +259,22 @@ func (s *TenantmanagercontrolplaneSenderInvitationsDataSourceCrud) SetData() err
 	return nil
 }
 
+func InvitationFeatureToMap(obj oci_tenantmanagercontrolplane.InvitationFeature) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.RecipientInvitationId != nil {
+		result["recipient_invitation_id"] = string(*obj.RecipientInvitationId)
+	}
+
+	result["status"] = string(obj.Status)
+
+	return result
+}
+
 func SenderInvitationSummaryToMap(obj oci_tenantmanagercontrolplane.SenderInvitationSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -246,6 +295,12 @@ func SenderInvitationSummaryToMap(obj oci_tenantmanagercontrolplane.SenderInvita
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
+
+	invitationFeatures := []interface{}{}
+	for _, item := range obj.InvitationFeatures {
+		invitationFeatures = append(invitationFeatures, InvitationFeatureToMap(item))
+	}
+	result["invitation_features"] = invitationFeatures
 
 	if obj.RecipientEmailAddress != nil {
 		result["recipient_email_address"] = string(*obj.RecipientEmailAddress)

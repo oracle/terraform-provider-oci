@@ -49,6 +49,10 @@ func TestResourcePrivateEndpoint(t *testing.T) {
 							name = "testPe"
 							subnet_id = "${oci_core_subnet.test_subnet.id}"
 							prefix = "testPrefix"
+							security_attributes = {
+								"oracle-zpr.fleet-update.value" = "42"
+								"oracle-zpr.fleet-update.mode"  = "enforce"
+							}
 							access_targets  {
 								namespace = "*"
 								compartment_id = "*"
@@ -72,6 +76,9 @@ func TestResourcePrivateEndpoint(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "namespace"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "prefix", "testPrefix"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "security_attributes.%", "2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "security_attributes.oracle-zpr.fleet-update.value", "42"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "security_attributes.oracle-zpr.fleet-update.mode", "enforce"),
 					acctest.CheckResourceSetContainsElementWithProperties(singularDatasourceName, "access_targets",
 						map[string]string{
 							"namespace":      "*",

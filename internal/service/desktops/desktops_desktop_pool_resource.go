@@ -205,7 +205,6 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 			"network_configuration": {
 				Type:     schema.TypeList,
 				Required: true,
-				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -223,6 +222,12 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 						},
 
 						// Optional
+						"security_attributes": {
+							Type:     schema.TypeMap,
+							Optional: true,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 
 						// Computed
 					},
@@ -329,7 +334,6 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -356,6 +360,12 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 							Optional: true,
 							ForceNew: true,
 						},
+						"security_attributes": {
+							Type:     schema.TypeMap,
+							Optional: true,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 
 						// Computed
 						"endpoint_fqdn": {
@@ -368,6 +378,12 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"session_lifecycle_actions": {
 				Type:     schema.TypeList,
@@ -677,6 +693,10 @@ func (s *DesktopsDesktopPoolResourceCrud) Create() error {
 		}
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if sessionLifecycleActions, ok := s.D.GetOkExists("session_lifecycle_actions"); ok {
 		if tmpList := sessionLifecycleActions.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "session_lifecycle_actions", 0)
@@ -973,6 +993,32 @@ func (s *DesktopsDesktopPoolResourceCrud) Update() error {
 		request.MaximumSize = &tmp
 	}
 
+	if networkConfiguration, ok := s.D.GetOkExists("network_configuration"); ok {
+		if tmpList := networkConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "network_configuration", 0)
+			tmp, err := s.mapToUpdateDesktopNetworkConfiguration(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NetworkConfiguration = &tmp
+		}
+	}
+
+	if privateAccessDetails, ok := s.D.GetOkExists("private_access_details"); ok {
+		if tmpList := privateAccessDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "private_access_details", 0)
+			tmp, err := s.mapToUpdateDesktopPoolPrivateAccessDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.PrivateAccessDetails = &tmp
+		}
+	}
+
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if standbySize, ok := s.D.GetOkExists("standby_size"); ok {
 		tmp := standbySize.(int)
 		request.StandbySize = &tmp
@@ -1116,6 +1162,8 @@ func (s *DesktopsDesktopPoolResourceCrud) SetData() error {
 		s.D.Set("private_access_details", nil)
 	}
 
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+
 	if s.Res.SessionLifecycleActions != nil {
 		s.D.Set("session_lifecycle_actions", []interface{}{DesktopSessionLifecycleActionsToMap(s.Res.SessionLifecycleActions)})
 	} else {
@@ -1223,9 +1271,23 @@ func (s *DesktopsDesktopPoolResourceCrud) mapToCreateDesktopPoolPrivateAccessDet
 		result.PrivateIp = &tmp
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
+		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
 		tmp := subnetId.(string)
 		result.SubnetId = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DesktopsDesktopPoolResourceCrud) mapToUpdateDesktopPoolPrivateAccessDetails(fieldKeyFormat string) (oci_desktops.UpdateDesktopPoolPrivateAccessDetails, error) {
+	result := oci_desktops.UpdateDesktopPoolPrivateAccessDetails{}
+
+	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
+		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
 
 	return result, nil
@@ -1278,6 +1340,10 @@ func DesktopPoolPrivateAccessDetailsToMap(obj *oci_desktops.DesktopPoolPrivateAc
 
 	if obj.PrivateIp != nil {
 		result["private_ip"] = string(*obj.PrivateIp)
+	}
+
+	if obj.SecurityAttributes != nil {
+		result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
 	}
 
 	if obj.SubnetId != nil {
@@ -1489,6 +1555,10 @@ func DesktopImageToMap(obj *oci_desktops.DesktopImage) map[string]interface{} {
 func (s *DesktopsDesktopPoolResourceCrud) mapToDesktopNetworkConfiguration(fieldKeyFormat string) (oci_desktops.DesktopNetworkConfiguration, error) {
 	result := oci_desktops.DesktopNetworkConfiguration{}
 
+	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
+		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
 		tmp := subnetId.(string)
 		result.SubnetId = &tmp
@@ -1502,8 +1572,22 @@ func (s *DesktopsDesktopPoolResourceCrud) mapToDesktopNetworkConfiguration(field
 	return result, nil
 }
 
+func (s *DesktopsDesktopPoolResourceCrud) mapToUpdateDesktopNetworkConfiguration(fieldKeyFormat string) (oci_desktops.UpdateDesktopNetworkConfiguration, error) {
+	result := oci_desktops.UpdateDesktopNetworkConfiguration{}
+
+	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
+		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
+	return result, nil
+}
+
 func DesktopNetworkConfigurationToMap(obj *oci_desktops.DesktopNetworkConfiguration) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.SecurityAttributes != nil {
+		result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
+	}
 
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
@@ -1547,6 +1631,10 @@ func DesktopPoolSummaryToMap(obj oci_desktops.DesktopPoolSummary) map[string]int
 
 	if obj.MaximumSize != nil {
 		result["maximum_size"] = int(*obj.MaximumSize)
+	}
+
+	if obj.SecurityAttributes != nil {
+		result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
 	}
 
 	result["state"] = string(obj.LifecycleState)

@@ -189,6 +189,10 @@ func (s *ObjectStoragePrivateEndpointDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.SecurityAttributes != nil {
+		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+	}
+
 	s.D.Set("id", *s.Res.Id)
 
 	return nil

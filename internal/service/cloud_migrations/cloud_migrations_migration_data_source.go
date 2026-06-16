@@ -101,6 +101,10 @@ func (s *CloudMigrationsMigrationDataSourceCrud) SetData() error {
 		s.D.Set("replication_schedule_id", *s.Res.ReplicationScheduleId)
 	}
 
+	if s.Res.SecurityAttributes != nil {
+		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {

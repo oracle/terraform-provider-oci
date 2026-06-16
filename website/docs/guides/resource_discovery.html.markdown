@@ -426,6 +426,7 @@ apm
 apm_config
 
 * oci\_apm\_config\_config
+* oci\_apm\_config\_data\_file
 
 apm_synthetics
 

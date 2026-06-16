@@ -57,6 +57,7 @@ The following attributes are exported:
 	* `subnet_id` - The OCID of the subnet to use for replication
 * `migration_type` - Type of migration project (OCI/OLVM). This determines the target environment for the migration.
 * `replication_schedule_id` - Replication schedule identifier
+* `security_attributes` - Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
 * `state` - The current state of migration.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time when the migration project was created. An RFC3339 formatted datetime string

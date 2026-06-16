@@ -15,29 +15,30 @@ variable "region" {
 }
 
 variable "compartment_ocid" {
-
+  default = ""
 }
 
 variable "domain_id" {
-
+  default = ""
 }
 
 variable "domain_governance_id" {
-
+  default = ""
 }
 
 provider "oci" {
-	tenancy_ocid     = var.tenancy_ocid
-	auth             = var.auth
-	config_file_profile = var.config_file_profile
-	region           = var.region
+  tenancy_ocid        = var.tenancy_ocid
+  auth                = var.auth
+  config_file_profile = var.config_file_profile
+  region              = var.region
 }
 
 data "oci_tenantmanagercontrolplane_domain_governances" "test_domain_governances" {
-    domain_id = var.domain_id
-    compartment_id = var.compartment_ocid
+  domain_id      = var.domain_id
+  compartment_id = var.compartment_ocid
 }
 
 data "oci_tenantmanagercontrolplane_domain_governance" "test_domain_governance" {
-	domain_governance_id = var.domain_governance_id
+  count                = var.domain_governance_id != "" ? 1 : 0
+  domain_governance_id = var.domain_governance_id
 }

@@ -14,6 +14,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_domain_governances", TenantmanagercontrolplaneDomainGovernancesDataSource())
 	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_domains", TenantmanagercontrolplaneDomainsDataSource())
 	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_link", TenantmanagercontrolplaneLinkDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_link_features", TenantmanagercontrolplaneLinkFeaturesDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_link_tenancy_name", TenantmanagercontrolplaneLinkTenancyNameDataSource())
 	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_links", TenantmanagercontrolplaneLinksDataSource())
 	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_organization", TenantmanagercontrolplaneOrganizationDataSource())
 	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_organization_tenancies", TenantmanagercontrolplaneOrganizationTenanciesDataSource())
