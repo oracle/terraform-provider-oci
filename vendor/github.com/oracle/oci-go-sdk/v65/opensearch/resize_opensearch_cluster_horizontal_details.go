@@ -30,6 +30,9 @@ type ResizeOpensearchClusterHorizontalDetails struct {
 	// The number of search nodes configured for the cluster.
 	SearchNodeCount *int `mandatory:"false" json:"searchNodeCount"`
 
+	// The number of coordinator nodes configured for the cluster.
+	CoordinatorNodeCount *int `mandatory:"false" json:"coordinatorNodeCount"`
+
 	// The number of ML nodes configured for the cluster.
 	MlNodeCount *int `mandatory:"false" json:"mlNodeCount"`
 

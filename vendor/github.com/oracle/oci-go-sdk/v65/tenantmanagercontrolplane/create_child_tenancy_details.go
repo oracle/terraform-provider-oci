@@ -38,6 +38,9 @@ type CreateChildTenancyDetails struct {
 
 	// OCID of the subscription that needs to be assigned to the child tenancy.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
+	// List of features that the child and parent tenancies will have links for. Link with feature CORE will always be created.
+	Features []string `mandatory:"false" json:"features"`
 }
 
 func (m CreateChildTenancyDetails) String() string {

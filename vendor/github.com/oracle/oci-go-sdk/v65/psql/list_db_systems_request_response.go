@@ -42,6 +42,9 @@ type ListDbSystemsRequest struct {
 	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for displayName is ascending.
 	SortBy ListDbSystemsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
+	// A filter to return only DbSystem resources if their `systemRole` matches the given value.
+	SystemRole DbSystemSystemRoleEnum `mandatory:"false" contributesTo:"query" name:"systemRole" omitEmpty:"true"`
+
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
@@ -89,6 +92,9 @@ func (request ListDbSystemsRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListDbSystemsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDbSystemsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDbSystemSystemRoleEnum(string(request.SystemRole)); !ok && request.SystemRole != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SystemRole: %s. Supported values are: %s.", request.SystemRole, strings.Join(GetDbSystemSystemRoleEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

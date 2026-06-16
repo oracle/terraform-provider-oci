@@ -24,6 +24,9 @@ type ListLinksRequest struct {
 	// The ID of the child tenancy this link is associated with.
 	ChildTenancyId *string `mandatory:"false" contributesTo:"query" name:"childTenancyId"`
 
+	// The feature associated with this link.
+	Feature *string `mandatory:"false" contributesTo:"query" name:"feature"`
+
 	// The lifecycle state of the resource.
 	LifecycleState ListLinksLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 

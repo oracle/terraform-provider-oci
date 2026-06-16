@@ -11,6 +11,7 @@
 package psql
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -41,7 +42,13 @@ type UpdateDbSystemDetails struct {
 
 	StorageDetails *UpdateStorageDetailsParams `mandatory:"false" json:"storageDetails"`
 
+	ReplicationConfig *UpdateReplicationConfigDetails `mandatory:"false" json:"replicationConfig"`
+
 	NetworkDetails *UpdateNetworkDetails `mandatory:"false" json:"networkDetails"`
+
+	KerberosAuthDetails KerberosAuthDetails `mandatory:"false" json:"kerberosAuthDetails"`
+
+	OdspInsightDetails OdspInsightDetails `mandatory:"false" json:"odspInsightDetails"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -66,4 +73,75 @@ func (m UpdateDbSystemDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName             *string                           `json:"displayName"`
+		Description             *string                           `json:"description"`
+		Shape                   *string                           `json:"shape"`
+		InstanceOcpuCount       *int                              `json:"instanceOcpuCount"`
+		InstanceMemorySizeInGBs *int                              `json:"instanceMemorySizeInGBs"`
+		DbConfigurationParams   *UpdateDbConfigParams             `json:"dbConfigurationParams"`
+		ManagementPolicy        *ManagementPolicyDetails          `json:"managementPolicy"`
+		StorageDetails          *UpdateStorageDetailsParams       `json:"storageDetails"`
+		ReplicationConfig       *UpdateReplicationConfigDetails   `json:"replicationConfig"`
+		NetworkDetails          *UpdateNetworkDetails             `json:"networkDetails"`
+		KerberosAuthDetails     kerberosauthdetails               `json:"kerberosAuthDetails"`
+		OdspInsightDetails      odspinsightdetails                `json:"odspInsightDetails"`
+		FreeformTags            map[string]string                 `json:"freeformTags"`
+		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.Description = model.Description
+
+	m.Shape = model.Shape
+
+	m.InstanceOcpuCount = model.InstanceOcpuCount
+
+	m.InstanceMemorySizeInGBs = model.InstanceMemorySizeInGBs
+
+	m.DbConfigurationParams = model.DbConfigurationParams
+
+	m.ManagementPolicy = model.ManagementPolicy
+
+	m.StorageDetails = model.StorageDetails
+
+	m.ReplicationConfig = model.ReplicationConfig
+
+	m.NetworkDetails = model.NetworkDetails
+
+	nn, e = model.KerberosAuthDetails.UnmarshalPolymorphicJSON(model.KerberosAuthDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.KerberosAuthDetails = nn.(KerberosAuthDetails)
+	} else {
+		m.KerberosAuthDetails = nil
+	}
+
+	nn, e = model.OdspInsightDetails.UnmarshalPolymorphicJSON(model.OdspInsightDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.OdspInsightDetails = nn.(OdspInsightDetails)
+	} else {
+		m.OdspInsightDetails = nil
+	}
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	return
 }

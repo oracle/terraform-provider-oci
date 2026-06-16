@@ -205,6 +205,64 @@ func (client LinkClient) getLink(ctx context.Context, request common.OCIRequest,
 	return response, err
 }
 
+// GetLinkWithTenancyNames Gets information about the link along with the parent and child tenancy names.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/tenantmanagercontrolplane/GetLinkWithTenancyNames.go.html to see an example of how to use GetLinkWithTenancyNames API.
+// A default retry strategy applies to this operation GetLinkWithTenancyNames()
+func (client LinkClient) GetLinkWithTenancyNames(ctx context.Context, request GetLinkWithTenancyNamesRequest) (response GetLinkWithTenancyNamesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getLinkWithTenancyNames, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetLinkWithTenancyNamesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetLinkWithTenancyNamesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetLinkWithTenancyNamesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetLinkWithTenancyNamesResponse")
+	}
+	return
+}
+
+// getLinkWithTenancyNames implements the OCIOperation interface (enables retrying operations)
+func (client LinkClient) getLinkWithTenancyNames(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/links/{linkId}/tenancyNames", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetLinkWithTenancyNamesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "link", "GetLinkWithTenancyNames")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/organizations/20230401/LinkWithTenancyNames/GetLinkWithTenancyNames"
+		err = common.PostProcessServiceError(err, "Link", "GetLinkWithTenancyNames", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListLinks Return a (paginated) list of links.
 //
 // # See also

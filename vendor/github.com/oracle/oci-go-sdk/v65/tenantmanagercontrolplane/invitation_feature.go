@@ -15,26 +15,32 @@ import (
 	"strings"
 )
 
-// ReviveWorkflowInstanceDetails The parameters for reviving failed workflow
-type ReviveWorkflowInstanceDetails struct {
+// InvitationFeature The feature model for sender invitation.
+type InvitationFeature struct {
 
-	// Id of failed workflow
-	WorkflowInstanceId *string `mandatory:"false" json:"workflowInstanceId"`
+	// Name of the feature.
+	Name *string `mandatory:"false" json:"name"`
 
-	// Service specific workflow instance name
-	WorkflowInstanceName *string `mandatory:"false" json:"workflowInstanceName"`
+	// recipientInvitationId for this feature.
+	RecipientInvitationId *string `mandatory:"false" json:"recipientInvitationId"`
+
+	// Status of the sender invitation.
+	Status SenderInvitationStatusEnum `mandatory:"false" json:"status,omitempty"`
 }
 
-func (m ReviveWorkflowInstanceDetails) String() string {
+func (m InvitationFeature) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ReviveWorkflowInstanceDetails) ValidateEnumValue() (bool, error) {
+func (m InvitationFeature) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingSenderInvitationStatusEnum(string(m.Status)); !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetSenderInvitationStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

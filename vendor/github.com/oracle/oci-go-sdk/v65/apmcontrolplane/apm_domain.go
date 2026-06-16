@@ -37,6 +37,9 @@ type ApmDomain struct {
 	// Indicates if this is an Always Free resource.
 	IsFreeTier *bool `mandatory:"false" json:"isFreeTier"`
 
+	// The OCID of the Log Analytics log group to which the data uploaded to this APM domain will be mapped to.
+	LogGroupId *string `mandatory:"false" json:"logGroupId"`
+
 	// The time the APM domain was created, expressed in RFC 3339 timestamp format.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 

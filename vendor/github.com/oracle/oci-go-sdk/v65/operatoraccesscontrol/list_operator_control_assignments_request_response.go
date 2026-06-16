@@ -132,36 +132,39 @@ type ListOperatorControlAssignmentsLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ListOperatorControlAssignmentsLifecycleStateEnum
 const (
-	ListOperatorControlAssignmentsLifecycleStateCreated        ListOperatorControlAssignmentsLifecycleStateEnum = "CREATED"
-	ListOperatorControlAssignmentsLifecycleStateApplied        ListOperatorControlAssignmentsLifecycleStateEnum = "APPLIED"
-	ListOperatorControlAssignmentsLifecycleStateApplyfailed    ListOperatorControlAssignmentsLifecycleStateEnum = "APPLYFAILED"
-	ListOperatorControlAssignmentsLifecycleStateUpdating       ListOperatorControlAssignmentsLifecycleStateEnum = "UPDATING"
-	ListOperatorControlAssignmentsLifecycleStateUpdatefailed   ListOperatorControlAssignmentsLifecycleStateEnum = "UPDATEFAILED"
-	ListOperatorControlAssignmentsLifecycleStateDeleting       ListOperatorControlAssignmentsLifecycleStateEnum = "DELETING"
-	ListOperatorControlAssignmentsLifecycleStateDeleted        ListOperatorControlAssignmentsLifecycleStateEnum = "DELETED"
-	ListOperatorControlAssignmentsLifecycleStateDeletionfailed ListOperatorControlAssignmentsLifecycleStateEnum = "DELETIONFAILED"
+	ListOperatorControlAssignmentsLifecycleStateCreated          ListOperatorControlAssignmentsLifecycleStateEnum = "CREATED"
+	ListOperatorControlAssignmentsLifecycleStateApplied          ListOperatorControlAssignmentsLifecycleStateEnum = "APPLIED"
+	ListOperatorControlAssignmentsLifecycleStateApplyfailed      ListOperatorControlAssignmentsLifecycleStateEnum = "APPLYFAILED"
+	ListOperatorControlAssignmentsLifecycleStateUpdating         ListOperatorControlAssignmentsLifecycleStateEnum = "UPDATING"
+	ListOperatorControlAssignmentsLifecycleStateUpdatefailed     ListOperatorControlAssignmentsLifecycleStateEnum = "UPDATEFAILED"
+	ListOperatorControlAssignmentsLifecycleStateDeleting         ListOperatorControlAssignmentsLifecycleStateEnum = "DELETING"
+	ListOperatorControlAssignmentsLifecycleStateDeleted          ListOperatorControlAssignmentsLifecycleStateEnum = "DELETED"
+	ListOperatorControlAssignmentsLifecycleStateDeletionfailed   ListOperatorControlAssignmentsLifecycleStateEnum = "DELETIONFAILED"
+	ListOperatorControlAssignmentsLifecycleStateCustomerassigned ListOperatorControlAssignmentsLifecycleStateEnum = "CUSTOMERASSIGNED"
 )
 
 var mappingListOperatorControlAssignmentsLifecycleStateEnum = map[string]ListOperatorControlAssignmentsLifecycleStateEnum{
-	"CREATED":        ListOperatorControlAssignmentsLifecycleStateCreated,
-	"APPLIED":        ListOperatorControlAssignmentsLifecycleStateApplied,
-	"APPLYFAILED":    ListOperatorControlAssignmentsLifecycleStateApplyfailed,
-	"UPDATING":       ListOperatorControlAssignmentsLifecycleStateUpdating,
-	"UPDATEFAILED":   ListOperatorControlAssignmentsLifecycleStateUpdatefailed,
-	"DELETING":       ListOperatorControlAssignmentsLifecycleStateDeleting,
-	"DELETED":        ListOperatorControlAssignmentsLifecycleStateDeleted,
-	"DELETIONFAILED": ListOperatorControlAssignmentsLifecycleStateDeletionfailed,
+	"CREATED":          ListOperatorControlAssignmentsLifecycleStateCreated,
+	"APPLIED":          ListOperatorControlAssignmentsLifecycleStateApplied,
+	"APPLYFAILED":      ListOperatorControlAssignmentsLifecycleStateApplyfailed,
+	"UPDATING":         ListOperatorControlAssignmentsLifecycleStateUpdating,
+	"UPDATEFAILED":     ListOperatorControlAssignmentsLifecycleStateUpdatefailed,
+	"DELETING":         ListOperatorControlAssignmentsLifecycleStateDeleting,
+	"DELETED":          ListOperatorControlAssignmentsLifecycleStateDeleted,
+	"DELETIONFAILED":   ListOperatorControlAssignmentsLifecycleStateDeletionfailed,
+	"CUSTOMERASSIGNED": ListOperatorControlAssignmentsLifecycleStateCustomerassigned,
 }
 
 var mappingListOperatorControlAssignmentsLifecycleStateEnumLowerCase = map[string]ListOperatorControlAssignmentsLifecycleStateEnum{
-	"created":        ListOperatorControlAssignmentsLifecycleStateCreated,
-	"applied":        ListOperatorControlAssignmentsLifecycleStateApplied,
-	"applyfailed":    ListOperatorControlAssignmentsLifecycleStateApplyfailed,
-	"updating":       ListOperatorControlAssignmentsLifecycleStateUpdating,
-	"updatefailed":   ListOperatorControlAssignmentsLifecycleStateUpdatefailed,
-	"deleting":       ListOperatorControlAssignmentsLifecycleStateDeleting,
-	"deleted":        ListOperatorControlAssignmentsLifecycleStateDeleted,
-	"deletionfailed": ListOperatorControlAssignmentsLifecycleStateDeletionfailed,
+	"created":          ListOperatorControlAssignmentsLifecycleStateCreated,
+	"applied":          ListOperatorControlAssignmentsLifecycleStateApplied,
+	"applyfailed":      ListOperatorControlAssignmentsLifecycleStateApplyfailed,
+	"updating":         ListOperatorControlAssignmentsLifecycleStateUpdating,
+	"updatefailed":     ListOperatorControlAssignmentsLifecycleStateUpdatefailed,
+	"deleting":         ListOperatorControlAssignmentsLifecycleStateDeleting,
+	"deleted":          ListOperatorControlAssignmentsLifecycleStateDeleted,
+	"deletionfailed":   ListOperatorControlAssignmentsLifecycleStateDeletionfailed,
+	"customerassigned": ListOperatorControlAssignmentsLifecycleStateCustomerassigned,
 }
 
 // GetListOperatorControlAssignmentsLifecycleStateEnumValues Enumerates the set of values for ListOperatorControlAssignmentsLifecycleStateEnum
@@ -184,6 +187,7 @@ func GetListOperatorControlAssignmentsLifecycleStateEnumStringValues() []string 
 		"DELETING",
 		"DELETED",
 		"DELETIONFAILED",
+		"CUSTOMERASSIGNED",
 	}
 }
 

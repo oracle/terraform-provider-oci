@@ -2,11 +2,10 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// OperatorAccessControl API
+// Operator Access Control API
 //
 // Operator Access Control enables you to control the time duration and the actions an Oracle operator can perform on your Exadata Cloud@Customer infrastructure.
 // Using logging service, you can view a near real-time audit report of all actions performed by an Oracle operator.
-// Use the table of contents and search tool to explore the OperatorAccessControl API.
 //
 
 package operatoraccesscontrol
@@ -147,7 +146,7 @@ func (client OperatorControlAssignmentClient) changeOperatorControlAssignmentCom
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/OperatorControlAssignment/ChangeOperatorControlAssignmentCompartment"
 		err = common.PostProcessServiceError(err, "OperatorControlAssignment", "ChangeOperatorControlAssignmentCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -210,7 +209,7 @@ func (client OperatorControlAssignmentClient) createOperatorControlAssignment(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/OperatorControlAssignment/CreateOperatorControlAssignment"
 		err = common.PostProcessServiceError(err, "OperatorControlAssignment", "CreateOperatorControlAssignment", apiReferenceLink)
 		return response, err
 	}
@@ -268,7 +267,7 @@ func (client OperatorControlAssignmentClient) deleteOperatorControlAssignment(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/OperatorControlAssignment/DeleteOperatorControlAssignment"
 		err = common.PostProcessServiceError(err, "OperatorControlAssignment", "DeleteOperatorControlAssignment", apiReferenceLink)
 		return response, err
 	}
@@ -326,7 +325,7 @@ func (client OperatorControlAssignmentClient) getAssignmentValidationStatus(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/OperatorControlAssignment/GetAssignmentValidationStatus"
 		err = common.PostProcessServiceError(err, "OperatorControlAssignment", "GetAssignmentValidationStatus", apiReferenceLink)
 		return response, err
 	}
@@ -384,7 +383,7 @@ func (client OperatorControlAssignmentClient) getOperatorControlAssignment(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/OperatorControlAssignment/GetOperatorControlAssignment"
 		err = common.PostProcessServiceError(err, "OperatorControlAssignment", "GetOperatorControlAssignment", apiReferenceLink)
 		return response, err
 	}
@@ -442,7 +441,7 @@ func (client OperatorControlAssignmentClient) listOperatorControlAssignments(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/OperatorControlAssignment/ListOperatorControlAssignments"
 		err = common.PostProcessServiceError(err, "OperatorControlAssignment", "ListOperatorControlAssignments", apiReferenceLink)
 		return response, err
 	}
@@ -500,7 +499,7 @@ func (client OperatorControlAssignmentClient) updateOperatorControlAssignment(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/OperatorControlAssignment/UpdateOperatorControlAssignment"
 		err = common.PostProcessServiceError(err, "OperatorControlAssignment", "UpdateOperatorControlAssignment", apiReferenceLink)
 		return response, err
 	}
@@ -563,7 +562,7 @@ func (client OperatorControlAssignmentClient) validateOperatorAssignment(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/OperatorControlAssignment/ValidateOperatorAssignment"
 		err = common.PostProcessServiceError(err, "OperatorControlAssignment", "ValidateOperatorAssignment", apiReferenceLink)
 		return response, err
 	}

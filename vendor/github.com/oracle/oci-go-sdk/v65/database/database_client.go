@@ -6085,6 +6085,8 @@ func (client DatabaseClient) createVmClusterNetwork(ctx context.Context, request
 // DbNodeAction Performs one of the following power actions on the specified DB node:
 // - start - power on
 // - stop - power off gracefully
+// - forcestop - power off forcefully
+// - forcereset - ACPI shutdown and power on forcefully
 // - softreset - ACPI shutdown and power on
 // - reset - power off and power on
 // **Note:** Stopping a node affects billing differently, depending on the type of DB system:
@@ -22243,6 +22245,130 @@ func (client DatabaseClient) restartAutonomousDatabase(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/RestartAutonomousDatabase"
 		err = common.PostProcessServiceError(err, "Database", "RestartAutonomousDatabase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RestartAutonomousVmClusterOrds Restarts Oracle REST Data Services (ORDS) for Autonomous Exadata VM cluster.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RestartAutonomousVmClusterOrds.go.html to see an example of how to use RestartAutonomousVmClusterOrds API.
+func (client DatabaseClient) RestartAutonomousVmClusterOrds(ctx context.Context, request RestartAutonomousVmClusterOrdsRequest) (response RestartAutonomousVmClusterOrdsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.restartAutonomousVmClusterOrds, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RestartAutonomousVmClusterOrdsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RestartAutonomousVmClusterOrdsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RestartAutonomousVmClusterOrdsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RestartAutonomousVmClusterOrdsResponse")
+	}
+	return
+}
+
+// restartAutonomousVmClusterOrds implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) restartAutonomousVmClusterOrds(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousVmClusters/{autonomousVmClusterId}/actions/restartOrds", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RestartAutonomousVmClusterOrdsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "RestartAutonomousVmClusterOrds")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousVmCluster/RestartAutonomousVmClusterOrds"
+		err = common.PostProcessServiceError(err, "Database", "RestartAutonomousVmClusterOrds", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RestartCloudAutonomousVmClusterOrds Restarts Oracle REST Data Services (ORDS) for a cloud Autonomous Exadata VM cluster.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RestartCloudAutonomousVmClusterOrds.go.html to see an example of how to use RestartCloudAutonomousVmClusterOrds API.
+func (client DatabaseClient) RestartCloudAutonomousVmClusterOrds(ctx context.Context, request RestartCloudAutonomousVmClusterOrdsRequest) (response RestartCloudAutonomousVmClusterOrdsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.restartCloudAutonomousVmClusterOrds, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RestartCloudAutonomousVmClusterOrdsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RestartCloudAutonomousVmClusterOrdsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RestartCloudAutonomousVmClusterOrdsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RestartCloudAutonomousVmClusterOrdsResponse")
+	}
+	return
+}
+
+// restartCloudAutonomousVmClusterOrds implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) restartCloudAutonomousVmClusterOrds(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudAutonomousVmClusters/{cloudAutonomousVmClusterId}/actions/restartOrds", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RestartCloudAutonomousVmClusterOrdsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "RestartCloudAutonomousVmClusterOrds")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudAutonomousVmCluster/RestartCloudAutonomousVmClusterOrds"
+		err = common.PostProcessServiceError(err, "Database", "RestartCloudAutonomousVmClusterOrds", apiReferenceLink)
 		return response, err
 	}
 
