@@ -1,3 +1,26 @@
+## 8.19.0 (June 16, 2026)
+
+### Added
+- Support for Support for Kerberos Auth for Postgresql
+- Support for Cross Region Replication with Hot Standby
+- Support for Start/Stop db system
+- Support for PSQL Performance Insights.
+- Support for Multi-Link Organization Management Platform
+- Support for APM - APM data to Log Analytics Services
+- Support for OKE: OKE Node Pool Support for Compute Clusters and HostGroup
+- support for OCI opensearch coordinator node
+- Support for Oracle Cloud Migrations ZPR Support
+- Support for APM - Config API Update to Allow Storage of Large Data Files - API Only
+- Security attributes field in object storage private endpoint
+- Support for Operator Access Control Integration for ExaDB-D in Public Cloud
+- Support for Desktop as a Service: ZPR Security Attributes
+
+### Bug Fix
+- Fix database destroy state handling
+- Only send localVolumeSizeInGB in UpdateInstanceShapeConfigDetails when specified
+- Fix for Software Update Variable Name And Secret Exposed Vul
+- Fix DevOps deploy environment network channel NSGs
+
 ## 8.18.0 (June 10, 2026)
 
 ### Added
