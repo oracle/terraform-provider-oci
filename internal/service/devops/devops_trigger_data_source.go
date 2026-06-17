@@ -7,6 +7,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 
@@ -20,15 +21,15 @@ func DevopsTriggerDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DevopsTriggerResource(), fieldMap, readSingularDevopsTrigger)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DevopsTriggerResource(), fieldMap, readSingularDevopsTriggerWithContext)
 }
 
-func readSingularDevopsTrigger(d *schema.ResourceData, m interface{}) error {
+func readSingularDevopsTriggerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsTriggerDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DevopsTriggerDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *DevopsTriggerDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DevopsTriggerDataSourceCrud) Get() error {
+func (s *DevopsTriggerDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_devops.GetTriggerRequest{}
 
 	if triggerId, ok := s.D.GetOkExists("trigger_id"); ok {
@@ -51,7 +52,7 @@ func (s *DevopsTriggerDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "devops")
 
-	response, err := s.Client.GetTrigger(context.Background(), request)
+	response, err := s.Client.GetTrigger(ctx, request)
 	if err != nil {
 		return err
 	}

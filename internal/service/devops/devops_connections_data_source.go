@@ -9,13 +9,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 )
 
 func DevopsConnectionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDevopsConnections,
+		ReadContext: readDevopsConnectionsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -60,12 +61,12 @@ func DevopsConnectionsDataSource() *schema.Resource {
 	}
 }
 
-func readDevopsConnections(d *schema.ResourceData, m interface{}) error {
+func readDevopsConnectionsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsConnectionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DevopsConnectionsDataSourceCrud struct {
@@ -78,7 +79,7 @@ func (s *DevopsConnectionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DevopsConnectionsDataSourceCrud) Get() error {
+func (s *DevopsConnectionsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_devops.ListConnectionsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -111,7 +112,7 @@ func (s *DevopsConnectionsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "devops")
 
-	response, err := s.Client.ListConnections(context.Background(), request)
+	response, err := s.Client.ListConnections(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -120,7 +121,7 @@ func (s *DevopsConnectionsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListConnections(context.Background(), request)
+		listResponse, err := s.Client.ListConnections(ctx, request)
 		if err != nil {
 			return err
 		}

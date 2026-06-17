@@ -13,6 +13,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -26,11 +27,11 @@ func DevopsDeployArtifactResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDevopsDeployArtifact,
-		Read:     readDevopsDeployArtifact,
-		Update:   updateDevopsDeployArtifact,
-		Delete:   deleteDevopsDeployArtifact,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDevopsDeployArtifactWithContext,
+		ReadContext:   readDevopsDeployArtifactWithContext,
+		UpdateContext: updateDevopsDeployArtifactWithContext,
+		DeleteContext: deleteDevopsDeployArtifactWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"argument_substitution_mode": {
@@ -206,37 +207,37 @@ func DevopsDeployArtifactResource() *schema.Resource {
 	}
 }
 
-func createDevopsDeployArtifact(d *schema.ResourceData, m interface{}) error {
+func createDevopsDeployArtifactWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsDeployArtifactResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDevopsDeployArtifact(d *schema.ResourceData, m interface{}) error {
+func readDevopsDeployArtifactWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsDeployArtifactResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDevopsDeployArtifact(d *schema.ResourceData, m interface{}) error {
+func updateDevopsDeployArtifactWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsDeployArtifactResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDevopsDeployArtifact(d *schema.ResourceData, m interface{}) error {
+func deleteDevopsDeployArtifactWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsDeployArtifactResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DevopsDeployArtifactResourceCrud struct {
@@ -274,7 +275,7 @@ func (s *DevopsDeployArtifactResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DevopsDeployArtifactResourceCrud) Create() error {
+func (s *DevopsDeployArtifactResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_devops.CreateDeployArtifactRequest{}
 
 	if argumentSubstitutionMode, ok := s.D.GetOkExists("argument_substitution_mode"); ok {
@@ -325,7 +326,7 @@ func (s *DevopsDeployArtifactResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.CreateDeployArtifact(context.Background(), request)
+	response, err := s.Client.CreateDeployArtifact(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -336,14 +337,14 @@ func (s *DevopsDeployArtifactResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getDeployArtifactFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDeployArtifactFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DevopsDeployArtifactResourceCrud) getDeployArtifactFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DevopsDeployArtifactResourceCrud) getDeployArtifactFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_devops.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	deployArtifactId, err := deployArtifactWaitForWorkRequest(workId, "artifact",
+	deployArtifactId, err := deployArtifactWaitForWorkRequest(ctx, workId, "artifact",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -351,7 +352,7 @@ func (s *DevopsDeployArtifactResourceCrud) getDeployArtifactFromWorkRequest(work
 	}
 	s.D.SetId(*deployArtifactId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func deployArtifactWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -377,7 +378,7 @@ func deployArtifactWorkRequestShouldRetryFunc(timeout time.Duration) func(respon
 	}
 }
 
-func deployArtifactWaitForWorkRequest(wId *string, entityType string, action oci_devops.ActionTypeEnum,
+func deployArtifactWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_devops.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_devops.DevopsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "devops")
 	retryPolicy.ShouldRetryOperation = deployArtifactWorkRequestShouldRetryFunc(timeout)
@@ -396,7 +397,7 @@ func deployArtifactWaitForWorkRequest(wId *string, entityType string, action oci
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_devops.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -408,7 +409,7 @@ func deployArtifactWaitForWorkRequest(wId *string, entityType string, action oci
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -425,14 +426,14 @@ func deployArtifactWaitForWorkRequest(wId *string, entityType string, action oci
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_devops.OperationStatusFailed {
-		return nil, getErrorFromDevopsDeployArtifactWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDevopsDeployArtifactWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDevopsDeployArtifactWorkRequest(client *oci_devops.DevopsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_devops.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDevopsDeployArtifactWorkRequest(ctx context.Context, client *oci_devops.DevopsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_devops.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_devops.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -454,7 +455,7 @@ func getErrorFromDevopsDeployArtifactWorkRequest(client *oci_devops.DevopsClient
 	return workRequestErr
 }
 
-func (s *DevopsDeployArtifactResourceCrud) Get() error {
+func (s *DevopsDeployArtifactResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_devops.GetDeployArtifactRequest{}
 
 	tmp := s.D.Id()
@@ -462,7 +463,7 @@ func (s *DevopsDeployArtifactResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.GetDeployArtifact(context.Background(), request)
+	response, err := s.Client.GetDeployArtifact(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -471,7 +472,7 @@ func (s *DevopsDeployArtifactResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DevopsDeployArtifactResourceCrud) Update() error {
+func (s *DevopsDeployArtifactResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_devops.UpdateDeployArtifactRequest{}
 
 	if argumentSubstitutionMode, ok := s.D.GetOkExists("argument_substitution_mode"); ok {
@@ -520,16 +521,16 @@ func (s *DevopsDeployArtifactResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.UpdateDeployArtifact(context.Background(), request)
+	response, err := s.Client.UpdateDeployArtifact(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDeployArtifactFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDeployArtifactFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DevopsDeployArtifactResourceCrud) Delete() error {
+func (s *DevopsDeployArtifactResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_devops.DeleteDeployArtifactRequest{}
 
 	tmp := s.D.Id()
@@ -537,14 +538,14 @@ func (s *DevopsDeployArtifactResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.DeleteDeployArtifact(context.Background(), request)
+	response, err := s.Client.DeleteDeployArtifact(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := deployArtifactWaitForWorkRequest(workId, "artifact",
+	_, delWorkRequestErr := deployArtifactWaitForWorkRequest(ctx, workId, "artifact",
 		oci_devops.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

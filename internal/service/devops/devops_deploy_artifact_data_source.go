@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 )
@@ -19,15 +20,15 @@ func DevopsDeployArtifactDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DevopsDeployArtifactResource(), fieldMap, readSingularDevopsDeployArtifact)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DevopsDeployArtifactResource(), fieldMap, readSingularDevopsDeployArtifactWithContext)
 }
 
-func readSingularDevopsDeployArtifact(d *schema.ResourceData, m interface{}) error {
+func readSingularDevopsDeployArtifactWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsDeployArtifactDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DevopsDeployArtifactDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DevopsDeployArtifactDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DevopsDeployArtifactDataSourceCrud) Get() error {
+func (s *DevopsDeployArtifactDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_devops.GetDeployArtifactRequest{}
 
 	if deployArtifactId, ok := s.D.GetOkExists("deploy_artifact_id"); ok {
@@ -50,7 +51,7 @@ func (s *DevopsDeployArtifactDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "devops")
 
-	response, err := s.Client.GetDeployArtifact(context.Background(), request)
+	response, err := s.Client.GetDeployArtifact(ctx, request)
 	if err != nil {
 		return err
 	}

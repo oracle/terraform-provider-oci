@@ -10,6 +10,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 )
@@ -20,15 +21,15 @@ func DevopsDeployEnvironmentDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DevopsDeployEnvironmentResource(), fieldMap, readSingularDevopsDeployEnvironment)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DevopsDeployEnvironmentResource(), fieldMap, readSingularDevopsDeployEnvironmentWithContext)
 }
 
-func readSingularDevopsDeployEnvironment(d *schema.ResourceData, m interface{}) error {
+func readSingularDevopsDeployEnvironmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsDeployEnvironmentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DevopsDeployEnvironmentDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *DevopsDeployEnvironmentDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DevopsDeployEnvironmentDataSourceCrud) Get() error {
+func (s *DevopsDeployEnvironmentDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_devops.GetDeployEnvironmentRequest{}
 
 	if deployEnvironmentId, ok := s.D.GetOkExists("deploy_environment_id"); ok {
@@ -51,7 +52,7 @@ func (s *DevopsDeployEnvironmentDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "devops")
 
-	response, err := s.Client.GetDeployEnvironment(context.Background(), request)
+	response, err := s.Client.GetDeployEnvironment(ctx, request)
 	if err != nil {
 		return err
 	}

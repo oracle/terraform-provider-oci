@@ -6,6 +6,7 @@ package devops
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 
@@ -15,7 +16,7 @@ import (
 
 func DevopsTriggersDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDevopsTriggers,
+		ReadContext: readDevopsTriggersWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -56,12 +57,12 @@ func DevopsTriggersDataSource() *schema.Resource {
 	}
 }
 
-func readDevopsTriggers(d *schema.ResourceData, m interface{}) error {
+func readDevopsTriggersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsTriggersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DevopsTriggersDataSourceCrud struct {
@@ -74,7 +75,7 @@ func (s *DevopsTriggersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DevopsTriggersDataSourceCrud) Get() error {
+func (s *DevopsTriggersDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_devops.ListTriggersRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -103,7 +104,7 @@ func (s *DevopsTriggersDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "devops")
 
-	response, err := s.Client.ListTriggers(context.Background(), request)
+	response, err := s.Client.ListTriggers(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -112,7 +113,7 @@ func (s *DevopsTriggersDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListTriggers(context.Background(), request)
+		listResponse, err := s.Client.ListTriggers(ctx, request)
 		if err != nil {
 			return err
 		}

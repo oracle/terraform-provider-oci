@@ -9,13 +9,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 )
 
 func DevopsDeployStagesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDevopsDeployStages,
+		ReadContext: readDevopsDeployStagesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -56,12 +57,12 @@ func DevopsDeployStagesDataSource() *schema.Resource {
 	}
 }
 
-func readDevopsDeployStages(d *schema.ResourceData, m interface{}) error {
+func readDevopsDeployStagesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsDeployStagesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DevopsDeployStagesDataSourceCrud struct {
@@ -74,7 +75,7 @@ func (s *DevopsDeployStagesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DevopsDeployStagesDataSourceCrud) Get() error {
+func (s *DevopsDeployStagesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_devops.ListDeployStagesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -103,7 +104,7 @@ func (s *DevopsDeployStagesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "devops")
 
-	response, err := s.Client.ListDeployStages(context.Background(), request)
+	response, err := s.Client.ListDeployStages(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -112,7 +113,7 @@ func (s *DevopsDeployStagesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDeployStages(context.Background(), request)
+		listResponse, err := s.Client.ListDeployStages(ctx, request)
 		if err != nil {
 			return err
 		}

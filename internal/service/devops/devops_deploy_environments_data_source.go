@@ -9,13 +9,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 )
 
 func DevopsDeployEnvironmentsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDevopsDeployEnvironments,
+		ReadContext: readDevopsDeployEnvironmentsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -56,12 +57,12 @@ func DevopsDeployEnvironmentsDataSource() *schema.Resource {
 	}
 }
 
-func readDevopsDeployEnvironments(d *schema.ResourceData, m interface{}) error {
+func readDevopsDeployEnvironmentsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsDeployEnvironmentsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DevopsDeployEnvironmentsDataSourceCrud struct {
@@ -74,7 +75,7 @@ func (s *DevopsDeployEnvironmentsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DevopsDeployEnvironmentsDataSourceCrud) Get() error {
+func (s *DevopsDeployEnvironmentsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_devops.ListDeployEnvironmentsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -103,7 +104,7 @@ func (s *DevopsDeployEnvironmentsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "devops")
 
-	response, err := s.Client.ListDeployEnvironments(context.Background(), request)
+	response, err := s.Client.ListDeployEnvironments(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -112,7 +113,7 @@ func (s *DevopsDeployEnvironmentsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDeployEnvironments(context.Background(), request)
+		listResponse, err := s.Client.ListDeployEnvironments(ctx, request)
 		if err != nil {
 			return err
 		}

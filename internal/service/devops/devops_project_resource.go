@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -23,11 +24,11 @@ func DevopsProjectResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDevopsProject,
-		Read:     readDevopsProject,
-		Update:   updateDevopsProject,
-		Delete:   deleteDevopsProject,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDevopsProjectWithContext,
+		ReadContext:   readDevopsProjectWithContext,
+		UpdateContext: updateDevopsProjectWithContext,
+		DeleteContext: deleteDevopsProjectWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -109,37 +110,37 @@ func DevopsProjectResource() *schema.Resource {
 	}
 }
 
-func createDevopsProject(d *schema.ResourceData, m interface{}) error {
+func createDevopsProjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsProjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDevopsProject(d *schema.ResourceData, m interface{}) error {
+func readDevopsProjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsProjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDevopsProject(d *schema.ResourceData, m interface{}) error {
+func updateDevopsProjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsProjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDevopsProject(d *schema.ResourceData, m interface{}) error {
+func deleteDevopsProjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsProjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DevopsProjectResourceCrud struct {
@@ -177,7 +178,7 @@ func (s *DevopsProjectResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DevopsProjectResourceCrud) Create() error {
+func (s *DevopsProjectResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_devops.CreateProjectRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -220,7 +221,7 @@ func (s *DevopsProjectResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.CreateProject(context.Background(), request)
+	response, err := s.Client.CreateProject(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -231,14 +232,14 @@ func (s *DevopsProjectResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getProjectFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getProjectFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DevopsProjectResourceCrud) getProjectFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DevopsProjectResourceCrud) getProjectFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_devops.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	projectId, err := projectWaitForWorkRequest(workId, "project",
+	projectId, err := projectWaitForWorkRequest(ctx, workId, "project",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -246,7 +247,7 @@ func (s *DevopsProjectResourceCrud) getProjectFromWorkRequest(workId *string, re
 	}
 	s.D.SetId(*projectId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func projectWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -272,7 +273,7 @@ func projectWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_
 	}
 }
 
-func projectWaitForWorkRequest(wId *string, entityType string, action oci_devops.ActionTypeEnum,
+func projectWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_devops.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_devops.DevopsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "devops")
 	retryPolicy.ShouldRetryOperation = projectWorkRequestShouldRetryFunc(timeout)
@@ -291,7 +292,7 @@ func projectWaitForWorkRequest(wId *string, entityType string, action oci_devops
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_devops.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -303,7 +304,7 @@ func projectWaitForWorkRequest(wId *string, entityType string, action oci_devops
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -320,14 +321,14 @@ func projectWaitForWorkRequest(wId *string, entityType string, action oci_devops
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_devops.OperationStatusFailed {
-		return nil, getErrorFromDevopsProjectWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDevopsProjectWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDevopsProjectWorkRequest(client *oci_devops.DevopsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_devops.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDevopsProjectWorkRequest(ctx context.Context, client *oci_devops.DevopsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_devops.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_devops.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -349,7 +350,7 @@ func getErrorFromDevopsProjectWorkRequest(client *oci_devops.DevopsClient, workI
 	return workRequestErr
 }
 
-func (s *DevopsProjectResourceCrud) Get() error {
+func (s *DevopsProjectResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_devops.GetProjectRequest{}
 
 	tmp := s.D.Id()
@@ -357,7 +358,7 @@ func (s *DevopsProjectResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.GetProject(context.Background(), request)
+	response, err := s.Client.GetProject(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -366,11 +367,11 @@ func (s *DevopsProjectResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DevopsProjectResourceCrud) Update() error {
+func (s *DevopsProjectResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -411,16 +412,16 @@ func (s *DevopsProjectResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.UpdateProject(context.Background(), request)
+	response, err := s.Client.UpdateProject(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getProjectFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getProjectFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DevopsProjectResourceCrud) Delete() error {
+func (s *DevopsProjectResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_devops.DeleteProjectRequest{}
 
 	tmp := s.D.Id()
@@ -428,14 +429,14 @@ func (s *DevopsProjectResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.DeleteProject(context.Background(), request)
+	response, err := s.Client.DeleteProject(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := projectWaitForWorkRequest(workId, "project",
+	_, delWorkRequestErr := projectWaitForWorkRequest(ctx, workId, "project",
 		oci_devops.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -561,7 +562,7 @@ func ProjectSummaryToMap(obj oci_devops.ProjectSummary) map[string]interface{} {
 	return result
 }
 
-func (s *DevopsProjectResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DevopsProjectResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_devops.ChangeProjectCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -572,11 +573,11 @@ func (s *DevopsProjectResourceCrud) updateCompartment(compartment interface{}) e
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.ChangeProjectCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeProjectCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getProjectFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getProjectFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate))
 }

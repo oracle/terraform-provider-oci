@@ -11,13 +11,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 )
 
 func DevopsBuildPipelineStagesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDevopsBuildPipelineStages,
+		ReadContext: readDevopsBuildPipelineStagesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"build_pipeline_id": {
@@ -345,12 +346,12 @@ func DevopsBuildPipelineStagesDataSource() *schema.Resource {
 	}
 }
 
-func readDevopsBuildPipelineStages(d *schema.ResourceData, m interface{}) error {
+func readDevopsBuildPipelineStagesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsBuildPipelineStagesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DevopsBuildPipelineStagesDataSourceCrud struct {
@@ -363,7 +364,7 @@ func (s *DevopsBuildPipelineStagesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DevopsBuildPipelineStagesDataSourceCrud) Get() error {
+func (s *DevopsBuildPipelineStagesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_devops.ListBuildPipelineStagesRequest{}
 
 	if buildPipelineId, ok := s.D.GetOkExists("build_pipeline_id"); ok {
@@ -392,7 +393,7 @@ func (s *DevopsBuildPipelineStagesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "devops")
 
-	response, err := s.Client.ListBuildPipelineStages(context.Background(), request)
+	response, err := s.Client.ListBuildPipelineStages(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -401,7 +402,7 @@ func (s *DevopsBuildPipelineStagesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListBuildPipelineStages(context.Background(), request)
+		listResponse, err := s.Client.ListBuildPipelineStages(ctx, request)
 		if err != nil {
 			return err
 		}

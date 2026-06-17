@@ -9,13 +9,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 )
 
 func DevopsProjectsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDevopsProjects,
+		ReadContext: readDevopsProjectsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +53,12 @@ func DevopsProjectsDataSource() *schema.Resource {
 	}
 }
 
-func readDevopsProjects(d *schema.ResourceData, m interface{}) error {
+func readDevopsProjectsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsProjectsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DevopsProjectsDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *DevopsProjectsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DevopsProjectsDataSourceCrud) Get() error {
+func (s *DevopsProjectsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_devops.ListProjectsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *DevopsProjectsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "devops")
 
-	response, err := s.Client.ListProjects(context.Background(), request)
+	response, err := s.Client.ListProjects(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *DevopsProjectsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListProjects(context.Background(), request)
+		listResponse, err := s.Client.ListProjects(ctx, request)
 		if err != nil {
 			return err
 		}

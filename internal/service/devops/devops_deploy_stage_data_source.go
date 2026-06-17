@@ -11,6 +11,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 )
@@ -21,15 +22,15 @@ func DevopsDeployStageDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DevopsDeployStageResource(), fieldMap, readSingularDevopsDeployStage)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DevopsDeployStageResource(), fieldMap, readSingularDevopsDeployStageWithContext)
 }
 
-func readSingularDevopsDeployStage(d *schema.ResourceData, m interface{}) error {
+func readSingularDevopsDeployStageWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsDeployStageDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DevopsDeployStageDataSourceCrud struct {
@@ -42,7 +43,7 @@ func (s *DevopsDeployStageDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DevopsDeployStageDataSourceCrud) Get() error {
+func (s *DevopsDeployStageDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_devops.GetDeployStageRequest{}
 
 	if deployStageId, ok := s.D.GetOkExists("deploy_stage_id"); ok {
@@ -52,7 +53,7 @@ func (s *DevopsDeployStageDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "devops")
 
-	response, err := s.Client.GetDeployStage(context.Background(), request)
+	response, err := s.Client.GetDeployStage(ctx, request)
 	if err != nil {
 		return err
 	}

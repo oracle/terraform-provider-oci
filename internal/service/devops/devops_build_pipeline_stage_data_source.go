@@ -11,6 +11,7 @@ import (
 
 	"log"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 )
@@ -21,15 +22,15 @@ func DevopsBuildPipelineStageDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DevopsBuildPipelineStageResource(), fieldMap, readSingularDevopsBuildPipelineStage)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DevopsBuildPipelineStageResource(), fieldMap, readSingularDevopsBuildPipelineStageWithContext)
 }
 
-func readSingularDevopsBuildPipelineStage(d *schema.ResourceData, m interface{}) error {
+func readSingularDevopsBuildPipelineStageWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsBuildPipelineStageDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DevopsBuildPipelineStageDataSourceCrud struct {
@@ -42,7 +43,7 @@ func (s *DevopsBuildPipelineStageDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DevopsBuildPipelineStageDataSourceCrud) Get() error {
+func (s *DevopsBuildPipelineStageDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_devops.GetBuildPipelineStageRequest{}
 
 	if buildPipelineStageId, ok := s.D.GetOkExists("build_pipeline_stage_id"); ok {
@@ -52,7 +53,7 @@ func (s *DevopsBuildPipelineStageDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "devops")
 
-	response, err := s.Client.GetBuildPipelineStage(context.Background(), request)
+	response, err := s.Client.GetBuildPipelineStage(ctx, request)
 	if err != nil {
 		return err
 	}

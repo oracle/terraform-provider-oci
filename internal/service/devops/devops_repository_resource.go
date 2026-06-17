@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -25,11 +26,11 @@ func DevopsRepositoryResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDevopsRepository,
-		Read:     readDevopsRepository,
-		Update:   updateDevopsRepository,
-		Delete:   deleteDevopsRepository,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDevopsRepositoryWithContext,
+		ReadContext:   readDevopsRepositoryWithContext,
+		UpdateContext: updateDevopsRepositoryWithContext,
+		DeleteContext: deleteDevopsRepositoryWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"name": {
@@ -193,37 +194,37 @@ func DevopsRepositoryResource() *schema.Resource {
 	}
 }
 
-func createDevopsRepository(d *schema.ResourceData, m interface{}) error {
+func createDevopsRepositoryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsRepositoryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDevopsRepository(d *schema.ResourceData, m interface{}) error {
+func readDevopsRepositoryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsRepositoryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDevopsRepository(d *schema.ResourceData, m interface{}) error {
+func updateDevopsRepositoryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsRepositoryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDevopsRepository(d *schema.ResourceData, m interface{}) error {
+func deleteDevopsRepositoryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsRepositoryResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DevopsRepositoryResourceCrud struct {
@@ -259,7 +260,7 @@ func (s *DevopsRepositoryResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DevopsRepositoryResourceCrud) Create() error {
+func (s *DevopsRepositoryResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_devops.CreateRepositoryRequest{}
 
 	if defaultBranch, ok := s.D.GetOkExists("default_branch"); ok {
@@ -316,7 +317,7 @@ func (s *DevopsRepositoryResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.CreateRepository(context.Background(), request)
+	response, err := s.Client.CreateRepository(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -327,14 +328,14 @@ func (s *DevopsRepositoryResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getRepositoryFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getRepositoryFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DevopsRepositoryResourceCrud) getRepositoryFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DevopsRepositoryResourceCrud) getRepositoryFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_devops.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	repositoryId, err := repositoryWaitForWorkRequest(workId, "repository",
+	repositoryId, err := repositoryWaitForWorkRequest(ctx, workId, "repository",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -342,7 +343,7 @@ func (s *DevopsRepositoryResourceCrud) getRepositoryFromWorkRequest(workId *stri
 	}
 	s.D.SetId(*repositoryId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func repositoryWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -368,7 +369,7 @@ func repositoryWorkRequestShouldRetryFunc(timeout time.Duration) func(response o
 	}
 }
 
-func repositoryWaitForWorkRequest(wId *string, entityType string, action oci_devops.ActionTypeEnum,
+func repositoryWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_devops.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_devops.DevopsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "devops")
 	retryPolicy.ShouldRetryOperation = repositoryWorkRequestShouldRetryFunc(timeout)
@@ -387,7 +388,7 @@ func repositoryWaitForWorkRequest(wId *string, entityType string, action oci_dev
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_devops.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -399,7 +400,7 @@ func repositoryWaitForWorkRequest(wId *string, entityType string, action oci_dev
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -416,14 +417,14 @@ func repositoryWaitForWorkRequest(wId *string, entityType string, action oci_dev
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_devops.OperationStatusFailed || response.Status == oci_devops.OperationStatusCanceled {
-		return nil, getErrorFromDevopsRepositoryWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDevopsRepositoryWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDevopsRepositoryWorkRequest(client *oci_devops.DevopsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_devops.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDevopsRepositoryWorkRequest(ctx context.Context, client *oci_devops.DevopsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_devops.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_devops.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -445,7 +446,7 @@ func getErrorFromDevopsRepositoryWorkRequest(client *oci_devops.DevopsClient, wo
 	return workRequestErr
 }
 
-func (s *DevopsRepositoryResourceCrud) Get() error {
+func (s *DevopsRepositoryResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_devops.GetRepositoryRequest{}
 
 	if fields, ok := s.D.GetOkExists("fields"); ok {
@@ -466,7 +467,7 @@ func (s *DevopsRepositoryResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.GetRepository(context.Background(), request)
+	response, err := s.Client.GetRepository(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -475,7 +476,7 @@ func (s *DevopsRepositoryResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DevopsRepositoryResourceCrud) Update() error {
+func (s *DevopsRepositoryResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_devops.UpdateRepositoryRequest{}
 
 	if defaultBranch, ok := s.D.GetOkExists("default_branch"); ok {
@@ -525,16 +526,16 @@ func (s *DevopsRepositoryResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.UpdateRepository(context.Background(), request)
+	response, err := s.Client.UpdateRepository(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getRepositoryFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getRepositoryFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DevopsRepositoryResourceCrud) Delete() error {
+func (s *DevopsRepositoryResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_devops.DeleteRepositoryRequest{}
 
 	tmp := s.D.Id()
@@ -542,14 +543,14 @@ func (s *DevopsRepositoryResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.DeleteRepository(context.Background(), request)
+	response, err := s.Client.DeleteRepository(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := repositoryWaitForWorkRequest(workId, "repository",
+	_, delWorkRequestErr := repositoryWaitForWorkRequest(ctx, workId, "repository",
 		oci_devops.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

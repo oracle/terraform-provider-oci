@@ -13,6 +13,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -26,11 +27,11 @@ func DevopsBuildPipelineStageResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDevopsBuildPipelineStage,
-		Read:     readDevopsBuildPipelineStage,
-		Update:   updateDevopsBuildPipelineStage,
-		Delete:   deleteDevopsBuildPipelineStage,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDevopsBuildPipelineStageWithContext,
+		ReadContext:   readDevopsBuildPipelineStageWithContext,
+		UpdateContext: updateDevopsBuildPipelineStageWithContext,
+		DeleteContext: deleteDevopsBuildPipelineStageWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"build_pipeline_id": {
@@ -381,37 +382,37 @@ func DevopsBuildPipelineStageResource() *schema.Resource {
 	}
 }
 
-func createDevopsBuildPipelineStage(d *schema.ResourceData, m interface{}) error {
+func createDevopsBuildPipelineStageWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsBuildPipelineStageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDevopsBuildPipelineStage(d *schema.ResourceData, m interface{}) error {
+func readDevopsBuildPipelineStageWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsBuildPipelineStageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDevopsBuildPipelineStage(d *schema.ResourceData, m interface{}) error {
+func updateDevopsBuildPipelineStageWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsBuildPipelineStageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDevopsBuildPipelineStage(d *schema.ResourceData, m interface{}) error {
+func deleteDevopsBuildPipelineStageWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsBuildPipelineStageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DevopsBuildPipelineStageResourceCrud struct {
@@ -450,7 +451,7 @@ func (s *DevopsBuildPipelineStageResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DevopsBuildPipelineStageResourceCrud) Create() error {
+func (s *DevopsBuildPipelineStageResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_devops.CreateBuildPipelineStageRequest{}
 	err := s.populateTopLevelPolymorphicCreateBuildPipelineStageRequest(&request)
 	if err != nil {
@@ -459,7 +460,7 @@ func (s *DevopsBuildPipelineStageResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.CreateBuildPipelineStage(context.Background(), request)
+	response, err := s.Client.CreateBuildPipelineStage(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -470,14 +471,14 @@ func (s *DevopsBuildPipelineStageResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getBuildPipelineStageFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getBuildPipelineStageFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DevopsBuildPipelineStageResourceCrud) getBuildPipelineStageFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DevopsBuildPipelineStageResourceCrud) getBuildPipelineStageFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_devops.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	buildPipelineStageId, err := buildPipelineStageWaitForWorkRequest(workId, "buildPipelineStage",
+	buildPipelineStageId, err := buildPipelineStageWaitForWorkRequest(ctx, workId, "buildPipelineStage",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -485,7 +486,7 @@ func (s *DevopsBuildPipelineStageResourceCrud) getBuildPipelineStageFromWorkRequ
 	}
 	s.D.SetId(*buildPipelineStageId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func buildPipelineStageWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -511,7 +512,7 @@ func buildPipelineStageWorkRequestShouldRetryFunc(timeout time.Duration) func(re
 	}
 }
 
-func buildPipelineStageWaitForWorkRequest(wId *string, entityType string, action oci_devops.ActionTypeEnum,
+func buildPipelineStageWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_devops.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_devops.DevopsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "devops")
 	retryPolicy.ShouldRetryOperation = buildPipelineStageWorkRequestShouldRetryFunc(timeout)
@@ -530,7 +531,7 @@ func buildPipelineStageWaitForWorkRequest(wId *string, entityType string, action
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_devops.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -542,7 +543,7 @@ func buildPipelineStageWaitForWorkRequest(wId *string, entityType string, action
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -559,14 +560,14 @@ func buildPipelineStageWaitForWorkRequest(wId *string, entityType string, action
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_devops.OperationStatusFailed || response.Status == oci_devops.OperationStatusCanceled {
-		return nil, getErrorFromDevopsBuildPipelineStageWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDevopsBuildPipelineStageWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDevopsBuildPipelineStageWorkRequest(client *oci_devops.DevopsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_devops.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDevopsBuildPipelineStageWorkRequest(ctx context.Context, client *oci_devops.DevopsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_devops.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_devops.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -588,7 +589,7 @@ func getErrorFromDevopsBuildPipelineStageWorkRequest(client *oci_devops.DevopsCl
 	return workRequestErr
 }
 
-func (s *DevopsBuildPipelineStageResourceCrud) Get() error {
+func (s *DevopsBuildPipelineStageResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_devops.GetBuildPipelineStageRequest{}
 
 	tmp := s.D.Id()
@@ -596,7 +597,7 @@ func (s *DevopsBuildPipelineStageResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.GetBuildPipelineStage(context.Background(), request)
+	response, err := s.Client.GetBuildPipelineStage(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -605,7 +606,7 @@ func (s *DevopsBuildPipelineStageResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DevopsBuildPipelineStageResourceCrud) Update() error {
+func (s *DevopsBuildPipelineStageResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_devops.UpdateBuildPipelineStageRequest{}
 	err := s.populateTopLevelPolymorphicUpdateBuildPipelineStageRequest(&request)
 	if err != nil {
@@ -614,16 +615,16 @@ func (s *DevopsBuildPipelineStageResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.UpdateBuildPipelineStage(context.Background(), request)
+	response, err := s.Client.UpdateBuildPipelineStage(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBuildPipelineStageFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBuildPipelineStageFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DevopsBuildPipelineStageResourceCrud) Delete() error {
+func (s *DevopsBuildPipelineStageResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_devops.DeleteBuildPipelineStageRequest{}
 
 	tmp := s.D.Id()
@@ -631,14 +632,14 @@ func (s *DevopsBuildPipelineStageResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.DeleteBuildPipelineStage(context.Background(), request)
+	response, err := s.Client.DeleteBuildPipelineStage(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := buildPipelineStageWaitForWorkRequest(workId, "buildPipelineStage",
+	_, delWorkRequestErr := buildPipelineStageWaitForWorkRequest(ctx, workId, "buildPipelineStage",
 		oci_devops.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

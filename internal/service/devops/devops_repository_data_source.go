@@ -10,6 +10,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_devops "github.com/oracle/oci-go-sdk/v65/devops"
 )
@@ -27,15 +28,15 @@ func DevopsRepositoryDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DevopsRepositoryResource(), fieldMap, readSingularDevopsRepository)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DevopsRepositoryResource(), fieldMap, readSingularDevopsRepositoryWithContext)
 }
 
-func readSingularDevopsRepository(d *schema.ResourceData, m interface{}) error {
+func readSingularDevopsRepositoryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsRepositoryDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DevopsRepositoryDataSourceCrud struct {
@@ -48,7 +49,7 @@ func (s *DevopsRepositoryDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DevopsRepositoryDataSourceCrud) Get() error {
+func (s *DevopsRepositoryDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_devops.GetRepositoryRequest{}
 
 	if fields, ok := s.D.GetOkExists("fields"); ok {
@@ -71,7 +72,7 @@ func (s *DevopsRepositoryDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "devops")
 
-	response, err := s.Client.GetRepository(context.Background(), request)
+	response, err := s.Client.GetRepository(ctx, request)
 	if err != nil {
 		return err
 	}

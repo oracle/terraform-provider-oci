@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,10 +25,10 @@ func DevopsRepositoryMirrorResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDevopsRepositoryMirror,
-		Read:     readDevopsRepositoryMirror,
-		Delete:   deleteDevopsRepositoryMirror,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDevopsRepositoryMirrorWithContext,
+		ReadContext:   readDevopsRepositoryMirrorWithContext,
+		DeleteContext: deleteDevopsRepositoryMirrorWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"repository_id": {
@@ -43,19 +44,19 @@ func DevopsRepositoryMirrorResource() *schema.Resource {
 	}
 }
 
-func createDevopsRepositoryMirror(d *schema.ResourceData, m interface{}) error {
+func createDevopsRepositoryMirrorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsRepositoryMirrorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDevopsRepositoryMirror(d *schema.ResourceData, m interface{}) error {
+func readDevopsRepositoryMirrorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDevopsRepositoryMirror(d *schema.ResourceData, m interface{}) error {
+func deleteDevopsRepositoryMirrorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -70,7 +71,7 @@ func (s *DevopsRepositoryMirrorResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *DevopsRepositoryMirrorResourceCrud) Get() error {
+func (s *DevopsRepositoryMirrorResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_devops.GetRepositoryRequest{}
 
 	if fields, ok := s.D.GetOkExists("fields"); ok {
@@ -91,7 +92,7 @@ func (s *DevopsRepositoryMirrorResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.GetRepository(context.Background(), request)
+	response, err := s.Client.GetRepository(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -100,7 +101,7 @@ func (s *DevopsRepositoryMirrorResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DevopsRepositoryMirrorResourceCrud) Create() error {
+func (s *DevopsRepositoryMirrorResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_devops.MirrorRepositoryRequest{}
 
 	if repositoryId, ok := s.D.GetOkExists("repository_id"); ok {
@@ -110,20 +111,20 @@ func (s *DevopsRepositoryMirrorResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.MirrorRepository(context.Background(), request)
+	response, err := s.Client.MirrorRepository(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getRepositoryMirrorFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getRepositoryMirrorFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DevopsRepositoryMirrorResourceCrud) getRepositoryMirrorFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DevopsRepositoryMirrorResourceCrud) getRepositoryMirrorFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_devops.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	repositoryMirrorId, err := repositoryMirrorWaitForWorkRequest(workId, "repository",
+	repositoryMirrorId, err := repositoryMirrorWaitForWorkRequest(ctx, workId, "repository",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -131,7 +132,7 @@ func (s *DevopsRepositoryMirrorResourceCrud) getRepositoryMirrorFromWorkRequest(
 	}
 	s.D.SetId(*repositoryMirrorId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func repositoryMirrorWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -157,7 +158,7 @@ func repositoryMirrorWorkRequestShouldRetryFunc(timeout time.Duration) func(resp
 	}
 }
 
-func repositoryMirrorWaitForWorkRequest(wId *string, entityType string, action oci_devops.ActionTypeEnum,
+func repositoryMirrorWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_devops.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_devops.DevopsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "devops")
 	retryPolicy.ShouldRetryOperation = repositoryMirrorWorkRequestShouldRetryFunc(timeout)
@@ -176,7 +177,7 @@ func repositoryMirrorWaitForWorkRequest(wId *string, entityType string, action o
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_devops.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -188,7 +189,7 @@ func repositoryMirrorWaitForWorkRequest(wId *string, entityType string, action o
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -205,14 +206,14 @@ func repositoryMirrorWaitForWorkRequest(wId *string, entityType string, action o
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_devops.OperationStatusFailed || response.Status == oci_devops.OperationStatusCanceled {
-		return nil, getErrorFromDevopsRepositoryMirrorWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDevopsRepositoryMirrorWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDevopsRepositoryMirrorWorkRequest(client *oci_devops.DevopsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_devops.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDevopsRepositoryMirrorWorkRequest(ctx context.Context, client *oci_devops.DevopsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_devops.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_devops.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

@@ -13,6 +13,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -26,11 +27,11 @@ func DevopsConnectionResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDevopsConnection,
-		Read:     readDevopsConnection,
-		Update:   updateDevopsConnection,
-		Delete:   deleteDevopsConnection,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDevopsConnectionWithContext,
+		ReadContext:   readDevopsConnectionWithContext,
+		UpdateContext: updateDevopsConnectionWithContext,
+		DeleteContext: deleteDevopsConnectionWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"connection_type": {
@@ -177,37 +178,37 @@ func DevopsConnectionResource() *schema.Resource {
 	}
 }
 
-func createDevopsConnection(d *schema.ResourceData, m interface{}) error {
+func createDevopsConnectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDevopsConnection(d *schema.ResourceData, m interface{}) error {
+func readDevopsConnectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDevopsConnection(d *schema.ResourceData, m interface{}) error {
+func updateDevopsConnectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDevopsConnection(d *schema.ResourceData, m interface{}) error {
+func deleteDevopsConnectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DevopsConnectionResourceCrud struct {
@@ -240,7 +241,7 @@ func (s *DevopsConnectionResourceCrud) DeletedTarget() []string {
 	return []string{}
 }
 
-func (s *DevopsConnectionResourceCrud) Create() error {
+func (s *DevopsConnectionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_devops.CreateConnectionRequest{}
 	err := s.populateTopLevelPolymorphicCreateConnectionRequest(&request)
 	if err != nil {
@@ -249,7 +250,7 @@ func (s *DevopsConnectionResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.CreateConnection(context.Background(), request)
+	response, err := s.Client.CreateConnection(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -260,14 +261,14 @@ func (s *DevopsConnectionResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getConnectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getConnectionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DevopsConnectionResourceCrud) getConnectionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DevopsConnectionResourceCrud) getConnectionFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_devops.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	connectionId, err := devopsConnectionWaitForWorkRequest(workId, "connection",
+	connectionId, err := devopsConnectionWaitForWorkRequest(ctx, workId, "connection",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -275,7 +276,7 @@ func (s *DevopsConnectionResourceCrud) getConnectionFromWorkRequest(workId *stri
 	}
 	s.D.SetId(*connectionId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func devopsConnectionWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -301,7 +302,7 @@ func devopsConnectionWorkRequestShouldRetryFunc(timeout time.Duration) func(resp
 	}
 }
 
-func devopsConnectionWaitForWorkRequest(wId *string, entityType string, action oci_devops.ActionTypeEnum,
+func devopsConnectionWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_devops.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_devops.DevopsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "devops")
 	retryPolicy.ShouldRetryOperation = devopsConnectionWorkRequestShouldRetryFunc(timeout)
@@ -320,7 +321,7 @@ func devopsConnectionWaitForWorkRequest(wId *string, entityType string, action o
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_devops.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -332,7 +333,7 @@ func devopsConnectionWaitForWorkRequest(wId *string, entityType string, action o
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -349,14 +350,14 @@ func devopsConnectionWaitForWorkRequest(wId *string, entityType string, action o
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_devops.OperationStatusFailed || response.Status == oci_devops.OperationStatusCanceled {
-		return nil, getErrorFromDevopsConnectionWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDevopsConnectionWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDevopsConnectionWorkRequest(client *oci_devops.DevopsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_devops.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDevopsConnectionWorkRequest(ctx context.Context, client *oci_devops.DevopsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_devops.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_devops.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -378,7 +379,7 @@ func getErrorFromDevopsConnectionWorkRequest(client *oci_devops.DevopsClient, wo
 	return workRequestErr
 }
 
-func (s *DevopsConnectionResourceCrud) Get() error {
+func (s *DevopsConnectionResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_devops.GetConnectionRequest{}
 
 	tmp := s.D.Id()
@@ -386,7 +387,7 @@ func (s *DevopsConnectionResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.GetConnection(context.Background(), request)
+	response, err := s.Client.GetConnection(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -395,7 +396,7 @@ func (s *DevopsConnectionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DevopsConnectionResourceCrud) Update() error {
+func (s *DevopsConnectionResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_devops.UpdateConnectionRequest{}
 	err := s.populateTopLevelPolymorphicUpdateConnectionRequest(&request)
 	if err != nil {
@@ -404,16 +405,16 @@ func (s *DevopsConnectionResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.UpdateConnection(context.Background(), request)
+	response, err := s.Client.UpdateConnection(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getConnectionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getConnectionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DevopsConnectionResourceCrud) Delete() error {
+func (s *DevopsConnectionResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_devops.DeleteConnectionRequest{}
 
 	tmp := s.D.Id()
@@ -421,14 +422,14 @@ func (s *DevopsConnectionResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.DeleteConnection(context.Background(), request)
+	response, err := s.Client.DeleteConnection(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := devopsConnectionWaitForWorkRequest(workId, "connection",
+	_, delWorkRequestErr := devopsConnectionWaitForWorkRequest(ctx, workId, "connection",
 		oci_devops.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

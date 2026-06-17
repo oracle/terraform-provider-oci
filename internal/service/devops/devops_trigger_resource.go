@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -26,11 +27,11 @@ func DevopsTriggerResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDevopsTrigger,
-		Read:     readDevopsTrigger,
-		Update:   updateDevopsTrigger,
-		Delete:   deleteDevopsTrigger,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDevopsTriggerWithContext,
+		ReadContext:   readDevopsTriggerWithContext,
+		UpdateContext: updateDevopsTriggerWithContext,
+		DeleteContext: deleteDevopsTriggerWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"actions": {
@@ -280,37 +281,37 @@ func DevopsTriggerResource() *schema.Resource {
 	}
 }
 
-func createDevopsTrigger(d *schema.ResourceData, m interface{}) error {
+func createDevopsTriggerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsTriggerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDevopsTrigger(d *schema.ResourceData, m interface{}) error {
+func readDevopsTriggerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsTriggerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDevopsTrigger(d *schema.ResourceData, m interface{}) error {
+func updateDevopsTriggerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsTriggerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDevopsTrigger(d *schema.ResourceData, m interface{}) error {
+func deleteDevopsTriggerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsTriggerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DevopsTriggerResourceCrud struct {
@@ -343,7 +344,7 @@ func (s *DevopsTriggerResourceCrud) DeletedTarget() []string {
 	return []string{}
 }
 
-func (s *DevopsTriggerResourceCrud) Create() error {
+func (s *DevopsTriggerResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_devops.CreateTriggerRequest{}
 	err := s.populateTopLevelPolymorphicCreateTriggerRequest(&request)
 	if err != nil {
@@ -352,7 +353,7 @@ func (s *DevopsTriggerResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.CreateTrigger(context.Background(), request)
+	response, err := s.Client.CreateTrigger(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -363,14 +364,14 @@ func (s *DevopsTriggerResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getTriggerFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getTriggerFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DevopsTriggerResourceCrud) getTriggerFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DevopsTriggerResourceCrud) getTriggerFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_devops.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	triggerId, err := triggerWaitForWorkRequest(workId, "trigger",
+	triggerId, err := triggerWaitForWorkRequest(ctx, workId, "trigger",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -378,7 +379,7 @@ func (s *DevopsTriggerResourceCrud) getTriggerFromWorkRequest(workId *string, re
 	}
 	s.D.SetId(*triggerId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func triggerWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -404,7 +405,7 @@ func triggerWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_
 	}
 }
 
-func triggerWaitForWorkRequest(wId *string, entityType string, action oci_devops.ActionTypeEnum,
+func triggerWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_devops.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_devops.DevopsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "devops")
 	retryPolicy.ShouldRetryOperation = triggerWorkRequestShouldRetryFunc(timeout)
@@ -423,7 +424,7 @@ func triggerWaitForWorkRequest(wId *string, entityType string, action oci_devops
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_devops.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -435,7 +436,7 @@ func triggerWaitForWorkRequest(wId *string, entityType string, action oci_devops
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -452,14 +453,14 @@ func triggerWaitForWorkRequest(wId *string, entityType string, action oci_devops
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_devops.OperationStatusFailed || response.Status == oci_devops.OperationStatusCanceled {
-		return nil, getErrorFromDevopsTriggerWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDevopsTriggerWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDevopsTriggerWorkRequest(client *oci_devops.DevopsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_devops.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDevopsTriggerWorkRequest(ctx context.Context, client *oci_devops.DevopsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_devops.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_devops.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -481,7 +482,7 @@ func getErrorFromDevopsTriggerWorkRequest(client *oci_devops.DevopsClient, workI
 	return workRequestErr
 }
 
-func (s *DevopsTriggerResourceCrud) Get() error {
+func (s *DevopsTriggerResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_devops.GetTriggerRequest{}
 
 	tmp := s.D.Id()
@@ -489,7 +490,7 @@ func (s *DevopsTriggerResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.GetTrigger(context.Background(), request)
+	response, err := s.Client.GetTrigger(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -498,7 +499,7 @@ func (s *DevopsTriggerResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DevopsTriggerResourceCrud) Update() error {
+func (s *DevopsTriggerResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_devops.UpdateTriggerRequest{}
 	err := s.populateTopLevelPolymorphicUpdateTriggerRequest(&request)
 	if err != nil {
@@ -507,16 +508,16 @@ func (s *DevopsTriggerResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.UpdateTrigger(context.Background(), request)
+	response, err := s.Client.UpdateTrigger(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getTriggerFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getTriggerFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DevopsTriggerResourceCrud) Delete() error {
+func (s *DevopsTriggerResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_devops.DeleteTriggerRequest{}
 
 	tmp := s.D.Id()
@@ -524,14 +525,14 @@ func (s *DevopsTriggerResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.DeleteTrigger(context.Background(), request)
+	response, err := s.Client.DeleteTrigger(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := triggerWaitForWorkRequest(workId, "trigger",
+	_, delWorkRequestErr := triggerWaitForWorkRequest(ctx, workId, "trigger",
 		oci_devops.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

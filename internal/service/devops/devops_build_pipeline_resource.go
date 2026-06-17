@@ -12,6 +12,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,11 +25,11 @@ func DevopsBuildPipelineResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDevopsBuildPipeline,
-		Read:     readDevopsBuildPipeline,
-		Update:   updateDevopsBuildPipeline,
-		Delete:   deleteDevopsBuildPipeline,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDevopsBuildPipelineWithContext,
+		ReadContext:   readDevopsBuildPipelineWithContext,
+		UpdateContext: updateDevopsBuildPipelineWithContext,
+		DeleteContext: deleteDevopsBuildPipelineWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"project_id": {
@@ -134,37 +135,37 @@ func DevopsBuildPipelineResource() *schema.Resource {
 	}
 }
 
-func createDevopsBuildPipeline(d *schema.ResourceData, m interface{}) error {
+func createDevopsBuildPipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsBuildPipelineResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDevopsBuildPipeline(d *schema.ResourceData, m interface{}) error {
+func readDevopsBuildPipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsBuildPipelineResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDevopsBuildPipeline(d *schema.ResourceData, m interface{}) error {
+func updateDevopsBuildPipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsBuildPipelineResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDevopsBuildPipeline(d *schema.ResourceData, m interface{}) error {
+func deleteDevopsBuildPipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DevopsBuildPipelineResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DevopsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DevopsBuildPipelineResourceCrud struct {
@@ -202,7 +203,7 @@ func (s *DevopsBuildPipelineResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DevopsBuildPipelineResourceCrud) Create() error {
+func (s *DevopsBuildPipelineResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_devops.CreateBuildPipelineRequest{}
 
 	if buildPipelineParameters, ok := s.D.GetOkExists("build_pipeline_parameters"); ok {
@@ -245,7 +246,7 @@ func (s *DevopsBuildPipelineResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.CreateBuildPipeline(context.Background(), request)
+	response, err := s.Client.CreateBuildPipeline(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -256,14 +257,14 @@ func (s *DevopsBuildPipelineResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getBuildPipelineFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getBuildPipelineFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DevopsBuildPipelineResourceCrud) getBuildPipelineFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DevopsBuildPipelineResourceCrud) getBuildPipelineFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_devops.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	buildPipelineId, err := buildPipelineWaitForWorkRequest(workId, "buildPipeline",
+	buildPipelineId, err := buildPipelineWaitForWorkRequest(ctx, workId, "buildPipeline",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -271,7 +272,7 @@ func (s *DevopsBuildPipelineResourceCrud) getBuildPipelineFromWorkRequest(workId
 	}
 	s.D.SetId(*buildPipelineId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func buildPipelineWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -297,7 +298,7 @@ func buildPipelineWorkRequestShouldRetryFunc(timeout time.Duration) func(respons
 	}
 }
 
-func buildPipelineWaitForWorkRequest(wId *string, entityType string, action oci_devops.ActionTypeEnum,
+func buildPipelineWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_devops.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_devops.DevopsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "devops")
 	retryPolicy.ShouldRetryOperation = buildPipelineWorkRequestShouldRetryFunc(timeout)
@@ -316,7 +317,7 @@ func buildPipelineWaitForWorkRequest(wId *string, entityType string, action oci_
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_devops.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -328,7 +329,7 @@ func buildPipelineWaitForWorkRequest(wId *string, entityType string, action oci_
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -345,14 +346,14 @@ func buildPipelineWaitForWorkRequest(wId *string, entityType string, action oci_
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_devops.OperationStatusFailed || response.Status == oci_devops.OperationStatusCanceled {
-		return nil, getErrorFromDevopsBuildPipelineWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDevopsBuildPipelineWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDevopsBuildPipelineWorkRequest(client *oci_devops.DevopsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_devops.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDevopsBuildPipelineWorkRequest(ctx context.Context, client *oci_devops.DevopsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_devops.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_devops.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -374,7 +375,7 @@ func getErrorFromDevopsBuildPipelineWorkRequest(client *oci_devops.DevopsClient,
 	return workRequestErr
 }
 
-func (s *DevopsBuildPipelineResourceCrud) Get() error {
+func (s *DevopsBuildPipelineResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_devops.GetBuildPipelineRequest{}
 
 	tmp := s.D.Id()
@@ -382,7 +383,7 @@ func (s *DevopsBuildPipelineResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.GetBuildPipeline(context.Background(), request)
+	response, err := s.Client.GetBuildPipeline(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -391,7 +392,7 @@ func (s *DevopsBuildPipelineResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DevopsBuildPipelineResourceCrud) Update() error {
+func (s *DevopsBuildPipelineResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_devops.UpdateBuildPipelineRequest{}
 
 	tmp := s.D.Id()
@@ -432,16 +433,16 @@ func (s *DevopsBuildPipelineResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.UpdateBuildPipeline(context.Background(), request)
+	response, err := s.Client.UpdateBuildPipeline(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBuildPipelineFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBuildPipelineFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DevopsBuildPipelineResourceCrud) Delete() error {
+func (s *DevopsBuildPipelineResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_devops.DeleteBuildPipelineRequest{}
 
 	tmp := s.D.Id()
@@ -449,14 +450,14 @@ func (s *DevopsBuildPipelineResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops")
 
-	response, err := s.Client.DeleteBuildPipeline(context.Background(), request)
+	response, err := s.Client.DeleteBuildPipeline(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := buildPipelineWaitForWorkRequest(workId, "buildPipeline",
+	_, delWorkRequestErr := buildPipelineWaitForWorkRequest(ctx, workId, "buildPipeline",
 		oci_devops.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
