@@ -6,6 +6,7 @@ package bds
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_bds "github.com/oracle/oci-go-sdk/v65/bds"
 
@@ -23,15 +24,15 @@ func BdsBdsInstanceIdentityConfigurationDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(BdsBdsInstanceIdentityConfigurationResource(), fieldMap, readSingularBdsBdsInstanceIdentityConfiguration)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(BdsBdsInstanceIdentityConfigurationResource(), fieldMap, readSingularBdsBdsInstanceIdentityConfigurationWithContext)
 }
 
-func readSingularBdsBdsInstanceIdentityConfiguration(d *schema.ResourceData, m interface{}) error {
+func readSingularBdsBdsInstanceIdentityConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceIdentityConfigurationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type BdsBdsInstanceIdentityConfigurationDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *BdsBdsInstanceIdentityConfigurationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BdsBdsInstanceIdentityConfigurationDataSourceCrud) Get() error {
+func (s *BdsBdsInstanceIdentityConfigurationDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bds.GetIdentityConfigurationRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -59,7 +60,7 @@ func (s *BdsBdsInstanceIdentityConfigurationDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "bds")
 
-	response, err := s.Client.GetIdentityConfiguration(context.Background(), request)
+	response, err := s.Client.GetIdentityConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}

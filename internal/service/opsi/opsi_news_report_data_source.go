@@ -6,6 +6,7 @@ package opsi
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
 
@@ -19,15 +20,15 @@ func OpsiNewsReportDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(OpsiNewsReportResource(), fieldMap, readSingularOpsiNewsReport)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(OpsiNewsReportResource(), fieldMap, readSingularOpsiNewsReportWithContext)
 }
 
-func readSingularOpsiNewsReport(d *schema.ResourceData, m interface{}) error {
+func readSingularOpsiNewsReportWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiNewsReportDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OpsiNewsReportDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *OpsiNewsReportDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OpsiNewsReportDataSourceCrud) Get() error {
+func (s *OpsiNewsReportDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opsi.GetNewsReportRequest{}
 
 	if newsReportId, ok := s.D.GetOkExists("news_report_id"); ok {
@@ -50,7 +51,7 @@ func (s *OpsiNewsReportDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "opsi")
 
-	response, err := s.Client.GetNewsReport(context.Background(), request)
+	response, err := s.Client.GetNewsReport(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -13,6 +13,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -26,11 +27,11 @@ func OpsiHostInsightResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOpsiHostInsight,
-		Read:     readOpsiHostInsight,
-		Update:   updateOpsiHostInsight,
-		Delete:   deleteOpsiHostInsight,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOpsiHostInsightWithContext,
+		ReadContext:   readOpsiHostInsightWithContext,
+		UpdateContext: updateOpsiHostInsightWithContext,
+		DeleteContext: deleteOpsiHostInsightWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -170,37 +171,37 @@ func OpsiHostInsightResource() *schema.Resource {
 	}
 }
 
-func createOpsiHostInsight(d *schema.ResourceData, m interface{}) error {
+func createOpsiHostInsightWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiHostInsightResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOpsiHostInsight(d *schema.ResourceData, m interface{}) error {
+func readOpsiHostInsightWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiHostInsightResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateOpsiHostInsight(d *schema.ResourceData, m interface{}) error {
+func updateOpsiHostInsightWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiHostInsightResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteOpsiHostInsight(d *schema.ResourceData, m interface{}) error {
+func deleteOpsiHostInsightWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiHostInsightResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OpsiHostInsightResourceCrud struct {
@@ -239,7 +240,7 @@ func (s *OpsiHostInsightResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *OpsiHostInsightResourceCrud) Create() error {
+func (s *OpsiHostInsightResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_opsi.CreateHostInsightRequest{}
 	err := s.populateTopLevelPolymorphicCreateHostInsightRequest(&request)
 	if err != nil {
@@ -248,7 +249,7 @@ func (s *OpsiHostInsightResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.CreateHostInsight(context.Background(), request)
+	response, err := s.Client.CreateHostInsight(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -261,7 +262,7 @@ func (s *OpsiHostInsightResourceCrud) Create() error {
 	}
 
 	// Wait until it finishes
-	hostInsightId, err := hostInsightWaitForWorkRequest(workId, "opsi",
+	hostInsightId, err := hostInsightWaitForWorkRequest(ctx, workId, "opsi",
 		oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -276,7 +277,7 @@ func (s *OpsiHostInsightResourceCrud) Create() error {
 			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 			tmp := s.D.Id()
 			request.HostInsightId = &tmp
-			response, err := s.Client.DisableHostInsight(context.Background(), request)
+			response, err := s.Client.DisableHostInsight(ctx, request)
 			if err != nil {
 				return err
 			}
@@ -284,7 +285,7 @@ func (s *OpsiHostInsightResourceCrud) Create() error {
 			workId := response.OpcWorkRequestId
 
 			// Wait until it finishes
-			hostInsightId, err := hostInsightWaitForWorkRequest(workId, "opsi",
+			hostInsightId, err := hostInsightWaitForWorkRequest(ctx, workId, "opsi",
 				oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 			if err != nil {
 				return err
@@ -293,14 +294,14 @@ func (s *OpsiHostInsightResourceCrud) Create() error {
 		}
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *OpsiHostInsightResourceCrud) getHostInsightFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OpsiHostInsightResourceCrud) getHostInsightFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_opsi.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	hostInsightId, err := hostInsightWaitForWorkRequest(workId, "opsi",
+	hostInsightId, err := hostInsightWaitForWorkRequest(ctx, workId, "opsi",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -308,7 +309,7 @@ func (s *OpsiHostInsightResourceCrud) getHostInsightFromWorkRequest(workId *stri
 	}
 	s.D.SetId(*hostInsightId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func hostInsightWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -334,7 +335,7 @@ func hostInsightWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 	}
 }
 
-func hostInsightWaitForWorkRequest(wId *string, entityType string, action oci_opsi.ActionTypeEnum,
+func hostInsightWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_opsi.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_opsi.OperationsInsightsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "opsi")
 	retryPolicy.ShouldRetryOperation = hostInsightWorkRequestShouldRetryFunc(timeout)
@@ -353,7 +354,7 @@ func hostInsightWaitForWorkRequest(wId *string, entityType string, action oci_op
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_opsi.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -365,7 +366,7 @@ func hostInsightWaitForWorkRequest(wId *string, entityType string, action oci_op
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -382,14 +383,14 @@ func hostInsightWaitForWorkRequest(wId *string, entityType string, action oci_op
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_opsi.OperationStatusFailed || response.Status == oci_opsi.OperationStatusCanceled {
-		return nil, getErrorFromOpsiHostInsightWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOpsiHostInsightWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOpsiHostInsightWorkRequest(client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOpsiHostInsightWorkRequest(ctx context.Context, client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_opsi.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -411,7 +412,7 @@ func getErrorFromOpsiHostInsightWorkRequest(client *oci_opsi.OperationsInsightsC
 	return workRequestErr
 }
 
-func (s *OpsiHostInsightResourceCrud) Get() error {
+func (s *OpsiHostInsightResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opsi.GetHostInsightRequest{}
 
 	tmp := s.D.Id()
@@ -419,7 +420,7 @@ func (s *OpsiHostInsightResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.GetHostInsight(context.Background(), request)
+	response, err := s.Client.GetHostInsight(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -428,11 +429,11 @@ func (s *OpsiHostInsightResourceCrud) Get() error {
 	return nil
 }
 
-func (s *OpsiHostInsightResourceCrud) Update() error {
+func (s *OpsiHostInsightResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -446,7 +447,7 @@ func (s *OpsiHostInsightResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.UpdateHostInsight(context.Background(), request)
+	response, err := s.Client.UpdateHostInsight(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -454,7 +455,7 @@ func (s *OpsiHostInsightResourceCrud) Update() error {
 	workId := response.OpcWorkRequestId
 
 	// Wait until it finishes
-	hostInsightId, err := hostInsightWaitForWorkRequest(workId, "opsi",
+	hostInsightId, err := hostInsightWaitForWorkRequest(ctx, workId, "opsi",
 		oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -478,7 +479,7 @@ func (s *OpsiHostInsightResourceCrud) Update() error {
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 		tmp := s.D.Id()
 		request.HostInsightId = &tmp
-		response, err := s.Client.DisableHostInsight(context.Background(), request)
+		response, err := s.Client.DisableHostInsight(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -486,7 +487,7 @@ func (s *OpsiHostInsightResourceCrud) Update() error {
 		workId := response.OpcWorkRequestId
 
 		// Wait until it finishes
-		hostInsightId, err := hostInsightWaitForWorkRequest(workId, "opsi",
+		hostInsightId, err := hostInsightWaitForWorkRequest(ctx, workId, "opsi",
 			oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 		if err != nil {
 			return err
@@ -504,7 +505,7 @@ func (s *OpsiHostInsightResourceCrud) Update() error {
 			return err
 		}
 
-		response, err := s.Client.EnableHostInsight(context.Background(), request)
+		response, err := s.Client.EnableHostInsight(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -512,7 +513,7 @@ func (s *OpsiHostInsightResourceCrud) Update() error {
 		workId := response.OpcWorkRequestId
 
 		// Wait until it finishes
-		hostInsightId, err := hostInsightWaitForWorkRequest(workId, "opsi",
+		hostInsightId, err := hostInsightWaitForWorkRequest(ctx, workId, "opsi",
 			oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 		if err != nil {
 			return err
@@ -520,10 +521,10 @@ func (s *OpsiHostInsightResourceCrud) Update() error {
 		s.D.SetId(*hostInsightId)
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *OpsiHostInsightResourceCrud) Delete() error {
+func (s *OpsiHostInsightResourceCrud) DeleteWithContext(ctx context.Context) error {
 
 	status, ok := s.D.GetOkExists("status")
 	if ok && oci_opsi.ResourceStatusEnabled == oci_opsi.ResourceStatusEnum(strings.ToUpper(status.(string))) {
@@ -531,7 +532,7 @@ func (s *OpsiHostInsightResourceCrud) Delete() error {
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 		tmp := s.D.Id()
 		request.HostInsightId = &tmp
-		response, err := s.Client.DisableHostInsight(context.Background(), request)
+		response, err := s.Client.DisableHostInsight(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -539,7 +540,7 @@ func (s *OpsiHostInsightResourceCrud) Delete() error {
 		workId := response.OpcWorkRequestId
 
 		// Wait until it finishes
-		_, disableWorkRequestErr := hostInsightWaitForWorkRequest(workId, "opsi",
+		_, disableWorkRequestErr := hostInsightWaitForWorkRequest(ctx, workId, "opsi",
 			oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 		if disableWorkRequestErr != nil {
 			return disableWorkRequestErr
@@ -554,14 +555,14 @@ func (s *OpsiHostInsightResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.DeleteHostInsight(context.Background(), request)
+	response, err := s.Client.DeleteHostInsight(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := hostInsightWaitForWorkRequest(workId, "opsi",
+	_, delWorkRequestErr := hostInsightWaitForWorkRequest(ctx, workId, "opsi",
 		oci_opsi.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1196,7 +1197,7 @@ func (s *OpsiHostInsightResourceCrud) populateTopLevelPolymorphicEnableHostInsig
 	return nil
 }
 
-func (s *OpsiHostInsightResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *OpsiHostInsightResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_opsi.ChangeHostInsightCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1207,11 +1208,11 @@ func (s *OpsiHostInsightResourceCrud) updateCompartment(compartment interface{})
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.ChangeHostInsightCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeHostInsightCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getHostInsightFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getHostInsightFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

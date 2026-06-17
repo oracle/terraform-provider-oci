@@ -381,7 +381,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 								return ShapeChangeDiffSuppressFunction("edge", d)
 							},
 						},
-
 						"subnet_id": {
 							Type:     schema.TypeString,
 							Required: true,

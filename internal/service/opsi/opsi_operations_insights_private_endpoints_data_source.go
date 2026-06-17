@@ -6,6 +6,7 @@ package opsi
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
 
@@ -15,7 +16,7 @@ import (
 
 func OpsiOperationsInsightsPrivateEndpointsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readOpsiOperationsInsightsPrivateEndpoints,
+		ReadContext: readOpsiOperationsInsightsPrivateEndpointsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -67,12 +68,12 @@ func OpsiOperationsInsightsPrivateEndpointsDataSource() *schema.Resource {
 	}
 }
 
-func readOpsiOperationsInsightsPrivateEndpoints(d *schema.ResourceData, m interface{}) error {
+func readOpsiOperationsInsightsPrivateEndpointsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiOperationsInsightsPrivateEndpointsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OpsiOperationsInsightsPrivateEndpointsDataSourceCrud struct {
@@ -85,7 +86,7 @@ func (s *OpsiOperationsInsightsPrivateEndpointsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OpsiOperationsInsightsPrivateEndpointsDataSourceCrud) Get() error {
+func (s *OpsiOperationsInsightsPrivateEndpointsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opsi.ListOperationsInsightsPrivateEndpointsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -134,7 +135,7 @@ func (s *OpsiOperationsInsightsPrivateEndpointsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "opsi")
 
-	response, err := s.Client.ListOperationsInsightsPrivateEndpoints(context.Background(), request)
+	response, err := s.Client.ListOperationsInsightsPrivateEndpoints(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -143,7 +144,7 @@ func (s *OpsiOperationsInsightsPrivateEndpointsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOperationsInsightsPrivateEndpoints(context.Background(), request)
+		listResponse, err := s.Client.ListOperationsInsightsPrivateEndpoints(ctx, request)
 		if err != nil {
 			return err
 		}

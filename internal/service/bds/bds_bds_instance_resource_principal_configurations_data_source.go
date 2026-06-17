@@ -6,6 +6,7 @@ package bds
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_bds "github.com/oracle/oci-go-sdk/v65/bds"
 
@@ -15,7 +16,7 @@ import (
 
 func BdsBdsInstanceResourcePrincipalConfigurationsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readBdsBdsInstanceResourcePrincipalConfigurations,
+		ReadContext: readBdsBdsInstanceResourcePrincipalConfigurationsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"bds_instance_id": {
@@ -39,12 +40,12 @@ func BdsBdsInstanceResourcePrincipalConfigurationsDataSource() *schema.Resource 
 	}
 }
 
-func readBdsBdsInstanceResourcePrincipalConfigurations(d *schema.ResourceData, m interface{}) error {
+func readBdsBdsInstanceResourcePrincipalConfigurationsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceResourcePrincipalConfigurationsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type BdsBdsInstanceResourcePrincipalConfigurationsDataSourceCrud struct {
@@ -57,7 +58,7 @@ func (s *BdsBdsInstanceResourcePrincipalConfigurationsDataSourceCrud) VoidState(
 	s.D.SetId("")
 }
 
-func (s *BdsBdsInstanceResourcePrincipalConfigurationsDataSourceCrud) Get() error {
+func (s *BdsBdsInstanceResourcePrincipalConfigurationsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bds.ListResourcePrincipalConfigurationsRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -76,7 +77,7 @@ func (s *BdsBdsInstanceResourcePrincipalConfigurationsDataSourceCrud) Get() erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "bds")
 
-	response, err := s.Client.ListResourcePrincipalConfigurations(context.Background(), request)
+	response, err := s.Client.ListResourcePrincipalConfigurations(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -85,7 +86,7 @@ func (s *BdsBdsInstanceResourcePrincipalConfigurationsDataSourceCrud) Get() erro
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListResourcePrincipalConfigurations(context.Background(), request)
+		listResponse, err := s.Client.ListResourcePrincipalConfigurations(ctx, request)
 		if err != nil {
 			return err
 		}

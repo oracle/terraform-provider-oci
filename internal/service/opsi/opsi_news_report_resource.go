@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,11 +25,11 @@ func OpsiNewsReportResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOpsiNewsReport,
-		Read:     readOpsiNewsReport,
-		Update:   updateOpsiNewsReport,
-		Delete:   deleteOpsiNewsReport,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOpsiNewsReportWithContext,
+		ReadContext:   readOpsiNewsReportWithContext,
+		UpdateContext: updateOpsiNewsReportWithContext,
+		DeleteContext: deleteOpsiNewsReportWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -202,37 +203,37 @@ func OpsiNewsReportResource() *schema.Resource {
 	}
 }
 
-func createOpsiNewsReport(d *schema.ResourceData, m interface{}) error {
+func createOpsiNewsReportWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiNewsReportResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOpsiNewsReport(d *schema.ResourceData, m interface{}) error {
+func readOpsiNewsReportWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiNewsReportResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateOpsiNewsReport(d *schema.ResourceData, m interface{}) error {
+func updateOpsiNewsReportWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiNewsReportResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteOpsiNewsReport(d *schema.ResourceData, m interface{}) error {
+func deleteOpsiNewsReportWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiNewsReportResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OpsiNewsReportResourceCrud struct {
@@ -271,7 +272,7 @@ func (s *OpsiNewsReportResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *OpsiNewsReportResourceCrud) Create() error {
+func (s *OpsiNewsReportResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_opsi.CreateNewsReportRequest{}
 
 	if areChildCompartmentsIncluded, ok := s.D.GetOkExists("are_child_compartments_included"); ok {
@@ -357,20 +358,20 @@ func (s *OpsiNewsReportResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.CreateNewsReport(context.Background(), request)
+	response, err := s.Client.CreateNewsReport(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getNewsReportFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getNewsReportFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OpsiNewsReportResourceCrud) getNewsReportFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OpsiNewsReportResourceCrud) getNewsReportFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_opsi.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	newsReportId, err := newsReportWaitForWorkRequest(workId, "opsi",
+	newsReportId, err := newsReportWaitForWorkRequest(ctx, workId, "opsi",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -378,7 +379,7 @@ func (s *OpsiNewsReportResourceCrud) getNewsReportFromWorkRequest(workId *string
 	}
 	s.D.SetId(*newsReportId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func newsReportWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -404,7 +405,7 @@ func newsReportWorkRequestShouldRetryFunc(timeout time.Duration) func(response o
 	}
 }
 
-func newsReportWaitForWorkRequest(wId *string, entityType string, action oci_opsi.ActionTypeEnum,
+func newsReportWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_opsi.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_opsi.OperationsInsightsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "opsi")
 	retryPolicy.ShouldRetryOperation = newsReportWorkRequestShouldRetryFunc(timeout)
@@ -423,7 +424,7 @@ func newsReportWaitForWorkRequest(wId *string, entityType string, action oci_ops
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_opsi.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -435,7 +436,7 @@ func newsReportWaitForWorkRequest(wId *string, entityType string, action oci_ops
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -452,14 +453,14 @@ func newsReportWaitForWorkRequest(wId *string, entityType string, action oci_ops
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_opsi.OperationStatusFailed || response.Status == oci_opsi.OperationStatusCanceled {
-		return nil, getErrorFromOpsiNewsReportWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOpsiNewsReportWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOpsiNewsReportWorkRequest(client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOpsiNewsReportWorkRequest(ctx context.Context, client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_opsi.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -481,7 +482,7 @@ func getErrorFromOpsiNewsReportWorkRequest(client *oci_opsi.OperationsInsightsCl
 	return workRequestErr
 }
 
-func (s *OpsiNewsReportResourceCrud) Get() error {
+func (s *OpsiNewsReportResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opsi.GetNewsReportRequest{}
 
 	tmp := s.D.Id()
@@ -489,7 +490,7 @@ func (s *OpsiNewsReportResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.GetNewsReport(context.Background(), request)
+	response, err := s.Client.GetNewsReport(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -498,11 +499,11 @@ func (s *OpsiNewsReportResourceCrud) Get() error {
 	return nil
 }
 
-func (s *OpsiNewsReportResourceCrud) Update() error {
+func (s *OpsiNewsReportResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -591,16 +592,16 @@ func (s *OpsiNewsReportResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.UpdateNewsReport(context.Background(), request)
+	response, err := s.Client.UpdateNewsReport(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getNewsReportFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getNewsReportFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *OpsiNewsReportResourceCrud) Delete() error {
+func (s *OpsiNewsReportResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_opsi.DeleteNewsReportRequest{}
 
 	tmp := s.D.Id()
@@ -608,14 +609,14 @@ func (s *OpsiNewsReportResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.DeleteNewsReport(context.Background(), request)
+	response, err := s.Client.DeleteNewsReport(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := newsReportWaitForWorkRequest(workId, "opsi",
+	_, delWorkRequestErr := newsReportWaitForWorkRequest(ctx, workId, "opsi",
 		oci_opsi.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1060,7 +1061,7 @@ func NewsReportSummaryToMap(obj oci_opsi.NewsReportSummary) map[string]interface
 	return result
 }
 
-func (s *OpsiNewsReportResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *OpsiNewsReportResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_opsi.ChangeNewsReportCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1071,11 +1072,11 @@ func (s *OpsiNewsReportResourceCrud) updateCompartment(compartment interface{}) 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.ChangeNewsReportCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeNewsReportCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getNewsReportFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getNewsReportFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
