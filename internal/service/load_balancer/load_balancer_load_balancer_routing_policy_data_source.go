@@ -6,6 +6,7 @@ package load_balancer
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v65/loadbalancer"
 
@@ -23,15 +24,15 @@ func LoadBalancerLoadBalancerRoutingPolicyDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(LoadBalancerLoadBalancerRoutingPolicyResource(), fieldMap, readSingularLoadBalancerLoadBalancerRoutingPolicy)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(LoadBalancerLoadBalancerRoutingPolicyResource(), fieldMap, readSingularLoadBalancerLoadBalancerRoutingPolicyWithContext)
 }
 
-func readSingularLoadBalancerLoadBalancerRoutingPolicy(d *schema.ResourceData, m interface{}) error {
+func readSingularLoadBalancerLoadBalancerRoutingPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoadBalancerLoadBalancerRoutingPolicyDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoadBalancerClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type LoadBalancerLoadBalancerRoutingPolicyDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *LoadBalancerLoadBalancerRoutingPolicyDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LoadBalancerLoadBalancerRoutingPolicyDataSourceCrud) Get() error {
+func (s *LoadBalancerLoadBalancerRoutingPolicyDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_load_balancer.GetRoutingPolicyRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
@@ -59,7 +60,7 @@ func (s *LoadBalancerLoadBalancerRoutingPolicyDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "load_balancer")
 
-	response, err := s.Client.GetRoutingPolicy(context.Background(), request)
+	response, err := s.Client.GetRoutingPolicy(ctx, request)
 	if err != nil {
 		return err
 	}

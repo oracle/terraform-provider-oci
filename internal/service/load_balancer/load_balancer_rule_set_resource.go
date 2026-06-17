@@ -14,6 +14,7 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -28,11 +29,11 @@ func LoadBalancerRuleSetResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createLoadBalancerRuleSet,
-		Read:     readLoadBalancerRuleSet,
-		Update:   updateLoadBalancerRuleSet,
-		Delete:   deleteLoadBalancerRuleSet,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createLoadBalancerRuleSetWithContext,
+		ReadContext:   readLoadBalancerRuleSetWithContext,
+		UpdateContext: updateLoadBalancerRuleSetWithContext,
+		DeleteContext: deleteLoadBalancerRuleSetWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"items": {
@@ -249,37 +250,37 @@ func LoadBalancerRuleSetResource() *schema.Resource {
 	}
 }
 
-func createLoadBalancerRuleSet(d *schema.ResourceData, m interface{}) error {
+func createLoadBalancerRuleSetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoadBalancerRuleSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoadBalancerClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readLoadBalancerRuleSet(d *schema.ResourceData, m interface{}) error {
+func readLoadBalancerRuleSetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoadBalancerRuleSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoadBalancerClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateLoadBalancerRuleSet(d *schema.ResourceData, m interface{}) error {
+func updateLoadBalancerRuleSetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoadBalancerRuleSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoadBalancerClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteLoadBalancerRuleSet(d *schema.ResourceData, m interface{}) error {
+func deleteLoadBalancerRuleSetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoadBalancerRuleSetResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoadBalancerClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type LoadBalancerRuleSetResourceCrud struct {
@@ -329,7 +330,7 @@ func (s *LoadBalancerRuleSetResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *LoadBalancerRuleSetResourceCrud) Create() error {
+func (s *LoadBalancerRuleSetResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_load_balancer.CreateRuleSetRequest{}
 
 	if items, ok := s.D.GetOkExists("items"); ok {
@@ -362,7 +363,7 @@ func (s *LoadBalancerRuleSetResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
-	response, err := s.Client.CreateRuleSet(context.Background(), request)
+	response, err := s.Client.CreateRuleSet(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -374,20 +375,20 @@ func (s *LoadBalancerRuleSetResourceCrud) Create() error {
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID
 	getWorkRequestRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
-	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
+	workRequestResponse, err := s.Client.GetWorkRequest(ctx, getWorkRequestRequest)
 	if err != nil {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = loadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = loadBalancerWaitForWorkRequest(ctx, s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (s *LoadBalancerRuleSetResourceCrud) Get() error {
-	_, stillWorking, err := loadBalancerResourceGet(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+func (s *LoadBalancerRuleSetResourceCrud) GetWithContext(ctx context.Context) error {
+	_, stillWorking, err := loadBalancerResourceGet(ctx, s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
@@ -418,7 +419,7 @@ func (s *LoadBalancerRuleSetResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
-	response, err := s.Client.GetRuleSet(context.Background(), request)
+	response, err := s.Client.GetRuleSet(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -427,7 +428,7 @@ func (s *LoadBalancerRuleSetResourceCrud) Get() error {
 	return nil
 }
 
-func (s *LoadBalancerRuleSetResourceCrud) Update() error {
+func (s *LoadBalancerRuleSetResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_load_balancer.UpdateRuleSetRequest{}
 
 	if items, ok := s.D.GetOkExists("items"); ok {
@@ -460,7 +461,7 @@ func (s *LoadBalancerRuleSetResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
-	response, err := s.Client.UpdateRuleSet(context.Background(), request)
+	response, err := s.Client.UpdateRuleSet(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -469,20 +470,20 @@ func (s *LoadBalancerRuleSetResourceCrud) Update() error {
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID
 	getWorkRequestRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
-	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
+	workRequestResponse, err := s.Client.GetWorkRequest(ctx, getWorkRequestRequest)
 	if err != nil {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = loadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = loadBalancerWaitForWorkRequest(ctx, s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *LoadBalancerRuleSetResourceCrud) Delete() error {
+func (s *LoadBalancerRuleSetResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_load_balancer.DeleteRuleSetRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
@@ -497,7 +498,7 @@ func (s *LoadBalancerRuleSetResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
-	response, err := s.Client.DeleteRuleSet(context.Background(), request)
+	response, err := s.Client.DeleteRuleSet(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -506,12 +507,12 @@ func (s *LoadBalancerRuleSetResourceCrud) Delete() error {
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID
 	getWorkRequestRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
-	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
+	workRequestResponse, err := s.Client.GetWorkRequest(ctx, getWorkRequestRequest)
 	if err != nil {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = loadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = loadBalancerWaitForWorkRequest(ctx, s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}

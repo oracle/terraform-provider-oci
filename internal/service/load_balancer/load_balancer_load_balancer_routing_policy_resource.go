@@ -11,6 +11,7 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -25,11 +26,11 @@ func LoadBalancerLoadBalancerRoutingPolicyResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createLoadBalancerLoadBalancerRoutingPolicy,
-		Read:     readLoadBalancerLoadBalancerRoutingPolicy,
-		Update:   updateLoadBalancerLoadBalancerRoutingPolicy,
-		Delete:   deleteLoadBalancerLoadBalancerRoutingPolicy,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createLoadBalancerLoadBalancerRoutingPolicyWithContext,
+		ReadContext:   readLoadBalancerLoadBalancerRoutingPolicyWithContext,
+		UpdateContext: updateLoadBalancerLoadBalancerRoutingPolicyWithContext,
+		DeleteContext: deleteLoadBalancerLoadBalancerRoutingPolicyWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"condition_language_version": {
@@ -105,37 +106,37 @@ func LoadBalancerLoadBalancerRoutingPolicyResource() *schema.Resource {
 	}
 }
 
-func createLoadBalancerLoadBalancerRoutingPolicy(d *schema.ResourceData, m interface{}) error {
+func createLoadBalancerLoadBalancerRoutingPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoadBalancerLoadBalancerRoutingPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoadBalancerClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readLoadBalancerLoadBalancerRoutingPolicy(d *schema.ResourceData, m interface{}) error {
+func readLoadBalancerLoadBalancerRoutingPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoadBalancerLoadBalancerRoutingPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoadBalancerClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateLoadBalancerLoadBalancerRoutingPolicy(d *schema.ResourceData, m interface{}) error {
+func updateLoadBalancerLoadBalancerRoutingPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoadBalancerLoadBalancerRoutingPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoadBalancerClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteLoadBalancerLoadBalancerRoutingPolicy(d *schema.ResourceData, m interface{}) error {
+func deleteLoadBalancerLoadBalancerRoutingPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoadBalancerLoadBalancerRoutingPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoadBalancerClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type LoadBalancerLoadBalancerRoutingPolicyResourceCrud struct {
@@ -185,7 +186,7 @@ func (s *LoadBalancerLoadBalancerRoutingPolicyResourceCrud) DeletedTarget() []st
 	}
 }
 
-func (s *LoadBalancerLoadBalancerRoutingPolicyResourceCrud) Create() error {
+func (s *LoadBalancerLoadBalancerRoutingPolicyResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_load_balancer.CreateRoutingPolicyRequest{}
 
 	if conditionLanguageVersion, ok := s.D.GetOkExists("condition_language_version"); ok {
@@ -221,7 +222,7 @@ func (s *LoadBalancerLoadBalancerRoutingPolicyResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
-	response, err := s.Client.CreateRoutingPolicy(context.Background(), request)
+	response, err := s.Client.CreateRoutingPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -233,20 +234,20 @@ func (s *LoadBalancerLoadBalancerRoutingPolicyResourceCrud) Create() error {
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID
 	getWorkRequestRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
-	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
+	workRequestResponse, err := s.Client.GetWorkRequest(ctx, getWorkRequestRequest)
 	if err != nil {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = loadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = loadBalancerWaitForWorkRequest(ctx, s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (s *LoadBalancerLoadBalancerRoutingPolicyResourceCrud) Get() error {
-	_, stillWorking, err := loadBalancerResourceGet(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+func (s *LoadBalancerLoadBalancerRoutingPolicyResourceCrud) GetWithContext(ctx context.Context) error {
+	_, stillWorking, err := loadBalancerResourceGet(ctx, s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
@@ -277,7 +278,7 @@ func (s *LoadBalancerLoadBalancerRoutingPolicyResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
-	response, err := s.Client.GetRoutingPolicy(context.Background(), request)
+	response, err := s.Client.GetRoutingPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -286,7 +287,7 @@ func (s *LoadBalancerLoadBalancerRoutingPolicyResourceCrud) Get() error {
 	return nil
 }
 
-func (s *LoadBalancerLoadBalancerRoutingPolicyResourceCrud) Update() error {
+func (s *LoadBalancerLoadBalancerRoutingPolicyResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_load_balancer.UpdateRoutingPolicyRequest{}
 
 	if conditionLanguageVersion, ok := s.D.GetOkExists("condition_language_version"); ok {
@@ -322,7 +323,7 @@ func (s *LoadBalancerLoadBalancerRoutingPolicyResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
-	response, err := s.Client.UpdateRoutingPolicy(context.Background(), request)
+	response, err := s.Client.UpdateRoutingPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -331,20 +332,20 @@ func (s *LoadBalancerLoadBalancerRoutingPolicyResourceCrud) Update() error {
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID
 	getWorkRequestRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
-	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
+	workRequestResponse, err := s.Client.GetWorkRequest(ctx, getWorkRequestRequest)
 	if err != nil {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = loadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = loadBalancerWaitForWorkRequest(ctx, s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *LoadBalancerLoadBalancerRoutingPolicyResourceCrud) Delete() error {
+func (s *LoadBalancerLoadBalancerRoutingPolicyResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_load_balancer.DeleteRoutingPolicyRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
@@ -359,7 +360,7 @@ func (s *LoadBalancerLoadBalancerRoutingPolicyResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
-	response, err := s.Client.DeleteRoutingPolicy(context.Background(), request)
+	response, err := s.Client.DeleteRoutingPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -368,12 +369,12 @@ func (s *LoadBalancerLoadBalancerRoutingPolicyResourceCrud) Delete() error {
 	getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = workReqID
 	getWorkRequestRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
-	workRequestResponse, err := s.Client.GetWorkRequest(context.Background(), getWorkRequestRequest)
+	workRequestResponse, err := s.Client.GetWorkRequest(ctx, getWorkRequestRequest)
 	if err != nil {
 		return err
 	}
 	s.WorkRequest = &workRequestResponse.WorkRequest
-	err = loadBalancerWaitForWorkRequest(s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
+	err = loadBalancerWaitForWorkRequest(ctx, s.Client, s.D, s.WorkRequest, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer"))
 	if err != nil {
 		return err
 	}

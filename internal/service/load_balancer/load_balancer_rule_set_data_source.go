@@ -6,6 +6,7 @@ package load_balancer
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v65/loadbalancer"
 
@@ -23,15 +24,15 @@ func LoadBalancerRuleSetDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(LoadBalancerRuleSetResource(), fieldMap, readSingularLoadBalancerRuleSet)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(LoadBalancerRuleSetResource(), fieldMap, readSingularLoadBalancerRuleSetWithContext)
 }
 
-func readSingularLoadBalancerRuleSet(d *schema.ResourceData, m interface{}) error {
+func readSingularLoadBalancerRuleSetWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoadBalancerRuleSetDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoadBalancerClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type LoadBalancerRuleSetDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *LoadBalancerRuleSetDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LoadBalancerRuleSetDataSourceCrud) Get() error {
+func (s *LoadBalancerRuleSetDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_load_balancer.GetRuleSetRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
@@ -59,7 +60,7 @@ func (s *LoadBalancerRuleSetDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "load_balancer")
 
-	response, err := s.Client.GetRuleSet(context.Background(), request)
+	response, err := s.Client.GetRuleSet(ctx, request)
 	if err != nil {
 		return err
 	}

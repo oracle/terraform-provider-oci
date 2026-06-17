@@ -6,6 +6,7 @@ package load_balancer
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v65/loadbalancer"
 
@@ -15,7 +16,7 @@ import (
 
 func LoadBalancerSslCipherSuitesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readLoadBalancerSslCipherSuites,
+		ReadContext: readLoadBalancerSslCipherSuitesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"load_balancer_id": {
@@ -31,12 +32,12 @@ func LoadBalancerSslCipherSuitesDataSource() *schema.Resource {
 	}
 }
 
-func readLoadBalancerSslCipherSuites(d *schema.ResourceData, m interface{}) error {
+func readLoadBalancerSslCipherSuitesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoadBalancerSslCipherSuitesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoadBalancerClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type LoadBalancerSslCipherSuitesDataSourceCrud struct {
@@ -49,7 +50,7 @@ func (s *LoadBalancerSslCipherSuitesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LoadBalancerSslCipherSuitesDataSourceCrud) Get() error {
+func (s *LoadBalancerSslCipherSuitesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_load_balancer.ListSSLCipherSuitesRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
@@ -59,7 +60,7 @@ func (s *LoadBalancerSslCipherSuitesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "load_balancer")
 
-	response, err := s.Client.ListSSLCipherSuites(context.Background(), request)
+	response, err := s.Client.ListSSLCipherSuites(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -6,6 +6,7 @@ package load_balancer
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v65/loadbalancer"
 
@@ -15,7 +16,7 @@ import (
 
 func LoadBalancerLoadBalancerRoutingPoliciesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readLoadBalancerLoadBalancerRoutingPolicies,
+		ReadContext: readLoadBalancerLoadBalancerRoutingPoliciesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"load_balancer_id": {
@@ -31,12 +32,12 @@ func LoadBalancerLoadBalancerRoutingPoliciesDataSource() *schema.Resource {
 	}
 }
 
-func readLoadBalancerLoadBalancerRoutingPolicies(d *schema.ResourceData, m interface{}) error {
+func readLoadBalancerLoadBalancerRoutingPoliciesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoadBalancerLoadBalancerRoutingPoliciesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoadBalancerClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type LoadBalancerLoadBalancerRoutingPoliciesDataSourceCrud struct {
@@ -49,7 +50,7 @@ func (s *LoadBalancerLoadBalancerRoutingPoliciesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LoadBalancerLoadBalancerRoutingPoliciesDataSourceCrud) Get() error {
+func (s *LoadBalancerLoadBalancerRoutingPoliciesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_load_balancer.ListRoutingPoliciesRequest{}
 
 	if loadBalancerId, ok := s.D.GetOkExists("load_balancer_id"); ok {
@@ -59,7 +60,7 @@ func (s *LoadBalancerLoadBalancerRoutingPoliciesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "load_balancer")
 
-	response, err := s.Client.ListRoutingPolicies(context.Background(), request)
+	response, err := s.Client.ListRoutingPolicies(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -68,7 +69,7 @@ func (s *LoadBalancerLoadBalancerRoutingPoliciesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListRoutingPolicies(context.Background(), request)
+		listResponse, err := s.Client.ListRoutingPolicies(ctx, request)
 		if err != nil {
 			return err
 		}

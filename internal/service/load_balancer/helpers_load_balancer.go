@@ -92,13 +92,13 @@ func loadBalancerResourceID(res interface{}, workReq *oci_load_balancer.WorkRequ
 	return nil, false
 }
 
-func loadBalancerResourceGet(client *oci_load_balancer.LoadBalancerClient, d *schema.ResourceData, wr *oci_load_balancer.WorkRequest, retryPolicy *oci_common.RetryPolicy) (id string, stillWorking bool, err error) {
+func loadBalancerResourceGet(ctx context.Context, client *oci_load_balancer.LoadBalancerClient, d *schema.ResourceData, wr *oci_load_balancer.WorkRequest, retryPolicy *oci_common.RetryPolicy) (id string, stillWorking bool, err error) {
 	// NOTE: if the id is for a work request, refresh its state and loadBalancerID.
 	if wr != nil && wr.Id != nil {
 		getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 		getWorkRequestRequest.WorkRequestId = wr.Id
 		getWorkRequestRequest.RequestMetadata.RetryPolicy = retryPolicy
-		updatedWorkRes, err := client.GetWorkRequest(context.Background(), getWorkRequestRequest)
+		updatedWorkRes, err := client.GetWorkRequest(ctx, getWorkRequestRequest)
 		if err != nil {
 			return "", false, err
 		}
@@ -117,7 +117,7 @@ func loadBalancerResourceGet(client *oci_load_balancer.LoadBalancerClient, d *sc
 	return id, false, nil
 }
 
-func loadBalancerWaitForWorkRequest(client *oci_load_balancer.LoadBalancerClient, d *schema.ResourceData, wr *oci_load_balancer.WorkRequest, retryPolicy *oci_common.RetryPolicy) error {
+func loadBalancerWaitForWorkRequest(ctx context.Context, client *oci_load_balancer.LoadBalancerClient, d *schema.ResourceData, wr *oci_load_balancer.WorkRequest, retryPolicy *oci_common.RetryPolicy) error {
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_load_balancer.WorkRequestLifecycleStateInProgress),
@@ -131,7 +131,7 @@ func loadBalancerWaitForWorkRequest(client *oci_load_balancer.LoadBalancerClient
 			getWorkRequestRequest := oci_load_balancer.GetWorkRequestRequest{}
 			getWorkRequestRequest.WorkRequestId = wr.Id
 			getWorkRequestRequest.RequestMetadata.RetryPolicy = retryPolicy
-			workRequestResponse, err := client.GetWorkRequest(context.Background(), getWorkRequestRequest)
+			workRequestResponse, err := client.GetWorkRequest(ctx, getWorkRequestRequest)
 			wr = &workRequestResponse.WorkRequest
 			return wr, string(wr.LifecycleState), err
 		},
@@ -143,7 +143,7 @@ func loadBalancerWaitForWorkRequest(client *oci_load_balancer.LoadBalancerClient
 		stateConf.PollInterval = 1
 	}
 
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return e
 	}
 
