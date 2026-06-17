@@ -6,6 +6,7 @@ package bds
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_bds "github.com/oracle/oci-go-sdk/v65/bds"
 
@@ -23,15 +24,15 @@ func BdsBdsInstanceBdsCertificateConfigurationDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(BdsBdsInstanceBdsCertificateConfigurationResource(), fieldMap, readSingularBdsBdsInstanceBdsCertificateConfiguration)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(BdsBdsInstanceBdsCertificateConfigurationResource(), fieldMap, readSingularBdsBdsInstanceBdsCertificateConfigurationWithContext)
 }
 
-func readSingularBdsBdsInstanceBdsCertificateConfiguration(d *schema.ResourceData, m interface{}) error {
+func readSingularBdsBdsInstanceBdsCertificateConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceBdsCertificateConfigurationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type BdsBdsInstanceBdsCertificateConfigurationDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *BdsBdsInstanceBdsCertificateConfigurationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BdsBdsInstanceBdsCertificateConfigurationDataSourceCrud) Get() error {
+func (s *BdsBdsInstanceBdsCertificateConfigurationDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bds.GetBdsCertificateConfigurationRequest{}
 
 	if bdsCertificateConfigurationId, ok := s.D.GetOkExists("bds_certificate_configuration_id"); ok {
@@ -59,7 +60,7 @@ func (s *BdsBdsInstanceBdsCertificateConfigurationDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "bds")
 
-	response, err := s.Client.GetBdsCertificateConfiguration(context.Background(), request)
+	response, err := s.Client.GetBdsCertificateConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}

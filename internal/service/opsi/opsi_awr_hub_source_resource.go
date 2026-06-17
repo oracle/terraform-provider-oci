@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,11 +25,11 @@ func OpsiAwrHubSourceResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOpsiAwrHubSource,
-		Read:     readOpsiAwrHubSource,
-		Update:   updateOpsiAwrHubSource,
-		Delete:   deleteOpsiAwrHubSource,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOpsiAwrHubSourceWithContext,
+		ReadContext:   readOpsiAwrHubSourceWithContext,
+		UpdateContext: updateOpsiAwrHubSourceWithContext,
+		DeleteContext: deleteOpsiAwrHubSourceWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"awr_hub_id": {
@@ -139,37 +140,37 @@ func OpsiAwrHubSourceResource() *schema.Resource {
 	}
 }
 
-func createOpsiAwrHubSource(d *schema.ResourceData, m interface{}) error {
+func createOpsiAwrHubSourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiAwrHubSourceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOpsiAwrHubSource(d *schema.ResourceData, m interface{}) error {
+func readOpsiAwrHubSourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiAwrHubSourceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateOpsiAwrHubSource(d *schema.ResourceData, m interface{}) error {
+func updateOpsiAwrHubSourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiAwrHubSourceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteOpsiAwrHubSource(d *schema.ResourceData, m interface{}) error {
+func deleteOpsiAwrHubSourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiAwrHubSourceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OpsiAwrHubSourceResourceCrud struct {
@@ -207,7 +208,7 @@ func (s *OpsiAwrHubSourceResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *OpsiAwrHubSourceResourceCrud) Create() error {
+func (s *OpsiAwrHubSourceResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_opsi.CreateAwrHubSourceRequest{}
 
 	if associatedOpsiId, ok := s.D.GetOkExists("associated_opsi_id"); ok {
@@ -253,7 +254,7 @@ func (s *OpsiAwrHubSourceResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.CreateAwrHubSource(context.Background(), request)
+	response, err := s.Client.CreateAwrHubSource(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -264,14 +265,14 @@ func (s *OpsiAwrHubSourceResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getAwrHubSourceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getAwrHubSourceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OpsiAwrHubSourceResourceCrud) getAwrHubSourceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OpsiAwrHubSourceResourceCrud) getAwrHubSourceFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_opsi.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	awrHubSourceId, err := awrHubSourceWaitForWorkRequest(workId, "opsi",
+	awrHubSourceId, err := awrHubSourceWaitForWorkRequest(ctx, workId, "opsi",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -279,7 +280,7 @@ func (s *OpsiAwrHubSourceResourceCrud) getAwrHubSourceFromWorkRequest(workId *st
 	}
 	s.D.SetId(*awrHubSourceId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func awrHubSourceWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -305,7 +306,7 @@ func awrHubSourceWorkRequestShouldRetryFunc(timeout time.Duration) func(response
 	}
 }
 
-func awrHubSourceWaitForWorkRequest(wId *string, entityType string, action oci_opsi.ActionTypeEnum,
+func awrHubSourceWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_opsi.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_opsi.OperationsInsightsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "opsi")
 	retryPolicy.ShouldRetryOperation = awrHubSourceWorkRequestShouldRetryFunc(timeout)
@@ -324,7 +325,7 @@ func awrHubSourceWaitForWorkRequest(wId *string, entityType string, action oci_o
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_opsi.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -336,7 +337,7 @@ func awrHubSourceWaitForWorkRequest(wId *string, entityType string, action oci_o
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -353,14 +354,14 @@ func awrHubSourceWaitForWorkRequest(wId *string, entityType string, action oci_o
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_opsi.OperationStatusFailed || response.Status == oci_opsi.OperationStatusCanceled {
-		return nil, getErrorFromOpsiAwrHubSourceWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOpsiAwrHubSourceWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOpsiAwrHubSourceWorkRequest(client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOpsiAwrHubSourceWorkRequest(ctx context.Context, client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_opsi.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -382,7 +383,7 @@ func getErrorFromOpsiAwrHubSourceWorkRequest(client *oci_opsi.OperationsInsights
 	return workRequestErr
 }
 
-func (s *OpsiAwrHubSourceResourceCrud) Get() error {
+func (s *OpsiAwrHubSourceResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opsi.GetAwrHubSourceRequest{}
 
 	tmp := s.D.Id()
@@ -390,7 +391,7 @@ func (s *OpsiAwrHubSourceResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.GetAwrHubSource(context.Background(), request)
+	response, err := s.Client.GetAwrHubSource(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -399,11 +400,11 @@ func (s *OpsiAwrHubSourceResourceCrud) Get() error {
 	return nil
 }
 
-func (s *OpsiAwrHubSourceResourceCrud) Update() error {
+func (s *OpsiAwrHubSourceResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -432,16 +433,16 @@ func (s *OpsiAwrHubSourceResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.UpdateAwrHubSource(context.Background(), request)
+	response, err := s.Client.UpdateAwrHubSource(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAwrHubSourceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAwrHubSourceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *OpsiAwrHubSourceResourceCrud) Delete() error {
+func (s *OpsiAwrHubSourceResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_opsi.DeleteAwrHubSourceRequest{}
 
 	tmp := s.D.Id()
@@ -449,14 +450,14 @@ func (s *OpsiAwrHubSourceResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.DeleteAwrHubSource(context.Background(), request)
+	response, err := s.Client.DeleteAwrHubSource(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := awrHubSourceWaitForWorkRequest(workId, "opsi",
+	_, delWorkRequestErr := awrHubSourceWaitForWorkRequest(ctx, workId, "opsi",
 		oci_opsi.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -637,7 +638,7 @@ func AwrHubSourceSummaryToMap(obj oci_opsi.AwrHubSourceSummary) map[string]inter
 	return result
 }
 
-func (s *OpsiAwrHubSourceResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *OpsiAwrHubSourceResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_opsi.ChangeAwrHubSourceCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -648,11 +649,11 @@ func (s *OpsiAwrHubSourceResourceCrud) updateCompartment(compartment interface{}
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.ChangeAwrHubSourceCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeAwrHubSourceCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAwrHubSourceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAwrHubSourceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

@@ -6,6 +6,7 @@ package bds
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_bds "github.com/oracle/oci-go-sdk/v65/bds"
 
@@ -23,15 +24,15 @@ func BdsBdsInstanceNodeReplaceConfigurationDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(BdsBdsInstanceNodeReplaceConfigurationResource(), fieldMap, readSingularBdsBdsInstanceNodeReplaceConfiguration)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(BdsBdsInstanceNodeReplaceConfigurationResource(), fieldMap, readSingularBdsBdsInstanceNodeReplaceConfigurationWithContext)
 }
 
-func readSingularBdsBdsInstanceNodeReplaceConfiguration(d *schema.ResourceData, m interface{}) error {
+func readSingularBdsBdsInstanceNodeReplaceConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceNodeReplaceConfigurationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type BdsBdsInstanceNodeReplaceConfigurationDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *BdsBdsInstanceNodeReplaceConfigurationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BdsBdsInstanceNodeReplaceConfigurationDataSourceCrud) Get() error {
+func (s *BdsBdsInstanceNodeReplaceConfigurationDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bds.GetNodeReplaceConfigurationRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -59,7 +60,7 @@ func (s *BdsBdsInstanceNodeReplaceConfigurationDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "bds")
 
-	response, err := s.Client.GetNodeReplaceConfiguration(context.Background(), request)
+	response, err := s.Client.GetNodeReplaceConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}

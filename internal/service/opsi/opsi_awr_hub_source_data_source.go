@@ -6,6 +6,7 @@ package opsi
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
 
@@ -19,15 +20,15 @@ func OpsiAwrHubSourceDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(OpsiAwrHubSourceResource(), fieldMap, readSingularOpsiAwrHubSource)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(OpsiAwrHubSourceResource(), fieldMap, readSingularOpsiAwrHubSourceWithContext)
 }
 
-func readSingularOpsiAwrHubSource(d *schema.ResourceData, m interface{}) error {
+func readSingularOpsiAwrHubSourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiAwrHubSourceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OpsiAwrHubSourceDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *OpsiAwrHubSourceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OpsiAwrHubSourceDataSourceCrud) Get() error {
+func (s *OpsiAwrHubSourceDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opsi.GetAwrHubSourceRequest{}
 
 	if awrHubSourceId, ok := s.D.GetOkExists("awr_hub_source_id"); ok {
@@ -50,7 +51,7 @@ func (s *OpsiAwrHubSourceDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "opsi")
 
-	response, err := s.Client.GetAwrHubSource(context.Background(), request)
+	response, err := s.Client.GetAwrHubSource(ctx, request)
 	if err != nil {
 		return err
 	}

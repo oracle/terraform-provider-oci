@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -27,11 +28,11 @@ func BdsBdsInstanceIdentityConfigurationResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createBdsBdsInstanceIdentityConfiguration,
-		Read:     readBdsBdsInstanceIdentityConfiguration,
-		Update:   updateBdsBdsInstanceIdentityConfiguration,
-		Delete:   deleteBdsBdsInstanceIdentityConfiguration,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createBdsBdsInstanceIdentityConfigurationWithContext,
+		ReadContext:   readBdsBdsInstanceIdentityConfigurationWithContext,
+		UpdateContext: updateBdsBdsInstanceIdentityConfigurationWithContext,
+		DeleteContext: deleteBdsBdsInstanceIdentityConfigurationWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"bds_instance_id": {
@@ -220,26 +221,26 @@ func BdsBdsInstanceIdentityConfigurationResource() *schema.Resource {
 	}
 }
 
-func createBdsBdsInstanceIdentityConfiguration(d *schema.ResourceData, m interface{}) error {
+func createBdsBdsInstanceIdentityConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceIdentityConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 	return nil
 
 }
 
-func readBdsBdsInstanceIdentityConfiguration(d *schema.ResourceData, m interface{}) error {
+func readBdsBdsInstanceIdentityConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceIdentityConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateBdsBdsInstanceIdentityConfiguration(d *schema.ResourceData, m interface{}) error {
+func updateBdsBdsInstanceIdentityConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	sync := &BdsBdsInstanceIdentityConfigurationResourceCrud{}
 	sync.D = d
@@ -247,38 +248,38 @@ func updateBdsBdsInstanceIdentityConfiguration(d *schema.ResourceData, m interfa
 
 	if triggerVal, ok := sync.D.GetOkExists("activate_iam_user_sync_configuration_trigger"); ok && sync.D.HasChange("activate_iam_user_sync_configuration_trigger") {
 		if triggerVal.(string) == "true" {
-			err := sync.ActivateIamUserSyncConfiguration()
+			err := sync.ActivateIamUserSyncConfiguration(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
 
 	if triggerVal, ok := sync.D.GetOkExists("activate_upst_configuration_trigger"); ok && sync.D.HasChange("activate_upst_configuration_trigger") {
 		if triggerVal.(string) == "true" {
-			err := sync.ActivateUpstConfiguration()
+			err := sync.ActivateUpstConfiguration(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
 
 	if refreshTrigger, ok := sync.D.GetOkExists("refresh_confidential_application_trigger"); ok {
 		if refreshTrigger.(string) == "true" {
-			err := sync.RefreshConfidentialApplication()
+			err := sync.RefreshConfidentialApplication(ctx)
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
 
 	if refreshTrigger, ok := sync.D.GetOkExists("refresh_upst_token_exchange_keytab_trigger"); ok {
 		if refreshTrigger.(string) == "true" {
-			err := sync.RefreshUpstTokenExchangeKeytab()
+			err := sync.RefreshUpstTokenExchangeKeytab(ctx)
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
@@ -286,10 +287,10 @@ func updateBdsBdsInstanceIdentityConfiguration(d *schema.ResourceData, m interfa
 	if _, ok := sync.D.GetOkExists("activate_iam_user_sync_configuration_trigger"); ok && sync.D.HasChange("activate_iam_user_sync_configuration_trigger") {
 		triggerVal := sync.D.Get("activate_iam_user_sync_configuration_trigger")
 		if triggerVal.(string) == "false" {
-			err := sync.DeactivateIamUserSyncConfiguration()
+			err := sync.DeactivateIamUserSyncConfiguration(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
@@ -297,29 +298,29 @@ func updateBdsBdsInstanceIdentityConfiguration(d *schema.ResourceData, m interfa
 	if _, ok := sync.D.GetOkExists("activate_upst_configuration_trigger"); ok && sync.D.HasChange("activate_upst_configuration_trigger") {
 		triggerVal := sync.D.Get("activate_upst_configuration_trigger")
 		if triggerVal.(string) == "false" {
-			err := sync.DeactivateUpstConfiguration()
+			err := sync.DeactivateUpstConfiguration(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	return nil
 }
 
-func deleteBdsBdsInstanceIdentityConfiguration(d *schema.ResourceData, m interface{}) error {
+func deleteBdsBdsInstanceIdentityConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 
 	sync := &BdsBdsInstanceIdentityConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type BdsBdsInstanceIdentityConfigurationResourceCrud struct {
@@ -353,7 +354,7 @@ func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) DeletedTarget() []stri
 	}
 }
 
-func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) Create() error {
+func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_bds.CreateIdentityConfigurationRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -411,25 +412,25 @@ func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.CreateIdentityConfiguration(context.Background(), request)
+	response, err := s.Client.CreateIdentityConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceIdentityConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getBdsInstanceIdentityConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) getBdsInstanceIdentityConfigurationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) getBdsInstanceIdentityConfigurationFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_bds.ActionTypesEnum, timeout time.Duration) error {
 	// Wait until it finishes
-	bdsInstanceIdentityConfigurationId, err := bdsInstanceIdentityConfigurationWaitForWorkRequest(workId, "bdsidentityconfig",
+	bdsInstanceIdentityConfigurationId, err := bdsInstanceIdentityConfigurationWaitForWorkRequest(ctx, workId, "bdsidentityconfig",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 	if err != nil {
 		return err
 	}
 	s.D.SetId(*bdsInstanceIdentityConfigurationId)
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func bdsInstanceIdentityConfigurationWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -455,7 +456,7 @@ func bdsInstanceIdentityConfigurationWorkRequestShouldRetryFunc(timeout time.Dur
 	}
 }
 
-func bdsInstanceIdentityConfigurationWaitForWorkRequest(wId *string, entityType string, action oci_bds.ActionTypesEnum,
+func bdsInstanceIdentityConfigurationWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_bds.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_bds.BdsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "bds")
 	retryPolicy.ShouldRetryOperation = bdsInstanceIdentityConfigurationWorkRequestShouldRetryFunc(timeout)
@@ -473,7 +474,7 @@ func bdsInstanceIdentityConfigurationWaitForWorkRequest(wId *string, entityType 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_bds.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -485,7 +486,7 @@ func bdsInstanceIdentityConfigurationWaitForWorkRequest(wId *string, entityType 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -501,13 +502,13 @@ func bdsInstanceIdentityConfigurationWaitForWorkRequest(wId *string, entityType 
 	}
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_bds.OperationStatusFailed || response.Status == oci_bds.OperationStatusCanceled {
-		return nil, getErrorFromBdsBdsInstanceIdentityConfigurationWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromBdsBdsInstanceIdentityConfigurationWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 	return identifier, nil
 }
 
-func getErrorFromBdsBdsInstanceIdentityConfigurationWorkRequest(client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromBdsBdsInstanceIdentityConfigurationWorkRequest(ctx context.Context, client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_bds.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -528,7 +529,7 @@ func getErrorFromBdsBdsInstanceIdentityConfigurationWorkRequest(client *oci_bds.
 	return workRequestErr
 }
 
-func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) Get() error {
+func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bds.GetIdentityConfigurationRequest{}
 
 	tmp := s.D.Id()
@@ -549,7 +550,7 @@ func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.GetIdentityConfiguration(context.Background(), request)
+	response, err := s.Client.GetIdentityConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -558,7 +559,7 @@ func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) Get() error {
 	return nil
 }
 
-func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) Update() error {
+func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_bds.UpdateIdentityConfigurationRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -598,16 +599,16 @@ func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.UpdateIdentityConfiguration(context.Background(), request)
+	response, err := s.Client.UpdateIdentityConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceIdentityConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceIdentityConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) Delete() error {
+func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_bds.DeleteIdentityConfigurationRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -620,7 +621,7 @@ func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) Delete() error {
 
 	if trigger, ok := s.D.GetOkExists("activate_iam_user_sync_configuration_trigger"); ok {
 		if trigger.(string) == "true" {
-			err := s.DeactivateIamUserSyncConfiguration()
+			err := s.DeactivateIamUserSyncConfiguration(ctx)
 			if err != nil {
 				return err
 			}
@@ -629,7 +630,7 @@ func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) Delete() error {
 
 	if trigger, ok := s.D.GetOkExists("activate_upst_configuration_trigger"); ok {
 		if trigger.(string) == "true" {
-			err := s.DeactivateUpstConfiguration()
+			err := s.DeactivateUpstConfiguration(ctx)
 
 			if err != nil {
 				return err
@@ -639,14 +640,14 @@ func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.DeleteIdentityConfiguration(context.Background(), request)
+	response, err := s.Client.DeleteIdentityConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := bdsInstanceIdentityConfigurationWaitForWorkRequest(workId, "bdsidentityconfig",
+	_, delWorkRequestErr := bdsInstanceIdentityConfigurationWaitForWorkRequest(ctx, workId, "bdsidentityconfig",
 		oci_bds.ActionTypesDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -716,7 +717,7 @@ func parseBdsInstanceIdentityConfigurationCompositeId(compositeId string) (bdsIn
 	return
 }
 
-func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) ActivateIamUserSyncConfiguration() error {
+func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) ActivateIamUserSyncConfiguration(ctx context.Context) error {
 	request := oci_bds.ActivateIamUserSyncConfigurationRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -739,23 +740,23 @@ func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) ActivateIamUserSyncCon
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.ActivateIamUserSyncConfiguration(context.Background(), request)
+	response, err := s.Client.ActivateIamUserSyncConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	workId := response.OpcWorkRequestId
 	val := s.D.Get("activate_iam_user_sync_configuration_trigger")
 	s.D.Set("activate_iam_user_sync_configuration_trigger", val)
-	return s.getBdsInstanceIdentityConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getBdsInstanceIdentityConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutCreate))
 
 }
 
-func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) ActivateUpstConfiguration() error {
+func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) ActivateUpstConfiguration(ctx context.Context) error {
 	request := oci_bds.ActivateUpstConfigurationRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -783,23 +784,23 @@ func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) ActivateUpstConfigurat
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.ActivateUpstConfiguration(context.Background(), request)
+	response, err := s.Client.ActivateUpstConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	workId := response.OpcWorkRequestId
 	val := s.D.Get("activate_upst_configuration_trigger")
 	s.D.Set("activate_upst_configuration_trigger", val)
-	return s.getBdsInstanceIdentityConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getBdsInstanceIdentityConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutCreate))
 
 }
 
-func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) DeactivateIamUserSyncConfiguration() error {
+func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) DeactivateIamUserSyncConfiguration(ctx context.Context) error {
 	request := oci_bds.DeactivateIamUserSyncConfigurationRequest{}
 
 	tmp := s.D.Id()
@@ -817,22 +818,22 @@ func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) DeactivateIamUserSyncC
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.DeactivateIamUserSyncConfiguration(context.Background(), request)
+	response, err := s.Client.DeactivateIamUserSyncConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 	workId := response.OpcWorkRequestId
 	val := s.D.Get("activate_iam_user_sync_configuration_trigger")
 	s.D.Set("activate_iam_user_sync_configuration_trigger", val)
-	return s.getBdsInstanceIdentityConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceIdentityConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 
 }
 
-func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) DeactivateUpstConfiguration() error {
+func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) DeactivateUpstConfiguration(ctx context.Context) error {
 	request := oci_bds.DeactivateUpstConfigurationRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -850,22 +851,22 @@ func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) DeactivateUpstConfigur
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.DeactivateUpstConfiguration(context.Background(), request)
+	response, err := s.Client.DeactivateUpstConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 	workId := response.OpcWorkRequestId
 	val := s.D.Get("activate_upst_configuration_trigger")
 	s.D.Set("activate_upst_configuration_trigger", val)
-	return s.getBdsInstanceIdentityConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceIdentityConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 
 }
 
-func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) RefreshConfidentialApplication() error {
+func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) RefreshConfidentialApplication(ctx context.Context) error {
 	request := oci_bds.RefreshConfidentialApplicationRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -883,22 +884,22 @@ func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) RefreshConfidentialApp
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.RefreshConfidentialApplication(context.Background(), request)
+	response, err := s.Client.RefreshConfidentialApplication(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 	workId := response.OpcWorkRequestId
 
 	//s.D.Set("refresh_confidential_application_trigger", "false")
-	return s.getBdsInstanceIdentityConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getBdsInstanceIdentityConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutCreate))
 
 }
 
-func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) RefreshUpstTokenExchangeKeytab() error {
+func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) RefreshUpstTokenExchangeKeytab(ctx context.Context) error {
 	request := oci_bds.RefreshUpstTokenExchangeKeytabRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -916,18 +917,18 @@ func (s *BdsBdsInstanceIdentityConfigurationResourceCrud) RefreshUpstTokenExchan
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.RefreshUpstTokenExchangeKeytab(context.Background(), request)
+	response, err := s.Client.RefreshUpstTokenExchangeKeytab(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 	workId := response.OpcWorkRequestId
 
 	//s.D.Set("refresh_upst_token_exchange_keytab_trigger", "false")
-	return s.getBdsInstanceIdentityConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getBdsInstanceIdentityConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutCreate))
 
 }
 

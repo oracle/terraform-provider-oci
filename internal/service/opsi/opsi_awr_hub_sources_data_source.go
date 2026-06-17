@@ -6,6 +6,7 @@ package opsi
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
 
@@ -15,7 +16,7 @@ import (
 
 func OpsiAwrHubSourcesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readOpsiAwrHubSources,
+		ReadContext: readOpsiAwrHubSourcesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"awr_hub_id": {
@@ -73,12 +74,12 @@ func OpsiAwrHubSourcesDataSource() *schema.Resource {
 	}
 }
 
-func readOpsiAwrHubSources(d *schema.ResourceData, m interface{}) error {
+func readOpsiAwrHubSourcesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiAwrHubSourcesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OpsiAwrHubSourcesDataSourceCrud struct {
@@ -91,7 +92,7 @@ func (s *OpsiAwrHubSourcesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OpsiAwrHubSourcesDataSourceCrud) Get() error {
+func (s *OpsiAwrHubSourcesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opsi.ListAwrHubSourcesRequest{}
 
 	if awrHubId, ok := s.D.GetOkExists("awr_hub_id"); ok {
@@ -155,7 +156,7 @@ func (s *OpsiAwrHubSourcesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "opsi")
 
-	response, err := s.Client.ListAwrHubSources(context.Background(), request)
+	response, err := s.Client.ListAwrHubSources(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -164,7 +165,7 @@ func (s *OpsiAwrHubSourcesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListAwrHubSources(context.Background(), request)
+		listResponse, err := s.Client.ListAwrHubSources(ctx, request)
 		if err != nil {
 			return err
 		}

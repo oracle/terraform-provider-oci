@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -21,11 +22,11 @@ import (
 
 func BdsBdsInstanceOperationCertificateManagementsManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createBdsBdsInstanceOperationCertificateManagementsManagement,
-		Read:     readBdsBdsInstanceOperationCertificateManagementsManagement,
-		Update:   updateBdsBdsInstanceOperationCertificateManagementsManagement,
-		Delete:   deleteBdsBdsInstanceOperationCertificateManagementsManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createBdsBdsInstanceOperationCertificateManagementsManagement,
+		ReadContext:   readBdsBdsInstanceOperationCertificateManagementsManagement,
+		UpdateContext: updateBdsBdsInstanceOperationCertificateManagementsManagement,
+		DeleteContext: deleteBdsBdsInstanceOperationCertificateManagementsManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"bds_instance_id": {
@@ -108,36 +109,36 @@ func BdsBdsInstanceOperationCertificateManagementsManagementResource() *schema.R
 	}
 }
 
-func createBdsBdsInstanceOperationCertificateManagementsManagement(d *schema.ResourceData, m interface{}) error {
+func createBdsBdsInstanceOperationCertificateManagementsManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 	sync.Res = &BdsBdsInstanceOperationCertificateManagementsManagementResponse{}
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readBdsBdsInstanceOperationCertificateManagementsManagement(d *schema.ResourceData, m interface{}) error {
+func readBdsBdsInstanceOperationCertificateManagementsManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func updateBdsBdsInstanceOperationCertificateManagementsManagement(d *schema.ResourceData, m interface{}) error {
+func updateBdsBdsInstanceOperationCertificateManagementsManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 	sync.Res = &BdsBdsInstanceOperationCertificateManagementsManagementResponse{}
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteBdsBdsInstanceOperationCertificateManagementsManagement(d *schema.ResourceData, m interface{}) error {
+func deleteBdsBdsInstanceOperationCertificateManagementsManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 	sync.Res = &BdsBdsInstanceOperationCertificateManagementsManagementResponse{}
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type BdsBdsInstanceOperationCertificateManagementsManagementResponse struct {
@@ -157,7 +158,7 @@ func (s *BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud) ID
 	return tfresource.GenerateDataSourceHashID("BdsBdsInstanceOperationCertificateManagementsManagementResource-", BdsBdsInstanceOperationCertificateManagementsManagementResource(), s.D)
 }
 
-func (s *BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud) Create() error {
+func (s *BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	var operationEnable bool
 	var operationRenew bool
 	if enableOperation, ok := s.D.GetOkExists("enable_operation_certificate_management"); ok {
@@ -234,13 +235,13 @@ func (s *BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud) Cr
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-		response, err := s.Client.EnableCertificate(context.Background(), request)
+		response, err := s.Client.EnableCertificate(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getBdsInstanceOperationCertificateManagementsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getBdsInstanceOperationCertificateManagementsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -311,13 +312,13 @@ func (s *BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud) Cr
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-		response, err := s.Client.RenewCertificate(context.Background(), request)
+		response, err := s.Client.RenewCertificate(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getBdsInstanceOperationCertificateManagementsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getBdsInstanceOperationCertificateManagementsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -352,13 +353,13 @@ func (s *BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud) Cr
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.DisableCertificate(context.Background(), request)
+	response, err := s.Client.DisableCertificate(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getBdsInstanceOperationCertificateManagementsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getBdsInstanceOperationCertificateManagementsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -366,11 +367,11 @@ func (s *BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud) Cr
 	return nil
 }
 
-func (s *BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud) getBdsInstanceOperationCertificateManagementsManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud) getBdsInstanceOperationCertificateManagementsManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_bds.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	_, err := bdsInstanceOperationCertificateManagementsManagementWaitForWorkRequest(workId, "bds",
+	_, err := bdsInstanceOperationCertificateManagementsManagementWaitForWorkRequest(ctx, workId, "bds",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -403,7 +404,7 @@ func bdsInstanceOperationCertificateManagementsManagementWorkRequestShouldRetryF
 	}
 }
 
-func bdsInstanceOperationCertificateManagementsManagementWaitForWorkRequest(wId *string, entityType string, action oci_bds.ActionTypesEnum,
+func bdsInstanceOperationCertificateManagementsManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_bds.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_bds.BdsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "bds")
 	retryPolicy.ShouldRetryOperation = bdsInstanceOperationCertificateManagementsManagementWorkRequestShouldRetryFunc(timeout)
@@ -422,7 +423,7 @@ func bdsInstanceOperationCertificateManagementsManagementWaitForWorkRequest(wId 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_bds.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -434,7 +435,7 @@ func bdsInstanceOperationCertificateManagementsManagementWaitForWorkRequest(wId 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -451,14 +452,14 @@ func bdsInstanceOperationCertificateManagementsManagementWaitForWorkRequest(wId 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_bds.OperationStatusFailed || response.Status == oci_bds.OperationStatusCanceled {
-		return nil, getErrorFromBdsBdsInstanceOperationCertificateManagementsManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromBdsBdsInstanceOperationCertificateManagementsManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromBdsBdsInstanceOperationCertificateManagementsManagementWorkRequest(client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromBdsBdsInstanceOperationCertificateManagementsManagementWorkRequest(ctx context.Context, client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_bds.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -480,7 +481,7 @@ func getErrorFromBdsBdsInstanceOperationCertificateManagementsManagementWorkRequ
 	return workRequestErr
 }
 
-func (s *BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud) Update() error {
+func (s *BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 	var operationEnable bool
 	var operationRenew bool
 	if enableOperation, ok := s.D.GetOkExists("enable_operation_certificate_management"); ok {
@@ -557,13 +558,13 @@ func (s *BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud) Up
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-		response, err := s.Client.EnableCertificate(context.Background(), request)
+		response, err := s.Client.EnableCertificate(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getBdsInstanceOperationCertificateManagementsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getBdsInstanceOperationCertificateManagementsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -634,13 +635,13 @@ func (s *BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud) Up
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-		response, err := s.Client.RenewCertificate(context.Background(), request)
+		response, err := s.Client.RenewCertificate(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getBdsInstanceOperationCertificateManagementsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getBdsInstanceOperationCertificateManagementsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -675,13 +676,13 @@ func (s *BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud) Up
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.DisableCertificate(context.Background(), request)
+	response, err := s.Client.DisableCertificate(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getBdsInstanceOperationCertificateManagementsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getBdsInstanceOperationCertificateManagementsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -689,7 +690,7 @@ func (s *BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud) Up
 	return nil
 }
 
-func (s *BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud) Delete() error {
+func (s *BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_operation_certificate_management"); ok {
 		operation = enableOperation.(bool)
@@ -726,13 +727,13 @@ func (s *BdsBdsInstanceOperationCertificateManagementsManagementResourceCrud) De
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.DisableCertificate(context.Background(), request)
+	response, err := s.Client.DisableCertificate(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getBdsInstanceOperationCertificateManagementsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getBdsInstanceOperationCertificateManagementsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}

@@ -6,6 +6,7 @@ package bds
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_bds "github.com/oracle/oci-go-sdk/v65/bds"
 
@@ -15,7 +16,7 @@ import (
 
 func BdsBdsInstanceNodeBackupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readBdsBdsInstanceNodeBackups,
+		ReadContext: readBdsBdsInstanceNodeBackupsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"bds_instance_id": {
@@ -87,12 +88,12 @@ func BdsBdsInstanceNodeBackupsDataSource() *schema.Resource {
 	}
 }
 
-func readBdsBdsInstanceNodeBackups(d *schema.ResourceData, m interface{}) error {
+func readBdsBdsInstanceNodeBackupsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceNodeBackupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type BdsBdsInstanceNodeBackupsDataSourceCrud struct {
@@ -105,7 +106,7 @@ func (s *BdsBdsInstanceNodeBackupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BdsBdsInstanceNodeBackupsDataSourceCrud) Get() error {
+func (s *BdsBdsInstanceNodeBackupsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bds.ListNodeBackupsRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -129,7 +130,7 @@ func (s *BdsBdsInstanceNodeBackupsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "bds")
 
-	response, err := s.Client.ListNodeBackups(context.Background(), request)
+	response, err := s.Client.ListNodeBackups(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -138,7 +139,7 @@ func (s *BdsBdsInstanceNodeBackupsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListNodeBackups(context.Background(), request)
+		listResponse, err := s.Client.ListNodeBackups(ctx, request)
 		if err != nil {
 			return err
 		}

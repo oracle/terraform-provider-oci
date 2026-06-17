@@ -8,6 +8,7 @@ import (
 	"log"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
 
@@ -49,15 +50,15 @@ func OpsiOpsiConfigurationDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(OpsiOpsiConfigurationResource(), fieldMap, readSingularOpsiOpsiConfiguration)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(OpsiOpsiConfigurationResource(), fieldMap, readSingularOpsiOpsiConfigurationWithContext)
 }
 
-func readSingularOpsiOpsiConfiguration(d *schema.ResourceData, m interface{}) error {
+func readSingularOpsiOpsiConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiOpsiConfigurationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OpsiOpsiConfigurationDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *OpsiOpsiConfigurationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OpsiOpsiConfigurationDataSourceCrud) Get() error {
+func (s *OpsiOpsiConfigurationDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opsi.GetOpsiConfigurationRequest{}
 
 	if configItemCustomStatus, ok := s.D.GetOkExists("config_item_custom_status"); ok {
@@ -138,7 +139,7 @@ func (s *OpsiOpsiConfigurationDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "opsi")
 
-	response, err := s.Client.GetOpsiConfiguration(context.Background(), request)
+	response, err := s.Client.GetOpsiConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -6,6 +6,7 @@ package bds
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_bds "github.com/oracle/oci-go-sdk/v65/bds"
 
@@ -15,7 +16,7 @@ import (
 
 func BdsBdsInstanceMetastoreConfigsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readBdsBdsInstanceMetastoreConfigs,
+		ReadContext: readBdsBdsInstanceMetastoreConfigsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"bds_api_key_id": {
@@ -51,12 +52,12 @@ func BdsBdsInstanceMetastoreConfigsDataSource() *schema.Resource {
 	}
 }
 
-func readBdsBdsInstanceMetastoreConfigs(d *schema.ResourceData, m interface{}) error {
+func readBdsBdsInstanceMetastoreConfigsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceMetastoreConfigsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type BdsBdsInstanceMetastoreConfigsDataSourceCrud struct {
@@ -69,7 +70,7 @@ func (s *BdsBdsInstanceMetastoreConfigsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BdsBdsInstanceMetastoreConfigsDataSourceCrud) Get() error {
+func (s *BdsBdsInstanceMetastoreConfigsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bds.ListBdsMetastoreConfigurationsRequest{}
 
 	if bdsApiKeyId, ok := s.D.GetOkExists("bds_api_key_id"); ok {
@@ -102,7 +103,7 @@ func (s *BdsBdsInstanceMetastoreConfigsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "bds")
 
-	response, err := s.Client.ListBdsMetastoreConfigurations(context.Background(), request)
+	response, err := s.Client.ListBdsMetastoreConfigurations(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -111,7 +112,7 @@ func (s *BdsBdsInstanceMetastoreConfigsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListBdsMetastoreConfigurations(context.Background(), request)
+		listResponse, err := s.Client.ListBdsMetastoreConfigurations(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -27,9 +28,9 @@ func BdsBdsInstancePatchActionResource() *schema.Resource {
 			Update: schema.DefaultTimeout(20 * time.Minute),
 			Delete: schema.DefaultTimeout(20 * time.Minute),
 		},
-		Create: createBdsBdsInstancePatchAction,
-		Read:   readBdsBdsInstancePatchAction,
-		Delete: deleteBdsBdsInstancePatchAction,
+		CreateContext: createBdsBdsInstancePatchAction,
+		ReadContext:   readBdsBdsInstancePatchAction,
+		DeleteContext: deleteBdsBdsInstancePatchAction,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"bds_instance_id": {
@@ -112,19 +113,19 @@ func BdsBdsInstancePatchActionResource() *schema.Resource {
 	}
 }
 
-func createBdsBdsInstancePatchAction(d *schema.ResourceData, m interface{}) error {
+func createBdsBdsInstancePatchAction(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstancePatchActionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readBdsBdsInstancePatchAction(d *schema.ResourceData, m interface{}) error {
+func readBdsBdsInstancePatchAction(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteBdsBdsInstancePatchAction(d *schema.ResourceData, m interface{}) error {
+func deleteBdsBdsInstancePatchAction(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -138,7 +139,7 @@ func (s *BdsBdsInstancePatchActionResourceCrud) ID() string {
 	return tfresource.GenerateDataSourceHashID("BdsBdsInstancePatchActionResource-", BdsBdsInstancePatchActionResource(), s.D)
 }
 
-func (s *BdsBdsInstancePatchActionResourceCrud) Create() error {
+func (s *BdsBdsInstancePatchActionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_bds.InstallPatchRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -169,20 +170,20 @@ func (s *BdsBdsInstancePatchActionResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.InstallPatch(context.Background(), request)
+	response, err := s.Client.InstallPatch(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstancePatchActionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getBdsInstancePatchActionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *BdsBdsInstancePatchActionResourceCrud) getBdsInstancePatchActionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *BdsBdsInstancePatchActionResourceCrud) getBdsInstancePatchActionFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_bds.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	bdsInstancePatchActionId, err := bdsInstancePatchActionWaitForWorkRequest(workId, "bds",
+	bdsInstancePatchActionId, err := bdsInstancePatchActionWaitForWorkRequest(ctx, workId, "bds",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -216,7 +217,7 @@ func bdsInstancePatchActionWorkRequestShouldRetryFunc(timeout time.Duration) fun
 	}
 }
 
-func bdsInstancePatchActionWaitForWorkRequest(wId *string, entityType string, action oci_bds.ActionTypesEnum,
+func bdsInstancePatchActionWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_bds.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_bds.BdsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "bds")
 	retryPolicy.ShouldRetryOperation = bdsInstancePatchActionWorkRequestShouldRetryFunc(timeout)
@@ -235,7 +236,7 @@ func bdsInstancePatchActionWaitForWorkRequest(wId *string, entityType string, ac
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_bds.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -247,7 +248,7 @@ func bdsInstancePatchActionWaitForWorkRequest(wId *string, entityType string, ac
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -264,14 +265,14 @@ func bdsInstancePatchActionWaitForWorkRequest(wId *string, entityType string, ac
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_bds.OperationStatusFailed || response.Status == oci_bds.OperationStatusCanceled {
-		return nil, getErrorFromBdsBdsInstancePatchActionWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromBdsBdsInstancePatchActionWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromBdsBdsInstancePatchActionWorkRequest(client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromBdsBdsInstancePatchActionWorkRequest(ctx context.Context, client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_bds.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

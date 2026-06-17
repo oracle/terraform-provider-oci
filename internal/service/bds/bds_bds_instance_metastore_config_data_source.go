@@ -6,6 +6,7 @@ package bds
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_bds "github.com/oracle/oci-go-sdk/v65/bds"
 
@@ -23,15 +24,15 @@ func BdsBdsInstanceMetastoreConfigDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(BdsBdsInstanceMetastoreConfigResource(), fieldMap, readSingularBdsBdsInstanceMetastoreConfig)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(BdsBdsInstanceMetastoreConfigResource(), fieldMap, readSingularBdsBdsInstanceMetastoreConfigWithContext)
 }
 
-func readSingularBdsBdsInstanceMetastoreConfig(d *schema.ResourceData, m interface{}) error {
+func readSingularBdsBdsInstanceMetastoreConfigWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceMetastoreConfigDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type BdsBdsInstanceMetastoreConfigDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *BdsBdsInstanceMetastoreConfigDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BdsBdsInstanceMetastoreConfigDataSourceCrud) Get() error {
+func (s *BdsBdsInstanceMetastoreConfigDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bds.GetBdsMetastoreConfigurationRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -59,7 +60,7 @@ func (s *BdsBdsInstanceMetastoreConfigDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "bds")
 
-	response, err := s.Client.GetBdsMetastoreConfiguration(context.Background(), request)
+	response, err := s.Client.GetBdsMetastoreConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}

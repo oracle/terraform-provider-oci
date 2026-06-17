@@ -6,6 +6,7 @@ package bds
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_bds "github.com/oracle/oci-go-sdk/v65/bds"
 
@@ -15,7 +16,7 @@ import (
 
 func BdsBdsInstanceBdsCertificateConfigurationsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readBdsBdsInstanceBdsCertificateConfigurations,
+		ReadContext: readBdsBdsInstanceBdsCertificateConfigurationsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"bds_instance_id": {
@@ -39,12 +40,12 @@ func BdsBdsInstanceBdsCertificateConfigurationsDataSource() *schema.Resource {
 	}
 }
 
-func readBdsBdsInstanceBdsCertificateConfigurations(d *schema.ResourceData, m interface{}) error {
+func readBdsBdsInstanceBdsCertificateConfigurationsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceBdsCertificateConfigurationsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type BdsBdsInstanceBdsCertificateConfigurationsDataSourceCrud struct {
@@ -57,7 +58,7 @@ func (s *BdsBdsInstanceBdsCertificateConfigurationsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BdsBdsInstanceBdsCertificateConfigurationsDataSourceCrud) Get() error {
+func (s *BdsBdsInstanceBdsCertificateConfigurationsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bds.ListBdsCertificateConfigurationsRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -76,7 +77,7 @@ func (s *BdsBdsInstanceBdsCertificateConfigurationsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "bds")
 
-	response, err := s.Client.ListBdsCertificateConfigurations(context.Background(), request)
+	response, err := s.Client.ListBdsCertificateConfigurations(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -85,7 +86,7 @@ func (s *BdsBdsInstanceBdsCertificateConfigurationsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListBdsCertificateConfigurations(context.Background(), request)
+		listResponse, err := s.Client.ListBdsCertificateConfigurations(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
 )
@@ -19,15 +20,15 @@ func OpsiOperationsInsightsWarehouseDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(OpsiOperationsInsightsWarehouseResource(), fieldMap, readSingularOpsiOperationsInsightsWarehouse)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(OpsiOperationsInsightsWarehouseResource(), fieldMap, readSingularOpsiOperationsInsightsWarehouseWithContext)
 }
 
-func readSingularOpsiOperationsInsightsWarehouse(d *schema.ResourceData, m interface{}) error {
+func readSingularOpsiOperationsInsightsWarehouseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiOperationsInsightsWarehouseDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OpsiOperationsInsightsWarehouseDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *OpsiOperationsInsightsWarehouseDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OpsiOperationsInsightsWarehouseDataSourceCrud) Get() error {
+func (s *OpsiOperationsInsightsWarehouseDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opsi.GetOperationsInsightsWarehouseRequest{}
 
 	if operationsInsightsWarehouseId, ok := s.D.GetOkExists("operations_insights_warehouse_id"); ok {
@@ -50,7 +51,7 @@ func (s *OpsiOperationsInsightsWarehouseDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "opsi")
 
-	response, err := s.Client.GetOperationsInsightsWarehouse(context.Background(), request)
+	response, err := s.Client.GetOperationsInsightsWarehouse(ctx, request)
 	if err != nil {
 		return err
 	}

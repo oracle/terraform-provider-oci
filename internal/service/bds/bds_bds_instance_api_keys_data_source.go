@@ -9,13 +9,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_bds "github.com/oracle/oci-go-sdk/v65/bds"
 )
 
 func BdsBdsInstanceApiKeysDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readBdsBdsInstanceApiKeys,
+		ReadContext: readBdsBdsInstanceApiKeysWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"bds_instance_id": {
@@ -43,12 +44,12 @@ func BdsBdsInstanceApiKeysDataSource() *schema.Resource {
 	}
 }
 
-func readBdsBdsInstanceApiKeys(d *schema.ResourceData, m interface{}) error {
+func readBdsBdsInstanceApiKeysWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceApiKeysDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type BdsBdsInstanceApiKeysDataSourceCrud struct {
@@ -61,7 +62,7 @@ func (s *BdsBdsInstanceApiKeysDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BdsBdsInstanceApiKeysDataSourceCrud) Get() error {
+func (s *BdsBdsInstanceApiKeysDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bds.ListBdsApiKeysRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -85,7 +86,7 @@ func (s *BdsBdsInstanceApiKeysDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "bds")
 
-	response, err := s.Client.ListBdsApiKeys(context.Background(), request)
+	response, err := s.Client.ListBdsApiKeys(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -94,7 +95,7 @@ func (s *BdsBdsInstanceApiKeysDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListBdsApiKeys(context.Background(), request)
+		listResponse, err := s.Client.ListBdsApiKeys(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,11 +25,11 @@ func OpsiOperationsInsightsPrivateEndpointResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOpsiOperationsInsightsPrivateEndpoint,
-		Read:     readOpsiOperationsInsightsPrivateEndpoint,
-		Update:   updateOpsiOperationsInsightsPrivateEndpoint,
-		Delete:   deleteOpsiOperationsInsightsPrivateEndpoint,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOpsiOperationsInsightsPrivateEndpointWithContext,
+		ReadContext:   readOpsiOperationsInsightsPrivateEndpointWithContext,
+		UpdateContext: updateOpsiOperationsInsightsPrivateEndpointWithContext,
+		DeleteContext: deleteOpsiOperationsInsightsPrivateEndpointWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -122,37 +123,37 @@ func OpsiOperationsInsightsPrivateEndpointResource() *schema.Resource {
 	}
 }
 
-func createOpsiOperationsInsightsPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func createOpsiOperationsInsightsPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiOperationsInsightsPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOpsiOperationsInsightsPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func readOpsiOperationsInsightsPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiOperationsInsightsPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateOpsiOperationsInsightsPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func updateOpsiOperationsInsightsPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiOperationsInsightsPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteOpsiOperationsInsightsPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func deleteOpsiOperationsInsightsPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiOperationsInsightsPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OpsiOperationsInsightsPrivateEndpointResourceCrud struct {
@@ -191,7 +192,7 @@ func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) DeletedTarget() []st
 	}
 }
 
-func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) Create() error {
+func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_opsi.CreateOperationsInsightsPrivateEndpointRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -256,7 +257,7 @@ func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.CreateOperationsInsightsPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.CreateOperationsInsightsPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -267,15 +268,15 @@ func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getOperationsInsightsPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"),
+	return s.getOperationsInsightsPrivateEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"),
 		oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) getOperationsInsightsPrivateEndpointFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) getOperationsInsightsPrivateEndpointFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_opsi.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	operationsInsightsPrivateEndpointId, err := operationsInsightsPrivateEndpointWaitForWorkRequest(workId, "opsi",
+	operationsInsightsPrivateEndpointId, err := operationsInsightsPrivateEndpointWaitForWorkRequest(ctx, workId, "opsi",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -283,7 +284,7 @@ func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) getOperationsInsight
 	}
 	s.D.SetId(*operationsInsightsPrivateEndpointId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func operationsInsightsPrivateEndpointWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -309,7 +310,7 @@ func operationsInsightsPrivateEndpointWorkRequestShouldRetryFunc(timeout time.Du
 	}
 }
 
-func operationsInsightsPrivateEndpointWaitForWorkRequest(wId *string, entityType string, action oci_opsi.ActionTypeEnum,
+func operationsInsightsPrivateEndpointWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_opsi.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_opsi.OperationsInsightsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "opsi")
 	retryPolicy.ShouldRetryOperation = operationsInsightsPrivateEndpointWorkRequestShouldRetryFunc(timeout)
@@ -328,7 +329,7 @@ func operationsInsightsPrivateEndpointWaitForWorkRequest(wId *string, entityType
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_opsi.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -340,7 +341,7 @@ func operationsInsightsPrivateEndpointWaitForWorkRequest(wId *string, entityType
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -357,14 +358,14 @@ func operationsInsightsPrivateEndpointWaitForWorkRequest(wId *string, entityType
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_opsi.OperationStatusFailed || response.Status == oci_opsi.OperationStatusCanceled {
-		return nil, getErrorFromOpsiOperationsInsightsPrivateEndpointWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOpsiOperationsInsightsPrivateEndpointWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOpsiOperationsInsightsPrivateEndpointWorkRequest(client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOpsiOperationsInsightsPrivateEndpointWorkRequest(ctx context.Context, client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_opsi.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -386,7 +387,7 @@ func getErrorFromOpsiOperationsInsightsPrivateEndpointWorkRequest(client *oci_op
 	return workRequestErr
 }
 
-func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) Get() error {
+func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opsi.GetOperationsInsightsPrivateEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -394,7 +395,7 @@ func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.GetOperationsInsightsPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.GetOperationsInsightsPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -403,11 +404,11 @@ func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) Get() error {
 	return nil
 }
 
-func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) Update() error {
+func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -460,17 +461,17 @@ func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.UpdateOperationsInsightsPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.UpdateOperationsInsightsPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOperationsInsightsPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"),
+	return s.getOperationsInsightsPrivateEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"),
 		oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) Delete() error {
+func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_opsi.DeleteOperationsInsightsPrivateEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -478,14 +479,14 @@ func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.DeleteOperationsInsightsPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.DeleteOperationsInsightsPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := operationsInsightsPrivateEndpointWaitForWorkRequest(workId, "opsi",
+	_, delWorkRequestErr := operationsInsightsPrivateEndpointWaitForWorkRequest(ctx, workId, "opsi",
 		oci_opsi.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -616,7 +617,7 @@ func OperationsInsightsPrivateEndpointSummaryToMap(obj oci_opsi.OperationsInsigh
 	return result
 }
 
-func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_opsi.ChangeOperationsInsightsPrivateEndpointCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -627,12 +628,12 @@ func (s *OpsiOperationsInsightsPrivateEndpointResourceCrud) updateCompartment(co
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.ChangeOperationsInsightsPrivateEndpointCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeOperationsInsightsPrivateEndpointCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOperationsInsightsPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"),
+	return s.getOperationsInsightsPrivateEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"),
 		oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

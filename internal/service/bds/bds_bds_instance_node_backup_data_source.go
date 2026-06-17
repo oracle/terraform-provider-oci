@@ -6,6 +6,7 @@ package bds
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_bds "github.com/oracle/oci-go-sdk/v65/bds"
 
@@ -15,7 +16,7 @@ import (
 
 func BdsBdsInstanceNodeBackupDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularBdsBdsInstanceNodeBackup,
+		ReadContext: readSingularBdsBdsInstanceNodeBackupWithContext,
 		Schema: map[string]*schema.Schema{
 			"bds_instance_id": {
 				Type:     schema.TypeString,
@@ -62,12 +63,12 @@ func BdsBdsInstanceNodeBackupDataSource() *schema.Resource {
 	}
 }
 
-func readSingularBdsBdsInstanceNodeBackup(d *schema.ResourceData, m interface{}) error {
+func readSingularBdsBdsInstanceNodeBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceNodeBackupDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type BdsBdsInstanceNodeBackupDataSourceCrud struct {
@@ -80,7 +81,7 @@ func (s *BdsBdsInstanceNodeBackupDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BdsBdsInstanceNodeBackupDataSourceCrud) Get() error {
+func (s *BdsBdsInstanceNodeBackupDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bds.GetNodeBackupRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -95,7 +96,7 @@ func (s *BdsBdsInstanceNodeBackupDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "bds")
 
-	response, err := s.Client.GetNodeBackup(context.Background(), request)
+	response, err := s.Client.GetNodeBackup(ctx, request)
 	if err != nil {
 		return err
 	}

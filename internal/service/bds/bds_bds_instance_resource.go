@@ -14,6 +14,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -32,10 +33,10 @@ func BdsBdsInstanceResource() *schema.Resource {
 			Update: &tfresource.TwelveHours,
 			Delete: &tfresource.TwelveHours,
 		},
-		Create: createBdsBdsInstance,
-		Read:   readBdsBdsInstance,
-		Update: updateBdsBdsInstance,
-		Delete: deleteBdsBdsInstance,
+		CreateContext: createBdsBdsInstanceWithContext,
+		ReadContext:   readBdsBdsInstanceWithContext,
+		UpdateContext: updateBdsBdsInstanceWithContext,
+		DeleteContext: deleteBdsBdsInstanceWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"cluster_public_key": {
@@ -382,13 +383,11 @@ func BdsBdsInstanceResource() *schema.Resource {
 						},
 						/*
 						   tersi-4864
-						   <<<<<<< ours
 						   						"certificate_configuration_id": {
 						   							Type:     schema.TypeString,
 						   							Computed: true,
 						   						},
 						   						"display_name": {
-						   =======
 						*/
 						"subnet_id": {
 							Type:     schema.TypeString,
@@ -930,7 +929,7 @@ func BdsBdsInstanceResource() *schema.Resource {
 	}
 }
 
-func createBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
+func createBdsBdsInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
@@ -953,24 +952,24 @@ func createBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 				tmp := blockVolumeSizeInGBs.(string)
 				tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
 				if err != nil {
-					return fmt.Errorf("unable to convert blockVolumeSizeInGBs string: %s to an int64 and encountered error: %v", tmp, err)
+					return tfresource.HandleDiagError(m, fmt.Errorf("unable to convert blockVolumeSizeInGBs string: %s to an int64 and encountered error: %v", tmp, err))
 				}
 				cloudSqlRequest.BlockVolumeSizeInGBs = &tmpInt64
 			} else {
-				return fmt.Errorf("block_volume_size_in_gbs is required in cloud_sql_details")
+				return tfresource.HandleDiagError(m, fmt.Errorf("block_volume_size_in_gbs is required in cloud_sql_details"))
 			}
 
 			if shape, ok := sync.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape")); ok {
 				tmp := shape.(string)
 				cloudSqlRequest.Shape = &tmp
 			} else {
-				return fmt.Errorf("shape is required in cloud_sql_details")
+				return tfresource.HandleDiagError(m, fmt.Errorf("shape is required in cloud_sql_details"))
 			}
 		}
 	}
 
-	if err := tfresource.CreateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.CreateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	if cloudSql {
@@ -980,30 +979,30 @@ func createBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 			tmp := clusterAdminPassword.(string)
 			cloudSqlRequest.ClusterAdminPassword = &tmp
 		}
-		if err := sync.addCloudSql(cloudSqlRequest); err != nil {
-			return err
+		if err := sync.addCloudSql(ctx, cloudSqlRequest); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
-		return tfresource.ReadResource(sync)
+		return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 	}
 
 	if powerOff {
-		if err := sync.StopBdsInstance(); err != nil {
-			return err
+		if err := sync.StopBdsInstance(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_bds.BdsInstanceLifecycleStateInactive)
 	}
 	return nil
 }
 
-func readBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
+func readBdsBdsInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
+func updateBdsBdsInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
@@ -1020,36 +1019,36 @@ func updateBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 	}
 
 	if powerOn {
-		if err := sync.StartBdsInstance(); err != nil {
-			return err
+		if err := sync.StartBdsInstance(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_bds.BdsInstanceLifecycleStateActive)
 	}
 
 	if removeNode, ok := sync.D.GetOkExists("remove_node"); ok {
 		if removeNode != "" {
-			err := sync.RemoveNode()
+			err := sync.RemoveNode(ctx)
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
 
 	if removeNodes, ok := sync.D.GetOkExists("remove_nodes"); ok {
 		if interfaces, isList := removeNodes.([]interface{}); isList && len(interfaces) > 0 {
-			if err := sync.RemoveNodes(); err != nil {
-				return err
+			if err := sync.RemoveNodes(ctx); err != nil {
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	if powerOff {
-		if err := sync.StopBdsInstance(); err != nil {
-			return err
+		if err := sync.StopBdsInstance(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_bds.BdsInstanceLifecycleStateInactive)
 	}
@@ -1057,13 +1056,13 @@ func updateBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func deleteBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
+func deleteBdsBdsInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type BdsBdsInstanceResourceCrud struct {
@@ -1114,7 +1113,7 @@ func (s *BdsBdsInstanceResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *BdsBdsInstanceResourceCrud) Create() error {
+func (s *BdsBdsInstanceResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_bds.CreateBdsInstanceRequest{}
 
 	if _, ok := s.D.GetOkExists("start_cluster_shape_configs"); ok {
@@ -1353,14 +1352,14 @@ func (s *BdsBdsInstanceResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.CreateBdsInstance(context.Background(), request)
+	response, err := s.Client.CreateBdsInstance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_bds.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_bds.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1376,7 +1375,7 @@ func (s *BdsBdsInstanceResourceCrud) Create() error {
 			}
 		}
 	}
-	createResultError := s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	createResultError := s.getBdsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 	if createResultError != nil {
 		return createResultError
 	}
@@ -1389,7 +1388,7 @@ func (s *BdsBdsInstanceResourceCrud) Create() error {
 				if len(interfaces) == 0 {
 					return fmt.Errorf("kafka broker node definition is missing")
 				}
-				err := s.AddKafka()
+				err := s.AddKafka(ctx)
 				if err != nil {
 					return err
 				}
@@ -1399,23 +1398,23 @@ func (s *BdsBdsInstanceResourceCrud) Create() error {
 		}
 	}
 
-	_, computeWorkerAdditionError := s.updateComputeWorkersIfRequired()
+	_, computeWorkerAdditionError := s.updateComputeWorkersIfRequired(ctx)
 	if computeWorkerAdditionError != nil {
 		return computeWorkerAdditionError
 	}
 
-	_, edgeAdditionError := s.updateEdgeIfRequired()
+	_, edgeAdditionError := s.updateEdgeIfRequired(ctx)
 	if edgeAdditionError != nil {
 		return edgeAdditionError
 	}
 	return nil
 }
 
-func (s *BdsBdsInstanceResourceCrud) getBdsInstanceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *BdsBdsInstanceResourceCrud) getBdsInstanceFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_bds.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	bdsInstanceId, err := bdsInstanceWaitForWorkRequest(workId, "bds",
+	bdsInstanceId, err := bdsInstanceWaitForWorkRequest(ctx, workId, "bds",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -1423,7 +1422,7 @@ func (s *BdsBdsInstanceResourceCrud) getBdsInstanceFromWorkRequest(workId *strin
 	}
 	s.D.SetId(*bdsInstanceId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func bdsInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -1449,7 +1448,7 @@ func bdsInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 	}
 }
 
-func bdsInstanceWaitForWorkRequest(wId *string, entityType string, action oci_bds.ActionTypesEnum,
+func bdsInstanceWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_bds.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_bds.BdsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "bds")
 	retryPolicy.ShouldRetryOperation = bdsInstanceWorkRequestShouldRetryFunc(timeout)
@@ -1468,7 +1467,7 @@ func bdsInstanceWaitForWorkRequest(wId *string, entityType string, action oci_bd
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_bds.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -1480,7 +1479,7 @@ func bdsInstanceWaitForWorkRequest(wId *string, entityType string, action oci_bd
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -1497,14 +1496,14 @@ func bdsInstanceWaitForWorkRequest(wId *string, entityType string, action oci_bd
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_bds.OperationStatusFailed || response.Status == oci_bds.OperationStatusCanceled {
-		return nil, getErrorFromBdsBdsInstanceWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromBdsBdsInstanceWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromBdsBdsInstanceWorkRequest(client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromBdsBdsInstanceWorkRequest(ctx context.Context, client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_bds.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1526,7 +1525,7 @@ func getErrorFromBdsBdsInstanceWorkRequest(client *oci_bds.BdsClient, workId *st
 	return workRequestErr
 }
 
-func (s *BdsBdsInstanceResourceCrud) Get() error {
+func (s *BdsBdsInstanceResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bds.GetBdsInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -1534,7 +1533,7 @@ func (s *BdsBdsInstanceResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.GetBdsInstance(context.Background(), request)
+	response, err := s.Client.GetBdsInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1543,7 +1542,7 @@ func (s *BdsBdsInstanceResourceCrud) Get() error {
 	return nil
 }
 
-func (s *BdsBdsInstanceResourceCrud) Update() error {
+func (s *BdsBdsInstanceResourceCrud) UpdateWithContext(ctx context.Context) error {
 
 	isKafkaBrokerAdded := false
 	if cloudSqlConfigured, ok := s.D.GetOkExists("is_cloud_sql_configured"); ok && s.D.HasChange("is_cloud_sql_configured") {
@@ -1575,7 +1574,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 					return fmt.Errorf("block_volume_size_in_gbs is required in cloud_sql_details")
 				}
 
-				err := s.addCloudSql(request)
+				err := s.addCloudSql(ctx, request)
 				if err != nil {
 					return err
 				}
@@ -1588,7 +1587,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 					request.ClusterAdminPassword = &tmp
 
 				}
-				err := s.deleteCloudSql(request)
+				err := s.deleteCloudSql(ctx, request)
 				if err != nil {
 					return err
 				}
@@ -1617,7 +1616,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 					if len(interfaces) == 0 {
 						return fmt.Errorf("kafka broker node definition is missing")
 					}
-					err := s.AddKafka()
+					err := s.AddKafka(ctx)
 					isKafkaBrokerAdded = true
 					if err != nil {
 						return err
@@ -1636,7 +1635,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 						}
 					}
 				}
-				err := s.RemoveKafka()
+				err := s.RemoveKafka(ctx)
 				isKafkaBrokerAdded = true
 				if err != nil {
 					return err
@@ -1644,7 +1643,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 			}
 		}
 	} else {
-		isKafkaBrokerAdded1, kafkaBrokerErr := s.updateKafkaBrokerIfRequired()
+		isKafkaBrokerAdded1, kafkaBrokerErr := s.updateKafkaBrokerIfRequired(ctx)
 		if kafkaBrokerErr != nil {
 			return kafkaBrokerErr
 		}
@@ -1652,7 +1651,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 	}
 
 	if _, ok := s.D.GetOkExists("bootstrap_script_url"); ok && s.D.HasChange("bootstrap_script_url") {
-		err := s.ExecuteBootstrapScript()
+		err := s.ExecuteBootstrapScript(ctx)
 		if err != nil {
 			return err
 		}
@@ -1661,7 +1660,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -1696,7 +1695,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		if tmpInt64New > tmpInt64Old {
 			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 				dif := tmpInt64New - tmpInt64Old
-				err := s.updateWorkerBlockStorage(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), dif, oci_bds.AddBlockStorageDetailsNodeTypeWorker)
+				err := s.updateWorkerBlockStorage(ctx, s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), dif, oci_bds.AddBlockStorageDetailsNodeTypeWorker)
 				if err != nil {
 					return err
 				}
@@ -1726,7 +1725,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 			if tmpInt64New > tmpInt64Old {
 				if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 					dif := tmpInt64New - tmpInt64Old
-					err := s.updateWorkerBlockStorage(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), dif, oci_bds.AddBlockStorageDetailsNodeTypeKafkaBroker)
+					err := s.updateWorkerBlockStorage(ctx, s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), dif, oci_bds.AddBlockStorageDetailsNodeTypeKafkaBroker)
 					if err != nil {
 						return err
 					}
@@ -1756,7 +1755,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 			if tmpInt64New > tmpInt64Old {
 				if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 					dif := tmpInt64New - tmpInt64Old
-					err := s.updateWorkerBlockStorage(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), dif, oci_bds.AddBlockStorageDetailsNodeTypeEdge)
+					err := s.updateWorkerBlockStorage(ctx, s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), dif, oci_bds.AddBlockStorageDetailsNodeTypeEdge)
 					if err != nil {
 						return err
 					}
@@ -1786,7 +1785,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 			if tmpInt64New > tmpInt64Old {
 				if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 					dif := tmpInt64New - tmpInt64Old
-					err := s.updateWorkerBlockStorage(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), dif, oci_bds.AddBlockStorageDetailsNodeTypeComputeOnlyWorker)
+					err := s.updateWorkerBlockStorage(ctx, s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), dif, oci_bds.AddBlockStorageDetailsNodeTypeComputeOnlyWorker)
 					if err != nil {
 						return err
 					}
@@ -1822,9 +1821,9 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 			workerShapeConfig, _ := s.mapToShapeConfigDetails("worker_node.0.shape_config.0.%s")
 			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 				if blockVolumeSizeInGBInt64 != 0 {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeWorker, &blockVolumeSizeInGBInt64, &workerNodeShapeStr, &workerShapeConfig)
+					err = s.updateWorkerNode(ctx, s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeWorker, &blockVolumeSizeInGBInt64, &workerNodeShapeStr, &workerShapeConfig)
 				} else {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeWorker, nil, &workerNodeShapeStr, &workerShapeConfig)
+					err = s.updateWorkerNode(ctx, s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeWorker, nil, &workerNodeShapeStr, &workerShapeConfig)
 				}
 				if err != nil {
 					return err
@@ -1864,9 +1863,9 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 			masterShapeConfig, _ := s.mapToShapeConfigDetails("master_node.0.shape_config.0.%s")
 			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 				if blockVolumeSizeInGBInt64 != 0 {
-					err = s.updateMasterNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, &blockVolumeSizeInGBInt64, &masterNodeShapeStr, &masterShapeConfig)
+					err = s.updateMasterNode(ctx, s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, &blockVolumeSizeInGBInt64, &masterNodeShapeStr, &masterShapeConfig)
 				} else {
-					err = s.updateMasterNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, nil, &masterNodeShapeStr, &masterShapeConfig)
+					err = s.updateMasterNode(ctx, s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, nil, &masterNodeShapeStr, &masterShapeConfig)
 				}
 				if err != nil {
 					return err
@@ -1904,9 +1903,9 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 			utilShapeConfig, _ := s.mapToShapeConfigDetails("util_node.0.shape_config.0.%s")
 			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 				if blockVolumeSizeInGBInt64 != 0 {
-					err = s.updateUtilityNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, &blockVolumeSizeInGBInt64, &utilNodeShapeStr, &utilShapeConfig)
+					err = s.updateUtilityNode(ctx, s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, &blockVolumeSizeInGBInt64, &utilNodeShapeStr, &utilShapeConfig)
 				} else {
-					err = s.updateUtilityNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, nil, &utilNodeShapeStr, &utilShapeConfig)
+					err = s.updateUtilityNode(ctx, s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, nil, &utilNodeShapeStr, &utilShapeConfig)
 				}
 				if err != nil {
 					return err
@@ -1919,12 +1918,12 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		}
 	}
 
-	isComputeWorkerAdded, computeWorkerErr := s.updateComputeWorkersIfRequired()
+	isComputeWorkerAdded, computeWorkerErr := s.updateComputeWorkersIfRequired(ctx)
 	if computeWorkerErr != nil {
 		return computeWorkerErr
 	}
 
-	isEdgeAdded, edgeErr := s.updateEdgeIfRequired()
+	isEdgeAdded, edgeErr := s.updateEdgeIfRequired(ctx)
 	if edgeErr != nil {
 		return edgeErr
 	}
@@ -2051,13 +2050,13 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 			tmp := s.D.Id()
 			changeShapeRequest.BdsInstanceId = &tmp
 
-			response, err := s.Client.ChangeShape(context.Background(), changeShapeRequest)
+			response, err := s.Client.ChangeShape(ctx, changeShapeRequest)
 			if err != nil {
 				return err
 			}
 
 			workId := response.OpcWorkRequestId
-			err = s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+			err = s.getBdsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 			if err != nil {
 				return err
 			}
@@ -2120,18 +2119,18 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	if s.D.HasChange("bootstrap_script_url") || s.D.HasChange("defined_tags") || s.D.HasChange("display_name") || s.D.HasChange("freeform_tags") || s.D.HasChange("kms_key_id") || s.D.HasChange("network_config") {
-		response, err := s.Client.UpdateBdsInstance(context.Background(), request)
+		response, err := s.Client.UpdateBdsInstance(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		return s.getBdsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	}
 	return nil
 }
 
-func (s *BdsBdsInstanceResourceCrud) updateComputeWorkersIfRequired() (bool, error) {
+func (s *BdsBdsInstanceResourceCrud) updateComputeWorkersIfRequired(ctx context.Context) (bool, error) {
 	areWorkersAdded := false
 	computeOnlyWorkerNodeFieldKeyFormat := "compute_only_worker_node.0.%s"
 	var computeWorkerBlockVolumeSizeGBInt64 int64
@@ -2157,9 +2156,9 @@ func (s *BdsBdsInstanceResourceCrud) updateComputeWorkersIfRequired() (bool, err
 		if tmpNew > tmpOld {
 			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 				if computeWorkerBlockVolumeSizeGBInt64 != 0 {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeComputeOnlyWorker, &computeWorkerBlockVolumeSizeGBInt64, &compute_worker_shape_string, &compute_worker_shape_config)
+					err = s.updateWorkerNode(ctx, s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeComputeOnlyWorker, &computeWorkerBlockVolumeSizeGBInt64, &compute_worker_shape_string, &compute_worker_shape_config)
 				} else {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeComputeOnlyWorker, nil, &compute_worker_shape_string, &compute_worker_shape_config)
+					err = s.updateWorkerNode(ctx, s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeComputeOnlyWorker, nil, &compute_worker_shape_string, &compute_worker_shape_config)
 				}
 				if err != nil {
 					return false, err
@@ -2175,7 +2174,7 @@ func (s *BdsBdsInstanceResourceCrud) updateComputeWorkersIfRequired() (bool, err
 	return areWorkersAdded, nil
 }
 
-func (s *BdsBdsInstanceResourceCrud) updateEdgeIfRequired() (bool, error) {
+func (s *BdsBdsInstanceResourceCrud) updateEdgeIfRequired(ctx context.Context) (bool, error) {
 	areEdgeAdded := false
 	edgeNodeFieldKeyFormat := "edge_node.0.%s"
 	var edgeBlockVolumeSizeInGBInt64 int64
@@ -2201,9 +2200,9 @@ func (s *BdsBdsInstanceResourceCrud) updateEdgeIfRequired() (bool, error) {
 		if tmpNew > tmpOld {
 			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 				if edgeBlockVolumeSizeInGBInt64 != 0 {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeEdge, &edgeBlockVolumeSizeInGBInt64, &edge_shape_string, &edge_shape_config)
+					err = s.updateWorkerNode(ctx, s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeEdge, &edgeBlockVolumeSizeInGBInt64, &edge_shape_string, &edge_shape_config)
 				} else {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeEdge, nil, &edge_shape_string, &edge_shape_config)
+					err = s.updateWorkerNode(ctx, s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeEdge, nil, &edge_shape_string, &edge_shape_config)
 				}
 				if err != nil {
 					return false, err
@@ -2220,7 +2219,7 @@ func (s *BdsBdsInstanceResourceCrud) updateEdgeIfRequired() (bool, error) {
 	return areEdgeAdded, nil
 }
 
-func (s *BdsBdsInstanceResourceCrud) updateKafkaBrokerIfRequired() (bool, error) {
+func (s *BdsBdsInstanceResourceCrud) updateKafkaBrokerIfRequired(ctx context.Context) (bool, error) {
 	areKafkaBrokerAdded := false
 	kafkaBrokerNodeFieldKeyFormat := "kafka_broker_node.0.%s"
 	var kafkaBrokerBlockVolumeSizeGBInt64 int64
@@ -2246,9 +2245,9 @@ func (s *BdsBdsInstanceResourceCrud) updateKafkaBrokerIfRequired() (bool, error)
 		if tmpNew > tmpOld {
 			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok || s.D.Get("secret_id") != "" {
 				if kafkaBrokerBlockVolumeSizeGBInt64 != 0 {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeKafkaBroker, &kafkaBrokerBlockVolumeSizeGBInt64, &kafka_broker_shape_string, &kafka_broker_shape_config)
+					err = s.updateWorkerNode(ctx, s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeKafkaBroker, &kafkaBrokerBlockVolumeSizeGBInt64, &kafka_broker_shape_string, &kafka_broker_shape_config)
 				} else {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeKafkaBroker, nil, &kafka_broker_shape_string, &kafka_broker_shape_config)
+					err = s.updateWorkerNode(ctx, s.D.Id(), clusterAdminPassword, s.D.Get("secret_id"), tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeKafkaBroker, nil, &kafka_broker_shape_string, &kafka_broker_shape_config)
 				}
 				if err != nil {
 					return false, err
@@ -2264,7 +2263,7 @@ func (s *BdsBdsInstanceResourceCrud) updateKafkaBrokerIfRequired() (bool, error)
 	return areKafkaBrokerAdded, nil
 }
 
-func (s *BdsBdsInstanceResourceCrud) Delete() error {
+func (s *BdsBdsInstanceResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_bds.DeleteBdsInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -2272,14 +2271,14 @@ func (s *BdsBdsInstanceResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.DeleteBdsInstance(context.Background(), request)
+	response, err := s.Client.DeleteBdsInstance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := bdsInstanceWaitForWorkRequest(workId, "bds",
+	_, delWorkRequestErr := bdsInstanceWaitForWorkRequest(ctx, workId, "bds",
 		oci_bds.ActionTypesDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -2425,7 +2424,7 @@ func (s *BdsBdsInstanceResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *BdsBdsInstanceResourceCrud) StartBdsInstance() error {
+func (s *BdsBdsInstanceResourceCrud) StartBdsInstance(ctx context.Context) error {
 	request := oci_bds.StartBdsInstanceRequest{}
 
 	idTmp := s.D.Id()
@@ -2454,16 +2453,16 @@ func (s *BdsBdsInstanceResourceCrud) StartBdsInstance() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	_, err := s.Client.StartBdsInstance(context.Background(), request)
+	_, err := s.Client.StartBdsInstance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_bds.BdsInstanceLifecycleStateActive }
-	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceResourceCrud) StopBdsInstance() error {
+func (s *BdsBdsInstanceResourceCrud) StopBdsInstance(ctx context.Context) error {
 	request := oci_bds.StopBdsInstanceRequest{}
 
 	idTmp := s.D.Id()
@@ -2486,16 +2485,16 @@ func (s *BdsBdsInstanceResourceCrud) StopBdsInstance() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	_, err := s.Client.StopBdsInstance(context.Background(), request)
+	_, err := s.Client.StopBdsInstance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_bds.BdsInstanceLifecycleStateInactive }
-	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceResourceCrud) AddKafka() error {
+func (s *BdsBdsInstanceResourceCrud) AddKafka(ctx context.Context) error {
 
 	request := oci_bds.AddKafkaRequest{}
 
@@ -2558,20 +2557,20 @@ func (s *BdsBdsInstanceResourceCrud) AddKafka() error {
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
-	response, err := s.Client.AddKafka(context.Background(), request)
+	response, err := s.Client.AddKafka(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceResourceCrud) ExecuteBootstrapScript() error {
+func (s *BdsBdsInstanceResourceCrud) ExecuteBootstrapScript(ctx context.Context) error {
 	request := oci_bds.ExecuteBootstrapScriptRequest{}
 
 	idTmp := s.D.Id()
@@ -2594,17 +2593,17 @@ func (s *BdsBdsInstanceResourceCrud) ExecuteBootstrapScript() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.ExecuteBootstrapScript(context.Background(), request)
+	response, err := s.Client.ExecuteBootstrapScript(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *BdsBdsInstanceResourceCrud) deleteShapeConfigIfMissingInInput(node_type string, node_map map[string]interface{}) {
@@ -2615,7 +2614,7 @@ func (s *BdsBdsInstanceResourceCrud) deleteShapeConfigIfMissingInInput(node_type
 		}
 	}
 }
-func (s *BdsBdsInstanceResourceCrud) RemoveKafka() error {
+func (s *BdsBdsInstanceResourceCrud) RemoveKafka(ctx context.Context) error {
 	request := oci_bds.RemoveKafkaRequest{}
 
 	idTmp := s.D.Id()
@@ -2633,20 +2632,20 @@ func (s *BdsBdsInstanceResourceCrud) RemoveKafka() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.RemoveKafka(context.Background(), request)
+	response, err := s.Client.RemoveKafka(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceResourceCrud) RemoveNode() error {
+func (s *BdsBdsInstanceResourceCrud) RemoveNode(ctx context.Context) error {
 	request := oci_bds.RemoveNodeRequest{}
 
 	idTmp := s.D.Id()
@@ -2674,20 +2673,20 @@ func (s *BdsBdsInstanceResourceCrud) RemoveNode() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.RemoveNode(context.Background(), request)
+	response, err := s.Client.RemoveNode(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceResourceCrud) RemoveNodes() error {
+func (s *BdsBdsInstanceResourceCrud) RemoveNodes(ctx context.Context) error {
 	request := oci_bds.RemoveNodesRequest{}
 
 	idTmp := s.D.Id()
@@ -2730,19 +2729,19 @@ func (s *BdsBdsInstanceResourceCrud) RemoveNodes() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.RemoveNodes(context.Background(), request)
+	response, err := s.Client.RemoveNodes(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceResourceCrud) BdsInstanceResetPassword() error {
+func (s *BdsBdsInstanceResourceCrud) BdsInstanceResetPassword(ctx context.Context) error {
 	request := oci_bds.BdsInstanceResetPasswordRequest{}
 
 	idTmp := s.D.Id()
@@ -2764,12 +2763,12 @@ func (s *BdsBdsInstanceResourceCrud) BdsInstanceResetPassword() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	_, err := s.Client.BdsInstanceResetPassword(context.Background(), request)
+	_, err := s.Client.BdsInstanceResetPassword(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -2991,7 +2990,6 @@ func BdsNodeToMap(obj oci_bds.Node) map[string]interface{} {
 
 	/*
 	   tersi-4864
-	   <<<<<<< ours
 	   	if obj.BlockVolumeSizeInGBs != nil {
 	   		result["block_volume_size_in_gbs"] = strconv.FormatInt(*obj.BlockVolumeSizeInGBs, 10)
 	   	}
@@ -3000,7 +2998,6 @@ func BdsNodeToMap(obj oci_bds.Node) map[string]interface{} {
 	   		result["certificate_configuration_id"] = string(*obj.CertificateConfigurationId)
 	   	}
 
-	   =======
 	*/
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
@@ -3166,7 +3163,7 @@ func VolumeAttachmentDetailToMap(obj oci_bds.VolumeAttachmentDetail) map[string]
 	return result
 }
 
-func (s *BdsBdsInstanceResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *BdsBdsInstanceResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_bds.ChangeBdsInstanceCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -3177,15 +3174,15 @@ func (s *BdsBdsInstanceResourceCrud) updateCompartment(compartment interface{}) 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.ChangeBdsInstanceCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeBdsInstanceCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceResourceCrud) updateWorkerBlockStorage(id string, clusterAdminPassword interface{}, secretId interface{}, blockVolumeSizeInGBs int64, nodeType oci_bds.AddBlockStorageDetailsNodeTypeEnum) error {
+func (s *BdsBdsInstanceResourceCrud) updateWorkerBlockStorage(ctx context.Context, id string, clusterAdminPassword interface{}, secretId interface{}, blockVolumeSizeInGBs int64, nodeType oci_bds.AddBlockStorageDetailsNodeTypeEnum) error {
 	addBlockStorageRequest := oci_bds.AddBlockStorageRequest{}
 
 	addBlockStorageRequest.BdsInstanceId = &id
@@ -3204,15 +3201,15 @@ func (s *BdsBdsInstanceResourceCrud) updateWorkerBlockStorage(id string, cluster
 
 	addBlockStorageRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.AddBlockStorage(context.Background(), addBlockStorageRequest)
+	response, err := s.Client.AddBlockStorage(ctx, addBlockStorageRequest)
 	if err != nil {
 		return err
 	}
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceResourceCrud) updateWorkerNode(id string, clusterAdminPassword interface{}, secretId interface{}, numberOfWorker int, nodeType oci_bds.AddWorkerNodesDetailsNodeTypeEnum, blockVolumeSizeInGBs *int64, shape *string, shapeConfig *oci_bds.ShapeConfigDetails) error {
+func (s *BdsBdsInstanceResourceCrud) updateWorkerNode(ctx context.Context, id string, clusterAdminPassword interface{}, secretId interface{}, numberOfWorker int, nodeType oci_bds.AddWorkerNodesDetailsNodeTypeEnum, blockVolumeSizeInGBs *int64, shape *string, shapeConfig *oci_bds.ShapeConfigDetails) error {
 	addWorkerNodesRequest := oci_bds.AddWorkerNodesRequest{}
 	addWorkerNodesRequest.BdsInstanceId = &id
 
@@ -3242,15 +3239,15 @@ func (s *BdsBdsInstanceResourceCrud) updateWorkerNode(id string, clusterAdminPas
 
 	addWorkerNodesRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.AddWorkerNodes(context.Background(), addWorkerNodesRequest)
+	response, err := s.Client.AddWorkerNodes(ctx, addWorkerNodesRequest)
 	if err != nil {
 		return err
 	}
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceResourceCrud) updateMasterNode(id string, clusterAdminPassword interface{}, secretId interface{}, numberOfMaster int, blockVolumeSizeInGBs *int64, shape *string, shapeConfig *oci_bds.ShapeConfigDetails) error {
+func (s *BdsBdsInstanceResourceCrud) updateMasterNode(ctx context.Context, id string, clusterAdminPassword interface{}, secretId interface{}, numberOfMaster int, blockVolumeSizeInGBs *int64, shape *string, shapeConfig *oci_bds.ShapeConfigDetails) error {
 	addMasterNodesRequest := oci_bds.AddMasterNodesRequest{}
 	addMasterNodesRequest.BdsInstanceId = &id
 
@@ -3278,15 +3275,15 @@ func (s *BdsBdsInstanceResourceCrud) updateMasterNode(id string, clusterAdminPas
 
 	addMasterNodesRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.AddMasterNodes(context.Background(), addMasterNodesRequest)
+	response, err := s.Client.AddMasterNodes(ctx, addMasterNodesRequest)
 	if err != nil {
 		return err
 	}
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceResourceCrud) updateUtilityNode(id string, clusterAdminPassword interface{}, secretId interface{}, numberOfUtility int, blockVolumeSizeInGBs *int64, shape *string, shapeConfig *oci_bds.ShapeConfigDetails) error {
+func (s *BdsBdsInstanceResourceCrud) updateUtilityNode(ctx context.Context, id string, clusterAdminPassword interface{}, secretId interface{}, numberOfUtility int, blockVolumeSizeInGBs *int64, shape *string, shapeConfig *oci_bds.ShapeConfigDetails) error {
 	addUtilityNodesRequest := oci_bds.AddUtilityNodesRequest{}
 	addUtilityNodesRequest.BdsInstanceId = &id
 
@@ -3314,30 +3311,30 @@ func (s *BdsBdsInstanceResourceCrud) updateUtilityNode(id string, clusterAdminPa
 
 	addUtilityNodesRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.AddUtilityNodes(context.Background(), addUtilityNodesRequest)
+	response, err := s.Client.AddUtilityNodes(ctx, addUtilityNodesRequest)
 	if err != nil {
 		return err
 	}
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceResourceCrud) addCloudSql(request oci_bds.AddCloudSqlRequest) error {
-	response, err := s.Client.AddCloudSql(context.Background(), request)
+func (s *BdsBdsInstanceResourceCrud) addCloudSql(ctx context.Context, request oci_bds.AddCloudSqlRequest) error {
+	response, err := s.Client.AddCloudSql(ctx, request)
 	if err != nil {
 		return err
 	}
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceResourceCrud) deleteCloudSql(request oci_bds.RemoveCloudSqlRequest) error {
-	response, err := s.Client.RemoveCloudSql(context.Background(), request)
+func (s *BdsBdsInstanceResourceCrud) deleteCloudSql(ctx context.Context, request oci_bds.RemoveCloudSqlRequest) error {
+	response, err := s.Client.RemoveCloudSql(ctx, request)
 	if err != nil {
 		return err
 	}
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func PopulateNodeTemplate(obj oci_bds.Node, nodeMap map[string]map[string]interface{}) {

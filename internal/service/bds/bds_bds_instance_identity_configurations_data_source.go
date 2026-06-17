@@ -6,6 +6,7 @@ package bds
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_bds "github.com/oracle/oci-go-sdk/v65/bds"
 
@@ -15,7 +16,7 @@ import (
 
 func BdsBdsInstanceIdentityConfigurationsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readBdsBdsInstanceIdentityConfigurations,
+		ReadContext: readBdsBdsInstanceIdentityConfigurationsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"bds_instance_id": {
@@ -43,12 +44,12 @@ func BdsBdsInstanceIdentityConfigurationsDataSource() *schema.Resource {
 	}
 }
 
-func readBdsBdsInstanceIdentityConfigurations(d *schema.ResourceData, m interface{}) error {
+func readBdsBdsInstanceIdentityConfigurationsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceIdentityConfigurationsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type BdsBdsInstanceIdentityConfigurationsDataSourceCrud struct {
@@ -61,7 +62,7 @@ func (s *BdsBdsInstanceIdentityConfigurationsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *BdsBdsInstanceIdentityConfigurationsDataSourceCrud) Get() error {
+func (s *BdsBdsInstanceIdentityConfigurationsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bds.ListIdentityConfigurationsRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -85,7 +86,7 @@ func (s *BdsBdsInstanceIdentityConfigurationsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "bds")
 
-	response, err := s.Client.ListIdentityConfigurations(context.Background(), request)
+	response, err := s.Client.ListIdentityConfigurations(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -94,7 +95,7 @@ func (s *BdsBdsInstanceIdentityConfigurationsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListIdentityConfigurations(context.Background(), request)
+		listResponse, err := s.Client.ListIdentityConfigurations(ctx, request)
 		if err != nil {
 			return err
 		}

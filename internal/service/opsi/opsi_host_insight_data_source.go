@@ -10,6 +10,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
 )
@@ -20,15 +21,15 @@ func OpsiHostInsightDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(OpsiHostInsightResource(), fieldMap, readSingularOpsiHostInsight)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(OpsiHostInsightResource(), fieldMap, readSingularOpsiHostInsightWithContext)
 }
 
-func readSingularOpsiHostInsight(d *schema.ResourceData, m interface{}) error {
+func readSingularOpsiHostInsightWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiHostInsightDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OpsiHostInsightDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *OpsiHostInsightDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OpsiHostInsightDataSourceCrud) Get() error {
+func (s *OpsiHostInsightDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opsi.GetHostInsightRequest{}
 
 	if hostInsightId, ok := s.D.GetOkExists("host_insight_id"); ok {
@@ -51,7 +52,7 @@ func (s *OpsiHostInsightDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "opsi")
 
-	response, err := s.Client.GetHostInsight(context.Background(), request)
+	response, err := s.Client.GetHostInsight(ctx, request)
 	if err != nil {
 		return err
 	}

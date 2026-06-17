@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -26,11 +27,11 @@ func OpsiOpsiConfigurationResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOpsiOpsiConfiguration,
-		Read:     readOpsiOpsiConfiguration,
-		Update:   updateOpsiOpsiConfiguration,
-		Delete:   deleteOpsiOpsiConfiguration,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOpsiOpsiConfigurationWithContext,
+		ReadContext:   readOpsiOpsiConfigurationWithContext,
+		UpdateContext: updateOpsiOpsiConfigurationWithContext,
+		DeleteContext: deleteOpsiOpsiConfigurationWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"opsi_config_type": {
@@ -256,37 +257,37 @@ func OpsiOpsiConfigurationResource() *schema.Resource {
 	}
 }
 
-func createOpsiOpsiConfiguration(d *schema.ResourceData, m interface{}) error {
+func createOpsiOpsiConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiOpsiConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOpsiOpsiConfiguration(d *schema.ResourceData, m interface{}) error {
+func readOpsiOpsiConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiOpsiConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateOpsiOpsiConfiguration(d *schema.ResourceData, m interface{}) error {
+func updateOpsiOpsiConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiOpsiConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteOpsiOpsiConfiguration(d *schema.ResourceData, m interface{}) error {
+func deleteOpsiOpsiConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpsiOpsiConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperationsInsightsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OpsiOpsiConfigurationResourceCrud struct {
@@ -325,7 +326,7 @@ func (s *OpsiOpsiConfigurationResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *OpsiOpsiConfigurationResourceCrud) Create() error {
+func (s *OpsiOpsiConfigurationResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_opsi.CreateOpsiConfigurationRequest{}
 	err := s.populateTopLevelPolymorphicCreateOpsiConfigurationRequest(&request)
 	if err != nil {
@@ -334,7 +335,7 @@ func (s *OpsiOpsiConfigurationResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.CreateOpsiConfiguration(context.Background(), request)
+	response, err := s.Client.CreateOpsiConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -345,14 +346,14 @@ func (s *OpsiOpsiConfigurationResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getOpsiConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getOpsiConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OpsiOpsiConfigurationResourceCrud) getOpsiConfigurationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OpsiOpsiConfigurationResourceCrud) getOpsiConfigurationFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_opsi.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	opsiConfigurationId, err := opsiConfigurationWaitForWorkRequest(workId, "opsi",
+	opsiConfigurationId, err := opsiConfigurationWaitForWorkRequest(ctx, workId, "opsi",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -360,7 +361,7 @@ func (s *OpsiOpsiConfigurationResourceCrud) getOpsiConfigurationFromWorkRequest(
 	}
 	s.D.SetId(*opsiConfigurationId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func opsiConfigurationWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -386,7 +387,7 @@ func opsiConfigurationWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 	}
 }
 
-func opsiConfigurationWaitForWorkRequest(wId *string, entityType string, action oci_opsi.ActionTypeEnum,
+func opsiConfigurationWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_opsi.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_opsi.OperationsInsightsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "opsi")
 	retryPolicy.ShouldRetryOperation = opsiConfigurationWorkRequestShouldRetryFunc(timeout)
@@ -405,7 +406,7 @@ func opsiConfigurationWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_opsi.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -417,7 +418,7 @@ func opsiConfigurationWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -434,14 +435,14 @@ func opsiConfigurationWaitForWorkRequest(wId *string, entityType string, action 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_opsi.OperationStatusFailed || response.Status == oci_opsi.OperationStatusCanceled {
-		return nil, getErrorFromOpsiOpsiConfigurationWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOpsiOpsiConfigurationWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOpsiOpsiConfigurationWorkRequest(client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOpsiOpsiConfigurationWorkRequest(ctx context.Context, client *oci_opsi.OperationsInsightsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_opsi.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_opsi.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -463,7 +464,7 @@ func getErrorFromOpsiOpsiConfigurationWorkRequest(client *oci_opsi.OperationsIns
 	return workRequestErr
 }
 
-func (s *OpsiOpsiConfigurationResourceCrud) Get() error {
+func (s *OpsiOpsiConfigurationResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opsi.GetOpsiConfigurationRequest{}
 
 	if configItemCustomStatus, ok := s.D.GetOkExists("config_item_custom_status"); ok {
@@ -527,7 +528,7 @@ func (s *OpsiOpsiConfigurationResourceCrud) Get() error {
 	tmp := s.D.Id()
 	request.OpsiConfigurationId = &tmp
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "opsi")
-	response, err := s.Client.GetOpsiConfiguration(context.Background(), request)
+	response, err := s.Client.GetOpsiConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -535,11 +536,11 @@ func (s *OpsiOpsiConfigurationResourceCrud) Get() error {
 	return nil
 }
 
-func (s *OpsiOpsiConfigurationResourceCrud) Update() error {
+func (s *OpsiOpsiConfigurationResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -553,16 +554,16 @@ func (s *OpsiOpsiConfigurationResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.UpdateOpsiConfiguration(context.Background(), request)
+	response, err := s.Client.UpdateOpsiConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOpsiConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOpsiConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *OpsiOpsiConfigurationResourceCrud) Delete() error {
+func (s *OpsiOpsiConfigurationResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_opsi.DeleteOpsiConfigurationRequest{}
 
 	tmp := s.D.Id()
@@ -570,14 +571,14 @@ func (s *OpsiOpsiConfigurationResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.DeleteOpsiConfiguration(context.Background(), request)
+	response, err := s.Client.DeleteOpsiConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := opsiConfigurationWaitForWorkRequest(workId, "opsi",
+	_, delWorkRequestErr := opsiConfigurationWaitForWorkRequest(ctx, workId, "opsi",
 		oci_opsi.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1100,7 +1101,7 @@ func (s *OpsiOpsiConfigurationResourceCrud) populateTopLevelPolymorphicUpdateOps
 	return nil
 }
 
-func (s *OpsiOpsiConfigurationResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *OpsiOpsiConfigurationResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_opsi.ChangeOpsiConfigurationCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1111,11 +1112,11 @@ func (s *OpsiOpsiConfigurationResourceCrud) updateCompartment(compartment interf
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
 
-	response, err := s.Client.ChangeOpsiConfigurationCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeOpsiConfigurationCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getOpsiConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getOpsiConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

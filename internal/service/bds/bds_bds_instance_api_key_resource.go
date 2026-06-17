@@ -15,6 +15,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -27,11 +28,11 @@ func BdsBdsInstanceApiKeyResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createBdsBdsInstanceApiKey,
-		Update:   updateBdsBdsInstanceApiKey,
-		Read:     readBdsBdsInstanceApiKey,
-		Delete:   deleteBdsBdsInstanceApiKey,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createBdsBdsInstanceApiKeyWithContext,
+		UpdateContext: updateBdsBdsInstanceApiKeyWithContext,
+		ReadContext:   readBdsBdsInstanceApiKeyWithContext,
+		DeleteContext: deleteBdsBdsInstanceApiKeyWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"bds_instance_id": {
@@ -95,37 +96,37 @@ func BdsBdsInstanceApiKeyResource() *schema.Resource {
 	}
 }
 
-func createBdsBdsInstanceApiKey(d *schema.ResourceData, m interface{}) error {
+func createBdsBdsInstanceApiKeyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceApiKeyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func updateBdsBdsInstanceApiKey(d *schema.ResourceData, m interface{}) error {
+func updateBdsBdsInstanceApiKeyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceApiKeyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readBdsBdsInstanceApiKey(d *schema.ResourceData, m interface{}) error {
+func readBdsBdsInstanceApiKeyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceApiKeyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteBdsBdsInstanceApiKey(d *schema.ResourceData, m interface{}) error {
+func deleteBdsBdsInstanceApiKeyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceApiKeyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type BdsBdsInstanceApiKeyResourceCrud struct {
@@ -163,7 +164,7 @@ func (s *BdsBdsInstanceApiKeyResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *BdsBdsInstanceApiKeyResourceCrud) Create() error {
+func (s *BdsBdsInstanceApiKeyResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_bds.CreateBdsApiKeyRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -198,23 +199,23 @@ func (s *BdsBdsInstanceApiKeyResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.CreateBdsApiKey(context.Background(), request)
+	response, err := s.Client.CreateBdsApiKey(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	s.setIdFromWorkRequest(workId)
-	return s.getBdsInstanceApiKeyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	s.setIdFromWorkRequest(ctx, workId)
+	return s.getBdsInstanceApiKeyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *BdsBdsInstanceApiKeyResourceCrud) setIdFromWorkRequest(workId *string) {
+func (s *BdsBdsInstanceApiKeyResourceCrud) setIdFromWorkRequest(ctx context.Context, workId *string) {
 	var identifier_str string
 	var identifier *string
 	var err error
 
 	workRequestResponse := oci_bds.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_bds.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -241,11 +242,11 @@ func (s *BdsBdsInstanceApiKeyResourceCrud) setIdFromWorkRequest(workId *string) 
 	}
 }
 
-func (s *BdsBdsInstanceApiKeyResourceCrud) getBdsInstanceApiKeyFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *BdsBdsInstanceApiKeyResourceCrud) getBdsInstanceApiKeyFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_bds.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	bdsInstanceApiKeyId, err := bdsInstanceApiKeyWaitForWorkRequest(workId, "bds",
+	bdsInstanceApiKeyId, err := bdsInstanceApiKeyWaitForWorkRequest(ctx, workId, "bds",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -253,7 +254,7 @@ func (s *BdsBdsInstanceApiKeyResourceCrud) getBdsInstanceApiKeyFromWorkRequest(w
 	}
 	s.D.SetId(*bdsInstanceApiKeyId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func bdsInstanceApiKeyWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -279,7 +280,7 @@ func bdsInstanceApiKeyWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 	}
 }
 
-func bdsInstanceApiKeyWaitForWorkRequest(wId *string, entityType string, action oci_bds.ActionTypesEnum,
+func bdsInstanceApiKeyWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_bds.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_bds.BdsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "bds")
 	retryPolicy.ShouldRetryOperation = bdsInstanceApiKeyWorkRequestShouldRetryFunc(timeout)
@@ -298,7 +299,7 @@ func bdsInstanceApiKeyWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_bds.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -310,7 +311,7 @@ func bdsInstanceApiKeyWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -331,14 +332,14 @@ func bdsInstanceApiKeyWaitForWorkRequest(wId *string, entityType string, action 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_bds.OperationStatusFailed || response.Status == oci_bds.OperationStatusCanceled {
-		return nil, getErrorFromBdsBdsInstanceApiKeyWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromBdsBdsInstanceApiKeyWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromBdsBdsInstanceApiKeyWorkRequest(client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromBdsBdsInstanceApiKeyWorkRequest(ctx context.Context, client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_bds.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -360,7 +361,7 @@ func getErrorFromBdsBdsInstanceApiKeyWorkRequest(client *oci_bds.BdsClient, work
 	return workRequestErr
 }
 
-func (s *BdsBdsInstanceApiKeyResourceCrud) Get() error {
+func (s *BdsBdsInstanceApiKeyResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_bds.GetBdsApiKeyRequest{}
 
 	tmp := s.D.Id()
@@ -381,7 +382,7 @@ func (s *BdsBdsInstanceApiKeyResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.GetBdsApiKey(context.Background(), request)
+	response, err := s.Client.GetBdsApiKey(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -390,7 +391,7 @@ func (s *BdsBdsInstanceApiKeyResourceCrud) Get() error {
 	return nil
 }
 
-func (s *BdsBdsInstanceApiKeyResourceCrud) Delete() error {
+func (s *BdsBdsInstanceApiKeyResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_bds.DeleteBdsApiKeyRequest{}
 
 	tmp := s.D.Id()
@@ -403,14 +404,14 @@ func (s *BdsBdsInstanceApiKeyResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.DeleteBdsApiKey(context.Background(), request)
+	response, err := s.Client.DeleteBdsApiKey(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := bdsInstanceApiKeyWaitForWorkRequest(workId, "bds",
+	_, delWorkRequestErr := bdsInstanceApiKeyWaitForWorkRequest(ctx, workId, "bds",
 		oci_bds.ActionTypesDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
