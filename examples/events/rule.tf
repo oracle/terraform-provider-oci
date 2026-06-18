@@ -31,7 +31,7 @@ resource "oci_events_rule" "test_rule" {
   #Required
   actions {
     #Required
-    actions {
+    action {
       #Required
       action_type = "ONS"
       is_enabled  = true
@@ -41,7 +41,7 @@ resource "oci_events_rule" "test_rule" {
       topic_id    = oci_ons_notification_topic.test_notification_topic.id
     }
 
-    actions {
+    action {
       #Required
       action_type = "OSS"
       is_enabled  = true
@@ -53,7 +53,13 @@ resource "oci_events_rule" "test_rule" {
   }
 
   compartment_id = var.compartment_id
-  condition      = "{\"eventType\": \"com.oraclecloud.dbaas.autonomous.database.backup.end\"}"
+  condition_details {
+    event_types = [
+      "com.oraclecloud.objectstorage.createbucket",
+      "com.oraclecloud.objectstorage.deletebucket",
+    ]
+    data = jsonencode({})
+  }
   display_name   = "This rule sends a notification upon completion of DbaaS backup"
   is_enabled     = true
 }
@@ -79,4 +85,3 @@ resource "oci_ons_notification_topic" "test_notification_topic" {
   compartment_id = var.compartment_id
   name           = "testNotificationTopic"
 }
-

@@ -23,20 +23,27 @@ resource "oci_events_rule" "test_rule" {
 	#Required
 	actions {
 		#Required
-		actions {
+		action {
 			#Required
-			action_type = var.rule_actions_actions_action_type
-			is_enabled = var.rule_actions_actions_is_enabled
+			action_type = var.rule_actions_action_action_type
+			is_enabled = var.rule_actions_action_is_enabled
 
 			#Optional
-			description = var.rule_actions_actions_description
+			description = var.rule_actions_action_description
 			function_id = oci_functions_function.test_function.id
 			stream_id = oci_streaming_stream.test_stream.id
 			topic_id = oci_ons_notification_topic.test_topic.id
 		}
 	}
 	compartment_id = var.compartment_id
-	condition = var.rule_condition
+	# Recommended for new configurations. Use either condition_details or condition.
+	condition_details {
+		event_types = [
+			"com.oraclecloud.objectstorage.createbucket",
+			"com.oraclecloud.objectstorage.deletebucket",
+		]
+		data = jsonencode({})
+	}
 	display_name = var.rule_display_name
 	is_enabled = var.rule_is_enabled
 
@@ -52,7 +59,7 @@ resource "oci_events_rule" "test_rule" {
 The following arguments are supported:
 
 * `actions` - (Required) (Updatable) A list of ActionDetails objects to create for a rule.
-	* `actions` - (Required) (Updatable) A list of one or more ActionDetails objects. 
+	* `action` - (Optional) (Updatable) A list of one or more ActionDetails objects.
 		* `action_type` - (Required) (Updatable) The action to perform if the condition in the rule matches an event.
 			* **ONS:** Send to an Oracle Notification Service topic.
 			* **OSS:** Send to a stream from Oracle Streaming Service.
@@ -62,8 +69,9 @@ The following arguments are supported:
 		* `is_enabled` - (Required) (Updatable) Whether or not this action is currently enabled.  Example: `true` 
 		* `stream_id` - (Required when action_type=OSS) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream to which messages are delivered. 
 		* `topic_id` - (Applicable when action_type=ONS) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic to which messages are delivered. 
+	* `actions` - (Optional) (Updatable) Deprecated. Use `action` instead. This nested block is retained for backward compatibility.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to which this rule belongs. 
-* `condition` - (Required) (Updatable) A filter that specifies the event that will trigger actions associated with this rule. A few  important things to remember about filters:
+* `condition` - (Optional) (Updatable) A JSON string filter that specifies the event that will trigger actions associated with this rule. Use either `condition` or `condition_details`. This argument is retained for backward compatibility. For new configurations, `condition_details` is recommended because it avoids manually escaping JSON and is easier to maintain when matching multiple event types. A few  important things to remember about filters:
 	* Fields not mentioned in the condition are ignored. You can create a valid filter that matches all events with two curly brackets: `{}` 
 
 	For more examples, see  [Matching Events with Filters](https://docs.cloud.oracle.com/iaas/Content/Events/Concepts/filterevents.htm).       
@@ -75,7 +83,26 @@ The following arguments are supported:
 
 	For examples of wildcard matching, see  [Matching Events with Filters](https://docs.cloud.oracle.com/iaas/Content/Events/Concepts/filterevents.htm)
 
-	Example: `\"eventType\": \"com.oraclecloud.databaseservice.autonomous.database.backup.end\"` 
+	Example:
+	```hcl
+	condition = "{\"eventType\":[\"com.oraclecloud.objectstorage.createbucket\",\"com.oraclecloud.objectstorage.deletebucket\"],\"data\":{}}"
+	```
+* `condition_details` - (Optional) (Updatable) A structured helper for building the rule condition JSON. Use either `condition` or `condition_details`. This is the recommended form for new configurations.
+	* `event_types` - (Optional) (Updatable) A list of event types to match.
+	* `data` - (Optional) (Updatable) A JSON string containing additional event data filters.
+
+	The following `condition_details` example is equivalent to the `condition` JSON string example above.
+
+	Example:
+	```hcl
+	condition_details {
+		event_types = [
+			"com.oraclecloud.objectstorage.createbucket",
+			"com.oraclecloud.objectstorage.deletebucket",
+		]
+		data = jsonencode({})
+	}
+	```
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) A string that describes the details of the rule. It does not have to be unique, and you can change it. Avoid entering confidential information. 
 * `display_name` - (Required) (Updatable) A string that describes the rule. It does not have to be unique, and you can change it. Avoid entering confidential information. 
@@ -143,4 +170,3 @@ Rules can be imported using the `id`, e.g.
 ```
 $ terraform import oci_events_rule.test_rule "id"
 ```
-
