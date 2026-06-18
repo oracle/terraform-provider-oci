@@ -90,11 +90,21 @@ func ociVarName(attrName string) string {
 
 func init() {
 	descriptions = map[string]string{
-		globalvar.AuthAttrName:        fmt.Sprintf("(Optional) The type of auth to use. Options are '%s', '%s', '%s', '%s' and '%s'. By default, '%s' will be used.", globalvar.AuthAPIKeySetting, globalvar.AuthSecurityToken, globalvar.AuthInstancePrincipalSetting, globalvar.ResourcePrincipal, globalvar.AuthOKEWorkloadIdentity, globalvar.AuthAPIKeySetting),
-		globalvar.TenancyOcidAttrName: fmt.Sprintf("(Optional) The tenancy OCID for a user. The tenancy OCID can be found at the bottom of user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
-		globalvar.UserOcidAttrName:    fmt.Sprintf("(Optional) The user OCID. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
-		globalvar.FingerprintAttrName: fmt.Sprintf("(Optional) The fingerprint for the user's RSA key. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
-		globalvar.RegionAttrName:      "(Required) The region for API connections (e.g. us-ashburn-1).",
+		globalvar.AuthAttrName:                            fmt.Sprintf("(Optional) The type of auth to use. Options are %s. By default, '%s' will be used.", supportedAuthSettingsDescription(), globalvar.AuthAPIKeySetting),
+		globalvar.TenancyOcidAttrName:                     fmt.Sprintf("(Optional) The tenancy OCID for a user. The tenancy OCID can be found at the bottom of user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
+		globalvar.UserOcidAttrName:                        fmt.Sprintf("(Optional) The user OCID. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
+		globalvar.FingerprintAttrName:                     fmt.Sprintf("(Optional) The fingerprint for the user's RSA key. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
+		globalvar.RegionAttrName:                          "(Required) The region for API connections (e.g. us-ashburn-1).",
+		globalvar.WorkloadIdentityTokenPathAttrName:       fmt.Sprintf("(Optional) Path to the projected Kubernetes service account token. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthWorkloadIdentityFederation),
+		globalvar.TokenExchangeDomainUrlAttrName:          fmt.Sprintf("(Optional) OCI IAM identity domain URL for token exchange. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthWorkloadIdentityFederation),
+		globalvar.TokenExchangeAuthAttrName:               fmt.Sprintf("(Optional) Authentication method for the token-exchange client. Valid values are '%s' and '%s'. Used only if auth is set to '%s'. Defaults to '%s'.", globalvar.WorkloadIdentityTokenExchangeAuthOAuthClient, globalvar.WorkloadIdentityTokenExchangeAuthInstancePrincipal, globalvar.AuthWorkloadIdentityFederation, globalvar.WorkloadIdentityTokenExchangeAuthOAuthClient),
+		globalvar.TokenExchangeClientIdAttrName:           fmt.Sprintf("(Optional) Token-exchange client ID. Required when auth is set to '%s' and token_exchange_auth is '%s', ignored otherwise.", globalvar.AuthWorkloadIdentityFederation, globalvar.WorkloadIdentityTokenExchangeAuthOAuthClient),
+		globalvar.TokenExchangeClientSecretAttrName:       fmt.Sprintf("(Optional) Token-exchange client secret. Required when auth is set to '%s' and token_exchange_auth is '%s', ignored otherwise.", globalvar.AuthWorkloadIdentityFederation, globalvar.WorkloadIdentityTokenExchangeAuthOAuthClient),
+		globalvar.TokenExchangeRequestedTokenTypeAttrName: fmt.Sprintf("(Optional) Requested token type for token exchange. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthWorkloadIdentityFederation),
+		globalvar.TokenExchangeSubjectTokenTypeAttrName:   fmt.Sprintf("(Optional) Subject token type for the Kubernetes service account JWT. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthWorkloadIdentityFederation),
+		globalvar.TokenExchangeResourceTypeAttrName:       fmt.Sprintf("(Optional) Resource type used during token exchange. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthWorkloadIdentityFederation),
+		globalvar.TokenExchangeRpstExpAttrName:            fmt.Sprintf("(Optional) Requested RPST expiration for token exchange. Used only if auth is set to '%s'.", globalvar.AuthWorkloadIdentityFederation),
+		globalvar.TokenExchangePublicKeyAttrName:          fmt.Sprintf("(Optional) Public key used by the token-exchange flow, where applicable. Used only if auth is set to '%s'.", globalvar.AuthWorkloadIdentityFederation),
 		globalvar.PrivateKeyAttrName: "(Optional) A PEM formatted RSA private key for the user.\n" +
 			fmt.Sprintf("A private_key or a private_key_path must be provided if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
 		globalvar.PrivateKeyPathAttrName: "(Optional) The path to the user's PEM formatted private key.\n" +
@@ -129,7 +139,7 @@ func SchemaMap() map[string]*schema.Schema {
 			Optional:     true,
 			Description:  descriptions[globalvar.AuthAttrName],
 			DefaultFunc:  schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.AuthAttrName), ociVarName(globalvar.AuthAttrName)}, globalvar.AuthAPIKeySetting),
-			ValidateFunc: validation.StringInSlice([]string{globalvar.AuthAPIKeySetting, globalvar.AuthInstancePrincipalSetting, globalvar.AuthInstancePrincipalWithCertsSetting, globalvar.AuthSecurityToken, globalvar.ResourcePrincipal, globalvar.AuthOKEWorkloadIdentity}, true),
+			ValidateFunc: validation.StringInSlice(supportedAuthSettings, true),
 		},
 		globalvar.TenancyOcidAttrName: {
 			Type:        schema.TypeString,
@@ -175,6 +185,68 @@ func SchemaMap() map[string]*schema.Schema {
 			Optional:    true,
 			Description: descriptions[globalvar.RegionAttrName],
 			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.RegionAttrName), ociVarName(globalvar.RegionAttrName)}, nil),
+		},
+		globalvar.WorkloadIdentityTokenPathAttrName: {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: descriptions[globalvar.WorkloadIdentityTokenPathAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.WorkloadIdentityTokenPathAttrName), ociVarName(globalvar.WorkloadIdentityTokenPathAttrName)}, nil),
+		},
+		globalvar.TokenExchangeDomainUrlAttrName: {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: descriptions[globalvar.TokenExchangeDomainUrlAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.TokenExchangeDomainUrlAttrName), ociVarName(globalvar.TokenExchangeDomainUrlAttrName)}, nil),
+		},
+		globalvar.TokenExchangeAuthAttrName: {
+			Type:         schema.TypeString,
+			Optional:     true,
+			Description:  descriptions[globalvar.TokenExchangeAuthAttrName],
+			DefaultFunc:  schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.TokenExchangeAuthAttrName), ociVarName(globalvar.TokenExchangeAuthAttrName)}, globalvar.WorkloadIdentityTokenExchangeAuthOAuthClient),
+			ValidateFunc: validation.StringInSlice(supportedTokenExchangeAuthSettings, true),
+		},
+		globalvar.TokenExchangeClientIdAttrName: {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: descriptions[globalvar.TokenExchangeClientIdAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.TokenExchangeClientIdAttrName), ociVarName(globalvar.TokenExchangeClientIdAttrName)}, nil),
+		},
+		globalvar.TokenExchangeClientSecretAttrName: {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Sensitive:   true,
+			Description: descriptions[globalvar.TokenExchangeClientSecretAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.TokenExchangeClientSecretAttrName), ociVarName(globalvar.TokenExchangeClientSecretAttrName)}, nil),
+		},
+		globalvar.TokenExchangeRequestedTokenTypeAttrName: {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: descriptions[globalvar.TokenExchangeRequestedTokenTypeAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.TokenExchangeRequestedTokenTypeAttrName), ociVarName(globalvar.TokenExchangeRequestedTokenTypeAttrName)}, nil),
+		},
+		globalvar.TokenExchangeSubjectTokenTypeAttrName: {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: descriptions[globalvar.TokenExchangeSubjectTokenTypeAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.TokenExchangeSubjectTokenTypeAttrName), ociVarName(globalvar.TokenExchangeSubjectTokenTypeAttrName)}, globalvar.WorkloadIdentityTokenExchangeSubjectTokenTypeDefault),
+		},
+		globalvar.TokenExchangeResourceTypeAttrName: {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: descriptions[globalvar.TokenExchangeResourceTypeAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.TokenExchangeResourceTypeAttrName), ociVarName(globalvar.TokenExchangeResourceTypeAttrName)}, nil),
+		},
+		globalvar.TokenExchangeRpstExpAttrName: {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: descriptions[globalvar.TokenExchangeRpstExpAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.TokenExchangeRpstExpAttrName), ociVarName(globalvar.TokenExchangeRpstExpAttrName)}, nil),
+		},
+		globalvar.TokenExchangePublicKeyAttrName: {
+			Type:        schema.TypeString,
+			Optional:    true,
+			Description: descriptions[globalvar.TokenExchangePublicKeyAttrName],
+			DefaultFunc: schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.TokenExchangePublicKeyAttrName), ociVarName(globalvar.TokenExchangePublicKeyAttrName)}, nil),
 		},
 		globalvar.DisableAutoRetriesAttrName: {
 			Type:        schema.TypeBool,
@@ -362,20 +434,7 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 			return nil, fmt.Errorf("can not get %s from Terraform configuration (InstancePrincipal)", globalvar.RegionAttrName)
 		}
 
-		// Used to modify InstancePrincipal auth clients so that `accept_local_certs` is honored for auth clients as well
-		// These clients are created implicitly by SDK, and are not modified by the utils.BuildConfigureClientFn that usually does this for the other SDK clients
-		instancePrincipalAuthClientModifier := func(client oci_common.HTTPRequestDispatcher) (oci_common.HTTPRequestDispatcher, error) {
-			if acceptLocalCerts := utils.GetEnvSettingWithBlankDefault(globalvar.AcceptLocalCerts); acceptLocalCerts != "" {
-				if bool, err := strconv.ParseBool(acceptLocalCerts); err == nil {
-					modifiedClient := BuildHttpClient()
-					modifiedClient.Transport.(*http.Transport).TLSClientConfig.InsecureSkipVerify = bool
-					return modifiedClient, nil
-				}
-			}
-			return client, nil
-		}
-
-		cfg, err := oci_common_auth.InstancePrincipalConfigurationForRegionWithCustomClient(oci_common.StringToRegion(region.(string)), instancePrincipalAuthClientModifier)
+		cfg, err := instancePrincipalConfigurationProviderForRegion(region.(string))
 		if err != nil {
 			return nil, err
 		}
@@ -478,8 +537,14 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 			return nil, fmt.Errorf("can not get oke workload indentity based auth config provider %v", err)
 		}
 		configProviders = append(configProviders, okeWorkloadIdentityConfigProvider)
+	case strings.ToLower(globalvar.AuthWorkloadIdentityFederation):
+		workloadIdentityFederationConfigProvider, err := newWorkloadIdentityFederationConfigurationProvider(workloadIdentityFederationConfigFromResourceData(d))
+		if err != nil {
+			return nil, err
+		}
+		configProviders = append(configProviders, workloadIdentityFederationConfigProvider)
 	default:
-		return nil, fmt.Errorf("auth must be one of '%s' or '%s' or '%s' or '%s' or '%s' or '%s'", globalvar.AuthAPIKeySetting, globalvar.AuthInstancePrincipalSetting, globalvar.AuthInstancePrincipalWithCertsSetting, globalvar.AuthSecurityToken, globalvar.ResourcePrincipal, globalvar.AuthOKEWorkloadIdentity)
+		return nil, fmt.Errorf("auth must be one of %s", supportedAuthSettingsDescription())
 	}
 
 	return configProviders, nil
@@ -599,6 +664,26 @@ func (p ResourceDataConfigProvider) PrivateRSAKey() (key *rsa.PrivateKey, err er
 
 	return nil, fmt.Errorf("can not get private_key or private_key_path from Terraform configuration")
 }
+
+var instancePrincipalConfigurationProviderForRegion = defaultInstancePrincipalConfigurationProviderForRegion
+
+func defaultInstancePrincipalConfigurationProviderForRegion(region string) (oci_common.ConfigurationProvider, error) {
+	return oci_common_auth.InstancePrincipalConfigurationForRegionWithCustomClient(oci_common.StringToRegion(region), instancePrincipalAuthClientModifier)
+}
+
+// Used to modify InstancePrincipal auth clients so that `accept_local_certs` is honored for auth clients as well.
+// These clients are created implicitly by the SDK and are not modified by BuildConfigureClientFn.
+func instancePrincipalAuthClientModifier(client oci_common.HTTPRequestDispatcher) (oci_common.HTTPRequestDispatcher, error) {
+	if acceptLocalCerts := utils.GetEnvSettingWithBlankDefault(globalvar.AcceptLocalCerts); acceptLocalCerts != "" {
+		if bool, err := strconv.ParseBool(acceptLocalCerts); err == nil {
+			modifiedClient := BuildHttpClient()
+			modifiedClient.Transport.(*http.Transport).TLSClientConfig.InsecureSkipVerify = bool
+			return modifiedClient, nil
+		}
+	}
+	return client, nil
+}
+
 func BuildHttpClient() (httpClient *http.Client) {
 	httpClient = &http.Client{
 		Timeout: getFromEnvVar(globalvar.HTTPRequestTimeOut, globalvar.DefaultRequestTimeout),
