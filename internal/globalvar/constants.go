@@ -10,6 +10,7 @@ const (
 	AuthInstancePrincipalWithCertsSetting = "InstancePrincipalWithCerts"
 	AuthSecurityToken                     = "SecurityToken"
 	AuthOKEWorkloadIdentity               = "OKEWorkloadIdentity"
+	AuthWorkloadIdentityFederation        = "WorkloadIdentityFederation"
 	ResourcePrincipal                     = "ResourcePrincipal"
 	RequestHeaderOpcOboToken              = "opc-obo-token"
 	RequestHeaderOpcHostSerial            = "opc-host-serial"
@@ -49,6 +50,16 @@ const (
 	PrivateKeyPathAttrName                      = "private_key_path"
 	PrivateKeyPasswordAttrName                  = "private_key_password"
 	RegionAttrName                              = "region"
+	WorkloadIdentityTokenPathAttrName           = "workload_identity_token_path"
+	TokenExchangeDomainUrlAttrName              = "token_exchange_domain_url"
+	TokenExchangeAuthAttrName                   = "token_exchange_auth"
+	TokenExchangeClientIdAttrName               = "token_exchange_client_id"
+	TokenExchangeClientSecretAttrName           = "token_exchange_client_secret"
+	TokenExchangeRequestedTokenTypeAttrName     = "token_exchange_requested_token_type"
+	TokenExchangeSubjectTokenTypeAttrName       = "token_exchange_subject_token_type"
+	TokenExchangeResourceTypeAttrName           = "token_exchange_resource_type"
+	TokenExchangeRpstExpAttrName                = "token_exchange_rpst_exp"
+	TokenExchangePublicKeyAttrName              = "token_exchange_public_key"
 	DisableAutoRetriesAttrName                  = "disable_auto_retries"
 	RetryDurationSecondsAttrName                = "retry_duration_seconds"
 	OboTokenAttrName                            = "obo_token"
@@ -82,12 +93,15 @@ This may be expected behavior from the service, which may prevent discovery of c
 Placeholder values have been added for such attributes with a comment "Required attribute not found in discovery, placeholder value set to avoid plan failure".
 These missing attributes are also added to the lifecycle ignore_changes.
 `
-	PlaceholderValueForMissingAttribute = `<placeholder for missing required attribute>`
-	EnvLogFile                          = "TF_LOG_PATH"
-	EnvOCITFLogFile                     = "OCI_TF_LOG_PATH" // Log path for Custom TF logger - TFProviderLogger
-	TerraformBinPathName                = "terraform_bin_path"
-	MaxInt64                            = 1<<63 - 1 // TODO : Fix needed for GoLang SDK v1.17.2
-	DiscoverAllStatesEnv                = "TF_DISCOVER_ALL_STATES"
+	PlaceholderValueForMissingAttribute                  = `<placeholder for missing required attribute>`
+	EnvLogFile                                           = "TF_LOG_PATH"
+	EnvOCITFLogFile                                      = "OCI_TF_LOG_PATH" // Log path for Custom TF logger - TFProviderLogger
+	TerraformBinPathName                                 = "terraform_bin_path"
+	MaxInt64                                             = 1<<63 - 1 // TODO : Fix needed for GoLang SDK v1.17.2
+	DiscoverAllStatesEnv                                 = "TF_DISCOVER_ALL_STATES"
+	WorkloadIdentityTokenExchangeAuthOAuthClient         = "OAuthClientCredentials"
+	WorkloadIdentityTokenExchangeAuthInstancePrincipal   = "InstancePrincipal"
+	WorkloadIdentityTokenExchangeSubjectTokenTypeDefault = "jwt"
 )
 
 const (
