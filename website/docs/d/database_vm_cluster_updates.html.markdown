@@ -46,10 +46,13 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `available_actions` - The possible actions that can be performed using this maintenance update.
+* `available_update_modes` - The possible update options that can be performed using this maintenance update (only valid for OS Update).
 * `description` - Details of the maintenance update package.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the maintenance update.
 * `last_action` - The update action performed most recently using this maintenance update.
+* `last_update_mode` - The update mode performed most recently using this maintenance update (only valid for OS Update).
 * `lifecycle_details` - Descriptive text providing additional details about the lifecycle state. 
+* `oracle_linux_version` - Oracle Linux version for the respective Exadata Image.
 * `state` - The current state of the maintenance update. Dependent on value of `lastAction`.
 * `time_released` - The date and time the maintenance update was released.
 * `update_type` - The type of VM cluster maintenance update.

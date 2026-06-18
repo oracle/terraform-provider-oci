@@ -76,6 +76,13 @@ resource "oci_database_vm_cluster" "test_vm_cluster" {
 	sparse_storage_percentage = var.vm_cluster_sparse_storage_percentage
 	system_version = var.vm_cluster_system_version
 	time_zone = var.vm_cluster_time_zone
+	update_details {
+
+		#Optional
+		update_action = var.vm_cluster_update_details_update_action
+		update_id = var.vm_cluster_update_details_update_id
+		update_mode = var.vm_cluster_update_details_update_mode
+	}
 	vm_backup_storage_type = var.vm_cluster_vm_backup_storage_type
 	vm_cluster_type = var.vm_cluster_vm_cluster_type
 	vm_file_system_storage_type = var.vm_cluster_vm_file_system_storage_type
@@ -124,6 +131,10 @@ The following arguments are supported:
 * `ssh_public_keys` - (Required) (Updatable) The public key portion of one or more key pairs used for SSH access to the VM cluster.
 * `system_version` - (Optional) Operating system version of the image.
 * `time_zone` - (Optional) The time zone to use for the VM cluster. For details, see [DB System Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
+* `update_details` - (Optional) (Updatable) Details specifying which maintenance update to apply to the VM cluster and which action to perform. Use `update_mode` for DomU live update modes or regular full OS update mode.
+	* `update_action` - (Optional) (Updatable) The update action. Supported values include `ROLLING_APPLY`, `PRECHECK`, and `ROLLBACK`.
+	* `update_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the maintenance update.
+	* `update_mode` - (Optional) (Updatable) The OS update mode. Supported values are `ONLINE_HIGHCVSS`, `ONLINE_ALLCVSS`, `ONLINE_ALL_UPDATES`, `PENDING_UPDATES`, and `FULL_UPDATE`.
 * `vm_backup_storage_type` - (Optional) (Updatable) Specifies the type of VM Backups Storage and supported values are LOCAL and EXASCALE. - LOCAL if selected then VM Backups storage will be on DB Servers. - EXASCALE if selected then VM Backups storage will be on Exascale Storage Servers. Default Value is LOCAL
 * `vm_cluster_network_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster network.
 * `vm_cluster_type` - (Optional) The vmcluster type for the VM cluster/Cloud VM cluster.
@@ -174,8 +185,14 @@ The following attributes are exported:
 * `last_patch_history_entry_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last patch history. This value is updated as soon as a patch operation starts.
 * `license_model` - The Oracle license model that applies to the VM cluster. The default is LICENSE_INCLUDED. 
 * `lifecycle_details` - Additional information about the current lifecycle state.
+* `live_image_version_details` - Details about the most recent live image version applied on the VM Cluster, if any. If a full OS update was applied, the fields would be blank.
+	* `has_pending_updates` - Indicates whether OS updates that require node reboot are pending after the previous online update was applied.
+	* `time_released` - The release date and time for the applied Live Exadata Image OS version.
+	* `update_mode` - The OS live update mode performed most recently on the VM Cluster.
+	* `version` - Live Exadata Image Version of the Guest OS Update applied.
 * `memory_size_in_gbs` - The memory allocated in GBs.
 * `reco_storage_percentage` - The percentage assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). See [Storage Configuration](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm#Exadata) in the Exadata documentation for details on the impact of the configuration settings on storage.
+* `oracle_linux_version` - Oracle Linux version for the respective Exadata Image.
 * `shape` - The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 
 * `sparse_storage_percentage` - The percentage assigned to SPARSE storage (Exadata snapshots). See [Storage Configuration](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm#Exadata) in the Exadata documentation for details on the impact of the configuration settings on storage. 
 * `ssh_public_keys` - The public key portion of one or more key pairs used for SSH access to the VM cluster.
@@ -205,4 +222,3 @@ VmClusters can be imported using the `id`, e.g.
 ```
 $ terraform import oci_database_vm_cluster.test_vm_cluster "id"
 ```
-

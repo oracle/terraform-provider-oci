@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+	"strings"
 	"testing"
 	"time"
 
@@ -104,7 +105,7 @@ var (
 		"private_zone_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_dns_zone.test_zone.id}`},
 		"security_attributes":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.maxegresscount.value": "42", "oracle-zpr.maxegresscount.mode": "enforce"}, Update: map[string]string{"oracle-zpr.maxegresscount.value": "updatedValue", "oracle-zpr.maxegresscount.mode": "enforce"}},
 		"time_zone":                       acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
-		"vm_cluster_type":                 acctest.Representation{RepType: acctest.Optional, Create: `DEVELOPER`},
+		"vm_cluster_type":                 acctest.Representation{RepType: acctest.Optional, Create: `REGULAR`},
 		"lifecycle":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: cloudVmClusterIgnoreDefinedTagsRepresentation},
 	}
 
@@ -477,6 +478,68 @@ var (
 			"storage_count": acctest.Representation{RepType: acctest.Required, Create: `3`},
 		}))
 )
+
+func checkCloudVmClusterFakeProvisioningImageFields(resourceName string) resource.TestCheckFunc {
+	return acctest.ComposeAggregateTestCheckFuncWrapper(
+		resource.TestCheckResourceAttrSet(resourceName, "system_version"),
+		resource.TestCheckResourceAttr(resourceName, "live_image_version_details.#", "0"),
+		resource.TestCheckNoResourceAttr(resourceName, "oracle_linux_version"),
+	)
+}
+
+func checkCloudVmClusterLiveUpdateImageFields(resourceName string) resource.TestCheckFunc {
+	return acctest.ComposeAggregateTestCheckFuncWrapper(
+		resource.TestCheckResourceAttrSet(resourceName, "system_version"),
+		resource.TestCheckResourceAttr(resourceName, "live_image_version_details.#", "1"),
+		resource.TestCheckResourceAttrSet(resourceName, "live_image_version_details.0.time_released"),
+		resource.TestCheckResourceAttrSet(resourceName, "live_image_version_details.0.update_mode"),
+		resource.TestCheckResourceAttrSet(resourceName, "live_image_version_details.0.version"),
+		resource.TestCheckResourceAttrSet(resourceName, "oracle_linux_version"),
+	)
+}
+
+func checkCloudVmClusterOnlineAllUpdatesImageFields(resourceName string) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		rm := s.RootModule()
+		rs, ok := rm.Resources[resourceName]
+		if !ok {
+			return fmt.Errorf("Not found: %s", resourceName)
+		}
+		if rs.Primary == nil {
+			return fmt.Errorf("No primary instance: %s", resourceName)
+		}
+
+		liveImageCount := rs.Primary.Attributes["live_image_version_details.#"]
+		switch liveImageCount {
+		case "1":
+			for _, field := range []string{
+				"live_image_version_details.0.time_released",
+				"live_image_version_details.0.update_mode",
+				"live_image_version_details.0.version",
+				"oracle_linux_version",
+			} {
+				if rs.Primary.Attributes[field] == "" {
+					return fmt.Errorf("%s expected to be set when live_image_version_details is present", field)
+				}
+			}
+		case "", "0":
+			if rs.Primary.Attributes["system_version"] == "" {
+				return fmt.Errorf("system_version expected to be set when live_image_version_details is absent after ONLINE_ALL_UPDATES apply")
+			}
+		default:
+			return fmt.Errorf("live_image_version_details.# expected to be 0 or 1, got %q", liveImageCount)
+		}
+
+		return nil
+	}
+}
+
+func checkCloudVmClusterFullUpdateImageFields(resourceName string) resource.TestCheckFunc {
+	return acctest.ComposeAggregateTestCheckFuncWrapper(
+		resource.TestCheckResourceAttrSet(resourceName, "system_version"),
+		resource.TestCheckResourceAttr(resourceName, "live_image_version_details.#", "0"),
+	)
+}
 
 // issue-routing-tag: database/ExaCS
 func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
@@ -891,6 +954,151 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				"create_async",
 			},
 			ResourceName: resourceName,
+		},
+	})
+}
+
+// issue-routing-tag: database/ExaCS
+func TestDatabaseCloudVmClusterResource_updateDetails(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseCloudVmClusterResource_updateDetails")
+	defer httpreplay.SaveScenario()
+	runDatabaseCloudVmClusterUpdateDetailsTest(t, "TestDatabaseCloudVmClusterResource_updateDetails", "ONLINE_HIGHCVSS", true, checkCloudVmClusterLiveUpdateImageFields)
+}
+
+// issue-routing-tag: database/default
+func TestDatabaseCloudVmClusterResource_updateDetailsOnlineAllUpdates(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseCloudVmClusterResource_updateDetailsOnlineAllUpdates")
+	defer httpreplay.SaveScenario()
+	runDatabaseCloudVmClusterUpdateDetailsTest(t, "TestDatabaseCloudVmClusterResource_updateDetailsOnlineAllUpdates", "ONLINE_ALL_UPDATES", true, checkCloudVmClusterOnlineAllUpdatesImageFields)
+}
+
+// issue-routing-tag: database/default
+func TestDatabaseCloudVmClusterResource_updateDetailsFullUpdate(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseCloudVmClusterResource_updateDetailsFullUpdate")
+	defer httpreplay.SaveScenario()
+	runDatabaseCloudVmClusterUpdateDetailsTest(t, "TestDatabaseCloudVmClusterResource_updateDetailsFullUpdate", "FULL_UPDATE", true, checkCloudVmClusterFullUpdateImageFields)
+}
+
+// issue-routing-tag: database/default
+func TestDatabaseCloudVmClusterResource_updateDetailsDefaultFullUpdate(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseCloudVmClusterResource_updateDetailsDefaultFullUpdate")
+	defer httpreplay.SaveScenario()
+	runDatabaseCloudVmClusterUpdateDetailsTest(t, "TestDatabaseCloudVmClusterResource_updateDetailsDefaultFullUpdate", "", false, checkCloudVmClusterFullUpdateImageFields)
+}
+
+func runDatabaseCloudVmClusterUpdateDetailsTest(t *testing.T, testName, updateMode string, includeUpdateMode bool, applyImageCheck func(string) resource.TestCheckFunc) {
+	saveConfigs := strings.EqualFold(utils.GetEnvSettingWithBlankDefault("save_configs"), "true")
+	if !saveConfigs && !strings.Contains(utils.GetEnvSettingWithBlankDefault("enabled_tests"), testName) {
+		t.Skip("test requires an available cloud VM cluster OS update")
+	}
+	updateId := utils.GetEnvSettingWithBlankDefault("cloud_vm_cluster_update_id")
+	if !saveConfigs && updateId == "" {
+		t.Skip("test requires cloud_vm_cluster_update_id")
+	}
+
+	config := acctest.ProviderTestConfig()
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	updateIdVariableStr := fmt.Sprintf("variable \"cloud_vm_cluster_update_id\" { default = \"%s\" }\n", updateId)
+	resourceName := "oci_database_cloud_vm_cluster.test_cloud_vm_cluster"
+	cloudVmClusterRepresentationForRegularVmCluster := acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(DatabaseCloudVmClusterRepresentation, []string{"db_servers", "defined_tags", "memory_size_in_gbs", "security_attributes"}),
+		map[string]interface{}{
+			"vm_cluster_type": acctest.Representation{RepType: acctest.Optional, Create: `REGULAR`},
+		},
+	)
+	resolverRepresentationWithoutDefinedTags := acctest.RepresentationCopyWithRemovedProperties(ResolverRepresentation, []string{"defined_tags"})
+	viewRepresentationWithoutDefinedTags := acctest.RepresentationCopyWithRemovedProperties(ViewRepresentation, []string{"defined_tags"})
+	databaseCloudVmClusterDependenciesWithoutDefinedTags := strings.Replace(
+		DatabaseDatabaseCloudVmClusterResourceDependencies,
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Optional, acctest.Create, ViewRepresentation),
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Optional, acctest.Create, viewRepresentationWithoutDefinedTags),
+		1,
+	)
+	withDomain := map[string]interface{}{
+		"domain": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_zone.test_zone.name}`},
+	}
+
+	precheckUpdateDetails := map[string]interface{}{
+		"update_action": acctest.Representation{RepType: acctest.Optional, Create: `PRECHECK`},
+		"update_id":     acctest.Representation{RepType: acctest.Optional, Create: `${var.cloud_vm_cluster_update_id}`},
+	}
+	applyUpdateDetails := map[string]interface{}{
+		"update_action": acctest.Representation{RepType: acctest.Optional, Create: `ROLLING_APPLY`},
+		"update_id":     acctest.Representation{RepType: acctest.Optional, Create: `${var.cloud_vm_cluster_update_id}`},
+	}
+	if includeUpdateMode {
+		precheckUpdateDetails["update_mode"] = acctest.Representation{RepType: acctest.Optional, Create: updateMode}
+		applyUpdateDetails["update_mode"] = acctest.Representation{RepType: acctest.Optional, Create: updateMode}
+	}
+
+	withPrecheckUpdateDetails := acctest.RepresentationCopyWithNewProperties(cloudVmClusterRepresentationForRegularVmCluster, map[string]interface{}{
+		"domain":         acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_zone.test_zone.name}`},
+		"update_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: precheckUpdateDetails},
+	})
+	withApplyUpdateDetails := acctest.RepresentationCopyWithNewProperties(cloudVmClusterRepresentationForRegularVmCluster, map[string]interface{}{
+		"domain":         acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_zone.test_zone.name}`},
+		"update_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: applyUpdateDetails},
+	})
+
+	// Save the baseline create configuration for the resource-discovery workflow.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+databaseCloudVmClusterDependenciesWithoutDefinedTags+AvailabilityDomainConfig+
+		acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Optional, acctest.Create, CoreCoreVcnDnsResolverAssociationRepresentation)+
+		acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Optional, acctest.Create, resolverRepresentationWithoutDefinedTags)+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create,
+			acctest.RepresentationCopyWithNewProperties(cloudVmClusterRepresentationForRegularVmCluster, withDomain)), "database", "cloudVmCluster", t)
+
+	precheckChecks := []resource.TestCheckFunc{
+		resource.TestCheckResourceAttr(resourceName, "update_details.#", "1"),
+		resource.TestCheckResourceAttr(resourceName, "update_details.0.update_action", "PRECHECK"),
+		resource.TestCheckResourceAttr(resourceName, "update_details.0.update_id", updateId),
+	}
+	applyChecks := []resource.TestCheckFunc{
+		resource.TestCheckResourceAttr(resourceName, "update_details.#", "1"),
+		resource.TestCheckResourceAttr(resourceName, "update_details.0.update_action", "ROLLING_APPLY"),
+		resource.TestCheckResourceAttr(resourceName, "update_details.0.update_id", updateId),
+		applyImageCheck(resourceName),
+	}
+	if includeUpdateMode {
+		precheckChecks = append(precheckChecks, resource.TestCheckResourceAttr(resourceName, "update_details.0.update_mode", updateMode))
+		applyChecks = append(applyChecks, resource.TestCheckResourceAttr(resourceName, "update_details.0.update_mode", updateMode))
+	} else {
+		precheckChecks = append(precheckChecks, resource.TestCheckResourceAttr(resourceName, "update_details.0.update_mode", ""))
+		applyChecks = append(applyChecks, resource.TestCheckResourceAttr(resourceName, "update_details.0.update_mode", ""))
+	}
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// Create the DNS view and attach it to the private resolver before using the view for the Cloud VM Cluster.
+		{
+			Config: config + compartmentIdVariableStr + databaseCloudVmClusterDependenciesWithoutDefinedTags + AvailabilityDomainConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Optional, acctest.Create, CoreCoreVcnDnsResolverAssociationRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Optional, acctest.Create, resolverRepresentationWithoutDefinedTags),
+		},
+		{
+			// OCI Database may not immediately observe the DNS view attachment after the resolver update.
+			PreConfig: func() {
+				time.Sleep(3 * time.Minute)
+			},
+			Config: config + compartmentIdVariableStr + databaseCloudVmClusterDependenciesWithoutDefinedTags + AvailabilityDomainConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Optional, acctest.Create, CoreCoreVcnDnsResolverAssociationRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Optional, acctest.Create, resolverRepresentationWithoutDefinedTags) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(cloudVmClusterRepresentationForRegularVmCluster, withDomain)),
+			Check: checkCloudVmClusterFakeProvisioningImageFields(resourceName),
+		},
+		{
+			Config: config + compartmentIdVariableStr + updateIdVariableStr + databaseCloudVmClusterDependenciesWithoutDefinedTags + AvailabilityDomainConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Optional, acctest.Create, CoreCoreVcnDnsResolverAssociationRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Optional, acctest.Create, resolverRepresentationWithoutDefinedTags) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create, withPrecheckUpdateDetails),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(precheckChecks...),
+		},
+		{
+			Config: config + compartmentIdVariableStr + updateIdVariableStr + databaseCloudVmClusterDependenciesWithoutDefinedTags + AvailabilityDomainConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Optional, acctest.Create, CoreCoreVcnDnsResolverAssociationRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Optional, acctest.Create, resolverRepresentationWithoutDefinedTags) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_vm_cluster", "test_cloud_vm_cluster", acctest.Optional, acctest.Create, withApplyUpdateDetails),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(applyChecks...),
 		},
 	})
 }

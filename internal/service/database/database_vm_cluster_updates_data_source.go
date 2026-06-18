@@ -47,6 +47,13 @@ func DatabaseVmClusterUpdatesDataSource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
+						"available_update_modes": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"description": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -59,7 +66,15 @@ func DatabaseVmClusterUpdatesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"last_update_mode": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"lifecycle_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"oracle_linux_version": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -156,6 +171,8 @@ func (s *DatabaseVmClusterUpdatesDataSourceCrud) SetData() error {
 
 		vmClusterUpdate["available_actions"] = r.AvailableActions
 
+		vmClusterUpdate["available_update_modes"] = r.AvailableUpdateModes
+
 		if r.Description != nil {
 			vmClusterUpdate["description"] = *r.Description
 		}
@@ -166,8 +183,14 @@ func (s *DatabaseVmClusterUpdatesDataSourceCrud) SetData() error {
 
 		vmClusterUpdate["last_action"] = r.LastAction
 
+		vmClusterUpdate["last_update_mode"] = r.LastUpdateMode
+
 		if r.LifecycleDetails != nil {
 			vmClusterUpdate["lifecycle_details"] = *r.LifecycleDetails
+		}
+
+		if r.OracleLinuxVersion != nil {
+			vmClusterUpdate["oracle_linux_version"] = *r.OracleLinuxVersion
 		}
 
 		vmClusterUpdate["state"] = r.LifecycleState

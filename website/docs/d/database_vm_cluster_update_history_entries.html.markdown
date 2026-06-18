@@ -52,5 +52,6 @@ The following attributes are exported:
 * `time_started` - The date and time when the maintenance update action started.
 * `update_action` - The update action performed using this maintenance update.
 * `update_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the maintenance update.
+* `update_mode` - The OS update mode performed using this maintenance update.
 * `update_type` - The type of VM cluster maintenance update.
 

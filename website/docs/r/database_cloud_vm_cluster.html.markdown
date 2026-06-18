@@ -88,6 +88,13 @@ resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster" {
 	subscription_id = var.tenant_subscription_id
 	system_version = var.cloud_vm_cluster_system_version
 	time_zone = var.cloud_vm_cluster_time_zone
+	update_details {
+
+		#Optional
+		update_action = var.cloud_vm_cluster_update_details_update_action
+		update_id = var.cloud_vm_cluster_update_details_update_id
+		update_mode = var.cloud_vm_cluster_update_details_update_mode
+	}
 	vm_backup_storage_type = var.cloud_vm_cluster_vm_backup_storage_type
 	vm_cluster_type = var.cloud_vm_cluster_vm_cluster_type
 	vm_file_system_storage_type = var.cloud_vm_cluster_vm_file_system_storage_type
@@ -169,6 +176,10 @@ The following arguments are supported:
 * `system_version` - (Optional) Operating system version of the image.
 * `tde_key_store_type` - Use 'AZURE' for installing azure encryption RPMS. Use 'OCI' to install oracle managed encryption RPMS. Use 'NONE' to uninstall encryption RPMS.
 * `time_zone` - (Optional) The time zone to use for the cloud VM cluster. For details, see [Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm). 
+* `update_details` - (Optional) (Updatable) Details specifying which maintenance update to apply to the cloud VM cluster and which action to perform. Use `update_mode` for DomU live update modes or regular full OS update mode.
+	* `update_action` - (Optional) (Updatable) The update action. Supported values include `ROLLING_APPLY`, `NON_ROLLING_APPLY`, `PRECHECK`, and `ROLLBACK`.
+	* `update_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the maintenance update.
+	* `update_mode` - (Optional) (Updatable) The OS update mode. Supported values are `ONLINE_HIGHCVSS`, `ONLINE_ALLCVSS`, `ONLINE_ALL_UPDATES`, `PENDING_UPDATES`, and `FULL_UPDATE`.
 * `vm_backup_storage_type` - (Optional) (Updatable) Specifies the type of VM Backups Storage and supported values are LOCAL and EXASCALE. - LOCAL if selected then VM Backups storage will be on DB Servers. - EXASCALE if selected then VM Backups storage will be on Exascale Storage Servers. Default Value is LOCAL
 * `vm_cluster_type` - (Optional) The vmcluster type for the VM cluster/Cloud VM cluster.
 * `vm_file_system_storage_type` - (Optional) Specifies the type of file system storage and supported values are LOCAL and EXASCALE. - LOCAL if selected then file system storage will be on DB Servers. - EXASCALE if selected then file system storage will be on Exascale Storage Servers. Default Value is LOCAL
@@ -234,6 +245,11 @@ The following attributes are exported:
 * `license_model` - The Oracle license model that applies to the cloud VM cluster. The default is LICENSE_INCLUDED. 
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `listener_port` - The port number configured for the listener on the cloud VM cluster.
+* `live_image_version_details` - Details about the most recent live image version applied on the VM Cluster, if any. If a full OS update was applied, the fields would be blank.
+	* `has_pending_updates` - Indicates whether OS updates that require node reboot are pending after the previous online update was applied.
+	* `time_released` - The release date and time for the applied Live Exadata Image OS version.
+	* `update_mode` - The OS live update mode performed most recently on the VM Cluster.
+	* `version` - Live Exadata Image Version of the Guest OS Update applied.
 * `memory_size_in_gbs` - The memory to be allocated in GBs.
 * `multi_cloud_identity_connector_configs` - Details of the multi cloud identity connectors of the VM cluster.
 	* `cloud_provider` - Cloud provider
@@ -243,6 +259,7 @@ The following attributes are exported:
 	* A network security group (NSG) is optional for Autonomous AI Databases with private access. The nsgIds list can be empty.
 * `ocpu_count` - The number of OCPU cores to enable on the cloud VM cluster. Only 1 decimal place is allowed for the fractional part.
 * `reco_storage_percentage` - The percentage assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). See [Storage Configuration](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm#Exadata) in the Exadata documentation for details on the impact of the configuration settings on storage. 
+* `oracle_linux_version` - Oracle Linux version for the respective Exadata Image.
 * `scan_dns_name` - The FQDN of the DNS record for the SCAN IP addresses that are associated with the cloud VM cluster. 
 * `scan_dns_record_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DNS record for the SCAN IP addresses that are associated with the cloud VM cluster. 
 * `scan_ip_ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Single Client Access Name (SCAN) IPv4 addresses associated with the cloud VM cluster. SCAN IPv4 addresses are typically used for load balancing and are not assigned to any interface. Oracle Clusterware directs the requests to the appropriate nodes in the cluster.
@@ -297,4 +314,3 @@ CloudVmClusters can be imported using the `id`, e.g.
 ```
 $ terraform import oci_database_cloud_vm_cluster.test_cloud_vm_cluster "id"
 ```
-
