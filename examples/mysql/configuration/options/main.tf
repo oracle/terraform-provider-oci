@@ -47,6 +47,11 @@ resource "oci_mysql_mysql_configuration" "test_mysql_configuration_options" {
     name  = "autocommit"
     value = "OFF"
   }
+
+  options {
+    name  = "binlog_row_value_options"
+    value = ""
+  }
   # Add further options as needed
 }
 

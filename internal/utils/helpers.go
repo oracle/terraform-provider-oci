@@ -73,7 +73,7 @@ const (
 	`
 	MysqlConfigurationIdVariable = `
 	variable "MysqlConfigurationOCID" {
-	  type = "map"
+	  type = map(string)
 	  default = {
 		us-ashburn-1 = "ocid1.mysqlconfiguration.oc1..aaaaaaaalwzc2a22xqm56fwjwfymixnulmbq3v77p5v4lcbb6qhkftxf2trq"
 		us-phoenix-1 = "ocid1.mysqlconfiguration.oc1..aaaaaaaalwzc2a22xqm56fwjwfymixnulmbq3v77p5v4lcbb6qhkftxf2trq"
@@ -82,7 +82,7 @@ const (
  	`
 	MysqlConfigurationIdVariableE3_2_32_OCID = `
 	variable "MysqlConfigurationE3_2_32_OCID" {
-	  type = "map"
+	  type = map(string)
 	  default = {
 		us-ashburn-1 = "ocid1.mysqlconfiguration.oc1..aaaaaaaakremacvh2fizcznnja5rdxry2q4nyn27afjblyrimzjmrqblhfwa"
 		us-phoenix-1 = "ocid1.mysqlconfiguration.oc1..aaaaaaaakremacvh2fizcznnja5rdxry2q4nyn27afjblyrimzjmrqblhfwa"

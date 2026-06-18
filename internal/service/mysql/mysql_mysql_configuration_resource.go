@@ -7,11 +7,13 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"math/big"
 	"net/url"
 	"regexp"
 	"strconv"
 	"strings"
 
+	"github.com/hashicorp/go-cty/cty"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -25,11 +27,12 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createMysqlMysqlConfiguration,
-		Read:     readMysqlMysqlConfiguration,
-		Update:   updateMysqlMysqlConfiguration,
-		Delete:   deleteMysqlMysqlConfiguration,
+		Timeouts:      tfresource.DefaultTimeout,
+		Create:        createMysqlMysqlConfiguration,
+		Read:          readMysqlMysqlConfiguration,
+		Update:        updateMysqlMysqlConfiguration,
+		Delete:        deleteMysqlMysqlConfiguration,
+		CustomizeDiff: mysqlMysqlConfigurationCustomizeDiff,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -937,6 +940,100 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 	}
 }
 
+func mysqlMysqlConfigurationCustomizeDiff(_ context.Context, diff *schema.ResourceDiff, _ interface{}) error {
+	if options, ok := mysqlConfigurationConfiguredListFromRawConfig(diff, "options"); ok && mysqlConfigurationListHasEmptyString(options, "value") {
+		if err := diff.SetNew("options", options); err != nil {
+			return err
+		}
+	}
+
+	if variables, ok := mysqlConfigurationConfiguredListFromRawConfig(diff, "variables"); ok && mysqlConfigurationListHasEmptyString(variables, "binlog_row_value_options") {
+		return diff.SetNew("variables", variables)
+	}
+
+	return nil
+}
+
+func mysqlConfigurationConfiguredListFromRawConfig(diff *schema.ResourceDiff, fieldKey string) ([]interface{}, bool) {
+	rawList, diags := diff.GetRawConfigAt(cty.GetAttrPath(fieldKey))
+	if diags.HasError() || !rawList.IsKnown() || rawList.IsNull() || !rawList.CanIterateElements() {
+		return nil, false
+	}
+
+	result := []interface{}{}
+	converted := true
+	rawList.ForEachElement(func(_, rawItem cty.Value) bool {
+		item, ok := mysqlConfigurationRawObjectToMap(rawItem)
+		if !ok {
+			converted = false
+			return true
+		}
+		result = append(result, item)
+		return false
+	})
+
+	if !converted {
+		return nil, false
+	}
+	return result, true
+}
+
+func mysqlConfigurationRawObjectToMap(rawObject cty.Value) (map[string]interface{}, bool) {
+	if !rawObject.IsKnown() || rawObject.IsNull() || !rawObject.Type().IsObjectType() {
+		return nil, false
+	}
+
+	result := map[string]interface{}{}
+	for name := range rawObject.Type().AttributeTypes() {
+		value := rawObject.GetAttr(name)
+		if value.IsNull() {
+			continue
+		}
+
+		converted, ok := mysqlConfigurationRawValueToInterface(value)
+		if !ok {
+			return nil, false
+		}
+		result[name] = converted
+	}
+
+	return result, true
+}
+
+func mysqlConfigurationRawValueToInterface(value cty.Value) (interface{}, bool) {
+	if !value.IsKnown() || value.IsNull() {
+		return nil, false
+	}
+
+	switch {
+	case value.Type().Equals(cty.String):
+		return value.AsString(), true
+	case value.Type().Equals(cty.Bool):
+		return value.True(), true
+	case value.Type().Equals(cty.Number):
+		intValue, accuracy := value.AsBigFloat().Int64()
+		if accuracy != big.Exact {
+			return nil, false
+		}
+		return int(intValue), true
+	default:
+		return nil, false
+	}
+}
+
+func mysqlConfigurationListHasEmptyString(list []interface{}, key string) bool {
+	for _, item := range list {
+		itemMap, ok := item.(map[string]interface{})
+		if !ok {
+			continue
+		}
+		if value, ok := itemMap[key].(string); ok && value == "" {
+			return true
+		}
+	}
+	return false
+}
+
 func createMysqlMysqlConfiguration(d *schema.ResourceData, m interface{}) error {
 	sync := &MysqlMysqlConfigurationResourceCrud{}
 	sync.D = d
@@ -1342,6 +1439,8 @@ func (s *MysqlMysqlConfigurationResourceCrud) mapToConfigurationVariables(fieldK
 	if binlogRowValueOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "binlog_row_value_options")); ok {
 		tmp := binlogRowValueOptions.(string)
 		result.BinlogRowValueOptions = &tmp
+	} else if value, ok := getMysqlConfigurationConfiguredRawStringFieldValue(s.D, fmt.Sprintf(fieldKeyFormat, "binlog_row_value_options")); ok {
+		result.BinlogRowValueOptions = &value
 	}
 
 	if binlogTransactionCompression, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "binlog_transaction_compression")); ok {
@@ -2481,9 +2580,40 @@ func (s *MysqlMysqlConfigurationResourceCrud) mapToOption(fieldKeyFormat string)
 	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
 		tmp := value.(string)
 		result.Value = &tmp
+	} else if value, ok := getMysqlConfigurationConfiguredRawStringFieldValue(s.D, fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		result.Value = &value
 	}
 
 	return result, nil
+}
+
+func mysqlConfigurationFieldKeyToRawConfigPath(fieldKey string) cty.Path {
+	parts := strings.Split(fieldKey, ".")
+	path := make(cty.Path, 0, len(parts))
+	for _, part := range parts {
+		if index, err := strconv.Atoi(part); err == nil {
+			path = append(path, cty.IndexStep{Key: cty.NumberIntVal(int64(index))})
+			continue
+		}
+		path = append(path, cty.GetAttrStep{Name: part})
+	}
+	return path
+}
+
+func getMysqlConfigurationConfiguredRawStringFieldValue(d *schema.ResourceData, fieldKey string) (string, bool) {
+	value, diags := d.GetRawConfigAt(mysqlConfigurationFieldKeyToRawConfigPath(fieldKey))
+	if diags.HasError() || !value.IsKnown() || value.IsNull() || !value.Type().Equals(cty.String) {
+		return "", false
+	}
+	return value.AsString(), true
+}
+
+func getMysqlConfigurationConfiguredRawStringDiffValue(d *schema.ResourceDiff, fieldKey string) (string, bool) {
+	value, diags := d.GetRawConfigAt(mysqlConfigurationFieldKeyToRawConfigPath(fieldKey))
+	if diags.HasError() || !value.IsKnown() || value.IsNull() || !value.Type().Equals(cty.String) {
+		return "", false
+	}
+	return value.AsString(), true
 }
 
 func OptionToMap(obj oci_mysql.Option) map[string]interface{} {
