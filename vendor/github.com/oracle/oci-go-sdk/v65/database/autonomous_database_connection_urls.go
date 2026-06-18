@@ -34,6 +34,9 @@ type AutonomousDatabaseConnectionUrls struct {
 	// The URL of the MongoDB API for the Autonomous AI Database.
 	MongoDbUrl *string `mandatory:"false" json:"mongoDbUrl"`
 
+	// The URL of Graal for the Autonomous AI Database.
+	GraalUrl *string `mandatory:"false" json:"graalUrl"`
+
 	// The URL of the Oracle Machine Learning (OML) Notebook for the Autonomous AI Database.
 	MachineLearningNotebookUrl *string `mandatory:"false" json:"machineLearningNotebookUrl"`
 

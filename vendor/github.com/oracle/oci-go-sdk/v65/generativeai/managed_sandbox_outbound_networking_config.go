@@ -19,24 +19,19 @@ import (
 	"strings"
 )
 
-// SandboxConfig Sandbox configuration under a project.
-// Use `sandboxOutboundNetworkingConfig` to choose whether sandbox outbound traffic originates from an Oracle-managed network or from a customer subnet.
-type SandboxConfig struct {
-
-	// Indicates whether sandbox config is enabled.
-	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
-
-	SandboxOutboundNetworkingConfig SandboxOutboundNetworkingConfig `mandatory:"false" json:"sandboxOutboundNetworkingConfig"`
+// ManagedSandboxOutboundNetworkingConfig Outbound networking configuration that uses Oracle-managed networking for sandboxes in this project.
+type ManagedSandboxOutboundNetworkingConfig struct {
+	NetworkPolicy SandboxNetworkPolicy `mandatory:"false" json:"networkPolicy"`
 }
 
-func (m SandboxConfig) String() string {
+func (m ManagedSandboxOutboundNetworkingConfig) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m SandboxConfig) ValidateEnumValue() (bool, error) {
+func (m ManagedSandboxOutboundNetworkingConfig) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -45,11 +40,24 @@ func (m SandboxConfig) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
+// MarshalJSON marshals to json representation
+func (m ManagedSandboxOutboundNetworkingConfig) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeManagedSandboxOutboundNetworkingConfig ManagedSandboxOutboundNetworkingConfig
+	s := struct {
+		DiscriminatorParam string `json:"networkMode"`
+		MarshalTypeManagedSandboxOutboundNetworkingConfig
+	}{
+		"MANAGED",
+		(MarshalTypeManagedSandboxOutboundNetworkingConfig)(m),
+	}
+
+	return json.Marshal(&s)
+}
+
 // UnmarshalJSON unmarshals from json
-func (m *SandboxConfig) UnmarshalJSON(data []byte) (e error) {
+func (m *ManagedSandboxOutboundNetworkingConfig) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		SandboxOutboundNetworkingConfig sandboxoutboundnetworkingconfig `json:"sandboxOutboundNetworkingConfig"`
-		IsEnabled                       *bool                           `json:"isEnabled"`
+		NetworkPolicy sandboxnetworkpolicy `json:"networkPolicy"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -57,17 +65,15 @@ func (m *SandboxConfig) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
-	nn, e = model.SandboxOutboundNetworkingConfig.UnmarshalPolymorphicJSON(model.SandboxOutboundNetworkingConfig.JsonData)
+	nn, e = model.NetworkPolicy.UnmarshalPolymorphicJSON(model.NetworkPolicy.JsonData)
 	if e != nil {
 		return
 	}
 	if nn != nil {
-		m.SandboxOutboundNetworkingConfig = nn.(SandboxOutboundNetworkingConfig)
+		m.NetworkPolicy = nn.(SandboxNetworkPolicy)
 	} else {
-		m.SandboxOutboundNetworkingConfig = nil
+		m.NetworkPolicy = nil
 	}
-
-	m.IsEnabled = model.IsEnabled
 
 	return
 }

@@ -86,18 +86,21 @@ const (
 	FlowLogCaptureFilterRuleDetailsFlowLogTypeAll    FlowLogCaptureFilterRuleDetailsFlowLogTypeEnum = "ALL"
 	FlowLogCaptureFilterRuleDetailsFlowLogTypeReject FlowLogCaptureFilterRuleDetailsFlowLogTypeEnum = "REJECT"
 	FlowLogCaptureFilterRuleDetailsFlowLogTypeAccept FlowLogCaptureFilterRuleDetailsFlowLogTypeEnum = "ACCEPT"
+	FlowLogCaptureFilterRuleDetailsFlowLogTypeDeny   FlowLogCaptureFilterRuleDetailsFlowLogTypeEnum = "DENY"
 )
 
 var mappingFlowLogCaptureFilterRuleDetailsFlowLogTypeEnum = map[string]FlowLogCaptureFilterRuleDetailsFlowLogTypeEnum{
 	"ALL":    FlowLogCaptureFilterRuleDetailsFlowLogTypeAll,
 	"REJECT": FlowLogCaptureFilterRuleDetailsFlowLogTypeReject,
 	"ACCEPT": FlowLogCaptureFilterRuleDetailsFlowLogTypeAccept,
+	"DENY":   FlowLogCaptureFilterRuleDetailsFlowLogTypeDeny,
 }
 
 var mappingFlowLogCaptureFilterRuleDetailsFlowLogTypeEnumLowerCase = map[string]FlowLogCaptureFilterRuleDetailsFlowLogTypeEnum{
 	"all":    FlowLogCaptureFilterRuleDetailsFlowLogTypeAll,
 	"reject": FlowLogCaptureFilterRuleDetailsFlowLogTypeReject,
 	"accept": FlowLogCaptureFilterRuleDetailsFlowLogTypeAccept,
+	"deny":   FlowLogCaptureFilterRuleDetailsFlowLogTypeDeny,
 }
 
 // GetFlowLogCaptureFilterRuleDetailsFlowLogTypeEnumValues Enumerates the set of values for FlowLogCaptureFilterRuleDetailsFlowLogTypeEnum
@@ -115,6 +118,7 @@ func GetFlowLogCaptureFilterRuleDetailsFlowLogTypeEnumStringValues() []string {
 		"ALL",
 		"REJECT",
 		"ACCEPT",
+		"DENY",
 	}
 }
 

@@ -21,7 +21,8 @@ type DataSafeRegistrationRequestDetails struct {
 	// The requested Data Safe registration action for the database.
 	Action DataSafeRegistrationRequestDetailsActionEnum `mandatory:"true" json:"action"`
 
-	ConnectionOption *ConnectionOption `mandatory:"false" json:"connectionOption"`
+	// List of OCID(s) required to establish the connection. If using a Private Endpoint, provide one Data Safe private endpoint OCID. If using On-Premises Connectors, provide the OCID(s) of Data Safe on-premises connector(s).
+	ConnectionIds []string `mandatory:"false" json:"connectionIds"`
 }
 
 func (m DataSafeRegistrationRequestDetails) String() string {

@@ -34,6 +34,7 @@ const (
 	ExadataReleaseVersionsExaOl8241 ExadataReleaseVersionsEnum = "EXA_OL_8_24_1"
 	ExadataReleaseVersionsExaOl8251 ExadataReleaseVersionsEnum = "EXA_OL_8_25_1"
 	ExadataReleaseVersionsExaOl8252 ExadataReleaseVersionsEnum = "EXA_OL_8_25_2"
+	ExadataReleaseVersionsCustom    ExadataReleaseVersionsEnum = "CUSTOM"
 )
 
 var mappingExadataReleaseVersionsEnum = map[string]ExadataReleaseVersionsEnum{
@@ -52,6 +53,7 @@ var mappingExadataReleaseVersionsEnum = map[string]ExadataReleaseVersionsEnum{
 	"EXA_OL_8_24_1": ExadataReleaseVersionsExaOl8241,
 	"EXA_OL_8_25_1": ExadataReleaseVersionsExaOl8251,
 	"EXA_OL_8_25_2": ExadataReleaseVersionsExaOl8252,
+	"CUSTOM":        ExadataReleaseVersionsCustom,
 }
 
 var mappingExadataReleaseVersionsEnumLowerCase = map[string]ExadataReleaseVersionsEnum{
@@ -70,6 +72,7 @@ var mappingExadataReleaseVersionsEnumLowerCase = map[string]ExadataReleaseVersio
 	"exa_ol_8_24_1": ExadataReleaseVersionsExaOl8241,
 	"exa_ol_8_25_1": ExadataReleaseVersionsExaOl8251,
 	"exa_ol_8_25_2": ExadataReleaseVersionsExaOl8252,
+	"custom":        ExadataReleaseVersionsCustom,
 }
 
 // GetExadataReleaseVersionsEnumValues Enumerates the set of values for ExadataReleaseVersionsEnum
@@ -99,6 +102,7 @@ func GetExadataReleaseVersionsEnumStringValues() []string {
 		"EXA_OL_8_24_1",
 		"EXA_OL_8_25_1",
 		"EXA_OL_8_25_2",
+		"CUSTOM",
 	}
 }
 

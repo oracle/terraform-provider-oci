@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// SandboxNetworkPolicy Base network policy for sandboxes in a project.
+// SandboxNetworkPolicy Base network policy for sandboxes in a project using Oracle-managed outbound networking.
 type SandboxNetworkPolicy interface {
 }
 

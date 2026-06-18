@@ -21,6 +21,10 @@ import (
 // Only release versions related to the specified sourceMajorVersion are allowed.
 type GuestOsExadataReleaseVersionFilter struct {
 
+	// Forward-compatible Exadata release version tokens.
+	// Applicable only when 'exadataReleases' contains CUSTOM.
+	CustomExadataReleases []string `mandatory:"false" json:"customExadataReleases"`
+
 	// INCLUDE or EXCLUDE the filter results when discovering Exadata VM Cluster targets for a 'GUEST_OS' collection.
 	// Supported only for RESOURCE_ID filter.
 	Mode GuestOsFleetDiscoveryFilterModeEnum `mandatory:"false" json:"mode,omitempty"`

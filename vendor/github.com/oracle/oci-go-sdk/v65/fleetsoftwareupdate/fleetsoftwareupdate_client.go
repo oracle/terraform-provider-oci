@@ -3116,6 +3116,60 @@ func (client FleetSoftwareUpdateClient) listFsuReadinessChecks(ctx context.Conte
 	return response, err
 }
 
+// ListReleaseVersions Lists release version tokens.
+// A default retry strategy applies to this operation ListReleaseVersions()
+func (client FleetSoftwareUpdateClient) ListReleaseVersions(ctx context.Context, request ListReleaseVersionsRequest) (response ListReleaseVersionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listReleaseVersions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListReleaseVersionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListReleaseVersionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListReleaseVersionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListReleaseVersionsResponse")
+	}
+	return
+}
+
+// listReleaseVersions implements the OCIOperation interface (enables retrying operations)
+func (client FleetSoftwareUpdateClient) listReleaseVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/releaseVersions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListReleaseVersionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "fleetSoftwareUpdate", "ListReleaseVersions")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/edsfu/20220528/ReleaseVersionSummary/ListReleaseVersions"
+		err = common.PostProcessServiceError(err, "FleetSoftwareUpdate", "ListReleaseVersions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListWorkRequestErrors Returns a paginated list of errors for a specified Work Request..
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client FleetSoftwareUpdateClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {

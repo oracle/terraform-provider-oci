@@ -299,6 +299,43 @@ const (
 	DedicatedAiClusterUnitShapeCohereA10080gX1 DedicatedAiClusterUnitShapeEnum = "COHERE_A100_80G_X1"
 	DedicatedAiClusterUnitShapeCohereA10040gX1 DedicatedAiClusterUnitShapeEnum = "COHERE_A100_40G_X1"
 	DedicatedAiClusterUnitShapeCohereA10X1     DedicatedAiClusterUnitShapeEnum = "COHERE_A10_X1"
+	DedicatedAiClusterUnitShapeCohereA10040gX2 DedicatedAiClusterUnitShapeEnum = "COHERE_A100_40G_X2"
+	DedicatedAiClusterUnitShapeCohereA10040gX4 DedicatedAiClusterUnitShapeEnum = "COHERE_A100_40G_X4"
+	DedicatedAiClusterUnitShapeCohereA10040gX8 DedicatedAiClusterUnitShapeEnum = "COHERE_A100_40G_X8"
+	DedicatedAiClusterUnitShapeCohereA10080gX2 DedicatedAiClusterUnitShapeEnum = "COHERE_A100_80G_X2"
+	DedicatedAiClusterUnitShapeCohereA10080gX4 DedicatedAiClusterUnitShapeEnum = "COHERE_A100_80G_X4"
+	DedicatedAiClusterUnitShapeCohereA10080gX8 DedicatedAiClusterUnitShapeEnum = "COHERE_A100_80G_X8"
+	DedicatedAiClusterUnitShapeCohereH100X2    DedicatedAiClusterUnitShapeEnum = "COHERE_H100_X2"
+	DedicatedAiClusterUnitShapeCohereH100X4    DedicatedAiClusterUnitShapeEnum = "COHERE_H100_X4"
+	DedicatedAiClusterUnitShapeCohereH100X8    DedicatedAiClusterUnitShapeEnum = "COHERE_H100_X8"
+	DedicatedAiClusterUnitShapeCohereH200X1    DedicatedAiClusterUnitShapeEnum = "COHERE_H200_X1"
+	DedicatedAiClusterUnitShapeCohereH200X2    DedicatedAiClusterUnitShapeEnum = "COHERE_H200_X2"
+	DedicatedAiClusterUnitShapeCohereH200X4    DedicatedAiClusterUnitShapeEnum = "COHERE_H200_X4"
+	DedicatedAiClusterUnitShapeCohereH200X8    DedicatedAiClusterUnitShapeEnum = "COHERE_H200_X8"
+	DedicatedAiClusterUnitShapeCohereB200X1    DedicatedAiClusterUnitShapeEnum = "COHERE_B200_X1"
+	DedicatedAiClusterUnitShapeCohereB200X2    DedicatedAiClusterUnitShapeEnum = "COHERE_B200_X2"
+	DedicatedAiClusterUnitShapeCohereB200X4    DedicatedAiClusterUnitShapeEnum = "COHERE_B200_X4"
+	DedicatedAiClusterUnitShapeCohereB200X8    DedicatedAiClusterUnitShapeEnum = "COHERE_B200_X8"
+	DedicatedAiClusterUnitShapeMetaA10040gX1   DedicatedAiClusterUnitShapeEnum = "META_A100_40G_X1"
+	DedicatedAiClusterUnitShapeMetaA10040gX2   DedicatedAiClusterUnitShapeEnum = "META_A100_40G_X2"
+	DedicatedAiClusterUnitShapeMetaA10040gX4   DedicatedAiClusterUnitShapeEnum = "META_A100_40G_X4"
+	DedicatedAiClusterUnitShapeMetaA10040gX8   DedicatedAiClusterUnitShapeEnum = "META_A100_40G_X8"
+	DedicatedAiClusterUnitShapeMetaA10080gX1   DedicatedAiClusterUnitShapeEnum = "META_A100_80G_X1"
+	DedicatedAiClusterUnitShapeMetaA10080gX2   DedicatedAiClusterUnitShapeEnum = "META_A100_80G_X2"
+	DedicatedAiClusterUnitShapeMetaA10080gX4   DedicatedAiClusterUnitShapeEnum = "META_A100_80G_X4"
+	DedicatedAiClusterUnitShapeMetaA10080gX8   DedicatedAiClusterUnitShapeEnum = "META_A100_80G_X8"
+	DedicatedAiClusterUnitShapeMetaH100X1      DedicatedAiClusterUnitShapeEnum = "META_H100_X1"
+	DedicatedAiClusterUnitShapeMetaH100X2      DedicatedAiClusterUnitShapeEnum = "META_H100_X2"
+	DedicatedAiClusterUnitShapeMetaH100X4      DedicatedAiClusterUnitShapeEnum = "META_H100_X4"
+	DedicatedAiClusterUnitShapeMetaH100X8      DedicatedAiClusterUnitShapeEnum = "META_H100_X8"
+	DedicatedAiClusterUnitShapeMetaH200X1      DedicatedAiClusterUnitShapeEnum = "META_H200_X1"
+	DedicatedAiClusterUnitShapeMetaH200X2      DedicatedAiClusterUnitShapeEnum = "META_H200_X2"
+	DedicatedAiClusterUnitShapeMetaH200X4      DedicatedAiClusterUnitShapeEnum = "META_H200_X4"
+	DedicatedAiClusterUnitShapeMetaH200X8      DedicatedAiClusterUnitShapeEnum = "META_H200_X8"
+	DedicatedAiClusterUnitShapeMetaB200X1      DedicatedAiClusterUnitShapeEnum = "META_B200_X1"
+	DedicatedAiClusterUnitShapeMetaB200X2      DedicatedAiClusterUnitShapeEnum = "META_B200_X2"
+	DedicatedAiClusterUnitShapeMetaB200X4      DedicatedAiClusterUnitShapeEnum = "META_B200_X4"
+	DedicatedAiClusterUnitShapeMetaB200X8      DedicatedAiClusterUnitShapeEnum = "META_B200_X8"
 	DedicatedAiClusterUnitShapeLargeCohereV3   DedicatedAiClusterUnitShapeEnum = "LARGE_COHERE_V3"
 	DedicatedAiClusterUnitShapeRerankCohere    DedicatedAiClusterUnitShapeEnum = "RERANK_COHERE"
 	DedicatedAiClusterUnitShapeSmallGenericV1  DedicatedAiClusterUnitShapeEnum = "SMALL_GENERIC_V1"
@@ -363,6 +400,43 @@ var mappingDedicatedAiClusterUnitShapeEnum = map[string]DedicatedAiClusterUnitSh
 	"COHERE_A100_80G_X1": DedicatedAiClusterUnitShapeCohereA10080gX1,
 	"COHERE_A100_40G_X1": DedicatedAiClusterUnitShapeCohereA10040gX1,
 	"COHERE_A10_X1":      DedicatedAiClusterUnitShapeCohereA10X1,
+	"COHERE_A100_40G_X2": DedicatedAiClusterUnitShapeCohereA10040gX2,
+	"COHERE_A100_40G_X4": DedicatedAiClusterUnitShapeCohereA10040gX4,
+	"COHERE_A100_40G_X8": DedicatedAiClusterUnitShapeCohereA10040gX8,
+	"COHERE_A100_80G_X2": DedicatedAiClusterUnitShapeCohereA10080gX2,
+	"COHERE_A100_80G_X4": DedicatedAiClusterUnitShapeCohereA10080gX4,
+	"COHERE_A100_80G_X8": DedicatedAiClusterUnitShapeCohereA10080gX8,
+	"COHERE_H100_X2":     DedicatedAiClusterUnitShapeCohereH100X2,
+	"COHERE_H100_X4":     DedicatedAiClusterUnitShapeCohereH100X4,
+	"COHERE_H100_X8":     DedicatedAiClusterUnitShapeCohereH100X8,
+	"COHERE_H200_X1":     DedicatedAiClusterUnitShapeCohereH200X1,
+	"COHERE_H200_X2":     DedicatedAiClusterUnitShapeCohereH200X2,
+	"COHERE_H200_X4":     DedicatedAiClusterUnitShapeCohereH200X4,
+	"COHERE_H200_X8":     DedicatedAiClusterUnitShapeCohereH200X8,
+	"COHERE_B200_X1":     DedicatedAiClusterUnitShapeCohereB200X1,
+	"COHERE_B200_X2":     DedicatedAiClusterUnitShapeCohereB200X2,
+	"COHERE_B200_X4":     DedicatedAiClusterUnitShapeCohereB200X4,
+	"COHERE_B200_X8":     DedicatedAiClusterUnitShapeCohereB200X8,
+	"META_A100_40G_X1":   DedicatedAiClusterUnitShapeMetaA10040gX1,
+	"META_A100_40G_X2":   DedicatedAiClusterUnitShapeMetaA10040gX2,
+	"META_A100_40G_X4":   DedicatedAiClusterUnitShapeMetaA10040gX4,
+	"META_A100_40G_X8":   DedicatedAiClusterUnitShapeMetaA10040gX8,
+	"META_A100_80G_X1":   DedicatedAiClusterUnitShapeMetaA10080gX1,
+	"META_A100_80G_X2":   DedicatedAiClusterUnitShapeMetaA10080gX2,
+	"META_A100_80G_X4":   DedicatedAiClusterUnitShapeMetaA10080gX4,
+	"META_A100_80G_X8":   DedicatedAiClusterUnitShapeMetaA10080gX8,
+	"META_H100_X1":       DedicatedAiClusterUnitShapeMetaH100X1,
+	"META_H100_X2":       DedicatedAiClusterUnitShapeMetaH100X2,
+	"META_H100_X4":       DedicatedAiClusterUnitShapeMetaH100X4,
+	"META_H100_X8":       DedicatedAiClusterUnitShapeMetaH100X8,
+	"META_H200_X1":       DedicatedAiClusterUnitShapeMetaH200X1,
+	"META_H200_X2":       DedicatedAiClusterUnitShapeMetaH200X2,
+	"META_H200_X4":       DedicatedAiClusterUnitShapeMetaH200X4,
+	"META_H200_X8":       DedicatedAiClusterUnitShapeMetaH200X8,
+	"META_B200_X1":       DedicatedAiClusterUnitShapeMetaB200X1,
+	"META_B200_X2":       DedicatedAiClusterUnitShapeMetaB200X2,
+	"META_B200_X4":       DedicatedAiClusterUnitShapeMetaB200X4,
+	"META_B200_X8":       DedicatedAiClusterUnitShapeMetaB200X8,
 	"LARGE_COHERE_V3":    DedicatedAiClusterUnitShapeLargeCohereV3,
 	"RERANK_COHERE":      DedicatedAiClusterUnitShapeRerankCohere,
 	"SMALL_GENERIC_V1":   DedicatedAiClusterUnitShapeSmallGenericV1,
@@ -427,6 +501,43 @@ var mappingDedicatedAiClusterUnitShapeEnumLowerCase = map[string]DedicatedAiClus
 	"cohere_a100_80g_x1": DedicatedAiClusterUnitShapeCohereA10080gX1,
 	"cohere_a100_40g_x1": DedicatedAiClusterUnitShapeCohereA10040gX1,
 	"cohere_a10_x1":      DedicatedAiClusterUnitShapeCohereA10X1,
+	"cohere_a100_40g_x2": DedicatedAiClusterUnitShapeCohereA10040gX2,
+	"cohere_a100_40g_x4": DedicatedAiClusterUnitShapeCohereA10040gX4,
+	"cohere_a100_40g_x8": DedicatedAiClusterUnitShapeCohereA10040gX8,
+	"cohere_a100_80g_x2": DedicatedAiClusterUnitShapeCohereA10080gX2,
+	"cohere_a100_80g_x4": DedicatedAiClusterUnitShapeCohereA10080gX4,
+	"cohere_a100_80g_x8": DedicatedAiClusterUnitShapeCohereA10080gX8,
+	"cohere_h100_x2":     DedicatedAiClusterUnitShapeCohereH100X2,
+	"cohere_h100_x4":     DedicatedAiClusterUnitShapeCohereH100X4,
+	"cohere_h100_x8":     DedicatedAiClusterUnitShapeCohereH100X8,
+	"cohere_h200_x1":     DedicatedAiClusterUnitShapeCohereH200X1,
+	"cohere_h200_x2":     DedicatedAiClusterUnitShapeCohereH200X2,
+	"cohere_h200_x4":     DedicatedAiClusterUnitShapeCohereH200X4,
+	"cohere_h200_x8":     DedicatedAiClusterUnitShapeCohereH200X8,
+	"cohere_b200_x1":     DedicatedAiClusterUnitShapeCohereB200X1,
+	"cohere_b200_x2":     DedicatedAiClusterUnitShapeCohereB200X2,
+	"cohere_b200_x4":     DedicatedAiClusterUnitShapeCohereB200X4,
+	"cohere_b200_x8":     DedicatedAiClusterUnitShapeCohereB200X8,
+	"meta_a100_40g_x1":   DedicatedAiClusterUnitShapeMetaA10040gX1,
+	"meta_a100_40g_x2":   DedicatedAiClusterUnitShapeMetaA10040gX2,
+	"meta_a100_40g_x4":   DedicatedAiClusterUnitShapeMetaA10040gX4,
+	"meta_a100_40g_x8":   DedicatedAiClusterUnitShapeMetaA10040gX8,
+	"meta_a100_80g_x1":   DedicatedAiClusterUnitShapeMetaA10080gX1,
+	"meta_a100_80g_x2":   DedicatedAiClusterUnitShapeMetaA10080gX2,
+	"meta_a100_80g_x4":   DedicatedAiClusterUnitShapeMetaA10080gX4,
+	"meta_a100_80g_x8":   DedicatedAiClusterUnitShapeMetaA10080gX8,
+	"meta_h100_x1":       DedicatedAiClusterUnitShapeMetaH100X1,
+	"meta_h100_x2":       DedicatedAiClusterUnitShapeMetaH100X2,
+	"meta_h100_x4":       DedicatedAiClusterUnitShapeMetaH100X4,
+	"meta_h100_x8":       DedicatedAiClusterUnitShapeMetaH100X8,
+	"meta_h200_x1":       DedicatedAiClusterUnitShapeMetaH200X1,
+	"meta_h200_x2":       DedicatedAiClusterUnitShapeMetaH200X2,
+	"meta_h200_x4":       DedicatedAiClusterUnitShapeMetaH200X4,
+	"meta_h200_x8":       DedicatedAiClusterUnitShapeMetaH200X8,
+	"meta_b200_x1":       DedicatedAiClusterUnitShapeMetaB200X1,
+	"meta_b200_x2":       DedicatedAiClusterUnitShapeMetaB200X2,
+	"meta_b200_x4":       DedicatedAiClusterUnitShapeMetaB200X4,
+	"meta_b200_x8":       DedicatedAiClusterUnitShapeMetaB200X8,
 	"large_cohere_v3":    DedicatedAiClusterUnitShapeLargeCohereV3,
 	"rerank_cohere":      DedicatedAiClusterUnitShapeRerankCohere,
 	"small_generic_v1":   DedicatedAiClusterUnitShapeSmallGenericV1,
@@ -502,6 +613,43 @@ func GetDedicatedAiClusterUnitShapeEnumStringValues() []string {
 		"COHERE_A100_80G_X1",
 		"COHERE_A100_40G_X1",
 		"COHERE_A10_X1",
+		"COHERE_A100_40G_X2",
+		"COHERE_A100_40G_X4",
+		"COHERE_A100_40G_X8",
+		"COHERE_A100_80G_X2",
+		"COHERE_A100_80G_X4",
+		"COHERE_A100_80G_X8",
+		"COHERE_H100_X2",
+		"COHERE_H100_X4",
+		"COHERE_H100_X8",
+		"COHERE_H200_X1",
+		"COHERE_H200_X2",
+		"COHERE_H200_X4",
+		"COHERE_H200_X8",
+		"COHERE_B200_X1",
+		"COHERE_B200_X2",
+		"COHERE_B200_X4",
+		"COHERE_B200_X8",
+		"META_A100_40G_X1",
+		"META_A100_40G_X2",
+		"META_A100_40G_X4",
+		"META_A100_40G_X8",
+		"META_A100_80G_X1",
+		"META_A100_80G_X2",
+		"META_A100_80G_X4",
+		"META_A100_80G_X8",
+		"META_H100_X1",
+		"META_H100_X2",
+		"META_H100_X4",
+		"META_H100_X8",
+		"META_H200_X1",
+		"META_H200_X2",
+		"META_H200_X4",
+		"META_H200_X8",
+		"META_B200_X1",
+		"META_B200_X2",
+		"META_B200_X4",
+		"META_B200_X8",
 		"LARGE_COHERE_V3",
 		"RERANK_COHERE",
 		"SMALL_GENERIC_V1",
