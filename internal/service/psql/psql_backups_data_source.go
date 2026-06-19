@@ -25,6 +25,10 @@ func PsqlBackupsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"backup_source_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -88,9 +92,14 @@ func (s *PsqlBackupsDataSourceCrud) VoidState() {
 func (s *PsqlBackupsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_psql.ListBackupsRequest{}
 
-	if backupId, ok := s.D.GetOkExists("id"); ok {
+	if backupId, ok := s.D.GetOkExists("backup_id"); ok {
 		tmp := backupId.(string)
 		request.BackupId = &tmp
+	}
+
+	if backupSourceType, ok := s.D.GetOkExists("backup_source_type"); ok {
+		tmp := backupSourceType.(string)
+		request.BackupSourceType = &tmp
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {

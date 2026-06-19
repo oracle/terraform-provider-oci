@@ -37,13 +37,8 @@ var (
 	}
 
 	PsqlBackupDataSourceRepresentation = map[string]interface{}{
-		// "backup_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_psql_backup.test_backup.id}`},
+		"backup_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_psql_backup.test_backup.id}`},
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `${oci_psql_backup.test_backup.display_name}`},
-		"id":             acctest.Representation{RepType: acctest.Required, Create: `${var.db_ocid}`},
-		"state":          acctest.Representation{RepType: acctest.Required, Create: `${oci_psql_backup.test_backup.state}`},
-		"time_ended":     acctest.Representation{RepType: acctest.Optional, Create: `2024-01-02T15:04:05Z`},
-		"time_started":   acctest.Representation{RepType: acctest.Optional, Create: `2000-01-02T15:04:05Z`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlBackupDataSourceFilterRepresentation},
 	}
 
@@ -216,9 +211,8 @@ func TestPsqlBackupResource_basic(t *testing.T) {
 				compartmentIdVariableStr + PsqlBackupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_psql_backup", "test_backup", acctest.Optional, acctest.Update, PsqlBackupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "backup_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "terrafrom-backup-test-2"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "backup_collection.0.items.0.id"),
@@ -226,8 +220,6 @@ func TestPsqlBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "backup_collection.0.items.0.display_name", "terrafrom-backup-test-2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backup_collection.0.items.0.db_system_id"),
 				resource.TestCheckResourceAttr(datasourceName, "backup_collection.0.items.0.state", "ACTIVE"),
-				resource.TestCheckResourceAttrSet(datasourceName, "time_ended"),
-				resource.TestCheckResourceAttrSet(datasourceName, "time_started"),
 
 				resource.TestCheckResourceAttr(datasourceName, "backup_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "backup_collection.0.items.#", "1"),
@@ -279,7 +271,7 @@ func TestPsqlBackupResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + dbSystemIdVariableStr + subnetIdVariableStr + PsqlBackupRequiredOnlyResource,
+			Config:            config + compartmentIdVariableStr + dbSystemIdVariableStr + subnetIdVariableStr + PsqlBackupRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{

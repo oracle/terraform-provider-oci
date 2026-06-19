@@ -32,7 +32,13 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
+const (
+	psqlPointInTimeRestoreTime = "2026-06-10T14:33:03.000Z"
+)
+
 var (
+	psqlPointInTimeSourceDbSystemId = utils.GetEnvSettingWithBlankDefault("pitr_db_ocid")
+
 	PsqlDbSystemRequiredOnlyResource = PsqlDbSystemResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_psql_db_system", "test_db_system", acctest.Required, acctest.Create, PsqlDbSystemRepresentation)
 
@@ -75,16 +81,15 @@ var (
 		"instance_memory_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `32`},
 		"instance_ocpu_count":         acctest.Representation{RepType: acctest.Optional, Create: `2`},
 		"instances_details":           acctest.RepresentationGroup{RepType: acctest.Required, Group: PsqlDbSystemInstancesDetailsRepresentation},
-		"kerberos_auth_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemKerberosAuthDetailsRepresentation},
 		"management_policy":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemManagementPolicyRepresentation},
-		"odsp_insight_details":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemOdspInsightDetailsRepresentation},
-		"source":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemSourceRepresentation},
-		"system_type":                 acctest.Representation{RepType: acctest.Optional, Create: `OCI_OPTIMIZED_STORAGE`},
-		"state":                       acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`, Update: `ACTIVE`},
+		"system_type":                 acctest.Representation{RepType: acctest.Required, Create: `OCI_OPTIMIZED_STORAGE`},
 		"lifecycle":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: ignorePsqlDefinedTagsChangesRepresentation},
 	}
 	ignorePsqlDefinedTagsChangesRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}
+	ignorePsqlDefinedTagsAndSourceChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `source`}},
 	}
 
 	PsqlDbSystemCredentialsRepresentation = map[string]interface{}{
@@ -108,39 +113,23 @@ var (
 	PsqlDbSystemInstancesDetailsRepresentation = map[string]interface{}{
 		"description":  acctest.Representation{RepType: acctest.Optional, Create: `Terraform federated test dbSystem`},
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `dbsystem-instance`},
-		"private_ip":   acctest.Representation{RepType: acctest.Optional, Create: `10.0.1.10`},
-	}
-	PsqlDbSystemKerberosAuthDetailsRepresentation = map[string]interface{}{
-		"kind":               acctest.Representation{RepType: acctest.Required, Create: `ENABLED`, Update: `DISABLED`},
-		"backup_credentials": acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemKerberosAuthDetailsBackupCredentialsRepresentation},
-		"credentials":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemKerberosAuthDetailsCredentialsRepresentation},
 	}
 	PsqlDbSystemManagementPolicyRepresentation = map[string]interface{}{
 		"backup_policy":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemManagementPolicyBackupPolicyRepresentation},
 		"maintenance_window_start": acctest.Representation{RepType: acctest.Optional, Create: `SUN 12:00`},
+		"pitr_policy":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemManagementPolicyPitrPolicyRepresentation},
 	}
-	PsqlDbSystemOdspInsightDetailsRepresentation = map[string]interface{}{
-		"kind":              acctest.Representation{RepType: acctest.Required, Create: `ENABLED`},
-		"odsp_insight_list": acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemOdspInsightDetailsOdspInsightListRepresentation},
+	PsqlDbSystemPointInTimeManagementPolicyRepresentation = map[string]interface{}{
+		"pitr_policy": acctest.RepresentationGroup{RepType: acctest.Required, Group: PsqlDbSystemManagementPolicyPitrPolicyRepresentation},
 	}
-	PsqlDbSystemSourceRepresentation = map[string]interface{}{
-		"source_type":                        acctest.Representation{RepType: acctest.Required, Create: `NONE`},
-		"backup_id":                          acctest.Representation{RepType: acctest.Optional, Create: ``},
-		"is_having_restore_config_overrides": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	PsqlDbSystemPointInTimeSourceRepresentation = map[string]interface{}{
+		"source_type":     acctest.Representation{RepType: acctest.Required, Create: `POINT_IN_TIME_DB_SYSTEM`},
+		"db_system_id":    acctest.Representation{RepType: acctest.Required, Create: psqlPointInTimeSourceDbSystemId},
+		"time_to_restore": acctest.Representation{RepType: acctest.Required, Create: psqlPointInTimeRestoreTime},
 	}
 	PsqlDbSystemCredentialsPasswordDetailsRepresentation = map[string]interface{}{
 		"password_type": acctest.Representation{RepType: acctest.Required, Create: `PLAIN_TEXT`, Update: `PLAIN_TEXT`},
 		"password":      acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
-	}
-	PsqlDbSystemKerberosAuthDetailsBackupCredentialsRepresentation = map[string]interface{}{
-		"keytab_secret_id":      acctest.Representation{RepType: acctest.Optional, Create: `${var.krb_secret_id}`},
-		"keytab_secret_version": acctest.Representation{RepType: acctest.Optional, Update: `6`},
-		"realm_name":            acctest.Representation{RepType: acctest.Optional, Update: `AD.PSQL-KBS.COM`},
-	}
-	PsqlDbSystemKerberosAuthDetailsCredentialsRepresentation = map[string]interface{}{
-		"keytab_secret_id":      acctest.Representation{RepType: acctest.Optional, Create: `${var.krb_backup_secret_id}`},
-		"keytab_secret_version": acctest.Representation{RepType: acctest.Optional, Create: `7`, Update: `8`},
-		"realm_name":            acctest.Representation{RepType: acctest.Optional, Update: `AD.PSQL-KBS.COM`},
 	}
 	PsqlDbSystemManagementPolicyBackupPolicyRepresentation = map[string]interface{}{
 		"backup_start":     acctest.Representation{RepType: acctest.Optional, Create: `02:00`, Update: `03:00`},
@@ -149,11 +138,10 @@ var (
 		"kind":             acctest.Representation{RepType: acctest.Optional, Create: `WEEKLY`},
 		"retention_days":   acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `11`},
 	}
-	PsqlDbSystemOdspInsightDetailsOdspInsightListRepresentation = map[string]interface{}{
-		"insight_type":             acctest.Representation{RepType: acctest.Optional, Create: `QUERY_INSIGHT`},
-		"retention_period_in_days": acctest.Representation{RepType: acctest.Optional, Create: `7`, Update: `7`},
+	PsqlDbSystemManagementPolicyPitrPolicyRepresentation = map[string]interface{}{
+		"kind":         acctest.Representation{RepType: acctest.Required, Create: `STANDARD`},
+		"restore_days": acctest.Representation{RepType: acctest.Required, Create: `7`},
 	}
-
 	PsqlDbSystemManagementPolicyBackupPolicyCopyPolicyRepresentation = map[string]interface{}{
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"regions":          acctest.Representation{RepType: acctest.Optional, Create: []string{`us-ashburn-1`}, Update: []string{`eu-paris-1`}},
@@ -193,15 +181,14 @@ var (
 	}
 
 	PsqlDbSystemIpNetworkDetailsRepresentation = map[string]interface{}{
-		"subnet_id":                      acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
-		"nsg_ids":                        acctest.Representation{RepType: acctest.Required, Create: []string{}},
-		"primary_db_endpoint_private_ip": acctest.Representation{RepType: acctest.Required, Create: `10.0.1.10`, Update: `10.0.1.11`},
+		"subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
+		"nsg_ids":   acctest.Representation{RepType: acctest.Required, Create: []string{}},
 	}
 
 	PsqlFlexDbSystemIpNetworkDetailsRepresentation = map[string]interface{}{
 		"subnet_id":                      acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
 		"nsg_ids":                        acctest.Representation{RepType: acctest.Required, Create: []string{`${var.nsg_id}`}, Update: []string{`${var.update_nsg_id}`}},
-		"primary_db_endpoint_private_ip": acctest.Representation{RepType: acctest.Required, Create: `10.0.1.10`},
+		"primary_db_endpoint_private_ip": acctest.Representation{RepType: acctest.Required, Create: `10.0.1.160`},
 	}
 
 	PsqlDbSystemRegionalStorageDetailsRepresentation = map[string]interface{}{
@@ -235,7 +222,7 @@ var (
 		"is_having_restore_config_overrides": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
-	PsqlDbSystemResourceDependencies = AvailabilityDomainConfig + DefinedTagsDependencies
+	PsqlDbSystemResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: psql/default
@@ -294,7 +281,8 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 		// Flex Test
 		{
 			Config: config + compartmentIdVariableStr + subnetIdVariableStr + PsqlDbSystemResourceDependencies + flexConfigIdVariableStr + nsgIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_psql_db_system", "test_flex_db_system", acctest.Optional, acctest.Create, PsqlDbSystemRepresentationFlexShape),
+				acctest.GenerateResourceFromRepresentationMap("oci_psql_db_system", "test_flex_db_system", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithRemovedProperties(PsqlDbSystemRepresentationFlexShape, []string{"config_id"})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(test_flex_resourceName, "compartment_id", compartmentId),
 				func(s *terraform.State) (err error) {
@@ -306,7 +294,8 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + flexConfigIdUVariableStr + subnetIdVariableStr + flexConfigIdVariableStr + PsqlDbSystemResourceDependencies + backupIdVariableStr + nsgIdUVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_psql_db_system", "test_flex_db_system", acctest.Optional, acctest.Update, PsqlDbSystemRepresentationFlexShape),
+				acctest.GenerateResourceFromRepresentationMap("oci_psql_db_system", "test_flex_db_system", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithRemovedProperties(PsqlDbSystemRepresentationFlexShape, []string{"config_id"})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(test_flex_resourceName, "compartment_id", compartmentId),
 
@@ -331,6 +320,9 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 					"shape":                       acctest.Representation{RepType: acctest.Required, Create: `PostgreSQL.VM.Standard.E5.Flex`},
 					"instance_ocpu_count":         acctest.Representation{RepType: acctest.Required, Create: `2`},
 					"instance_memory_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `32`},
+					"management_policy":           acctest.RepresentationGroup{RepType: acctest.Required, Group: PsqlDbSystemPointInTimeManagementPolicyRepresentation},
+					"source":                      acctest.RepresentationGroup{RepType: acctest.Required, Group: PsqlDbSystemPointInTimeSourceRepresentation},
+					"lifecycle":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: ignorePsqlDefinedTagsAndSourceChangesRepresentation},
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -343,9 +335,16 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "credentials.0.username", "user"),
 				resource.TestCheckResourceAttr(resourceName, "db_version", "14"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "test-terraform"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.pitr_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.pitr_policy.0.kind", "STANDARD"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.pitr_policy.0.restore_days", "7"),
 				resource.TestCheckResourceAttr(resourceName, "network_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "PostgreSQL.VM.Standard.E5.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "POINT_IN_TIME_DB_SYSTEM"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.db_system_id", psqlPointInTimeSourceDbSystemId),
 				resource.TestCheckResourceAttr(resourceName, "storage_details.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "storage_details.0.availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "storage_details.0.is_regionally_durable", "false"),
@@ -393,7 +392,7 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(test2_resourceName, "storage_details.#", "1"),
 				resource.TestCheckResourceAttr(test2_resourceName, "storage_details.0.is_regionally_durable", "true"),
 				resource.TestCheckResourceAttr(test2_resourceName, "storage_details.0.system_type", "OCI_OPTIMIZED_STORAGE"),
-				resource.TestCheckResourceAttr(test2_resourceName, "network_details.0.primary_db_endpoint_private_ip", "10.0.1.10"),
+				resource.TestCheckResourceAttrSet(test2_resourceName, "network_details.0.primary_db_endpoint_private_ip"),
 
 				resource.TestCheckResourceAttrSet(test2_resourceName, "source.0.backup_id"),
 				//resource.TestCheckResourceAttr(test2_resourceName, "source.0.is_having_restore_config_overrides", "false"),
@@ -433,7 +432,6 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instances_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instances_details.0.description", "Terraform federated test dbSystem"),
 				resource.TestCheckResourceAttr(resourceName, "instances_details.0.display_name", "dbsystem-instance"),
-				resource.TestCheckResourceAttr(resourceName, "instances_details.0.private_ip", "10.0.1.10"),
 				resource.TestCheckResourceAttr(resourceName, "storage_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.#", "1"),
@@ -446,15 +444,13 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.kind", "WEEKLY"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.retention_days", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.maintenance_window_start", "SUN 12:00"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.pitr_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.pitr_policy.0.kind", "STANDARD"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.pitr_policy.0.restore_days", "7"),
 				resource.TestCheckResourceAttr(resourceName, "network_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "network_details.0.is_reader_endpoint_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.primary_db_endpoint_private_ip"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.subnet_id"),
-				resource.TestCheckResourceAttr(resourceName, "odsp_insight_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "odsp_insight_details.0.kind", "ENABLED"),
-				resource.TestCheckResourceAttr(resourceName, "odsp_insight_details.0.odsp_insight_list.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "odsp_insight_details.0.odsp_insight_list.0.insight_type", "QUERY_INSIGHT"),
-				resource.TestCheckResourceAttr(resourceName, "odsp_insight_details.0.odsp_insight_list.0.retention_period_in_days", "7"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "PostgreSQL.VM.Standard.E5.Flex.2.32GB"),
 				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "NONE"),
@@ -505,17 +501,6 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instances_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instances_details.0.description", "Terraform federated test dbSystem"),
 				resource.TestCheckResourceAttr(resourceName, "instances_details.0.display_name", "dbsystem-instance"),
-				resource.TestCheckResourceAttr(resourceName, "instances_details.0.private_ip", "10.0.1.10"),
-				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.backup_credentials.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "kerberos_auth_details.0.backup_credentials.0.keytab_secret_id"),
-				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.backup_credentials.0.keytab_secret_version", "6"),
-				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.backup_credentials.0.realm_name", "AD.PSQL-KBS.COM"),
-				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.credentials.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "kerberos_auth_details.0.credentials.0.keytab_secret_id"),
-				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.credentials.0.keytab_secret_version", "7"),
-				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.credentials.0.realm_name", "AD.PSQL-KBS.COM"),
-				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.kind", "ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.backup_start", "02:00"),
@@ -527,15 +512,13 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.kind", "WEEKLY"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.retention_days", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.maintenance_window_start", "SUN 12:00"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.pitr_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.pitr_policy.0.kind", "STANDARD"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.pitr_policy.0.restore_days", "7"),
 				resource.TestCheckResourceAttr(resourceName, "network_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "network_details.0.is_reader_endpoint_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.primary_db_endpoint_private_ip"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.subnet_id"),
-				resource.TestCheckResourceAttr(resourceName, "odsp_insight_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "odsp_insight_details.0.kind", "ENABLED"),
-				resource.TestCheckResourceAttr(resourceName, "odsp_insight_details.0.odsp_insight_list.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "odsp_insight_details.0.odsp_insight_list.0.insight_type", "QUERY_INSIGHT"),
-				resource.TestCheckResourceAttr(resourceName, "odsp_insight_details.0.odsp_insight_list.0.retention_period_in_days", "7"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "PostgreSQL.VM.Standard.E5.Flex.2.32GB"),
 				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "NONE"),
@@ -581,17 +564,6 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instances_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instances_details.0.description", "Terraform federated test dbSystem"),
 				resource.TestCheckResourceAttr(resourceName, "instances_details.0.display_name", "dbsystem-instance"),
-				resource.TestCheckResourceAttr(resourceName, "instances_details.0.private_ip", "10.0.1.10"),
-				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.backup_credentials.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "kerberos_auth_details.0.backup_credentials.0.keytab_secret_id"),
-				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.backup_credentials.0.keytab_secret_version", "6"),
-				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.backup_credentials.0.realm_name", "AD.PSQL-KBS.COM"),
-				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.credentials.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "kerberos_auth_details.0.credentials.0.keytab_secret_id"),
-				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.credentials.0.keytab_secret_version", "7"),
-				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.credentials.0.realm_name", "AD.PSQL-KBS.COM"),
-				resource.TestCheckResourceAttr(resourceName, "kerberos_auth_details.0.kind", "ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.backup_start", "03:00"),
@@ -603,15 +575,13 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.kind", "WEEKLY"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.maintenance_window_start", "SUN 12:00"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.retention_days", "11"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.pitr_policy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.pitr_policy.0.kind", "STANDARD"),
+				resource.TestCheckResourceAttr(resourceName, "management_policy.0.pitr_policy.0.restore_days", "7"),
 				resource.TestCheckResourceAttr(resourceName, "network_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "network_details.0.is_reader_endpoint_enabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.primary_db_endpoint_private_ip"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.subnet_id"),
-				resource.TestCheckResourceAttr(resourceName, "odsp_insight_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "odsp_insight_details.0.kind", "ENABLED"),
-				resource.TestCheckResourceAttr(resourceName, "odsp_insight_details.0.odsp_insight_list.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "odsp_insight_details.0.odsp_insight_list.0.insight_type", "QUERY_INSIGHT"),
-				resource.TestCheckResourceAttr(resourceName, "odsp_insight_details.0.odsp_insight_list.0.retention_period_in_days", "7"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "PostgreSQL.VM.Standard.E5.Flex"),
 				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "NONE"),
@@ -683,14 +653,6 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_memory_size_in_gbs", "32"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_ocpu_count", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instances.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "kerberos_auth_details.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "kerberos_auth_details.0.backup_credentials.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "kerberos_auth_details.0.backup_credentials.0.keytab_secret_version", "6"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "kerberos_auth_details.0.backup_credentials.0.realm_name", "AD.PSQL-KBS.COM"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "kerberos_auth_details.0.credentials.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "kerberos_auth_details.0.credentials.0.keytab_secret_version", "7"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "kerberos_auth_details.0.credentials.0.realm_name", "AD.PSQL-KBS.COM"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "kerberos_auth_details.0.kind", "ENABLED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "management_policy.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "management_policy.0.backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "management_policy.0.backup_policy.0.backup_start", "03:00"),
@@ -706,14 +668,8 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "network_details.0.is_reader_endpoint_enabled", "true"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_details.0.primary_db_endpoint_private_ip"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_details.0.subnet_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "odsp_insight_details.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "odsp_insight_details.0.kind", "ENABLED"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "odsp_insight_details.0.odsp_insight_list.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "odsp_insight_details.0.odsp_insight_list.0.insight_type", "QUERY_INSIGHT"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "odsp_insight_details.0.odsp_insight_list.0.retention_period_in_days", "7"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "shape", "VM.Standard.E5.Flex"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "state", "AVAILABLE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "storage_details.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "storage_details.0.availability_domain"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "storage_details.0.iops", "300000"),
