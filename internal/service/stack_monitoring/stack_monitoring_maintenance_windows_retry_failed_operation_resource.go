@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,10 +25,10 @@ func StackMonitoringMaintenanceWindowsRetryFailedOperationResource() *schema.Res
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createStackMonitoringMaintenanceWindowsRetryFailedOperation,
-		Read:     readStackMonitoringMaintenanceWindowsRetryFailedOperation,
-		Delete:   deleteStackMonitoringMaintenanceWindowsRetryFailedOperation,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createStackMonitoringMaintenanceWindowsRetryFailedOperationWithContext,
+		ReadContext:   readStackMonitoringMaintenanceWindowsRetryFailedOperationWithContext,
+		DeleteContext: deleteStackMonitoringMaintenanceWindowsRetryFailedOperationWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"maintenance_window_id": {
@@ -43,19 +44,19 @@ func StackMonitoringMaintenanceWindowsRetryFailedOperationResource() *schema.Res
 	}
 }
 
-func createStackMonitoringMaintenanceWindowsRetryFailedOperation(d *schema.ResourceData, m interface{}) error {
+func createStackMonitoringMaintenanceWindowsRetryFailedOperationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StackMonitoringMaintenanceWindowsRetryFailedOperationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StackMonitoringClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readStackMonitoringMaintenanceWindowsRetryFailedOperation(d *schema.ResourceData, m interface{}) error {
+func readStackMonitoringMaintenanceWindowsRetryFailedOperationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteStackMonitoringMaintenanceWindowsRetryFailedOperation(d *schema.ResourceData, m interface{}) error {
+func deleteStackMonitoringMaintenanceWindowsRetryFailedOperationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -70,7 +71,7 @@ func (s *StackMonitoringMaintenanceWindowsRetryFailedOperationResourceCrud) ID()
 	return tfresource.GenerateDataSourceHashID("StackMonitoringMaintenanceWindowsRetryFailedOperationResource-", StackMonitoringMaintenanceWindowsRetryFailedOperationResource(), s.D)
 }
 
-func (s *StackMonitoringMaintenanceWindowsRetryFailedOperationResourceCrud) Create() error {
+func (s *StackMonitoringMaintenanceWindowsRetryFailedOperationResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_stack_monitoring.RetryFailedMaintenanceWindowOperationRequest{}
 
 	if maintenanceWindowId, ok := s.D.GetOkExists("maintenance_window_id"); ok {
@@ -80,7 +81,7 @@ func (s *StackMonitoringMaintenanceWindowsRetryFailedOperationResourceCrud) Crea
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
-	response, err := s.Client.RetryFailedMaintenanceWindowOperation(context.Background(), request)
+	response, err := s.Client.RetryFailedMaintenanceWindowOperation(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -94,14 +95,14 @@ func (s *StackMonitoringMaintenanceWindowsRetryFailedOperationResourceCrud) Crea
 		oci_stack_monitoring.ActionTypeFailed,
 	}
 
-	return s.getMaintenanceWindowsRetryFailedOperationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), expectedActionTypes, s.D.Timeout(schema.TimeoutCreate))
+	return s.getMaintenanceWindowsRetryFailedOperationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), expectedActionTypes, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *StackMonitoringMaintenanceWindowsRetryFailedOperationResourceCrud) getMaintenanceWindowsRetryFailedOperationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *StackMonitoringMaintenanceWindowsRetryFailedOperationResourceCrud) getMaintenanceWindowsRetryFailedOperationFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum []oci_stack_monitoring.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	maintenanceWindowsRetryFailedOperationId, err := maintenanceWindowsRetryFailedOperationWaitForWorkRequest(workId, "maintenancewindow",
+	maintenanceWindowsRetryFailedOperationId, err := maintenanceWindowsRetryFailedOperationWaitForWorkRequest(ctx, workId, "maintenancewindow",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -135,7 +136,7 @@ func maintenanceWindowsRetryFailedOperationWorkRequestShouldRetryFunc(timeout ti
 	}
 }
 
-func maintenanceWindowsRetryFailedOperationWaitForWorkRequest(wId *string, entityType string, actions []oci_stack_monitoring.ActionTypeEnum,
+func maintenanceWindowsRetryFailedOperationWaitForWorkRequest(ctx context.Context, wId *string, entityType string, actions []oci_stack_monitoring.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_stack_monitoring.StackMonitoringClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "stack_monitoring")
 	retryPolicy.ShouldRetryOperation = maintenanceWindowsRetryFailedOperationWorkRequestShouldRetryFunc(timeout)
@@ -154,7 +155,7 @@ func maintenanceWindowsRetryFailedOperationWaitForWorkRequest(wId *string, entit
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_stack_monitoring.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -166,7 +167,7 @@ func maintenanceWindowsRetryFailedOperationWaitForWorkRequest(wId *string, entit
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -185,14 +186,14 @@ func maintenanceWindowsRetryFailedOperationWaitForWorkRequest(wId *string, entit
 
 	// The workrequest may have failed, check for errors if identifier is not found or got cancelled
 	if identifier == nil || response.Status == oci_stack_monitoring.OperationStatusCanceled {
-		return nil, getErrorFromStackMonitoringMaintenanceWindowsRetryFailedOperationWorkRequest(client, wId, retryPolicy, entityType, actions)
+		return nil, getErrorFromStackMonitoringMaintenanceWindowsRetryFailedOperationWorkRequest(ctx, client, wId, retryPolicy, entityType, actions)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromStackMonitoringMaintenanceWindowsRetryFailedOperationWorkRequest(client *oci_stack_monitoring.StackMonitoringClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, actions []oci_stack_monitoring.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromStackMonitoringMaintenanceWindowsRetryFailedOperationWorkRequest(ctx context.Context, client *oci_stack_monitoring.StackMonitoringClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, actions []oci_stack_monitoring.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_stack_monitoring.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

@@ -6,6 +6,7 @@ package containerengine
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_containerengine "github.com/oracle/oci-go-sdk/v65/containerengine"
 
@@ -15,7 +16,7 @@ import (
 
 func ContainerengineVirtualNodePoolsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readContainerengineVirtualNodePools,
+		ReadContext: readContainerengineVirtualNodePoolsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"cluster_id": {
@@ -46,12 +47,12 @@ func ContainerengineVirtualNodePoolsDataSource() *schema.Resource {
 	}
 }
 
-func readContainerengineVirtualNodePools(d *schema.ResourceData, m interface{}) error {
+func readContainerengineVirtualNodePoolsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineVirtualNodePoolsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ContainerengineVirtualNodePoolsDataSourceCrud struct {
@@ -64,7 +65,7 @@ func (s *ContainerengineVirtualNodePoolsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ContainerengineVirtualNodePoolsDataSourceCrud) Get() error {
+func (s *ContainerengineVirtualNodePoolsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_containerengine.ListVirtualNodePoolsRequest{}
 
 	if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
@@ -92,7 +93,7 @@ func (s *ContainerengineVirtualNodePoolsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "containerengine")
 
-	response, err := s.Client.ListVirtualNodePools(context.Background(), request)
+	response, err := s.Client.ListVirtualNodePools(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -101,7 +102,7 @@ func (s *ContainerengineVirtualNodePoolsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListVirtualNodePools(context.Background(), request)
+		listResponse, err := s.Client.ListVirtualNodePools(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -130,7 +130,7 @@ func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud)
 		workId := response.OpcWorkRequestId
 
 		// Wait for work request to finish
-		_, waitErr := clusterWaitForWorkRequest(workId, "cluster",
+		_, waitErr := clusterWaitForWorkRequest(context.Background(), workId, "cluster",
 			oci_containerengine.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 		if waitErr != nil {
 			return waitErr
@@ -147,7 +147,7 @@ func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud)
 
 		workId := response.OpcWorkRequestId
 		// Wait for work request to finish
-		_, waitErr := clusterWaitForWorkRequest(workId, "cluster",
+		_, waitErr := clusterWaitForWorkRequest(context.Background(), workId, "cluster",
 			oci_containerengine.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 		if waitErr != nil {
 			return waitErr
@@ -200,7 +200,7 @@ func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud)
 			workId := response.OpcWorkRequestId
 
 			// Wait for work request to finish
-			_, waitErr := clusterWaitForWorkRequest(workId, "cluster",
+			_, waitErr := clusterWaitForWorkRequest(context.Background(), workId, "cluster",
 				oci_containerengine.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 			if waitErr != nil {
 				return waitErr
@@ -217,7 +217,7 @@ func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud)
 
 			workId := response.OpcWorkRequestId
 			// Wait for work request to finish
-			_, waitErr := clusterWaitForWorkRequest(workId, "cluster",
+			_, waitErr := clusterWaitForWorkRequest(context.Background(), workId, "cluster",
 				oci_containerengine.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 			if waitErr != nil {
 				return waitErr

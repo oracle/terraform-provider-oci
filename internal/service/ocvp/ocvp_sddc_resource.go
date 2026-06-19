@@ -13,6 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -33,10 +34,10 @@ func OcvpSddcResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("2h"),
 			Delete: tfresource.GetTimeoutDuration("2h"),
 		},
-		Create: createOcvpSddc,
-		Read:   readOcvpSddc,
-		Update: updateOcvpSddc,
-		Delete: deleteOcvpSddc,
+		CreateContext: createOcvpSddcWithContext,
+		ReadContext:   readOcvpSddcWithContext,
+		UpdateContext: updateOcvpSddcWithContext,
+		DeleteContext: deleteOcvpSddcWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -749,41 +750,41 @@ const (
 	CancelDowngradeHcxAction string = "CANCEL_DOWNGRADE"
 )
 
-func createOcvpSddc(d *schema.ResourceData, m interface{}) error {
+func createOcvpSddcWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpSddcResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).SddcClient()
 	sync.ClusterClient = m.(*client.OracleClients).ClusterClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOcvpSddc(d *schema.ResourceData, m interface{}) error {
+func readOcvpSddcWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpSddcResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).SddcClient()
 	sync.ClusterClient = m.(*client.OracleClients).ClusterClient()
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateOcvpSddc(d *schema.ResourceData, m interface{}) error {
+func updateOcvpSddcWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpSddcResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).SddcClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
 	sync.ClusterClient = m.(*client.OracleClients).ClusterClient()
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteOcvpSddc(d *schema.ResourceData, m interface{}) error {
+func deleteOcvpSddcWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpSddcResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).SddcClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
 	sync.ClusterClient = m.(*client.OracleClients).ClusterClient()
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OcvpSddcResourceCrud struct {
@@ -855,7 +856,7 @@ func (s *OcvpSddcResourceCrud) getOkExistsClusterByolConfigurationProperty(prope
 	return nil, false
 }
 
-func (s *OcvpSddcResourceCrud) Create() error {
+func (s *OcvpSddcResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_ocvp.CreateSddcRequest{}
 	networkConfiguration := oci_ocvp.NetworkConfiguration{}
 	clusterByolAllocationConfiguration := oci_ocvp.ClusterByolAllocationDetails{}
@@ -1275,14 +1276,14 @@ func (s *OcvpSddcResourceCrud) Create() error {
 	request.InitialConfiguration = &oci_ocvp.InitialConfiguration{InitialClusterConfigurations: initialClusterConfigurations}
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	response, err := s.Client.CreateSddc(context.Background(), request)
+	response, err := s.Client.CreateSddc(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_ocvp.GetWorkRequestResponse{}
-	workRequestResponse, err = s.WorkRequestClient.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.WorkRequestClient.GetWorkRequest(ctx,
 		oci_ocvp.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1298,7 +1299,7 @@ func (s *OcvpSddcResourceCrud) Create() error {
 			}
 		}
 	}
-	creationError := s.getSddcFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	creationError := s.getSddcFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 
 	if creationError != nil {
 		return creationError
@@ -1308,17 +1309,17 @@ func (s *OcvpSddcResourceCrud) Create() error {
 
 	if refresh, ok := s.D.GetOk("refresh_hcx_license_status"); ok {
 		tmp := s.D.Id()
-		return s.refreshHcxLicenseStatus(&tmp, refresh)
+		return s.refreshHcxLicenseStatus(ctx, &tmp, refresh)
 	}
 
 	return nil
 }
 
-func (s *OcvpSddcResourceCrud) getSddcFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OcvpSddcResourceCrud) getSddcFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_ocvp.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	sddcId, err := sddcWaitForWorkRequest(workId, "sddc",
+	sddcId, err := sddcWaitForWorkRequest(ctx, workId, "sddc",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -1326,7 +1327,7 @@ func (s *OcvpSddcResourceCrud) getSddcFromWorkRequest(workId *string, retryPolic
 	}
 	s.D.SetId(*sddcId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func sddcWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -1352,7 +1353,7 @@ func sddcWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_com
 	}
 }
 
-func sddcWaitForWorkRequest(wId *string, entityType string, action oci_ocvp.ActionTypesEnum,
+func sddcWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_ocvp.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_ocvp.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "ocvp")
 	retryPolicy.ShouldRetryOperation = sddcWorkRequestShouldRetryFunc(timeout)
@@ -1371,7 +1372,7 @@ func sddcWaitForWorkRequest(wId *string, entityType string, action oci_ocvp.Acti
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_ocvp.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -1383,7 +1384,7 @@ func sddcWaitForWorkRequest(wId *string, entityType string, action oci_ocvp.Acti
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -1400,14 +1401,14 @@ func sddcWaitForWorkRequest(wId *string, entityType string, action oci_ocvp.Acti
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_ocvp.OperationStatusFailed || response.Status == oci_ocvp.OperationStatusCanceled {
-		return nil, getErrorFromOcvpSddcWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOcvpSddcWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOcvpSddcWorkRequest(client *oci_ocvp.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ocvp.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOcvpSddcWorkRequest(ctx context.Context, client *oci_ocvp.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ocvp.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_ocvp.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1429,7 +1430,7 @@ func getErrorFromOcvpSddcWorkRequest(client *oci_ocvp.WorkRequestClient, workId 
 	return workRequestErr
 }
 
-func (s *OcvpSddcResourceCrud) Get() error {
+func (s *OcvpSddcResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ocvp.GetSddcRequest{}
 
 	tmp := s.D.Id()
@@ -1437,7 +1438,7 @@ func (s *OcvpSddcResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	response, err := s.Client.GetSddc(context.Background(), request)
+	response, err := s.Client.GetSddc(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1446,11 +1447,11 @@ func (s *OcvpSddcResourceCrud) Get() error {
 	return nil
 }
 
-func (s *OcvpSddcResourceCrud) Update() error {
+func (s *OcvpSddcResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -1508,7 +1509,7 @@ func (s *OcvpSddcResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	response, err := s.Client.UpdateSddc(context.Background(), request)
+	response, err := s.Client.UpdateSddc(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1537,12 +1538,12 @@ func (s *OcvpSddcResourceCrud) Update() error {
 		if action == UpgradeHcxAction {
 			hcxRequest := oci_ocvp.UpgradeHcxRequest{}
 			hcxRequest.SddcId = &sddcId
-			hcxRes, hcxErr := s.Client.UpgradeHcx(context.Background(), hcxRequest)
+			hcxRes, hcxErr := s.Client.UpgradeHcx(ctx, hcxRequest)
 			if hcxErr != nil {
 				return hcxErr
 			}
 			workId := hcxRes.OpcWorkRequestId
-			updateHcxError = s.getSddcFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+			updateHcxError = s.getSddcFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 			if updateHcxError == nil {
 				s.D.Set("hcx_action", hcxAction)
 			}
@@ -1556,24 +1557,24 @@ func (s *OcvpSddcResourceCrud) Update() error {
 				}
 				hcxRequest.ReservingHcxOnPremiseLicenseKeys = keys
 			}
-			hcxRes, hcxErr := s.Client.DowngradeHcx(context.Background(), hcxRequest)
+			hcxRes, hcxErr := s.Client.DowngradeHcx(ctx, hcxRequest)
 			if hcxErr != nil {
 				return hcxErr
 			}
 			workId := hcxRes.OpcWorkRequestId
-			updateHcxError = s.getSddcFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+			updateHcxError = s.getSddcFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 			if updateHcxError == nil {
 				s.D.Set("hcx_action", hcxAction)
 			}
 		} else if action == CancelDowngradeHcxAction {
 			hcxRequest := oci_ocvp.CancelDowngradeHcxRequest{}
 			hcxRequest.SddcId = &sddcId
-			hcxRes, hcxErr := s.Client.CancelDowngradeHcx(context.Background(), hcxRequest)
+			hcxRes, hcxErr := s.Client.CancelDowngradeHcx(ctx, hcxRequest)
 			if hcxErr != nil {
 				return hcxErr
 			}
 			workId := hcxRes.OpcWorkRequestId
-			updateHcxError = s.getSddcFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+			updateHcxError = s.getSddcFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 			if updateHcxError == nil {
 				s.D.Set("hcx_action", hcxAction)
 			}
@@ -1587,7 +1588,7 @@ func (s *OcvpSddcResourceCrud) Update() error {
 	}
 
 	if refresh, ok := s.D.GetOk("refresh_hcx_license_status"); ok && s.D.HasChange("refresh_hcx_license_status") {
-		return s.refreshHcxLicenseStatus(&sddcId, refresh)
+		return s.refreshHcxLicenseStatus(ctx, &sddcId, refresh)
 	}
 
 	updateClusterRequest := oci_ocvp.UpdateClusterRequest{}
@@ -1652,14 +1653,14 @@ func (s *OcvpSddcResourceCrud) Update() error {
 		networkConfiguration.HcxVlanId = &tmp
 	}
 
-	clusterSummary, err := GetManagementClusterSummary(&sddcId, s.Res.CompartmentId, s.ClusterClient)
+	clusterSummary, err := GetManagementClusterSummary(ctx, &sddcId, s.Res.CompartmentId, s.ClusterClient)
 	if err != nil {
 		return err
 	}
 	updateClusterRequest.ClusterId = clusterSummary.Id
 	updateClusterRequest.NetworkConfiguration = &networkConfiguration
 	updateClusterRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
-	_, err = s.ClusterClient.UpdateCluster(context.Background(), updateClusterRequest)
+	_, err = s.ClusterClient.UpdateCluster(ctx, updateClusterRequest)
 	if err != nil {
 		return err
 	}
@@ -1668,7 +1669,7 @@ func (s *OcvpSddcResourceCrud) Update() error {
 	sddcId = s.D.Id()
 	getSddcRequest.SddcId = &sddcId
 	getSddcRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
-	getSddcResponse, err := s.Client.GetSddc(context.Background(), getSddcRequest)
+	getSddcResponse, err := s.Client.GetSddc(ctx, getSddcRequest)
 	if err != nil {
 		return err
 	}
@@ -1677,22 +1678,22 @@ func (s *OcvpSddcResourceCrud) Update() error {
 	return nil
 }
 
-func (s *OcvpSddcResourceCrud) refreshHcxLicenseStatus(sddcId *string, refresh interface{}) error {
+func (s *OcvpSddcResourceCrud) refreshHcxLicenseStatus(ctx context.Context, sddcId *string, refresh interface{}) error {
 	hcxRequest := oci_ocvp.RefreshHcxLicenseStatusRequest{}
 	hcxRequest.SddcId = sddcId
-	hcxRes, hcxErr := s.Client.RefreshHcxLicenseStatus(context.Background(), hcxRequest)
+	hcxRes, hcxErr := s.Client.RefreshHcxLicenseStatus(ctx, hcxRequest)
 	if hcxErr != nil {
 		return hcxErr
 	}
 	workId := hcxRes.OpcWorkRequestId
-	err := s.getSddcFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err := s.getSddcFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err == nil {
 		s.D.Set("refresh_hcx_license_status", refresh)
 	}
 	return err
 }
 
-func (s *OcvpSddcResourceCrud) Delete() error {
+func (s *OcvpSddcResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_ocvp.DeleteSddcRequest{}
 
 	tmp := s.D.Id()
@@ -1700,14 +1701,14 @@ func (s *OcvpSddcResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	response, err := s.Client.DeleteSddc(context.Background(), request)
+	response, err := s.Client.DeleteSddc(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := sddcWaitForWorkRequest(workId, "sddc",
+	_, delWorkRequestErr := sddcWaitForWorkRequest(ctx, workId, "sddc",
 		oci_ocvp.ActionTypesDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
@@ -1721,7 +1722,7 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 	if subnetId, ok := s.D.GetOkExists("provisioning_subnet_id"); ok && subnetId != "" {
 		log.Printf("[DEBUG] provisioning_subnet_id %s is configured. Using old API fields.", subnetId)
 		s.D.Set("initial_configuration", nil)
-		actualEsxiHostCount, err := CalculateActualEsxiHostCount(s.Res.Id, s.Res.CompartmentId, s.ClusterClient)
+		actualEsxiHostCount, err := CalculateActualEsxiHostCount(context.Background(), s.Res.Id, s.Res.CompartmentId, s.ClusterClient)
 		if err != nil {
 			return nil
 		}
@@ -1747,7 +1748,7 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 		}
 
 		if s.Res.HcxMode != oci_ocvp.HcxModesDisabled {
-			hcxPassword, err := GetSddcPassword(s.Client, s.D.Id(), oci_ocvp.RetrievePasswordTypeHcx)
+			hcxPassword, err := GetSddcPassword(context.Background(), s.Client, s.D.Id(), oci_ocvp.RetrievePasswordTypeHcx)
 			if err != nil {
 				return err
 			}
@@ -1756,7 +1757,7 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 			}
 		}
 
-		nsxPassword, err := GetSddcPassword(s.Client, s.D.Id(), oci_ocvp.RetrievePasswordTypeNsx)
+		nsxPassword, err := GetSddcPassword(context.Background(), s.Client, s.D.Id(), oci_ocvp.RetrievePasswordTypeNsx)
 		if err != nil {
 			return err
 		}
@@ -1764,7 +1765,7 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 			s.D.Set("nsx_manager_initial_password", *nsxPassword)
 		}
 
-		vCenterPassword, err := GetSddcPassword(s.Client, s.D.Id(), oci_ocvp.RetrievePasswordTypeVcenter)
+		vCenterPassword, err := GetSddcPassword(context.Background(), s.Client, s.D.Id(), oci_ocvp.RetrievePasswordTypeVcenter)
 		if err != nil {
 			return err
 		}
@@ -1772,7 +1773,7 @@ func (s *OcvpSddcResourceCrud) SetData() error {
 			s.D.Set("vcenter_initial_password", *vCenterPassword)
 		}
 
-		err = s.SetDataClusterValues(s.Res.Id, s.Res.CompartmentId, s.ClusterClient)
+		err = s.SetDataClusterValues(context.Background(), s.Res.Id, s.Res.CompartmentId, s.ClusterClient)
 
 		if err != nil {
 			return err
@@ -1949,21 +1950,21 @@ func (s *OcvpSddcResourceCrud) mapToClusterByolAllocationDetails(fieldKeyFormat 
 	return result, nil
 }
 
-func GetSddcPassword(sddcClient *oci_ocvp.SddcClient, sddcId string, passwordType oci_ocvp.RetrievePasswordTypeEnum) (*string, error) {
+func GetSddcPassword(ctx context.Context, sddcClient *oci_ocvp.SddcClient, sddcId string, passwordType oci_ocvp.RetrievePasswordTypeEnum) (*string, error) {
 	request := oci_ocvp.RetrievePasswordRequest{}
 	request.SddcId = &sddcId
 	request.Type = passwordType
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
-	response, err := sddcClient.RetrievePassword(context.Background(), request)
+	response, err := sddcClient.RetrievePassword(ctx, request)
 	return response.SddcPassword.Value, err
 }
 
-func GetManagementClusterSummary(sddcId *string, compartmentId *string, clusterClient *oci_ocvp.ClusterClient) (*oci_ocvp.ClusterSummary, error) {
+func GetManagementClusterSummary(ctx context.Context, sddcId *string, compartmentId *string, clusterClient *oci_ocvp.ClusterClient) (*oci_ocvp.ClusterSummary, error) {
 	request := oci_ocvp.ListClustersRequest{}
 	request.SddcId = sddcId
 	request.CompartmentId = compartmentId
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
-	response, err := clusterClient.ListClusters(context.Background(), request)
+	response, err := clusterClient.ListClusters(ctx, request)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to list clusters sddcId : '%s'", *sddcId)
@@ -1977,13 +1978,13 @@ func GetManagementClusterSummary(sddcId *string, compartmentId *string, clusterC
 	return nil, fmt.Errorf("cannot find management Cluster for SDDC %s", *sddcId)
 }
 
-func CalculateActualEsxiHostCount(sddcId *string, compartmentId *string, clusterClient *oci_ocvp.ClusterClient) (int, error) {
+func CalculateActualEsxiHostCount(ctx context.Context, sddcId *string, compartmentId *string, clusterClient *oci_ocvp.ClusterClient) (int, error) {
 	log.Printf("[DEBUG] getting esxi host count from cluster")
 	request := oci_ocvp.ListClustersRequest{}
 	request.SddcId = sddcId
 	request.CompartmentId = compartmentId
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
-	response, err := clusterClient.ListClusters(context.Background(), request)
+	response, err := clusterClient.ListClusters(ctx, request)
 
 	if err != nil {
 		return 0, fmt.Errorf("failed to list clusters sddcId : '%s'", *sddcId)
@@ -1996,8 +1997,8 @@ func CalculateActualEsxiHostCount(sddcId *string, compartmentId *string, cluster
 
 }
 
-func (s *OcvpSddcResourceCrud) SetDataClusterValues(sddcId *string, compartmentId *string, clusterClient *oci_ocvp.ClusterClient) error {
-	clusterSummary, err := GetManagementClusterSummary(sddcId, compartmentId, clusterClient)
+func (s *OcvpSddcResourceCrud) SetDataClusterValues(ctx context.Context, sddcId *string, compartmentId *string, clusterClient *oci_ocvp.ClusterClient) error {
+	clusterSummary, err := GetManagementClusterSummary(ctx, sddcId, compartmentId, clusterClient)
 	if err != nil {
 		return err
 	}
@@ -2006,7 +2007,7 @@ func (s *OcvpSddcResourceCrud) SetDataClusterValues(sddcId *string, compartmentI
 
 	req := oci_ocvp.GetClusterRequest{}
 	req.ClusterId = clusterId
-	clusterResponse, err := clusterClient.GetCluster(context.Background(), req)
+	clusterResponse, err := clusterClient.GetCluster(ctx, req)
 
 	if err != nil {
 		log.Printf("[ERROR] failed to get cluster id : '%s'", *clusterId)
@@ -2379,14 +2380,14 @@ func SddcSummaryToMap(obj oci_ocvp.SddcSummary, sddcClient *oci_ocvp.SddcClient,
 		result["vmware_software_version"] = string(*obj.VmwareSoftwareVersion)
 	}
 
-	count, err := CalculateActualEsxiHostCount(obj.Id, obj.CompartmentId, clusterClient)
+	count, err := CalculateActualEsxiHostCount(context.Background(), obj.Id, obj.CompartmentId, clusterClient)
 	if err != nil {
 		return nil, err
 	}
 	result["esxi_hosts_count"] = &count
 	result["actual_esxi_hosts_count"] = &count
 
-	clusterSummary, err := GetManagementClusterSummary(obj.Id, obj.CompartmentId, clusterClient)
+	clusterSummary, err := GetManagementClusterSummary(context.Background(), obj.Id, obj.CompartmentId, clusterClient)
 	if err != nil {
 		return nil, err
 	}
@@ -2413,7 +2414,7 @@ func SddcSummaryToMap(obj oci_ocvp.SddcSummary, sddcClient *oci_ocvp.SddcClient,
 	return result, nil
 }
 
-func (s *OcvpSddcResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *OcvpSddcResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_ocvp.ChangeSddcCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -2424,12 +2425,12 @@ func (s *OcvpSddcResourceCrud) updateCompartment(compartment interface{}) error 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	_, err := s.Client.ChangeSddcCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeSddcCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

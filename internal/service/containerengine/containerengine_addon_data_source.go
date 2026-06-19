@@ -6,6 +6,7 @@ package containerengine
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_containerengine "github.com/oracle/oci-go-sdk/v65/containerengine"
 
@@ -23,15 +24,15 @@ func ContainerengineAddonDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(ContainerengineAddonResource(), fieldMap, readSingularContainerengineAddon)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(ContainerengineAddonResource(), fieldMap, readSingularContainerengineAddonWithContext)
 }
 
-func readSingularContainerengineAddon(d *schema.ResourceData, m interface{}) error {
+func readSingularContainerengineAddonWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineAddonDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ContainerengineAddonDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *ContainerengineAddonDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ContainerengineAddonDataSourceCrud) Get() error {
+func (s *ContainerengineAddonDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_containerengine.GetAddonRequest{}
 
 	if addonName, ok := s.D.GetOkExists("addon_name"); ok {
@@ -59,7 +60,7 @@ func (s *ContainerengineAddonDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "containerengine")
 
-	response, err := s.Client.GetAddon(context.Background(), request)
+	response, err := s.Client.GetAddon(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -6,6 +6,7 @@ package ocvp
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
 
@@ -15,7 +16,7 @@ import (
 
 func OcvpEsxiHostsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readOcvpEsxiHosts,
+		ReadContext: readOcvpEsxiHostsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"cluster_id": {
@@ -59,12 +60,12 @@ func OcvpEsxiHostsDataSource() *schema.Resource {
 	}
 }
 
-func readOcvpEsxiHosts(d *schema.ResourceData, m interface{}) error {
+func readOcvpEsxiHostsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpEsxiHostsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EsxiHostClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OcvpEsxiHostsDataSourceCrud struct {
@@ -77,7 +78,7 @@ func (s *OcvpEsxiHostsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OcvpEsxiHostsDataSourceCrud) Get() error {
+func (s *OcvpEsxiHostsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ocvp.ListEsxiHostsRequest{}
 
 	if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
@@ -121,7 +122,7 @@ func (s *OcvpEsxiHostsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
 
-	response, err := s.Client.ListEsxiHosts(context.Background(), request)
+	response, err := s.Client.ListEsxiHosts(ctx, request)
 	if err != nil {
 		return err
 	}

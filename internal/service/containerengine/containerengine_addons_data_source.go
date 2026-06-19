@@ -6,6 +6,7 @@ package containerengine
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_containerengine "github.com/oracle/oci-go-sdk/v65/containerengine"
 
@@ -15,7 +16,7 @@ import (
 
 func ContainerengineAddonsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readContainerengineAddons,
+		ReadContext: readContainerengineAddonsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"cluster_id": {
@@ -31,12 +32,12 @@ func ContainerengineAddonsDataSource() *schema.Resource {
 	}
 }
 
-func readContainerengineAddons(d *schema.ResourceData, m interface{}) error {
+func readContainerengineAddonsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineAddonsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ContainerengineAddonsDataSourceCrud struct {
@@ -49,7 +50,7 @@ func (s *ContainerengineAddonsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ContainerengineAddonsDataSourceCrud) Get() error {
+func (s *ContainerengineAddonsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_containerengine.ListAddonsRequest{}
 
 	if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
@@ -59,7 +60,7 @@ func (s *ContainerengineAddonsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "containerengine")
 
-	response, err := s.Client.ListAddons(context.Background(), request)
+	response, err := s.Client.ListAddons(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -68,7 +69,7 @@ func (s *ContainerengineAddonsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListAddons(context.Background(), request)
+		listResponse, err := s.Client.ListAddons(ctx, request)
 		if err != nil {
 			return err
 		}

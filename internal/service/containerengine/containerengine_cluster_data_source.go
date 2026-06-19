@@ -6,6 +6,7 @@ package containerengine
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_containerengine "github.com/oracle/oci-go-sdk/v65/containerengine"
 
@@ -23,15 +24,15 @@ func ContainerengineClusterDataSource() *schema.Resource {
 		Type:     schema.TypeBool,
 		Optional: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(ContainerengineClusterResource(), fieldMap, readSingularContainerengineCluster)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(ContainerengineClusterResource(), fieldMap, readSingularContainerengineClusterWithContext)
 }
 
-func readSingularContainerengineCluster(d *schema.ResourceData, m interface{}) error {
+func readSingularContainerengineClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineClusterDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ContainerengineClusterDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *ContainerengineClusterDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ContainerengineClusterDataSourceCrud) Get() error {
+func (s *ContainerengineClusterDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_containerengine.GetClusterRequest{}
 
 	if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
@@ -59,7 +60,7 @@ func (s *ContainerengineClusterDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "containerengine")
 
-	response, err := s.Client.GetCluster(context.Background(), request)
+	response, err := s.Client.GetCluster(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -1263,7 +1263,7 @@ func (s *OcvpClusterResourceCrud) attachDatastoreClusterToCluster(ctx context.Co
 	if err != nil {
 		return err
 	}
-	_, err = datastoreClusterWaitForWorkRequest(response.OpcWorkRequestId, "sddc-datastore-cluster", oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate),
+	_, err = datastoreClusterWaitForWorkRequest(ctx, response.OpcWorkRequestId, "sddc-datastore-cluster", oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate),
 		s.DisableNotFoundRetries, s.WorkRequestClient)
 	return err
 }
@@ -1277,7 +1277,7 @@ func (s *OcvpClusterResourceCrud) detachDatastoreClusterFromCluster(ctx context.
 	if err != nil {
 		return err
 	}
-	_, err = datastoreClusterWaitForWorkRequest(response.OpcWorkRequestId, "sddc-datastore-cluster", oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate),
+	_, err = datastoreClusterWaitForWorkRequest(ctx, response.OpcWorkRequestId, "sddc-datastore-cluster", oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate),
 		s.DisableNotFoundRetries, s.WorkRequestClient)
 	return err
 }

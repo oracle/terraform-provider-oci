@@ -6,6 +6,7 @@ package stack_monitoring
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_stack_monitoring "github.com/oracle/oci-go-sdk/v65/stackmonitoring"
 
@@ -15,7 +16,7 @@ import (
 
 func StackMonitoringMonitoredResourcesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readStackMonitoringMonitoredResources,
+		ReadContext: readStackMonitoringMonitoredResourcesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +53,12 @@ func StackMonitoringMonitoredResourcesDataSource() *schema.Resource {
 	}
 }
 
-func readStackMonitoringMonitoredResources(d *schema.ResourceData, m interface{}) error {
+func readStackMonitoringMonitoredResourcesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StackMonitoringMonitoredResourcesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StackMonitoringClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type StackMonitoringMonitoredResourcesDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *StackMonitoringMonitoredResourcesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *StackMonitoringMonitoredResourcesDataSourceCrud) Get() error {
+func (s *StackMonitoringMonitoredResourcesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_stack_monitoring.ListMonitoredResourcesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *StackMonitoringMonitoredResourcesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "stack_monitoring")
 
-	response, err := s.Client.ListMonitoredResources(context.Background(), request)
+	response, err := s.Client.ListMonitoredResources(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *StackMonitoringMonitoredResourcesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListMonitoredResources(context.Background(), request)
+		listResponse, err := s.Client.ListMonitoredResources(ctx, request)
 		if err != nil {
 			return err
 		}

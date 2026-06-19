@@ -6,6 +6,7 @@ package containerengine
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_containerengine "github.com/oracle/oci-go-sdk/v65/containerengine"
 
@@ -19,15 +20,15 @@ func ContainerengineVirtualNodePoolDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(ContainerengineVirtualNodePoolResource(), fieldMap, readSingularContainerengineVirtualNodePool)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(ContainerengineVirtualNodePoolResource(), fieldMap, readSingularContainerengineVirtualNodePoolWithContext)
 }
 
-func readSingularContainerengineVirtualNodePool(d *schema.ResourceData, m interface{}) error {
+func readSingularContainerengineVirtualNodePoolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineVirtualNodePoolDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ContainerengineVirtualNodePoolDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *ContainerengineVirtualNodePoolDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ContainerengineVirtualNodePoolDataSourceCrud) Get() error {
+func (s *ContainerengineVirtualNodePoolDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_containerengine.GetVirtualNodePoolRequest{}
 
 	if virtualNodePoolId, ok := s.D.GetOkExists("virtual_node_pool_id"); ok {
@@ -50,7 +51,7 @@ func (s *ContainerengineVirtualNodePoolDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "containerengine")
 
-	response, err := s.Client.GetVirtualNodePool(context.Background(), request)
+	response, err := s.Client.GetVirtualNodePool(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -6,6 +6,7 @@ package ocvp
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
 
@@ -15,7 +16,7 @@ import (
 
 func OcvpDatastoresDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readOcvpDatastores,
+		ReadContext: readOcvpDatastoresWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"cluster_id": {
@@ -56,12 +57,12 @@ func OcvpDatastoresDataSource() *schema.Resource {
 	}
 }
 
-func readOcvpDatastores(d *schema.ResourceData, m interface{}) error {
+func readOcvpDatastoresWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpDatastoresDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatastoreClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OcvpDatastoresDataSourceCrud struct {
@@ -74,7 +75,7 @@ func (s *OcvpDatastoresDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OcvpDatastoresDataSourceCrud) Get() error {
+func (s *OcvpDatastoresDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ocvp.ListDatastoresRequest{}
 
 	if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
@@ -103,7 +104,7 @@ func (s *OcvpDatastoresDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
 
-	response, err := s.Client.ListDatastores(context.Background(), request)
+	response, err := s.Client.ListDatastores(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -112,7 +113,7 @@ func (s *OcvpDatastoresDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDatastores(context.Background(), request)
+		listResponse, err := s.Client.ListDatastores(ctx, request)
 		if err != nil {
 			return err
 		}

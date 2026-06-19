@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -25,11 +26,11 @@ func OcvpDatastoreResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOcvpDatastore,
-		Read:     readOcvpDatastore,
-		Update:   updateOcvpDatastore,
-		Delete:   deleteOcvpDatastore,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOcvpDatastoreWithContext,
+		ReadContext:   readOcvpDatastoreWithContext,
+		UpdateContext: updateOcvpDatastoreWithContext,
+		DeleteContext: deleteOcvpDatastoreWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -149,40 +150,40 @@ func OcvpDatastoreResource() *schema.Resource {
 	}
 }
 
-func createOcvpDatastore(d *schema.ResourceData, m interface{}) error {
+func createOcvpDatastoreWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpDatastoreResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatastoreClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOcvpDatastore(d *schema.ResourceData, m interface{}) error {
+func readOcvpDatastoreWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpDatastoreResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatastoreClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateOcvpDatastore(d *schema.ResourceData, m interface{}) error {
+func updateOcvpDatastoreWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpDatastoreResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatastoreClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteOcvpDatastore(d *schema.ResourceData, m interface{}) error {
+func deleteOcvpDatastoreWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpDatastoreResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatastoreClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OcvpDatastoreResourceCrud struct {
@@ -221,7 +222,7 @@ func (s *OcvpDatastoreResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *OcvpDatastoreResourceCrud) Create() error {
+func (s *OcvpDatastoreResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_ocvp.CreateDatastoreRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -266,14 +267,14 @@ func (s *OcvpDatastoreResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	response, err := s.Client.CreateDatastore(context.Background(), request)
+	response, err := s.Client.CreateDatastore(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_ocvp.GetWorkRequestResponse{}
-	workRequestResponse, err = s.WorkRequestClient.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.WorkRequestClient.GetWorkRequest(ctx,
 		oci_ocvp.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -289,14 +290,14 @@ func (s *OcvpDatastoreResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getDatastoreFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDatastoreFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OcvpDatastoreResourceCrud) getDatastoreFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OcvpDatastoreResourceCrud) getDatastoreFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_ocvp.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	datastoreId, err := datastoreWaitForWorkRequest(workId, "sddc-datastore",
+	datastoreId, err := datastoreWaitForWorkRequest(ctx, workId, "sddc-datastore",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -304,7 +305,7 @@ func (s *OcvpDatastoreResourceCrud) getDatastoreFromWorkRequest(workId *string, 
 	}
 	s.D.SetId(*datastoreId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func datastoreWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -330,7 +331,7 @@ func datastoreWorkRequestShouldRetryFunc(timeout time.Duration) func(response oc
 	}
 }
 
-func datastoreWaitForWorkRequest(wId *string, entityType string, action oci_ocvp.ActionTypesEnum,
+func datastoreWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_ocvp.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_ocvp.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "ocvp")
 	retryPolicy.ShouldRetryOperation = datastoreWorkRequestShouldRetryFunc(timeout)
@@ -349,7 +350,7 @@ func datastoreWaitForWorkRequest(wId *string, entityType string, action oci_ocvp
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_ocvp.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -361,7 +362,7 @@ func datastoreWaitForWorkRequest(wId *string, entityType string, action oci_ocvp
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -378,14 +379,14 @@ func datastoreWaitForWorkRequest(wId *string, entityType string, action oci_ocvp
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_ocvp.OperationStatusFailed || response.Status == oci_ocvp.OperationStatusCanceled {
-		return nil, getErrorFromOcvpDatastoreWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOcvpDatastoreWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOcvpDatastoreWorkRequest(client *oci_ocvp.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ocvp.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOcvpDatastoreWorkRequest(ctx context.Context, client *oci_ocvp.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ocvp.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_ocvp.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -407,7 +408,7 @@ func getErrorFromOcvpDatastoreWorkRequest(client *oci_ocvp.WorkRequestClient, wo
 	return workRequestErr
 }
 
-func (s *OcvpDatastoreResourceCrud) Get() error {
+func (s *OcvpDatastoreResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ocvp.GetDatastoreRequest{}
 
 	tmp := s.D.Id()
@@ -415,7 +416,7 @@ func (s *OcvpDatastoreResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	response, err := s.Client.GetDatastore(context.Background(), request)
+	response, err := s.Client.GetDatastore(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -424,7 +425,7 @@ func (s *OcvpDatastoreResourceCrud) Get() error {
 	return nil
 }
 
-func (s *OcvpDatastoreResourceCrud) Update() error {
+func (s *OcvpDatastoreResourceCrud) UpdateWithContext(ctx context.Context) error {
 	var blockVolumeIdsToRemove []string
 	var blockVolumeIdsToAdd []string
 	if s.D.HasChange("block_volume_ids") {
@@ -441,7 +442,7 @@ func (s *OcvpDatastoreResourceCrud) Update() error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -471,24 +472,24 @@ func (s *OcvpDatastoreResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	response, err := s.Client.UpdateDatastore(context.Background(), request)
+	response, err := s.Client.UpdateDatastore(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	_, err = datastoreWaitForWorkRequest(response.OpcWorkRequestId, "sddc-datastore", oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.WorkRequestClient)
+	_, err = datastoreWaitForWorkRequest(ctx, response.OpcWorkRequestId, "sddc-datastore", oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.WorkRequestClient)
 	if err != nil {
 		return err
 	}
 
 	for _, blockVolumeId := range blockVolumeIdsToAdd {
 		log.Printf("[DEBUG] adding block volume %v", blockVolumeId)
-		err = s.addBlockVolume(blockVolumeId)
+		err = s.addBlockVolume(ctx, blockVolumeId)
 		if err != nil {
 			return err
 		}
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func compareSlices(old []string, new []string) (toRemove []string, toAdd []string) {
@@ -513,7 +514,7 @@ func compareSlices(old []string, new []string) (toRemove []string, toAdd []strin
 	return
 }
 
-func (s *OcvpDatastoreResourceCrud) Delete() error {
+func (s *OcvpDatastoreResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_ocvp.DeleteDatastoreRequest{}
 
 	tmp := s.D.Id()
@@ -521,14 +522,14 @@ func (s *OcvpDatastoreResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	response, err := s.Client.DeleteDatastore(context.Background(), request)
+	response, err := s.Client.DeleteDatastore(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := datastoreWaitForWorkRequest(workId, "sddc-datastore",
+	_, delWorkRequestErr := datastoreWaitForWorkRequest(ctx, workId, "sddc-datastore",
 		oci_ocvp.ActionTypesDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
@@ -685,7 +686,7 @@ func DatastoreSummaryToMap(obj oci_ocvp.DatastoreSummary) map[string]interface{}
 	return result
 }
 
-func (s *OcvpDatastoreResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *OcvpDatastoreResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_ocvp.ChangeDatastoreCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -696,19 +697,19 @@ func (s *OcvpDatastoreResourceCrud) updateCompartment(compartment interface{}) e
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	_, err := s.Client.ChangeDatastoreCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeDatastoreCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	return nil
 }
 
-func (s *OcvpDatastoreResourceCrud) addBlockVolume(blockVolumeId string) error {
+func (s *OcvpDatastoreResourceCrud) addBlockVolume(ctx context.Context, blockVolumeId string) error {
 	datastoreId := s.D.Id()
 	request := oci_ocvp.AddBlockVolumeToDatastoreRequest{
 		DatastoreId: &datastoreId,
@@ -717,10 +718,10 @@ func (s *OcvpDatastoreResourceCrud) addBlockVolume(blockVolumeId string) error {
 		},
 	}
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
-	response, err := s.Client.AddBlockVolumeToDatastore(context.Background(), request)
+	response, err := s.Client.AddBlockVolumeToDatastore(ctx, request)
 	if err != nil {
 		return err
 	}
-	_, err = datastoreWaitForWorkRequest(response.OpcWorkRequestId, "sddc-datastore", oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.WorkRequestClient)
+	_, err = datastoreWaitForWorkRequest(ctx, response.OpcWorkRequestId, "sddc-datastore", oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return err
 }

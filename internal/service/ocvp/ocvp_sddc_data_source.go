@@ -7,6 +7,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
 
@@ -20,15 +21,15 @@ func OcvpSddcDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(OcvpSddcResource(), fieldMap, readSingularOcvpSddc)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(OcvpSddcResource(), fieldMap, readSingularOcvpSddcWithContext)
 }
 
-func readSingularOcvpSddc(d *schema.ResourceData, m interface{}) error {
+func readSingularOcvpSddcWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpSddcDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).SddcClient()
 	sync.ClusterClient = m.(*client.OracleClients).ClusterClient()
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OcvpSddcDataSourceCrud struct {
@@ -42,7 +43,7 @@ func (s *OcvpSddcDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OcvpSddcDataSourceCrud) Get() error {
+func (s *OcvpSddcDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ocvp.GetSddcRequest{}
 
 	if sddcId, ok := s.D.GetOkExists("sddc_id"); ok {
@@ -52,7 +53,7 @@ func (s *OcvpSddcDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
 
-	response, err := s.Client.GetSddc(context.Background(), request)
+	response, err := s.Client.GetSddc(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -76,7 +77,7 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
-	actualEsxiHostCount, err := CalculateActualEsxiHostCount(s.Res.Id, s.Res.CompartmentId, s.ClusterClient)
+	actualEsxiHostCount, err := CalculateActualEsxiHostCount(context.Background(), s.Res.Id, s.Res.CompartmentId, s.ClusterClient)
 	if err != nil {
 		return nil
 	}
@@ -212,7 +213,7 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 	}
 
 	if s.Res.HcxMode != oci_ocvp.HcxModesDisabled {
-		hcxPassword, err := GetSddcPassword(s.Client, s.D.Id(), oci_ocvp.RetrievePasswordTypeHcx)
+		hcxPassword, err := GetSddcPassword(context.Background(), s.Client, s.D.Id(), oci_ocvp.RetrievePasswordTypeHcx)
 		if err != nil {
 			return err
 		}
@@ -221,7 +222,7 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 		}
 	}
 
-	nsxPassword, err := GetSddcPassword(s.Client, s.D.Id(), oci_ocvp.RetrievePasswordTypeNsx)
+	nsxPassword, err := GetSddcPassword(context.Background(), s.Client, s.D.Id(), oci_ocvp.RetrievePasswordTypeNsx)
 	if err != nil {
 		return err
 	}
@@ -229,7 +230,7 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 		s.D.Set("nsx_manager_initial_password", *nsxPassword)
 	}
 
-	vCenterPassword, err := GetSddcPassword(s.Client, s.D.Id(), oci_ocvp.RetrievePasswordTypeVcenter)
+	vCenterPassword, err := GetSddcPassword(context.Background(), s.Client, s.D.Id(), oci_ocvp.RetrievePasswordTypeVcenter)
 	if err != nil {
 		return err
 	}
@@ -237,7 +238,7 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 		s.D.Set("vcenter_initial_password", *vCenterPassword)
 	}
 
-	err = s.SetDataClusterValues(s.Res.Id, s.Res.CompartmentId, s.ClusterClient)
+	err = s.SetDataClusterValues(context.Background(), s.Res.Id, s.Res.CompartmentId, s.ClusterClient)
 
 	if err != nil {
 		return err
@@ -246,8 +247,8 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 	return nil
 }
 
-func (s *OcvpSddcDataSourceCrud) SetDataClusterValues(sddcId *string, compartmentId *string, clusterClient *oci_ocvp.ClusterClient) error {
-	clusterSummary, err := GetManagementClusterSummary(sddcId, compartmentId, clusterClient)
+func (s *OcvpSddcDataSourceCrud) SetDataClusterValues(ctx context.Context, sddcId *string, compartmentId *string, clusterClient *oci_ocvp.ClusterClient) error {
+	clusterSummary, err := GetManagementClusterSummary(ctx, sddcId, compartmentId, clusterClient)
 	if err != nil {
 		return err
 	}
@@ -256,7 +257,7 @@ func (s *OcvpSddcDataSourceCrud) SetDataClusterValues(sddcId *string, compartmen
 
 	req := oci_ocvp.GetClusterRequest{}
 	req.ClusterId = clusterId
-	clusterResponse, err := clusterClient.GetCluster(context.Background(), req)
+	clusterResponse, err := clusterClient.GetCluster(ctx, req)
 
 	if err != nil {
 		log.Printf("[ERROR] failed to get cluster id : '%s'", *clusterId)

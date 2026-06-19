@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -26,11 +27,11 @@ func StackMonitoringMonitoredResourceTaskResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createStackMonitoringMonitoredResourceTask,
-		Read:     readStackMonitoringMonitoredResourceTask,
-		Update:   updateStackMonitoringMonitoredResourceTask,
-		Delete:   deleteStackMonitoringMonitoredResourceTask,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createStackMonitoringMonitoredResourceTaskWithContext,
+		ReadContext:   readStackMonitoringMonitoredResourceTaskWithContext,
+		UpdateContext: updateStackMonitoringMonitoredResourceTaskWithContext,
+		DeleteContext: deleteStackMonitoringMonitoredResourceTaskWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -514,31 +515,31 @@ func StackMonitoringMonitoredResourceTaskResource() *schema.Resource {
 	}
 }
 
-func createStackMonitoringMonitoredResourceTask(d *schema.ResourceData, m interface{}) error {
+func createStackMonitoringMonitoredResourceTaskWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StackMonitoringMonitoredResourceTaskResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StackMonitoringClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readStackMonitoringMonitoredResourceTask(d *schema.ResourceData, m interface{}) error {
+func readStackMonitoringMonitoredResourceTaskWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StackMonitoringMonitoredResourceTaskResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StackMonitoringClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateStackMonitoringMonitoredResourceTask(d *schema.ResourceData, m interface{}) error {
+func updateStackMonitoringMonitoredResourceTaskWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StackMonitoringMonitoredResourceTaskResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StackMonitoringClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteStackMonitoringMonitoredResourceTask(d *schema.ResourceData, m interface{}) error {
+func deleteStackMonitoringMonitoredResourceTaskWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -574,7 +575,7 @@ func (s *StackMonitoringMonitoredResourceTaskResourceCrud) DeletedTarget() []str
 	return []string{}
 }
 
-func (s *StackMonitoringMonitoredResourceTaskResourceCrud) Create() error {
+func (s *StackMonitoringMonitoredResourceTaskResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_stack_monitoring.CreateMonitoredResourceTaskRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -612,7 +613,7 @@ func (s *StackMonitoringMonitoredResourceTaskResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
-	response, err := s.Client.CreateMonitoredResourceTask(context.Background(), request)
+	response, err := s.Client.CreateMonitoredResourceTask(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -623,14 +624,14 @@ func (s *StackMonitoringMonitoredResourceTaskResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getMonitoredResourceTaskFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getMonitoredResourceTaskFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *StackMonitoringMonitoredResourceTaskResourceCrud) getMonitoredResourceTaskFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *StackMonitoringMonitoredResourceTaskResourceCrud) getMonitoredResourceTaskFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_stack_monitoring.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	monitoredResourceTaskId, err := monitoredResourceTaskWaitForWorkRequest(workId, "stackmonitoringresourcetask",
+	monitoredResourceTaskId, err := monitoredResourceTaskWaitForWorkRequest(ctx, workId, "stackmonitoringresourcetask",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -638,7 +639,7 @@ func (s *StackMonitoringMonitoredResourceTaskResourceCrud) getMonitoredResourceT
 	}
 	s.D.SetId(*monitoredResourceTaskId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func monitoredResourceTaskWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -664,7 +665,7 @@ func monitoredResourceTaskWorkRequestShouldRetryFunc(timeout time.Duration) func
 	}
 }
 
-func monitoredResourceTaskWaitForWorkRequest(wId *string, entityType string, action oci_stack_monitoring.ActionTypeEnum,
+func monitoredResourceTaskWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_stack_monitoring.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_stack_monitoring.StackMonitoringClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "stack_monitoring")
 	retryPolicy.ShouldRetryOperation = monitoredResourceTaskWorkRequestShouldRetryFunc(timeout)
@@ -683,7 +684,7 @@ func monitoredResourceTaskWaitForWorkRequest(wId *string, entityType string, act
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_stack_monitoring.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -695,7 +696,7 @@ func monitoredResourceTaskWaitForWorkRequest(wId *string, entityType string, act
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -714,14 +715,14 @@ func monitoredResourceTaskWaitForWorkRequest(wId *string, entityType string, act
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_stack_monitoring.OperationStatusFailed || response.Status == oci_stack_monitoring.OperationStatusCanceled {
-		return nil, getErrorFromStackMonitoringMonitoredResourceTaskWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromStackMonitoringMonitoredResourceTaskWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromStackMonitoringMonitoredResourceTaskWorkRequest(client *oci_stack_monitoring.StackMonitoringClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_stack_monitoring.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromStackMonitoringMonitoredResourceTaskWorkRequest(ctx context.Context, client *oci_stack_monitoring.StackMonitoringClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_stack_monitoring.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_stack_monitoring.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -743,7 +744,7 @@ func getErrorFromStackMonitoringMonitoredResourceTaskWorkRequest(client *oci_sta
 	return workRequestErr
 }
 
-func (s *StackMonitoringMonitoredResourceTaskResourceCrud) Get() error {
+func (s *StackMonitoringMonitoredResourceTaskResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_stack_monitoring.GetMonitoredResourceTaskRequest{}
 
 	tmp := s.D.Id()
@@ -751,7 +752,7 @@ func (s *StackMonitoringMonitoredResourceTaskResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
-	response, err := s.Client.GetMonitoredResourceTask(context.Background(), request)
+	response, err := s.Client.GetMonitoredResourceTask(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -760,11 +761,11 @@ func (s *StackMonitoringMonitoredResourceTaskResourceCrud) Get() error {
 	return nil
 }
 
-func (s *StackMonitoringMonitoredResourceTaskResourceCrud) Update() error {
+func (s *StackMonitoringMonitoredResourceTaskResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -789,7 +790,7 @@ func (s *StackMonitoringMonitoredResourceTaskResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
-	response, err := s.Client.UpdateMonitoredResourceTask(context.Background(), request)
+	response, err := s.Client.UpdateMonitoredResourceTask(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1448,7 +1449,7 @@ func (s *StackMonitoringMonitoredResourceTaskResourceCrud) mapToTelegrafResource
 	return result, nil
 }
 
-func (s *StackMonitoringMonitoredResourceTaskResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *StackMonitoringMonitoredResourceTaskResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_stack_monitoring.ChangeMonitoredResourceTaskCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1459,12 +1460,12 @@ func (s *StackMonitoringMonitoredResourceTaskResourceCrud) updateCompartment(com
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
-	_, err := s.Client.ChangeMonitoredResourceTaskCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeMonitoredResourceTaskCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

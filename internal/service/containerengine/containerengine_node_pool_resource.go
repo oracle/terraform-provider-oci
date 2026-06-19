@@ -16,6 +16,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -36,10 +37,10 @@ func ContainerengineNodePoolResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("50m"),
 			Delete: tfresource.GetTimeoutDuration("50m"),
 		},
-		Create: createContainerengineNodePool,
-		Read:   readContainerengineNodePool,
-		Update: updateContainerengineNodePool,
-		Delete: deleteContainerengineNodePool,
+		CreateContext: createContainerengineNodePoolWithContext,
+		ReadContext:   readContainerengineNodePoolWithContext,
+		UpdateContext: updateContainerengineNodePoolWithContext,
+		DeleteContext: deleteContainerengineNodePoolWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"cluster_id": {
@@ -754,37 +755,37 @@ func ContainerengineNodePoolResource() *schema.Resource {
 	}
 }
 
-func createContainerengineNodePool(d *schema.ResourceData, m interface{}) error {
+func createContainerengineNodePoolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineNodePoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readContainerengineNodePool(d *schema.ResourceData, m interface{}) error {
+func readContainerengineNodePoolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineNodePoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateContainerengineNodePool(d *schema.ResourceData, m interface{}) error {
+func updateContainerengineNodePoolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineNodePoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteContainerengineNodePool(d *schema.ResourceData, m interface{}) error {
+func deleteContainerengineNodePoolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineNodePoolResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type ContainerengineNodePoolResourceCrud struct {
@@ -823,7 +824,7 @@ func (s *ContainerengineNodePoolResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *ContainerengineNodePoolResourceCrud) Create() error {
+func (s *ContainerengineNodePoolResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_containerengine.CreateNodePoolRequest{}
 
 	if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
@@ -1006,20 +1007,20 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
-	response, err := s.Client.CreateNodePool(context.Background(), request)
+	response, err := s.Client.CreateNodePool(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 
-	nodePoolIDForGet, err := getNodePoolIdFromWorkRequest(workId, "nodepool",
+	nodePoolIDForGet, err := getNodePoolIdFromWorkRequest(ctx, workId, "nodepool",
 		oci_containerengine.WorkRequestResourceActionTypeCreated, s.DisableNotFoundRetries, s.Client)
 
 	requestGet := oci_containerengine.GetNodePoolRequest{}
 	requestGet.NodePoolId = nodePoolIDForGet
 	requestGet.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
-	responseGet, GetNodePoolErr := s.Client.GetNodePool(context.Background(), requestGet)
+	responseGet, GetNodePoolErr := s.Client.GetNodePool(ctx, requestGet)
 	if GetNodePoolErr != nil {
 		return GetNodePoolErr
 	}
@@ -1027,10 +1028,10 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 	s.Res = &responseGet.NodePool
 	s.D.SetId(s.ID())
 	if setDataErr := s.SetData(); setDataErr != nil {
-		log.Printf("[ERROR] error setting data before nodePoolWaitForWorkRequest() error: %v", setDataErr)
+		log.Printf("[ERROR] error setting data before nodePoolWaitForWorkRequest(ctx, ) error: %v", setDataErr)
 	}
 
-	nodePoolID, err := nodePoolWaitForWorkRequest(workId, "nodepool",
+	nodePoolID, err := nodePoolWaitForWorkRequest(ctx, workId, "nodepool",
 		oci_containerengine.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -1042,13 +1043,13 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 			delReq.NodePoolId = nodePoolID
 			delReq.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
-			delRes, delErr := s.Client.DeleteNodePool(context.Background(), delReq)
+			delRes, delErr := s.Client.DeleteNodePool(ctx, delReq)
 			if delErr != nil {
 				return err
 			}
 			delWorkRequest := delRes.OpcWorkRequestId
 
-			_, delErr = nodePoolWaitForWorkRequest(delWorkRequest, "nodepool",
+			_, delErr = nodePoolWaitForWorkRequest(ctx, delWorkRequest, "nodepool",
 				oci_containerengine.WorkRequestResourceActionTypeDeleted,
 				s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 			if delErr != nil {
@@ -1061,7 +1062,7 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 	requestGet2 := oci_containerengine.GetNodePoolRequest{}
 	requestGet2.NodePoolId = nodePoolID
 	requestGet2.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
-	responseGet, err = s.Client.GetNodePool(context.Background(), requestGet2)
+	responseGet, err = s.Client.GetNodePool(ctx, requestGet2)
 	if err != nil {
 		return err
 	}
@@ -1069,9 +1070,9 @@ func (s *ContainerengineNodePoolResourceCrud) Create() error {
 	return nil
 }
 
-func (s *ContainerengineNodePoolResourceCrud) getNodePoolFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ContainerengineNodePoolResourceCrud) getNodePoolFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_containerengine.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
-	nodePoolId, err := nodePoolWaitForWorkRequest(workId, "nodepool",
+	nodePoolId, err := nodePoolWaitForWorkRequest(ctx, workId, "nodepool",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -1079,7 +1080,7 @@ func (s *ContainerengineNodePoolResourceCrud) getNodePoolFromWorkRequest(workId 
 	}
 	s.D.SetId(*nodePoolId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func nodePoolWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -1105,13 +1106,13 @@ func nodePoolWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci
 	}
 }
 
-func getNodePoolIdFromWorkRequest(wId *string, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum,
+func getNodePoolIdFromWorkRequest(ctx context.Context, wId *string, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum,
 	disableFoundRetries bool, client *oci_containerengine.ContainerEngineClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "containerengine")
 
 	response := oci_containerengine.GetWorkRequestResponse{}
 
-	response, _ = client.GetWorkRequest(context.Background(),
+	response, _ = client.GetWorkRequest(ctx,
 		oci_containerengine.GetWorkRequestRequest{
 			WorkRequestId: wId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1132,18 +1133,18 @@ func getNodePoolIdFromWorkRequest(wId *string, entityType string, action oci_con
 
 	// The workrequest may have failed, check for errors if identifier is not found.
 	if identifier == nil {
-		return nil, getErrorFromContainerengineNodePoolWorkRequest(client, wId, response.CompartmentId, retryPolicy, entityType, action)
+		return nil, getErrorFromContainerengineNodePoolWorkRequest(ctx, client, wId, response.CompartmentId, retryPolicy, entityType, action)
 	}
 
 	// The workrequest may have failed, check for errors if work failed or got cancelled
 	if response.Status == oci_containerengine.WorkRequestStatusFailed || response.Status == oci_containerengine.WorkRequestStatusCanceled {
-		return identifier, getErrorFromContainerengineNodePoolWorkRequest(client, wId, response.CompartmentId, retryPolicy, entityType, action)
+		return identifier, getErrorFromContainerengineNodePoolWorkRequest(ctx, client, wId, response.CompartmentId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func nodePoolWaitForWorkRequest(wId *string, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum,
+func nodePoolWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_containerengine.ContainerEngineClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "containerengine")
 	retryPolicy.ShouldRetryOperation = nodePoolWorkRequestShouldRetryFunc(timeout)
@@ -1162,7 +1163,7 @@ func nodePoolWaitForWorkRequest(wId *string, entityType string, action oci_conta
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_containerengine.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -1179,7 +1180,7 @@ func nodePoolWaitForWorkRequest(wId *string, entityType string, action oci_conta
 		stateConf.PollInterval = 1
 	}
 
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -1196,19 +1197,19 @@ func nodePoolWaitForWorkRequest(wId *string, entityType string, action oci_conta
 
 	// The workrequest may have failed, check for errors if identifier is not found.
 	if identifier == nil {
-		return nil, getErrorFromContainerengineNodePoolWorkRequest(client, wId, response.CompartmentId, retryPolicy, entityType, action)
+		return nil, getErrorFromContainerengineNodePoolWorkRequest(ctx, client, wId, response.CompartmentId, retryPolicy, entityType, action)
 	}
 
 	// The workrequest may have failed, check for errors if work failed or got cancelled
 	if response.Status == oci_containerengine.WorkRequestStatusFailed || response.Status == oci_containerengine.WorkRequestStatusCanceled {
-		return identifier, getErrorFromContainerengineNodePoolWorkRequest(client, wId, response.CompartmentId, retryPolicy, entityType, action)
+		return identifier, getErrorFromContainerengineNodePoolWorkRequest(ctx, client, wId, response.CompartmentId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromContainerengineNodePoolWorkRequest(client *oci_containerengine.ContainerEngineClient, workId *string, compartmentId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromContainerengineNodePoolWorkRequest(ctx context.Context, client *oci_containerengine.ContainerEngineClient, workId *string, compartmentId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_containerengine.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			CompartmentId: compartmentId,
@@ -1231,7 +1232,7 @@ func getErrorFromContainerengineNodePoolWorkRequest(client *oci_containerengine.
 	return workRequestErr
 }
 
-func (s *ContainerengineNodePoolResourceCrud) Get() error {
+func (s *ContainerengineNodePoolResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_containerengine.GetNodePoolRequest{}
 
 	tmp := s.D.Id()
@@ -1239,7 +1240,7 @@ func (s *ContainerengineNodePoolResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
-	response, err := s.Client.GetNodePool(context.Background(), request)
+	response, err := s.Client.GetNodePool(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1248,7 +1249,7 @@ func (s *ContainerengineNodePoolResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ContainerengineNodePoolResourceCrud) Update() error {
+func (s *ContainerengineNodePoolResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_containerengine.UpdateNodePoolRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -1425,16 +1426,16 @@ func (s *ContainerengineNodePoolResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
-	response, err := s.Client.UpdateNodePool(context.Background(), request)
+	response, err := s.Client.UpdateNodePool(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getNodePoolFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine"), oci_containerengine.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getNodePoolFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine"), oci_containerengine.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *ContainerengineNodePoolResourceCrud) Delete() error {
+func (s *ContainerengineNodePoolResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_containerengine.DeleteNodePoolRequest{}
 
 	if isForceDeletionAfterOverrideGraceDuration, ok := s.D.GetOkExists("is_force_deletion_after_override_grace_duration"); ok {
@@ -1452,14 +1453,14 @@ func (s *ContainerengineNodePoolResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
-	response, err := s.Client.DeleteNodePool(context.Background(), request)
+	response, err := s.Client.DeleteNodePool(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := nodePoolWaitForWorkRequest(workId, "nodepool",
+	_, delWorkRequestErr := nodePoolWaitForWorkRequest(ctx, workId, "nodepool",
 		oci_containerengine.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

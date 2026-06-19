@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -22,11 +23,11 @@ import (
 func StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementResource() *schema.Resource {
 
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagement,
-		Read:     readStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagement,
-		Update:   updateStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagement,
-		Delete:   deleteStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagement,
+		ReadContext:   readStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagement,
+		UpdateContext: updateStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagement,
+		DeleteContext: deleteStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"monitoring_template_id": {
@@ -46,36 +47,36 @@ func StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManageme
 	}
 }
 
-func createStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagement(d *schema.ResourceData, m interface{}) error {
+func createStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StackMonitoringClient()
 	sync.Res = &StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementResponse{}
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagement(d *schema.ResourceData, m interface{}) error {
+func readStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func updateStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagement(d *schema.ResourceData, m interface{}) error {
+func updateStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StackMonitoringClient()
 	sync.Res = &StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementResponse{}
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagement(d *schema.ResourceData, m interface{}) error {
+func deleteStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StackMonitoringClient()
 	sync.Res = &StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementResponse{}
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementResponse struct {
@@ -94,7 +95,7 @@ func (s *StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesMana
 	return tfresource.GenerateDataSourceHashID("StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementResource-", StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementResource(), s.D)
 }
 
-func (s *StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementResourceCrud) Create() error {
+func (s *StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_monitoring_template_on_given_resources"); ok {
 		operation = enableOperation.(bool)
@@ -110,13 +111,13 @@ func (s *StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesMana
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
-		response, err := s.Client.ApplyMonitoringTemplate(context.Background(), request)
+		response, err := s.Client.ApplyMonitoringTemplate(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -133,13 +134,13 @@ func (s *StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesMana
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
-	response, err := s.Client.UnapplyMonitoringTemplate(context.Background(), request)
+	response, err := s.Client.UnapplyMonitoringTemplate(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -147,11 +148,11 @@ func (s *StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesMana
 	return nil
 }
 
-func (s *StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementResourceCrud) getMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementResourceCrud) getMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_stack_monitoring.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	_, err := monitoringTemplateMonitoringTemplateOnGivenResourcesManagementWaitForWorkRequest(workId, "stack_monitoring",
+	_, err := monitoringTemplateMonitoringTemplateOnGivenResourcesManagementWaitForWorkRequest(ctx, workId, "stack_monitoring",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -184,7 +185,7 @@ func monitoringTemplateMonitoringTemplateOnGivenResourcesManagementWorkRequestSh
 	}
 }
 
-func monitoringTemplateMonitoringTemplateOnGivenResourcesManagementWaitForWorkRequest(wId *string, entityType string, action oci_stack_monitoring.ActionTypeEnum,
+func monitoringTemplateMonitoringTemplateOnGivenResourcesManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_stack_monitoring.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_stack_monitoring.StackMonitoringClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "stack_monitoring")
 	retryPolicy.ShouldRetryOperation = monitoringTemplateMonitoringTemplateOnGivenResourcesManagementWorkRequestShouldRetryFunc(timeout)
@@ -203,7 +204,7 @@ func monitoringTemplateMonitoringTemplateOnGivenResourcesManagementWaitForWorkRe
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_stack_monitoring.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -215,7 +216,7 @@ func monitoringTemplateMonitoringTemplateOnGivenResourcesManagementWaitForWorkRe
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -232,14 +233,14 @@ func monitoringTemplateMonitoringTemplateOnGivenResourcesManagementWaitForWorkRe
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if response.Status == oci_stack_monitoring.OperationStatusFailed || response.Status == oci_stack_monitoring.OperationStatusCanceled {
-		return nil, getErrorFromStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementWorkRequest(client *oci_stack_monitoring.StackMonitoringClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_stack_monitoring.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementWorkRequest(ctx context.Context, client *oci_stack_monitoring.StackMonitoringClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_stack_monitoring.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_stack_monitoring.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -261,7 +262,7 @@ func getErrorFromStackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResou
 	return workRequestErr
 }
 
-func (s *StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementResourceCrud) Update() error {
+func (s *StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_monitoring_template_on_given_resources"); ok {
 		operation = enableOperation.(bool)
@@ -277,13 +278,13 @@ func (s *StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesMana
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
-		response, err := s.Client.ApplyMonitoringTemplate(context.Background(), request)
+		response, err := s.Client.ApplyMonitoringTemplate(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -300,13 +301,13 @@ func (s *StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesMana
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
-	response, err := s.Client.UnapplyMonitoringTemplate(context.Background(), request)
+	response, err := s.Client.UnapplyMonitoringTemplate(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -314,7 +315,7 @@ func (s *StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesMana
 	return nil
 }
 
-func (s *StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementResourceCrud) Delete() error {
+func (s *StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_monitoring_template_on_given_resources"); ok {
 		operation = enableOperation.(bool)
@@ -333,13 +334,13 @@ func (s *StackMonitoringMonitoringTemplateMonitoringTemplateOnGivenResourcesMana
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
-	response, err := s.Client.UnapplyMonitoringTemplate(context.Background(), request)
+	response, err := s.Client.UnapplyMonitoringTemplate(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getMonitoringTemplateMonitoringTemplateOnGivenResourcesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}

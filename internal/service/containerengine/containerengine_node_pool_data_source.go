@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_containerengine "github.com/oracle/oci-go-sdk/v65/containerengine"
 )
@@ -19,15 +20,15 @@ func ContainerengineNodePoolDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(ContainerengineNodePoolResource(), fieldMap, readSingularContainerengineNodePool)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(ContainerengineNodePoolResource(), fieldMap, readSingularContainerengineNodePoolWithContext)
 }
 
-func readSingularContainerengineNodePool(d *schema.ResourceData, m interface{}) error {
+func readSingularContainerengineNodePoolWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineNodePoolDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ContainerengineNodePoolDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *ContainerengineNodePoolDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ContainerengineNodePoolDataSourceCrud) Get() error {
+func (s *ContainerengineNodePoolDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_containerengine.GetNodePoolRequest{}
 
 	if nodePoolId, ok := s.D.GetOkExists("node_pool_id"); ok {
@@ -50,7 +51,7 @@ func (s *ContainerengineNodePoolDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "containerengine")
 
-	response, err := s.Client.GetNodePool(context.Background(), request)
+	response, err := s.Client.GetNodePool(ctx, request)
 	if err != nil {
 		return err
 	}

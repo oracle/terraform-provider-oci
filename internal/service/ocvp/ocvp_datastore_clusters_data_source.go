@@ -6,6 +6,7 @@ package ocvp
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
 
@@ -15,7 +16,7 @@ import (
 
 func OcvpDatastoreClustersDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readOcvpDatastoreClusters,
+		ReadContext: readOcvpDatastoreClustersWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"cluster_id": {
@@ -56,12 +57,12 @@ func OcvpDatastoreClustersDataSource() *schema.Resource {
 	}
 }
 
-func readOcvpDatastoreClusters(d *schema.ResourceData, m interface{}) error {
+func readOcvpDatastoreClustersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpDatastoreClustersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatastoreClusterClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OcvpDatastoreClustersDataSourceCrud struct {
@@ -74,7 +75,7 @@ func (s *OcvpDatastoreClustersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OcvpDatastoreClustersDataSourceCrud) Get() error {
+func (s *OcvpDatastoreClustersDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ocvp.ListDatastoreClustersRequest{}
 
 	if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
@@ -103,7 +104,7 @@ func (s *OcvpDatastoreClustersDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
 
-	response, err := s.Client.ListDatastoreClusters(context.Background(), request)
+	response, err := s.Client.ListDatastoreClusters(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -112,7 +113,7 @@ func (s *OcvpDatastoreClustersDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDatastoreClusters(context.Background(), request)
+		listResponse, err := s.Client.ListDatastoreClusters(ctx, request)
 		if err != nil {
 			return err
 		}

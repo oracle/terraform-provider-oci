@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -26,11 +27,11 @@ func StackMonitoringMaintenanceWindowResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createStackMonitoringMaintenanceWindow,
-		Read:     readStackMonitoringMaintenanceWindow,
-		Update:   updateStackMonitoringMaintenanceWindow,
-		Delete:   deleteStackMonitoringMaintenanceWindow,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createStackMonitoringMaintenanceWindowWithContext,
+		ReadContext:   readStackMonitoringMaintenanceWindowWithContext,
+		UpdateContext: updateStackMonitoringMaintenanceWindowWithContext,
+		DeleteContext: deleteStackMonitoringMaintenanceWindowWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -193,11 +194,11 @@ func StackMonitoringMaintenanceWindowSummaryResponse() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createStackMonitoringMaintenanceWindow,
-		Read:     readStackMonitoringMaintenanceWindow,
-		Update:   updateStackMonitoringMaintenanceWindow,
-		Delete:   deleteStackMonitoringMaintenanceWindow,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createStackMonitoringMaintenanceWindowWithContext,
+		ReadContext:   readStackMonitoringMaintenanceWindowWithContext,
+		UpdateContext: updateStackMonitoringMaintenanceWindowWithContext,
+		DeleteContext: deleteStackMonitoringMaintenanceWindowWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"id": {
@@ -318,37 +319,37 @@ func StackMonitoringMaintenanceWindowSummaryResponse() *schema.Resource {
 	}
 }
 
-func createStackMonitoringMaintenanceWindow(d *schema.ResourceData, m interface{}) error {
+func createStackMonitoringMaintenanceWindowWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StackMonitoringMaintenanceWindowResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StackMonitoringClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readStackMonitoringMaintenanceWindow(d *schema.ResourceData, m interface{}) error {
+func readStackMonitoringMaintenanceWindowWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StackMonitoringMaintenanceWindowResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StackMonitoringClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateStackMonitoringMaintenanceWindow(d *schema.ResourceData, m interface{}) error {
+func updateStackMonitoringMaintenanceWindowWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StackMonitoringMaintenanceWindowResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StackMonitoringClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteStackMonitoringMaintenanceWindow(d *schema.ResourceData, m interface{}) error {
+func deleteStackMonitoringMaintenanceWindowWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StackMonitoringMaintenanceWindowResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StackMonitoringClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type StackMonitoringMaintenanceWindowResourceCrud struct {
@@ -387,7 +388,7 @@ func (s *StackMonitoringMaintenanceWindowResourceCrud) DeletedTarget() []string 
 	}
 }
 
-func (s *StackMonitoringMaintenanceWindowResourceCrud) Create() error {
+func (s *StackMonitoringMaintenanceWindowResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_stack_monitoring.CreateMaintenanceWindowRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -447,7 +448,7 @@ func (s *StackMonitoringMaintenanceWindowResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
-	response, err := s.Client.CreateMaintenanceWindow(context.Background(), request)
+	response, err := s.Client.CreateMaintenanceWindow(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -458,14 +459,14 @@ func (s *StackMonitoringMaintenanceWindowResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getMaintenanceWindowFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getMaintenanceWindowFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *StackMonitoringMaintenanceWindowResourceCrud) getMaintenanceWindowFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *StackMonitoringMaintenanceWindowResourceCrud) getMaintenanceWindowFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_stack_monitoring.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	maintenanceWindowId, err := maintenanceWindowWaitForWorkRequest(workId, "maintenancewindow",
+	maintenanceWindowId, err := maintenanceWindowWaitForWorkRequest(ctx, workId, "maintenancewindow",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -473,7 +474,7 @@ func (s *StackMonitoringMaintenanceWindowResourceCrud) getMaintenanceWindowFromW
 	}
 	s.D.SetId(*maintenanceWindowId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func maintenanceWindowWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -499,7 +500,7 @@ func maintenanceWindowWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 	}
 }
 
-func maintenanceWindowWaitForWorkRequest(wId *string, entityType string, action oci_stack_monitoring.ActionTypeEnum,
+func maintenanceWindowWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_stack_monitoring.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_stack_monitoring.StackMonitoringClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "stack_monitoring")
 	retryPolicy.ShouldRetryOperation = maintenanceWindowWorkRequestShouldRetryFunc(timeout)
@@ -518,7 +519,7 @@ func maintenanceWindowWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_stack_monitoring.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -530,7 +531,7 @@ func maintenanceWindowWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -547,14 +548,14 @@ func maintenanceWindowWaitForWorkRequest(wId *string, entityType string, action 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_stack_monitoring.OperationStatusFailed || response.Status == oci_stack_monitoring.OperationStatusCanceled {
-		return nil, getErrorFromStackMonitoringMaintenanceWindowWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromStackMonitoringMaintenanceWindowWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromStackMonitoringMaintenanceWindowWorkRequest(client *oci_stack_monitoring.StackMonitoringClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_stack_monitoring.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromStackMonitoringMaintenanceWindowWorkRequest(ctx context.Context, client *oci_stack_monitoring.StackMonitoringClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_stack_monitoring.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_stack_monitoring.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -576,7 +577,7 @@ func getErrorFromStackMonitoringMaintenanceWindowWorkRequest(client *oci_stack_m
 	return workRequestErr
 }
 
-func (s *StackMonitoringMaintenanceWindowResourceCrud) Get() error {
+func (s *StackMonitoringMaintenanceWindowResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_stack_monitoring.GetMaintenanceWindowRequest{}
 
 	tmp := s.D.Id()
@@ -584,7 +585,7 @@ func (s *StackMonitoringMaintenanceWindowResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
-	response, err := s.Client.GetMaintenanceWindow(context.Background(), request)
+	response, err := s.Client.GetMaintenanceWindow(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -593,7 +594,7 @@ func (s *StackMonitoringMaintenanceWindowResourceCrud) Get() error {
 	return nil
 }
 
-func (s *StackMonitoringMaintenanceWindowResourceCrud) Update() error {
+func (s *StackMonitoringMaintenanceWindowResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_stack_monitoring.UpdateMaintenanceWindowRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -646,16 +647,16 @@ func (s *StackMonitoringMaintenanceWindowResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
-	response, err := s.Client.UpdateMaintenanceWindow(context.Background(), request)
+	response, err := s.Client.UpdateMaintenanceWindow(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getMaintenanceWindowFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getMaintenanceWindowFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *StackMonitoringMaintenanceWindowResourceCrud) Delete() error {
+func (s *StackMonitoringMaintenanceWindowResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_stack_monitoring.DeleteMaintenanceWindowRequest{}
 
 	tmp := s.D.Id()
@@ -663,14 +664,14 @@ func (s *StackMonitoringMaintenanceWindowResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
-	response, err := s.Client.DeleteMaintenanceWindow(context.Background(), request)
+	response, err := s.Client.DeleteMaintenanceWindow(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := maintenanceWindowWaitForWorkRequest(workId, "maintenancewindow",
+	_, delWorkRequestErr := maintenanceWindowWaitForWorkRequest(ctx, workId, "maintenancewindow",
 		oci_stack_monitoring.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

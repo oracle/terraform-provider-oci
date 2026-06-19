@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -28,10 +29,10 @@ func OcvpEsxiHostResource() *schema.Resource {
 		Timeouts: &schema.ResourceTimeout{
 			Create: tfresource.GetTimeoutDuration("1h"),
 		},
-		Create: createOcvpEsxiHost,
-		Read:   readOcvpEsxiHost,
-		Update: updateOcvpEsxiHost,
-		Delete: deleteOcvpEsxiHost,
+		CreateContext: createOcvpEsxiHostWithContext,
+		ReadContext:   readOcvpEsxiHostWithContext,
+		UpdateContext: updateOcvpEsxiHostWithContext,
+		DeleteContext: deleteOcvpEsxiHostWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 
@@ -297,7 +298,7 @@ func suppressEsxiHostDeprecatedFieldRemoval(k, old string, new string, d *schema
 	return false
 }
 
-func createOcvpEsxiHost(d *schema.ResourceData, m interface{}) error {
+func createOcvpEsxiHostWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpEsxiHostResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EsxiHostClient()
@@ -306,44 +307,44 @@ func createOcvpEsxiHost(d *schema.ResourceData, m interface{}) error {
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
 	sync.DatastoreClusterClient = m.(*client.OracleClients).DatastoreClusterClient()
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 
 	return nil
 
 }
 
-func readOcvpEsxiHost(d *schema.ResourceData, m interface{}) error {
+func readOcvpEsxiHostWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpEsxiHostResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EsxiHostClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateOcvpEsxiHost(d *schema.ResourceData, m interface{}) error {
+func updateOcvpEsxiHostWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpEsxiHostResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EsxiHostClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
 	sync.DatastoreClusterClient = m.(*client.OracleClients).DatastoreClusterClient()
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	return nil
 }
 
-func deleteOcvpEsxiHost(d *schema.ResourceData, m interface{}) error {
+func deleteOcvpEsxiHostWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OcvpEsxiHostResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EsxiHostClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OcvpEsxiHostResourceCrud struct {
@@ -385,12 +386,12 @@ func (s *OcvpEsxiHostResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *OcvpEsxiHostResourceCrud) Create() error {
+func (s *OcvpEsxiHostResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_ocvp.CreateEsxiHostRequest{}
 
 	// replace failed ESXi host
 	if failedEsxiHostId, ok := s.D.GetOkExists("failed_esxi_host_id"); ok {
-		return s.ReplaceHost(failedEsxiHostId.(string))
+		return s.ReplaceHost(ctx, failedEsxiHostId.(string))
 	}
 
 	if billingDonorHostId, ok := s.D.GetOkExists("billing_donor_host_id"); ok {
@@ -472,7 +473,7 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 	}
 
 	if nonUpgradedEsxiHostId, ok := s.D.GetOkExists("non_upgraded_esxi_host_id"); ok {
-		return s.InplaceUpgrade(nonUpgradedEsxiHostId.(string))
+		return s.InplaceUpgrade(ctx, nonUpgradedEsxiHostId.(string))
 	}
 
 	if sddcId, ok := s.D.GetOkExists("sddc_id"); ok {
@@ -480,7 +481,7 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 		tmp := sddcId.(string)
 		getSddcRequest.SddcId = &tmp
 		getSddcRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
-		getSddcResponse, getSddcErr := s.SddcClient.GetSddc(context.Background(), getSddcRequest)
+		getSddcResponse, getSddcErr := s.SddcClient.GetSddc(ctx, getSddcRequest)
 		if getSddcErr != nil {
 			return fmt.Errorf("cannot get SDDC %s due to error: %s", sddcId, getSddcErr)
 		}
@@ -489,7 +490,7 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 		listClustersRequest.SddcId = &tmp
 		listClustersRequest.CompartmentId = getSddcResponse.CompartmentId
 		listClustersRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
-		listClustersResponse, listClustersErr := s.ClusterClient.ListClusters(context.Background(), listClustersRequest)
+		listClustersResponse, listClustersErr := s.ClusterClient.ListClusters(ctx, listClustersRequest)
 		if listClustersErr != nil {
 			return fmt.Errorf("cannot list clusters for SDDC %s due to error: %s", sddcId, listClustersErr)
 		}
@@ -512,29 +513,29 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	response, err := s.Client.CreateEsxiHost(context.Background(), request)
+	response, err := s.Client.CreateEsxiHost(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	s.setEsxiHostIdFromWorkRequest(workId)
-	_, err = esxiHostWaitForWorkRequest(workId, "esxihost",
+	s.setEsxiHostIdFromWorkRequest(ctx, workId)
+	_, err = esxiHostWaitForWorkRequest(ctx, workId, "esxihost",
 		oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.WorkRequestClient)
 	if err != nil {
 		return nil
 	}
 
-	if err := s.executeAttachDetachDatastoreClusters(); err != nil {
+	if err := s.executeAttachDetachDatastoreClusters(ctx); err != nil {
 		return err
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *OcvpEsxiHostResourceCrud) setEsxiHostIdFromWorkRequest(workId *string) {
+func (s *OcvpEsxiHostResourceCrud) setEsxiHostIdFromWorkRequest(ctx context.Context, workId *string) {
 	workRequestResponse := oci_ocvp.GetWorkRequestResponse{}
-	workRequestResponse, err := s.WorkRequestClient.GetWorkRequest(context.Background(),
+	workRequestResponse, err := s.WorkRequestClient.GetWorkRequest(ctx,
 		oci_ocvp.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -552,11 +553,11 @@ func (s *OcvpEsxiHostResourceCrud) setEsxiHostIdFromWorkRequest(workId *string) 
 	}
 }
 
-func (s *OcvpEsxiHostResourceCrud) getEsxiHostFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OcvpEsxiHostResourceCrud) getEsxiHostFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_ocvp.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	esxiHostId, err := esxiHostWaitForWorkRequest(workId, "esxihost",
+	esxiHostId, err := esxiHostWaitForWorkRequest(ctx, workId, "esxihost",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -564,7 +565,7 @@ func (s *OcvpEsxiHostResourceCrud) getEsxiHostFromWorkRequest(workId *string, re
 	}
 	s.D.SetId(*esxiHostId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func esxiHostWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -590,7 +591,7 @@ func esxiHostWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci
 	}
 }
 
-func esxiHostWaitForWorkRequest(wId *string, entityType string, action oci_ocvp.ActionTypesEnum,
+func esxiHostWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_ocvp.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_ocvp.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "ocvp")
 	retryPolicy.ShouldRetryOperation = esxiHostWorkRequestShouldRetryFunc(timeout)
@@ -609,7 +610,7 @@ func esxiHostWaitForWorkRequest(wId *string, entityType string, action oci_ocvp.
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_ocvp.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -621,7 +622,7 @@ func esxiHostWaitForWorkRequest(wId *string, entityType string, action oci_ocvp.
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -638,14 +639,14 @@ func esxiHostWaitForWorkRequest(wId *string, entityType string, action oci_ocvp.
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_ocvp.OperationStatusFailed || response.Status == oci_ocvp.OperationStatusCanceled {
-		return nil, getErrorFromOcvpEsxiHostWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOcvpEsxiHostWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOcvpEsxiHostWorkRequest(client *oci_ocvp.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ocvp.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOcvpEsxiHostWorkRequest(ctx context.Context, client *oci_ocvp.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ocvp.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_ocvp.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -667,7 +668,7 @@ func getErrorFromOcvpEsxiHostWorkRequest(client *oci_ocvp.WorkRequestClient, wor
 	return workRequestErr
 }
 
-func (s *OcvpEsxiHostResourceCrud) Get() error {
+func (s *OcvpEsxiHostResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ocvp.GetEsxiHostRequest{}
 
 	tmp := s.D.Id()
@@ -675,7 +676,7 @@ func (s *OcvpEsxiHostResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	response, err := s.Client.GetEsxiHost(context.Background(), request)
+	response, err := s.Client.GetEsxiHost(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -684,7 +685,7 @@ func (s *OcvpEsxiHostResourceCrud) Get() error {
 	return nil
 }
 
-func (s *OcvpEsxiHostResourceCrud) Update() error {
+func (s *OcvpEsxiHostResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_ocvp.UpdateEsxiHostRequest{}
 
 	if billingDonorHostId, ok := s.D.GetOkExists("billing_donor_host_id"); ok {
@@ -732,19 +733,19 @@ func (s *OcvpEsxiHostResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	_, err := s.Client.UpdateEsxiHost(context.Background(), request)
+	_, err := s.Client.UpdateEsxiHost(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if err := s.executeAttachDetachDatastoreClusters(); err != nil {
+	if err := s.executeAttachDetachDatastoreClusters(ctx); err != nil {
 		return err
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *OcvpEsxiHostResourceCrud) Delete() error {
+func (s *OcvpEsxiHostResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_ocvp.DeleteEsxiHostRequest{}
 
 	tmp := s.D.Id()
@@ -752,14 +753,14 @@ func (s *OcvpEsxiHostResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
 
-	response, err := s.Client.DeleteEsxiHost(context.Background(), request)
+	response, err := s.Client.DeleteEsxiHost(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := esxiHostWaitForWorkRequest(workId, "esxihost",
+	_, delWorkRequestErr := esxiHostWaitForWorkRequest(ctx, workId, "esxihost",
 		oci_ocvp.ActionTypesDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
@@ -910,11 +911,11 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *OcvpEsxiHostResourceCrud) InplaceUpgrade(nonUpgradeEsxiHostId string) error {
+func (s *OcvpEsxiHostResourceCrud) InplaceUpgrade(ctx context.Context, nonUpgradeEsxiHostId string) error {
 	getNonUpgradeEsxiHostRequest := oci_ocvp.GetEsxiHostRequest{}
 	getNonUpgradeEsxiHostRequest.EsxiHostId = &nonUpgradeEsxiHostId
 	getNonUpgradeEsxiHostRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
-	response, err := s.Client.GetEsxiHost(context.Background(), getNonUpgradeEsxiHostRequest)
+	response, err := s.Client.GetEsxiHost(ctx, getNonUpgradeEsxiHostRequest)
 	if err != nil {
 		return fmt.Errorf("cannot get non-upgrade ESXi host due to error: %s", err)
 	}
@@ -938,21 +939,21 @@ func (s *OcvpEsxiHostResourceCrud) InplaceUpgrade(nonUpgradeEsxiHostId string) e
 		upgradeHostRequest.InplaceUpgradeDetails = oci_ocvp.InplaceUpgradeDetails{VcfByolAllocationId: &tmp}
 	}
 
-	upgradeResponse, err := s.Client.InplaceUpgrade(context.Background(), upgradeHostRequest)
+	upgradeResponse, err := s.Client.InplaceUpgrade(ctx, upgradeHostRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := upgradeResponse.OpcWorkRequestId
-	s.setEsxiHostIdFromWorkRequest(workId)
-	return s.getEsxiHostFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	s.setEsxiHostIdFromWorkRequest(ctx, workId)
+	return s.getEsxiHostFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OcvpEsxiHostResourceCrud) ReplaceHost(failedEsxiHostId string) error {
+func (s *OcvpEsxiHostResourceCrud) ReplaceHost(ctx context.Context, failedEsxiHostId string) error {
 	getFailedEsxiHostRequest := oci_ocvp.GetEsxiHostRequest{}
 	getFailedEsxiHostRequest.EsxiHostId = &failedEsxiHostId
 	getFailedEsxiHostRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
-	response, err := s.Client.GetEsxiHost(context.Background(), getFailedEsxiHostRequest)
+	response, err := s.Client.GetEsxiHost(ctx, getFailedEsxiHostRequest)
 	if err != nil {
 		return fmt.Errorf("cannot get failed ESXi host due to error: %s", err)
 	}
@@ -976,13 +977,13 @@ func (s *OcvpEsxiHostResourceCrud) ReplaceHost(failedEsxiHostId string) error {
 		replaceHostRequest.ReplaceHostDetails = oci_ocvp.ReplaceHostDetails{VcfByolAllocationId: &tmp}
 	}
 
-	replaceHostResponse, replaceHostErr := s.Client.ReplaceHost(context.Background(), replaceHostRequest)
+	replaceHostResponse, replaceHostErr := s.Client.ReplaceHost(ctx, replaceHostRequest)
 	if replaceHostErr != nil {
 		return replaceHostErr
 	}
 	workId := replaceHostResponse.OpcWorkRequestId
-	s.setEsxiHostIdFromWorkRequest(workId)
-	return s.getEsxiHostFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	s.setEsxiHostIdFromWorkRequest(ctx, workId)
+	return s.getEsxiHostFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func validateReplacementHostDetails(oldHost oci_ocvp.EsxiHost, s *OcvpEsxiHostResourceCrud, isUpgrade bool) error {
@@ -1180,7 +1181,7 @@ func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 	return result
 }
 
-func (s *OcvpEsxiHostResourceCrud) executeAttachDetachDatastoreClusters() error {
+func (s *OcvpEsxiHostResourceCrud) executeAttachDetachDatastoreClusters(ctx context.Context) error {
 	var datastoreClusterIdsToDetach []string
 	var datastoreClusterIdsToAttach []string
 	if tmp, ok := s.D.GetOk("detach_datastore_cluster_ids"); ok && s.D.HasChange("detach_datastore_cluster_ids") {
@@ -1193,20 +1194,20 @@ func (s *OcvpEsxiHostResourceCrud) executeAttachDetachDatastoreClusters() error 
 	}
 	for _, datastoreClusterId := range datastoreClusterIdsToDetach {
 		log.Printf("[DEBUG] detaching datastore cluster %v", datastoreClusterId)
-		if err := s.detachDatastoreClusterFromEsxiHost(datastoreClusterId); err != nil {
+		if err := s.detachDatastoreClusterFromEsxiHost(ctx, datastoreClusterId); err != nil {
 			return err
 		}
 	}
 	for _, datastoreClusterId := range datastoreClusterIdsToAttach {
 		log.Printf("[DEBUG] attaching datastore cluster %v", datastoreClusterId)
-		if err := s.attachDatastoreClusterToEsxiHost(datastoreClusterId); err != nil {
+		if err := s.attachDatastoreClusterToEsxiHost(ctx, datastoreClusterId); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func (s *OcvpEsxiHostResourceCrud) attachDatastoreClusterToEsxiHost(datastoreClusterId string) error {
+func (s *OcvpEsxiHostResourceCrud) attachDatastoreClusterToEsxiHost(ctx context.Context, datastoreClusterId string) error {
 	esxiHostId := s.D.Id()
 	request := oci_ocvp.AttachDatastoreClusterToEsxiHostRequest{
 		DatastoreClusterId: &datastoreClusterId,
@@ -1215,16 +1216,16 @@ func (s *OcvpEsxiHostResourceCrud) attachDatastoreClusterToEsxiHost(datastoreClu
 		},
 	}
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
-	response, err := s.DatastoreClusterClient.AttachDatastoreClusterToEsxiHost(context.Background(), request)
+	response, err := s.DatastoreClusterClient.AttachDatastoreClusterToEsxiHost(ctx, request)
 	if err != nil {
 		return err
 	}
-	_, err = datastoreClusterWaitForWorkRequest(response.OpcWorkRequestId, "sddc-datastore-cluster", oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate),
+	_, err = datastoreClusterWaitForWorkRequest(ctx, response.OpcWorkRequestId, "sddc-datastore-cluster", oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate),
 		s.DisableNotFoundRetries, s.WorkRequestClient)
 	return err
 }
 
-func (s *OcvpEsxiHostResourceCrud) detachDatastoreClusterFromEsxiHost(datastoreClusterId string) error {
+func (s *OcvpEsxiHostResourceCrud) detachDatastoreClusterFromEsxiHost(ctx context.Context, datastoreClusterId string) error {
 	esxiHostId := s.D.Id()
 	request := oci_ocvp.DetachDatastoreClusterFromEsxiHostRequest{
 		DatastoreClusterId: &datastoreClusterId,
@@ -1233,11 +1234,11 @@ func (s *OcvpEsxiHostResourceCrud) detachDatastoreClusterFromEsxiHost(datastoreC
 		},
 	}
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
-	response, err := s.DatastoreClusterClient.DetachDatastoreClusterFromEsxiHost(context.Background(), request)
+	response, err := s.DatastoreClusterClient.DetachDatastoreClusterFromEsxiHost(ctx, request)
 	if err != nil {
 		return err
 	}
-	_, err = datastoreClusterWaitForWorkRequest(response.OpcWorkRequestId, "sddc-datastore-cluster", oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate),
+	_, err = datastoreClusterWaitForWorkRequest(ctx, response.OpcWorkRequestId, "sddc-datastore-cluster", oci_ocvp.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate),
 		s.DisableNotFoundRetries, s.WorkRequestClient)
 	return err
 }

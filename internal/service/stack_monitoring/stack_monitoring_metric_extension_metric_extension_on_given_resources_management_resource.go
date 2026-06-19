@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -21,11 +22,11 @@ import (
 
 func StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement,
-		Read:     readStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement,
-		Update:   updateStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement,
-		Delete:   deleteStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement,
+		ReadContext:   readStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement,
+		UpdateContext: updateStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement,
+		DeleteContext: deleteStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"metric_extension_id": {
@@ -55,36 +56,36 @@ func StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementReso
 	}
 }
 
-func createStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement(d *schema.ResourceData, m interface{}) error {
+func createStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StackMonitoringClient()
 	sync.Res = &StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementResponse{}
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement(d *schema.ResourceData, m interface{}) error {
+func readStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func updateStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement(d *schema.ResourceData, m interface{}) error {
+func updateStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StackMonitoringClient()
 	sync.Res = &StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementResponse{}
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement(d *schema.ResourceData, m interface{}) error {
+func deleteStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StackMonitoringClient()
 	sync.Res = &StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementResponse{}
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementResponse struct {
@@ -103,7 +104,7 @@ func (s *StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement
 	return tfresource.GenerateDataSourceHashID("StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementResource-", StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementResource(), s.D)
 }
 
-func (s *StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementResourceCrud) Create() error {
+func (s *StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_metric_extension_on_given_resources"); ok {
 		operation = enableOperation.(bool)
@@ -132,13 +133,13 @@ func (s *StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
-		response, err := s.Client.EnableMetricExtension(context.Background(), request)
+		response, err := s.Client.EnableMetricExtension(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getMetricExtensionMetricExtensionOnGivenResourcesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getMetricExtensionMetricExtensionOnGivenResourcesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -168,13 +169,13 @@ func (s *StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
-	response, err := s.Client.DisableMetricExtension(context.Background(), request)
+	response, err := s.Client.DisableMetricExtension(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getMetricExtensionMetricExtensionOnGivenResourcesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getMetricExtensionMetricExtensionOnGivenResourcesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -182,11 +183,11 @@ func (s *StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement
 	return nil
 }
 
-func (s *StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementResourceCrud) getMetricExtensionMetricExtensionOnGivenResourcesManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementResourceCrud) getMetricExtensionMetricExtensionOnGivenResourcesManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_stack_monitoring.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	_, err := metricExtensionMetricExtensionOnGivenResourcesManagementWaitForWorkRequest(workId, "metricextension",
+	_, err := metricExtensionMetricExtensionOnGivenResourcesManagementWaitForWorkRequest(ctx, workId, "metricextension",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -219,7 +220,7 @@ func metricExtensionMetricExtensionOnGivenResourcesManagementWorkRequestShouldRe
 	}
 }
 
-func metricExtensionMetricExtensionOnGivenResourcesManagementWaitForWorkRequest(wId *string, entityType string, action oci_stack_monitoring.ActionTypeEnum,
+func metricExtensionMetricExtensionOnGivenResourcesManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_stack_monitoring.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_stack_monitoring.StackMonitoringClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "stack_monitoring")
 	retryPolicy.ShouldRetryOperation = metricExtensionMetricExtensionOnGivenResourcesManagementWorkRequestShouldRetryFunc(timeout)
@@ -238,7 +239,7 @@ func metricExtensionMetricExtensionOnGivenResourcesManagementWaitForWorkRequest(
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_stack_monitoring.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -250,7 +251,7 @@ func metricExtensionMetricExtensionOnGivenResourcesManagementWaitForWorkRequest(
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -267,14 +268,14 @@ func metricExtensionMetricExtensionOnGivenResourcesManagementWaitForWorkRequest(
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_stack_monitoring.OperationStatusFailed || response.Status == oci_stack_monitoring.OperationStatusCanceled {
-		return nil, getErrorFromStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementWorkRequest(client *oci_stack_monitoring.StackMonitoringClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_stack_monitoring.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementWorkRequest(ctx context.Context, client *oci_stack_monitoring.StackMonitoringClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_stack_monitoring.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_stack_monitoring.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -296,7 +297,7 @@ func getErrorFromStackMonitoringMetricExtensionMetricExtensionOnGivenResourcesMa
 	return workRequestErr
 }
 
-func (s *StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementResourceCrud) Update() error {
+func (s *StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_metric_extension_on_given_resources"); ok {
 		operation = enableOperation.(bool)
@@ -325,13 +326,13 @@ func (s *StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
-		response, err := s.Client.EnableMetricExtension(context.Background(), request)
+		response, err := s.Client.EnableMetricExtension(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getMetricExtensionMetricExtensionOnGivenResourcesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getMetricExtensionMetricExtensionOnGivenResourcesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -361,13 +362,13 @@ func (s *StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
-	response, err := s.Client.DisableMetricExtension(context.Background(), request)
+	response, err := s.Client.DisableMetricExtension(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getMetricExtensionMetricExtensionOnGivenResourcesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getMetricExtensionMetricExtensionOnGivenResourcesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -375,7 +376,7 @@ func (s *StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement
 	return nil
 }
 
-func (s *StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementResourceCrud) Delete() error {
+func (s *StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_metric_extension_on_given_resources"); ok {
 		operation = enableOperation.(bool)
@@ -407,13 +408,13 @@ func (s *StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagement
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
-	response, err := s.Client.DisableMetricExtension(context.Background(), request)
+	response, err := s.Client.DisableMetricExtension(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getMetricExtensionMetricExtensionOnGivenResourcesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getMetricExtensionMetricExtensionOnGivenResourcesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
