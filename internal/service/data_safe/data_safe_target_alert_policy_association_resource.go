@@ -75,6 +75,12 @@ func DataSafeTargetAlertPolicyAssociationResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"target_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"lifecycle_details": {
@@ -213,6 +219,10 @@ func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) CreateWithContext(ctx
 	if targetId, ok := s.D.GetOkExists("target_id"); ok {
 		tmp := targetId.(string)
 		request.TargetId = &tmp
+	}
+
+	if targetType, ok := s.D.GetOkExists("target_type"); ok {
+		request.TargetType = oci_data_safe.TargetAlertPolicyAssociationTargetTypeEnum(targetType.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
@@ -480,6 +490,8 @@ func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) SetData() error {
 		s.D.Set("target_id", *s.Res.TargetId)
 	}
 
+	s.D.Set("target_type", s.Res.TargetType)
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -533,6 +545,8 @@ func TargetAlertPolicyAssociationSummaryToMap(obj oci_data_safe.TargetAlertPolic
 	if obj.TargetId != nil {
 		result["target_id"] = string(*obj.TargetId)
 	}
+
+	result["target_type"] = string(obj.TargetType)
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()

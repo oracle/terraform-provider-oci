@@ -49,6 +49,10 @@ func DataSafeTargetAlertPolicyAssociationsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"target_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"time_created_greater_than_or_equal_to": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -127,6 +131,10 @@ func (s *DataSafeTargetAlertPolicyAssociationsDataSourceCrud) GetWithContext(ctx
 	if targetId, ok := s.D.GetOkExists("target_id"); ok {
 		tmp := targetId.(string)
 		request.TargetId = &tmp
+	}
+
+	if targetType, ok := s.D.GetOkExists("target_type"); ok {
+		request.TargetType = oci_data_safe.TargetAlertPolicyAssociationTargetTypeEnum(targetType.(string))
 	}
 
 	if timeCreatedGreaterThanOrEqualTo, ok := s.D.GetOkExists("time_created_greater_than_or_equal_to"); ok {

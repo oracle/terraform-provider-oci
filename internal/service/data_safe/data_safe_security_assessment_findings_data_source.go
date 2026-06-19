@@ -35,6 +35,13 @@ func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"contains_oracle_defined_severity": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"contains_references": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -106,6 +113,10 @@ func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
 
 						// Computed
 						"assessment_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"category": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -262,6 +273,19 @@ func (s *DataSafeSecurityAssessmentFindingsDataSourceCrud) GetWithContext(ctx co
 	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
 		tmp := compartmentIdInSubtree.(bool)
 		request.CompartmentIdInSubtree = &tmp
+	}
+
+	if containsOracleDefinedSeverity, ok := s.D.GetOkExists("contains_oracle_defined_severity"); ok {
+		interfaces := containsOracleDefinedSeverity.([]interface{})
+		tmp := make([]oci_data_safe.ListFindingsContainsOracleDefinedSeverityEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_data_safe.ListFindingsContainsOracleDefinedSeverityEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("contains_oracle_defined_severity") {
+			request.ContainsOracleDefinedSeverity = tmp
+		}
 	}
 
 	if containsReferences, ok := s.D.GetOkExists("contains_references"); ok {
