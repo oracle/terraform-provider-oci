@@ -6,6 +6,7 @@ package stack_monitoring
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_stack_monitoring "github.com/oracle/oci-go-sdk/v65/stackmonitoring"
 
@@ -19,15 +20,15 @@ func StackMonitoringMaintenanceWindowDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(StackMonitoringMaintenanceWindowResource(), fieldMap, readSingularStackMonitoringMaintenanceWindow)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(StackMonitoringMaintenanceWindowResource(), fieldMap, readSingularStackMonitoringMaintenanceWindowWithContext)
 }
 
-func readSingularStackMonitoringMaintenanceWindow(d *schema.ResourceData, m interface{}) error {
+func readSingularStackMonitoringMaintenanceWindowWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StackMonitoringMaintenanceWindowDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StackMonitoringClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type StackMonitoringMaintenanceWindowDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *StackMonitoringMaintenanceWindowDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *StackMonitoringMaintenanceWindowDataSourceCrud) Get() error {
+func (s *StackMonitoringMaintenanceWindowDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_stack_monitoring.GetMaintenanceWindowRequest{}
 
 	if maintenanceWindowId, ok := s.D.GetOkExists("maintenance_window_id"); ok {
@@ -50,7 +51,7 @@ func (s *StackMonitoringMaintenanceWindowDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "stack_monitoring")
 
-	response, err := s.Client.GetMaintenanceWindow(context.Background(), request)
+	response, err := s.Client.GetMaintenanceWindow(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -21,10 +22,10 @@ import (
 
 func StackMonitoringMetricExtensionsTestManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createStackMonitoringMetricExtensionsTestManagement,
-		Read:     readStackMonitoringMetricExtensionsTestManagement,
-		Delete:   deleteStackMonitoringMetricExtensionsTestManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createStackMonitoringMetricExtensionsTestManagementWithContext,
+		ReadContext:   readStackMonitoringMetricExtensionsTestManagementWithContext,
+		DeleteContext: deleteStackMonitoringMetricExtensionsTestManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"metric_extension_id": {
@@ -66,19 +67,19 @@ func StackMonitoringMetricExtensionsTestManagementResource() *schema.Resource {
 	}
 }
 
-func createStackMonitoringMetricExtensionsTestManagement(d *schema.ResourceData, m interface{}) error {
+func createStackMonitoringMetricExtensionsTestManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StackMonitoringMetricExtensionsTestManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StackMonitoringClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readStackMonitoringMetricExtensionsTestManagement(d *schema.ResourceData, m interface{}) error {
+func readStackMonitoringMetricExtensionsTestManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteStackMonitoringMetricExtensionsTestManagement(d *schema.ResourceData, m interface{}) error {
+func deleteStackMonitoringMetricExtensionsTestManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -105,7 +106,7 @@ func (s *StackMonitoringMetricExtensionsTestManagementResourceCrud) ID() string 
 
 }
 
-func (s *StackMonitoringMetricExtensionsTestManagementResourceCrud) Create() error {
+func (s *StackMonitoringMetricExtensionsTestManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_stack_monitoring.TestMetricExtensionRequest{}
 
 	if metricExtensionId, ok := s.D.GetOkExists("metric_extension_id"); ok {
@@ -128,7 +129,7 @@ func (s *StackMonitoringMetricExtensionsTestManagementResourceCrud) Create() err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
-	response, err := s.Client.TestMetricExtension(context.Background(), request)
+	response, err := s.Client.TestMetricExtension(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -136,14 +137,14 @@ func (s *StackMonitoringMetricExtensionsTestManagementResourceCrud) Create() err
 	workId := response.OpcWorkRequestId
 	s.Res = &response
 
-	return s.getMetricExtensionsTestManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getMetricExtensionsTestManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring"), oci_stack_monitoring.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *StackMonitoringMetricExtensionsTestManagementResourceCrud) getMetricExtensionsTestManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *StackMonitoringMetricExtensionsTestManagementResourceCrud) getMetricExtensionsTestManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_stack_monitoring.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	metricExtensionsTestManagementId, err := metricExtensionsTestManagementWaitForWorkRequest(workId, "metricextension",
+	metricExtensionsTestManagementId, err := metricExtensionsTestManagementWaitForWorkRequest(ctx, workId, "metricextension",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -151,7 +152,7 @@ func (s *StackMonitoringMetricExtensionsTestManagementResourceCrud) getMetricExt
 	}
 	s.D.SetId(*metricExtensionsTestManagementId)
 
-	//return s.Get()
+	//return s.GetWithContext(ctx)
 	return nil
 }
 
@@ -178,7 +179,7 @@ func metricExtensionsTestManagementWorkRequestShouldRetryFunc(timeout time.Durat
 	}
 }
 
-func metricExtensionsTestManagementWaitForWorkRequest(wId *string, entityType string, action oci_stack_monitoring.ActionTypeEnum,
+func metricExtensionsTestManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_stack_monitoring.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_stack_monitoring.StackMonitoringClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "stack_monitoring")
 	retryPolicy.ShouldRetryOperation = metricExtensionsTestManagementWorkRequestShouldRetryFunc(timeout)
@@ -197,7 +198,7 @@ func metricExtensionsTestManagementWaitForWorkRequest(wId *string, entityType st
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_stack_monitoring.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -209,7 +210,7 @@ func metricExtensionsTestManagementWaitForWorkRequest(wId *string, entityType st
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -226,14 +227,14 @@ func metricExtensionsTestManagementWaitForWorkRequest(wId *string, entityType st
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_stack_monitoring.OperationStatusFailed || response.Status == oci_stack_monitoring.OperationStatusCanceled {
-		return nil, getErrorFromStackMonitoringMetricExtensionsTestManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromStackMonitoringMetricExtensionsTestManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromStackMonitoringMetricExtensionsTestManagementWorkRequest(client *oci_stack_monitoring.StackMonitoringClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_stack_monitoring.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromStackMonitoringMetricExtensionsTestManagementWorkRequest(ctx context.Context, client *oci_stack_monitoring.StackMonitoringClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_stack_monitoring.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_stack_monitoring.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

@@ -9,13 +9,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_containerengine "github.com/oracle/oci-go-sdk/v65/containerengine"
 )
 
 func ContainerengineNodePoolsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readContainerengineNodePools,
+		ReadContext: readContainerengineNodePoolsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"cluster_id": {
@@ -46,12 +47,12 @@ func ContainerengineNodePoolsDataSource() *schema.Resource {
 	}
 }
 
-func readContainerengineNodePools(d *schema.ResourceData, m interface{}) error {
+func readContainerengineNodePoolsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineNodePoolsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ContainerengineNodePoolsDataSourceCrud struct {
@@ -64,7 +65,7 @@ func (s *ContainerengineNodePoolsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ContainerengineNodePoolsDataSourceCrud) Get() error {
+func (s *ContainerengineNodePoolsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_containerengine.ListNodePoolsRequest{}
 
 	if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
@@ -92,7 +93,7 @@ func (s *ContainerengineNodePoolsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "containerengine")
 
-	response, err := s.Client.ListNodePools(context.Background(), request)
+	response, err := s.Client.ListNodePools(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -101,7 +102,7 @@ func (s *ContainerengineNodePoolsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListNodePools(context.Background(), request)
+		listResponse, err := s.Client.ListNodePools(ctx, request)
 		if err != nil {
 			return err
 		}

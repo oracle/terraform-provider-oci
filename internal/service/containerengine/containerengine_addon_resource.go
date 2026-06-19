@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -27,11 +28,11 @@ func ContainerengineAddonResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createContainerengineAddon,
-		Read:     readContainerengineAddon,
-		Update:   updateContainerengineAddon,
-		Delete:   deleteContainerengineAddon,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createContainerengineAddonWithContext,
+		ReadContext:   readContainerengineAddonWithContext,
+		UpdateContext: updateContainerengineAddonWithContext,
+		DeleteContext: deleteContainerengineAddonWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"addon_name": {
@@ -127,37 +128,37 @@ func ContainerengineAddonResource() *schema.Resource {
 	}
 }
 
-func createContainerengineAddon(d *schema.ResourceData, m interface{}) error {
+func createContainerengineAddonWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineAddonResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readContainerengineAddon(d *schema.ResourceData, m interface{}) error {
+func readContainerengineAddonWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineAddonResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateContainerengineAddon(d *schema.ResourceData, m interface{}) error {
+func updateContainerengineAddonWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineAddonResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteContainerengineAddon(d *schema.ResourceData, m interface{}) error {
+func deleteContainerengineAddonWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineAddonResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type ContainerengineAddonResourceCrud struct {
@@ -196,7 +197,7 @@ func (s *ContainerengineAddonResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *ContainerengineAddonResourceCrud) Create() error {
+func (s *ContainerengineAddonResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_containerengine.InstallAddonRequest{}
 
 	if name, ok := s.D.GetOkExists("addon_name"); ok {
@@ -240,19 +241,19 @@ func (s *ContainerengineAddonResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
-	response, err := s.Client.InstallAddon(context.Background(), request)
+	response, err := s.Client.InstallAddon(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	s.D.SetId(s.ID())
 	workId := response.OpcWorkRequestId
-	err = s.getAddonFromWorkRequest(workId, s.D.Timeout(schema.TimeoutCreate))
+	err = s.getAddonFromWorkRequest(ctx, workId, s.D.Timeout(schema.TimeoutCreate))
 
 	if err != nil {
 		log.Printf("[DEBUG] creation failed for addon %v\n", request.AddonName)
 
-		workRequestType, wrTypeErr := s.getAddonWorkRequestType(workId)
+		workRequestType, wrTypeErr := s.getAddonWorkRequestType(ctx, workId)
 		if wrTypeErr != nil {
 			return fmt.Errorf("can't check if addon was creating or updating: %w\n", wrTypeErr)
 		}
@@ -276,7 +277,7 @@ func (s *ContainerengineAddonResourceCrud) Create() error {
 				disableAddonRequest.IsRemoveExistingAddOn = &tmp
 			}
 
-			_, deleteErr := s.Client.DisableAddon(context.Background(), disableAddonRequest)
+			_, deleteErr := s.Client.DisableAddon(ctx, disableAddonRequest)
 			if deleteErr != nil {
 				return deleteErr
 			}
@@ -286,16 +287,16 @@ func (s *ContainerengineAddonResourceCrud) Create() error {
 	return nil
 }
 
-func (s *ContainerengineAddonResourceCrud) getAddonFromWorkRequest(workId *string, timeout time.Duration) error {
+func (s *ContainerengineAddonResourceCrud) getAddonFromWorkRequest(ctx context.Context, workId *string, timeout time.Duration) error {
 
 	// Wait until it finishes
-	err := addonWaitForWorkRequest(workId, "addon", timeout, s.DisableNotFoundRetries, s.Client)
+	err := addonWaitForWorkRequest(ctx, workId, "addon", timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		return err
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func addonWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -321,7 +322,7 @@ func addonWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_co
 	}
 }
 
-func addonWaitForWorkRequest(wId *string, entityType string,
+func addonWaitForWorkRequest(ctx context.Context, wId *string, entityType string,
 	timeout time.Duration, disableFoundRetries bool, client *oci_containerengine.ContainerEngineClient) error {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "containerengine")
 	retryPolicy.ShouldRetryOperation = addonWorkRequestShouldRetryFunc(timeout)
@@ -340,7 +341,7 @@ func addonWaitForWorkRequest(wId *string, entityType string,
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_containerengine.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -352,20 +353,20 @@ func addonWaitForWorkRequest(wId *string, entityType string,
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return e
 	}
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if response.Status == oci_containerengine.WorkRequestStatusFailed || response.Status == oci_containerengine.WorkRequestStatusCanceled {
-		return getErrorFromContainerengineAddonWorkRequest(client, wId, response.CompartmentId, retryPolicy, entityType)
+		return getErrorFromContainerengineAddonWorkRequest(ctx, client, wId, response.CompartmentId, retryPolicy, entityType)
 	}
 
 	return nil
 }
 
-func getErrorFromContainerengineAddonWorkRequest(client *oci_containerengine.ContainerEngineClient, workId *string, compartmentId *string, retryPolicy *oci_common.RetryPolicy, entityType string) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromContainerengineAddonWorkRequest(ctx context.Context, client *oci_containerengine.ContainerEngineClient, workId *string, compartmentId *string, retryPolicy *oci_common.RetryPolicy, entityType string) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_containerengine.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			CompartmentId: compartmentId,
@@ -388,9 +389,9 @@ func getErrorFromContainerengineAddonWorkRequest(client *oci_containerengine.Con
 	return workRequestErr
 }
 
-func (s *ContainerengineAddonResourceCrud) getAddonWorkRequestType(workId *string) (oci_containerengine.WorkRequestOperationTypeEnum, error) {
+func (s *ContainerengineAddonResourceCrud) getAddonWorkRequestType(ctx context.Context, workId *string) (oci_containerengine.WorkRequestOperationTypeEnum, error) {
 	retryPolicy := tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
-	response, err := s.Client.GetWorkRequest(context.Background(),
+	response, err := s.Client.GetWorkRequest(ctx,
 		oci_containerengine.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -406,7 +407,7 @@ func (s *ContainerengineAddonResourceCrud) getAddonWorkRequestType(workId *strin
 	return response.OperationType, nil
 }
 
-func (s *ContainerengineAddonResourceCrud) Get() error {
+func (s *ContainerengineAddonResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_containerengine.GetAddonRequest{}
 
 	if addonName, ok := s.D.GetOkExists("addon_name"); ok {
@@ -429,7 +430,7 @@ func (s *ContainerengineAddonResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
-	response, err := s.Client.GetAddon(context.Background(), request)
+	response, err := s.Client.GetAddon(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -438,7 +439,7 @@ func (s *ContainerengineAddonResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ContainerengineAddonResourceCrud) Update() error {
+func (s *ContainerengineAddonResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_containerengine.UpdateAddonRequest{}
 
 	if addonName, ok := s.D.GetOkExists("addon_name"); ok {
@@ -477,16 +478,16 @@ func (s *ContainerengineAddonResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
-	response, err := s.Client.UpdateAddon(context.Background(), request)
+	response, err := s.Client.UpdateAddon(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAddonFromWorkRequest(workId, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAddonFromWorkRequest(ctx, workId, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *ContainerengineAddonResourceCrud) Delete() error {
+func (s *ContainerengineAddonResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_containerengine.DisableAddonRequest{}
 
 	if addonName, ok := s.D.GetOkExists("addon_name"); ok {
@@ -506,14 +507,14 @@ func (s *ContainerengineAddonResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
-	response, err := s.Client.DisableAddon(context.Background(), request)
+	response, err := s.Client.DisableAddon(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	delWorkRequestErr := addonWaitForWorkRequest(workId, "addon", s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
+	delWorkRequestErr := addonWaitForWorkRequest(ctx, workId, "addon", s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
 
