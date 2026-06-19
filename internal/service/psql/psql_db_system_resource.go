@@ -493,6 +493,37 @@ func PsqlDbSystemResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"pitr_policy": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"kind": {
+										Type:             schema.TypeString,
+										Optional:         true,
+										Computed:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"NONE",
+											"STANDARD",
+										}, true),
+									},
+									"restore_days": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 
 						// Computed
 					},
@@ -637,6 +668,7 @@ func PsqlDbSystemResource() *schema.Resource {
 								"BACKUP",
 								"DB_SYSTEM",
 								"NONE",
+								"POINT_IN_TIME_DB_SYSTEM",
 							}, true),
 						},
 
@@ -645,6 +677,12 @@ func PsqlDbSystemResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"db_system_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
 						},
 						"is_having_restore_config_overrides": {
 							Type:     schema.TypeBool,
@@ -655,6 +693,13 @@ func PsqlDbSystemResource() *schema.Resource {
 							Type:          schema.TypeString,
 							Optional:      true,
 							ConflictsWith: []string{"apply_change_mode_to_stand_alone"},
+						},
+						"time_to_restore": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 						},
 
 						// Computed
@@ -2320,6 +2365,17 @@ func (s *PsqlDbSystemResourceCrud) mapToManagementPolicyDetails(fieldKeyFormat s
 		result.MaintenanceWindowStart = &tmp
 	}
 
+	if pitrPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pitr_policy")); ok {
+		if tmpList := pitrPolicy.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "pitr_policy"), 0)
+			tmp, err := s.mapToPitrPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert pitr_policy, encountered error: %v", err)
+			}
+			result.PitrPolicy = tmp
+		}
+	}
+
 	return result, nil
 }
 
@@ -2336,6 +2392,14 @@ func ManagementPolicyToMap(obj *oci_psql.ManagementPolicy) map[string]interface{
 
 	if obj.MaintenanceWindowStart != nil {
 		result["maintenance_window_start"] = string(*obj.MaintenanceWindowStart)
+	}
+
+	if obj.PitrPolicy != nil {
+		pitrPolicyArray := []interface{}{}
+		if pitrPolicyMap := PitrPolicyToMap(&obj.PitrPolicy); pitrPolicyMap != nil {
+			pitrPolicyArray = append(pitrPolicyArray, pitrPolicyMap)
+		}
+		result["pitr_policy"] = pitrPolicyArray
 	}
 
 	return result
@@ -2578,6 +2642,52 @@ func PasswordDetailsToMap(obj *oci_psql.PasswordDetails) map[string]interface{} 
 	return result
 }
 
+func (s *PsqlDbSystemResourceCrud) mapToPitrPolicy(fieldKeyFormat string) (oci_psql.PitrPolicy, error) {
+	var baseObject oci_psql.PitrPolicy
+	//discriminator
+	kindRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kind"))
+	var kind string
+	if ok {
+		kind = kindRaw.(string)
+	} else {
+		kind = "" // default value
+	}
+	switch strings.ToLower(kind) {
+	case strings.ToLower("NONE"):
+		details := oci_psql.NonePitrPolicy{}
+		baseObject = details
+	case strings.ToLower("STANDARD"):
+		details := oci_psql.StandardPitrPolicy{}
+		if restoreDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "restore_days")); ok {
+			tmp := restoreDays.(int)
+			details.RestoreDays = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown kind '%v' was specified", kind)
+	}
+	return baseObject, nil
+}
+
+func PitrPolicyToMap(obj *oci_psql.PitrPolicy) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_psql.NonePitrPolicy:
+		result["kind"] = "NONE"
+	case oci_psql.StandardPitrPolicy:
+		result["kind"] = "STANDARD"
+
+		if v.RestoreDays != nil {
+			result["restore_days"] = int(*v.RestoreDays)
+		}
+	default:
+		log.Printf("[WARN] Received 'kind' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *PsqlDbSystemResourceCrud) mapToPatchInstruction(fieldKeyFormat string) (oci_psql.PatchInstruction, error) {
 	var baseObject oci_psql.PatchInstruction
 	//discriminator
@@ -2644,6 +2754,20 @@ func (s *PsqlDbSystemResourceCrud) mapToSourceDetails(fieldKeyFormat string) (oc
 	case strings.ToLower("NONE"):
 		details := oci_psql.NoneSourceDetails{}
 		baseObject = details
+	case strings.ToLower("POINT_IN_TIME_DB_SYSTEM"):
+		details := oci_psql.PointInTimeDbSystemSourceDetails{}
+		if dbSystemId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_system_id")); ok {
+			tmp := dbSystemId.(string)
+			details.DbSystemId = &tmp
+		}
+		if timeToRestore, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_to_restore")); ok {
+			tmp, err := time.Parse(time.RFC3339, timeToRestore.(string))
+			if err != nil {
+				return details, err
+			}
+			details.TimeToRestore = &oci_common.SDKTime{Time: tmp}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown source_type '%v' was specified", sourceType)
 	}
@@ -2671,6 +2795,16 @@ func SourceDetailsToMap(obj *oci_psql.SourceDetails) map[string]interface{} {
 		}
 	case oci_psql.NoneSourceDetails:
 		result["source_type"] = "NONE"
+	case oci_psql.PointInTimeDbSystemSourceDetails:
+		result["source_type"] = "POINT_IN_TIME_DB_SYSTEM"
+
+		if v.DbSystemId != nil {
+			result["db_system_id"] = string(*v.DbSystemId)
+		}
+
+		if v.TimeToRestore != nil {
+			result["time_to_restore"] = v.TimeToRestore.Format(time.RFC3339Nano)
+		}
 	default:
 		log.Printf("[WARN] Received 'source_type' of unknown type %v", *obj)
 		return nil
