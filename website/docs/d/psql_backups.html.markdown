@@ -20,6 +20,7 @@ data "oci_psql_backups" "test_backups" {
 
 	#Optional
 	backup_id = oci_psql_backup.test_backup.id
+	backup_source_type = var.backup_backup_source_type
 	compartment_id = var.compartment_id
 	display_name = var.backup_display_name
 	id = var.backup_id
@@ -34,6 +35,7 @@ data "oci_psql_backups" "test_backups" {
 The following arguments are supported:
 
 * `backup_id` - (Optional) A unique identifier for the backup.
+* `backup_source_type` - (Optional) A filter to return only backups whose backupSourceType matches the given backupSourceType
 * `compartment_id` - (Optional) The ID of the compartment in which to list resources.
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
 * `id` - (Optional) A unique identifier for the database system.
