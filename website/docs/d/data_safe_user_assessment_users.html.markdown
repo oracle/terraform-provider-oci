@@ -28,6 +28,7 @@ data "oci_data_safe_user_assessment_users" "test_user_assessment_users" {
 	account_status = var.user_assessment_user_account_status
 	are_all_schemas_accessible = var.user_assessment_user_are_all_schemas_accessible
 	authentication_type = var.user_assessment_user_authentication_type
+	compartment_id = var.compartment_id
 	compartment_id_in_subtree = var.user_assessment_user_compartment_id_in_subtree
 	schema_list = var.user_assessment_user_schema_list
 	target_id = oci_cloud_guard_target.test_target.id
@@ -56,6 +57,7 @@ The following arguments are supported:
 * `account_status` - (Optional) A filter to return only items that match the specified account status.
 * `are_all_schemas_accessible` - (Optional) A filter to return only items that match the criteria that all schemas can be accessed by a user.
 * `authentication_type` - (Optional) A filter to return only items that match the specified authentication type.
+* `compartment_id` - (Optional) A filter to return only resources that match the specified compartment OCID.
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
 * `schema_list` - (Optional) A filter to return items that contain the specified schema list.
 * `target_id` - (Optional) A filter to return only items related to a specific target OCID.
@@ -114,4 +116,3 @@ The following attributes are exported:
 * `user_types` - The user type, which can be a combination of the following:
 
 	'Admin Privileged': The user has administrative privileges. 'Application': The user is an Oracle E-Business Suite Applications (EBS) or Fusion Applications (FA) user. 'Privileged': The user is a privileged user. 'Schema': The user is EXPIRED & LOCKED / EXPIRED / LOCKED, or a schema-only account (authentication type is NONE). 'Non-privileged': The user is a non-privileged user. 
-

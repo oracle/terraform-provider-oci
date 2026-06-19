@@ -5,6 +5,7 @@ package data_safe
 
 import (
 	"context"
+	"net/http"
 	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -33,6 +34,10 @@ func DataSafeUserAssessmentUsersDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"authentication_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -237,6 +242,11 @@ func (s *DataSafeUserAssessmentUsersDataSourceCrud) Get() error {
 		request.AuthenticationType = &tmp
 	}
 
+	compartmentId := ""
+	if compartmentIdFromSchema, ok := s.D.GetOkExists("compartment_id"); ok {
+		compartmentId = compartmentIdFromSchema.(string)
+	}
+
 	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
 		tmp := compartmentIdInSubtree.(bool)
 		request.CompartmentIdInSubtree = &tmp
@@ -361,7 +371,7 @@ func (s *DataSafeUserAssessmentUsersDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.ListUsers(context.Background(), request)
+	response, err := s.listUsers(context.Background(), request, compartmentId)
 	if err != nil {
 		return err
 	}
@@ -370,7 +380,7 @@ func (s *DataSafeUserAssessmentUsersDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListUsers(context.Background(), request)
+		listResponse, err := s.listUsers(context.Background(), request, compartmentId)
 		if err != nil {
 			return err
 		}
@@ -380,6 +390,33 @@ func (s *DataSafeUserAssessmentUsersDataSourceCrud) Get() error {
 	}
 
 	return nil
+}
+
+func (s *DataSafeUserAssessmentUsersDataSourceCrud) listUsers(ctx context.Context, request oci_data_safe.ListUsersRequest, compartmentId string) (oci_data_safe.ListUsersResponse, error) {
+	if compartmentId == "" {
+		return s.Client.ListUsers(ctx, request)
+	}
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/userAssessments/{userAssessmentId}/users", nil, map[string]string{})
+	if err != nil {
+		return oci_data_safe.ListUsersResponse{}, err
+	}
+
+	query := httpRequest.URL.Query()
+	query.Set("compartmentId", compartmentId)
+	httpRequest.URL.RawQuery = query.Encode()
+
+	var response oci_data_safe.ListUsersResponse
+	httpResponse, err := s.Client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListUsers")
+	defer oci_common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		err = oci_common.PostProcessServiceError(err, "DataSafe", "ListUsers", "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/ListUsers")
+		return response, err
+	}
+
+	err = oci_common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 func (s *DataSafeUserAssessmentUsersDataSourceCrud) SetData() error {

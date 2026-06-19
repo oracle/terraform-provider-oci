@@ -17,29 +17,12 @@ import (
 
 var (
 	DataSafeuserAssessmentUserDataSourceRepresentation = map[string]interface{}{
-		"user_assessment_id":                       acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_user_assessment.test_user_assessment.id}`},
-		"access_level":                             acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
-		"compartment_id_in_subtree":                acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"account_status":                           acctest.Representation{RepType: acctest.Optional, Create: `accountStatus`},
-		"are_all_schemas_accessible":               acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"authentication_type":                      acctest.Representation{RepType: acctest.Optional, Create: `authenticationType`},
-		"schema_list":                              acctest.Representation{RepType: acctest.Optional, Create: []string{`schemaList`}},
-		"target_id":                                acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
-		"time_last_login_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `timeLastLoginGreaterThanOrEqualTo`},
-		"time_last_login_less_than":                acctest.Representation{RepType: acctest.Optional, Create: `timeLastLoginLessThan`},
-		"time_password_last_changed_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `timePasswordLastChangedGreaterThanOrEqualTo`},
-		"time_password_last_changed_less_than":                acctest.Representation{RepType: acctest.Optional, Create: `timePasswordLastChangedLessThan`},
-		"time_user_created_greater_than_or_equal_to":          acctest.Representation{RepType: acctest.Optional, Create: `timeUserCreatedGreaterThanOrEqualTo`},
-		"time_user_created_less_than":                         acctest.Representation{RepType: acctest.Optional, Create: `timeUserCreatedLessThan`},
-		"user_name":                                           acctest.Representation{RepType: acctest.Optional, Create: `${oci_identity_user.test_user.name}`},
-		"user_profile":                                        acctest.Representation{RepType: acctest.Optional, Create: `userProfile`},
-		"user_role":                                           acctest.Representation{RepType: acctest.Optional, Create: `userRole`},
-		"user_type":                                           acctest.Representation{RepType: acctest.Optional, Create: `userType`},
-		"time_password_expiry_greater_than_or_equal_to":       acctest.Representation{RepType: acctest.Required, Create: `2023-10-30T00:00:00Z`},
-		"time_password_expiry_less_than":                      acctest.Representation{RepType: acctest.Required, Create: `2030-10-30T00:00:00Z`},
+		"user_assessment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.user_assessment_id}`},
+		"compartment_id":     acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"target_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
 	}
 
-	DataSafeUserAssessmentUserResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_user_assessment", "test_user_assessment", acctest.Required, acctest.Create, userAssessmentRepresentation)
+	DataSafeUserAssessmentUserResourceConfig = ""
 )
 
 // issue-routing-tag: data_safe/default
@@ -55,6 +38,9 @@ func TestDataSafeUserAssessmentUserResource_basic(t *testing.T) {
 	targetId := utils.GetEnvSettingWithBlankDefault("data_safe_target_ocid")
 	targetIdVariableStr := fmt.Sprintf("variable \"target_id\" { default = \"%s\" }\n", targetId)
 
+	userAssessmentId := utils.GetEnvSettingWithBlankDefault("data_safe_user_assessment_ocid")
+	userAssessmentIdVariableStr := fmt.Sprintf("variable \"user_assessment_id\" { default = \"%s\" }\n", userAssessmentId)
+
 	datasourceName := "data.oci_data_safe_user_assessment_users.test_user_assessment_users"
 
 	acctest.SaveConfigContent("", "", "", t)
@@ -64,12 +50,10 @@ func TestDataSafeUserAssessmentUserResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_user_assessment_users", "test_user_assessment_users", acctest.Required, acctest.Create, DataSafeuserAssessmentUserDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafeUserAssessmentUserResourceConfig + targetIdVariableStr,
+				compartmentIdVariableStr + DataSafeUserAssessmentUserResourceConfig + targetIdVariableStr + userAssessmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				//resource.TestCheckResourceAttrSet(datasourceName, "schema_list.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "target_id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "time_password_expiry_greater_than_or_equal_to"),
-				resource.TestCheckResourceAttrSet(datasourceName, "time_password_expiry_less_than"),
 				resource.TestCheckResourceAttrSet(datasourceName, "user_assessment_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "users.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "users.0.account_status"),

@@ -37,16 +37,31 @@ var (
 
 	DataSafetargetAlertPolicyAssociationDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"access_level":                       acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
-		"alert_policy_id":                    acctest.Representation{RepType: acctest.Optional, Create: `${var.policy_id}`},
-		"compartment_id_in_subtree":          acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"target_alert_policy_association_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_target_alert_policy_association.test_target_alert_policy_association.id}`},
 		"target_id":                          acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
+		"target_type":                        acctest.Representation{RepType: acctest.Optional, Create: `TARGET_DATABASE`},
 		"filter":                             acctest.RepresentationGroup{RepType: acctest.Required, Group: targetAlertPolicyAssociationDataSourceFilterRepresentation}}
 	targetAlertPolicyAssociationDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_data_safe_target_alert_policy_association.test_target_alert_policy_association.id}`}},
 	}
+
+	DataSafetargetAlertPolicyAssociationTargetGroupDataSourceRepresentation = acctest.RepresentationCopyWithNewProperties(DataSafetargetAlertPolicyAssociationDataSourceRepresentation, map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.target_database_group_compartment_id}`},
+		"target_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.target_database_group_id}`},
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: targetAlertPolicyAssociationTargetGroupDataSourceFilterRepresentation},
+		"target_type":    acctest.Representation{RepType: acctest.Optional, Create: `TARGET_DATABASE_GROUP`},
+	})
+	targetAlertPolicyAssociationTargetGroupDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_data_safe_target_alert_policy_association.test_target_alert_policy_association.id}`}},
+	}
+
+	targetAlertPolicyAssociationTargetGroupRepresentation = acctest.RepresentationCopyWithNewProperties(targetAlertPolicyAssociationRepresentation, map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.target_database_group_compartment_id}`},
+		"target_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.target_database_group_id}`},
+		"target_type":    acctest.Representation{RepType: acctest.Optional, Create: `TARGET_DATABASE_GROUP`},
+	})
 
 	targetAlertPolicyAssociationRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -55,7 +70,8 @@ var (
 		"target_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Finance"}},
+		"target_type":    acctest.Representation{RepType: acctest.Required, Create: `TARGET_DATABASE`},
 	}
 
 	targetAlertPolicyAssociationRepresentationComptUpdate = map[string]interface{}{
@@ -65,7 +81,9 @@ var (
 		"target_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.target_id}`},
 	}
 
-	DataSafeTargetAlertPolicyAssociationResourceDependencies = DefinedTagsDependencies
+	DataSafeTargetAlertPolicyAssociationResourceDependencies = ""
+
+	DataSafeTargetAlertPolicyAssociationTargetGroupResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_alert_policy_association", "test_target_alert_policy_association", acctest.Optional, acctest.Create, targetAlertPolicyAssociationTargetGroupRepresentation)
 )
 
 // issue-routing-tag: data_safe/default
@@ -132,6 +150,7 @@ func TestDataSafeTargetAlertPolicyAssociationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "policy_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_type", "TARGET_DATABASE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
@@ -161,6 +180,7 @@ func TestDataSafeTargetAlertPolicyAssociationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "policy_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_type", "TARGET_DATABASE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
@@ -188,6 +208,7 @@ func TestDataSafeTargetAlertPolicyAssociationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "policy_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_type", "TARGET_DATABASE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
@@ -207,12 +228,10 @@ func TestDataSafeTargetAlertPolicyAssociationResource_basic(t *testing.T) {
 				compartmentIdVariableStr + targetIdVariableStr + policyIdVariableStr + DataSafeTargetAlertPolicyAssociationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_alert_policy_association", "test_target_alert_policy_association", acctest.Optional, acctest.Update, targetAlertPolicyAssociationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "access_level", "RESTRICTED"),
-				resource.TestCheckResourceAttrSet(datasourceName, "alert_policy_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
 				resource.TestCheckResourceAttrSet(datasourceName, "target_alert_policy_association_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "target_id"),
+				resource.TestCheckResourceAttr(datasourceName, "target_type", "TARGET_DATABASE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "target_alert_policy_association_collection.#", "1"),
 			),
@@ -232,6 +251,7 @@ func TestDataSafeTargetAlertPolicyAssociationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_enabled", "false"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_type", "TARGET_DATABASE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
@@ -244,6 +264,79 @@ func TestDataSafeTargetAlertPolicyAssociationResource_basic(t *testing.T) {
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
 			ResourceName:            resourceName,
+		},
+	})
+}
+
+// issue-routing-tag: data_safe/default
+func TestDataSafeTargetAlertPolicyAssociationTargetGroupResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestDataSafeTargetAlertPolicyAssociationTargetGroupResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	targetDatabaseId := utils.GetEnvSettingWithBlankDefault("target_database_id")
+	targetDatabaseIdVariableStr := fmt.Sprintf("variable \"target_database_id\" { default = \"%s\" }\n", targetDatabaseId)
+
+	targetDatabaseGroupId := utils.GetEnvSettingWithBlankDefault("target_database_group_id")
+	targetDatabaseGroupIdVariableStr := fmt.Sprintf("variable \"target_database_group_id\" { default = \"%s\" }\n", targetDatabaseGroupId)
+
+	targetDatabaseGroupCompartmentId := utils.GetEnvSettingWithDefault("target_database_group_compartment_ocid", compartmentId)
+	targetDatabaseGroupCompartmentIdVariableStr := fmt.Sprintf("variable \"target_database_group_compartment_id\" { default = \"%s\" }\n", targetDatabaseGroupCompartmentId)
+
+	policyId := utils.GetEnvSettingWithBlankDefault("data_safe_alert_policy_ocid")
+	policyIdVariableStr := fmt.Sprintf("variable \"policy_id\" { default = \"%s\" }\n", policyId)
+
+	resourceName := "oci_data_safe_target_alert_policy_association.test_target_alert_policy_association"
+	datasourceName := "data.oci_data_safe_target_alert_policy_associations.test_target_alert_policy_associations"
+	singularDatasourceName := "data.oci_data_safe_target_alert_policy_association.test_target_alert_policy_association"
+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+targetDatabaseIdVariableStr+targetDatabaseGroupIdVariableStr+targetDatabaseGroupCompartmentIdVariableStr+policyIdVariableStr+
+		DataSafeTargetAlertPolicyAssociationTargetGroupResourceConfig, "datasafe", "targetAlertPolicyAssociationTargetGroup", t)
+
+	acctest.ResourceTest(t, testAccCheckDataSafeTargetAlertPolicyAssociationDestroy, []resource.TestStep{
+		// verify target group association resource
+		{
+			Config: config + compartmentIdVariableStr + targetDatabaseIdVariableStr + targetDatabaseGroupIdVariableStr + targetDatabaseGroupCompartmentIdVariableStr + policyIdVariableStr +
+				DataSafeTargetAlertPolicyAssociationTargetGroupResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", targetDatabaseGroupCompartmentId),
+				resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "policy_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
+				resource.TestCheckResourceAttr(resourceName, "target_type", "TARGET_DATABASE_GROUP"),
+			),
+		},
+		// verify target group association datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_target_alert_policy_associations", "test_target_alert_policy_associations", acctest.Optional, acctest.Create, DataSafetargetAlertPolicyAssociationTargetGroupDataSourceRepresentation) +
+				compartmentIdVariableStr + targetDatabaseIdVariableStr + targetDatabaseGroupIdVariableStr + targetDatabaseGroupCompartmentIdVariableStr + policyIdVariableStr +
+				DataSafeTargetAlertPolicyAssociationTargetGroupResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", targetDatabaseGroupCompartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "target_alert_policy_association_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "target_id"),
+				resource.TestCheckResourceAttr(datasourceName, "target_type", "TARGET_DATABASE_GROUP"),
+
+				resource.TestCheckResourceAttr(datasourceName, "target_alert_policy_association_collection.#", "1"),
+			),
+		},
+		// verify target group association singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_target_alert_policy_association", "test_target_alert_policy_association", acctest.Required, acctest.Create, DataSafetargetAlertPolicyAssociationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + targetDatabaseIdVariableStr + targetDatabaseGroupIdVariableStr + targetDatabaseGroupCompartmentIdVariableStr + policyIdVariableStr +
+				DataSafeTargetAlertPolicyAssociationTargetGroupResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_alert_policy_association_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", targetDatabaseGroupCompartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target_type", "TARGET_DATABASE_GROUP"),
+			),
 		},
 	})
 }

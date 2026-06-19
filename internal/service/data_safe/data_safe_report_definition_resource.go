@@ -234,6 +234,10 @@ func DataSafeReportDefinitionResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"is_schedule_pagination_enabled": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"is_seeded": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -786,6 +790,10 @@ func (s *DataSafeReportDefinitionResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IsSchedulePaginationEnabled != nil {
+		s.D.Set("is_schedule_pagination_enabled", *s.Res.IsSchedulePaginationEnabled)
+	}
 
 	if s.Res.IsSeeded != nil {
 		s.D.Set("is_seeded", *s.Res.IsSeeded)
