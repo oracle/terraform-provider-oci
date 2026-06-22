@@ -448,7 +448,8 @@ var (
 	CloudVmClusterCloudVmClusterResourceUpdateDependencies = CloudVmClusterResourceUpdateDependencies + acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Optional, acctest.Create, ResolverRepresentation)
 
 	CloudVmClusterResourceUpdateStorageDependencies = ad_subnet_security + acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Required, acctest.Update,
-		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseCloudExadataInfrastructureRepresentation, []string{"storage_count"}), map[string]interface{}{
+		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseCloudExadataInfrastructureRepresentation, []string{"compute_count", "storage_count"}), map[string]interface{}{
+			"compute_count": acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
 			"storage_count": acctest.Representation{RepType: acctest.Required, Create: `3`},
 		}))
 )
@@ -703,7 +704,8 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "private_zone_id"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttr(resourceName, "vm_cluster_type", "DEVELOPER"),
-				//resource.TestCheckResourceAttr(resourceName, "node_count", "3"), // Assertion Failing, needs to be reviewed
+				resource.TestCheckResourceAttr("oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure", "compute_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "node_count", "2"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -1225,6 +1227,8 @@ func TestDatabaseCloudVmClusterUpdate(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.freeze_period.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.freeze_period.0.freeze_period_end_time", cloudVmClusterFreezePeriodEndTimeForUpdate),
 				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.freeze_period.0.freeze_period_start_time", cloudVmClusterFreezePeriodStartTimeForUpdate),
+				resource.TestCheckResourceAttr("oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure", "compute_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "node_count", "2"),
 				//resource.TestCheckResourceAttr(resourceName, "storage_size_in_gbs", "204388"), // 4 storage cells * 51097 (X8M.StorageCell AvailableDbStorageInGBs) //Assertion failing, needs to be reviewed
 
 				func(s *terraform.State) (err error) {
