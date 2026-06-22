@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/hashicorp/go-cty/cty"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
@@ -501,6 +502,7 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 			},
 			"node_count": {
 				Type:     schema.TypeInt,
+				Optional: true,
 				Computed: true,
 			},
 			"scan_dns_name": {
@@ -1023,10 +1025,13 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 	}
 	if !utils.IsMultiVm(s.Infra.ActivatedStorageCount) {
 		if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
-			if s.Infra.ComputeCount != nil && *s.Infra.ComputeCount != nodeCount {
+			nodeCountExplicitlySet := userExplicitlySet(s.D, "node_count")
+			if nodeCountExplicitlySet && s.Infra.ComputeCount != nil && *s.Infra.ComputeCount != nodeCount {
 				request.ComputeNodes = []string{"ALL"}
 			} else {
-				request.ComputeNodes = []string{}
+				if nodeCountExplicitlySet {
+					request.ComputeNodes = []string{}
+				}
 				if s.Infra.StorageCount != nil {
 					if shape, ok := s.D.GetOkExists("shape"); ok {
 						flexShape := shape.(string) + ".StorageServer"
@@ -1247,6 +1252,15 @@ func (s *DatabaseCloudVmClusterResourceCrud) Delete() error {
 
 	_, err := s.Client.DeleteCloudVmCluster(context.Background(), request)
 	return err
+}
+
+func userExplicitlySet(d *schema.ResourceData, fieldName string) bool {
+	configValue, diagnostics := d.GetRawConfigAt(cty.GetAttrPath(fieldName))
+	if diagnostics.HasError() || !configValue.IsKnown() || configValue.IsNull() || !d.HasChange(fieldName) {
+		return false
+	}
+
+	return true
 }
 
 func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
