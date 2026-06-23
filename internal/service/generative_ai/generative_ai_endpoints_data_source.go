@@ -6,6 +6,7 @@ package generative_ai
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_generative_ai "github.com/oracle/oci-go-sdk/v65/generativeai"
 
@@ -15,7 +16,7 @@ import (
 
 func GenerativeAiEndpointsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readGenerativeAiEndpoints,
+		ReadContext: readGenerativeAiEndpointsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -56,12 +57,12 @@ func GenerativeAiEndpointsDataSource() *schema.Resource {
 	}
 }
 
-func readGenerativeAiEndpoints(d *schema.ResourceData, m interface{}) error {
+func readGenerativeAiEndpointsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiEndpointsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GenerativeAiEndpointsDataSourceCrud struct {
@@ -74,7 +75,7 @@ func (s *GenerativeAiEndpointsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GenerativeAiEndpointsDataSourceCrud) Get() error {
+func (s *GenerativeAiEndpointsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_generative_ai.ListEndpointsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -103,7 +104,7 @@ func (s *GenerativeAiEndpointsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "generative_ai")
 
-	response, err := s.Client.ListEndpoints(context.Background(), request)
+	response, err := s.Client.ListEndpoints(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -112,7 +113,7 @@ func (s *GenerativeAiEndpointsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListEndpoints(context.Background(), request)
+		listResponse, err := s.Client.ListEndpoints(ctx, request)
 		if err != nil {
 			return err
 		}

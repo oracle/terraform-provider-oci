@@ -12,6 +12,7 @@ import (
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,10 +25,10 @@ func IdentityImportStandardTagsManagementResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createIdentityImportStandardTagsManagement,
-		Read:     readIdentityImportStandardTagsManagement,
-		Delete:   deleteIdentityImportStandardTagsManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createIdentityImportStandardTagsManagementWithContext,
+		ReadContext:   readIdentityImportStandardTagsManagementWithContext,
+		DeleteContext: deleteIdentityImportStandardTagsManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -52,19 +53,19 @@ func IdentityImportStandardTagsManagementResource() *schema.Resource {
 	}
 }
 
-func createIdentityImportStandardTagsManagement(d *schema.ResourceData, m interface{}) error {
+func createIdentityImportStandardTagsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &IdentityImportStandardTagsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*tf_client.OracleClients).IdentityClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readIdentityImportStandardTagsManagement(d *schema.ResourceData, m interface{}) error {
+func readIdentityImportStandardTagsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteIdentityImportStandardTagsManagement(d *schema.ResourceData, m interface{}) error {
+func deleteIdentityImportStandardTagsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -79,7 +80,7 @@ func (s *IdentityImportStandardTagsManagementResourceCrud) ID() string {
 	return *s.Res.OpcWorkRequestId
 }
 
-func (s *IdentityImportStandardTagsManagementResourceCrud) Create() error {
+func (s *IdentityImportStandardTagsManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_identity.ImportStandardTagsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *IdentityImportStandardTagsManagementResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
-	response, err := s.Client.ImportStandardTags(context.Background(), request)
+	response, err := s.Client.ImportStandardTags(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -104,14 +105,14 @@ func (s *IdentityImportStandardTagsManagementResourceCrud) Create() error {
 
 	s.Res = &response
 
-	return s.getImportStandardTagsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity"), oci_identity.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getImportStandardTagsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity"), oci_identity.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *IdentityImportStandardTagsManagementResourceCrud) getImportStandardTagsManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *IdentityImportStandardTagsManagementResourceCrud) getImportStandardTagsManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_identity.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	_, err := importStandardTagsManagementWaitForWorkRequest(workId, "identity",
+	_, err := importStandardTagsManagementWaitForWorkRequest(ctx, workId, "identity",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -146,7 +147,7 @@ func importStandardTagsManagementWorkRequestShouldRetryFunc(timeout time.Duratio
 	}
 }
 
-func importStandardTagsManagementWaitForWorkRequest(wId *string, entityType string, action oci_identity.WorkRequestResourceActionTypeEnum,
+func importStandardTagsManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_identity.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_identity.IdentityClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "identity")
 	retryPolicy.ShouldRetryOperation = importStandardTagsManagementWorkRequestShouldRetryFunc(timeout)
@@ -165,7 +166,7 @@ func importStandardTagsManagementWaitForWorkRequest(wId *string, entityType stri
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetTaggingWorkRequest(context.Background(),
+			response, err = client.GetTaggingWorkRequest(ctx,
 				oci_identity.GetTaggingWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -177,7 +178,7 @@ func importStandardTagsManagementWaitForWorkRequest(wId *string, entityType stri
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -186,15 +187,15 @@ func importStandardTagsManagementWaitForWorkRequest(wId *string, entityType stri
 
 	// The workrequest may have failed - so check for failed or canceled work requests
 	if response.Status == oci_identity.TaggingWorkRequestStatusFailed || response.Status == oci_identity.TaggingWorkRequestStatusCanceled {
-		return nil, getErrorFromIdentityImportStandardTagsManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromIdentityImportStandardTagsManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return wId, nil
 
 }
 
-func getErrorFromIdentityImportStandardTagsManagementWorkRequest(client *oci_identity.IdentityClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_identity.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListTaggingWorkRequestErrors(context.Background(),
+func getErrorFromIdentityImportStandardTagsManagementWorkRequest(ctx context.Context, client *oci_identity.IdentityClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_identity.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListTaggingWorkRequestErrors(ctx,
 		oci_identity.ListTaggingWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

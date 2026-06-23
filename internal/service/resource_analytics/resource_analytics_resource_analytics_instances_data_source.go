@@ -6,6 +6,7 @@ package resource_analytics
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_resource_analytics "github.com/oracle/oci-go-sdk/v65/resourceanalytics"
 
@@ -15,7 +16,7 @@ import (
 
 func ResourceAnalyticsResourceAnalyticsInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readResourceAnalyticsResourceAnalyticsInstances,
+		ReadContext: readResourceAnalyticsResourceAnalyticsInstancesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +53,12 @@ func ResourceAnalyticsResourceAnalyticsInstancesDataSource() *schema.Resource {
 	}
 }
 
-func readResourceAnalyticsResourceAnalyticsInstances(d *schema.ResourceData, m interface{}) error {
+func readResourceAnalyticsResourceAnalyticsInstancesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourceAnalyticsResourceAnalyticsInstancesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ResourceAnalyticsInstanceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ResourceAnalyticsResourceAnalyticsInstancesDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *ResourceAnalyticsResourceAnalyticsInstancesDataSourceCrud) VoidState() 
 	s.D.SetId("")
 }
 
-func (s *ResourceAnalyticsResourceAnalyticsInstancesDataSourceCrud) Get() error {
+func (s *ResourceAnalyticsResourceAnalyticsInstancesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_resource_analytics.ListResourceAnalyticsInstancesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *ResourceAnalyticsResourceAnalyticsInstancesDataSourceCrud) Get() error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "resource_analytics")
 
-	response, err := s.Client.ListResourceAnalyticsInstances(context.Background(), request)
+	response, err := s.Client.ListResourceAnalyticsInstances(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *ResourceAnalyticsResourceAnalyticsInstancesDataSourceCrud) Get() error 
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListResourceAnalyticsInstances(context.Background(), request)
+		listResponse, err := s.Client.ListResourceAnalyticsInstances(ctx, request)
 		if err != nil {
 			return err
 		}

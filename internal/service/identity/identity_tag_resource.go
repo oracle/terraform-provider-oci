@@ -299,7 +299,7 @@ func (s *IdentityTagResourceCrud) CreateWithContext(ctx context.Context) error {
 		s.D.Set("tag_namespace_id", request.TagNamespaceId)
 		s.D.Set("name", request.Name)
 		dsCrud := &IdentityTagsDataSourceCrud{s.D, s.Client, nil}
-		if dsErr := dsCrud.Get(); dsErr != nil {
+		if dsErr := dsCrud.GetWithContext(ctx); dsErr != nil {
 			//return original error when datasource call fails
 			return err
 		}

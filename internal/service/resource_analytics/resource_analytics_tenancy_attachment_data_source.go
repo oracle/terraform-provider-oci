@@ -6,6 +6,7 @@ package resource_analytics
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_resource_analytics "github.com/oracle/oci-go-sdk/v65/resourceanalytics"
 
@@ -19,15 +20,15 @@ func ResourceAnalyticsTenancyAttachmentDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(ResourceAnalyticsTenancyAttachmentResource(), fieldMap, readSingularResourceAnalyticsTenancyAttachment)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(ResourceAnalyticsTenancyAttachmentResource(), fieldMap, readSingularResourceAnalyticsTenancyAttachmentWithContext)
 }
 
-func readSingularResourceAnalyticsTenancyAttachment(d *schema.ResourceData, m interface{}) error {
+func readSingularResourceAnalyticsTenancyAttachmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourceAnalyticsTenancyAttachmentDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).TenancyAttachmentClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ResourceAnalyticsTenancyAttachmentDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *ResourceAnalyticsTenancyAttachmentDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ResourceAnalyticsTenancyAttachmentDataSourceCrud) Get() error {
+func (s *ResourceAnalyticsTenancyAttachmentDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_resource_analytics.GetTenancyAttachmentRequest{}
 
 	if tenancyAttachmentId, ok := s.D.GetOkExists("tenancy_attachment_id"); ok {
@@ -50,7 +51,7 @@ func (s *ResourceAnalyticsTenancyAttachmentDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "resource_analytics")
 
-	response, err := s.Client.GetTenancyAttachment(context.Background(), request)
+	response, err := s.Client.GetTenancyAttachment(ctx, request)
 	if err != nil {
 		return err
 	}

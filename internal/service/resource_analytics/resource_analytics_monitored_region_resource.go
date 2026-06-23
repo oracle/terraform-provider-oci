@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -31,9 +32,9 @@ func ResourceAnalyticsMonitoredRegionResource() *schema.Resource {
 			Update: &tfresource.TwoHours,
 			Delete: &tfresource.TwoHours,
 		},
-		Create: createResourceAnalyticsMonitoredRegion,
-		Read:   readResourceAnalyticsMonitoredRegion,
-		Delete: deleteResourceAnalyticsMonitoredRegion,
+		CreateContext: createResourceAnalyticsMonitoredRegionWithContext,
+		ReadContext:   readResourceAnalyticsMonitoredRegionWithContext,
+		DeleteContext: deleteResourceAnalyticsMonitoredRegionWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"region_id": {
@@ -75,25 +76,25 @@ func ResourceAnalyticsMonitoredRegionResource() *schema.Resource {
 	}
 }
 
-func createResourceAnalyticsMonitoredRegion(d *schema.ResourceData, m interface{}) error {
+func createResourceAnalyticsMonitoredRegionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourceAnalyticsMonitoredRegionResourceCrud{}
 	sync.D = d
 	clients := m.(*client.OracleClients)
 	sync.Client = clients.MonitoredRegionClient()
 	sync.WorkReqClient = clients.ResourceAnalyticsInstanceClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readResourceAnalyticsMonitoredRegion(d *schema.ResourceData, m interface{}) error {
+func readResourceAnalyticsMonitoredRegionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourceAnalyticsMonitoredRegionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MonitoredRegionClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteResourceAnalyticsMonitoredRegion(d *schema.ResourceData, m interface{}) error {
+func deleteResourceAnalyticsMonitoredRegionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourceAnalyticsMonitoredRegionResourceCrud{}
 	sync.D = d
 	clients := m.(*client.OracleClients)
@@ -101,7 +102,7 @@ func deleteResourceAnalyticsMonitoredRegion(d *schema.ResourceData, m interface{
 	sync.WorkReqClient = clients.ResourceAnalyticsInstanceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type ResourceAnalyticsMonitoredRegionResourceCrud struct {
@@ -140,7 +141,7 @@ func (s *ResourceAnalyticsMonitoredRegionResourceCrud) DeletedTarget() []string 
 	}
 }
 
-func (s *ResourceAnalyticsMonitoredRegionResourceCrud) Create() error {
+func (s *ResourceAnalyticsMonitoredRegionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_resource_analytics.CreateMonitoredRegionRequest{}
 
 	if regionId, ok := s.D.GetOkExists("region_id"); ok {
@@ -155,14 +156,14 @@ func (s *ResourceAnalyticsMonitoredRegionResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics")
 
-	response, err := s.Client.CreateMonitoredRegion(context.Background(), request)
+	response, err := s.Client.CreateMonitoredRegion(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_resource_analytics.GetWorkRequestResponse{}
-	workRequestResponse, err = s.WorkReqClient.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.WorkReqClient.GetWorkRequest(ctx,
 		oci_resource_analytics.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -178,20 +179,20 @@ func (s *ResourceAnalyticsMonitoredRegionResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getMonitoredRegionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics"), oci_resource_analytics.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getMonitoredRegionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics"), oci_resource_analytics.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *ResourceAnalyticsMonitoredRegionResourceCrud) getMonitoredRegionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ResourceAnalyticsMonitoredRegionResourceCrud) getMonitoredRegionFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_resource_analytics.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	monitoredRegionId, err := monitoredRegionWaitForWorkRequest(workId, "monitoredregion",
+	monitoredRegionId, err := monitoredRegionWaitForWorkRequest(ctx, workId, "monitoredregion",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkReqClient)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] getMonitoredRegionFromWorkRequest: creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, monitoredRegionId)
-		_, cancelErr := s.WorkReqClient.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.WorkReqClient.CancelWorkRequest(ctx,
 			oci_resource_analytics.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -205,7 +206,7 @@ func (s *ResourceAnalyticsMonitoredRegionResourceCrud) getMonitoredRegionFromWor
 	}
 	s.D.SetId(*monitoredRegionId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func monitoredRegionWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -231,7 +232,7 @@ func monitoredRegionWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 	}
 }
 
-func monitoredRegionWaitForWorkRequest(wId *string, entityType string, action oci_resource_analytics.ActionTypeEnum,
+func monitoredRegionWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_resource_analytics.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, workReqClient *oci_resource_analytics.ResourceAnalyticsInstanceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "resource_analytics")
 	retryPolicy.ShouldRetryOperation = monitoredRegionWorkRequestShouldRetryFunc(timeout)
@@ -250,7 +251,7 @@ func monitoredRegionWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = workReqClient.GetWorkRequest(context.Background(),
+			response, err = workReqClient.GetWorkRequest(ctx,
 				oci_resource_analytics.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -262,7 +263,7 @@ func monitoredRegionWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -279,14 +280,14 @@ func monitoredRegionWaitForWorkRequest(wId *string, entityType string, action oc
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_resource_analytics.OperationStatusFailed || response.Status == oci_resource_analytics.OperationStatusCanceled {
-		return nil, getErrorFromResourceAnalyticsMonitoredRegionWorkRequest(workReqClient, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromResourceAnalyticsMonitoredRegionWorkRequest(ctx, workReqClient, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromResourceAnalyticsMonitoredRegionWorkRequest(workReqClient *oci_resource_analytics.ResourceAnalyticsInstanceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_resource_analytics.ActionTypeEnum) error {
-	response, err := workReqClient.ListWorkRequestErrors(context.Background(),
+func getErrorFromResourceAnalyticsMonitoredRegionWorkRequest(ctx context.Context, workReqClient *oci_resource_analytics.ResourceAnalyticsInstanceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_resource_analytics.ActionTypeEnum) error {
+	response, err := workReqClient.ListWorkRequestErrors(ctx,
 		oci_resource_analytics.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -308,7 +309,7 @@ func getErrorFromResourceAnalyticsMonitoredRegionWorkRequest(workReqClient *oci_
 	return workRequestErr
 }
 
-func (s *ResourceAnalyticsMonitoredRegionResourceCrud) Get() error {
+func (s *ResourceAnalyticsMonitoredRegionResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_resource_analytics.GetMonitoredRegionRequest{}
 
 	tmp := s.D.Id()
@@ -316,7 +317,7 @@ func (s *ResourceAnalyticsMonitoredRegionResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics")
 
-	response, err := s.Client.GetMonitoredRegion(context.Background(), request)
+	response, err := s.Client.GetMonitoredRegion(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -325,7 +326,7 @@ func (s *ResourceAnalyticsMonitoredRegionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ResourceAnalyticsMonitoredRegionResourceCrud) Delete() error {
+func (s *ResourceAnalyticsMonitoredRegionResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_resource_analytics.DeleteMonitoredRegionRequest{}
 
 	tmp := s.D.Id()
@@ -333,14 +334,14 @@ func (s *ResourceAnalyticsMonitoredRegionResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics")
 
-	response, err := s.Client.DeleteMonitoredRegion(context.Background(), request)
+	response, err := s.Client.DeleteMonitoredRegion(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := monitoredRegionWaitForWorkRequest(workId, "monitoredregion",
+	_, delWorkRequestErr := monitoredRegionWaitForWorkRequest(ctx, workId, "monitoredregion",
 		oci_resource_analytics.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkReqClient)
 	return delWorkRequestErr
 }

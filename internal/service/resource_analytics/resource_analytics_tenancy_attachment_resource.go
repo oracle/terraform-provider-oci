@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -31,10 +32,10 @@ func ResourceAnalyticsTenancyAttachmentResource() *schema.Resource {
 			Delete: &tfresource.TwoHours,
 			Read:   &tfresource.TwoHours,
 		},
-		Create: createResourceAnalyticsTenancyAttachment,
-		Read:   readResourceAnalyticsTenancyAttachment,
-		Update: updateResourceAnalyticsTenancyAttachment,
-		Delete: deleteResourceAnalyticsTenancyAttachment,
+		CreateContext: createResourceAnalyticsTenancyAttachmentWithContext,
+		ReadContext:   readResourceAnalyticsTenancyAttachmentWithContext,
+		UpdateContext: updateResourceAnalyticsTenancyAttachmentWithContext,
+		DeleteContext: deleteResourceAnalyticsTenancyAttachmentWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"resource_analytics_instance_id": {
@@ -151,35 +152,35 @@ func ResourceAnalyticsTenancyAttachmentResource() *schema.Resource {
 	}
 }
 
-func createResourceAnalyticsTenancyAttachment(d *schema.ResourceData, m interface{}) error {
+func createResourceAnalyticsTenancyAttachmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourceAnalyticsTenancyAttachmentResourceCrud{}
 	sync.D = d
 	clients := m.(*client.OracleClients)
 	sync.Client = clients.TenancyAttachmentClient()
 	sync.WorkReqClient = clients.ResourceAnalyticsInstanceClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readResourceAnalyticsTenancyAttachment(d *schema.ResourceData, m interface{}) error {
+func readResourceAnalyticsTenancyAttachmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourceAnalyticsTenancyAttachmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).TenancyAttachmentClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateResourceAnalyticsTenancyAttachment(d *schema.ResourceData, m interface{}) error {
+func updateResourceAnalyticsTenancyAttachmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourceAnalyticsTenancyAttachmentResourceCrud{}
 	sync.D = d
 	clients := m.(*client.OracleClients)
 	sync.Client = clients.TenancyAttachmentClient()
 	sync.WorkReqClient = clients.ResourceAnalyticsInstanceClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteResourceAnalyticsTenancyAttachment(d *schema.ResourceData, m interface{}) error {
+func deleteResourceAnalyticsTenancyAttachmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourceAnalyticsTenancyAttachmentResourceCrud{}
 	sync.D = d
 	clients := m.(*client.OracleClients)
@@ -187,7 +188,7 @@ func deleteResourceAnalyticsTenancyAttachment(d *schema.ResourceData, m interfac
 	sync.WorkReqClient = clients.ResourceAnalyticsInstanceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type ResourceAnalyticsTenancyAttachmentResourceCrud struct {
@@ -227,7 +228,7 @@ func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) DeletedTarget() []strin
 	}
 }
 
-func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) Create() error {
+func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_resource_analytics.CreateTenancyAttachmentRequest{}
 
 	if description, ok := s.D.GetOkExists("description"); ok {
@@ -247,14 +248,14 @@ func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics")
 
-	response, err := s.Client.CreateTenancyAttachment(context.Background(), request)
+	response, err := s.Client.CreateTenancyAttachment(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_resource_analytics.GetWorkRequestResponse{}
-	workRequestResponse, err = s.WorkReqClient.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.WorkReqClient.GetWorkRequest(ctx,
 		oci_resource_analytics.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -270,20 +271,20 @@ func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getTenancyAttachmentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics"), oci_resource_analytics.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getTenancyAttachmentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics"), oci_resource_analytics.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) getTenancyAttachmentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) getTenancyAttachmentFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_resource_analytics.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	tenancyAttachmentId, err := tenancyAttachmentWaitForWorkRequest(workId, "tenancyattachment",
+	tenancyAttachmentId, err := tenancyAttachmentWaitForWorkRequest(ctx, workId, "tenancyattachment",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkReqClient)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] getTenancyAttachmentFromWorkRequest: creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, tenancyAttachmentId)
-		_, cancelErr := s.WorkReqClient.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.WorkReqClient.CancelWorkRequest(ctx,
 			oci_resource_analytics.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -297,7 +298,7 @@ func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) getTenancyAttachmentFro
 	}
 	s.D.SetId(*tenancyAttachmentId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func tenancyAttachmentWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -323,7 +324,7 @@ func tenancyAttachmentWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 	}
 }
 
-func tenancyAttachmentWaitForWorkRequest(wId *string, entityType string, action oci_resource_analytics.ActionTypeEnum,
+func tenancyAttachmentWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_resource_analytics.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, workReqClient *oci_resource_analytics.ResourceAnalyticsInstanceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "resource_analytics")
 	retryPolicy.ShouldRetryOperation = tenancyAttachmentWorkRequestShouldRetryFunc(timeout)
@@ -342,7 +343,7 @@ func tenancyAttachmentWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = workReqClient.GetWorkRequest(context.Background(),
+			response, err = workReqClient.GetWorkRequest(ctx,
 				oci_resource_analytics.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -354,7 +355,7 @@ func tenancyAttachmentWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -373,14 +374,14 @@ func tenancyAttachmentWaitForWorkRequest(wId *string, entityType string, action 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_resource_analytics.OperationStatusFailed || response.Status == oci_resource_analytics.OperationStatusCanceled {
-		return nil, getErrorFromResourceAnalyticsTenancyAttachmentWorkRequest(workReqClient, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromResourceAnalyticsTenancyAttachmentWorkRequest(ctx, workReqClient, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromResourceAnalyticsTenancyAttachmentWorkRequest(workReqClient *oci_resource_analytics.ResourceAnalyticsInstanceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_resource_analytics.ActionTypeEnum) error {
-	response, err := workReqClient.ListWorkRequestErrors(context.Background(),
+func getErrorFromResourceAnalyticsTenancyAttachmentWorkRequest(ctx context.Context, workReqClient *oci_resource_analytics.ResourceAnalyticsInstanceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_resource_analytics.ActionTypeEnum) error {
+	response, err := workReqClient.ListWorkRequestErrors(ctx,
 		oci_resource_analytics.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -402,7 +403,7 @@ func getErrorFromResourceAnalyticsTenancyAttachmentWorkRequest(workReqClient *oc
 	return workRequestErr
 }
 
-func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) Get() error {
+func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_resource_analytics.GetTenancyAttachmentRequest{}
 
 	tmp := s.D.Id()
@@ -410,7 +411,7 @@ func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics")
 
-	response, err := s.Client.GetTenancyAttachment(context.Background(), request)
+	response, err := s.Client.GetTenancyAttachment(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -419,7 +420,7 @@ func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) Update() error {
+func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_resource_analytics.UpdateTenancyAttachmentRequest{}
 
 	if description, ok := s.D.GetOkExists("description"); ok {
@@ -432,16 +433,16 @@ func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics")
 
-	response, err := s.Client.UpdateTenancyAttachment(context.Background(), request)
+	response, err := s.Client.UpdateTenancyAttachment(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getTenancyAttachmentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics"), oci_resource_analytics.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getTenancyAttachmentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics"), oci_resource_analytics.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) Delete() error {
+func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_resource_analytics.DeleteTenancyAttachmentRequest{}
 
 	tmp := s.D.Id()
@@ -449,14 +450,14 @@ func (s *ResourceAnalyticsTenancyAttachmentResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_analytics")
 
-	response, err := s.Client.DeleteTenancyAttachment(context.Background(), request)
+	response, err := s.Client.DeleteTenancyAttachment(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := tenancyAttachmentWaitForWorkRequest(workId, "tenancyattachment",
+	_, delWorkRequestErr := tenancyAttachmentWaitForWorkRequest(ctx, workId, "tenancyattachment",
 		oci_resource_analytics.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkReqClient)
 	return delWorkRequestErr
 }
