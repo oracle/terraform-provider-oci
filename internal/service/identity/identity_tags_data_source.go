@@ -6,6 +6,7 @@ package identity
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
 
@@ -15,7 +16,7 @@ import (
 
 func IdentityTagsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readIdentityTags,
+		ReadContext: readIdentityTagsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"state": {
@@ -35,12 +36,12 @@ func IdentityTagsDataSource() *schema.Resource {
 	}
 }
 
-func readIdentityTags(d *schema.ResourceData, m interface{}) error {
+func readIdentityTagsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &IdentityTagsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).IdentityClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type IdentityTagsDataSourceCrud struct {
@@ -53,7 +54,7 @@ func (s *IdentityTagsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *IdentityTagsDataSourceCrud) Get() error {
+func (s *IdentityTagsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_identity.ListTagsRequest{}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -67,7 +68,7 @@ func (s *IdentityTagsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
-	response, err := s.Client.ListTags(context.Background(), request)
+	response, err := s.Client.ListTags(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -76,7 +77,7 @@ func (s *IdentityTagsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListTags(context.Background(), request)
+		listResponse, err := s.Client.ListTags(ctx, request)
 		if err != nil {
 			return err
 		}

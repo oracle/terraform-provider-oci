@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -30,10 +31,10 @@ func GenerativeAiDedicatedAiClusterResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("80m"),
 			Delete: tfresource.GetTimeoutDuration("20m"),
 		},
-		Create: createGenerativeAiDedicatedAiCluster,
-		Read:   readGenerativeAiDedicatedAiCluster,
-		Update: updateGenerativeAiDedicatedAiCluster,
-		Delete: deleteGenerativeAiDedicatedAiCluster,
+		CreateContext: createGenerativeAiDedicatedAiClusterWithContext,
+		ReadContext:   readGenerativeAiDedicatedAiClusterWithContext,
+		UpdateContext: updateGenerativeAiDedicatedAiClusterWithContext,
+		DeleteContext: deleteGenerativeAiDedicatedAiClusterWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -131,37 +132,37 @@ func GenerativeAiDedicatedAiClusterResource() *schema.Resource {
 	}
 }
 
-func createGenerativeAiDedicatedAiCluster(d *schema.ResourceData, m interface{}) error {
+func createGenerativeAiDedicatedAiClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiDedicatedAiClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readGenerativeAiDedicatedAiCluster(d *schema.ResourceData, m interface{}) error {
+func readGenerativeAiDedicatedAiClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiDedicatedAiClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateGenerativeAiDedicatedAiCluster(d *schema.ResourceData, m interface{}) error {
+func updateGenerativeAiDedicatedAiClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiDedicatedAiClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteGenerativeAiDedicatedAiCluster(d *schema.ResourceData, m interface{}) error {
+func deleteGenerativeAiDedicatedAiClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiDedicatedAiClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type GenerativeAiDedicatedAiClusterResourceCrud struct {
@@ -200,7 +201,7 @@ func (s *GenerativeAiDedicatedAiClusterResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *GenerativeAiDedicatedAiClusterResourceCrud) Create() error {
+func (s *GenerativeAiDedicatedAiClusterResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_generative_ai.CreateDedicatedAiClusterRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -245,7 +246,7 @@ func (s *GenerativeAiDedicatedAiClusterResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-	response, err := s.Client.CreateDedicatedAiCluster(context.Background(), request)
+	response, err := s.Client.CreateDedicatedAiCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -256,14 +257,14 @@ func (s *GenerativeAiDedicatedAiClusterResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getDedicatedAiClusterFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai"), oci_generative_ai.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDedicatedAiClusterFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai"), oci_generative_ai.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *GenerativeAiDedicatedAiClusterResourceCrud) getDedicatedAiClusterFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *GenerativeAiDedicatedAiClusterResourceCrud) getDedicatedAiClusterFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_generative_ai.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	dedicatedAiClusterId, err := dedicatedAiClusterWaitForWorkRequest(workId, "dedicatedaicluster",
+	dedicatedAiClusterId, err := dedicatedAiClusterWaitForWorkRequest(ctx, workId, "dedicatedaicluster",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -271,7 +272,7 @@ func (s *GenerativeAiDedicatedAiClusterResourceCrud) getDedicatedAiClusterFromWo
 	}
 	s.D.SetId(*dedicatedAiClusterId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func dedicatedAiClusterWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -297,7 +298,7 @@ func dedicatedAiClusterWorkRequestShouldRetryFunc(timeout time.Duration) func(re
 	}
 }
 
-func dedicatedAiClusterWaitForWorkRequest(wId *string, entityType string, action oci_generative_ai.ActionTypeEnum,
+func dedicatedAiClusterWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_generative_ai.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_generative_ai.GenerativeAiClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "generative_ai")
 	retryPolicy.ShouldRetryOperation = dedicatedAiClusterWorkRequestShouldRetryFunc(timeout)
@@ -316,7 +317,7 @@ func dedicatedAiClusterWaitForWorkRequest(wId *string, entityType string, action
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_generative_ai.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -328,7 +329,7 @@ func dedicatedAiClusterWaitForWorkRequest(wId *string, entityType string, action
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -345,14 +346,14 @@ func dedicatedAiClusterWaitForWorkRequest(wId *string, entityType string, action
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_generative_ai.OperationStatusFailed || response.Status == oci_generative_ai.OperationStatusCanceled {
-		return nil, getErrorFromGenerativeAiDedicatedAiClusterWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromGenerativeAiDedicatedAiClusterWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromGenerativeAiDedicatedAiClusterWorkRequest(client *oci_generative_ai.GenerativeAiClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_generative_ai.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromGenerativeAiDedicatedAiClusterWorkRequest(ctx context.Context, client *oci_generative_ai.GenerativeAiClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_generative_ai.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_generative_ai.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -374,7 +375,7 @@ func getErrorFromGenerativeAiDedicatedAiClusterWorkRequest(client *oci_generativ
 	return workRequestErr
 }
 
-func (s *GenerativeAiDedicatedAiClusterResourceCrud) Get() error {
+func (s *GenerativeAiDedicatedAiClusterResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_generative_ai.GetDedicatedAiClusterRequest{}
 
 	tmp := s.D.Id()
@@ -382,7 +383,7 @@ func (s *GenerativeAiDedicatedAiClusterResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-	response, err := s.Client.GetDedicatedAiCluster(context.Background(), request)
+	response, err := s.Client.GetDedicatedAiCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -391,11 +392,11 @@ func (s *GenerativeAiDedicatedAiClusterResourceCrud) Get() error {
 	return nil
 }
 
-func (s *GenerativeAiDedicatedAiClusterResourceCrud) Update() error {
+func (s *GenerativeAiDedicatedAiClusterResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -435,16 +436,16 @@ func (s *GenerativeAiDedicatedAiClusterResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-	response, err := s.Client.UpdateDedicatedAiCluster(context.Background(), request)
+	response, err := s.Client.UpdateDedicatedAiCluster(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDedicatedAiClusterFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai"), oci_generative_ai.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDedicatedAiClusterFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai"), oci_generative_ai.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *GenerativeAiDedicatedAiClusterResourceCrud) Delete() error {
+func (s *GenerativeAiDedicatedAiClusterResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_generative_ai.DeleteDedicatedAiClusterRequest{}
 
 	tmp := s.D.Id()
@@ -452,14 +453,14 @@ func (s *GenerativeAiDedicatedAiClusterResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-	response, err := s.Client.DeleteDedicatedAiCluster(context.Background(), request)
+	response, err := s.Client.DeleteDedicatedAiCluster(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := dedicatedAiClusterWaitForWorkRequest(workId, "dedicatedaicluster",
+	_, delWorkRequestErr := dedicatedAiClusterWaitForWorkRequest(ctx, workId, "dedicatedaicluster",
 		oci_generative_ai.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -605,7 +606,7 @@ func DedicatedAiClusterSummaryToMap(obj oci_generative_ai.DedicatedAiClusterSumm
 	return result
 }
 
-func (s *GenerativeAiDedicatedAiClusterResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *GenerativeAiDedicatedAiClusterResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_generative_ai.ChangeDedicatedAiClusterCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -616,12 +617,12 @@ func (s *GenerativeAiDedicatedAiClusterResourceCrud) updateCompartment(compartme
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-	_, err := s.Client.ChangeDedicatedAiClusterCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeDedicatedAiClusterCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

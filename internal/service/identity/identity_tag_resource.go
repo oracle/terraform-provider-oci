@@ -14,6 +14,7 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -36,10 +37,10 @@ func IdentityTagResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("15m"),
 			Delete: tfresource.GetTimeoutDuration("12h"),
 		},
-		Create: createIdentityTag,
-		Read:   readIdentityTag,
-		Update: updateIdentityTag,
-		Delete: deleteIdentityTag,
+		CreateContext: createIdentityTagWithContext,
+		ReadContext:   readIdentityTagWithContext,
+		UpdateContext: updateIdentityTagWithContext,
+		DeleteContext: deleteIdentityTagWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"description": {
@@ -125,31 +126,31 @@ func IdentityTagResource() *schema.Resource {
 	}
 }
 
-func createIdentityTag(d *schema.ResourceData, m interface{}) error {
+func createIdentityTagWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).IdentityClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readIdentityTag(d *schema.ResourceData, m interface{}) error {
+func readIdentityTagWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).IdentityClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateIdentityTag(d *schema.ResourceData, m interface{}) error {
+func updateIdentityTagWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).IdentityClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteIdentityTag(d *schema.ResourceData, m interface{}) error {
+func deleteIdentityTagWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	// prevent tag deletion when testing, as its a time consuming and sequential operation permitted one per tenancy.
 	importIfExists, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("tags_import_if_exists", "false"))
 	if importIfExists {
@@ -161,7 +162,7 @@ func deleteIdentityTag(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*client.OracleClients).IdentityClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type IdentityTagResourceCrud struct {
@@ -197,7 +198,7 @@ func (s *IdentityTagResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *IdentityTagResourceCrud) Create() error {
+func (s *IdentityTagResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_identity.CreateTagRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -245,13 +246,12 @@ func (s *IdentityTagResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
-	contextToUse := context.Background()
-	response, err := s.Client.CreateTag(contextToUse, request)
+	response, err := s.Client.CreateTag(ctx, request)
 	if err == nil {
 		s.Res = &response.Tag
 		s.D.SetId(*s.Res.Id)
 		//is_retired field is currently not supported in Create so Update to make server state same as config
-		if updateError := s.Update(); updateError != nil {
+		if updateError := s.UpdateWithContext(ctx); updateError != nil {
 			return updateError
 		}
 		return nil
@@ -267,7 +267,7 @@ func (s *IdentityTagResourceCrud) Create() error {
 		s.D.Set("tag_namespace_id", request.TagNamespaceId)
 		s.D.Set("name", request.Name)
 		dsCrud := &IdentityTagsDataSourceCrud{s.D, s.Client, nil}
-		if dsErr := dsCrud.Get(); dsErr != nil {
+		if dsErr := dsCrud.GetWithContext(ctx); dsErr != nil {
 			//return original error when datasource call fails
 			return err
 		}
@@ -275,9 +275,9 @@ func (s *IdentityTagResourceCrud) Create() error {
 		for _, tag := range dsCrud.Res.Items {
 			if strings.EqualFold(*tag.Name, *request.Name) {
 				s.D.SetId(*tag.Id)
-				if updateError := s.Update(); updateError != nil {
+				if updateError := s.UpdateWithContext(ctx); updateError != nil {
 					//Update to tags can only be done from home region, so do get in that case
-					if getError := s.Get(); getError != nil {
+					if getError := s.GetWithContext(ctx); getError != nil {
 						return getError
 					}
 				}
@@ -290,7 +290,7 @@ func (s *IdentityTagResourceCrud) Create() error {
 
 }
 
-func (s *IdentityTagResourceCrud) Get() error {
+func (s *IdentityTagResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_identity.GetTagRequest{}
 
 	tagName, tagNamespaceId, parseTagCompositeIdErr := parseTagCompositeId(s.D.Id())
@@ -311,7 +311,7 @@ func (s *IdentityTagResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
-	response, err := s.Client.GetTag(context.Background(), request)
+	response, err := s.Client.GetTag(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -328,7 +328,7 @@ func (s *IdentityTagResourceCrud) Get() error {
 	return nil
 }
 
-func (s *IdentityTagResourceCrud) Update() error {
+func (s *IdentityTagResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_identity.UpdateTagRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -397,7 +397,7 @@ func (s *IdentityTagResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
-	response, err := s.Client.UpdateTag(context.Background(), request)
+	response, err := s.Client.UpdateTag(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -406,14 +406,14 @@ func (s *IdentityTagResourceCrud) Update() error {
 	return nil
 }
 
-func (s *IdentityTagResourceCrud) Delete() error {
+func (s *IdentityTagResourceCrud) DeleteWithContext(ctx context.Context) error {
 	// retire the tag if not already retired.
 	if isRetired, ok := s.D.GetOkExists("is_retired"); ok && (!isRetired.(bool) || s.D.HasChange("is_retired")) {
 
 		tmp := true
 		s.D.Set("is_retired", &tmp)
 
-		if err := s.Update(); err != nil {
+		if err := s.UpdateWithContext(ctx); err != nil {
 			return err
 		}
 	}
@@ -431,7 +431,7 @@ func (s *IdentityTagResourceCrud) Delete() error {
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
-	response, err := s.Client.DeleteTag(context.Background(), request)
+	response, err := s.Client.DeleteTag(ctx, request)
 
 	if err != nil {
 		return err
@@ -439,12 +439,12 @@ func (s *IdentityTagResourceCrud) Delete() error {
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := IdentityTaggingWaitForWorkRequest(workId, "identity",
+	_, delWorkRequestErr := IdentityTaggingWaitForWorkRequest(ctx, workId, "identity",
 		oci_identity.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
 
-func IdentityTaggingWaitForWorkRequest(workRequestId *string, entityType string, action oci_identity.WorkRequestResourceActionTypeEnum,
+func IdentityTaggingWaitForWorkRequest(ctx context.Context, workRequestId *string, entityType string, action oci_identity.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_identity.IdentityClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "identity")
 	retryPolicy.ShouldRetryOperation = identityTagWorkRequestShouldRetryFunc(timeout)
@@ -462,7 +462,7 @@ func IdentityTaggingWaitForWorkRequest(workRequestId *string, entityType string,
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetTaggingWorkRequest(context.Background(), oci_identity.GetTaggingWorkRequestRequest{
+			response, err = client.GetTaggingWorkRequest(ctx, oci_identity.GetTaggingWorkRequestRequest{
 				WorkRequestId: workRequestId,
 				RequestMetadata: oci_common.RequestMetadata{
 					RetryPolicy: retryPolicy,
@@ -479,7 +479,7 @@ func IdentityTaggingWaitForWorkRequest(workRequestId *string, entityType string,
 		stateConf.PollInterval = 1
 	}
 
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -494,13 +494,13 @@ func IdentityTaggingWaitForWorkRequest(workRequestId *string, entityType string,
 	}
 
 	if response.Status == oci_identity.TaggingWorkRequestStatusFailed || response.Status == oci_identity.TaggingWorkRequestStatusCanceled {
-		return nil, getIdentityTaggingWorkRequestErrors(client, workRequestId, retryPolicy, entityType, action)
+		return nil, getIdentityTaggingWorkRequestErrors(ctx, client, workRequestId, retryPolicy, entityType, action)
 	}
 	return identifier, nil
 }
 
-func getIdentityTaggingWorkRequestErrors(client *oci_identity.IdentityClient, workRequestId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_identity.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListTaggingWorkRequestErrors(context.Background(), oci_identity.ListTaggingWorkRequestErrorsRequest{
+func getIdentityTaggingWorkRequestErrors(ctx context.Context, client *oci_identity.IdentityClient, workRequestId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_identity.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListTaggingWorkRequestErrors(ctx, oci_identity.ListTaggingWorkRequestErrorsRequest{
 		WorkRequestId: workRequestId,
 		RequestMetadata: oci_common.RequestMetadata{
 			RetryPolicy: retryPolicy,

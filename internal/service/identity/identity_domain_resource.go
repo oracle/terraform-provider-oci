@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -24,11 +25,11 @@ func IdentityDomainResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createIdentityDomain,
-		Read:     readIdentityDomain,
-		Update:   updateIdentityDomain,
-		Delete:   deleteIdentityDomain,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createIdentityDomainWithContext,
+		ReadContext:   readIdentityDomainWithContext,
+		UpdateContext: updateIdentityDomainWithContext,
+		DeleteContext: deleteIdentityDomainWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -169,7 +170,7 @@ func IdentityDomainResource() *schema.Resource {
 	}
 }
 
-func createIdentityDomain(d *schema.ResourceData, m interface{}) error {
+func createIdentityDomainWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &IdentityDomainResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).IdentityClient()
@@ -181,28 +182,28 @@ func createIdentityDomain(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	if err := tfresource.CreateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.CreateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	if powerOff {
-		if err := sync.deActivate(); err != nil {
-			return err
+		if err := sync.deActivate(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_identity.DomainLifecycleStateInactive)
 	}
 	return nil
 }
 
-func readIdentityDomain(d *schema.ResourceData, m interface{}) error {
+func readIdentityDomainWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &IdentityDomainResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).IdentityClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateIdentityDomain(d *schema.ResourceData, m interface{}) error {
+func updateIdentityDomainWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &IdentityDomainResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).IdentityClient()
@@ -219,19 +220,19 @@ func updateIdentityDomain(d *schema.ResourceData, m interface{}) error {
 	}
 
 	if powerOn {
-		if err := sync.activate(); err != nil {
-			return err
+		if err := sync.activate(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_identity.DomainLifecycleStateActive)
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	if powerOff {
-		if err := sync.deActivate(); err != nil {
-			return err
+		if err := sync.deActivate(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_identity.DomainLifecycleStateInactive)
 	}
@@ -239,13 +240,13 @@ func updateIdentityDomain(d *schema.ResourceData, m interface{}) error {
 	return nil
 }
 
-func deleteIdentityDomain(d *schema.ResourceData, m interface{}) error {
+func deleteIdentityDomainWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &IdentityDomainResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).IdentityClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type IdentityDomainResourceCrud struct {
@@ -281,7 +282,7 @@ func (s *IdentityDomainResourceCrud) DeletedTarget() []string {
 	return []string{}
 }
 
-func (s *IdentityDomainResourceCrud) Create() error {
+func (s *IdentityDomainResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_identity.CreateDomainRequest{}
 
 	if adminEmail, ok := s.D.GetOkExists("admin_email"); ok {
@@ -358,14 +359,14 @@ func (s *IdentityDomainResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
-	response, err := s.Client.CreateDomain(context.Background(), request)
+	response, err := s.Client.CreateDomain(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_identity.GetIamWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetIamWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetIamWorkRequest(ctx,
 		oci_identity.GetIamWorkRequestRequest{
 			IamWorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -381,14 +382,14 @@ func (s *IdentityDomainResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getDomainFromWorkRequest(workId, oci_identity.IamWorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDomainFromWorkRequest(ctx, workId, oci_identity.IamWorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *IdentityDomainResourceCrud) getDomainFromWorkRequest(workId *string,
+func (s *IdentityDomainResourceCrud) getDomainFromWorkRequest(ctx context.Context, workId *string,
 	actionTypeEnum oci_identity.IamWorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	domainId, err := domainWaitForWorkRequest(workId, "domain",
+	domainId, err := domainWaitForWorkRequest(ctx, workId, "domain",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -396,7 +397,7 @@ func (s *IdentityDomainResourceCrud) getDomainFromWorkRequest(workId *string,
 	}
 	s.D.SetId(*domainId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func domainWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -422,7 +423,7 @@ func domainWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_c
 	}
 }
 
-func domainWaitForWorkRequest(wId *string, entityType string, action oci_identity.IamWorkRequestResourceActionTypeEnum,
+func domainWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_identity.IamWorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_identity.IdentityClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "identity")
 	retryPolicy.ShouldRetryOperation = domainWorkRequestShouldRetryFunc(timeout)
@@ -441,7 +442,7 @@ func domainWaitForWorkRequest(wId *string, entityType string, action oci_identit
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetIamWorkRequest(context.Background(),
+			response, err = client.GetIamWorkRequest(ctx,
 				oci_identity.GetIamWorkRequestRequest{
 					IamWorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -452,7 +453,7 @@ func domainWaitForWorkRequest(wId *string, entityType string, action oci_identit
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -469,15 +470,15 @@ func domainWaitForWorkRequest(wId *string, entityType string, action oci_identit
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_identity.IamWorkRequestStatusFailed || response.Status == oci_identity.IamWorkRequestStatusCanceled {
-		return nil, getErrorFromIdentityDomainWorkRequest(client, wId, retryPolicy, response.OperationType)
+		return nil, getErrorFromIdentityDomainWorkRequest(ctx, client, wId, retryPolicy, response.OperationType)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromIdentityDomainWorkRequest(client *oci_identity.IdentityClient, workId *string, retryPolicy *oci_common.RetryPolicy, operationType oci_identity.IamWorkRequestOperationTypeEnum) error {
+func getErrorFromIdentityDomainWorkRequest(ctx context.Context, client *oci_identity.IdentityClient, workId *string, retryPolicy *oci_common.RetryPolicy, operationType oci_identity.IamWorkRequestOperationTypeEnum) error {
 
-	errorMessage, err := getErrorMessageFromIdentityDomainWorkRequest(client, workId, retryPolicy)
+	errorMessage, err := getErrorMessageFromIdentityDomainWorkRequest(ctx, client, workId, retryPolicy)
 	if err != nil {
 		return err
 	}
@@ -485,9 +486,9 @@ func getErrorFromIdentityDomainWorkRequest(client *oci_identity.IdentityClient, 
 	return workRequestErr
 }
 
-func getErrorMessageFromIdentityDomainWorkRequest(client *oci_identity.IdentityClient, workId *string, retryPolicy *oci_common.RetryPolicy) (string, error) {
+func getErrorMessageFromIdentityDomainWorkRequest(ctx context.Context, client *oci_identity.IdentityClient, workId *string, retryPolicy *oci_common.RetryPolicy) (string, error) {
 	errorMessage := ""
-	response, err := client.ListIamWorkRequestErrors(context.Background(),
+	response, err := client.ListIamWorkRequestErrors(ctx,
 		oci_identity.ListIamWorkRequestErrorsRequest{
 			IamWorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -508,7 +509,7 @@ func getErrorMessageFromIdentityDomainWorkRequest(client *oci_identity.IdentityC
 	return errorMessage, nil
 }
 
-func (s *IdentityDomainResourceCrud) Get() error {
+func (s *IdentityDomainResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_identity.GetDomainRequest{}
 
 	tmp := s.D.Id()
@@ -516,7 +517,7 @@ func (s *IdentityDomainResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
-	response, err := s.Client.GetDomain(context.Background(), request)
+	response, err := s.Client.GetDomain(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -525,11 +526,11 @@ func (s *IdentityDomainResourceCrud) Get() error {
 	return nil
 }
 
-func (s *IdentityDomainResourceCrud) Update() error {
+func (s *IdentityDomainResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -539,7 +540,7 @@ func (s *IdentityDomainResourceCrud) Update() error {
 	if licenseType, ok := s.D.GetOkExists("license_type"); ok && s.D.HasChange("license_type") {
 		oldRaw, newRaw := s.D.GetChange("license_type")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateLicenseType(licenseType)
+			err := s.updateLicenseType(ctx, licenseType)
 			if err != nil {
 				return err
 			}
@@ -580,16 +581,16 @@ func (s *IdentityDomainResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
-	response, err := s.Client.UpdateDomain(context.Background(), request)
+	response, err := s.Client.UpdateDomain(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDomainFromWorkRequest(workId, oci_identity.IamWorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDomainFromWorkRequest(ctx, workId, oci_identity.IamWorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *IdentityDomainResourceCrud) Delete() error {
+func (s *IdentityDomainResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_identity.DeleteDomainRequest{}
 
 	tmp := s.D.Id()
@@ -597,14 +598,14 @@ func (s *IdentityDomainResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
-	response, err := s.Client.DeleteDomain(context.Background(), request)
+	response, err := s.Client.DeleteDomain(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := domainWaitForWorkRequest(workId, "domain",
+	_, delWorkRequestErr := domainWaitForWorkRequest(ctx, workId, "domain",
 		oci_identity.IamWorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -683,7 +684,7 @@ func ReplicatedRegionDetailsToMap(obj oci_identity.ReplicatedRegionDetails) map[
 	return result
 }
 
-func (s *IdentityDomainResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *IdentityDomainResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_identity.ChangeDomainCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -694,16 +695,16 @@ func (s *IdentityDomainResourceCrud) updateCompartment(compartment interface{}) 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
-	response, err := s.Client.ChangeDomainCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeDomainCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDomainFromWorkRequest(workId, oci_identity.IamWorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDomainFromWorkRequest(ctx, workId, oci_identity.IamWorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *IdentityDomainResourceCrud) updateLicenseType(licenseType interface{}) error {
+func (s *IdentityDomainResourceCrud) updateLicenseType(ctx context.Context, licenseType interface{}) error {
 	changeDomainLicenseTypeRequest := oci_identity.ChangeDomainLicenseTypeRequest{}
 
 	licenseTypeTmp := licenseType.(string)
@@ -714,16 +715,16 @@ func (s *IdentityDomainResourceCrud) updateLicenseType(licenseType interface{}) 
 
 	changeDomainLicenseTypeRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
-	response, err := s.Client.ChangeDomainLicenseType(context.Background(), changeDomainLicenseTypeRequest)
+	response, err := s.Client.ChangeDomainLicenseType(ctx, changeDomainLicenseTypeRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDomainFromWorkRequest(workId, oci_identity.IamWorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDomainFromWorkRequest(ctx, workId, oci_identity.IamWorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *IdentityDomainResourceCrud) activate() error {
+func (s *IdentityDomainResourceCrud) activate(ctx context.Context) error {
 	activateDomainRequest := oci_identity.ActivateDomainRequest{}
 
 	idTmp := s.D.Id()
@@ -731,16 +732,16 @@ func (s *IdentityDomainResourceCrud) activate() error {
 
 	activateDomainRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
-	response, err := s.Client.ActivateDomain(context.Background(), activateDomainRequest)
+	response, err := s.Client.ActivateDomain(ctx, activateDomainRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDomainFromWorkRequest(workId, oci_identity.IamWorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDomainFromWorkRequest(ctx, workId, oci_identity.IamWorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *IdentityDomainResourceCrud) deActivate() error {
+func (s *IdentityDomainResourceCrud) deActivate(ctx context.Context) error {
 	deactivateDomainRequest := oci_identity.DeactivateDomainRequest{}
 
 	idTmp := s.D.Id()
@@ -748,11 +749,11 @@ func (s *IdentityDomainResourceCrud) deActivate() error {
 
 	deactivateDomainRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
-	response, err := s.Client.DeactivateDomain(context.Background(), deactivateDomainRequest)
+	response, err := s.Client.DeactivateDomain(ctx, deactivateDomainRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDomainFromWorkRequest(workId, oci_identity.IamWorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDomainFromWorkRequest(ctx, workId, oci_identity.IamWorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

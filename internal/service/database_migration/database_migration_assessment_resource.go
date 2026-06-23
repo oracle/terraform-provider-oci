@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -26,11 +27,11 @@ func DatabaseMigrationAssessmentResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseMigrationAssessment,
-		Read:     readDatabaseMigrationAssessment,
-		Update:   updateDatabaseMigrationAssessment,
-		Delete:   deleteDatabaseMigrationAssessment,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseMigrationAssessmentWithContext,
+		ReadContext:   readDatabaseMigrationAssessmentWithContext,
+		UpdateContext: updateDatabaseMigrationAssessmentWithContext,
+		DeleteContext: deleteDatabaseMigrationAssessmentWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"acceptable_downtime": {
@@ -280,37 +281,37 @@ func DatabaseMigrationAssessmentResource() *schema.Resource {
 	}
 }
 
-func createDatabaseMigrationAssessment(d *schema.ResourceData, m interface{}) error {
+func createDatabaseMigrationAssessmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseMigrationAssessmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseMigrationClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseMigrationAssessment(d *schema.ResourceData, m interface{}) error {
+func readDatabaseMigrationAssessmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseMigrationAssessmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseMigrationClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseMigrationAssessment(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseMigrationAssessmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseMigrationAssessmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseMigrationClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseMigrationAssessment(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseMigrationAssessmentWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseMigrationAssessmentResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseMigrationClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseMigrationAssessmentResourceCrud struct {
@@ -352,7 +353,7 @@ func (s *DatabaseMigrationAssessmentResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatabaseMigrationAssessmentResourceCrud) Create() error {
+func (s *DatabaseMigrationAssessmentResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database_migration.CreateAssessmentRequest{}
 	err := s.populateTopLevelPolymorphicCreateAssessmentRequest(&request)
 	if err != nil {
@@ -361,7 +362,7 @@ func (s *DatabaseMigrationAssessmentResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
-	response, err := s.Client.CreateAssessment(context.Background(), request)
+	response, err := s.Client.CreateAssessment(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -372,19 +373,19 @@ func (s *DatabaseMigrationAssessmentResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getAssessmentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration"), oci_database_migration.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getAssessmentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration"), oci_database_migration.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatabaseMigrationAssessmentResourceCrud) getAssessmentFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseMigrationAssessmentResourceCrud) getAssessmentFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_migration.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait for work request to reach a terminal state and surface any errors.
-	if err := assessmentWaitForWorkRequest(workId, "assessment",
+	if err := assessmentWaitForWorkRequest(ctx, workId, "assessment",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client); err != nil {
 		return err
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func assessmentWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -410,7 +411,7 @@ func assessmentWorkRequestShouldRetryFunc(timeout time.Duration) func(response o
 	}
 }
 
-func assessmentWaitForWorkRequest(wId *string, entityType string, action oci_database_migration.WorkRequestResourceActionTypeEnum,
+func assessmentWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_migration.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_migration.DatabaseMigrationClient) error {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_migration")
 	retryPolicy.ShouldRetryOperation = assessmentWorkRequestShouldRetryFunc(timeout)
@@ -429,7 +430,7 @@ func assessmentWaitForWorkRequest(wId *string, entityType string, action oci_dat
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_migration.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -441,21 +442,21 @@ func assessmentWaitForWorkRequest(wId *string, entityType string, action oci_dat
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return e
 	}
 
 	// If work request did not succeed, surface backend error details.
 	if response.Status == oci_database_migration.OperationStatusFailed || response.Status == oci_database_migration.OperationStatusCanceled {
-		return getErrorFromDatabaseMigrationAssessmentWorkRequest(client, wId, retryPolicy, entityType, action)
+		return getErrorFromDatabaseMigrationAssessmentWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	// Succeeded: do not require Resources list to contain identifiers.
 	return nil
 }
 
-func getErrorFromDatabaseMigrationAssessmentWorkRequest(client *oci_database_migration.DatabaseMigrationClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_migration.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseMigrationAssessmentWorkRequest(ctx context.Context, client *oci_database_migration.DatabaseMigrationClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_migration.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_migration.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -477,7 +478,7 @@ func getErrorFromDatabaseMigrationAssessmentWorkRequest(client *oci_database_mig
 	return workRequestErr
 }
 
-func (s *DatabaseMigrationAssessmentResourceCrud) Get() error {
+func (s *DatabaseMigrationAssessmentResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_migration.GetAssessmentRequest{}
 
 	tmp := s.D.Id()
@@ -485,7 +486,7 @@ func (s *DatabaseMigrationAssessmentResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
-	response, err := s.Client.GetAssessment(context.Background(), request)
+	response, err := s.Client.GetAssessment(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -494,11 +495,11 @@ func (s *DatabaseMigrationAssessmentResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseMigrationAssessmentResourceCrud) Update() error {
+func (s *DatabaseMigrationAssessmentResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -512,16 +513,16 @@ func (s *DatabaseMigrationAssessmentResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
-	response, err := s.Client.UpdateAssessment(context.Background(), request)
+	response, err := s.Client.UpdateAssessment(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAssessmentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration"), oci_database_migration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAssessmentFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration"), oci_database_migration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DatabaseMigrationAssessmentResourceCrud) Delete() error {
+func (s *DatabaseMigrationAssessmentResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database_migration.DeleteAssessmentRequest{}
 
 	tmp := s.D.Id()
@@ -529,14 +530,14 @@ func (s *DatabaseMigrationAssessmentResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
-	response, err := s.Client.DeleteAssessment(context.Background(), request)
+	response, err := s.Client.DeleteAssessment(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	delWorkRequestErr := assessmentWaitForWorkRequest(workId, "assessment",
+	delWorkRequestErr := assessmentWaitForWorkRequest(ctx, workId, "assessment",
 		oci_database_migration.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1156,7 +1157,7 @@ func (s *DatabaseMigrationAssessmentResourceCrud) populateTopLevelPolymorphicUpd
 	return nil
 }
 
-func (s *DatabaseMigrationAssessmentResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseMigrationAssessmentResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database_migration.ChangeAssessmentCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1167,12 +1168,12 @@ func (s *DatabaseMigrationAssessmentResourceCrud) updateCompartment(compartment 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
-	_, err := s.Client.ChangeAssessmentCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeAssessmentCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

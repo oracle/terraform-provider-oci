@@ -6,6 +6,7 @@ package resource_analytics
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_resource_analytics "github.com/oracle/oci-go-sdk/v65/resourceanalytics"
 
@@ -15,7 +16,7 @@ import (
 
 func ResourceAnalyticsTenancyAttachmentsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readResourceAnalyticsTenancyAttachments,
+		ReadContext: readResourceAnalyticsTenancyAttachmentsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"id": {
@@ -48,12 +49,12 @@ func ResourceAnalyticsTenancyAttachmentsDataSource() *schema.Resource {
 	}
 }
 
-func readResourceAnalyticsTenancyAttachments(d *schema.ResourceData, m interface{}) error {
+func readResourceAnalyticsTenancyAttachmentsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourceAnalyticsTenancyAttachmentsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).TenancyAttachmentClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ResourceAnalyticsTenancyAttachmentsDataSourceCrud struct {
@@ -66,7 +67,7 @@ func (s *ResourceAnalyticsTenancyAttachmentsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ResourceAnalyticsTenancyAttachmentsDataSourceCrud) Get() error {
+func (s *ResourceAnalyticsTenancyAttachmentsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_resource_analytics.ListTenancyAttachmentsRequest{}
 
 	if id, ok := s.D.GetOkExists("id"); ok {
@@ -85,7 +86,7 @@ func (s *ResourceAnalyticsTenancyAttachmentsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "resource_analytics")
 
-	response, err := s.Client.ListTenancyAttachments(context.Background(), request)
+	response, err := s.Client.ListTenancyAttachments(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -94,7 +95,7 @@ func (s *ResourceAnalyticsTenancyAttachmentsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListTenancyAttachments(context.Background(), request)
+		listResponse, err := s.Client.ListTenancyAttachments(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -6,6 +6,7 @@ package resource_analytics
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_resource_analytics "github.com/oracle/oci-go-sdk/v65/resourceanalytics"
 
@@ -19,15 +20,15 @@ func ResourceAnalyticsMonitoredRegionDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(ResourceAnalyticsMonitoredRegionResource(), fieldMap, readSingularResourceAnalyticsMonitoredRegion)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(ResourceAnalyticsMonitoredRegionResource(), fieldMap, readSingularResourceAnalyticsMonitoredRegionWithContext)
 }
 
-func readSingularResourceAnalyticsMonitoredRegion(d *schema.ResourceData, m interface{}) error {
+func readSingularResourceAnalyticsMonitoredRegionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourceAnalyticsMonitoredRegionDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).MonitoredRegionClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ResourceAnalyticsMonitoredRegionDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *ResourceAnalyticsMonitoredRegionDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ResourceAnalyticsMonitoredRegionDataSourceCrud) Get() error {
+func (s *ResourceAnalyticsMonitoredRegionDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_resource_analytics.GetMonitoredRegionRequest{}
 
 	if monitoredRegionId, ok := s.D.GetOkExists("monitored_region_id"); ok {
@@ -50,7 +51,7 @@ func (s *ResourceAnalyticsMonitoredRegionDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "resource_analytics")
 
-	response, err := s.Client.GetMonitoredRegion(context.Background(), request)
+	response, err := s.Client.GetMonitoredRegion(ctx, request)
 	if err != nil {
 		return err
 	}

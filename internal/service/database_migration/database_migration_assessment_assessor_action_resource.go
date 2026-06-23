@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,10 +25,10 @@ func DatabaseMigrationAssessmentAssessorActionResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseMigrationAssessmentAssessorAction,
-		Read:     readDatabaseMigrationAssessmentAssessorAction,
-		Delete:   deleteDatabaseMigrationAssessmentAssessorAction,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseMigrationAssessmentAssessorActionWithContext,
+		ReadContext:   readDatabaseMigrationAssessmentAssessorActionWithContext,
+		DeleteContext: deleteDatabaseMigrationAssessmentAssessorActionWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"assessment_id": {
@@ -77,19 +78,19 @@ func DatabaseMigrationAssessmentAssessorActionResource() *schema.Resource {
 	}
 }
 
-func createDatabaseMigrationAssessmentAssessorAction(d *schema.ResourceData, m interface{}) error {
+func createDatabaseMigrationAssessmentAssessorActionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseMigrationAssessmentAssessorActionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseMigrationClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseMigrationAssessmentAssessorAction(d *schema.ResourceData, m interface{}) error {
+func readDatabaseMigrationAssessmentAssessorActionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDatabaseMigrationAssessmentAssessorAction(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseMigrationAssessmentAssessorActionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -103,11 +104,11 @@ func (s *DatabaseMigrationAssessmentAssessorActionResourceCrud) ID() string {
 	return s.D.Id()
 }
 
-func (s *DatabaseMigrationAssessmentAssessorActionResourceCrud) Get() error {
+func (s *DatabaseMigrationAssessmentAssessorActionResourceCrud) GetWithContext(ctx context.Context) error {
 	return nil
 }
 
-func (s *DatabaseMigrationAssessmentAssessorActionResourceCrud) Create() error {
+func (s *DatabaseMigrationAssessmentAssessorActionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database_migration.PerformAssessorActionRequest{}
 
 	if assessmentId, ok := s.D.GetOkExists("assessment_id"); ok {
@@ -144,7 +145,7 @@ func (s *DatabaseMigrationAssessmentAssessorActionResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
-	response, err := s.Client.PerformAssessorAction(context.Background(), request)
+	response, err := s.Client.PerformAssessorAction(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -159,7 +160,7 @@ func (s *DatabaseMigrationAssessmentAssessorActionResourceCrud) Create() error {
 		return nil
 	}
 	workRequestResponse := oci_database_migration.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_database_migration.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -175,14 +176,14 @@ func (s *DatabaseMigrationAssessmentAssessorActionResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getAssessmentAssessorActionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration"), oci_database_migration.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getAssessmentAssessorActionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration"), oci_database_migration.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatabaseMigrationAssessmentAssessorActionResourceCrud) getAssessmentAssessorActionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseMigrationAssessmentAssessorActionResourceCrud) getAssessmentAssessorActionFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_migration.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	assessmentAssessorActionId, err := assessmentAssessorActionWaitForWorkRequest(workId, "assessment",
+	assessmentAssessorActionId, err := assessmentAssessorActionWaitForWorkRequest(ctx, workId, "assessment",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -190,7 +191,7 @@ func (s *DatabaseMigrationAssessmentAssessorActionResourceCrud) getAssessmentAss
 	}
 	s.D.SetId(*assessmentAssessorActionId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func assessmentAssessorActionWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -216,7 +217,7 @@ func assessmentAssessorActionWorkRequestShouldRetryFunc(timeout time.Duration) f
 	}
 }
 
-func assessmentAssessorActionWaitForWorkRequest(wId *string, entityType string, action oci_database_migration.WorkRequestResourceActionTypeEnum,
+func assessmentAssessorActionWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_migration.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_migration.DatabaseMigrationClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_migration")
 	retryPolicy.ShouldRetryOperation = assessmentAssessorActionWorkRequestShouldRetryFunc(timeout)
@@ -235,7 +236,7 @@ func assessmentAssessorActionWaitForWorkRequest(wId *string, entityType string, 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_migration.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -247,7 +248,7 @@ func assessmentAssessorActionWaitForWorkRequest(wId *string, entityType string, 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -264,14 +265,14 @@ func assessmentAssessorActionWaitForWorkRequest(wId *string, entityType string, 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_database_migration.OperationStatusFailed || response.Status == oci_database_migration.OperationStatusCanceled {
-		return nil, getErrorFromDatabaseMigrationAssessmentAssessorActionWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatabaseMigrationAssessmentAssessorActionWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseMigrationAssessmentAssessorActionWorkRequest(client *oci_database_migration.DatabaseMigrationClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_migration.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseMigrationAssessmentAssessorActionWorkRequest(ctx context.Context, client *oci_database_migration.DatabaseMigrationClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_migration.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_migration.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

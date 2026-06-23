@@ -6,6 +6,7 @@ package generative_ai
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_generative_ai "github.com/oracle/oci-go-sdk/v65/generativeai"
 
@@ -15,7 +16,7 @@ import (
 
 func GenerativeAiGenerativeAiPrivateEndpointsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readGenerativeAiGenerativeAiPrivateEndpoints,
+		ReadContext: readGenerativeAiGenerativeAiPrivateEndpointsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -56,12 +57,12 @@ func GenerativeAiGenerativeAiPrivateEndpointsDataSource() *schema.Resource {
 	}
 }
 
-func readGenerativeAiGenerativeAiPrivateEndpoints(d *schema.ResourceData, m interface{}) error {
+func readGenerativeAiGenerativeAiPrivateEndpointsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiGenerativeAiPrivateEndpointsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GenerativeAiGenerativeAiPrivateEndpointsDataSourceCrud struct {
@@ -74,7 +75,7 @@ func (s *GenerativeAiGenerativeAiPrivateEndpointsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GenerativeAiGenerativeAiPrivateEndpointsDataSourceCrud) Get() error {
+func (s *GenerativeAiGenerativeAiPrivateEndpointsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_generative_ai.ListGenerativeAiPrivateEndpointsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -102,7 +103,7 @@ func (s *GenerativeAiGenerativeAiPrivateEndpointsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "generative_ai")
 
-	response, err := s.Client.ListGenerativeAiPrivateEndpoints(context.Background(), request)
+	response, err := s.Client.ListGenerativeAiPrivateEndpoints(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -111,7 +112,7 @@ func (s *GenerativeAiGenerativeAiPrivateEndpointsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListGenerativeAiPrivateEndpoints(context.Background(), request)
+		listResponse, err := s.Client.ListGenerativeAiPrivateEndpoints(ctx, request)
 		if err != nil {
 			return err
 		}

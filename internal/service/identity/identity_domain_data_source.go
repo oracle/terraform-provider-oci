@@ -6,6 +6,7 @@ package identity
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
 
@@ -19,15 +20,15 @@ func IdentityDomainDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(IdentityDomainResource(), fieldMap, readSingularIdentityDomain)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(IdentityDomainResource(), fieldMap, readSingularIdentityDomainWithContext)
 }
 
-func readSingularIdentityDomain(d *schema.ResourceData, m interface{}) error {
+func readSingularIdentityDomainWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &IdentityDomainDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).IdentityClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type IdentityDomainDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *IdentityDomainDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *IdentityDomainDataSourceCrud) Get() error {
+func (s *IdentityDomainDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_identity.GetDomainRequest{}
 
 	if domainId, ok := s.D.GetOkExists("domain_id"); ok {
@@ -50,7 +51,7 @@ func (s *IdentityDomainDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "identity")
 
-	response, err := s.Client.GetDomain(context.Background(), request)
+	response, err := s.Client.GetDomain(ctx, request)
 	if err != nil {
 		return err
 	}

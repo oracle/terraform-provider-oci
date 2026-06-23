@@ -6,6 +6,7 @@ package generative_ai
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_generative_ai "github.com/oracle/oci-go-sdk/v65/generativeai"
 
@@ -19,15 +20,15 @@ func GenerativeAiGenerativeAiPrivateEndpointDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(GenerativeAiGenerativeAiPrivateEndpointResource(), fieldMap, readSingularGenerativeAiGenerativeAiPrivateEndpoint)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(GenerativeAiGenerativeAiPrivateEndpointResource(), fieldMap, readSingularGenerativeAiGenerativeAiPrivateEndpointWithContext)
 }
 
-func readSingularGenerativeAiGenerativeAiPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func readSingularGenerativeAiGenerativeAiPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiGenerativeAiPrivateEndpointDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GenerativeAiGenerativeAiPrivateEndpointDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *GenerativeAiGenerativeAiPrivateEndpointDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GenerativeAiGenerativeAiPrivateEndpointDataSourceCrud) Get() error {
+func (s *GenerativeAiGenerativeAiPrivateEndpointDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_generative_ai.GetGenerativeAiPrivateEndpointRequest{}
 
 	if generativeAiPrivateEndpointId, ok := s.D.GetOkExists("generative_ai_private_endpoint_id"); ok {
@@ -50,7 +51,7 @@ func (s *GenerativeAiGenerativeAiPrivateEndpointDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "generative_ai")
 
-	response, err := s.Client.GetGenerativeAiPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.GetGenerativeAiPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
