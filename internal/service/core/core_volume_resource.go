@@ -860,6 +860,7 @@ func BlockVolumeReplicaInfoToMap(obj oci_core.BlockVolumeReplicaInfo) map[string
 
 	if obj.KmsKeyId != nil {
 		result["kms_key_id"] = string(*obj.KmsKeyId)
+		result["xrr_kms_key_id"] = string(*obj.KmsKeyId)
 	}
 
 	return result
