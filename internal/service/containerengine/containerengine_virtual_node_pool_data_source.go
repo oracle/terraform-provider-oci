@@ -136,6 +136,12 @@ func (s *ContainerengineVirtualNodePoolDataSourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
+	if s.Res.VirtualNodePoolCyclingDetails != nil {
+		s.D.Set("virtual_node_pool_cycling_details", []interface{}{VirtualNodePoolCyclingDetailsToMap(s.Res.VirtualNodePoolCyclingDetails)})
+	} else {
+		s.D.Set("virtual_node_pool_cycling_details", nil)
+	}
+
 	if s.Res.VirtualNodeTags != nil {
 		s.D.Set("virtual_node_tags", []interface{}{VirtualNodeTagsToMap(s.Res.VirtualNodeTags)})
 	} else {

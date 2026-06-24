@@ -196,6 +196,18 @@ func (s *ContainerengineVirtualNodePoolsDataSourceCrud) SetData() error {
 			virtualNodePool["time_updated"] = r.TimeUpdated.String()
 		}
 
+		if r.VirtualNodePoolCyclingDetails != nil {
+			virtualNodePool["virtual_node_pool_cycling_details"] = []interface{}{VirtualNodePoolCyclingDetailsToMap(r.VirtualNodePoolCyclingDetails)}
+		} else {
+			virtualNodePool["virtual_node_pool_cycling_details"] = nil
+		}
+
+		if r.VirtualNodeTags != nil {
+			virtualNodePool["virtual_node_tags"] = []interface{}{VirtualNodeTagsToMap(r.VirtualNodeTags)}
+		} else {
+			virtualNodePool["virtual_node_tags"] = nil
+		}
+
 		resources = append(resources, virtualNodePool)
 	}
 
