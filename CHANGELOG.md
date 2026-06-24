@@ -1,3 +1,15 @@
+## 8.20.0 (June 24, 2026)
+
+### Added
+- Support for API Gateway - Static Redirect URL in Authentication policy plugin
+- Support for Ability to push OCI Log Analytics Log Group details for an OPA instance attached to the OIC Integration instance
+- security attributes for resolverEndpoints
+- Support for ADBS: Ability to query and find ADBS instances
+
+### Bug Fix
+- Docs for Object Storage Private Endpoint support
+- fixed body parameter interface for functions and adbd resources
+
 ## 8.19.0 (June 16, 2026)
 
 ### Added
