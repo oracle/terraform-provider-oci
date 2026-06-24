@@ -90,6 +90,10 @@ func (s *ContainerengineVirtualNodePoolDataSourceCrud) SetData() error {
 	}
 	s.D.Set("initial_virtual_node_labels", initialVirtualNodeLabels)
 
+	if s.Res.KubernetesVersion != nil {
+		s.D.Set("kubernetes_version", *s.Res.KubernetesVersion)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -130,18 +134,6 @@ func (s *ContainerengineVirtualNodePoolDataSourceCrud) SetData() error {
 
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
-	}
-
-	if s.Res.VirtualNodeEvictionVirtualNodePoolSettings != nil {
-		s.D.Set("virtual_node_eviction_virtual_node_pool_settings", []interface{}{VirtualNodeEvictionVirtualNodePoolSettingsToMap(s.Res.VirtualNodeEvictionVirtualNodePoolSettings)})
-	} else {
-		s.D.Set("virtual_node_eviction_virtual_node_pool_settings", nil)
-	}
-
-	if s.Res.VirtualNodePoolCyclingDetails != nil {
-		s.D.Set("virtual_node_pool_cycling_details", []interface{}{VirtualNodePoolCyclingDetailsToMap(s.Res.VirtualNodePoolCyclingDetails)})
-	} else {
-		s.D.Set("virtual_node_pool_cycling_details", nil)
 	}
 
 	if s.Res.VirtualNodeTags != nil {
