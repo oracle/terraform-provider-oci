@@ -494,6 +494,9 @@ type AutonomousDwDatabase struct {
 
 	RemoteDisasterRecoveryConfiguration *DisasterRecoveryConfiguration `mandatory:"false" json:"remoteDisasterRecoveryConfiguration"`
 
+	// List of access types for an Autonomous AI Database.
+	AccessTypes []string `mandatory:"false" json:"accessTypes"`
+
 	// Enabling SHARED server architecture enables a database server to allow many client processes to share very few server processes, thereby increasing the number of supported users.
 	NetServicesArchitecture AutonomousDwDatabaseNetServicesArchitectureEnum `mandatory:"false" json:"netServicesArchitecture,omitempty"`
 
@@ -722,6 +725,7 @@ func (m *AutonomousDwDatabase) UnmarshalJSON(data []byte) (e error) {
 		DisasterRecoveryRegionType              AutonomousDwDatabaseDisasterRecoveryRegionTypeEnum        `json:"disasterRecoveryRegionType"`
 		TimeDisasterRecoveryRoleChanged         *common.SDKTime                                           `json:"timeDisasterRecoveryRoleChanged"`
 		RemoteDisasterRecoveryConfiguration     *DisasterRecoveryConfiguration                            `json:"remoteDisasterRecoveryConfiguration"`
+		AccessTypes                             []string                                                  `json:"accessTypes"`
 		NetServicesArchitecture                 AutonomousDwDatabaseNetServicesArchitectureEnum           `json:"netServicesArchitecture"`
 		AvailabilityDomain                      *string                                                   `json:"availabilityDomain"`
 		ClusterPlacementGroupId                 *string                                                   `json:"clusterPlacementGroupId"`
@@ -1009,6 +1013,8 @@ func (m *AutonomousDwDatabase) UnmarshalJSON(data []byte) (e error) {
 
 	m.RemoteDisasterRecoveryConfiguration = model.RemoteDisasterRecoveryConfiguration
 
+	m.AccessTypes = make([]string, len(model.AccessTypes))
+	copy(m.AccessTypes, model.AccessTypes)
 	m.NetServicesArchitecture = model.NetServicesArchitecture
 
 	m.AvailabilityDomain = model.AvailabilityDomain

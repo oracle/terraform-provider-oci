@@ -21,7 +21,7 @@ type ChangeScheduleCompartmentRequest struct {
 	// This is the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the schedule.
 	ScheduleId *string `mandatory:"true" contributesTo:"path" name:"scheduleId"`
 
-	// This is the change schedule compartment details that will be updated.
+	// These are the change schedule compartment details that will be updated.
 	ChangeScheduleCompartmentDetails `contributesTo:"body"`
 
 	// This is used for optimistic concurrency control. In the PUT or DELETE call for a resource, set the

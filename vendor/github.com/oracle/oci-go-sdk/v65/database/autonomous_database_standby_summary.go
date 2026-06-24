@@ -44,6 +44,9 @@ type AutonomousDatabaseStandbySummary struct {
 
 	// The availability domain of a local Autonomous Data Guard standby database of an Autonomous AI Database Serverless instance.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
+
+	// The external logical zone where the local Autonomous Data Guard is located (Intended for multicloud use).
+	ExternalLocationZone *string `mandatory:"false" json:"externalLocationZone"`
 }
 
 func (m AutonomousDatabaseStandbySummary) String() string {

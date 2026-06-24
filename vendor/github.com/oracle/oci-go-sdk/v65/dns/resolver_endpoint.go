@@ -30,6 +30,12 @@ type ResolverEndpoint interface {
 	// A Boolean flag indicating whether or not the resolver endpoint is for listening.
 	GetIsListening() *bool
 
+	// The OCID of the resolver endpoint.
+	GetId() *string
+
+	// The OCID of the resolver.
+	GetResolverId() *string
+
 	// The OCID of the owning compartment. This will match the resolver that the resolver endpoint is under
 	// and will be updated if the resolver's compartment is changed.
 	GetCompartmentId() *string
@@ -50,6 +56,10 @@ type ResolverEndpoint interface {
 	// The canonical absolute URL of the resource.
 	GetSelf() *string
 
+	GetFreeformTags() map[string]string
+
+	GetDefinedTags() map[string]map[string]interface{}
+
 	// An IP address from which forwarded queries may be sent. For VNIC endpoints, this IP address must be part
 	// of the subnet and will be assigned by the system if unspecified when isForwarding is true.
 	GetForwardingAddress() *string
@@ -66,11 +76,15 @@ type resolverendpoint struct {
 	Name              *string                            `mandatory:"true" json:"name"`
 	IsForwarding      *bool                              `mandatory:"true" json:"isForwarding"`
 	IsListening       *bool                              `mandatory:"true" json:"isListening"`
+	Id                *string                            `mandatory:"true" json:"id"`
+	ResolverId        *string                            `mandatory:"true" json:"resolverId"`
 	CompartmentId     *string                            `mandatory:"true" json:"compartmentId"`
 	TimeCreated       *common.SDKTime                    `mandatory:"true" json:"timeCreated"`
 	TimeUpdated       *common.SDKTime                    `mandatory:"true" json:"timeUpdated"`
 	LifecycleState    ResolverEndpointLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 	Self              *string                            `mandatory:"true" json:"self"`
+	FreeformTags      map[string]string                  `mandatory:"true" json:"freeformTags"`
+	DefinedTags       map[string]map[string]interface{}  `mandatory:"true" json:"definedTags"`
 	EndpointType      string                             `json:"endpointType"`
 }
 
@@ -88,11 +102,15 @@ func (m *resolverendpoint) UnmarshalJSON(data []byte) error {
 	m.Name = s.Model.Name
 	m.IsForwarding = s.Model.IsForwarding
 	m.IsListening = s.Model.IsListening
+	m.Id = s.Model.Id
+	m.ResolverId = s.Model.ResolverId
 	m.CompartmentId = s.Model.CompartmentId
 	m.TimeCreated = s.Model.TimeCreated
 	m.TimeUpdated = s.Model.TimeUpdated
 	m.LifecycleState = s.Model.LifecycleState
 	m.Self = s.Model.Self
+	m.FreeformTags = s.Model.FreeformTags
+	m.DefinedTags = s.Model.DefinedTags
 	m.ForwardingAddress = s.Model.ForwardingAddress
 	m.ListeningAddress = s.Model.ListeningAddress
 	m.EndpointType = s.Model.EndpointType
@@ -144,6 +162,16 @@ func (m resolverendpoint) GetIsListening() *bool {
 	return m.IsListening
 }
 
+// GetId returns Id
+func (m resolverendpoint) GetId() *string {
+	return m.Id
+}
+
+// GetResolverId returns ResolverId
+func (m resolverendpoint) GetResolverId() *string {
+	return m.ResolverId
+}
+
 // GetCompartmentId returns CompartmentId
 func (m resolverendpoint) GetCompartmentId() *string {
 	return m.CompartmentId
@@ -167,6 +195,16 @@ func (m resolverendpoint) GetLifecycleState() ResolverEndpointLifecycleStateEnum
 // GetSelf returns Self
 func (m resolverendpoint) GetSelf() *string {
 	return m.Self
+}
+
+// GetFreeformTags returns FreeformTags
+func (m resolverendpoint) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+// GetDefinedTags returns DefinedTags
+func (m resolverendpoint) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
 }
 
 func (m resolverendpoint) String() string {

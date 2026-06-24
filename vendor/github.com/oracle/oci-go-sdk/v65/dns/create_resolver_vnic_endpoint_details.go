@@ -43,9 +43,15 @@ type CreateResolverVnicEndpointDetails struct {
 	// subnet and will be assigned by the system if unspecified when isListening is true.
 	ListeningAddress *string `mandatory:"false" json:"listeningAddress"`
 
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
 	// An array of network security group OCIDs for the resolver endpoint. These must be part of the VCN that the
 	// resolver endpoint is a part of.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 }
 
 // GetName returns Name
@@ -71,6 +77,16 @@ func (m CreateResolverVnicEndpointDetails) GetIsListening() *bool {
 // GetListeningAddress returns ListeningAddress
 func (m CreateResolverVnicEndpointDetails) GetListeningAddress() *string {
 	return m.ListeningAddress
+}
+
+// GetFreeformTags returns FreeformTags
+func (m CreateResolverVnicEndpointDetails) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+// GetDefinedTags returns DefinedTags
+func (m CreateResolverVnicEndpointDetails) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
 }
 
 func (m CreateResolverVnicEndpointDetails) String() string {

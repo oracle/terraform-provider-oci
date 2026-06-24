@@ -37,16 +37,22 @@ type CreateResolverEndpointDetails interface {
 	// An IP address to listen to queries on. For VNIC endpoints this IP address must be part of the
 	// subnet and will be assigned by the system if unspecified when isListening is true.
 	GetListeningAddress() *string
+
+	GetFreeformTags() map[string]string
+
+	GetDefinedTags() map[string]map[string]interface{}
 }
 
 type createresolverendpointdetails struct {
 	JsonData          []byte
-	ForwardingAddress *string `mandatory:"false" json:"forwardingAddress"`
-	ListeningAddress  *string `mandatory:"false" json:"listeningAddress"`
-	Name              *string `mandatory:"true" json:"name"`
-	IsForwarding      *bool   `mandatory:"true" json:"isForwarding"`
-	IsListening       *bool   `mandatory:"true" json:"isListening"`
-	EndpointType      string  `json:"endpointType"`
+	ForwardingAddress *string                           `mandatory:"false" json:"forwardingAddress"`
+	ListeningAddress  *string                           `mandatory:"false" json:"listeningAddress"`
+	FreeformTags      map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags       map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	Name              *string                           `mandatory:"true" json:"name"`
+	IsForwarding      *bool                             `mandatory:"true" json:"isForwarding"`
+	IsListening       *bool                             `mandatory:"true" json:"isListening"`
+	EndpointType      string                            `json:"endpointType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -65,6 +71,8 @@ func (m *createresolverendpointdetails) UnmarshalJSON(data []byte) error {
 	m.IsListening = s.Model.IsListening
 	m.ForwardingAddress = s.Model.ForwardingAddress
 	m.ListeningAddress = s.Model.ListeningAddress
+	m.FreeformTags = s.Model.FreeformTags
+	m.DefinedTags = s.Model.DefinedTags
 	m.EndpointType = s.Model.EndpointType
 
 	return err
@@ -97,6 +105,16 @@ func (m createresolverendpointdetails) GetForwardingAddress() *string {
 // GetListeningAddress returns ListeningAddress
 func (m createresolverendpointdetails) GetListeningAddress() *string {
 	return m.ListeningAddress
+}
+
+// GetFreeformTags returns FreeformTags
+func (m createresolverendpointdetails) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+// GetDefinedTags returns DefinedTags
+func (m createresolverendpointdetails) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
 }
 
 // GetName returns Name

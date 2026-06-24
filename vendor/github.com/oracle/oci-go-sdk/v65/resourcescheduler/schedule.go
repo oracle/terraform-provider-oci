@@ -212,18 +212,21 @@ type ScheduleActionEnum string
 
 // Set of constants representing the allowable values for ScheduleActionEnum
 const (
-	ScheduleActionStartResource ScheduleActionEnum = "START_RESOURCE"
-	ScheduleActionStopResource  ScheduleActionEnum = "STOP_RESOURCE"
+	ScheduleActionStartResource  ScheduleActionEnum = "START_RESOURCE"
+	ScheduleActionStopResource   ScheduleActionEnum = "STOP_RESOURCE"
+	ScheduleActionBackupResource ScheduleActionEnum = "BACKUP_RESOURCE"
 )
 
 var mappingScheduleActionEnum = map[string]ScheduleActionEnum{
-	"START_RESOURCE": ScheduleActionStartResource,
-	"STOP_RESOURCE":  ScheduleActionStopResource,
+	"START_RESOURCE":  ScheduleActionStartResource,
+	"STOP_RESOURCE":   ScheduleActionStopResource,
+	"BACKUP_RESOURCE": ScheduleActionBackupResource,
 }
 
 var mappingScheduleActionEnumLowerCase = map[string]ScheduleActionEnum{
-	"start_resource": ScheduleActionStartResource,
-	"stop_resource":  ScheduleActionStopResource,
+	"start_resource":  ScheduleActionStartResource,
+	"stop_resource":   ScheduleActionStopResource,
+	"backup_resource": ScheduleActionBackupResource,
 }
 
 // GetScheduleActionEnumValues Enumerates the set of values for ScheduleActionEnum
@@ -240,6 +243,7 @@ func GetScheduleActionEnumStringValues() []string {
 	return []string{
 		"START_RESOURCE",
 		"STOP_RESOURCE",
+		"BACKUP_RESOURCE",
 	}
 }
 

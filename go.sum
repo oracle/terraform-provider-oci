@@ -185,6 +185,8 @@ github.com/oracle/oci-go-sdk/v65 v65.117.1 h1:DurEtbj8xEuF2B6K73uifNqWJ4dh6CJPAD
 github.com/oracle/oci-go-sdk/v65 v65.117.1/go.mod h1:oo33NDf2XPqx3/N6oLG4jFlrqJ0xu4Rlt9SfuAbtDFs=
 github.com/oracle/oci-go-sdk/v65 v65.118.0 h1:m+wwAye5TvwJ5S+u45HM4MFetU56KWWbprNN3m52FvQ=
 github.com/oracle/oci-go-sdk/v65 v65.118.0/go.mod h1:oo33NDf2XPqx3/N6oLG4jFlrqJ0xu4Rlt9SfuAbtDFs=
+github.com/oracle/oci-go-sdk/v65 v65.118.1 h1:Uf0xBYI2mhv3Cvl7DR9aEshodvjpD9BodV++/Odk9cI=
+github.com/oracle/oci-go-sdk/v65 v65.118.1/go.mod h1:oo33NDf2XPqx3/N6oLG4jFlrqJ0xu4Rlt9SfuAbtDFs=
 github.com/pjbgf/sha1cd v0.3.2 h1:a9wb0bp1oC2TGwStyn0Umc/IGKQnEgF0vVaZ8QF8eo4=
 github.com/pjbgf/sha1cd v0.3.2/go.mod h1:zQWigSxVmsHEZow5qaLtPYxpcKMMQpa09ixqBxuCS6A=
 github.com/planetscale/vtprotobuf v0.6.1-0.20240319094008-0393e58bdf10/go.mod h1:t/avpk3KcrXxUnYOhZhMXJlSEyie6gQbtLq5NM3loB8=
