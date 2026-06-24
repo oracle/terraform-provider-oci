@@ -578,6 +578,10 @@ func VolumeGroupReplicaInfoToMap(obj oci_core.VolumeGroupReplicaInfo) map[string
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
+	if obj.KmsKeyId != nil {
+		result["xrr_kms_key_id"] = string(*obj.KmsKeyId)
+	}
+
 	if obj.VolumeGroupReplicaId != nil {
 		result["volume_group_replica_id"] = string(*obj.VolumeGroupReplicaId)
 	}
