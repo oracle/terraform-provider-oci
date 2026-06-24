@@ -59,6 +59,13 @@ resource "oci_containerengine_virtual_node_pool" "test_virtual_node_pool" {
 		key = var.virtual_node_pool_taints_key
 		value = var.virtual_node_pool_taints_value
 	}
+	virtual_node_pool_cycling_details {
+
+		#Optional
+		is_virtual_node_cycling_enabled = var.virtual_node_pool_virtual_node_pool_cycling_details_is_virtual_node_cycling_enabled
+		maximum_surge = var.virtual_node_pool_virtual_node_pool_cycling_details_maximum_surge
+		maximum_unavailable = var.virtual_node_pool_virtual_node_pool_cycling_details_maximum_unavailable
+	}
 	virtual_node_tags {
 
 		#Optional
@@ -88,12 +95,16 @@ The following arguments are supported:
 * `pod_configuration` - (Required) (Updatable) The pod configuration for pods run on virtual nodes of this virtual node pool.
 	* `nsg_ids` - (Optional) (Updatable) List of network security group IDs applied to the Pod VNIC.
 	* `shape` - (Required) (Updatable) Shape of the pods.
-	* `subnet_id` - (Required) (Updatable) The regional subnet where pods' VNIC will be placed.
+	* `subnet_id` - (Required) (Updatable) The private regional subnet where pods' VNIC will be placed.
 * `size` - (Required) (Updatable) The number of Virtual Nodes that should be in the Virtual Node Pool. The placement configurations determine where these virtual nodes are placed.
 * `taints` - (Optional) (Updatable) A taint is a collection of <key, value, effect>. These taints will be applied to the Virtual Nodes of this Virtual Node Pool for Kubernetes scheduling.
 	* `effect` - (Optional) (Updatable) The effect of the pair.
 	* `key` - (Optional) (Updatable) The key of the pair.
 	* `value` - (Optional) (Updatable) The value of the pair.
+* `virtual_node_pool_cycling_details` - (Optional) (Updatable) Virtual Node Pool Cycling Details
+	* `is_virtual_node_cycling_enabled` - (Optional) (Updatable) If virtual nodes in the virtual nodepool will be cycled to have new changes.
+	* `maximum_surge` - (Optional) (Updatable) Maximum additional new virtual nodes that would be temporarily created and added to virtual nodepool during the cycling virtual nodepool process. OKE supports both integer and percentage input. Defaults to 1, Ranges from 0 to Virtual Nodepool size or 0% to 100% 
+	* `maximum_unavailable` - (Optional) (Updatable) Maximum active virtual nodes that would be terminated from virtual nodepool during the cycling virtual nodepool process. OKE supports both integer and percentage input. Defaults to 0, Ranges from 0 to Virtual Nodepool size or 0% to 100% 
 * `virtual_node_tags` - (Optional) (Updatable) The tags associated to the virtual nodes in this virtual node pool.
 	* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}`
 	* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}`
@@ -125,7 +136,7 @@ The following attributes are exported:
 * `pod_configuration` - The pod configuration for pods run on virtual nodes of this virtual node pool.
 	* `nsg_ids` - List of network security group IDs applied to the Pod VNIC.
 	* `shape` - Shape of the pods.
-	* `subnet_id` - The regional subnet where pods' VNIC will be placed.
+	* `subnet_id` - The private regional subnet where pods' VNIC will be placed.
 * `size` - The number of Virtual Nodes that should be in the Virtual Node Pool. The placement configurations determine where these virtual nodes are placed.
 * `state` - The state of the Virtual Node Pool.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}`
@@ -135,6 +146,10 @@ The following attributes are exported:
 	* `value` - The value of the pair.
 * `time_created` - The time the virtual node pool was created.
 * `time_updated` - The time the virtual node pool was updated.
+* `virtual_node_pool_cycling_details` - Virtual Node Pool Cycling Details
+	* `is_virtual_node_cycling_enabled` - If virtual nodes in the virtual nodepool will be cycled to have new changes.
+	* `maximum_surge` - Maximum additional new virtual nodes that would be temporarily created and added to virtual nodepool during the cycling virtual nodepool process. OKE supports both integer and percentage input. Defaults to 1, Ranges from 0 to Virtual Nodepool size or 0% to 100% 
+	* `maximum_unavailable` - Maximum active virtual nodes that would be terminated from virtual nodepool during the cycling virtual nodepool process. OKE supports both integer and percentage input. Defaults to 0, Ranges from 0 to Virtual Nodepool size or 0% to 100% 
 * `virtual_node_tags` - The tags associated to the virtual nodes in this virtual node pool.
 	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}`
 	* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}`
@@ -154,4 +169,3 @@ VirtualNodePools can be imported using the `id`, e.g.
 ```
 $ terraform import oci_containerengine_virtual_node_pool.test_virtual_node_pool "id"
 ```
-
