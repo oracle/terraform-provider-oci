@@ -21,6 +21,9 @@ type RemoveLogAnalyticsLogGroupRequest struct {
 	// Unique Integration Instance identifier.
 	IntegrationInstanceId *string `mandatory:"true" contributesTo:"path" name:"integrationInstanceId"`
 
+	// Details to remove Log Group for given integration instance or Process Automation attached to integration instance.
+	RemoveLogAnalyticsLogGroupDetails `contributesTo:"body"`
+
 	// For optimistic concurrency control. In the PUT or DELETE call
 	// for a resource, set the `if-match` parameter to the value of the
 	// etag from a previous GET or POST response for that resource.

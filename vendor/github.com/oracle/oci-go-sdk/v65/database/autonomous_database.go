@@ -494,6 +494,9 @@ type AutonomousDatabase struct {
 
 	RemoteDisasterRecoveryConfiguration *DisasterRecoveryConfiguration `mandatory:"false" json:"remoteDisasterRecoveryConfiguration"`
 
+	// List of access types for an Autonomous AI Database.
+	AccessTypes []string `mandatory:"false" json:"accessTypes"`
+
 	// Enabling SHARED server architecture enables a database server to allow many client processes to share very few server processes, thereby increasing the number of supported users.
 	NetServicesArchitecture AutonomousDatabaseNetServicesArchitectureEnum `mandatory:"false" json:"netServicesArchitecture,omitempty"`
 
@@ -515,6 +518,9 @@ type AutonomousDatabase struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated resource pool leader Autonomous AI Database in the same region, associated with local Autonomous Data Guard for a dedicated resource pool member.
 	LocalAdgResourcePoolLeaderId *string `mandatory:"false" json:"localAdgResourcePoolLeaderId"`
+
+	// The external logical zone where the Autonomous AI Database Serverless instance is located (Intended for multicloud use).
+	ExternalLocationZone *string `mandatory:"false" json:"externalLocationZone"`
 }
 
 func (m AutonomousDatabase) String() string {
@@ -722,6 +728,7 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 		DisasterRecoveryRegionType              AutonomousDatabaseDisasterRecoveryRegionTypeEnum        `json:"disasterRecoveryRegionType"`
 		TimeDisasterRecoveryRoleChanged         *common.SDKTime                                         `json:"timeDisasterRecoveryRoleChanged"`
 		RemoteDisasterRecoveryConfiguration     *DisasterRecoveryConfiguration                          `json:"remoteDisasterRecoveryConfiguration"`
+		AccessTypes                             []string                                                `json:"accessTypes"`
 		NetServicesArchitecture                 AutonomousDatabaseNetServicesArchitectureEnum           `json:"netServicesArchitecture"`
 		AvailabilityDomain                      *string                                                 `json:"availabilityDomain"`
 		ClusterPlacementGroupId                 *string                                                 `json:"clusterPlacementGroupId"`
@@ -729,6 +736,7 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 		CloneType                               AutonomousDatabaseCloneTypeEnum                         `json:"cloneType"`
 		AdditionalAttributes                    map[string]string                                       `json:"additionalAttributes"`
 		LocalAdgResourcePoolLeaderId            *string                                                 `json:"localAdgResourcePoolLeaderId"`
+		ExternalLocationZone                    *string                                                 `json:"externalLocationZone"`
 		Id                                      *string                                                 `json:"id"`
 		CompartmentId                           *string                                                 `json:"compartmentId"`
 		LifecycleState                          AutonomousDatabaseLifecycleStateEnum                    `json:"lifecycleState"`
@@ -1009,6 +1017,8 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 
 	m.RemoteDisasterRecoveryConfiguration = model.RemoteDisasterRecoveryConfiguration
 
+	m.AccessTypes = make([]string, len(model.AccessTypes))
+	copy(m.AccessTypes, model.AccessTypes)
 	m.NetServicesArchitecture = model.NetServicesArchitecture
 
 	m.AvailabilityDomain = model.AvailabilityDomain
@@ -1022,6 +1032,8 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 	m.AdditionalAttributes = model.AdditionalAttributes
 
 	m.LocalAdgResourcePoolLeaderId = model.LocalAdgResourcePoolLeaderId
+
+	m.ExternalLocationZone = model.ExternalLocationZone
 
 	m.Id = model.Id
 

@@ -93,6 +93,8 @@ const (
 	WorkRequestOperationTypeAddLogAnalyticsLogGroup                 WorkRequestOperationTypeEnum = "ADD_LOG_ANALYTICS_LOG_GROUP"
 	WorkRequestOperationTypeDeleteLogAnalyticsLogGroup              WorkRequestOperationTypeEnum = "DELETE_LOG_ANALYTICS_LOG_GROUP"
 	WorkRequestOperationTypeConvertInstance                         WorkRequestOperationTypeEnum = "CONVERT_INSTANCE"
+	WorkRequestOperationTypeAddOpaLogAnalyticsLogGroup              WorkRequestOperationTypeEnum = "ADD_OPA_LOG_ANALYTICS_LOG_GROUP"
+	WorkRequestOperationTypeDeleteOpaLogAnalyticsLogGroup           WorkRequestOperationTypeEnum = "DELETE_OPA_LOG_ANALYTICS_LOG_GROUP"
 	WorkRequestOperationTypeBeginMigration                          WorkRequestOperationTypeEnum = "BEGIN_MIGRATION"
 	WorkRequestOperationTypeCompleteMigration                       WorkRequestOperationTypeEnum = "COMPLETE_MIGRATION"
 	WorkRequestOperationTypeRollbackMigration                       WorkRequestOperationTypeEnum = "ROLLBACK_MIGRATION"
@@ -114,6 +116,8 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"ADD_LOG_ANALYTICS_LOG_GROUP":                 WorkRequestOperationTypeAddLogAnalyticsLogGroup,
 	"DELETE_LOG_ANALYTICS_LOG_GROUP":              WorkRequestOperationTypeDeleteLogAnalyticsLogGroup,
 	"CONVERT_INSTANCE":                            WorkRequestOperationTypeConvertInstance,
+	"ADD_OPA_LOG_ANALYTICS_LOG_GROUP":             WorkRequestOperationTypeAddOpaLogAnalyticsLogGroup,
+	"DELETE_OPA_LOG_ANALYTICS_LOG_GROUP":          WorkRequestOperationTypeDeleteOpaLogAnalyticsLogGroup,
 	"BEGIN_MIGRATION":                             WorkRequestOperationTypeBeginMigration,
 	"COMPLETE_MIGRATION":                          WorkRequestOperationTypeCompleteMigration,
 	"ROLLBACK_MIGRATION":                          WorkRequestOperationTypeRollbackMigration,
@@ -135,6 +139,8 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"add_log_analytics_log_group":                 WorkRequestOperationTypeAddLogAnalyticsLogGroup,
 	"delete_log_analytics_log_group":              WorkRequestOperationTypeDeleteLogAnalyticsLogGroup,
 	"convert_instance":                            WorkRequestOperationTypeConvertInstance,
+	"add_opa_log_analytics_log_group":             WorkRequestOperationTypeAddOpaLogAnalyticsLogGroup,
+	"delete_opa_log_analytics_log_group":          WorkRequestOperationTypeDeleteOpaLogAnalyticsLogGroup,
 	"begin_migration":                             WorkRequestOperationTypeBeginMigration,
 	"complete_migration":                          WorkRequestOperationTypeCompleteMigration,
 	"rollback_migration":                          WorkRequestOperationTypeRollbackMigration,
@@ -167,6 +173,8 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"ADD_LOG_ANALYTICS_LOG_GROUP",
 		"DELETE_LOG_ANALYTICS_LOG_GROUP",
 		"CONVERT_INSTANCE",
+		"ADD_OPA_LOG_ANALYTICS_LOG_GROUP",
+		"DELETE_OPA_LOG_ANALYTICS_LOG_GROUP",
 		"BEGIN_MIGRATION",
 		"COMPLETE_MIGRATION",
 		"ROLLBACK_MIGRATION",

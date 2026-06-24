@@ -68,6 +68,10 @@ func (m *apispecificationroutebackend) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := StockResponseBackend{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OAUTH2_LOGIN_BACKEND":
+		mm := OAuth2LoginBackend{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DYNAMIC_ROUTING_BACKEND":
 		mm := DynamicRoutingBackend{}
 		err = json.Unmarshal(data, &mm)
@@ -104,6 +108,7 @@ const (
 	ApiSpecificationRouteBackendTypeStockResponseBackend   ApiSpecificationRouteBackendTypeEnum = "STOCK_RESPONSE_BACKEND"
 	ApiSpecificationRouteBackendTypeDynamicRoutingBackend  ApiSpecificationRouteBackendTypeEnum = "DYNAMIC_ROUTING_BACKEND"
 	ApiSpecificationRouteBackendTypeOauth2LogoutBackend    ApiSpecificationRouteBackendTypeEnum = "OAUTH2_LOGOUT_BACKEND"
+	ApiSpecificationRouteBackendTypeOauth2LoginBackend     ApiSpecificationRouteBackendTypeEnum = "OAUTH2_LOGIN_BACKEND"
 )
 
 var mappingApiSpecificationRouteBackendTypeEnum = map[string]ApiSpecificationRouteBackendTypeEnum{
@@ -112,6 +117,7 @@ var mappingApiSpecificationRouteBackendTypeEnum = map[string]ApiSpecificationRou
 	"STOCK_RESPONSE_BACKEND":   ApiSpecificationRouteBackendTypeStockResponseBackend,
 	"DYNAMIC_ROUTING_BACKEND":  ApiSpecificationRouteBackendTypeDynamicRoutingBackend,
 	"OAUTH2_LOGOUT_BACKEND":    ApiSpecificationRouteBackendTypeOauth2LogoutBackend,
+	"OAUTH2_LOGIN_BACKEND":     ApiSpecificationRouteBackendTypeOauth2LoginBackend,
 }
 
 var mappingApiSpecificationRouteBackendTypeEnumLowerCase = map[string]ApiSpecificationRouteBackendTypeEnum{
@@ -120,6 +126,7 @@ var mappingApiSpecificationRouteBackendTypeEnumLowerCase = map[string]ApiSpecifi
 	"stock_response_backend":   ApiSpecificationRouteBackendTypeStockResponseBackend,
 	"dynamic_routing_backend":  ApiSpecificationRouteBackendTypeDynamicRoutingBackend,
 	"oauth2_logout_backend":    ApiSpecificationRouteBackendTypeOauth2LogoutBackend,
+	"oauth2_login_backend":     ApiSpecificationRouteBackendTypeOauth2LoginBackend,
 }
 
 // GetApiSpecificationRouteBackendTypeEnumValues Enumerates the set of values for ApiSpecificationRouteBackendTypeEnum
@@ -139,6 +146,7 @@ func GetApiSpecificationRouteBackendTypeEnumStringValues() []string {
 		"STOCK_RESPONSE_BACKEND",
 		"DYNAMIC_ROUTING_BACKEND",
 		"OAUTH2_LOGOUT_BACKEND",
+		"OAUTH2_LOGIN_BACKEND",
 	}
 }
 
