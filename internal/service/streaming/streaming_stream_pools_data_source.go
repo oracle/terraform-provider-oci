@@ -9,13 +9,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_streaming "github.com/oracle/oci-go-sdk/v65/streaming"
 )
 
 func StreamingStreamPoolsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readStreamingStreamPools,
+		ReadContext: readStreamingStreamPoolsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -43,12 +44,12 @@ func StreamingStreamPoolsDataSource() *schema.Resource {
 	}
 }
 
-func readStreamingStreamPools(d *schema.ResourceData, m interface{}) error {
+func readStreamingStreamPoolsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StreamingStreamPoolsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StreamAdminClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type StreamingStreamPoolsDataSourceCrud struct {
@@ -61,7 +62,7 @@ func (s *StreamingStreamPoolsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *StreamingStreamPoolsDataSourceCrud) Get() error {
+func (s *StreamingStreamPoolsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_streaming.ListStreamPoolsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -85,7 +86,7 @@ func (s *StreamingStreamPoolsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "streaming")
 
-	response, err := s.Client.ListStreamPools(context.Background(), request)
+	response, err := s.Client.ListStreamPools(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -94,7 +95,7 @@ func (s *StreamingStreamPoolsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListStreamPools(context.Background(), request)
+		listResponse, err := s.Client.ListStreamPools(ctx, request)
 		if err != nil {
 			return err
 		}

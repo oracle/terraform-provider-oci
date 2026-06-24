@@ -6,6 +6,7 @@ package database_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -19,15 +20,15 @@ func DatabaseManagementCloudDbSystemDiscoveryDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseManagementCloudDbSystemDiscoveryResource(), fieldMap, readSingularDatabaseManagementCloudDbSystemDiscovery)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseManagementCloudDbSystemDiscoveryResource(), fieldMap, readSingularDatabaseManagementCloudDbSystemDiscoveryWithContext)
 }
 
-func readSingularDatabaseManagementCloudDbSystemDiscovery(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseManagementCloudDbSystemDiscoveryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudDbSystemDiscoveryDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseManagementCloudDbSystemDiscoveryDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseManagementCloudDbSystemDiscoveryDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseManagementCloudDbSystemDiscoveryDataSourceCrud) Get() error {
+func (s *DatabaseManagementCloudDbSystemDiscoveryDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetCloudDbSystemDiscoveryRequest{}
 
 	if cloudDbSystemDiscoveryId, ok := s.D.GetOkExists("cloud_db_system_discovery_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseManagementCloudDbSystemDiscoveryDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
 
-	response, err := s.Client.GetCloudDbSystemDiscovery(context.Background(), request)
+	response, err := s.Client.GetCloudDbSystemDiscovery(ctx, request)
 	if err != nil {
 		return err
 	}

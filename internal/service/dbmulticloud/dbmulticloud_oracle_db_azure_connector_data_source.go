@@ -6,6 +6,7 @@ package dbmulticloud
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dbmulticloud "github.com/oracle/oci-go-sdk/v65/dbmulticloud"
 
@@ -19,15 +20,15 @@ func DbmulticloudOracleDbAzureConnectorDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DbmulticloudOracleDbAzureConnectorResource(), fieldMap, readSingularDbmulticloudOracleDbAzureConnector)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DbmulticloudOracleDbAzureConnectorResource(), fieldMap, readSingularDbmulticloudOracleDbAzureConnectorWithContext)
 }
 
-func readSingularDbmulticloudOracleDbAzureConnector(d *schema.ResourceData, m interface{}) error {
+func readSingularDbmulticloudOracleDbAzureConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DbmulticloudOracleDbAzureConnectorDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OracleDBAzureConnectorClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DbmulticloudOracleDbAzureConnectorDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DbmulticloudOracleDbAzureConnectorDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DbmulticloudOracleDbAzureConnectorDataSourceCrud) Get() error {
+func (s *DbmulticloudOracleDbAzureConnectorDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_dbmulticloud.GetOracleDbAzureConnectorRequest{}
 
 	if oracleDbAzureConnectorId, ok := s.D.GetOkExists("oracle_db_azure_connector_id"); ok {
@@ -50,7 +51,7 @@ func (s *DbmulticloudOracleDbAzureConnectorDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dbmulticloud")
 
-	response, err := s.Client.GetOracleDbAzureConnector(context.Background(), request)
+	response, err := s.Client.GetOracleDbAzureConnector(ctx, request)
 	if err != nil {
 		return err
 	}

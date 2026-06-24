@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -27,11 +28,11 @@ func DatascienceScheduleResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatascienceSchedule,
-		Read:     readDatascienceSchedule,
-		Update:   updateDatascienceSchedule,
-		Delete:   deleteDatascienceSchedule,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatascienceScheduleWithContext,
+		ReadContext:   readDatascienceScheduleWithContext,
+		UpdateContext: updateDatascienceScheduleWithContext,
+		DeleteContext: deleteDatascienceScheduleWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"action": {
@@ -713,37 +714,37 @@ func DatascienceScheduleResource() *schema.Resource {
 	}
 }
 
-func createDatascienceSchedule(d *schema.ResourceData, m interface{}) error {
+func createDatascienceScheduleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceScheduleResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatascienceSchedule(d *schema.ResourceData, m interface{}) error {
+func readDatascienceScheduleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceScheduleResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatascienceSchedule(d *schema.ResourceData, m interface{}) error {
+func updateDatascienceScheduleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceScheduleResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatascienceSchedule(d *schema.ResourceData, m interface{}) error {
+func deleteDatascienceScheduleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceScheduleResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatascienceScheduleResourceCrud struct {
@@ -781,7 +782,7 @@ func (s *DatascienceScheduleResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatascienceScheduleResourceCrud) Create() error {
+func (s *DatascienceScheduleResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_datascience.CreateScheduleRequest{}
 
 	if action, ok := s.D.GetOkExists("action"); ok {
@@ -851,7 +852,7 @@ func (s *DatascienceScheduleResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.CreateSchedule(context.Background(), request)
+	response, err := s.Client.CreateSchedule(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -862,20 +863,20 @@ func (s *DatascienceScheduleResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getScheduleFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getScheduleFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatascienceScheduleResourceCrud) getScheduleFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatascienceScheduleResourceCrud) getScheduleFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_datascience.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	scheduleId, err := scheduleWaitForWorkRequest(workId, "schedule",
+	scheduleId, err := scheduleWaitForWorkRequest(ctx, workId, "schedule",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, scheduleId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_datascience.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -889,7 +890,7 @@ func (s *DatascienceScheduleResourceCrud) getScheduleFromWorkRequest(workId *str
 	}
 	s.D.SetId(*scheduleId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func scheduleWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -915,7 +916,7 @@ func scheduleWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci
 	}
 }
 
-func scheduleWaitForWorkRequest(wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
+func scheduleWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_datascience.DataScienceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "datascience")
 	retryPolicy.ShouldRetryOperation = scheduleWorkRequestShouldRetryFunc(timeout)
@@ -934,7 +935,7 @@ func scheduleWaitForWorkRequest(wId *string, entityType string, action oci_datas
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_datascience.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -946,7 +947,7 @@ func scheduleWaitForWorkRequest(wId *string, entityType string, action oci_datas
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -963,14 +964,14 @@ func scheduleWaitForWorkRequest(wId *string, entityType string, action oci_datas
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_datascience.WorkRequestStatusFailed || response.Status == oci_datascience.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatascienceScheduleWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatascienceScheduleWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatascienceScheduleWorkRequest(client *oci_datascience.DataScienceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatascienceScheduleWorkRequest(ctx context.Context, client *oci_datascience.DataScienceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_datascience.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -992,7 +993,7 @@ func getErrorFromDatascienceScheduleWorkRequest(client *oci_datascience.DataScie
 	return workRequestErr
 }
 
-func (s *DatascienceScheduleResourceCrud) Get() error {
+func (s *DatascienceScheduleResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.GetScheduleRequest{}
 
 	tmp := s.D.Id()
@@ -1000,7 +1001,7 @@ func (s *DatascienceScheduleResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.GetSchedule(context.Background(), request)
+	response, err := s.Client.GetSchedule(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1009,11 +1010,11 @@ func (s *DatascienceScheduleResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatascienceScheduleResourceCrud) Update() error {
+func (s *DatascienceScheduleResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -1081,16 +1082,16 @@ func (s *DatascienceScheduleResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.UpdateSchedule(context.Background(), request)
+	response, err := s.Client.UpdateSchedule(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getScheduleFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getScheduleFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DatascienceScheduleResourceCrud) Delete() error {
+func (s *DatascienceScheduleResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_datascience.DeleteScheduleRequest{}
 
 	tmp := s.D.Id()
@@ -1098,14 +1099,14 @@ func (s *DatascienceScheduleResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.DeleteSchedule(context.Background(), request)
+	response, err := s.Client.DeleteSchedule(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := scheduleWaitForWorkRequest(workId, "schedule",
+	_, delWorkRequestErr := scheduleWaitForWorkRequest(ctx, workId, "schedule",
 		oci_datascience.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -2207,7 +2208,7 @@ func TriggerParameterToMap(obj oci_datascience.TriggerParameter) map[string]inte
 	return result
 }
 
-func (s *DatascienceScheduleResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatascienceScheduleResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_datascience.ChangeScheduleCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -2218,11 +2219,11 @@ func (s *DatascienceScheduleResourceCrud) updateCompartment(compartment interfac
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.ChangeScheduleCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeScheduleCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getScheduleFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getScheduleFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience"), oci_datascience.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

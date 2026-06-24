@@ -9,13 +9,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_streaming "github.com/oracle/oci-go-sdk/v65/streaming"
 )
 
 func StreamingConnectHarnessesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readStreamingConnectHarnesses,
+		ReadContext: readStreamingConnectHarnessesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -43,12 +44,12 @@ func StreamingConnectHarnessesDataSource() *schema.Resource {
 	}
 }
 
-func readStreamingConnectHarnesses(d *schema.ResourceData, m interface{}) error {
+func readStreamingConnectHarnessesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StreamingConnectHarnessesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StreamAdminClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type StreamingConnectHarnessesDataSourceCrud struct {
@@ -61,7 +62,7 @@ func (s *StreamingConnectHarnessesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *StreamingConnectHarnessesDataSourceCrud) Get() error {
+func (s *StreamingConnectHarnessesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_streaming.ListConnectHarnessesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -85,7 +86,7 @@ func (s *StreamingConnectHarnessesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "streaming")
 
-	response, err := s.Client.ListConnectHarnesses(context.Background(), request)
+	response, err := s.Client.ListConnectHarnesses(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -94,7 +95,7 @@ func (s *StreamingConnectHarnessesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListConnectHarnesses(context.Background(), request)
+		listResponse, err := s.Client.ListConnectHarnesses(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -6,6 +6,7 @@ package dbmulticloud
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dbmulticloud "github.com/oracle/oci-go-sdk/v65/dbmulticloud"
 
@@ -19,15 +20,15 @@ func DbmulticloudOracleDbAzureVaultAssociationDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DbmulticloudOracleDbAzureVaultAssociationResource(), fieldMap, readSingularDbmulticloudOracleDbAzureVaultAssociation)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DbmulticloudOracleDbAzureVaultAssociationResource(), fieldMap, readSingularDbmulticloudOracleDbAzureVaultAssociationWithContext)
 }
 
-func readSingularDbmulticloudOracleDbAzureVaultAssociation(d *schema.ResourceData, m interface{}) error {
+func readSingularDbmulticloudOracleDbAzureVaultAssociationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DbmulticloudOracleDbAzureVaultAssociationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OracleDbAzureVaultAssociationClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DbmulticloudOracleDbAzureVaultAssociationDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DbmulticloudOracleDbAzureVaultAssociationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DbmulticloudOracleDbAzureVaultAssociationDataSourceCrud) Get() error {
+func (s *DbmulticloudOracleDbAzureVaultAssociationDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_dbmulticloud.GetOracleDbAzureVaultAssociationRequest{}
 
 	if oracleDbAzureVaultAssociationId, ok := s.D.GetOkExists("oracle_db_azure_vault_association_id"); ok {
@@ -50,7 +51,7 @@ func (s *DbmulticloudOracleDbAzureVaultAssociationDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dbmulticloud")
 
-	response, err := s.Client.GetOracleDbAzureVaultAssociation(context.Background(), request)
+	response, err := s.Client.GetOracleDbAzureVaultAssociation(ctx, request)
 	if err != nil {
 		return err
 	}

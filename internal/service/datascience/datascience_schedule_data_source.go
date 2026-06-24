@@ -6,6 +6,7 @@ package datascience
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -19,15 +20,15 @@ func DatascienceScheduleDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatascienceScheduleResource(), fieldMap, readSingularDatascienceSchedule)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatascienceScheduleResource(), fieldMap, readSingularDatascienceScheduleWithContext)
 }
 
-func readSingularDatascienceSchedule(d *schema.ResourceData, m interface{}) error {
+func readSingularDatascienceScheduleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceScheduleDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatascienceScheduleDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatascienceScheduleDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceScheduleDataSourceCrud) Get() error {
+func (s *DatascienceScheduleDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.GetScheduleRequest{}
 
 	if scheduleId, ok := s.D.GetOkExists("schedule_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatascienceScheduleDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.GetSchedule(context.Background(), request)
+	response, err := s.Client.GetSchedule(ctx, request)
 	if err != nil {
 		return err
 	}

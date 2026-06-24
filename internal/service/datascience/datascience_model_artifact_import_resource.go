@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -26,10 +27,10 @@ func DatascienceModelArtifactImportResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatascienceModelArtifactImport,
-		Read:     readDatascienceModelArtifactImport,
-		Delete:   deleteDatascienceModelArtifactImport,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatascienceModelArtifactImportWithContext,
+		ReadContext:   readDatascienceModelArtifactImportWithContext,
+		DeleteContext: deleteDatascienceModelArtifactImportWithContext,
 		Schema: map[string]*schema.Schema{
 			"model_id": {
 				Type:     schema.TypeString,
@@ -69,20 +70,20 @@ func DatascienceModelArtifactImportResource() *schema.Resource {
 	}
 }
 
-func createDatascienceModelArtifactImport(d *schema.ResourceData, m interface{}) error {
+func createDatascienceModelArtifactImportWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceModelArtifactImportResourceCreate{}
 	sync.D = d
 	sync.DisableNotFoundRetries = true
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatascienceModelArtifactImport(d *schema.ResourceData, m interface{}) error {
+func readDatascienceModelArtifactImportWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDatascienceModelArtifactImport(d *schema.ResourceData, m interface{}) error {
+func deleteDatascienceModelArtifactImportWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -101,7 +102,7 @@ func (s *DatascienceModelArtifactImportResourceCreate) SetData() error {
 	return nil
 }
 
-func (s *DatascienceModelArtifactImportResourceCreate) Create() error {
+func (s *DatascienceModelArtifactImportResourceCreate) CreateWithContext(ctx context.Context) error {
 	request := oci_datascience.ImportModelArtifactRequest{}
 
 	if modelId, ok := s.D.GetOkExists("model_id"); ok {
@@ -118,7 +119,7 @@ func (s *DatascienceModelArtifactImportResourceCreate) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
-	response, err := s.Client.ImportModelArtifact(context.Background(), request)
+	response, err := s.Client.ImportModelArtifact(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -126,7 +127,7 @@ func (s *DatascienceModelArtifactImportResourceCreate) Create() error {
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, importModelArtifactWorkRequestErr := modelArtifactImportWaitForWorkRequest(workId, "model-artifact",
+	_, importModelArtifactWorkRequestErr := modelArtifactImportWaitForWorkRequest(ctx, workId, "model-artifact",
 		oci_datascience.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 	return importModelArtifactWorkRequestErr
 }
@@ -169,7 +170,7 @@ func (s *DatascienceModelArtifactImportResourceCreate) mapToArtifactImportDetail
 	return baseObject, nil
 }
 
-func modelArtifactImportWaitForWorkRequest(wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
+func modelArtifactImportWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_datascience.DataScienceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "datascience")
 
@@ -187,7 +188,7 @@ func modelArtifactImportWaitForWorkRequest(wId *string, entityType string, actio
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_datascience.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -199,7 +200,7 @@ func modelArtifactImportWaitForWorkRequest(wId *string, entityType string, actio
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -216,7 +217,7 @@ func modelArtifactImportWaitForWorkRequest(wId *string, entityType string, actio
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_datascience.WorkRequestStatusFailed || response.Status == oci_datascience.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatascienceModelArtifactImportWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatascienceModelArtifactImportWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
@@ -245,8 +246,8 @@ func modelArtifactImportWorkRequestShouldRetryFunc(timeout time.Duration) func(r
 	}
 }
 
-func getErrorFromDatascienceModelArtifactImportWorkRequest(client *oci_datascience.DataScienceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatascienceModelArtifactImportWorkRequest(ctx context.Context, client *oci_datascience.DataScienceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_datascience.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_datascience.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

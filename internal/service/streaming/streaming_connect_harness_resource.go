@@ -12,6 +12,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,11 +25,11 @@ func StreamingConnectHarnessResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createStreamingConnectHarness,
-		Read:     readStreamingConnectHarness,
-		Update:   updateStreamingConnectHarness,
-		Delete:   deleteStreamingConnectHarness,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createStreamingConnectHarnessWithContext,
+		ReadContext:   readStreamingConnectHarnessWithContext,
+		UpdateContext: updateStreamingConnectHarnessWithContext,
+		DeleteContext: deleteStreamingConnectHarnessWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -73,37 +74,37 @@ func StreamingConnectHarnessResource() *schema.Resource {
 	}
 }
 
-func createStreamingConnectHarness(d *schema.ResourceData, m interface{}) error {
+func createStreamingConnectHarnessWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StreamingConnectHarnessResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StreamAdminClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readStreamingConnectHarness(d *schema.ResourceData, m interface{}) error {
+func readStreamingConnectHarnessWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StreamingConnectHarnessResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StreamAdminClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateStreamingConnectHarness(d *schema.ResourceData, m interface{}) error {
+func updateStreamingConnectHarnessWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StreamingConnectHarnessResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StreamAdminClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteStreamingConnectHarness(d *schema.ResourceData, m interface{}) error {
+func deleteStreamingConnectHarnessWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StreamingConnectHarnessResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StreamAdminClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type StreamingConnectHarnessResourceCrud struct {
@@ -153,7 +154,7 @@ func (s *StreamingConnectHarnessResourceCrud) UpdatedTarget() []string {
 	}
 }
 
-func (s *StreamingConnectHarnessResourceCrud) Create() error {
+func (s *StreamingConnectHarnessResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_streaming.CreateConnectHarnessRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -180,7 +181,7 @@ func (s *StreamingConnectHarnessResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
-	response, err := s.Client.CreateConnectHarness(context.Background(), request)
+	response, err := s.Client.CreateConnectHarness(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -191,14 +192,14 @@ func (s *StreamingConnectHarnessResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getConnectHarnessFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming"), oci_streaming.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getConnectHarnessFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming"), oci_streaming.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *StreamingConnectHarnessResourceCrud) getConnectHarnessFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *StreamingConnectHarnessResourceCrud) getConnectHarnessFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_streaming.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	connectHarnessId, err := connectHarnessWaitForWorkRequest(workId, "connect_harness",
+	connectHarnessId, err := connectHarnessWaitForWorkRequest(ctx, workId, "connect_harness",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -206,7 +207,7 @@ func (s *StreamingConnectHarnessResourceCrud) getConnectHarnessFromWorkRequest(w
 	}
 	s.D.SetId(*connectHarnessId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func connectHarnessWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -232,7 +233,7 @@ func connectHarnessWorkRequestShouldRetryFunc(timeout time.Duration) func(respon
 	}
 }
 
-func connectHarnessWaitForWorkRequest(wId *string, entityType string, action oci_streaming.ActionTypeEnum,
+func connectHarnessWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_streaming.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_streaming.StreamAdminClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "streaming")
 	retryPolicy.ShouldRetryOperation = connectHarnessWorkRequestShouldRetryFunc(timeout)
@@ -251,7 +252,7 @@ func connectHarnessWaitForWorkRequest(wId *string, entityType string, action oci
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_streaming.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -263,7 +264,7 @@ func connectHarnessWaitForWorkRequest(wId *string, entityType string, action oci
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -280,14 +281,14 @@ func connectHarnessWaitForWorkRequest(wId *string, entityType string, action oci
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_streaming.OperationStatusFailed || response.Status == oci_streaming.OperationStatusCanceled {
-		return nil, getErrorFromStreamingConnectHarnessWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromStreamingConnectHarnessWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromStreamingConnectHarnessWorkRequest(client *oci_streaming.StreamAdminClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_streaming.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromStreamingConnectHarnessWorkRequest(ctx context.Context, client *oci_streaming.StreamAdminClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_streaming.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_streaming.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -309,7 +310,7 @@ func getErrorFromStreamingConnectHarnessWorkRequest(client *oci_streaming.Stream
 	return workRequestErr
 }
 
-func (s *StreamingConnectHarnessResourceCrud) Get() error {
+func (s *StreamingConnectHarnessResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_streaming.GetConnectHarnessRequest{}
 
 	tmp := s.D.Id()
@@ -317,7 +318,7 @@ func (s *StreamingConnectHarnessResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
-	response, err := s.Client.GetConnectHarness(context.Background(), request)
+	response, err := s.Client.GetConnectHarness(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -326,11 +327,11 @@ func (s *StreamingConnectHarnessResourceCrud) Get() error {
 	return nil
 }
 
-func (s *StreamingConnectHarnessResourceCrud) Update() error {
+func (s *StreamingConnectHarnessResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -355,16 +356,16 @@ func (s *StreamingConnectHarnessResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
-	response, err := s.Client.UpdateConnectHarness(context.Background(), request)
+	response, err := s.Client.UpdateConnectHarness(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getConnectHarnessFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming"), oci_streaming.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getConnectHarnessFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming"), oci_streaming.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *StreamingConnectHarnessResourceCrud) Delete() error {
+func (s *StreamingConnectHarnessResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_streaming.DeleteConnectHarnessRequest{}
 
 	tmp := s.D.Id()
@@ -372,14 +373,14 @@ func (s *StreamingConnectHarnessResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
-	response, err := s.Client.DeleteConnectHarness(context.Background(), request)
+	response, err := s.Client.DeleteConnectHarness(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := connectHarnessWaitForWorkRequest(workId, "connect_harness",
+	_, delWorkRequestErr := connectHarnessWaitForWorkRequest(ctx, workId, "connect_harness",
 		oci_streaming.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -412,7 +413,7 @@ func (s *StreamingConnectHarnessResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *StreamingConnectHarnessResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *StreamingConnectHarnessResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_streaming.ChangeConnectHarnessCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -423,11 +424,11 @@ func (s *StreamingConnectHarnessResourceCrud) updateCompartment(compartment inte
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
-	response, err := s.Client.ChangeConnectHarnessCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeConnectHarnessCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getConnectHarnessFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming"), oci_streaming.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getConnectHarnessFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming"), oci_streaming.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

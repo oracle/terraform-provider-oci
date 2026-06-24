@@ -6,6 +6,7 @@ package dbmulticloud
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_dbmulticloud "github.com/oracle/oci-go-sdk/v65/dbmulticloud"
 
@@ -15,7 +16,7 @@ import (
 
 func DbmulticloudOracleDbAzureConnectorsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDbmulticloudOracleDbAzureConnectors,
+		ReadContext: readDbmulticloudOracleDbAzureConnectorsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -56,12 +57,12 @@ func DbmulticloudOracleDbAzureConnectorsDataSource() *schema.Resource {
 	}
 }
 
-func readDbmulticloudOracleDbAzureConnectors(d *schema.ResourceData, m interface{}) error {
+func readDbmulticloudOracleDbAzureConnectorsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DbmulticloudOracleDbAzureConnectorsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OracleDBAzureConnectorClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DbmulticloudOracleDbAzureConnectorsDataSourceCrud struct {
@@ -74,7 +75,7 @@ func (s *DbmulticloudOracleDbAzureConnectorsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DbmulticloudOracleDbAzureConnectorsDataSourceCrud) Get() error {
+func (s *DbmulticloudOracleDbAzureConnectorsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_dbmulticloud.ListOracleDbAzureConnectorsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -103,7 +104,7 @@ func (s *DbmulticloudOracleDbAzureConnectorsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "dbmulticloud")
 
-	response, err := s.Client.ListOracleDbAzureConnectors(context.Background(), request)
+	response, err := s.Client.ListOracleDbAzureConnectors(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -112,7 +113,7 @@ func (s *DbmulticloudOracleDbAzureConnectorsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOracleDbAzureConnectors(context.Background(), request)
+		listResponse, err := s.Client.ListOracleDbAzureConnectors(ctx, request)
 		if err != nil {
 			return err
 		}

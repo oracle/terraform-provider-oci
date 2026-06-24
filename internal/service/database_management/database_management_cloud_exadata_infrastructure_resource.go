@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,11 +25,11 @@ func DatabaseManagementCloudExadataInfrastructureResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseManagementCloudExadataInfrastructure,
-		Read:     readDatabaseManagementCloudExadataInfrastructure,
-		Update:   updateDatabaseManagementCloudExadataInfrastructure,
-		Delete:   deleteDatabaseManagementCloudExadataInfrastructure,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseManagementCloudExadataInfrastructureWithContext,
+		ReadContext:   readDatabaseManagementCloudExadataInfrastructureWithContext,
+		UpdateContext: updateDatabaseManagementCloudExadataInfrastructureWithContext,
+		DeleteContext: deleteDatabaseManagementCloudExadataInfrastructureWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -284,37 +285,37 @@ func DatabaseManagementCloudExadataInfrastructureResource() *schema.Resource {
 	}
 }
 
-func createDatabaseManagementCloudExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
+func createDatabaseManagementCloudExadataInfrastructureWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseManagementCloudExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementCloudExadataInfrastructureWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseManagementCloudExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseManagementCloudExadataInfrastructureWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseManagementCloudExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseManagementCloudExadataInfrastructureWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.DisableNotFoundRetries = true
 
-	return sync.Delete()
+	return tfresource.HandleDiagError(m, sync.DeleteWithContext(ctx))
 }
 
 type DatabaseManagementCloudExadataInfrastructureResourceCrud struct {
@@ -352,7 +353,7 @@ func (s *DatabaseManagementCloudExadataInfrastructureResourceCrud) DeletedTarget
 	}
 }
 
-func (s *DatabaseManagementCloudExadataInfrastructureResourceCrud) Create() error {
+func (s *DatabaseManagementCloudExadataInfrastructureResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database_management.CreateCloudExadataInfrastructureRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -414,7 +415,7 @@ func (s *DatabaseManagementCloudExadataInfrastructureResourceCrud) Create() erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.CreateCloudExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.CreateCloudExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -423,11 +424,11 @@ func (s *DatabaseManagementCloudExadataInfrastructureResourceCrud) Create() erro
 	return nil
 }
 
-func (s *DatabaseManagementCloudExadataInfrastructureResourceCrud) getCloudExadataInfrastructureFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseManagementCloudExadataInfrastructureResourceCrud) getCloudExadataInfrastructureFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	cloudExadataInfrastructureId, err := cloudExadataInfrastructureWaitForWorkRequest(workId, "cloudexadatainfrastructure",
+	cloudExadataInfrastructureId, err := cloudExadataInfrastructureWaitForWorkRequest(ctx, workId, "cloudexadatainfrastructure",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -463,7 +464,7 @@ func cloudExadataInfrastructureWorkRequestShouldRetryFunc(timeout time.Duration)
 	}
 }
 
-func cloudExadataInfrastructureWaitForWorkRequest(wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
+func cloudExadataInfrastructureWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_management.DbManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_management")
 	retryPolicy.ShouldRetryOperation = cloudExadataInfrastructureWorkRequestShouldRetryFunc(timeout)
@@ -482,7 +483,7 @@ func cloudExadataInfrastructureWaitForWorkRequest(wId *string, entityType string
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -494,7 +495,7 @@ func cloudExadataInfrastructureWaitForWorkRequest(wId *string, entityType string
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -512,8 +513,8 @@ func cloudExadataInfrastructureWaitForWorkRequest(wId *string, entityType string
 	return identifier, nil
 }
 
-func getErrorFromDatabaseManagementCloudExadataInfrastructureWorkRequest(client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseManagementCloudExadataInfrastructureWorkRequest(ctx context.Context, client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -535,14 +536,14 @@ func getErrorFromDatabaseManagementCloudExadataInfrastructureWorkRequest(client 
 	return workRequestErr
 }
 
-func (s *DatabaseManagementCloudExadataInfrastructureResourceCrud) Get() error {
+func (s *DatabaseManagementCloudExadataInfrastructureResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetCloudExadataInfrastructureRequest{}
 
 	tmp := s.D.Id()
 	request.CloudExadataInfrastructureId = &tmp
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "database_management")
-	response, err := s.Client.GetCloudExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.GetCloudExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -551,11 +552,11 @@ func (s *DatabaseManagementCloudExadataInfrastructureResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseManagementCloudExadataInfrastructureResourceCrud) Update() error {
+func (s *DatabaseManagementCloudExadataInfrastructureResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -620,7 +621,7 @@ func (s *DatabaseManagementCloudExadataInfrastructureResourceCrud) Update() erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.UpdateCloudExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.UpdateCloudExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -629,21 +630,21 @@ func (s *DatabaseManagementCloudExadataInfrastructureResourceCrud) Update() erro
 	return nil
 }
 
-func (s *DatabaseManagementCloudExadataInfrastructureResourceCrud) Delete() error {
+func (s *DatabaseManagementCloudExadataInfrastructureResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database_management.DeleteCloudExadataInfrastructureRequest{}
 
 	tmp := s.D.Id()
 	request.CloudExadataInfrastructureId = &tmp
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
-	response, err := s.Client.DeleteCloudExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.DeleteCloudExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := cloudExadataInfrastructureWaitForWorkRequest(workId, "cloudexadatainfrastructure",
+	_, delWorkRequestErr := cloudExadataInfrastructureWaitForWorkRequest(ctx, workId, "cloudexadatainfrastructure",
 		oci_database_management.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -884,7 +885,7 @@ func ExadataVmClusterSummaryToMap(obj oci_database_management.ExadataVmClusterSu
 	return result
 }
 
-func (s *DatabaseManagementCloudExadataInfrastructureResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseManagementCloudExadataInfrastructureResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database_management.ChangeCloudExadataInfrastructureCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -895,11 +896,11 @@ func (s *DatabaseManagementCloudExadataInfrastructureResourceCrud) updateCompart
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.ChangeCloudExadataInfrastructureCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeCloudExadataInfrastructureCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getCloudExadataInfrastructureFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getCloudExadataInfrastructureFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

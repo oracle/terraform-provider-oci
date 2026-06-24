@@ -7,6 +7,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_tools "github.com/oracle/oci-go-sdk/v65/databasetools"
 
@@ -20,15 +21,15 @@ func DatabaseToolsDatabaseToolsIdentityDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseToolsDatabaseToolsIdentityResource(), fieldMap, readSingularDatabaseToolsDatabaseToolsIdentity)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseToolsDatabaseToolsIdentityResource(), fieldMap, readSingularDatabaseToolsDatabaseToolsIdentityWithContext)
 }
 
-func readSingularDatabaseToolsDatabaseToolsIdentity(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseToolsDatabaseToolsIdentityWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseToolsDatabaseToolsIdentityDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseToolsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseToolsDatabaseToolsIdentityDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *DatabaseToolsDatabaseToolsIdentityDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseToolsDatabaseToolsIdentityDataSourceCrud) Get() error {
+func (s *DatabaseToolsDatabaseToolsIdentityDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_tools.GetDatabaseToolsIdentityRequest{}
 
 	if databaseToolsIdentityId, ok := s.D.GetOkExists("database_tools_identity_id"); ok {
@@ -51,7 +52,7 @@ func (s *DatabaseToolsDatabaseToolsIdentityDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_tools")
 
-	response, err := s.Client.GetDatabaseToolsIdentity(context.Background(), request)
+	response, err := s.Client.GetDatabaseToolsIdentity(ctx, request)
 	if err != nil {
 		return err
 	}

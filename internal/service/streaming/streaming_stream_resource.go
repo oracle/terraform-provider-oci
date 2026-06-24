@@ -12,6 +12,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,11 +25,11 @@ func StreamingStreamResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createStreamingStream,
-		Read:     readStreamingStream,
-		Update:   updateStreamingStream,
-		Delete:   deleteStreamingStream,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createStreamingStreamWithContext,
+		ReadContext:   readStreamingStreamWithContext,
+		UpdateContext: updateStreamingStreamWithContext,
+		DeleteContext: deleteStreamingStreamWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"name": {
@@ -96,37 +97,37 @@ func StreamingStreamResource() *schema.Resource {
 	}
 }
 
-func createStreamingStream(d *schema.ResourceData, m interface{}) error {
+func createStreamingStreamWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StreamingStreamResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StreamAdminClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readStreamingStream(d *schema.ResourceData, m interface{}) error {
+func readStreamingStreamWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StreamingStreamResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StreamAdminClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateStreamingStream(d *schema.ResourceData, m interface{}) error {
+func updateStreamingStreamWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StreamingStreamResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StreamAdminClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteStreamingStream(d *schema.ResourceData, m interface{}) error {
+func deleteStreamingStreamWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StreamingStreamResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StreamAdminClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type StreamingStreamResourceCrud struct {
@@ -176,7 +177,7 @@ func (s *StreamingStreamResourceCrud) UpdatedTarget() []string {
 	}
 }
 
-func (s *StreamingStreamResourceCrud) Create() error {
+func (s *StreamingStreamResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_streaming.CreateStreamRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -218,7 +219,7 @@ func (s *StreamingStreamResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
-	response, err := s.Client.CreateStream(context.Background(), request)
+	response, err := s.Client.CreateStream(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -229,14 +230,14 @@ func (s *StreamingStreamResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getStreamFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming"), oci_streaming.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getStreamFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming"), oci_streaming.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *StreamingStreamResourceCrud) getStreamFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *StreamingStreamResourceCrud) getStreamFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_streaming.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	streamId, err := streamWaitForWorkRequest(workId, "stream",
+	streamId, err := streamWaitForWorkRequest(ctx, workId, "stream",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -244,7 +245,7 @@ func (s *StreamingStreamResourceCrud) getStreamFromWorkRequest(workId *string, r
 	}
 	s.D.SetId(*streamId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func streamWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -270,7 +271,7 @@ func streamWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_c
 	}
 }
 
-func streamWaitForWorkRequest(wId *string, entityType string, action oci_streaming.ActionTypeEnum,
+func streamWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_streaming.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_streaming.StreamAdminClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "streaming")
 	retryPolicy.ShouldRetryOperation = streamWorkRequestShouldRetryFunc(timeout)
@@ -289,7 +290,7 @@ func streamWaitForWorkRequest(wId *string, entityType string, action oci_streami
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_streaming.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -301,7 +302,7 @@ func streamWaitForWorkRequest(wId *string, entityType string, action oci_streami
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -318,14 +319,14 @@ func streamWaitForWorkRequest(wId *string, entityType string, action oci_streami
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_streaming.OperationStatusFailed || response.Status == oci_streaming.OperationStatusCanceled {
-		return nil, getErrorFromStreamingStreamWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromStreamingStreamWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromStreamingStreamWorkRequest(client *oci_streaming.StreamAdminClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_streaming.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromStreamingStreamWorkRequest(ctx context.Context, client *oci_streaming.StreamAdminClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_streaming.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_streaming.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -347,7 +348,7 @@ func getErrorFromStreamingStreamWorkRequest(client *oci_streaming.StreamAdminCli
 	return workRequestErr
 }
 
-func (s *StreamingStreamResourceCrud) Get() error {
+func (s *StreamingStreamResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_streaming.GetStreamRequest{}
 
 	tmp := s.D.Id()
@@ -355,7 +356,7 @@ func (s *StreamingStreamResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
-	response, err := s.Client.GetStream(context.Background(), request)
+	response, err := s.Client.GetStream(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -364,11 +365,11 @@ func (s *StreamingStreamResourceCrud) Get() error {
 	return nil
 }
 
-func (s *StreamingStreamResourceCrud) Update() error {
+func (s *StreamingStreamResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -398,16 +399,16 @@ func (s *StreamingStreamResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
-	response, err := s.Client.UpdateStream(context.Background(), request)
+	response, err := s.Client.UpdateStream(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getStreamFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming"), oci_streaming.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getStreamFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming"), oci_streaming.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *StreamingStreamResourceCrud) Delete() error {
+func (s *StreamingStreamResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_streaming.DeleteStreamRequest{}
 
 	tmp := s.D.Id()
@@ -415,14 +416,14 @@ func (s *StreamingStreamResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
-	response, err := s.Client.DeleteStream(context.Background(), request)
+	response, err := s.Client.DeleteStream(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := streamWaitForWorkRequest(workId, "stream",
+	_, delWorkRequestErr := streamWaitForWorkRequest(ctx, workId, "stream",
 		oci_streaming.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -471,7 +472,7 @@ func (s *StreamingStreamResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *StreamingStreamResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *StreamingStreamResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_streaming.ChangeStreamCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -482,11 +483,11 @@ func (s *StreamingStreamResourceCrud) updateCompartment(compartment interface{})
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming")
 
-	response, err := s.Client.ChangeStreamCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeStreamCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getStreamFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming"), oci_streaming.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getStreamFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "streaming"), oci_streaming.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

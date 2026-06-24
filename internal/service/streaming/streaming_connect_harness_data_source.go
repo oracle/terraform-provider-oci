@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_streaming "github.com/oracle/oci-go-sdk/v65/streaming"
 )
@@ -19,15 +20,15 @@ func StreamingConnectHarnessDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(StreamingConnectHarnessResource(), fieldMap, readSingularStreamingConnectHarness)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(StreamingConnectHarnessResource(), fieldMap, readSingularStreamingConnectHarnessWithContext)
 }
 
-func readSingularStreamingConnectHarness(d *schema.ResourceData, m interface{}) error {
+func readSingularStreamingConnectHarnessWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StreamingConnectHarnessDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StreamAdminClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type StreamingConnectHarnessDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *StreamingConnectHarnessDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *StreamingConnectHarnessDataSourceCrud) Get() error {
+func (s *StreamingConnectHarnessDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_streaming.GetConnectHarnessRequest{}
 
 	if connectHarnessId, ok := s.D.GetOkExists("connect_harness_id"); ok {
@@ -50,7 +51,7 @@ func (s *StreamingConnectHarnessDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "streaming")
 
-	response, err := s.Client.GetConnectHarness(context.Background(), request)
+	response, err := s.Client.GetConnectHarness(ctx, request)
 	if err != nil {
 		return err
 	}

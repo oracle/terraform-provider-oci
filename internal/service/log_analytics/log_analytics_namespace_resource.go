@@ -18,6 +18,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
 )
@@ -31,10 +32,10 @@ func LogAnalyticsNamespaceResource() *schema.Resource {
 			Create: tfresource.GetTimeoutDuration("30m"),
 			Update: tfresource.GetTimeoutDuration("30m"),
 		},
-		Create: createLogAnalyticsNamespace,
-		Read:   readLogAnalyticsNamespace,
-		Update: updateLogAnalyticsNamespace,
-		Delete: deleteLogAnalyticsNamespace,
+		CreateContext: createLogAnalyticsNamespaceWithContext,
+		ReadContext:   readLogAnalyticsNamespaceWithContext,
+		UpdateContext: updateLogAnalyticsNamespaceWithContext,
+		DeleteContext: deleteLogAnalyticsNamespaceWithContext,
 		Schema: map[string]*schema.Schema{
 			"namespace": {
 				Type:     schema.TypeString,
@@ -52,31 +53,31 @@ func LogAnalyticsNamespaceResource() *schema.Resource {
 	}
 }
 
-func createLogAnalyticsNamespace(d *schema.ResourceData, m interface{}) error {
+func createLogAnalyticsNamespaceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LogAnalyticsNamespaceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readLogAnalyticsNamespace(d *schema.ResourceData, m interface{}) error {
+func readLogAnalyticsNamespaceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LogAnalyticsNamespaceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateLogAnalyticsNamespace(d *schema.ResourceData, m interface{}) error {
+func updateLogAnalyticsNamespaceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LogAnalyticsNamespaceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteLogAnalyticsNamespace(d *schema.ResourceData, m interface{}) error {
+func deleteLogAnalyticsNamespaceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -91,28 +92,28 @@ func (s *LogAnalyticsNamespaceResourceCrud) ID() string {
 	return GetNamespaceCompositeId(s.D.Get("compartment_id").(string), s.D.Get("namespace").(string))
 }
 
-func (s *LogAnalyticsNamespaceResourceCrud) Create() error {
+func (s *LogAnalyticsNamespaceResourceCrud) CreateWithContext(ctx context.Context) error {
 	// This resource can't actually be created. So treat it as an Update instead.
-	if err := s.Get(); err != nil {
+	if err := s.GetWithContext(ctx); err != nil {
 		return err
 	}
-	return s.Update()
+	return s.UpdateWithContext(ctx)
 }
 
-func (s *LogAnalyticsNamespaceResourceCrud) Update() error {
+func (s *LogAnalyticsNamespaceResourceCrud) UpdateWithContext(ctx context.Context) error {
 	var desiredState bool
 	if isOnboarded, ok := s.D.GetOkExists("is_onboarded"); ok && s.D.HasChange("is_onboarded") {
 		desiredState = isOnboarded.(bool)
 		if desiredState == true {
-			return s.OnboardNamespace()
+			return s.OnboardNamespace(ctx)
 		} else {
-			return s.OffboardNamespace()
+			return s.OffboardNamespace(ctx)
 		}
 	}
 	return nil
 }
 
-func (s *LogAnalyticsNamespaceResourceCrud) OnboardNamespace() error {
+func (s *LogAnalyticsNamespaceResourceCrud) OnboardNamespace(ctx context.Context) error {
 	request := oci_log_analytics.OnboardNamespaceRequest{}
 	var namespace *string
 	if ns, ok := s.D.GetOkExists("namespace"); ok {
@@ -122,16 +123,16 @@ func (s *LogAnalyticsNamespaceResourceCrud) OnboardNamespace() error {
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
-	response, err := s.Client.OnboardNamespace(context.Background(), request)
+	response, err := s.Client.OnboardNamespace(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getNamespaceFromWorkRequest(workId, namespace, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getNamespaceFromWorkRequest(ctx, workId, namespace, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *LogAnalyticsNamespaceResourceCrud) OffboardNamespace() error {
+func (s *LogAnalyticsNamespaceResourceCrud) OffboardNamespace(ctx context.Context) error {
 	request := oci_log_analytics.OffboardNamespaceRequest{}
 	var namespace *string
 	if ns, ok := s.D.GetOkExists("namespace"); ok {
@@ -141,19 +142,19 @@ func (s *LogAnalyticsNamespaceResourceCrud) OffboardNamespace() error {
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
-	response, err := s.Client.OffboardNamespace(context.Background(), request)
+	response, err := s.Client.OffboardNamespace(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getNamespaceFromWorkRequest(workId, namespace, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.ActionTypesDeleted, s.D.Timeout(schema.TimeoutCreate))
+	return s.getNamespaceFromWorkRequest(ctx, workId, namespace, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.ActionTypesDeleted, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *LogAnalyticsNamespaceResourceCrud) getNamespaceFromWorkRequest(workId *string, ns *string, retryPolicy *oci_common.RetryPolicy, actionTypeEnum oci_log_analytics.ActionTypesEnum, timeout time.Duration) error {
+func (s *LogAnalyticsNamespaceResourceCrud) getNamespaceFromWorkRequest(ctx context.Context, workId *string, ns *string, retryPolicy *oci_common.RetryPolicy, actionTypeEnum oci_log_analytics.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	namespaceName, err := logAnalyticsWaitForWorkRequest(workId, ns, "loganalytics", actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
+	namespaceName, err := logAnalyticsWaitForWorkRequest(ctx, workId, ns, "loganalytics", actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		return err
@@ -167,13 +168,13 @@ func (s *LogAnalyticsNamespaceResourceCrud) getNamespaceFromWorkRequest(workId *
 
 	s.D.SetId(GetNamespaceCompositeId(*compartmentId, *namespaceName))
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 // GET namespace returns 404 Not Found if tenancy not on-boarded.
 // LIST namespace returns response irrespective of whether tenancy is on-boarded or off-boarded
 // if tenancy is off-boarded during Update, the GET would throw 404 but LIST would work, hence using LIST instead of GET
-func (s *LogAnalyticsNamespaceResourceCrud) Get() error {
+func (s *LogAnalyticsNamespaceResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_log_analytics.ListNamespacesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -190,7 +191,7 @@ func (s *LogAnalyticsNamespaceResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "log_analytics")
 
-	response, err := s.Client.ListNamespaces(context.Background(), request)
+	response, err := s.Client.ListNamespaces(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -237,7 +238,7 @@ func (s *LogAnalyticsNamespaceResourceCrud) SetData() error {
 	return nil
 }
 
-func logAnalyticsWaitForWorkRequest(wId *string, ns *string, entityType string, action oci_log_analytics.ActionTypesEnum, timeout time.Duration, disableFoundRetries bool, client *oci_log_analytics.LogAnalyticsClient) (*string, error) {
+func logAnalyticsWaitForWorkRequest(ctx context.Context, wId *string, ns *string, entityType string, action oci_log_analytics.ActionTypesEnum, timeout time.Duration, disableFoundRetries bool, client *oci_log_analytics.LogAnalyticsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "log_analytics")
 	retryPolicy.ShouldRetryOperation = logAnalyticsWorkRequestShouldRetryFunc(timeout)
 
@@ -255,7 +256,7 @@ func logAnalyticsWaitForWorkRequest(wId *string, ns *string, entityType string, 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_log_analytics.GetWorkRequestRequest{
 					NamespaceName: ns,
 					WorkRequestId: wId,
@@ -268,7 +269,7 @@ func logAnalyticsWaitForWorkRequest(wId *string, ns *string, entityType string, 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -285,7 +286,7 @@ func logAnalyticsWaitForWorkRequest(wId *string, ns *string, entityType string, 
 
 	// The Log Analytics workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_log_analytics.OperationStatusFailed || response.Status == oci_log_analytics.OperationStatusCanceled {
-		return nil, getErrorFromLogAnalyticsWorkRequest(client, wId, ns, retryPolicy, entityType, action)
+		return nil, getErrorFromLogAnalyticsWorkRequest(ctx, client, wId, ns, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
@@ -314,8 +315,8 @@ func logAnalyticsWorkRequestShouldRetryFunc(timeout time.Duration) func(response
 	}
 }
 
-func getErrorFromLogAnalyticsWorkRequest(client *oci_log_analytics.LogAnalyticsClient, wId *string, ns *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_log_analytics.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromLogAnalyticsWorkRequest(ctx context.Context, client *oci_log_analytics.LogAnalyticsClient, wId *string, ns *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_log_analytics.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_log_analytics.ListWorkRequestErrorsRequest{
 			WorkRequestId: wId,
 			NamespaceName: ns,

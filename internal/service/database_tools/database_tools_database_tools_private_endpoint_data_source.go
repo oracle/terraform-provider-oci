@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_tools "github.com/oracle/oci-go-sdk/v65/databasetools"
 )
@@ -19,15 +20,15 @@ func DatabaseToolsDatabaseToolsPrivateEndpointDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseToolsDatabaseToolsPrivateEndpointResource(), fieldMap, readSingularDatabaseToolsDatabaseToolsPrivateEndpoint)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseToolsDatabaseToolsPrivateEndpointResource(), fieldMap, readSingularDatabaseToolsDatabaseToolsPrivateEndpointWithContext)
 }
 
-func readSingularDatabaseToolsDatabaseToolsPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseToolsDatabaseToolsPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseToolsDatabaseToolsPrivateEndpointDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseToolsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseToolsDatabaseToolsPrivateEndpointDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseToolsDatabaseToolsPrivateEndpointDataSourceCrud) Get() error {
+func (s *DatabaseToolsDatabaseToolsPrivateEndpointDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_tools.GetDatabaseToolsPrivateEndpointRequest{}
 
 	if databaseToolsPrivateEndpointId, ok := s.D.GetOkExists("database_tools_private_endpoint_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_tools")
 
-	response, err := s.Client.GetDatabaseToolsPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.GetDatabaseToolsPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}

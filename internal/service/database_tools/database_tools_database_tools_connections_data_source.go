@@ -9,13 +9,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_tools "github.com/oracle/oci-go-sdk/v65/databasetools"
 )
 
 func DatabaseToolsDatabaseToolsConnectionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseToolsDatabaseToolsConnections,
+		ReadContext: readDatabaseToolsDatabaseToolsConnectionsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -73,12 +74,12 @@ func DatabaseToolsDatabaseToolsConnectionsDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseToolsDatabaseToolsConnections(d *schema.ResourceData, m interface{}) error {
+func readDatabaseToolsDatabaseToolsConnectionsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseToolsDatabaseToolsConnectionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseToolsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseToolsDatabaseToolsConnectionsDataSourceCrud struct {
@@ -91,7 +92,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseToolsDatabaseToolsConnectionsDataSourceCrud) Get() error {
+func (s *DatabaseToolsDatabaseToolsConnectionsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_tools.ListDatabaseToolsConnectionsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -166,7 +167,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_tools")
 
-	response, err := s.Client.ListDatabaseToolsConnections(context.Background(), request)
+	response, err := s.Client.ListDatabaseToolsConnections(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -175,7 +176,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDatabaseToolsConnections(context.Background(), request)
+		listResponse, err := s.Client.ListDatabaseToolsConnections(ctx, request)
 		if err != nil {
 			return err
 		}

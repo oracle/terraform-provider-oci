@@ -6,6 +6,7 @@ package database_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -19,15 +20,15 @@ func DatabaseManagementCloudExadataInfrastructureDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseManagementCloudExadataInfrastructureResource(), fieldMap, readSingularDatabaseManagementCloudExadataInfrastructure)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseManagementCloudExadataInfrastructureResource(), fieldMap, readSingularDatabaseManagementCloudExadataInfrastructureWithContext)
 }
 
-func readSingularDatabaseManagementCloudExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseManagementCloudExadataInfrastructureWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudExadataInfrastructureDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseManagementCloudExadataInfrastructureDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseManagementCloudExadataInfrastructureDataSourceCrud) VoidState()
 	s.D.SetId("")
 }
 
-func (s *DatabaseManagementCloudExadataInfrastructureDataSourceCrud) Get() error {
+func (s *DatabaseManagementCloudExadataInfrastructureDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetCloudExadataInfrastructureRequest{}
 
 	if cloudExadataInfrastructureId, ok := s.D.GetOkExists("cloud_exadata_infrastructure_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseManagementCloudExadataInfrastructureDataSourceCrud) Get() error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
 
-	response, err := s.Client.GetCloudExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.GetCloudExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}

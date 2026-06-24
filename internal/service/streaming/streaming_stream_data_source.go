@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_streaming "github.com/oracle/oci-go-sdk/v65/streaming"
 )
@@ -19,15 +20,15 @@ func StreamingStreamDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(StreamingStreamResource(), fieldMap, readSingularStreamingStream)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(StreamingStreamResource(), fieldMap, readSingularStreamingStreamWithContext)
 }
 
-func readSingularStreamingStream(d *schema.ResourceData, m interface{}) error {
+func readSingularStreamingStreamWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StreamingStreamDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StreamAdminClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type StreamingStreamDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *StreamingStreamDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *StreamingStreamDataSourceCrud) Get() error {
+func (s *StreamingStreamDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_streaming.GetStreamRequest{}
 
 	if streamId, ok := s.D.GetOkExists("stream_id"); ok {
@@ -50,7 +51,7 @@ func (s *StreamingStreamDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "streaming")
 
-	response, err := s.Client.GetStream(context.Background(), request)
+	response, err := s.Client.GetStream(ctx, request)
 	if err != nil {
 		return err
 	}

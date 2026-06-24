@@ -659,13 +659,13 @@ func namespaceLookupWaitForWorkRequest(ctx context.Context, namespaceName *strin
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if response.LogAnalyticsConfigWorkRequest.LifecycleState == oci_log_analytics.LogAnalyticsConfigWorkRequestLifecycleStateFailed {
-		return nil, getErrorFromLogAnalyticsNamespaceLookupWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromLogAnalyticsNamespaceLookupWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return nil, nil
 }
 
-func getErrorFromLogAnalyticsNamespaceLookupWorkRequest(client *oci_log_analytics.LogAnalyticsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeEnum) error {
+func getErrorFromLogAnalyticsNamespaceLookupWorkRequest(ctx context.Context, client *oci_log_analytics.LogAnalyticsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeEnum) error {
 	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s", *workId, entityType, action)
 	return workRequestErr
 }

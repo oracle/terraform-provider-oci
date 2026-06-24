@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -26,11 +27,11 @@ func DatabaseToolsDatabaseToolsIdentityResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseToolsDatabaseToolsIdentity,
-		Read:     readDatabaseToolsDatabaseToolsIdentity,
-		Update:   updateDatabaseToolsDatabaseToolsIdentity,
-		Delete:   deleteDatabaseToolsDatabaseToolsIdentity,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseToolsDatabaseToolsIdentityWithContext,
+		ReadContext:   readDatabaseToolsDatabaseToolsIdentityWithContext,
+		UpdateContext: updateDatabaseToolsDatabaseToolsIdentityWithContext,
+		DeleteContext: deleteDatabaseToolsDatabaseToolsIdentityWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -133,37 +134,37 @@ func DatabaseToolsDatabaseToolsIdentityResource() *schema.Resource {
 	}
 }
 
-func createDatabaseToolsDatabaseToolsIdentity(d *schema.ResourceData, m interface{}) error {
+func createDatabaseToolsDatabaseToolsIdentityWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseToolsDatabaseToolsIdentityResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseToolsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseToolsDatabaseToolsIdentity(d *schema.ResourceData, m interface{}) error {
+func readDatabaseToolsDatabaseToolsIdentityWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseToolsDatabaseToolsIdentityResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseToolsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseToolsDatabaseToolsIdentity(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseToolsDatabaseToolsIdentityWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseToolsDatabaseToolsIdentityResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseToolsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseToolsDatabaseToolsIdentity(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseToolsDatabaseToolsIdentityWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseToolsDatabaseToolsIdentityResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseToolsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseToolsDatabaseToolsIdentityResourceCrud struct {
@@ -203,7 +204,7 @@ func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) DeletedTarget() []strin
 	}
 }
 
-func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) Create() error {
+func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database_tools.CreateDatabaseToolsIdentityRequest{}
 	err := s.populateTopLevelPolymorphicCreateDatabaseToolsIdentityRequest(&request)
 	if err != nil {
@@ -212,7 +213,7 @@ func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools")
 
-	response, err := s.Client.CreateDatabaseToolsIdentity(context.Background(), request)
+	response, err := s.Client.CreateDatabaseToolsIdentity(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -223,14 +224,14 @@ func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getDatabaseToolsIdentityFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools"), oci_database_tools.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDatabaseToolsIdentityFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools"), oci_database_tools.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) getDatabaseToolsIdentityFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) getDatabaseToolsIdentityFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_tools.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	databaseToolsIdentityId, err := databaseToolsIdentityWaitForWorkRequest(workId, "databasetoolsidentity",
+	databaseToolsIdentityId, err := databaseToolsIdentityWaitForWorkRequest(ctx, workId, "databasetoolsidentity",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -238,7 +239,7 @@ func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) getDatabaseToolsIdentit
 	}
 	s.D.SetId(*databaseToolsIdentityId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func databaseToolsIdentityWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -264,7 +265,7 @@ func databaseToolsIdentityWorkRequestShouldRetryFunc(timeout time.Duration) func
 	}
 }
 
-func databaseToolsIdentityWaitForWorkRequest(wId *string, entityType string, action oci_database_tools.ActionTypeEnum,
+func databaseToolsIdentityWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_tools.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_tools.DatabaseToolsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_tools")
 	retryPolicy.ShouldRetryOperation = databaseToolsIdentityWorkRequestShouldRetryFunc(timeout)
@@ -283,7 +284,7 @@ func databaseToolsIdentityWaitForWorkRequest(wId *string, entityType string, act
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_tools.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -295,7 +296,7 @@ func databaseToolsIdentityWaitForWorkRequest(wId *string, entityType string, act
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -312,14 +313,14 @@ func databaseToolsIdentityWaitForWorkRequest(wId *string, entityType string, act
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_database_tools.OperationStatusFailed || response.Status == oci_database_tools.OperationStatusCanceled {
-		return nil, getErrorFromDatabaseToolsDatabaseToolsIdentityWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatabaseToolsDatabaseToolsIdentityWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseToolsDatabaseToolsIdentityWorkRequest(client *oci_database_tools.DatabaseToolsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_tools.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseToolsDatabaseToolsIdentityWorkRequest(ctx context.Context, client *oci_database_tools.DatabaseToolsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_tools.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_tools.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -341,7 +342,7 @@ func getErrorFromDatabaseToolsDatabaseToolsIdentityWorkRequest(client *oci_datab
 	return workRequestErr
 }
 
-func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) Get() error {
+func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_tools.GetDatabaseToolsIdentityRequest{}
 
 	tmp := s.D.Id()
@@ -349,7 +350,7 @@ func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools")
 
-	response, err := s.Client.GetDatabaseToolsIdentity(context.Background(), request)
+	response, err := s.Client.GetDatabaseToolsIdentity(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -358,11 +359,11 @@ func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) Update() error {
+func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -376,16 +377,16 @@ func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools")
 
-	response, err := s.Client.UpdateDatabaseToolsIdentity(context.Background(), request)
+	response, err := s.Client.UpdateDatabaseToolsIdentity(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDatabaseToolsIdentityFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools"), oci_database_tools.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDatabaseToolsIdentityFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools"), oci_database_tools.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) Delete() error {
+func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database_tools.DeleteDatabaseToolsIdentityRequest{}
 
 	tmp := s.D.Id()
@@ -398,14 +399,14 @@ func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools")
 
-	response, err := s.Client.DeleteDatabaseToolsIdentity(context.Background(), request)
+	response, err := s.Client.DeleteDatabaseToolsIdentity(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := databaseToolsIdentityWaitForWorkRequest(workId, "databasetoolsidentity",
+	_, delWorkRequestErr := databaseToolsIdentityWaitForWorkRequest(ctx, workId, "databasetoolsidentity",
 		oci_database_tools.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -670,7 +671,7 @@ func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) populateTopLevelPolymor
 	return nil
 }
 
-func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database_tools.ChangeDatabaseToolsIdentityCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -686,11 +687,11 @@ func (s *DatabaseToolsDatabaseToolsIdentityResourceCrud) updateCompartment(compa
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools")
 
-	response, err := s.Client.ChangeDatabaseToolsIdentityCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeDatabaseToolsIdentityCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDatabaseToolsIdentityFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools"), oci_database_tools.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDatabaseToolsIdentityFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools"), oci_database_tools.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

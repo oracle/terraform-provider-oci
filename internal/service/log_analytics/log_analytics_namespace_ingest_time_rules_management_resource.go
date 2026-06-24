@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -20,11 +21,11 @@ import (
 
 func LogAnalyticsNamespaceIngestTimeRulesManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createLogAnalyticsNamespaceIngestTimeRulesManagement,
-		Read:     readLogAnalyticsNamespaceIngestTimeRulesManagement,
-		Update:   updateLogAnalyticsNamespaceIngestTimeRulesManagement,
-		Delete:   deleteLogAnalyticsNamespaceIngestTimeRulesManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createLogAnalyticsNamespaceIngestTimeRulesManagement,
+		ReadContext:   readLogAnalyticsNamespaceIngestTimeRulesManagement,
+		UpdateContext: updateLogAnalyticsNamespaceIngestTimeRulesManagement,
+		DeleteContext: deleteLogAnalyticsNamespaceIngestTimeRulesManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"ingest_time_rule_id": {
@@ -49,36 +50,36 @@ func LogAnalyticsNamespaceIngestTimeRulesManagementResource() *schema.Resource {
 	}
 }
 
-func createLogAnalyticsNamespaceIngestTimeRulesManagement(d *schema.ResourceData, m interface{}) error {
+func createLogAnalyticsNamespaceIngestTimeRulesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LogAnalyticsNamespaceIngestTimeRulesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 	sync.Res = &LogAnalyticsNamespaceIngestTimeRulesManagementResponse{}
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readLogAnalyticsNamespaceIngestTimeRulesManagement(d *schema.ResourceData, m interface{}) error {
+func readLogAnalyticsNamespaceIngestTimeRulesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func updateLogAnalyticsNamespaceIngestTimeRulesManagement(d *schema.ResourceData, m interface{}) error {
+func updateLogAnalyticsNamespaceIngestTimeRulesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LogAnalyticsNamespaceIngestTimeRulesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 	sync.Res = &LogAnalyticsNamespaceIngestTimeRulesManagementResponse{}
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteLogAnalyticsNamespaceIngestTimeRulesManagement(d *schema.ResourceData, m interface{}) error {
+func deleteLogAnalyticsNamespaceIngestTimeRulesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LogAnalyticsNamespaceIngestTimeRulesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 	sync.Res = &LogAnalyticsNamespaceIngestTimeRulesManagementResponse{}
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type LogAnalyticsNamespaceIngestTimeRulesManagementResponse struct {
@@ -97,7 +98,7 @@ func (s *LogAnalyticsNamespaceIngestTimeRulesManagementResourceCrud) ID() string
 	return tfresource.GenerateDataSourceHashID("LogAnalyticsNamespaceIngestTimeRulesManagementResource-", LogAnalyticsNamespaceIngestTimeRulesManagementResource(), s.D)
 }
 
-func (s *LogAnalyticsNamespaceIngestTimeRulesManagementResourceCrud) Create() error {
+func (s *LogAnalyticsNamespaceIngestTimeRulesManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	var operation bool
 	var namespaceName string
 	if enableOperation, ok := s.D.GetOkExists("enable_ingest_time_rule"); ok {
@@ -119,13 +120,13 @@ func (s *LogAnalyticsNamespaceIngestTimeRulesManagementResourceCrud) Create() er
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
-		response, err := s.Client.EnableIngestTimeRule(context.Background(), request)
+		response, err := s.Client.EnableIngestTimeRule(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getNamespaceIngestTimeRulesManagementFromWorkRequest(&namespaceName, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeEnableIngestTimeRule, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getNamespaceIngestTimeRulesManagementFromWorkRequest(ctx, &namespaceName, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeEnableIngestTimeRule, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -147,13 +148,13 @@ func (s *LogAnalyticsNamespaceIngestTimeRulesManagementResourceCrud) Create() er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
-	response, err := s.Client.DisableIngestTimeRule(context.Background(), request)
+	response, err := s.Client.DisableIngestTimeRule(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getNamespaceIngestTimeRulesManagementFromWorkRequest(&namespaceName, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeDisableIngestTimeRule, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getNamespaceIngestTimeRulesManagementFromWorkRequest(ctx, &namespaceName, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeDisableIngestTimeRule, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -161,11 +162,11 @@ func (s *LogAnalyticsNamespaceIngestTimeRulesManagementResourceCrud) Create() er
 	return nil
 }
 
-func (s *LogAnalyticsNamespaceIngestTimeRulesManagementResourceCrud) getNamespaceIngestTimeRulesManagementFromWorkRequest(namespaceName *string, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *LogAnalyticsNamespaceIngestTimeRulesManagementResourceCrud) getNamespaceIngestTimeRulesManagementFromWorkRequest(ctx context.Context, namespaceName *string, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	_, err := namespaceIngestTimeRulesManagementWaitForWorkRequest(namespaceName, workId, "log_analytics",
+	_, err := namespaceIngestTimeRulesManagementWaitForWorkRequest(ctx, namespaceName, workId, "log_analytics",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -198,7 +199,7 @@ func namespaceIngestTimeRulesManagementWorkRequestShouldRetryFunc(timeout time.D
 	}
 }
 
-func namespaceIngestTimeRulesManagementWaitForWorkRequest(namespaceName *string, wId *string, entityType string, action oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeEnum,
+func namespaceIngestTimeRulesManagementWaitForWorkRequest(ctx context.Context, namespaceName *string, wId *string, entityType string, action oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_log_analytics.LogAnalyticsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "log_analytics")
 	retryPolicy.ShouldRetryOperation = namespaceIngestTimeRulesManagementWorkRequestShouldRetryFunc(timeout)
@@ -215,7 +216,7 @@ func namespaceIngestTimeRulesManagementWaitForWorkRequest(namespaceName *string,
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetConfigWorkRequest(context.Background(),
+			response, err = client.GetConfigWorkRequest(ctx,
 				oci_log_analytics.GetConfigWorkRequestRequest{
 					NamespaceName: namespaceName,
 					WorkRequestId: wId,
@@ -228,24 +229,24 @@ func namespaceIngestTimeRulesManagementWaitForWorkRequest(namespaceName *string,
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if response.LogAnalyticsConfigWorkRequest.LifecycleState == oci_log_analytics.LogAnalyticsConfigWorkRequestLifecycleStateFailed {
-		return nil, getErrorFromLogAnalyticsNamespaceIngestTimeRulesManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromLogAnalyticsNamespaceIngestTimeRulesManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return nil, nil
 }
 
-func getErrorFromLogAnalyticsNamespaceIngestTimeRulesManagementWorkRequest(client *oci_log_analytics.LogAnalyticsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeEnum) error {
+func getErrorFromLogAnalyticsNamespaceIngestTimeRulesManagementWorkRequest(ctx context.Context, client *oci_log_analytics.LogAnalyticsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeEnum) error {
 	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s", *workId, entityType, action)
 	return workRequestErr
 }
 
-func (s *LogAnalyticsNamespaceIngestTimeRulesManagementResourceCrud) Update() error {
+func (s *LogAnalyticsNamespaceIngestTimeRulesManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 	var operation bool
 	var namespaceName string
 
@@ -268,13 +269,13 @@ func (s *LogAnalyticsNamespaceIngestTimeRulesManagementResourceCrud) Update() er
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
-		response, err := s.Client.EnableIngestTimeRule(context.Background(), request)
+		response, err := s.Client.EnableIngestTimeRule(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getNamespaceIngestTimeRulesManagementFromWorkRequest(&namespaceName, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeEnableIngestTimeRule, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getNamespaceIngestTimeRulesManagementFromWorkRequest(ctx, &namespaceName, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeEnableIngestTimeRule, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -296,13 +297,13 @@ func (s *LogAnalyticsNamespaceIngestTimeRulesManagementResourceCrud) Update() er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
-	response, err := s.Client.DisableIngestTimeRule(context.Background(), request)
+	response, err := s.Client.DisableIngestTimeRule(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getNamespaceIngestTimeRulesManagementFromWorkRequest(&namespaceName, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeDisableIngestTimeRule, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getNamespaceIngestTimeRulesManagementFromWorkRequest(ctx, &namespaceName, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeDisableIngestTimeRule, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -310,7 +311,7 @@ func (s *LogAnalyticsNamespaceIngestTimeRulesManagementResourceCrud) Update() er
 	return nil
 }
 
-func (s *LogAnalyticsNamespaceIngestTimeRulesManagementResourceCrud) Delete() error {
+func (s *LogAnalyticsNamespaceIngestTimeRulesManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	var operation bool
 	var namespaceName string
 
@@ -336,13 +337,13 @@ func (s *LogAnalyticsNamespaceIngestTimeRulesManagementResourceCrud) Delete() er
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
-	response, err := s.Client.DisableIngestTimeRule(context.Background(), request)
+	response, err := s.Client.DisableIngestTimeRule(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getNamespaceIngestTimeRulesManagementFromWorkRequest(&namespaceName, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeDisableIngestTimeRule, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getNamespaceIngestTimeRulesManagementFromWorkRequest(ctx, &namespaceName, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeDisableIngestTimeRule, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}

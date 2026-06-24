@@ -9,13 +9,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_streaming "github.com/oracle/oci-go-sdk/v65/streaming"
 )
 
 func StreamingStreamsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readStreamingStreams,
+		ReadContext: readStreamingStreamsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -47,12 +48,12 @@ func StreamingStreamsDataSource() *schema.Resource {
 	}
 }
 
-func readStreamingStreams(d *schema.ResourceData, m interface{}) error {
+func readStreamingStreamsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &StreamingStreamsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).StreamAdminClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type StreamingStreamsDataSourceCrud struct {
@@ -65,7 +66,7 @@ func (s *StreamingStreamsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *StreamingStreamsDataSourceCrud) Get() error {
+func (s *StreamingStreamsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_streaming.ListStreamsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *StreamingStreamsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "streaming")
 
-	response, err := s.Client.ListStreams(context.Background(), request)
+	response, err := s.Client.ListStreams(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *StreamingStreamsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListStreams(context.Background(), request)
+		listResponse, err := s.Client.ListStreams(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -12,6 +12,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,11 +25,11 @@ func DatabaseToolsDatabaseToolsPrivateEndpointResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseToolsDatabaseToolsPrivateEndpoint,
-		Read:     readDatabaseToolsDatabaseToolsPrivateEndpoint,
-		Update:   updateDatabaseToolsDatabaseToolsPrivateEndpoint,
-		Delete:   deleteDatabaseToolsDatabaseToolsPrivateEndpoint,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseToolsDatabaseToolsPrivateEndpointWithContext,
+		ReadContext:   readDatabaseToolsDatabaseToolsPrivateEndpointWithContext,
+		UpdateContext: updateDatabaseToolsDatabaseToolsPrivateEndpointWithContext,
+		DeleteContext: deleteDatabaseToolsDatabaseToolsPrivateEndpointWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -205,37 +206,37 @@ func DatabaseToolsDatabaseToolsPrivateEndpointResource() *schema.Resource {
 	}
 }
 
-func createDatabaseToolsDatabaseToolsPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func createDatabaseToolsDatabaseToolsPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseToolsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseToolsDatabaseToolsPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func readDatabaseToolsDatabaseToolsPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseToolsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseToolsDatabaseToolsPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseToolsDatabaseToolsPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseToolsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseToolsDatabaseToolsPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseToolsDatabaseToolsPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseToolsClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud struct {
@@ -273,7 +274,7 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) DeletedTarget() 
 	}
 }
 
-func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) Create() error {
+func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database_tools.CreateDatabaseToolsPrivateEndpointRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -355,7 +356,7 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools")
 
-	response, err := s.Client.CreateDatabaseToolsPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.CreateDatabaseToolsPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -366,14 +367,14 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getDatabaseToolsPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools"), oci_database_tools.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDatabaseToolsPrivateEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools"), oci_database_tools.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) getDatabaseToolsPrivateEndpointFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) getDatabaseToolsPrivateEndpointFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_tools.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	databaseToolsPrivateEndpointId, err := databaseToolsPrivateEndpointWaitForWorkRequest(workId, "databasetoolsprivateendpoint", // ""database_tools", // Rashik Bhasin indicates that it should match the entityType in the Work request Response
+	databaseToolsPrivateEndpointId, err := databaseToolsPrivateEndpointWaitForWorkRequest(ctx, workId, "databasetoolsprivateendpoint", // ""database_tools", // Rashik Bhasin indicates that it should match the entityType in the Work request Response
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -381,7 +382,7 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) getDatabaseTools
 	}
 	s.D.SetId(*databaseToolsPrivateEndpointId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func databaseToolsPrivateEndpointWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -407,7 +408,7 @@ func databaseToolsPrivateEndpointWorkRequestShouldRetryFunc(timeout time.Duratio
 	}
 }
 
-func databaseToolsPrivateEndpointWaitForWorkRequest(wId *string, entityType string, action oci_database_tools.ActionTypeEnum,
+func databaseToolsPrivateEndpointWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_tools.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_tools.DatabaseToolsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_tools")
 	retryPolicy.ShouldRetryOperation = databaseToolsPrivateEndpointWorkRequestShouldRetryFunc(timeout)
@@ -426,7 +427,7 @@ func databaseToolsPrivateEndpointWaitForWorkRequest(wId *string, entityType stri
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_tools.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -438,7 +439,7 @@ func databaseToolsPrivateEndpointWaitForWorkRequest(wId *string, entityType stri
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -455,14 +456,14 @@ func databaseToolsPrivateEndpointWaitForWorkRequest(wId *string, entityType stri
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_database_tools.OperationStatusFailed || response.Status == oci_database_tools.OperationStatusCanceled {
-		return nil, getErrorFromDatabaseToolsDatabaseToolsPrivateEndpointWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatabaseToolsDatabaseToolsPrivateEndpointWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseToolsDatabaseToolsPrivateEndpointWorkRequest(client *oci_database_tools.DatabaseToolsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_tools.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseToolsDatabaseToolsPrivateEndpointWorkRequest(ctx context.Context, client *oci_database_tools.DatabaseToolsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_tools.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_tools.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -484,7 +485,7 @@ func getErrorFromDatabaseToolsDatabaseToolsPrivateEndpointWorkRequest(client *oc
 	return workRequestErr
 }
 
-func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) Get() error {
+func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_tools.GetDatabaseToolsPrivateEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -492,7 +493,7 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools")
 
-	response, err := s.Client.GetDatabaseToolsPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.GetDatabaseToolsPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -501,11 +502,11 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) Update() error {
+func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -563,16 +564,16 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools")
 
-	response, err := s.Client.UpdateDatabaseToolsPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.UpdateDatabaseToolsPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDatabaseToolsPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools"), oci_database_tools.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDatabaseToolsPrivateEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools"), oci_database_tools.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) Delete() error {
+func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database_tools.DeleteDatabaseToolsPrivateEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -585,14 +586,14 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools")
 
-	response, err := s.Client.DeleteDatabaseToolsPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.DeleteDatabaseToolsPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := databaseToolsPrivateEndpointWaitForWorkRequest(workId, "databasetoolsprivateendpoint",
+	_, delWorkRequestErr := databaseToolsPrivateEndpointWaitForWorkRequest(ctx, workId, "databasetoolsprivateendpoint",
 		oci_database_tools.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -850,7 +851,7 @@ func PrivateEndpointResourceLockToMap(obj oci_database_tools.ResourceLock) map[s
 	return result
 }
 
-func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database_tools.ChangeDatabaseToolsPrivateEndpointCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -866,11 +867,11 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) updateCompartmen
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools")
 
-	response, err := s.Client.ChangeDatabaseToolsPrivateEndpointCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeDatabaseToolsPrivateEndpointCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDatabaseToolsPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools"), oci_database_tools.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDatabaseToolsPrivateEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools"), oci_database_tools.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

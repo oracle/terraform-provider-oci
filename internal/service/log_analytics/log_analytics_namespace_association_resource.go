@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -27,11 +28,11 @@ func LogAnalyticsNamespaceAssociationResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createLogAnalyticsNamespaceAssociation,
-		Read:     readLogAnalyticsNamespaceAssociation,
-		Update:   updateLogAnalyticsNamespaceAssociation,
-		Delete:   deleteLogAnalyticsNamespaceAssociation,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createLogAnalyticsNamespaceAssociationWithContext,
+		ReadContext:   readLogAnalyticsNamespaceAssociationWithContext,
+		UpdateContext: updateLogAnalyticsNamespaceAssociationWithContext,
+		DeleteContext: deleteLogAnalyticsNamespaceAssociationWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"entity_id": {
@@ -170,36 +171,36 @@ func LogAnalyticsNamespaceAssociationResource() *schema.Resource {
 	}
 }
 
-func createLogAnalyticsNamespaceAssociation(d *schema.ResourceData, m interface{}) error {
+func createLogAnalyticsNamespaceAssociationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LogAnalyticsNamespaceAssociationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readLogAnalyticsNamespaceAssociation(d *schema.ResourceData, m interface{}) error {
+func readLogAnalyticsNamespaceAssociationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LogAnalyticsNamespaceAssociationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateLogAnalyticsNamespaceAssociation(d *schema.ResourceData, m interface{}) error {
+func updateLogAnalyticsNamespaceAssociationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LogAnalyticsNamespaceAssociationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteLogAnalyticsNamespaceAssociation(d *schema.ResourceData, m interface{}) error {
+func deleteLogAnalyticsNamespaceAssociationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LogAnalyticsNamespaceAssociationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LogAnalyticsClient()
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type LogAnalyticsNamespaceAssociationResourceCrud struct {
@@ -237,11 +238,11 @@ func parseNamespaceAssociationCompositeId(compositeId string) (namespace string,
 	return
 }
 
-func (s *LogAnalyticsNamespaceAssociationResourceCrud) Create() error {
-	return s.Update()
+func (s *LogAnalyticsNamespaceAssociationResourceCrud) CreateWithContext(ctx context.Context) error {
+	return s.UpdateWithContext(ctx)
 }
 
-func (s *LogAnalyticsNamespaceAssociationResourceCrud) Get() error {
+func (s *LogAnalyticsNamespaceAssociationResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_log_analytics.ListSourceAssociationsRequest{}
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -259,7 +260,7 @@ func (s *LogAnalyticsNamespaceAssociationResourceCrud) Get() error {
 		return err
 	}
 
-	response, err := s.Client.ListSourceAssociations(context.Background(), request)
+	response, err := s.Client.ListSourceAssociations(ctx, request)
 
 	if err != nil {
 		return err
@@ -269,7 +270,7 @@ func (s *LogAnalyticsNamespaceAssociationResourceCrud) Get() error {
 	return nil
 }
 
-func (s *LogAnalyticsNamespaceAssociationResourceCrud) Update() error {
+func (s *LogAnalyticsNamespaceAssociationResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_log_analytics.UpsertAssociationsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -296,16 +297,16 @@ func (s *LogAnalyticsNamespaceAssociationResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics")
 
-	response, err := s.Client.UpsertAssociations(context.Background(), request)
+	response, err := s.Client.UpsertAssociations(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getNamespaceAssociationFromWorkRequest(&namespaceName, workId, false, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeCreateAssociations, s.D.Timeout(schema.TimeoutCreate))
+	return s.getNamespaceAssociationFromWorkRequest(ctx, &namespaceName, workId, false, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeCreateAssociations, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *LogAnalyticsNamespaceAssociationResourceCrud) Delete() error {
+func (s *LogAnalyticsNamespaceAssociationResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_log_analytics.DeleteAssociationsRequest{}
 
 	var namespaceName string
@@ -325,20 +326,20 @@ func (s *LogAnalyticsNamespaceAssociationResourceCrud) Delete() error {
 	}
 	request.Items = []oci_log_analytics.DeleteLogAnalyticsAssociation{deleteAssocItem}
 
-	response, err := s.Client.DeleteAssociations(context.Background(), request)
+	response, err := s.Client.DeleteAssociations(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getNamespaceAssociationFromWorkRequest(&namespaceName, workId, true, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeDeleteAssociations, s.D.Timeout(schema.TimeoutCreate))
+	return s.getNamespaceAssociationFromWorkRequest(ctx, &namespaceName, workId, true, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "log_analytics"), oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeDeleteAssociations, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *LogAnalyticsNamespaceAssociationResourceCrud) getNamespaceAssociationFromWorkRequest(namespaceName *string, workId *string, isDelete bool, retryPolicy *oci_common.RetryPolicy,
+func (s *LogAnalyticsNamespaceAssociationResourceCrud) getNamespaceAssociationFromWorkRequest(ctx context.Context, namespaceName *string, workId *string, isDelete bool, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	_, err := NamespaceAssociationWaitForWorkRequest(namespaceName, workId, "namespace",
+	_, err := NamespaceAssociationWaitForWorkRequest(ctx, namespaceName, workId, "namespace",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -367,7 +368,7 @@ func (s *LogAnalyticsNamespaceAssociationResourceCrud) getNamespaceAssociationFr
 	}
 
 	s.D.SetId(GetNamespaceAssociationCompositeId(*namespaceName, *compartmentId, *entityId, *sourceName))
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func NamespaceAssociationWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -393,7 +394,7 @@ func NamespaceAssociationWorkRequestShouldRetryFunc(timeout time.Duration) func(
 	}
 }
 
-func NamespaceAssociationWaitForWorkRequest(namespaceName *string, wId *string, entityType string, action oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeEnum,
+func NamespaceAssociationWaitForWorkRequest(ctx context.Context, namespaceName *string, wId *string, entityType string, action oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_log_analytics.LogAnalyticsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "log_analytics")
 	retryPolicy.ShouldRetryOperation = NamespaceAssociationWorkRequestShouldRetryFunc(timeout)
@@ -410,7 +411,7 @@ func NamespaceAssociationWaitForWorkRequest(namespaceName *string, wId *string, 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetConfigWorkRequest(context.Background(),
+			response, err = client.GetConfigWorkRequest(ctx,
 				oci_log_analytics.GetConfigWorkRequestRequest{
 					NamespaceName: namespaceName,
 					WorkRequestId: wId,
@@ -423,19 +424,19 @@ func NamespaceAssociationWaitForWorkRequest(namespaceName *string, wId *string, 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
 	// The work request may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if response.LogAnalyticsConfigWorkRequest.LifecycleState == oci_log_analytics.LogAnalyticsConfigWorkRequestLifecycleStateFailed {
-		return nil, getErrorFromLogAnalyticsNamespaceAssociationWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromLogAnalyticsNamespaceAssociationWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return nil, nil
 }
 
-func getErrorFromLogAnalyticsNamespaceAssociationWorkRequest(client *oci_log_analytics.LogAnalyticsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeEnum) error {
+func getErrorFromLogAnalyticsNamespaceAssociationWorkRequest(ctx context.Context, client *oci_log_analytics.LogAnalyticsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_log_analytics.LogAnalyticsConfigWorkRequestOperationTypeEnum) error {
 	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s", *workId, entityType, action)
 
 	return workRequestErr

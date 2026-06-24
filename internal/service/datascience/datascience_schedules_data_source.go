@@ -6,6 +6,7 @@ package datascience
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
@@ -15,7 +16,7 @@ import (
 
 func DatascienceSchedulesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatascienceSchedules,
+		ReadContext: readDatascienceSchedulesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -47,12 +48,12 @@ func DatascienceSchedulesDataSource() *schema.Resource {
 	}
 }
 
-func readDatascienceSchedules(d *schema.ResourceData, m interface{}) error {
+func readDatascienceSchedulesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatascienceSchedulesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataScienceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatascienceSchedulesDataSourceCrud struct {
@@ -65,7 +66,7 @@ func (s *DatascienceSchedulesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatascienceSchedulesDataSourceCrud) Get() error {
+func (s *DatascienceSchedulesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_datascience.ListSchedulesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *DatascienceSchedulesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "datascience")
 
-	response, err := s.Client.ListSchedules(context.Background(), request)
+	response, err := s.Client.ListSchedules(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *DatascienceSchedulesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListSchedules(context.Background(), request)
+		listResponse, err := s.Client.ListSchedules(ctx, request)
 		if err != nil {
 			return err
 		}
