@@ -9,6 +9,7 @@ import (
 	"net"
 	"reflect"
 	"slices"
+	"strconv"
 	"strings"
 
 	"github.com/hashicorp/go-cty/cty"
@@ -213,16 +214,52 @@ func ipv6CompressionDiffSuppressFunction(key string, old string, new string, d *
 	if old == "" || new == "" {
 		return false
 	}
-	oldIp := strings.Split(old, "/")
-	newIp := strings.Split(new, "/")
-	if len(oldIp) < 2 || len(newIp) < 2 {
+
+	oldAddress, oldPrefix, oldIsCidr, oldOk := parseIpv6DiffValue(old)
+	newAddress, newPrefix, newIsCidr, newOk := parseIpv6DiffValue(new)
+	if !oldOk || !newOk || oldIsCidr != newIsCidr {
 		return false
 	}
-	oldParsedIp := net.ParseIP(oldIp[0])
-	oldSubnetMask := oldIp[1]
-	newParsedIp := net.ParseIP(newIp[0])
-	newSubnetMask := newIp[1]
-	return strings.EqualFold(oldParsedIp.String(), newParsedIp.String()) && strings.EqualFold(oldSubnetMask, newSubnetMask)
+	if oldAddress != newAddress {
+		return false
+	}
+	if oldIsCidr {
+		return oldPrefix == newPrefix
+	}
+	return true
+}
+
+func parseIpv6DiffValue(value string) (address string, prefixLength int, isCidr bool, ok bool) {
+	ipPart := value
+	prefixLength = -1
+
+	if strings.Contains(value, "/") {
+		parts := strings.Split(value, "/")
+		if len(parts) != 2 || parts[0] == "" || parts[1] == "" {
+			return "", -1, false, false
+		}
+
+		prefix, err := strconv.Atoi(parts[1])
+		if err != nil || prefix < 0 || prefix > 128 {
+			return "", -1, false, false
+		}
+
+		ipPart = parts[0]
+		prefixLength = prefix
+		isCidr = true
+	}
+
+	parsedIP := net.ParseIP(ipPart)
+	if parsedIP == nil || parsedIP.To4() != nil {
+		return "", -1, false, false
+	}
+
+	normalizedIP := parsedIP.To16()
+	if normalizedIP == nil {
+		return "", -1, false, false
+	}
+
+	return normalizedIP.String(), prefixLength, isCidr, true
 }
 
 func ipv6Cidr_blocksSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {

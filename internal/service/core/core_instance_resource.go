@@ -229,10 +229,11 @@ func CoreInstanceResource() *schema.Resource {
 								Schema: map[string]*schema.Schema{
 									// Optional
 									"ipv6address": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-										ForceNew: true,
+										Type:             schema.TypeString,
+										Optional:         true,
+										Computed:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: ipv6CompressionDiffSuppressFunction,
 									},
 									"ipv6id": {
 										Type:     schema.TypeString,
