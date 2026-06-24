@@ -279,6 +279,10 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"login_path": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"max_expiry_duration_in_hours": {
 													Type:     schema.TypeInt,
 													Computed: true,
@@ -927,6 +931,10 @@ func ApigatewayApiDeploymentSpecificationDataSource() *schema.Resource {
 																			Computed: true,
 																		},
 																		"logout_path": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"login_path": {
 																			Type:     schema.TypeString,
 																			Computed: true,
 																		},
@@ -2920,6 +2928,10 @@ func (s *ApigatewayApiDeploymentSpecificationDataSourceCrud) mapToValidationFail
 		if logoutPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "logout_path")); ok {
 			tmp := logoutPath.(string)
 			details.LogoutPath = &tmp
+		}
+		if loginPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "login_path")); ok {
+			tmp := loginPath.(string)
+			details.LoginPath = &tmp
 		}
 		if maxExpiryDurationInHours, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_expiry_duration_in_hours")); ok {
 			tmp := maxExpiryDurationInHours.(int)

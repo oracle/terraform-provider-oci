@@ -86,18 +86,40 @@ func (s *DnsResolverEndpointDataSourceCrud) SetData() error {
 	switch v := (s.Res.ResolverEndpoint).(type) {
 	case oci_dns.ResolverVnicEndpoint:
 		s.D.Set("endpoint_type", "VNIC")
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		if v.PeId != nil {
+			s.D.Set("pe_id", *v.PeId)
+		}
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
 
 		if v.SubnetId != nil {
 			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.VnicId != nil {
+			s.D.Set("vnic_id", *v.VnicId)
 		}
 
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}
 
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
 		if v.ForwardingAddress != nil {
 			s.D.Set("forwarding_address", *v.ForwardingAddress)
 		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.IsForwarding != nil {
 			s.D.Set("is_forwarding", *v.IsForwarding)
@@ -113,6 +135,10 @@ func (s *DnsResolverEndpointDataSourceCrud) SetData() error {
 
 		if v.Name != nil {
 			s.D.Set("name", *v.Name)
+		}
+
+		if v.ResolverId != nil {
+			s.D.Set("resolver_id", *v.ResolverId)
 		}
 
 		if v.Self != nil {

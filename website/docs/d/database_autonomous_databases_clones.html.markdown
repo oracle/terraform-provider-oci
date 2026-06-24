@@ -240,8 +240,10 @@ AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8
   This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, maxCpuCoreCount, dataStorageSizeInTBs, adminPassword, isMTLSConnectionRequired, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 * `lifecycle_details` - Information about the current lifecycle state.
 * `local_adg_auto_failover_max_data_loss_limit` - Parameter that allows users to select an acceptable maximum data loss limit in seconds, up to which Automatic Failover will be triggered when necessary for a Local Autonomous Data Guard
+* `local_standby_db` - Autonomous Data Guard standby database details. 
+	* `availability_domain` - The availability domain of a local Autonomous Data Guard standby database of an Autonomous AI Database Serverless instance.
+	* `external_location_zone` - The external logical zone where the local Autonomous Data Guard is located (Intended for multicloud use).
 * `local_disaster_recovery_type` - Indicates the local disaster recovery (DR) type of the Autonomous AI Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover.
-* `local_standby_db` - Autonomous Data Guard standby database details.* `availability_domain` - The availability domain of a local Autonomous Data Guard standby database of an Autonomous AI Database Serverless instance.
 * `local_adg_resource_pool_leader_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated resource pool leader Autonomous Database in the same region, associated with local Autonomous Data Guard for a dedicated resource pool member.
 	* `lag_time_in_seconds` - The amount of time, in seconds, that the data of the standby database lags the data of the primary database. Can be used to determine the potential data loss in the event of a failover.
 	* `lifecycle_details` - Additional information about the current lifecycle state.
@@ -330,7 +332,8 @@ AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8
 * `security_attributes` - Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `service_console_url` - The URL of the Service Console for the Autonomous AI Database.
 * `source_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous AI Database that was cloned to create the current Autonomous AI Database.
-* `standby_db` - **Deprecated** Autonomous Data Guard standby database details.* `availability_domain` - The availability domain of a local Autonomous Data Guard standby database of an Autonomous AI Database Serverless instance.
+* `standby_db` - **Deprecated** Autonomous Data Guard standby database details.
+	* `external_location_zone` - The external logical zone where the local Autonomous Data Guard is located (Intended for multicloud use).
 	* `lag_time_in_seconds` - The amount of time, in seconds, that the data of the standby database lags the data of the primary database. Can be used to determine the potential data loss in the event of a failover.
 	* `lifecycle_details` - Additional information about the current lifecycle state.
 	* `maintenance_target_component` - The component chosen for maintenance.
@@ -406,4 +409,3 @@ AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8
   For an update operation, if you want to delete all the IPs in the ACL, use an array with a single empty string entry.
 
   This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier. 
-

@@ -20,6 +20,7 @@ type OperationTypeEnum string
 const (
 	OperationTypeStartResource             OperationTypeEnum = "START_RESOURCE"
 	OperationTypeStopResource              OperationTypeEnum = "STOP_RESOURCE"
+	OperationTypeBackupResource            OperationTypeEnum = "BACKUP_RESOURCE"
 	OperationTypeChangeScheduleCompartment OperationTypeEnum = "CHANGE_SCHEDULE_COMPARTMENT"
 	OperationTypeCreateSchedule            OperationTypeEnum = "CREATE_SCHEDULE"
 	OperationTypeUpdateSchedule            OperationTypeEnum = "UPDATE_SCHEDULE"
@@ -28,6 +29,7 @@ const (
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"START_RESOURCE":              OperationTypeStartResource,
 	"STOP_RESOURCE":               OperationTypeStopResource,
+	"BACKUP_RESOURCE":             OperationTypeBackupResource,
 	"CHANGE_SCHEDULE_COMPARTMENT": OperationTypeChangeScheduleCompartment,
 	"CREATE_SCHEDULE":             OperationTypeCreateSchedule,
 	"UPDATE_SCHEDULE":             OperationTypeUpdateSchedule,
@@ -36,6 +38,7 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"start_resource":              OperationTypeStartResource,
 	"stop_resource":               OperationTypeStopResource,
+	"backup_resource":             OperationTypeBackupResource,
 	"change_schedule_compartment": OperationTypeChangeScheduleCompartment,
 	"create_schedule":             OperationTypeCreateSchedule,
 	"update_schedule":             OperationTypeUpdateSchedule,
@@ -55,6 +58,7 @@ func GetOperationTypeEnumStringValues() []string {
 	return []string{
 		"START_RESOURCE",
 		"STOP_RESOURCE",
+		"BACKUP_RESOURCE",
 		"CHANGE_SCHEDULE_COMPARTMENT",
 		"CREATE_SCHEDULE",
 		"UPDATE_SCHEDULE",

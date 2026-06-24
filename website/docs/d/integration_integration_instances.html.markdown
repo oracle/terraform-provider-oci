@@ -134,6 +134,7 @@ The following attributes are exported:
 	* `nsg_ids` - One or more Network security group Ids. This is an optional argument.
 	* `outbound_connection_type` - The type of Outbound Connection.
 	* `subnet_id` - Customer Private Network VCN Subnet OCID. This is a required argument.
+* `process_automation_log_group_id` - OCID of LogAnalytics LogGroup, enabled for given Process Automation attached to integration instance.
 * `security_attributes` - Security attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{
     "oracle-zpr.sensitivity.value" = "low"
     "oracle-zpr.sensitivity.mode" = "enforce"

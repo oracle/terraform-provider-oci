@@ -80,6 +80,8 @@ type VirtualNodePool struct {
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
 	VirtualNodeTags *VirtualNodeTags `mandatory:"false" json:"virtualNodeTags"`
+
+	VirtualNodePoolCyclingDetails *VirtualNodePoolCyclingDetails `mandatory:"false" json:"virtualNodePoolCyclingDetails"`
 }
 
 func (m VirtualNodePool) String() string {

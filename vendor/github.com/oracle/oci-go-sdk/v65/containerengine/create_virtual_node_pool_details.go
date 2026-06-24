@@ -58,6 +58,8 @@ type CreateVirtualNodePoolDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	VirtualNodeTags *VirtualNodeTags `mandatory:"false" json:"virtualNodeTags"`
+
+	VirtualNodePoolCyclingDetails *VirtualNodePoolCyclingDetails `mandatory:"false" json:"virtualNodePoolCyclingDetails"`
 }
 
 func (m CreateVirtualNodePoolDetails) String() string {

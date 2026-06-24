@@ -31,6 +31,12 @@ type ResolverVnicEndpointSummary struct {
 	// A Boolean flag indicating whether or not the resolver endpoint is for listening.
 	IsListening *bool `mandatory:"true" json:"isListening"`
 
+	// The OCID of the resolver endpoint.
+	Id *string `mandatory:"true" json:"id"`
+
+	// The OCID of the resolver.
+	ResolverId *string `mandatory:"true" json:"resolverId"`
+
 	// The OCID of the owning compartment. This will match the resolver that the resolver endpoint is under
 	// and will be updated if the resolver's compartment is changed.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
@@ -48,8 +54,14 @@ type ResolverVnicEndpointSummary struct {
 	// The canonical absolute URL of the resource.
 	Self *string `mandatory:"true" json:"self"`
 
+	FreeformTags map[string]string `mandatory:"true" json:"freeformTags"`
+
+	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
+
 	// The OCID of a subnet. Must be part of the VCN that the resolver is attached to.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
+
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"true" json:"securityAttributes"`
 
 	// An IP address from which forwarded queries may be sent. For VNIC endpoints, this IP address must be part
 	// of the subnet and will be assigned by the system if unspecified when isForwarding is true.
@@ -58,6 +70,12 @@ type ResolverVnicEndpointSummary struct {
 	// An IP address to listen to queries on. For VNIC endpoints this IP address must be part of the
 	// subnet and will be assigned by the system if unspecified when isListening is true.
 	ListeningAddress *string `mandatory:"false" json:"listeningAddress"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint resource that this resolver endpoint corresponds to.
+	PeId *string `mandatory:"false" json:"peId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC resource that this resolver endpoint corresponds to.
+	VnicId *string `mandatory:"false" json:"vnicId"`
 
 	// The current state of the resource.
 	LifecycleState ResolverEndpointSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -88,6 +106,16 @@ func (m ResolverVnicEndpointSummary) GetListeningAddress() *string {
 	return m.ListeningAddress
 }
 
+// GetId returns Id
+func (m ResolverVnicEndpointSummary) GetId() *string {
+	return m.Id
+}
+
+// GetResolverId returns ResolverId
+func (m ResolverVnicEndpointSummary) GetResolverId() *string {
+	return m.ResolverId
+}
+
 // GetCompartmentId returns CompartmentId
 func (m ResolverVnicEndpointSummary) GetCompartmentId() *string {
 	return m.CompartmentId
@@ -111,6 +139,16 @@ func (m ResolverVnicEndpointSummary) GetLifecycleState() ResolverEndpointSummary
 // GetSelf returns Self
 func (m ResolverVnicEndpointSummary) GetSelf() *string {
 	return m.Self
+}
+
+// GetFreeformTags returns FreeformTags
+func (m ResolverVnicEndpointSummary) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+// GetDefinedTags returns DefinedTags
+func (m ResolverVnicEndpointSummary) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
 }
 
 func (m ResolverVnicEndpointSummary) String() string {

@@ -157,11 +157,25 @@ func DnsResolverResource() *schema.Resource {
 						},
 
 						// Computed
+						"defined_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 						"endpoint_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"forwarding_address": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"freeform_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -181,6 +195,19 @@ func DnsResolverResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"pe_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"resolver_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"security_attributes": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 						"self": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -198,6 +225,10 @@ func DnsResolverResource() *schema.Resource {
 							Computed: true,
 						},
 						"time_updated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"vnic_id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -688,16 +719,37 @@ func ResolverEndpointSummaryToMap(obj oci_dns.ResolverEndpointSummary) map[strin
 	case oci_dns.ResolverVnicEndpointSummary:
 		result["endpoint_type"] = "VNIC"
 
+		if v.PeId != nil {
+			result["pe_id"] = string(*v.PeId)
+		}
+		if v.SecurityAttributes != nil {
+			result["security_attributes"] = tfresource.SecurityAttributesToMap(v.SecurityAttributes)
+		}
+
 		if v.SubnetId != nil {
 			result["subnet_id"] = string(*v.SubnetId)
+		}
+
+		if v.VnicId != nil {
+			result["vnic_id"] = string(*v.VnicId)
 		}
 
 		if v.CompartmentId != nil {
 			result["compartment_id"] = string(*v.CompartmentId)
 		}
 
+		if v.DefinedTags != nil {
+			result["defined_tags"] = tfresource.DefinedTagsToMap(v.DefinedTags)
+		}
+
 		if v.ForwardingAddress != nil {
 			result["forwarding_address"] = string(*v.ForwardingAddress)
+		}
+
+		result["freeform_tags"] = v.FreeformTags
+
+		if v.Id != nil {
+			result["id"] = string(*v.Id)
 		}
 
 		if v.IsForwarding != nil {
@@ -714,6 +766,10 @@ func ResolverEndpointSummaryToMap(obj oci_dns.ResolverEndpointSummary) map[strin
 
 		if v.Name != nil {
 			result["name"] = string(*v.Name)
+		}
+
+		if v.ResolverId != nil {
+			result["resolver_id"] = string(*v.ResolverId)
 		}
 
 		if v.Self != nil {

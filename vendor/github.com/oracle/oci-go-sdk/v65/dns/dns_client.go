@@ -739,9 +739,10 @@ func (client DnsClient) createView(ctx context.Context, request common.OCIReques
 // # See also
 //
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateZone.go.html to see an example of how to use CreateZone API.
+// A default retry strategy applies to this operation CreateZone()
 func (client DnsClient) CreateZone(ctx context.Context, request CreateZoneRequest) (response CreateZoneResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -801,9 +802,10 @@ func (client DnsClient) createZone(ctx context.Context, request common.OCIReques
 // # See also
 //
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateZoneFromZoneFile.go.html to see an example of how to use CreateZoneFromZoneFile API.
+// A default retry strategy applies to this operation CreateZoneFromZoneFile()
 func (client DnsClient) CreateZoneFromZoneFile(ctx context.Context, request CreateZoneFromZoneFileRequest) (response CreateZoneFromZoneFileResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
