@@ -51,7 +51,6 @@ import (
 	tf_dataflow "github.com/oracle/terraform-provider-oci/internal/service/dataflow"
 	tf_dataintegration "github.com/oracle/terraform-provider-oci/internal/service/dataintegration"
 	tf_datascience "github.com/oracle/terraform-provider-oci/internal/service/datascience"
-	tf_dblm "github.com/oracle/terraform-provider-oci/internal/service/dblm"
 	tf_dbmulticloud "github.com/oracle/terraform-provider-oci/internal/service/dbmulticloud"
 	tf_delegate_access_control "github.com/oracle/terraform-provider-oci/internal/service/delegate_access_control"
 	tf_demand_signal "github.com/oracle/terraform-provider-oci/internal/service/demand_signal"
@@ -287,9 +286,6 @@ func init() {
 	if common.CheckForEnabledServices("datascience") {
 		tf_datascience.RegisterResource()
 	}
-	if common.CheckForEnabledServices("dblm") {
-		tf_dblm.RegisterResource()
-	}
 	if common.CheckForEnabledServices("dbmulticloud") {
 		tf_dbmulticloud.RegisterResource()
 	}
@@ -301,9 +297,6 @@ func init() {
 	}
 	if common.CheckForEnabledServices("desktops") {
 		tf_desktops.RegisterResource()
-	}
-	if common.CheckForEnabledServices("dblm") {
-		tf_dblm.RegisterResource()
 	}
 	if common.CheckForEnabledServices("devops") {
 		tf_devops.RegisterResource()

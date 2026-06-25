@@ -163,7 +163,6 @@ Make sure the `output_path` is empty before running resource discovery
     * `dataflow` - Discovers dataflow resources within the specified compartment
     * `dataintegration` - Discovers dataintegration resources within the specified compartment
     * `datascience` - Discovers datascience resources within the specified compartment
-    * `dblm` - Discovers dblm resources within the specified compartment
     * `dbmulticloud` - Discovers dbmulticloud resources within the specified compartment
     * `delegate_access_control` - Discovers delegate_access_control resources within the specified compartment
     * `demand_signal` - Discovers demand_signal resources within the specified compartment
@@ -793,10 +792,6 @@ datascience
 * oci\_datascience\_model\_group\_artifact
 * oci\_datascience\_model\_group
 * oci\_datascience\_compute\_target
-
-dblm
-
-* oci\_dblm\_vulnerability\_scan
 
 dbmulticloud
 
