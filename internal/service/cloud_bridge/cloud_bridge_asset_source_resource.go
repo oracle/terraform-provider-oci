@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -26,11 +27,11 @@ func CloudBridgeAssetSourceResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCloudBridgeAssetSource,
-		Read:     readCloudBridgeAssetSource,
-		Update:   updateCloudBridgeAssetSource,
-		Delete:   deleteCloudBridgeAssetSource,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createCloudBridgeAssetSourceWithContext,
+		ReadContext:   readCloudBridgeAssetSourceWithContext,
+		UpdateContext: updateCloudBridgeAssetSourceWithContext,
+		DeleteContext: deleteCloudBridgeAssetSourceWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"assets_compartment_id": {
@@ -203,41 +204,41 @@ func CloudBridgeAssetSourceResource() *schema.Resource {
 	}
 }
 
-func createCloudBridgeAssetSource(d *schema.ResourceData, m interface{}) error {
+func createCloudBridgeAssetSourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudBridgeAssetSourceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DiscoveryClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).CommonClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readCloudBridgeAssetSource(d *schema.ResourceData, m interface{}) error {
+func readCloudBridgeAssetSourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudBridgeAssetSourceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DiscoveryClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).CommonClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateCloudBridgeAssetSource(d *schema.ResourceData, m interface{}) error {
+func updateCloudBridgeAssetSourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudBridgeAssetSourceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DiscoveryClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).CommonClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteCloudBridgeAssetSource(d *schema.ResourceData, m interface{}) error {
+func deleteCloudBridgeAssetSourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CloudBridgeAssetSourceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DiscoveryClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).CommonClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type CloudBridgeAssetSourceResourceCrud struct {
@@ -278,7 +279,7 @@ func (s *CloudBridgeAssetSourceResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CloudBridgeAssetSourceResourceCrud) Create() error {
+func (s *CloudBridgeAssetSourceResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_cloud_bridge.CreateAssetSourceRequest{}
 	err := s.populateTopLevelPolymorphicCreateAssetSourceRequest(&request)
 	if err != nil {
@@ -287,7 +288,7 @@ func (s *CloudBridgeAssetSourceResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	response, err := s.Client.CreateAssetSource(context.Background(), request)
+	response, err := s.Client.CreateAssetSource(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -298,20 +299,20 @@ func (s *CloudBridgeAssetSourceResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getAssetSourceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge"), oci_cloud_bridge.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getAssetSourceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge"), oci_cloud_bridge.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *CloudBridgeAssetSourceResourceCrud) getAssetSourceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *CloudBridgeAssetSourceResourceCrud) getAssetSourceFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_cloud_bridge.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	assetSourceId, err := assetSourceWaitForWorkRequest(workId, "ocbassetsource",
+	assetSourceId, err := assetSourceWaitForWorkRequest(ctx, workId, "ocbassetsource",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, assetSourceId)
-		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.WorkRequestClient.CancelWorkRequest(ctx,
 			oci_cloud_bridge.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -325,7 +326,7 @@ func (s *CloudBridgeAssetSourceResourceCrud) getAssetSourceFromWorkRequest(workI
 	}
 	s.D.SetId(*assetSourceId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func assetSourceWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -351,7 +352,7 @@ func assetSourceWorkRequestShouldRetryFunc(timeout time.Duration) func(response 
 	}
 }
 
-func assetSourceWaitForWorkRequest(wId *string, entityType string, action oci_cloud_bridge.ActionTypeEnum,
+func assetSourceWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_cloud_bridge.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_cloud_bridge.CommonClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "cloud_bridge")
 	retryPolicy.ShouldRetryOperation = assetSourceWorkRequestShouldRetryFunc(timeout)
@@ -370,7 +371,7 @@ func assetSourceWaitForWorkRequest(wId *string, entityType string, action oci_cl
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_cloud_bridge.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -382,7 +383,7 @@ func assetSourceWaitForWorkRequest(wId *string, entityType string, action oci_cl
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -399,14 +400,14 @@ func assetSourceWaitForWorkRequest(wId *string, entityType string, action oci_cl
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_cloud_bridge.OperationStatusFailed || response.Status == oci_cloud_bridge.OperationStatusCanceled {
-		return nil, getErrorFromCloudBridgeAssetSourceWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromCloudBridgeAssetSourceWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromCloudBridgeAssetSourceWorkRequest(client *oci_cloud_bridge.CommonClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_cloud_bridge.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromCloudBridgeAssetSourceWorkRequest(ctx context.Context, client *oci_cloud_bridge.CommonClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_cloud_bridge.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_cloud_bridge.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -428,7 +429,7 @@ func getErrorFromCloudBridgeAssetSourceWorkRequest(client *oci_cloud_bridge.Comm
 	return workRequestErr
 }
 
-func (s *CloudBridgeAssetSourceResourceCrud) Get() error {
+func (s *CloudBridgeAssetSourceResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_cloud_bridge.GetAssetSourceRequest{}
 
 	tmp := s.D.Id()
@@ -436,7 +437,7 @@ func (s *CloudBridgeAssetSourceResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	response, err := s.Client.GetAssetSource(context.Background(), request)
+	response, err := s.Client.GetAssetSource(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -445,11 +446,11 @@ func (s *CloudBridgeAssetSourceResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CloudBridgeAssetSourceResourceCrud) Update() error {
+func (s *CloudBridgeAssetSourceResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -463,16 +464,16 @@ func (s *CloudBridgeAssetSourceResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	response, err := s.Client.UpdateAssetSource(context.Background(), request)
+	response, err := s.Client.UpdateAssetSource(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAssetSourceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge"), oci_cloud_bridge.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAssetSourceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge"), oci_cloud_bridge.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *CloudBridgeAssetSourceResourceCrud) Delete() error {
+func (s *CloudBridgeAssetSourceResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_cloud_bridge.DeleteAssetSourceRequest{}
 
 	tmp := s.D.Id()
@@ -480,14 +481,14 @@ func (s *CloudBridgeAssetSourceResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	response, err := s.Client.DeleteAssetSource(context.Background(), request)
+	response, err := s.Client.DeleteAssetSource(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := assetSourceWaitForWorkRequest(workId, "ocbassetsource",
+	_, delWorkRequestErr := assetSourceWaitForWorkRequest(ctx, workId, "ocbassetsource",
 		oci_cloud_bridge.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
@@ -1441,7 +1442,7 @@ func (s *CloudBridgeAssetSourceResourceCrud) populateTopLevelPolymorphicUpdateAs
 	return nil
 }
 
-func (s *CloudBridgeAssetSourceResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *CloudBridgeAssetSourceResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_cloud_bridge.ChangeAssetSourceCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -1452,12 +1453,12 @@ func (s *CloudBridgeAssetSourceResourceCrud) updateCompartment(compartment inter
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_bridge")
 
-	_, err := s.Client.ChangeAssetSourceCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeAssetSourceCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

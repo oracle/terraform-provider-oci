@@ -6,6 +6,7 @@ package queue
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_queue "github.com/oracle/oci-go-sdk/v65/queue"
 
@@ -19,15 +20,15 @@ func QueueConsumerGroupDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(QueueConsumerGroupResource(), fieldMap, readSingularQueueConsumerGroup)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(QueueConsumerGroupResource(), fieldMap, readSingularQueueConsumerGroupWithContext)
 }
 
-func readSingularQueueConsumerGroup(d *schema.ResourceData, m interface{}) error {
+func readSingularQueueConsumerGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &QueueConsumerGroupDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).QueueAdminClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type QueueConsumerGroupDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *QueueConsumerGroupDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *QueueConsumerGroupDataSourceCrud) Get() error {
+func (s *QueueConsumerGroupDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_queue.GetConsumerGroupRequest{}
 
 	if consumerGroupId, ok := s.D.GetOkExists("consumer_group_id"); ok {
@@ -50,7 +51,7 @@ func (s *QueueConsumerGroupDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "queue")
 
-	response, err := s.Client.GetConsumerGroup(context.Background(), request)
+	response, err := s.Client.GetConsumerGroup(ctx, request)
 	if err != nil {
 		return err
 	}

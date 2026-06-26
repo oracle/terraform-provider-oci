@@ -6,6 +6,7 @@ package queue
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_queue "github.com/oracle/oci-go-sdk/v65/queue"
 
@@ -15,7 +16,7 @@ import (
 
 func QueueConsumerGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readQueueConsumerGroups,
+		ReadContext: readQueueConsumerGroupsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"display_name": {
@@ -52,12 +53,12 @@ func QueueConsumerGroupsDataSource() *schema.Resource {
 	}
 }
 
-func readQueueConsumerGroups(d *schema.ResourceData, m interface{}) error {
+func readQueueConsumerGroupsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &QueueConsumerGroupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).QueueAdminClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type QueueConsumerGroupsDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *QueueConsumerGroupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *QueueConsumerGroupsDataSourceCrud) Get() error {
+func (s *QueueConsumerGroupsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_queue.ListConsumerGroupsRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -94,7 +95,7 @@ func (s *QueueConsumerGroupsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "queue")
 
-	response, err := s.Client.ListConsumerGroups(context.Background(), request)
+	response, err := s.Client.ListConsumerGroups(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *QueueConsumerGroupsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListConsumerGroups(context.Background(), request)
+		listResponse, err := s.Client.ListConsumerGroups(ctx, request)
 		if err != nil {
 			return err
 		}

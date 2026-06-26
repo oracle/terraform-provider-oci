@@ -12,6 +12,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -21,10 +22,10 @@ import (
 
 func AppmgmtControlMonitorPluginManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createAppmgmtControlMonitorPluginManagement,
-		Read:     readAppmgmtControlMonitorPluginManagement,
-		Delete:   deleteAppmgmtControlMonitorPluginManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createAppmgmtControlMonitorPluginManagementWithContext,
+		ReadContext:   readAppmgmtControlMonitorPluginManagementWithContext,
+		DeleteContext: deleteAppmgmtControlMonitorPluginManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"monitored_instance_id": {
@@ -60,23 +61,23 @@ func AppmgmtControlMonitorPluginManagementResource() *schema.Resource {
 	}
 }
 
-func createAppmgmtControlMonitorPluginManagement(d *schema.ResourceData, m interface{}) error {
+func createAppmgmtControlMonitorPluginManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AppmgmtControlMonitorPluginManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AppmgmtControlClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readAppmgmtControlMonitorPluginManagement(d *schema.ResourceData, m interface{}) error {
+func readAppmgmtControlMonitorPluginManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AppmgmtControlMonitorPluginManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AppmgmtControlClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteAppmgmtControlMonitorPluginManagement(d *schema.ResourceData, m interface{}) error {
+func deleteAppmgmtControlMonitorPluginManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	//N/A - once deactivate endpoint will be implemented/public, use it here
 	return nil
 }
@@ -92,7 +93,7 @@ func (s *AppmgmtControlMonitorPluginManagementResourceCrud) ID() string {
 	return *s.Res.InstanceId
 }
 
-func (s *AppmgmtControlMonitorPluginManagementResourceCrud) Create() error {
+func (s *AppmgmtControlMonitorPluginManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_appmgmt_control.ActivateMonitoringPluginRequest{}
 
 	if monitoredInstanceId, ok := s.D.GetOkExists("monitored_instance_id"); ok {
@@ -102,14 +103,14 @@ func (s *AppmgmtControlMonitorPluginManagementResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "appmgmt_control")
 
-	response, err := s.Client.ActivateMonitoringPlugin(context.Background(), request)
+	response, err := s.Client.ActivateMonitoringPlugin(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_appmgmt_control.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_appmgmt_control.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -125,14 +126,14 @@ func (s *AppmgmtControlMonitorPluginManagementResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getMonitorPluginManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "appmgmt_control"), oci_appmgmt_control.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getMonitorPluginManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "appmgmt_control"), oci_appmgmt_control.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *AppmgmtControlMonitorPluginManagementResourceCrud) getMonitorPluginManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *AppmgmtControlMonitorPluginManagementResourceCrud) getMonitorPluginManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_appmgmt_control.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	monitorPluginManagementId, err := monitorPluginManagementWaitForWorkRequest(workId, "monitoredInstance",
+	monitorPluginManagementId, err := monitorPluginManagementWaitForWorkRequest(ctx, workId, "monitoredInstance",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -140,7 +141,7 @@ func (s *AppmgmtControlMonitorPluginManagementResourceCrud) getMonitorPluginMana
 	}
 	s.D.SetId(*monitorPluginManagementId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func monitorPluginManagementWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -166,7 +167,7 @@ func monitorPluginManagementWorkRequestShouldRetryFunc(timeout time.Duration) fu
 	}
 }
 
-func monitorPluginManagementWaitForWorkRequest(wId *string, entityType string, action oci_appmgmt_control.ActionTypeEnum,
+func monitorPluginManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_appmgmt_control.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_appmgmt_control.AppmgmtControlClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "appmgmt_control")
 	retryPolicy.ShouldRetryOperation = monitorPluginManagementWorkRequestShouldRetryFunc(timeout)
@@ -185,7 +186,7 @@ func monitorPluginManagementWaitForWorkRequest(wId *string, entityType string, a
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_appmgmt_control.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -197,7 +198,7 @@ func monitorPluginManagementWaitForWorkRequest(wId *string, entityType string, a
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -214,14 +215,14 @@ func monitorPluginManagementWaitForWorkRequest(wId *string, entityType string, a
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_appmgmt_control.OperationStatusFailed || response.Status == oci_appmgmt_control.OperationStatusCanceled {
-		return nil, getErrorFromAppmgmtControlMonitorPluginManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromAppmgmtControlMonitorPluginManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromAppmgmtControlMonitorPluginManagementWorkRequest(client *oci_appmgmt_control.AppmgmtControlClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_appmgmt_control.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromAppmgmtControlMonitorPluginManagementWorkRequest(ctx context.Context, client *oci_appmgmt_control.AppmgmtControlClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_appmgmt_control.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_appmgmt_control.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -243,7 +244,7 @@ func getErrorFromAppmgmtControlMonitorPluginManagementWorkRequest(client *oci_ap
 	return workRequestErr
 }
 
-func (s *AppmgmtControlMonitorPluginManagementResourceCrud) Get() error {
+func (s *AppmgmtControlMonitorPluginManagementResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_appmgmt_control.GetMonitoredInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -251,7 +252,7 @@ func (s *AppmgmtControlMonitorPluginManagementResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "appmgmt_control")
 
-	response, err := s.Client.GetMonitoredInstance(context.Background(), request)
+	response, err := s.Client.GetMonitoredInstance(ctx, request)
 	if err != nil {
 		return err
 	}

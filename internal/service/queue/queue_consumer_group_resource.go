@@ -11,6 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -25,11 +26,11 @@ func QueueConsumerGroupResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createQueueConsumerGroup,
-		Read:     readQueueConsumerGroup,
-		Update:   updateQueueConsumerGroup,
-		Delete:   deleteQueueConsumerGroup,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createQueueConsumerGroupWithContext,
+		ReadContext:   readQueueConsumerGroupWithContext,
+		UpdateContext: updateQueueConsumerGroupWithContext,
+		DeleteContext: deleteQueueConsumerGroupWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"display_name": {
@@ -98,37 +99,37 @@ func QueueConsumerGroupResource() *schema.Resource {
 	}
 }
 
-func createQueueConsumerGroup(d *schema.ResourceData, m interface{}) error {
+func createQueueConsumerGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &QueueConsumerGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).QueueAdminClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readQueueConsumerGroup(d *schema.ResourceData, m interface{}) error {
+func readQueueConsumerGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &QueueConsumerGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).QueueAdminClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateQueueConsumerGroup(d *schema.ResourceData, m interface{}) error {
+func updateQueueConsumerGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &QueueConsumerGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).QueueAdminClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteQueueConsumerGroup(d *schema.ResourceData, m interface{}) error {
+func deleteQueueConsumerGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &QueueConsumerGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).QueueAdminClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type QueueConsumerGroupResourceCrud struct {
@@ -166,7 +167,7 @@ func (s *QueueConsumerGroupResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *QueueConsumerGroupResourceCrud) Create() error {
+func (s *QueueConsumerGroupResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_queue.CreateConsumerGroupRequest{}
 
 	if consumerGroupFilter, ok := s.D.GetOkExists("consumer_group_filter"); ok {
@@ -208,14 +209,14 @@ func (s *QueueConsumerGroupResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue")
 
-	response, err := s.Client.CreateConsumerGroup(context.Background(), request)
+	response, err := s.Client.CreateConsumerGroup(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_queue.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_queue.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -231,14 +232,14 @@ func (s *QueueConsumerGroupResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getConsumerGroupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue"), oci_queue.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getConsumerGroupFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue"), oci_queue.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *QueueConsumerGroupResourceCrud) getConsumerGroupFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *QueueConsumerGroupResourceCrud) getConsumerGroupFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_queue.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	consumerGroupId, err := consumerGroupWaitForWorkRequest(workId, "consumergroup",
+	consumerGroupId, err := consumerGroupWaitForWorkRequest(ctx, workId, "consumergroup",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -246,7 +247,7 @@ func (s *QueueConsumerGroupResourceCrud) getConsumerGroupFromWorkRequest(workId 
 	}
 	s.D.SetId(*consumerGroupId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func consumerGroupWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -272,7 +273,7 @@ func consumerGroupWorkRequestShouldRetryFunc(timeout time.Duration) func(respons
 	}
 }
 
-func consumerGroupWaitForWorkRequest(wId *string, entityType string, action oci_queue.ActionTypeEnum,
+func consumerGroupWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_queue.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_queue.QueueAdminClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "queue")
 	retryPolicy.ShouldRetryOperation = consumerGroupWorkRequestShouldRetryFunc(timeout)
@@ -291,7 +292,7 @@ func consumerGroupWaitForWorkRequest(wId *string, entityType string, action oci_
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_queue.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -303,7 +304,7 @@ func consumerGroupWaitForWorkRequest(wId *string, entityType string, action oci_
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -320,14 +321,14 @@ func consumerGroupWaitForWorkRequest(wId *string, entityType string, action oci_
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_queue.OperationStatusFailed || response.Status == oci_queue.OperationStatusCanceled {
-		return nil, getErrorFromQueueConsumerGroupWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromQueueConsumerGroupWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromQueueConsumerGroupWorkRequest(client *oci_queue.QueueAdminClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_queue.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromQueueConsumerGroupWorkRequest(ctx context.Context, client *oci_queue.QueueAdminClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_queue.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_queue.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -349,7 +350,7 @@ func getErrorFromQueueConsumerGroupWorkRequest(client *oci_queue.QueueAdminClien
 	return workRequestErr
 }
 
-func (s *QueueConsumerGroupResourceCrud) Get() error {
+func (s *QueueConsumerGroupResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_queue.GetConsumerGroupRequest{}
 
 	tmp := s.D.Id()
@@ -357,7 +358,7 @@ func (s *QueueConsumerGroupResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue")
 
-	response, err := s.Client.GetConsumerGroup(context.Background(), request)
+	response, err := s.Client.GetConsumerGroup(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -366,7 +367,7 @@ func (s *QueueConsumerGroupResourceCrud) Get() error {
 	return nil
 }
 
-func (s *QueueConsumerGroupResourceCrud) Update() error {
+func (s *QueueConsumerGroupResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_queue.UpdateConsumerGroupRequest{}
 
 	tmp := s.D.Id()
@@ -406,16 +407,16 @@ func (s *QueueConsumerGroupResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue")
 
-	response, err := s.Client.UpdateConsumerGroup(context.Background(), request)
+	response, err := s.Client.UpdateConsumerGroup(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getConsumerGroupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue"), oci_queue.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getConsumerGroupFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue"), oci_queue.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *QueueConsumerGroupResourceCrud) Delete() error {
+func (s *QueueConsumerGroupResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_queue.DeleteConsumerGroupRequest{}
 
 	tmp := s.D.Id()
@@ -423,14 +424,14 @@ func (s *QueueConsumerGroupResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue")
 
-	response, err := s.Client.DeleteConsumerGroup(context.Background(), request)
+	response, err := s.Client.DeleteConsumerGroup(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := consumerGroupWaitForWorkRequest(workId, "consumergroup",
+	_, delWorkRequestErr := consumerGroupWaitForWorkRequest(ctx, workId, "consumergroup",
 		oci_queue.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

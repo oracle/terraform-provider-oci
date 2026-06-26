@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -21,11 +22,11 @@ import (
 
 func ManagedKafkaKafkaClusterSuperusersManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createManagedKafkaKafkaClusterSuperusersManagement,
-		Read:     readManagedKafkaKafkaClusterSuperusersManagement,
-		Update:   updateManagedKafkaKafkaClusterSuperusersManagement,
-		Delete:   deleteManagedKafkaKafkaClusterSuperusersManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createManagedKafkaKafkaClusterSuperusersManagement,
+		ReadContext:   readManagedKafkaKafkaClusterSuperusersManagement,
+		UpdateContext: updateManagedKafkaKafkaClusterSuperusersManagement,
+		DeleteContext: deleteManagedKafkaKafkaClusterSuperusersManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"kafka_cluster_id": {
@@ -57,36 +58,36 @@ func ManagedKafkaKafkaClusterSuperusersManagementResource() *schema.Resource {
 	}
 }
 
-func createManagedKafkaKafkaClusterSuperusersManagement(d *schema.ResourceData, m interface{}) error {
+func createManagedKafkaKafkaClusterSuperusersManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ManagedKafkaKafkaClusterSuperusersManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).KafkaClusterClient()
 	sync.Res = &ManagedKafkaKafkaClusterSuperusersManagementResponse{}
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readManagedKafkaKafkaClusterSuperusersManagement(d *schema.ResourceData, m interface{}) error {
+func readManagedKafkaKafkaClusterSuperusersManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func updateManagedKafkaKafkaClusterSuperusersManagement(d *schema.ResourceData, m interface{}) error {
+func updateManagedKafkaKafkaClusterSuperusersManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ManagedKafkaKafkaClusterSuperusersManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).KafkaClusterClient()
 	sync.Res = &ManagedKafkaKafkaClusterSuperusersManagementResponse{}
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteManagedKafkaKafkaClusterSuperusersManagement(d *schema.ResourceData, m interface{}) error {
+func deleteManagedKafkaKafkaClusterSuperusersManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ManagedKafkaKafkaClusterSuperusersManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).KafkaClusterClient()
 	sync.Res = &ManagedKafkaKafkaClusterSuperusersManagementResponse{}
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type ManagedKafkaKafkaClusterSuperusersManagementResponse struct {
@@ -105,7 +106,7 @@ func (s *ManagedKafkaKafkaClusterSuperusersManagementResourceCrud) ID() string {
 	return tfresource.GenerateDataSourceHashID("ManagedKafkaKafkaClusterSuperusersManagementResource-", ManagedKafkaKafkaClusterSuperusersManagementResource(), s.D)
 }
 
-func (s *ManagedKafkaKafkaClusterSuperusersManagementResourceCrud) Create() error {
+func (s *ManagedKafkaKafkaClusterSuperusersManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_superuser"); ok {
 		operation = enableOperation.(bool)
@@ -131,13 +132,13 @@ func (s *ManagedKafkaKafkaClusterSuperusersManagementResourceCrud) Create() erro
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka")
 
-		response, err := s.Client.EnableSuperuser(context.Background(), request)
+		response, err := s.Client.EnableSuperuser(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getKafkaClusterSuperusersManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka"), oci_managed_kafka.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getKafkaClusterSuperusersManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka"), oci_managed_kafka.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -154,13 +155,13 @@ func (s *ManagedKafkaKafkaClusterSuperusersManagementResourceCrud) Create() erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka")
 
-	response, err := s.Client.DisableSuperuser(context.Background(), request)
+	response, err := s.Client.DisableSuperuser(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getKafkaClusterSuperusersManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka"), oci_managed_kafka.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getKafkaClusterSuperusersManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka"), oci_managed_kafka.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -168,17 +169,17 @@ func (s *ManagedKafkaKafkaClusterSuperusersManagementResourceCrud) Create() erro
 	return nil
 }
 
-func (s *ManagedKafkaKafkaClusterSuperusersManagementResourceCrud) getKafkaClusterSuperusersManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ManagedKafkaKafkaClusterSuperusersManagementResourceCrud) getKafkaClusterSuperusersManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_managed_kafka.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	kafkaClusterSuperusersManagementId, err := kafkaClusterSuperusersManagementWaitForWorkRequest(workId, "kafkacluster",
+	kafkaClusterSuperusersManagementId, err := kafkaClusterSuperusersManagementWaitForWorkRequest(ctx, workId, "kafkacluster",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, kafkaClusterSuperusersManagementId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_managed_kafka.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -217,7 +218,7 @@ func kafkaClusterSuperusersManagementWorkRequestShouldRetryFunc(timeout time.Dur
 	}
 }
 
-func kafkaClusterSuperusersManagementWaitForWorkRequest(wId *string, entityType string, action oci_managed_kafka.ActionTypeEnum,
+func kafkaClusterSuperusersManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_managed_kafka.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_managed_kafka.KafkaClusterClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "managed_kafka")
 	retryPolicy.ShouldRetryOperation = kafkaClusterSuperusersManagementWorkRequestShouldRetryFunc(timeout)
@@ -236,7 +237,7 @@ func kafkaClusterSuperusersManagementWaitForWorkRequest(wId *string, entityType 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_managed_kafka.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -248,7 +249,7 @@ func kafkaClusterSuperusersManagementWaitForWorkRequest(wId *string, entityType 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -265,14 +266,14 @@ func kafkaClusterSuperusersManagementWaitForWorkRequest(wId *string, entityType 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_managed_kafka.OperationStatusFailed || response.Status == oci_managed_kafka.OperationStatusCanceled {
-		return nil, getErrorFromManagedKafkaKafkaClusterSuperusersManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromManagedKafkaKafkaClusterSuperusersManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromManagedKafkaKafkaClusterSuperusersManagementWorkRequest(client *oci_managed_kafka.KafkaClusterClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_managed_kafka.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromManagedKafkaKafkaClusterSuperusersManagementWorkRequest(ctx context.Context, client *oci_managed_kafka.KafkaClusterClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_managed_kafka.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_managed_kafka.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -294,7 +295,7 @@ func getErrorFromManagedKafkaKafkaClusterSuperusersManagementWorkRequest(client 
 	return workRequestErr
 }
 
-func (s *ManagedKafkaKafkaClusterSuperusersManagementResourceCrud) Update() error {
+func (s *ManagedKafkaKafkaClusterSuperusersManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_superuser"); ok {
 		operation = enableOperation.(bool)
@@ -320,13 +321,13 @@ func (s *ManagedKafkaKafkaClusterSuperusersManagementResourceCrud) Update() erro
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka")
 
-		response, err := s.Client.EnableSuperuser(context.Background(), request)
+		response, err := s.Client.EnableSuperuser(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getKafkaClusterSuperusersManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka"), oci_managed_kafka.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getKafkaClusterSuperusersManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka"), oci_managed_kafka.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -343,13 +344,13 @@ func (s *ManagedKafkaKafkaClusterSuperusersManagementResourceCrud) Update() erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka")
 
-	response, err := s.Client.DisableSuperuser(context.Background(), request)
+	response, err := s.Client.DisableSuperuser(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getKafkaClusterSuperusersManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka"), oci_managed_kafka.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getKafkaClusterSuperusersManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka"), oci_managed_kafka.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -357,7 +358,7 @@ func (s *ManagedKafkaKafkaClusterSuperusersManagementResourceCrud) Update() erro
 	return nil
 }
 
-func (s *ManagedKafkaKafkaClusterSuperusersManagementResourceCrud) Delete() error {
+func (s *ManagedKafkaKafkaClusterSuperusersManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_superuser"); ok {
 		operation = enableOperation.(bool)
@@ -376,13 +377,13 @@ func (s *ManagedKafkaKafkaClusterSuperusersManagementResourceCrud) Delete() erro
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka")
 
-	response, err := s.Client.DisableSuperuser(context.Background(), request)
+	response, err := s.Client.DisableSuperuser(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getKafkaClusterSuperusersManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka"), oci_managed_kafka.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getKafkaClusterSuperusersManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "managed_kafka"), oci_managed_kafka.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}

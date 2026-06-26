@@ -15,6 +15,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_object_storage "github.com/oracle/oci-go-sdk/v65/objectstorage"
 )
@@ -24,11 +25,11 @@ func ObjectStoragePrivateEndpointResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createObjectStoragePrivateEndpoint,
-		Read:     readObjectStoragePrivateEndpoint,
-		Update:   updateObjectStoragePrivateEndpoint,
-		Delete:   deleteObjectStoragePrivateEndpoint,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createObjectStoragePrivateEndpointWithContext,
+		ReadContext:   readObjectStoragePrivateEndpointWithContext,
+		UpdateContext: updateObjectStoragePrivateEndpointWithContext,
+		DeleteContext: deleteObjectStoragePrivateEndpointWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -163,41 +164,41 @@ func ObjectStoragePrivateEndpointResource() *schema.Resource {
 	}
 }
 
-func createObjectStoragePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func createObjectStoragePrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ObjectStoragePrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ObjectStorageClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResourceUsingHybridPolling(sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceUsingHybridPolling(sync))
 }
 
-func readObjectStoragePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func readObjectStoragePrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ObjectStoragePrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ObjectStorageClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateObjectStoragePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func updateObjectStoragePrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ObjectStoragePrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ObjectStorageClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResourceUsingHybridPolling(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceUsingHybridPolling(d, sync))
 }
 
-func deleteObjectStoragePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func deleteObjectStoragePrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ObjectStoragePrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ObjectStorageClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResourceUsingHybridPolling(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceUsingHybridPolling(d, sync))
 }
 
 type ObjectStoragePrivateEndpointResourceCrud struct {
@@ -387,7 +388,7 @@ func (s *ObjectStoragePrivateEndpointResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *ObjectStoragePrivateEndpointResourceCrud) Create() error {
+func (s *ObjectStoragePrivateEndpointResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_object_storage.CreatePrivateEndpointRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -493,7 +494,7 @@ func (s *ObjectStoragePrivateEndpointResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
-	response, err := s.Client.CreatePrivateEndpoint(context.Background(), request)
+	response, err := s.Client.CreatePrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -508,13 +509,17 @@ func (s *ObjectStoragePrivateEndpointResourceCrud) Create() error {
 	getReq := oci_object_storage.GetPrivateEndpointRequest{}
 	getReq.NamespaceName = request.NamespaceName
 	getReq.PeName = request.Name
-	getResp, err := s.Client.GetPrivateEndpoint(context.Background(), getReq)
+	getResp, err := s.Client.GetPrivateEndpoint(ctx, getReq)
 	s.Res = &getResp.PrivateEndpoint
 
 	return nil
 }
 
-func (s *ObjectStoragePrivateEndpointResourceCrud) Get() error {
+func (s *ObjectStoragePrivateEndpointResourceCrud) Create() error {
+	return s.CreateWithContext(context.Background())
+}
+
+func (s *ObjectStoragePrivateEndpointResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_object_storage.GetPrivateEndpointRequest{}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -537,7 +542,7 @@ func (s *ObjectStoragePrivateEndpointResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
-	response, err := s.Client.GetPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.GetPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -547,7 +552,11 @@ func (s *ObjectStoragePrivateEndpointResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ObjectStoragePrivateEndpointResourceCrud) Update() error {
+func (s *ObjectStoragePrivateEndpointResourceCrud) Get() error {
+	return s.GetWithContext(context.Background())
+}
+
+func (s *ObjectStoragePrivateEndpointResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_object_storage.UpdatePrivateEndpointRequest{}
 
 	if peName, ok := s.D.GetOkExists("name"); ok {
@@ -578,7 +587,7 @@ func (s *ObjectStoragePrivateEndpointResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
-	response, err := s.Client.UpdatePrivateEndpoint(context.Background(), request)
+	response, err := s.Client.UpdatePrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -593,13 +602,17 @@ func (s *ObjectStoragePrivateEndpointResourceCrud) Update() error {
 	getReq := oci_object_storage.GetPrivateEndpointRequest{}
 	getReq.NamespaceName = request.NamespaceName
 	getReq.PeName = request.Name
-	getResp, err := s.Client.GetPrivateEndpoint(context.Background(), getReq)
+	getResp, err := s.Client.GetPrivateEndpoint(ctx, getReq)
 	s.Res = &getResp.PrivateEndpoint
 
 	return nil
 }
 
-func (s *ObjectStoragePrivateEndpointResourceCrud) Delete() error {
+func (s *ObjectStoragePrivateEndpointResourceCrud) Update() error {
+	return s.UpdateWithContext(context.Background())
+}
+
+func (s *ObjectStoragePrivateEndpointResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_object_storage.DeletePrivateEndpointRequest{}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -614,7 +627,7 @@ func (s *ObjectStoragePrivateEndpointResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
-	response, err := s.Client.DeletePrivateEndpoint(context.Background(), request)
+	response, err := s.Client.DeletePrivateEndpoint(ctx, request)
 	if err != nil {
 		log.Printf("[ERR] DeletePrivateOpertion for privateEndpoint: %s return an erro: %s", *request.PeName, err)
 		return err
@@ -628,6 +641,10 @@ func (s *ObjectStoragePrivateEndpointResourceCrud) Delete() error {
 	}
 
 	return nil
+}
+
+func (s *ObjectStoragePrivateEndpointResourceCrud) Delete() error {
+	return s.DeleteWithContext(context.Background())
 }
 
 func GetPrivateEndpointCompositeId(name string, namespace string) string {

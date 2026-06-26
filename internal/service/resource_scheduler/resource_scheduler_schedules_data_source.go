@@ -6,6 +6,7 @@ package resource_scheduler
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_resource_scheduler "github.com/oracle/oci-go-sdk/v65/resourcescheduler"
 
@@ -15,7 +16,7 @@ import (
 
 func ResourceSchedulerSchedulesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readResourceSchedulerSchedules,
+		ReadContext: readResourceSchedulerSchedulesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -56,12 +57,12 @@ func ResourceSchedulerSchedulesDataSource() *schema.Resource {
 	}
 }
 
-func readResourceSchedulerSchedules(d *schema.ResourceData, m interface{}) error {
+func readResourceSchedulerSchedulesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourceSchedulerSchedulesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ScheduleClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ResourceSchedulerSchedulesDataSourceCrud struct {
@@ -74,7 +75,7 @@ func (s *ResourceSchedulerSchedulesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ResourceSchedulerSchedulesDataSourceCrud) Get() error {
+func (s *ResourceSchedulerSchedulesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_resource_scheduler.ListSchedulesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -102,7 +103,7 @@ func (s *ResourceSchedulerSchedulesDataSourceCrud) Get() error {
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "resource_scheduler")
-	response, err := s.Client.ListSchedules(context.Background(), request)
+	response, err := s.Client.ListSchedules(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -111,7 +112,7 @@ func (s *ResourceSchedulerSchedulesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListSchedules(context.Background(), request)
+		listResponse, err := s.Client.ListSchedules(ctx, request)
 		if err != nil {
 			return err
 		}

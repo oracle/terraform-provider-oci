@@ -6,6 +6,7 @@ package resourcemanager
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_resourcemanager "github.com/oracle/oci-go-sdk/v65/resourcemanager"
 
@@ -19,15 +20,15 @@ func ResourcemanagerPrivateEndpointDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(ResourcemanagerPrivateEndpointResource(), fieldMap, readSingularResourcemanagerPrivateEndpoint)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(ResourcemanagerPrivateEndpointResource(), fieldMap, readSingularResourcemanagerPrivateEndpointWithContext)
 }
 
-func readSingularResourcemanagerPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func readSingularResourcemanagerPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourcemanagerPrivateEndpointDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ResourceManagerClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ResourcemanagerPrivateEndpointDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *ResourcemanagerPrivateEndpointDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ResourcemanagerPrivateEndpointDataSourceCrud) Get() error {
+func (s *ResourcemanagerPrivateEndpointDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_resourcemanager.GetPrivateEndpointRequest{}
 
 	if privateEndpointId, ok := s.D.GetOkExists("private_endpoint_id"); ok {
@@ -50,7 +51,7 @@ func (s *ResourcemanagerPrivateEndpointDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "resourcemanager")
 
-	response, err := s.Client.GetPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.GetPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}

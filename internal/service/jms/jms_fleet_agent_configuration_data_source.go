@@ -6,6 +6,7 @@ package jms
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_jms "github.com/oracle/oci-go-sdk/v65/jms"
 
@@ -19,15 +20,15 @@ func JmsFleetAgentConfigurationDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(JmsFleetAgentConfigurationResource(), fieldMap, readSingularJmsFleetAgentConfiguration)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(JmsFleetAgentConfigurationResource(), fieldMap, readSingularJmsFleetAgentConfigurationWithContext)
 }
 
-func readSingularJmsFleetAgentConfiguration(d *schema.ResourceData, m interface{}) error {
+func readSingularJmsFleetAgentConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &JmsFleetAgentConfigurationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).JavaManagementServiceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type JmsFleetAgentConfigurationDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *JmsFleetAgentConfigurationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *JmsFleetAgentConfigurationDataSourceCrud) Get() error {
+func (s *JmsFleetAgentConfigurationDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_jms.GetFleetAgentConfigurationRequest{}
 
 	if fleetId, ok := s.D.GetOkExists("fleet_id"); ok {
@@ -50,7 +51,7 @@ func (s *JmsFleetAgentConfigurationDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms")
 
-	response, err := s.Client.GetFleetAgentConfiguration(context.Background(), request)
+	response, err := s.Client.GetFleetAgentConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -6,6 +6,7 @@ package disaster_recovery
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_disaster_recovery "github.com/oracle/oci-go-sdk/v65/disasterrecovery"
 
@@ -15,7 +16,7 @@ import (
 
 func DisasterRecoveryDrProtectionGroupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDisasterRecoveryDrProtectionGroups,
+		ReadContext: readDisasterRecoveryDrProtectionGroupsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -60,12 +61,12 @@ func DisasterRecoveryDrProtectionGroupsDataSource() *schema.Resource {
 	}
 }
 
-func readDisasterRecoveryDrProtectionGroups(d *schema.ResourceData, m interface{}) error {
+func readDisasterRecoveryDrProtectionGroupsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DisasterRecoveryDrProtectionGroupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DisasterRecoveryClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DisasterRecoveryDrProtectionGroupsDataSourceCrud struct {
@@ -78,7 +79,7 @@ func (s *DisasterRecoveryDrProtectionGroupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DisasterRecoveryDrProtectionGroupsDataSourceCrud) Get() error {
+func (s *DisasterRecoveryDrProtectionGroupsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_disaster_recovery.ListDrProtectionGroupsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -110,7 +111,7 @@ func (s *DisasterRecoveryDrProtectionGroupsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "disaster_recovery")
 
-	response, err := s.Client.ListDrProtectionGroups(context.Background(), request)
+	response, err := s.Client.ListDrProtectionGroups(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -119,7 +120,7 @@ func (s *DisasterRecoveryDrProtectionGroupsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDrProtectionGroups(context.Background(), request)
+		listResponse, err := s.Client.ListDrProtectionGroups(ctx, request)
 		if err != nil {
 			return err
 		}

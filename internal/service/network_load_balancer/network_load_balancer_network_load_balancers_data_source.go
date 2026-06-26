@@ -9,13 +9,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_network_load_balancer "github.com/oracle/oci-go-sdk/v65/networkloadbalancer"
 )
 
 func NetworkLoadBalancerNetworkLoadBalancersDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readNetworkLoadBalancerNetworkLoadBalancers,
+		ReadContext: readNetworkLoadBalancerNetworkLoadBalancersWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -48,12 +49,12 @@ func NetworkLoadBalancerNetworkLoadBalancersDataSource() *schema.Resource {
 	}
 }
 
-func readNetworkLoadBalancerNetworkLoadBalancers(d *schema.ResourceData, m interface{}) error {
+func readNetworkLoadBalancerNetworkLoadBalancersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &NetworkLoadBalancerNetworkLoadBalancersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).NetworkLoadBalancerClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type NetworkLoadBalancerNetworkLoadBalancersDataSourceCrud struct {
@@ -66,7 +67,7 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *NetworkLoadBalancerNetworkLoadBalancersDataSourceCrud) Get() error {
+func (s *NetworkLoadBalancerNetworkLoadBalancersDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_network_load_balancer.ListNetworkLoadBalancersRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -85,7 +86,7 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "network_load_balancer")
 
-	response, err := s.Client.ListNetworkLoadBalancers(context.Background(), request)
+	response, err := s.Client.ListNetworkLoadBalancers(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -94,7 +95,7 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListNetworkLoadBalancers(context.Background(), request)
+		listResponse, err := s.Client.ListNetworkLoadBalancers(ctx, request)
 		if err != nil {
 			return err
 		}

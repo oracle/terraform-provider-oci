@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,11 +25,11 @@ func ResourcemanagerPrivateEndpointResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createResourcemanagerPrivateEndpoint,
-		Read:     readResourcemanagerPrivateEndpoint,
-		Update:   updateResourcemanagerPrivateEndpoint,
-		Delete:   deleteResourcemanagerPrivateEndpoint,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createResourcemanagerPrivateEndpointWithContext,
+		ReadContext:   readResourcemanagerPrivateEndpointWithContext,
+		UpdateContext: updateResourcemanagerPrivateEndpointWithContext,
+		DeleteContext: deleteResourcemanagerPrivateEndpointWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -120,37 +121,37 @@ func ResourcemanagerPrivateEndpointResource() *schema.Resource {
 	}
 }
 
-func createResourcemanagerPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func createResourcemanagerPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourcemanagerPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ResourceManagerClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readResourcemanagerPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func readResourcemanagerPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourcemanagerPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ResourceManagerClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateResourcemanagerPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func updateResourcemanagerPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourcemanagerPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ResourceManagerClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteResourcemanagerPrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func deleteResourcemanagerPrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourcemanagerPrivateEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ResourceManagerClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type ResourcemanagerPrivateEndpointResourceCrud struct {
@@ -188,7 +189,7 @@ func (s *ResourcemanagerPrivateEndpointResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *ResourcemanagerPrivateEndpointResourceCrud) Create() error {
+func (s *ResourcemanagerPrivateEndpointResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_resourcemanager.CreatePrivateEndpointRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -265,7 +266,7 @@ func (s *ResourcemanagerPrivateEndpointResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resourcemanager")
 
-	response, err := s.Client.CreatePrivateEndpoint(context.Background(), request)
+	response, err := s.Client.CreatePrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -277,14 +278,14 @@ func (s *ResourcemanagerPrivateEndpointResourceCrud) Create() error {
 		s.D.SetId(*identifier)
 	}
 
-	return s.getPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resourcemanager"), oci_resourcemanager.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getPrivateEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resourcemanager"), oci_resourcemanager.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *ResourcemanagerPrivateEndpointResourceCrud) getPrivateEndpointFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ResourcemanagerPrivateEndpointResourceCrud) getPrivateEndpointFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_resourcemanager.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	privateEndpointId, err := privateEndpointWaitForWorkRequest(workId, "ormprivateendpoint",
+	privateEndpointId, err := privateEndpointWaitForWorkRequest(ctx, workId, "ormprivateendpoint",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -292,7 +293,7 @@ func (s *ResourcemanagerPrivateEndpointResourceCrud) getPrivateEndpointFromWorkR
 	}
 	s.D.SetId(*privateEndpointId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func privateEndpointWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -318,7 +319,7 @@ func privateEndpointWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 	}
 }
 
-func privateEndpointWaitForWorkRequest(wId *string, entityType string, action oci_resourcemanager.WorkRequestResourceActionTypeEnum,
+func privateEndpointWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_resourcemanager.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_resourcemanager.ResourceManagerClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "resourcemanager")
 	retryPolicy.ShouldRetryOperation = privateEndpointWorkRequestShouldRetryFunc(timeout)
@@ -335,7 +336,7 @@ func privateEndpointWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_resourcemanager.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -347,7 +348,7 @@ func privateEndpointWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -364,14 +365,14 @@ func privateEndpointWaitForWorkRequest(wId *string, entityType string, action oc
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_resourcemanager.WorkRequestStatusFailed {
-		return nil, getErrorFromResourcemanagerPrivateEndpointWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromResourcemanagerPrivateEndpointWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromResourcemanagerPrivateEndpointWorkRequest(client *oci_resourcemanager.ResourceManagerClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_resourcemanager.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromResourcemanagerPrivateEndpointWorkRequest(ctx context.Context, client *oci_resourcemanager.ResourceManagerClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_resourcemanager.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_resourcemanager.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -393,7 +394,7 @@ func getErrorFromResourcemanagerPrivateEndpointWorkRequest(client *oci_resourcem
 	return workRequestErr
 }
 
-func (s *ResourcemanagerPrivateEndpointResourceCrud) Get() error {
+func (s *ResourcemanagerPrivateEndpointResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_resourcemanager.GetPrivateEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -401,7 +402,7 @@ func (s *ResourcemanagerPrivateEndpointResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resourcemanager")
 
-	response, err := s.Client.GetPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.GetPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -410,11 +411,11 @@ func (s *ResourcemanagerPrivateEndpointResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ResourcemanagerPrivateEndpointResourceCrud) Update() error {
+func (s *ResourcemanagerPrivateEndpointResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -494,16 +495,16 @@ func (s *ResourcemanagerPrivateEndpointResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resourcemanager")
 
-	response, err := s.Client.UpdatePrivateEndpoint(context.Background(), request)
+	response, err := s.Client.UpdatePrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getPrivateEndpointFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resourcemanager"), oci_resourcemanager.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getPrivateEndpointFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resourcemanager"), oci_resourcemanager.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *ResourcemanagerPrivateEndpointResourceCrud) Delete() error {
+func (s *ResourcemanagerPrivateEndpointResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_resourcemanager.DeletePrivateEndpointRequest{}
 
 	tmp := s.D.Id()
@@ -511,14 +512,14 @@ func (s *ResourcemanagerPrivateEndpointResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resourcemanager")
 
-	response, err := s.Client.DeletePrivateEndpoint(context.Background(), request)
+	response, err := s.Client.DeletePrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := privateEndpointWaitForWorkRequest(workId, "ormprivateendpoint",
+	_, delWorkRequestErr := privateEndpointWaitForWorkRequest(ctx, workId, "ormprivateendpoint",
 		oci_resourcemanager.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -625,7 +626,7 @@ func PrivateEndpointSummaryToMap(obj oci_resourcemanager.PrivateEndpointSummary)
 	return result
 }
 
-func (s *ResourcemanagerPrivateEndpointResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *ResourcemanagerPrivateEndpointResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_resourcemanager.ChangePrivateEndpointCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -636,12 +637,12 @@ func (s *ResourcemanagerPrivateEndpointResourceCrud) updateCompartment(compartme
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resourcemanager")
 
-	_, err := s.Client.ChangePrivateEndpointCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangePrivateEndpointCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

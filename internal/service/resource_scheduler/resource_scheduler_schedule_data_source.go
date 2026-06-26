@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_resource_scheduler "github.com/oracle/oci-go-sdk/v65/resourcescheduler"
 
@@ -20,15 +21,15 @@ func ResourceSchedulerScheduleDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(ResourceSchedulerScheduleResource(), fieldMap, readSingularResourceSchedulerSchedule)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(ResourceSchedulerScheduleResource(), fieldMap, readSingularResourceSchedulerScheduleWithContext)
 }
 
-func readSingularResourceSchedulerSchedule(d *schema.ResourceData, m interface{}) error {
+func readSingularResourceSchedulerScheduleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ResourceSchedulerScheduleDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ScheduleClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ResourceSchedulerScheduleDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *ResourceSchedulerScheduleDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ResourceSchedulerScheduleDataSourceCrud) Get() error {
+func (s *ResourceSchedulerScheduleDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_resource_scheduler.GetScheduleRequest{}
 
 	if scheduleId, ok := s.D.GetOkExists("schedule_id"); ok {
@@ -51,7 +52,7 @@ func (s *ResourceSchedulerScheduleDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "resource_scheduler")
 
-	response, err := s.Client.GetSchedule(context.Background(), request)
+	response, err := s.Client.GetSchedule(ctx, request)
 	if err != nil {
 		return err
 	}

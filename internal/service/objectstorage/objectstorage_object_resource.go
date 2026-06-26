@@ -22,6 +22,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_object_storage "github.com/oracle/oci-go-sdk/v65/objectstorage"
 )
@@ -36,11 +37,11 @@ func ObjectStorageObjectResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createObjectStorageObject,
-		Read:     readObjectStorageObject,
-		Update:   updateObjectStorageObject,
-		Delete:   deleteObjectStorageObject,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createObjectStorageObjectWithContext,
+		ReadContext:   readObjectStorageObjectWithContext,
+		UpdateContext: updateObjectStorageObjectWithContext,
+		DeleteContext: deleteObjectStorageObjectWithContext,
 		Schema: map[string]*schema.Schema{
 			// @CODEGEN 2/2018:
 			// Previous provider doesn't provide an Update method and sets all non-Computed fields to ForceNew.
@@ -272,15 +273,15 @@ func ObjectStorageObjectResource() *schema.Resource {
 	}
 }
 
-func createObjectStorageObject(d *schema.ResourceData, m interface{}) error {
+func createObjectStorageObjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ObjectStorageObjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ObjectStorageClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func (s *ObjectStorageObjectResourceCrud) createMultiPartObject() error {
+func (s *ObjectStorageObjectResourceCrud) createMultiPartObject(ctx context.Context) error {
 	multipartUploadData := MultipartUploadData{}
 
 	source, ok := s.D.GetOkExists("source")
@@ -364,10 +365,10 @@ func (s *ObjectStorageObjectResourceCrud) createMultiPartObject() error {
 	s.D.SetId(id)
 	s.D.Set("state", oci_object_storage.WorkRequestStatusCompleted)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *ObjectStorageObjectResourceCrud) createCopyObject() error {
+func (s *ObjectStorageObjectResourceCrud) createCopyObject(ctx context.Context) error {
 
 	copyObjectRequest := oci_object_storage.CopyObjectRequest{}
 
@@ -468,7 +469,7 @@ func (s *ObjectStorageObjectResourceCrud) createCopyObject() error {
 	}
 
 	if workRequestId == "" {
-		copyObjectResponse, err := s.SourceRegionClient.CopyObject(context.Background(), copyObjectRequest)
+		copyObjectResponse, err := s.SourceRegionClient.CopyObject(ctx, copyObjectRequest)
 		if err != nil {
 			s.D.Set("state", string(oci_object_storage.WorkRequestStatusCanceled))
 			return err
@@ -482,7 +483,7 @@ func (s *ObjectStorageObjectResourceCrud) createCopyObject() error {
 	getWorkRequestRequest := oci_object_storage.GetWorkRequestRequest{}
 	getWorkRequestRequest.WorkRequestId = &workRequestId
 	getWorkRequestRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
-	workRequestResponse, err := s.SourceRegionClient.GetWorkRequest(context.Background(), getWorkRequestRequest)
+	workRequestResponse, err := s.SourceRegionClient.GetWorkRequest(ctx, getWorkRequestRequest)
 	if err != nil {
 		return err
 	}
@@ -501,10 +502,10 @@ func (s *ObjectStorageObjectResourceCrud) createCopyObject() error {
 	s.D.Set("state", string(oci_object_storage.WorkRequestStatusCompleted))
 	id := GetObjectCompositeId(*copyObjectRequest.DestinationBucket, *copyObjectRequest.DestinationNamespace, *copyObjectRequest.DestinationObjectName)
 	s.D.SetId(id)
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func readObjectStorageObject(d *schema.ResourceData, m interface{}) error {
+func readObjectStorageObjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ObjectStorageObjectResourceCrud{}
 	// For backward compatibility with CompositeId change
 	log.Printf("[DEBUG] readObjectStorageObject() Resource Id in state: %s", d.Id())
@@ -523,24 +524,24 @@ func readObjectStorageObject(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ObjectStorageClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateObjectStorageObject(d *schema.ResourceData, m interface{}) error {
+func updateObjectStorageObjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ObjectStorageObjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ObjectStorageClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteObjectStorageObject(d *schema.ResourceData, m interface{}) error {
+func deleteObjectStorageObjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ObjectStorageObjectResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ObjectStorageClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 // There's no struct to represent this in SDK, so we define our own including a fake LifecycleState
@@ -566,17 +567,17 @@ func (s *ObjectStorageObjectResourceCrud) ID() string {
 	return GetObjectCompositeId(s.D.Get("bucket").(string), s.D.Get("namespace").(string), s.D.Get("object").(string))
 }
 
-func (s *ObjectStorageObjectResourceCrud) Create() error {
+func (s *ObjectStorageObjectResourceCrud) CreateWithContext(ctx context.Context) error {
 
 	if s.isCopyCreate() {
-		return s.createCopyObject()
+		return s.createCopyObject(ctx)
 	}
 
 	if s.isMultiPartCreate() {
-		return s.createMultiPartObject()
+		return s.createMultiPartObject(ctx)
 	}
 
-	return s.createContentObject()
+	return s.createContentObject(ctx)
 }
 
 func (s *ObjectStorageObjectResourceCrud) CreatedPending() []string {
@@ -595,7 +596,7 @@ func (s *ObjectStorageObjectResourceCrud) CreatedTarget() []string {
 	}
 }
 
-func (s *ObjectStorageObjectResourceCrud) createContentObject() error {
+func (s *ObjectStorageObjectResourceCrud) createContentObject(ctx context.Context) error {
 	request := oci_object_storage.PutObjectRequest{}
 
 	if cacheControl, ok := s.D.GetOkExists("cache_control"); ok {
@@ -710,7 +711,7 @@ func (s *ObjectStorageObjectResourceCrud) createContentObject() error {
 	s.D.Set("work_request_id", "")
 	s.D.Set("state", oci_object_storage.WorkRequestStatusInProgress)
 
-	_, err := s.Client.PutObject(context.Background(), request)
+	_, err := s.Client.PutObject(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -722,10 +723,10 @@ func (s *ObjectStorageObjectResourceCrud) createContentObject() error {
 	// Get() implementation to retrieve the state of the object and set its state to completed
 	s.D.Set("state", oci_object_storage.WorkRequestStatusCompleted)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *ObjectStorageObjectResourceCrud) getObjectHead() error {
+func (s *ObjectStorageObjectResourceCrud) getObjectHead(ctx context.Context) error {
 
 	headObjectRequest := &oci_object_storage.HeadObjectRequest{}
 
@@ -741,7 +742,7 @@ func (s *ObjectStorageObjectResourceCrud) getObjectHead() error {
 
 	headObjectRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
-	headObjectResponse, err := s.Client.HeadObject(context.Background(), *headObjectRequest)
+	headObjectResponse, err := s.Client.HeadObject(ctx, *headObjectRequest)
 
 	if opcContentCrc32c, ok := s.D.GetOkExists("opc_content_crc32c"); ok {
 		tmp := opcContentCrc32c.(string)
@@ -783,7 +784,7 @@ func (s *ObjectStorageObjectResourceCrud) getObjectHead() error {
 	return nil
 }
 
-func (s *ObjectStorageObjectResourceCrud) updateState() (bool, error) {
+func (s *ObjectStorageObjectResourceCrud) updateState(ctx context.Context) (bool, error) {
 	if state, ok := s.D.GetOkExists("state"); ok {
 		if state == oci_object_storage.WorkRequestStatusInProgress {
 
@@ -810,7 +811,7 @@ func (s *ObjectStorageObjectResourceCrud) updateState() (bool, error) {
 					return false, fmt.Errorf("no source_uri_details specified to verify copy state by WorkRequest")
 				}
 
-				workRequestResponse, err := s.SourceRegionClient.GetWorkRequest(context.Background(), getWorkRequestRequest)
+				workRequestResponse, err := s.SourceRegionClient.GetWorkRequest(ctx, getWorkRequestRequest)
 				if err != nil {
 					return false, err
 				}
@@ -855,9 +856,9 @@ func (s *ObjectStorageObjectResourceCrud) isCopyCreate() bool {
 	return false
 }
 
-func (s *ObjectStorageObjectResourceCrud) Get() error {
+func (s *ObjectStorageObjectResourceCrud) GetWithContext(ctx context.Context) error {
 
-	workRequestFinished, err := s.updateState()
+	workRequestFinished, err := s.updateState(ctx)
 	if err != nil {
 		return err
 	}
@@ -868,13 +869,13 @@ func (s *ObjectStorageObjectResourceCrud) Get() error {
 	}
 
 	if s.shouldUseObjectHeadForGet() {
-		return s.getObjectHead()
+		return s.getObjectHead(ctx)
 	}
 
-	return s.getObject()
+	return s.getObject(ctx)
 }
 
-func (s *ObjectStorageObjectResourceCrud) getObject() error {
+func (s *ObjectStorageObjectResourceCrud) getObject(ctx context.Context) error {
 	request := oci_object_storage.GetObjectRequest{}
 
 	bucketName, namespaceName, objectName, err := parseObjectCompositeId(s.D.Id())
@@ -891,7 +892,7 @@ func (s *ObjectStorageObjectResourceCrud) getObject() error {
 	// to call Get() all the time
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
-	response, err := s.Client.GetObject(context.Background(), request)
+	response, err := s.Client.GetObject(ctx, request)
 
 	if opcContentCrc32c, ok := s.D.GetOkExists("opc_content_crc32c"); ok {
 		tmp := opcContentCrc32c.(string)
@@ -935,7 +936,7 @@ func (s *ObjectStorageObjectResourceCrud) getObject() error {
 	return nil
 }
 
-func (s *ObjectStorageObjectResourceCrud) Update() error {
+func (s *ObjectStorageObjectResourceCrud) UpdateWithContext(ctx context.Context) error {
 
 	// @CODEGEN 06/2018: Update is only supported for the change in name - all others are a forceNew
 	if s.D.HasChange("object") {
@@ -958,7 +959,7 @@ func (s *ObjectStorageObjectResourceCrud) Update() error {
 		request.NewName = &newName
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
-		_, err := s.Client.RenameObject(context.Background(), request)
+		_, err := s.Client.RenameObject(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -966,10 +967,10 @@ func (s *ObjectStorageObjectResourceCrud) Update() error {
 		updatedId := GetObjectCompositeId(*request.BucketName, *request.NamespaceName, *request.NewName)
 		s.D.SetId(updatedId)
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *ObjectStorageObjectResourceCrud) Delete() error {
+func (s *ObjectStorageObjectResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_object_storage.DeleteObjectRequest{}
 
 	if bucket, ok := s.D.GetOkExists("bucket"); ok {
@@ -992,7 +993,7 @@ func (s *ObjectStorageObjectResourceCrud) Delete() error {
 	} else {
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
-		_, err := s.Client.DeleteObject(context.Background(), request)
+		_, err := s.Client.DeleteObject(ctx, request)
 		return err
 	}
 }

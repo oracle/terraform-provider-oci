@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -31,10 +32,10 @@ func GenerativeAiAgentDataSourceResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("30m"),
 			Delete: tfresource.GetTimeoutDuration("30m"),
 		},
-		Create: createGenerativeAiAgentDataSource,
-		Read:   readGenerativeAiAgentDataSource,
-		Update: updateGenerativeAiAgentDataSource,
-		Delete: deleteGenerativeAiAgentDataSource,
+		CreateContext: createGenerativeAiAgentDataSourceWithContext,
+		ReadContext:   readGenerativeAiAgentDataSourceWithContext,
+		UpdateContext: updateGenerativeAiAgentDataSourceWithContext,
+		DeleteContext: deleteGenerativeAiAgentDataSourceWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -153,37 +154,37 @@ func GenerativeAiAgentDataSourceResource() *schema.Resource {
 	}
 }
 
-func createGenerativeAiAgentDataSource(d *schema.ResourceData, m interface{}) error {
+func createGenerativeAiAgentDataSourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiAgentDataSourceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readGenerativeAiAgentDataSource(d *schema.ResourceData, m interface{}) error {
+func readGenerativeAiAgentDataSourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiAgentDataSourceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateGenerativeAiAgentDataSource(d *schema.ResourceData, m interface{}) error {
+func updateGenerativeAiAgentDataSourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiAgentDataSourceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteGenerativeAiAgentDataSource(d *schema.ResourceData, m interface{}) error {
+func deleteGenerativeAiAgentDataSourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiAgentDataSourceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type GenerativeAiAgentDataSourceResourceCrud struct {
@@ -221,7 +222,7 @@ func (s *GenerativeAiAgentDataSourceResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *GenerativeAiAgentDataSourceResourceCrud) Create() error {
+func (s *GenerativeAiAgentDataSourceResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_generative_ai_agent.CreateDataSourceRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -273,7 +274,7 @@ func (s *GenerativeAiAgentDataSourceResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
 
-	response, err := s.Client.CreateDataSource(context.Background(), request)
+	response, err := s.Client.CreateDataSource(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -284,20 +285,20 @@ func (s *GenerativeAiAgentDataSourceResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getDataSourceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDataSourceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *GenerativeAiAgentDataSourceResourceCrud) getDataSourceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *GenerativeAiAgentDataSourceResourceCrud) getDataSourceFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_generative_ai_agent.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	dataSourceId, err := dataSourceWaitForWorkRequest(workId, "datasource",
+	dataSourceId, err := dataSourceWaitForWorkRequest(ctx, workId, "datasource",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, dataSourceId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_generative_ai_agent.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -311,7 +312,7 @@ func (s *GenerativeAiAgentDataSourceResourceCrud) getDataSourceFromWorkRequest(w
 	}
 	s.D.SetId(*dataSourceId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func dataSourceWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -337,7 +338,7 @@ func dataSourceWorkRequestShouldRetryFunc(timeout time.Duration) func(response o
 	}
 }
 
-func dataSourceWaitForWorkRequest(wId *string, entityType string, action oci_generative_ai_agent.ActionTypeEnum,
+func dataSourceWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_generative_ai_agent.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_generative_ai_agent.GenerativeAiAgentClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "generative_ai_agent")
 	retryPolicy.ShouldRetryOperation = dataSourceWorkRequestShouldRetryFunc(timeout)
@@ -356,7 +357,7 @@ func dataSourceWaitForWorkRequest(wId *string, entityType string, action oci_gen
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_generative_ai_agent.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -368,7 +369,7 @@ func dataSourceWaitForWorkRequest(wId *string, entityType string, action oci_gen
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -385,14 +386,14 @@ func dataSourceWaitForWorkRequest(wId *string, entityType string, action oci_gen
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_generative_ai_agent.OperationStatusFailed || response.Status == oci_generative_ai_agent.OperationStatusCanceled {
-		return nil, getErrorFromGenerativeAiAgentDataSourceWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromGenerativeAiAgentDataSourceWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromGenerativeAiAgentDataSourceWorkRequest(client *oci_generative_ai_agent.GenerativeAiAgentClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_generative_ai_agent.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromGenerativeAiAgentDataSourceWorkRequest(ctx context.Context, client *oci_generative_ai_agent.GenerativeAiAgentClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_generative_ai_agent.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_generative_ai_agent.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -414,7 +415,7 @@ func getErrorFromGenerativeAiAgentDataSourceWorkRequest(client *oci_generative_a
 	return workRequestErr
 }
 
-func (s *GenerativeAiAgentDataSourceResourceCrud) Get() error {
+func (s *GenerativeAiAgentDataSourceResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_generative_ai_agent.GetDataSourceRequest{}
 
 	tmp := s.D.Id()
@@ -422,7 +423,7 @@ func (s *GenerativeAiAgentDataSourceResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
 
-	response, err := s.Client.GetDataSource(context.Background(), request)
+	response, err := s.Client.GetDataSource(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -431,7 +432,7 @@ func (s *GenerativeAiAgentDataSourceResourceCrud) Get() error {
 	return nil
 }
 
-func (s *GenerativeAiAgentDataSourceResourceCrud) Update() error {
+func (s *GenerativeAiAgentDataSourceResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_generative_ai_agent.UpdateDataSourceRequest{}
 
 	if dataSourceConfig, ok := s.D.GetOkExists("data_source_config"); ok {
@@ -476,16 +477,16 @@ func (s *GenerativeAiAgentDataSourceResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
 
-	response, err := s.Client.UpdateDataSource(context.Background(), request)
+	response, err := s.Client.UpdateDataSource(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDataSourceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDataSourceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent"), oci_generative_ai_agent.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *GenerativeAiAgentDataSourceResourceCrud) Delete() error {
+func (s *GenerativeAiAgentDataSourceResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_generative_ai_agent.DeleteDataSourceRequest{}
 
 	tmp := s.D.Id()
@@ -493,14 +494,14 @@ func (s *GenerativeAiAgentDataSourceResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai_agent")
 
-	response, err := s.Client.DeleteDataSource(context.Background(), request)
+	response, err := s.Client.DeleteDataSource(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := dataSourceWaitForWorkRequest(workId, "datasource",
+	_, delWorkRequestErr := dataSourceWaitForWorkRequest(ctx, workId, "datasource",
 		oci_generative_ai_agent.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

@@ -7,6 +7,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_management_agent "github.com/oracle/oci-go-sdk/v65/managementagent"
 
@@ -24,15 +25,15 @@ func ManagementAgentManagementAgentDataSourceDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(ManagementAgentManagementAgentDataSourceResource(), fieldMap, readSingularManagementAgentManagementAgentDataSource)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(ManagementAgentManagementAgentDataSourceResource(), fieldMap, readSingularManagementAgentManagementAgentDataSourceWithContext)
 }
 
-func readSingularManagementAgentManagementAgentDataSource(d *schema.ResourceData, m interface{}) error {
+func readSingularManagementAgentManagementAgentDataSourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ManagementAgentManagementAgentDataSourceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementAgentClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ManagementAgentManagementAgentDataSourceDataSourceCrud struct {
@@ -45,7 +46,7 @@ func (s *ManagementAgentManagementAgentDataSourceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ManagementAgentManagementAgentDataSourceDataSourceCrud) Get() error {
+func (s *ManagementAgentManagementAgentDataSourceDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_management_agent.GetDataSourceRequest{}
 
 	if dataSourceKey, ok := s.D.GetOkExists("data_source_key"); ok {
@@ -60,7 +61,7 @@ func (s *ManagementAgentManagementAgentDataSourceDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "management_agent")
 
-	response, err := s.Client.GetDataSource(context.Background(), request)
+	response, err := s.Client.GetDataSource(ctx, request)
 	if err != nil {
 		return err
 	}

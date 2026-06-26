@@ -7,6 +7,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_management_agent "github.com/oracle/oci-go-sdk/v65/managementagent"
 
@@ -16,7 +17,7 @@ import (
 
 func ManagementAgentManagementAgentDataSourcesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readManagementAgentManagementAgentDataSources,
+		ReadContext: readManagementAgentManagementAgentDataSourcesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"management_agent_id": {
@@ -55,12 +56,12 @@ func ManagementAgentManagementAgentDataSourceSummary() *schema.Resource {
 	}
 }
 
-func readManagementAgentManagementAgentDataSources(d *schema.ResourceData, m interface{}) error {
+func readManagementAgentManagementAgentDataSourcesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ManagementAgentManagementAgentDataSourcesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementAgentClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ManagementAgentManagementAgentDataSourcesDataSourceCrud struct {
@@ -73,7 +74,7 @@ func (s *ManagementAgentManagementAgentDataSourcesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ManagementAgentManagementAgentDataSourcesDataSourceCrud) Get() error {
+func (s *ManagementAgentManagementAgentDataSourcesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_management_agent.ListDataSourcesRequest{}
 
 	if managementAgentId, ok := s.D.GetOkExists("management_agent_id"); ok {
@@ -87,7 +88,7 @@ func (s *ManagementAgentManagementAgentDataSourcesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "management_agent")
 
-	response, err := s.Client.ListDataSources(context.Background(), request)
+	response, err := s.Client.ListDataSources(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -96,7 +97,7 @@ func (s *ManagementAgentManagementAgentDataSourcesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDataSources(context.Background(), request)
+		listResponse, err := s.Client.ListDataSources(ctx, request)
 		if err != nil {
 			return err
 		}

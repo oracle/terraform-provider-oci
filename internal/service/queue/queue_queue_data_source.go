@@ -6,6 +6,7 @@ package queue
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_queue "github.com/oracle/oci-go-sdk/v65/queue"
 
@@ -19,15 +20,15 @@ func QueueQueueDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(QueueQueueResource(), fieldMap, readSingularQueueQueue)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(QueueQueueResource(), fieldMap, readSingularQueueQueueWithContext)
 }
 
-func readSingularQueueQueue(d *schema.ResourceData, m interface{}) error {
+func readSingularQueueQueueWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &QueueQueueDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).QueueAdminClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type QueueQueueDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *QueueQueueDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *QueueQueueDataSourceCrud) Get() error {
+func (s *QueueQueueDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_queue.GetQueueRequest{}
 
 	if queueId, ok := s.D.GetOkExists("queue_id"); ok {
@@ -50,7 +51,7 @@ func (s *QueueQueueDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "queue")
 
-	response, err := s.Client.GetQueue(context.Background(), request)
+	response, err := s.Client.GetQueue(ctx, request)
 	if err != nil {
 		return err
 	}

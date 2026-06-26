@@ -6,6 +6,7 @@ package ai_language
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ai_language "github.com/oracle/oci-go-sdk/v65/ailanguage"
 
@@ -15,7 +16,7 @@ import (
 
 func AiLanguageJobsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readAiLanguageJobs,
+		ReadContext: readAiLanguageJobsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +53,12 @@ func AiLanguageJobsDataSource() *schema.Resource {
 	}
 }
 
-func readAiLanguageJobs(d *schema.ResourceData, m interface{}) error {
+func readAiLanguageJobsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiLanguageJobsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceLanguageClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type AiLanguageJobsDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *AiLanguageJobsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AiLanguageJobsDataSourceCrud) Get() error {
+func (s *AiLanguageJobsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ai_language.ListJobsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *AiLanguageJobsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ai_language")
 
-	response, err := s.Client.ListJobs(context.Background(), request)
+	response, err := s.Client.ListJobs(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *AiLanguageJobsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListJobs(context.Background(), request)
+		listResponse, err := s.Client.ListJobs(ctx, request)
 		if err != nil {
 			return err
 		}

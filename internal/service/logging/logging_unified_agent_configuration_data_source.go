@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_logging "github.com/oracle/oci-go-sdk/v65/logging"
 )
@@ -19,15 +20,15 @@ func LoggingUnifiedAgentConfigurationDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(LoggingUnifiedAgentConfigurationResource(), fieldMap, readSingularLoggingUnifiedAgentConfiguration)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(LoggingUnifiedAgentConfigurationResource(), fieldMap, readSingularLoggingUnifiedAgentConfigurationWithContext)
 }
 
-func readSingularLoggingUnifiedAgentConfiguration(d *schema.ResourceData, m interface{}) error {
+func readSingularLoggingUnifiedAgentConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoggingUnifiedAgentConfigurationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoggingManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type LoggingUnifiedAgentConfigurationDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *LoggingUnifiedAgentConfigurationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LoggingUnifiedAgentConfigurationDataSourceCrud) Get() error {
+func (s *LoggingUnifiedAgentConfigurationDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_logging.GetUnifiedAgentConfigurationRequest{}
 
 	if unifiedAgentConfigurationId, ok := s.D.GetOkExists("unified_agent_configuration_id"); ok {
@@ -50,7 +51,7 @@ func (s *LoggingUnifiedAgentConfigurationDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "logging")
 
-	response, err := s.Client.GetUnifiedAgentConfiguration(context.Background(), request)
+	response, err := s.Client.GetUnifiedAgentConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}

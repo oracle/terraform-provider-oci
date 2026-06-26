@@ -14,13 +14,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_object_storage "github.com/oracle/oci-go-sdk/v65/objectstorage"
 )
 
 func ObjectStorageObjectDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularObjectStorageObject,
+		ReadContext: readSingularObjectStorageObjectWithContext,
 		Schema: map[string]*schema.Schema{
 			"bucket": {
 				Type:     schema.TypeString,
@@ -141,12 +142,12 @@ func ObjectStorageObjectDataSource() *schema.Resource {
 	}
 }
 
-func readSingularObjectStorageObject(d *schema.ResourceData, m interface{}) error {
+func readSingularObjectStorageObjectWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ObjectStorageObjectDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ObjectStorageClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ObjectStorageObjectDataSourceCrud struct {
@@ -159,7 +160,7 @@ func (s *ObjectStorageObjectDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ObjectStorageObjectDataSourceCrud) Get() error {
+func (s *ObjectStorageObjectDataSourceCrud) GetWithContext(ctx context.Context) error {
 
 	headObjectRequest := &oci_object_storage.HeadObjectRequest{}
 
@@ -185,7 +186,7 @@ func (s *ObjectStorageObjectDataSourceCrud) Get() error {
 		headObjectRequest.VersionId = &tmp
 	}
 
-	headObjectResponse, err := s.Client.HeadObject(context.Background(), *headObjectRequest)
+	headObjectResponse, err := s.Client.HeadObject(ctx, *headObjectRequest)
 
 	if opcContentCrc32c, ok := s.D.GetOkExists("opc_content_crc32c"); ok {
 		tmp := opcContentCrc32c.(string)
@@ -264,7 +265,7 @@ func (s *ObjectStorageObjectDataSourceCrud) Get() error {
 		request.HttpResponseExpires = &tmp
 	}
 
-	response, err := s.Client.GetObject(context.Background(), request)
+	response, err := s.Client.GetObject(ctx, request)
 	if err != nil {
 		return err
 	}

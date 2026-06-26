@@ -14,6 +14,7 @@ import (
 
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -30,11 +31,11 @@ func ContainerInstancesContainerInstanceResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createContainerInstancesContainerInstance,
-		Read:     readContainerInstancesContainerInstance,
-		Update:   updateContainerInstancesContainerInstance,
-		Delete:   deleteContainerInstancesContainerInstance,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createContainerInstancesContainerInstanceWithContext,
+		ReadContext:   readContainerInstancesContainerInstanceWithContext,
+		UpdateContext: updateContainerInstancesContainerInstanceWithContext,
+		DeleteContext: deleteContainerInstancesContainerInstanceWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -801,7 +802,7 @@ func ContainerInstancesContainerInstanceResource() *schema.Resource {
 	}
 }
 
-func createContainerInstancesContainerInstance(d *schema.ResourceData, m interface{}) error {
+func createContainerInstancesContainerInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerInstancesContainerInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerInstanceClient()
@@ -814,13 +815,13 @@ func createContainerInstancesContainerInstance(d *schema.ResourceData, m interfa
 		}
 	}
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 
 	if powerOff {
-		if err := sync.StopContainerInstance(); err != nil {
-			return err
+		if err := sync.StopContainerInstance(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_container_instances.ContainerInstanceLifecycleStateInactive)
 	}
@@ -828,16 +829,16 @@ func createContainerInstancesContainerInstance(d *schema.ResourceData, m interfa
 
 }
 
-func readContainerInstancesContainerInstance(d *schema.ResourceData, m interface{}) error {
+func readContainerInstancesContainerInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerInstancesContainerInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerInstanceClient()
 	sync.VirtualNetworkClient = m.(*client.OracleClients).VirtualNetworkClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateContainerInstancesContainerInstance(d *schema.ResourceData, m interface{}) error {
+func updateContainerInstancesContainerInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerInstancesContainerInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerInstanceClient()
@@ -855,19 +856,19 @@ func updateContainerInstancesContainerInstance(d *schema.ResourceData, m interfa
 	}
 
 	if powerOn {
-		if err := sync.StartContainerInstance(); err != nil {
-			return err
+		if err := sync.StartContainerInstance(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_container_instances.ContainerInstanceLifecycleStateActive)
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	if powerOff {
-		if err := sync.StopContainerInstance(); err != nil {
-			return err
+		if err := sync.StopContainerInstance(ctx); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 		sync.D.Set("state", oci_container_instances.ContainerInstanceLifecycleStateInactive)
 	}
@@ -875,14 +876,14 @@ func updateContainerInstancesContainerInstance(d *schema.ResourceData, m interfa
 	return nil
 }
 
-func deleteContainerInstancesContainerInstance(d *schema.ResourceData, m interface{}) error {
+func deleteContainerInstancesContainerInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerInstancesContainerInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerInstanceClient()
 	sync.VirtualNetworkClient = m.(*client.OracleClients).VirtualNetworkClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type ContainerInstancesContainerInstanceResourceCrud struct {
@@ -921,7 +922,7 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) DeletedTarget() []stri
 	}
 }
 
-func (s *ContainerInstancesContainerInstanceResourceCrud) Create() error {
+func (s *ContainerInstancesContainerInstanceResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_container_instances.CreateContainerInstanceRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -1065,7 +1066,7 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) Create() error {
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerinstance")
-	response, err := s.Client.CreateContainerInstance(context.Background(), request)
+	response, err := s.Client.CreateContainerInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1077,14 +1078,14 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) Create() error {
 		s.D.SetId(*identifier)
 	}
 
-	return s.getContainerInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerinstance"), oci_container_instances.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getContainerInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerinstance"), oci_container_instances.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *ContainerInstancesContainerInstanceResourceCrud) getContainerInstanceFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ContainerInstancesContainerInstanceResourceCrud) getContainerInstanceFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_container_instances.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	containerInstanceId, err := containerInstanceWaitForWorkRequest(workId, "containerinstance",
+	containerInstanceId, err := containerInstanceWaitForWorkRequest(ctx, workId, "containerinstance",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -1092,14 +1093,14 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) getContainerInstanceFr
 	}
 	s.D.SetId(*containerInstanceId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *ContainerInstancesContainerInstanceResourceCrud) getContainerFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *ContainerInstancesContainerInstanceResourceCrud) getContainerFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_container_instances.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	_, err := containerInstanceWaitForWorkRequest(workId, "container",
+	_, err := containerInstanceWaitForWorkRequest(ctx, workId, "container",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -1131,7 +1132,7 @@ func containerInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 	}
 }
 
-func containerInstanceWaitForWorkRequest(wId *string, entityType string, action oci_container_instances.ActionTypeEnum,
+func containerInstanceWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_container_instances.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_container_instances.ContainerInstanceClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "containerinstance")
 	retryPolicy.ShouldRetryOperation = containerInstanceWorkRequestShouldRetryFunc(timeout)
@@ -1150,7 +1151,7 @@ func containerInstanceWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_container_instances.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -1162,7 +1163,7 @@ func containerInstanceWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -1179,14 +1180,14 @@ func containerInstanceWaitForWorkRequest(wId *string, entityType string, action 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_container_instances.OperationStatusFailed || response.Status == oci_container_instances.OperationStatusCanceled {
-		return nil, getErrorFromContainerInstancesContainerInstanceWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromContainerInstancesContainerInstanceWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromContainerInstancesContainerInstanceWorkRequest(client *oci_container_instances.ContainerInstanceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_container_instances.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromContainerInstancesContainerInstanceWorkRequest(ctx context.Context, client *oci_container_instances.ContainerInstanceClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_container_instances.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_container_instances.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1208,7 +1209,7 @@ func getErrorFromContainerInstancesContainerInstanceWorkRequest(client *oci_cont
 	return workRequestErr
 }
 
-func (s *ContainerInstancesContainerInstanceResourceCrud) Get() error {
+func (s *ContainerInstancesContainerInstanceResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_container_instances.GetContainerInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -1216,7 +1217,7 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerinstance")
 
-	response, err := s.Client.GetContainerInstance(context.Background(), request)
+	response, err := s.Client.GetContainerInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1225,11 +1226,11 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) Get() error {
 	return nil
 }
 
-func (s *ContainerInstancesContainerInstanceResourceCrud) Update() error {
+func (s *ContainerInstancesContainerInstanceResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -1282,7 +1283,7 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) Update() error {
 					},
 				}
 
-				response, err := s.VirtualNetworkClient.UpdateVnic(context.Background(), request)
+				response, err := s.VirtualNetworkClient.UpdateVnic(ctx, request)
 
 				if err != nil {
 					log.Printf("[ERROR] Primary VNIC could not be updated during container instance Update: %q (ContainerInstance ID: \"%v\", State: %q)", err, *s.Res.Id, s.Res.LifecycleState)
@@ -1309,14 +1310,14 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) Update() error {
 
 				request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerinstance")
 
-				response, err := s.Client.UpdateContainer(context.Background(), request)
+				response, err := s.Client.UpdateContainer(ctx, request)
 				if err != nil {
 					return err
 				}
 
 				workId := response.OpcWorkRequestId
 
-				err = s.getContainerFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerinstance"), oci_container_instances.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+				err = s.getContainerFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerinstance"), oci_container_instances.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 				if err != nil {
 					return err
 				}
@@ -1326,14 +1327,14 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) Update() error {
 		}
 	}
 
-	response, err := s.Client.UpdateContainerInstance(context.Background(), request)
+	response, err := s.Client.UpdateContainerInstance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 
-	return s.getContainerInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerinstance"), oci_container_instances.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getContainerInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerinstance"), oci_container_instances.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *ContainerInstancesContainerInstanceResourceCrud) mapToUpdateVnicDetailsInstance(fieldKeyFormat string) (oci_core.UpdateVnicDetails, error) {
@@ -1382,7 +1383,7 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) mapToUpdateVnicDetails
 	return result, nil
 }
 
-func (s *ContainerInstancesContainerInstanceResourceCrud) Delete() error {
+func (s *ContainerInstancesContainerInstanceResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_container_instances.DeleteContainerInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -1390,14 +1391,14 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerinstance")
 
-	response, err := s.Client.DeleteContainerInstance(context.Background(), request)
+	response, err := s.Client.DeleteContainerInstance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := containerInstanceWaitForWorkRequest(workId, "containerinstance",
+	_, delWorkRequestErr := containerInstanceWaitForWorkRequest(ctx, workId, "containerinstance",
 		oci_container_instances.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1537,7 +1538,7 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *ContainerInstancesContainerInstanceResourceCrud) StartContainerInstance() error {
+func (s *ContainerInstancesContainerInstanceResourceCrud) StartContainerInstance(ctx context.Context) error {
 	request := oci_container_instances.StartContainerInstanceRequest{}
 
 	idTmp := s.D.Id()
@@ -1545,7 +1546,7 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) StartContainerInstance
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerinstance")
 
-	_, err := s.Client.StartContainerInstance(context.Background(), request)
+	_, err := s.Client.StartContainerInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1553,10 +1554,10 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) StartContainerInstance
 	retentionPolicyFunc := func() bool {
 		return s.Res.LifecycleState == oci_container_instances.ContainerInstanceLifecycleStateActive
 	}
-	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *ContainerInstancesContainerInstanceResourceCrud) StopContainerInstance() error {
+func (s *ContainerInstancesContainerInstanceResourceCrud) StopContainerInstance(ctx context.Context) error {
 	request := oci_container_instances.StopContainerInstanceRequest{}
 
 	idTmp := s.D.Id()
@@ -1564,7 +1565,7 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) StopContainerInstance(
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerinstance")
 
-	_, err := s.Client.StopContainerInstance(context.Background(), request)
+	_, err := s.Client.StopContainerInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1572,7 +1573,7 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) StopContainerInstance(
 	retentionPolicyFunc := func() bool {
 		return s.Res.LifecycleState == oci_container_instances.ContainerInstanceLifecycleStateInactive
 	}
-	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *ContainerInstancesContainerInstanceResourceCrud) mapToContainerCapabilities(fieldKeyFormat string) (oci_container_instances.ContainerCapabilities, error) {
@@ -2542,7 +2543,7 @@ func HealthCheckHttpHeaderToMap(obj oci_container_instances.HealthCheckHttpHeade
 	return result
 }
 
-func (s *ContainerInstancesContainerInstanceResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *ContainerInstancesContainerInstanceResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_container_instances.ChangeContainerInstanceCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -2553,13 +2554,13 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) updateCompartment(comp
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerinstance")
 
-	response, err := s.Client.ChangeContainerInstanceCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeContainerInstanceCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getContainerInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerinstance"), oci_container_instances.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getContainerInstanceFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerinstance"), oci_container_instances.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *ContainerInstancesContainerInstanceResourceCrud) mapToCreateVnicDetails(fieldKeyFormat string) (oci_core.CreateVnicDetails, error) {

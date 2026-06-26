@@ -9,13 +9,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_logging "github.com/oracle/oci-go-sdk/v65/logging"
 )
 
 func LoggingLogsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readLoggingLogs,
+		ReadContext: readLoggingLogsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"display_name": {
@@ -51,12 +52,12 @@ func LoggingLogsDataSource() *schema.Resource {
 	}
 }
 
-func readLoggingLogs(d *schema.ResourceData, m interface{}) error {
+func readLoggingLogsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoggingLogsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoggingManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type LoggingLogsDataSourceCrud struct {
@@ -69,7 +70,7 @@ func (s *LoggingLogsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LoggingLogsDataSourceCrud) Get() error {
+func (s *LoggingLogsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_logging.ListLogsRequest{}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -102,7 +103,7 @@ func (s *LoggingLogsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "logging")
 
-	response, err := s.Client.ListLogs(context.Background(), request)
+	response, err := s.Client.ListLogs(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -111,7 +112,7 @@ func (s *LoggingLogsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListLogs(context.Background(), request)
+		listResponse, err := s.Client.ListLogs(ctx, request)
 		if err != nil {
 			return err
 		}

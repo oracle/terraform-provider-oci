@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_logging "github.com/oracle/oci-go-sdk/v65/logging"
 )
@@ -23,15 +24,15 @@ func LoggingLogDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(LoggingLogResource(), fieldMap, readSingularLoggingLog)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(LoggingLogResource(), fieldMap, readSingularLoggingLogWithContext)
 }
 
-func readSingularLoggingLog(d *schema.ResourceData, m interface{}) error {
+func readSingularLoggingLogWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoggingLogDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoggingManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type LoggingLogDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *LoggingLogDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *LoggingLogDataSourceCrud) Get() error {
+func (s *LoggingLogDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_logging.GetLogRequest{}
 
 	if logGroupId, ok := s.D.GetOkExists("log_group_id"); ok {
@@ -59,7 +60,7 @@ func (s *LoggingLogDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "logging")
 
-	response, err := s.Client.GetLog(context.Background(), request)
+	response, err := s.Client.GetLog(ctx, request)
 	if err != nil {
 		return err
 	}

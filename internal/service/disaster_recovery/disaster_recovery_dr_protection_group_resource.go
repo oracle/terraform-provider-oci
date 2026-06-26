@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -26,11 +27,11 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDisasterRecoveryDrProtectionGroup,
-		Read:     readDisasterRecoveryDrProtectionGroup,
-		Update:   updateDisasterRecoveryDrProtectionGroup,
-		Delete:   deleteDisasterRecoveryDrProtectionGroup,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDisasterRecoveryDrProtectionGroupWithContext,
+		ReadContext:   readDisasterRecoveryDrProtectionGroupWithContext,
+		UpdateContext: updateDisasterRecoveryDrProtectionGroupWithContext,
+		DeleteContext: deleteDisasterRecoveryDrProtectionGroupWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -1018,28 +1019,28 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 	}
 }
 
-func createDisasterRecoveryDrProtectionGroup(d *schema.ResourceData, m interface{}) error {
+func createDisasterRecoveryDrProtectionGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DisasterRecoveryDrProtectionGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DisasterRecoveryClient()
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 
 	return nil
 
 }
 
-func readDisasterRecoveryDrProtectionGroup(d *schema.ResourceData, m interface{}) error {
+func readDisasterRecoveryDrProtectionGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DisasterRecoveryDrProtectionGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DisasterRecoveryClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDisasterRecoveryDrProtectionGroup(d *schema.ResourceData, m interface{}) error {
+func updateDisasterRecoveryDrProtectionGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DisasterRecoveryDrProtectionGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DisasterRecoveryClient()
@@ -1049,31 +1050,32 @@ func updateDisasterRecoveryDrProtectionGroup(d *schema.ResourceData, m interface
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.DisassociateDrProtectionGroup()
+			err := sync.DisassociateDrProtectionGroup(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("disassociate_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			err := fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	return nil
 }
 
-func deleteDisasterRecoveryDrProtectionGroup(d *schema.ResourceData, m interface{}) error {
+func deleteDisasterRecoveryDrProtectionGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DisasterRecoveryDrProtectionGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DisasterRecoveryClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DisasterRecoveryDrProtectionGroupResourceCrud struct {
@@ -1112,7 +1114,7 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) DeletedTarget() []string
 	}
 }
 
-func (s *DisasterRecoveryDrProtectionGroupResourceCrud) Create() error {
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_disaster_recovery.CreateDrProtectionGroupRequest{}
 
 	if association, ok := s.D.GetOkExists("association"); ok {
@@ -1179,7 +1181,7 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery")
 
-	response, err := s.Client.CreateDrProtectionGroup(context.Background(), request)
+	response, err := s.Client.CreateDrProtectionGroup(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1190,20 +1192,20 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getDrProtectionGroupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDrProtectionGroupFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DisasterRecoveryDrProtectionGroupResourceCrud) getDrProtectionGroupFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) getDrProtectionGroupFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_disaster_recovery.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	drProtectionGroupId, err := drProtectionGroupWaitForWorkRequest(workId, "drProtectionGroup",
+	drProtectionGroupId, err := drProtectionGroupWaitForWorkRequest(ctx, workId, "drProtectionGroup",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, drProtectionGroupId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_disaster_recovery.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -1217,7 +1219,7 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) getDrProtectionGroupFrom
 	}
 	s.D.SetId(*drProtectionGroupId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func drProtectionGroupWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -1243,7 +1245,7 @@ func drProtectionGroupWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 	}
 }
 
-func drProtectionGroupWaitForWorkRequest(wId *string, entityType string, action oci_disaster_recovery.ActionTypeEnum,
+func drProtectionGroupWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_disaster_recovery.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_disaster_recovery.DisasterRecoveryClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "disaster_recovery")
 	retryPolicy.ShouldRetryOperation = drProtectionGroupWorkRequestShouldRetryFunc(timeout)
@@ -1262,7 +1264,7 @@ func drProtectionGroupWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_disaster_recovery.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -1274,7 +1276,7 @@ func drProtectionGroupWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -1291,14 +1293,14 @@ func drProtectionGroupWaitForWorkRequest(wId *string, entityType string, action 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_disaster_recovery.OperationStatusFailed || response.Status == oci_disaster_recovery.OperationStatusCanceled {
-		return nil, getErrorFromDisasterRecoveryDrProtectionGroupWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDisasterRecoveryDrProtectionGroupWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDisasterRecoveryDrProtectionGroupWorkRequest(client *oci_disaster_recovery.DisasterRecoveryClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_disaster_recovery.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDisasterRecoveryDrProtectionGroupWorkRequest(ctx context.Context, client *oci_disaster_recovery.DisasterRecoveryClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_disaster_recovery.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_disaster_recovery.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1320,7 +1322,7 @@ func getErrorFromDisasterRecoveryDrProtectionGroupWorkRequest(client *oci_disast
 	return workRequestErr
 }
 
-func (s *DisasterRecoveryDrProtectionGroupResourceCrud) Get() error {
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_disaster_recovery.GetDrProtectionGroupRequest{}
 
 	tmp := s.D.Id()
@@ -1328,7 +1330,7 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery")
 
-	response, err := s.Client.GetDrProtectionGroup(context.Background(), request)
+	response, err := s.Client.GetDrProtectionGroup(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1337,11 +1339,11 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DisasterRecoveryDrProtectionGroupResourceCrud) Update() error {
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -1400,16 +1402,16 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery")
 
-	response, err := s.Client.UpdateDrProtectionGroup(context.Background(), request)
+	response, err := s.Client.UpdateDrProtectionGroup(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDrProtectionGroupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDrProtectionGroupFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DisasterRecoveryDrProtectionGroupResourceCrud) Delete() error {
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_disaster_recovery.DeleteDrProtectionGroupRequest{}
 
 	tmp := s.D.Id()
@@ -1417,14 +1419,14 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery")
 
-	response, err := s.Client.DeleteDrProtectionGroup(context.Background(), request)
+	response, err := s.Client.DeleteDrProtectionGroup(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := drProtectionGroupWaitForWorkRequest(workId, "drProtectionGroup",
+	_, delWorkRequestErr := drProtectionGroupWaitForWorkRequest(ctx, workId, "drProtectionGroup",
 		oci_disaster_recovery.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -1489,7 +1491,7 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DisasterRecoveryDrProtectionGroupResourceCrud) DisassociateDrProtectionGroup() error {
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) DisassociateDrProtectionGroup(ctx context.Context) error {
 	request := oci_disaster_recovery.DisassociateDrProtectionGroupRequest{}
 
 	idTmp := s.D.Id()
@@ -1499,17 +1501,17 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) DisassociateDrProtection
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery")
 
-	response, err := s.Client.DisassociateDrProtectionGroup(context.Background(), request)
+	response, err := s.Client.DisassociateDrProtectionGroup(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getDrProtectionGroupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getDrProtectionGroupFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -4938,7 +4940,7 @@ func UpdateVaultAndEncryptionKeyDetailsToMap(obj *oci_disaster_recovery.UpdateVa
 	return result
 }
 
-func (s *DisasterRecoveryDrProtectionGroupResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DisasterRecoveryDrProtectionGroupResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_disaster_recovery.ChangeDrProtectionGroupCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -4949,11 +4951,11 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) updateCompartment(compar
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery")
 
-	response, err := s.Client.ChangeDrProtectionGroupCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeDrProtectionGroupCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDrProtectionGroupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDrProtectionGroupFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

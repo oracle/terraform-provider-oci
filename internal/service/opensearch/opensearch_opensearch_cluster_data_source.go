@@ -6,6 +6,7 @@ package opensearch
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_opensearch "github.com/oracle/oci-go-sdk/v65/opensearch"
 
@@ -20,15 +21,15 @@ func OpensearchOpensearchClusterDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(OpensearchOpensearchClusterResource(), fieldMap, readSingularOpensearchOpensearchCluster)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(OpensearchOpensearchClusterResource(), fieldMap, readSingularOpensearchOpensearchClusterWithContext)
 }
 
-func readSingularOpensearchOpensearchCluster(d *schema.ResourceData, m interface{}) error {
+func readSingularOpensearchOpensearchClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpensearchOpensearchClusterDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpensearchClusterClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OpensearchOpensearchClusterDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *OpensearchOpensearchClusterDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OpensearchOpensearchClusterDataSourceCrud) Get() error {
+func (s *OpensearchOpensearchClusterDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opensearch.GetOpensearchClusterRequest{}
 
 	if opensearchClusterId, ok := s.D.GetOkExists("opensearch_cluster_id"); ok {
@@ -51,7 +52,7 @@ func (s *OpensearchOpensearchClusterDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "opensearch")
 
-	response, err := s.Client.GetOpensearchCluster(context.Background(), request)
+	response, err := s.Client.GetOpensearchCluster(ctx, request)
 	if err != nil {
 		return err
 	}

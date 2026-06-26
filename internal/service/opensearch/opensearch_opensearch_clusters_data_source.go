@@ -6,6 +6,7 @@ package opensearch
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_opensearch "github.com/oracle/oci-go-sdk/v65/opensearch"
 
@@ -16,7 +17,7 @@ import (
 
 func OpensearchOpensearchClustersDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readOpensearchOpensearchClusters,
+		ReadContext: readOpensearchOpensearchClustersWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -53,12 +54,12 @@ func OpensearchOpensearchClustersDataSource() *schema.Resource {
 	}
 }
 
-func readOpensearchOpensearchClusters(d *schema.ResourceData, m interface{}) error {
+func readOpensearchOpensearchClustersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OpensearchOpensearchClustersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpensearchClusterClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OpensearchOpensearchClustersDataSourceCrud struct {
@@ -71,7 +72,7 @@ func (s *OpensearchOpensearchClustersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OpensearchOpensearchClustersDataSourceCrud) Get() error {
+func (s *OpensearchOpensearchClustersDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_opensearch.ListOpensearchClustersRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -95,7 +96,7 @@ func (s *OpensearchOpensearchClustersDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "opensearch")
 
-	response, err := s.Client.ListOpensearchClusters(context.Background(), request)
+	response, err := s.Client.ListOpensearchClusters(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -104,7 +105,7 @@ func (s *OpensearchOpensearchClustersDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListOpensearchClusters(context.Background(), request)
+		listResponse, err := s.Client.ListOpensearchClusters(ctx, request)
 		if err != nil {
 			return err
 		}

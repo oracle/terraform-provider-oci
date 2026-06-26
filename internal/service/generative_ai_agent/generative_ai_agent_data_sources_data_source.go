@@ -6,6 +6,7 @@ package generative_ai_agent
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_generative_ai_agent "github.com/oracle/oci-go-sdk/v65/generativeaiagent"
 
@@ -15,7 +16,7 @@ import (
 
 func GenerativeAiAgentDataSourcesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readGenerativeAiAgentDataSources,
+		ReadContext: readGenerativeAiAgentDataSourcesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -52,12 +53,12 @@ func GenerativeAiAgentDataSourcesDataSource() *schema.Resource {
 	}
 }
 
-func readGenerativeAiAgentDataSources(d *schema.ResourceData, m interface{}) error {
+func readGenerativeAiAgentDataSourcesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GenerativeAiAgentDataSourcesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiAgentClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type GenerativeAiAgentDataSourcesDataSourceCrud struct {
@@ -70,7 +71,7 @@ func (s *GenerativeAiAgentDataSourcesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GenerativeAiAgentDataSourcesDataSourceCrud) Get() error {
+func (s *GenerativeAiAgentDataSourcesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_generative_ai_agent.ListDataSourcesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -94,7 +95,7 @@ func (s *GenerativeAiAgentDataSourcesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "generative_ai_agent")
 
-	response, err := s.Client.ListDataSources(context.Background(), request)
+	response, err := s.Client.ListDataSources(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *GenerativeAiAgentDataSourcesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDataSources(context.Background(), request)
+		listResponse, err := s.Client.ListDataSources(ctx, request)
 		if err != nil {
 			return err
 		}

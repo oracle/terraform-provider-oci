@@ -447,7 +447,7 @@ func (s *NetworkLoadBalancerListenerResourceCrud) DeleteWithContext(ctx context.
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := networkLoadBalancerWaitForWorkRequest(workId,
+	_, delWorkRequestErr := networkLoadBalancerWaitForWorkRequest(ctx, workId,
 		oci_network_load_balancer.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

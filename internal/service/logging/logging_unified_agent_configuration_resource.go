@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -25,11 +26,11 @@ func LoggingUnifiedAgentConfigurationResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createLoggingUnifiedAgentConfiguration,
-		Read:     readLoggingUnifiedAgentConfiguration,
-		Update:   updateLoggingUnifiedAgentConfiguration,
-		Delete:   deleteLoggingUnifiedAgentConfiguration,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createLoggingUnifiedAgentConfigurationWithContext,
+		ReadContext:   readLoggingUnifiedAgentConfigurationWithContext,
+		UpdateContext: updateLoggingUnifiedAgentConfigurationWithContext,
+		DeleteContext: deleteLoggingUnifiedAgentConfigurationWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -1602,37 +1603,37 @@ func LoggingUnifiedAgentConfigurationResource() *schema.Resource {
 	}
 }
 
-func createLoggingUnifiedAgentConfiguration(d *schema.ResourceData, m interface{}) error {
+func createLoggingUnifiedAgentConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoggingUnifiedAgentConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoggingManagementClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readLoggingUnifiedAgentConfiguration(d *schema.ResourceData, m interface{}) error {
+func readLoggingUnifiedAgentConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoggingUnifiedAgentConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoggingManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateLoggingUnifiedAgentConfiguration(d *schema.ResourceData, m interface{}) error {
+func updateLoggingUnifiedAgentConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoggingUnifiedAgentConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoggingManagementClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteLoggingUnifiedAgentConfiguration(d *schema.ResourceData, m interface{}) error {
+func deleteLoggingUnifiedAgentConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &LoggingUnifiedAgentConfigurationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).LoggingManagementClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type LoggingUnifiedAgentConfigurationResourceCrud struct {
@@ -1668,7 +1669,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) DeletedTarget() []string 
 	return []string{}
 }
 
-func (s *LoggingUnifiedAgentConfigurationResourceCrud) Create() error {
+func (s *LoggingUnifiedAgentConfigurationResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_logging.CreateUnifiedAgentConfigurationRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -1727,14 +1728,14 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
-	response, err := s.Client.CreateUnifiedAgentConfiguration(context.Background(), request)
+	response, err := s.Client.CreateUnifiedAgentConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_logging.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_logging.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1750,14 +1751,14 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getUnifiedAgentConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getUnifiedAgentConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *LoggingUnifiedAgentConfigurationResourceCrud) getUnifiedAgentConfigurationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *LoggingUnifiedAgentConfigurationResourceCrud) getUnifiedAgentConfigurationFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_logging.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	unifiedAgentConfigurationId, err := unifiedAgentConfigurationWaitForWorkRequest(workId, "unifiedagentconfiguration",
+	unifiedAgentConfigurationId, err := unifiedAgentConfigurationWaitForWorkRequest(ctx, workId, "unifiedagentconfiguration",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -1765,7 +1766,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) getUnifiedAgentConfigurat
 	}
 	s.D.SetId(*unifiedAgentConfigurationId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func unifiedAgentConfigurationWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -1791,7 +1792,7 @@ func unifiedAgentConfigurationWorkRequestShouldRetryFunc(timeout time.Duration) 
 	}
 }
 
-func unifiedAgentConfigurationWaitForWorkRequest(wId *string, entityType string, action oci_logging.ActionTypesEnum,
+func unifiedAgentConfigurationWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_logging.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_logging.LoggingManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "logging")
 	retryPolicy.ShouldRetryOperation = unifiedAgentConfigurationWorkRequestShouldRetryFunc(timeout)
@@ -1810,7 +1811,7 @@ func unifiedAgentConfigurationWaitForWorkRequest(wId *string, entityType string,
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_logging.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -1822,7 +1823,7 @@ func unifiedAgentConfigurationWaitForWorkRequest(wId *string, entityType string,
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -1839,14 +1840,14 @@ func unifiedAgentConfigurationWaitForWorkRequest(wId *string, entityType string,
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_logging.OperationStatusFailed || response.Status == oci_logging.OperationStatusCanceled {
-		return nil, getErrorFromLoggingUnifiedAgentConfigurationWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromLoggingUnifiedAgentConfigurationWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromLoggingUnifiedAgentConfigurationWorkRequest(client *oci_logging.LoggingManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_logging.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromLoggingUnifiedAgentConfigurationWorkRequest(ctx context.Context, client *oci_logging.LoggingManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_logging.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_logging.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -1868,7 +1869,7 @@ func getErrorFromLoggingUnifiedAgentConfigurationWorkRequest(client *oci_logging
 	return workRequestErr
 }
 
-func (s *LoggingUnifiedAgentConfigurationResourceCrud) Get() error {
+func (s *LoggingUnifiedAgentConfigurationResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_logging.GetUnifiedAgentConfigurationRequest{}
 
 	tmp := s.D.Id()
@@ -1876,7 +1877,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
-	response, err := s.Client.GetUnifiedAgentConfiguration(context.Background(), request)
+	response, err := s.Client.GetUnifiedAgentConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1885,11 +1886,11 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) Get() error {
 	return nil
 }
 
-func (s *LoggingUnifiedAgentConfigurationResourceCrud) Update() error {
+func (s *LoggingUnifiedAgentConfigurationResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -1951,16 +1952,16 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
-	response, err := s.Client.UpdateUnifiedAgentConfiguration(context.Background(), request)
+	response, err := s.Client.UpdateUnifiedAgentConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getUnifiedAgentConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getUnifiedAgentConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *LoggingUnifiedAgentConfigurationResourceCrud) Delete() error {
+func (s *LoggingUnifiedAgentConfigurationResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_logging.DeleteUnifiedAgentConfigurationRequest{}
 
 	tmp := s.D.Id()
@@ -1968,7 +1969,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
-	response, err := s.Client.DeleteUnifiedAgentConfiguration(context.Background(), request)
+	response, err := s.Client.DeleteUnifiedAgentConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1976,7 +1977,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) Delete() error {
 	workId := response.OpcWorkRequestId
 
 	// Wait until it finishes
-	_, delWorkRequestErr := unifiedAgentConfigurationWaitForWorkRequest(workId, "unifiedagentconfiguration",
+	_, delWorkRequestErr := unifiedAgentConfigurationWaitForWorkRequest(ctx, workId, "unifiedagentconfiguration",
 		oci_logging.ActionTypesDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -4744,7 +4745,7 @@ func UnifiedJsonParserToMap(obj *oci_logging.UnifiedJsonParser) map[string]inter
 	return result
 }
 
-func (s *LoggingUnifiedAgentConfigurationResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *LoggingUnifiedAgentConfigurationResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_logging.ChangeUnifiedAgentConfigurationCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -4755,13 +4756,13 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) updateCompartment(compart
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging")
 
-	response, err := s.Client.ChangeUnifiedAgentConfigurationCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeUnifiedAgentConfigurationCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getUnifiedAgentConfigurationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesRelated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getUnifiedAgentConfigurationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "logging"), oci_logging.ActionTypesRelated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func criDiffSuppressfunc(k string, old string, new string, d *schema.ResourceData) bool {

@@ -6,6 +6,7 @@ package delegate_access_control
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_delegate_access_control "github.com/oracle/oci-go-sdk/v65/delegateaccesscontrol"
 
@@ -15,7 +16,7 @@ import (
 
 func DelegateAccessControlDelegationControlsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDelegateAccessControlDelegationControls,
+		ReadContext: readDelegateAccessControlDelegationControlsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -56,12 +57,12 @@ func DelegateAccessControlDelegationControlsDataSource() *schema.Resource {
 	}
 }
 
-func readDelegateAccessControlDelegationControls(d *schema.ResourceData, m interface{}) error {
+func readDelegateAccessControlDelegationControlsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DelegateAccessControlDelegationControlsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DelegateAccessControlClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DelegateAccessControlDelegationControlsDataSourceCrud struct {
@@ -74,7 +75,7 @@ func (s *DelegateAccessControlDelegationControlsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DelegateAccessControlDelegationControlsDataSourceCrud) Get() error {
+func (s *DelegateAccessControlDelegationControlsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_delegate_access_control.ListDelegationControlsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -102,7 +103,7 @@ func (s *DelegateAccessControlDelegationControlsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "delegate_access_control")
 
-	response, err := s.Client.ListDelegationControls(context.Background(), request)
+	response, err := s.Client.ListDelegationControls(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -111,7 +112,7 @@ func (s *DelegateAccessControlDelegationControlsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDelegationControls(context.Background(), request)
+		listResponse, err := s.Client.ListDelegationControls(ctx, request)
 		if err != nil {
 			return err
 		}

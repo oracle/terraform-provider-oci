@@ -11,6 +11,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_object_storage "github.com/oracle/oci-go-sdk/v65/objectstorage"
 )
@@ -25,15 +26,15 @@ func ObjectStoragePrivateEndpointDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(ObjectStoragePrivateEndpointResource(), fieldMap, readSingularObjectStoragePrivateEndpoint)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(ObjectStoragePrivateEndpointResource(), fieldMap, readSingularObjectStoragePrivateEndpointWithContext)
 }
 
-func readSingularObjectStoragePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
+func readSingularObjectStoragePrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ObjectStoragePrivateEndpointDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ObjectStorageClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ObjectStoragePrivateEndpointDataSourceCrud struct {
@@ -47,7 +48,7 @@ func (s *ObjectStoragePrivateEndpointDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ObjectStoragePrivateEndpointDataSourceCrud) Get() error {
+func (s *ObjectStoragePrivateEndpointDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_object_storage.GetPrivateEndpointRequest{}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -62,7 +63,7 @@ func (s *ObjectStoragePrivateEndpointDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "object_storage")
 
-	response, err := s.Client.GetPrivateEndpoint(context.Background(), request)
+	response, err := s.Client.GetPrivateEndpoint(ctx, request)
 	if err != nil {
 		return err
 	}

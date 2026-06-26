@@ -9,6 +9,7 @@ import (
 
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_container_instances "github.com/oracle/oci-go-sdk/v65/containerinstances"
 
@@ -22,16 +23,16 @@ func ContainerInstancesContainerInstanceDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(ContainerInstancesContainerInstanceResource(), fieldMap, readSingularContainerInstancesContainerInstance)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(ContainerInstancesContainerInstanceResource(), fieldMap, readSingularContainerInstancesContainerInstanceWithContext)
 }
 
-func readSingularContainerInstancesContainerInstance(d *schema.ResourceData, m interface{}) error {
+func readSingularContainerInstancesContainerInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerInstancesContainerInstanceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerInstanceClient()
 	sync.VirtualNetworkClient = m.(*client.OracleClients).VirtualNetworkClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ContainerInstancesContainerInstanceDataSourceCrud struct {
@@ -45,7 +46,7 @@ func (s *ContainerInstancesContainerInstanceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *ContainerInstancesContainerInstanceDataSourceCrud) Get() error {
+func (s *ContainerInstancesContainerInstanceDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_container_instances.GetContainerInstanceRequest{}
 
 	if containerInstanceId, ok := s.D.GetOkExists("container_instance_id"); ok {
@@ -55,7 +56,7 @@ func (s *ContainerInstancesContainerInstanceDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "containerinstance")
 
-	response, err := s.Client.GetContainerInstance(context.Background(), request)
+	response, err := s.Client.GetContainerInstance(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -13,6 +13,7 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -34,10 +35,10 @@ func AiLanguageJobResource() *schema.Resource {
 			Update: schema.DefaultTimeout(120 * time.Minute),
 			Delete: schema.DefaultTimeout(120 * time.Minute),
 		},
-		Create: createAiLanguageJob,
-		Read:   readAiLanguageJob,
-		Update: updateAiLanguageJob,
-		Delete: deleteAiLanguageJob,
+		CreateContext: createAiLanguageJobWithContext,
+		ReadContext:   readAiLanguageJobWithContext,
+		UpdateContext: updateAiLanguageJobWithContext,
+		DeleteContext: deleteAiLanguageJobWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -330,37 +331,37 @@ func AiLanguageJobResource() *schema.Resource {
 	}
 }
 
-func createAiLanguageJob(d *schema.ResourceData, m interface{}) error {
+func createAiLanguageJobWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiLanguageJobResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceLanguageClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readAiLanguageJob(d *schema.ResourceData, m interface{}) error {
+func readAiLanguageJobWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiLanguageJobResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceLanguageClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateAiLanguageJob(d *schema.ResourceData, m interface{}) error {
+func updateAiLanguageJobWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiLanguageJobResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceLanguageClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteAiLanguageJob(d *schema.ResourceData, m interface{}) error {
+func deleteAiLanguageJobWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiLanguageJobResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceLanguageClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type AiLanguageJobResourceCrud struct {
@@ -398,8 +399,7 @@ func (s *AiLanguageJobResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *AiLanguageJobResourceCrud) Create() error {
-	ctx := context.Background()
+func (s *AiLanguageJobResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_ai_language.CreateJobRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -488,12 +488,12 @@ func (s *AiLanguageJobResourceCrud) Create() error {
 	}
 	// ---- Wait until job finishes ----
 	utils.Logf("[Info] Dump createJob response id: %s,     workReqId: %s ", identifier, workId)
-	s.waitForJobCompletion(context.Background(), identifier, s.D.Timeout(schema.TimeoutCreate))
+	s.waitForJobCompletion(ctx, identifier, s.D.Timeout(schema.TimeoutCreate))
 	utils.Logf("[Info] Dump createJob response id after wait: %s,     workReqId: %s ", identifier, workId)
 
 	s.D.SetId(*identifier)
-	return s.Get()
-	//return s.getJobFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_language"), oci_ai_language.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.GetWithContext(ctx)
+	//return s.getJobFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_language"), oci_ai_language.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *AiLanguageJobResourceCrud) waitForJobCompletion(ctx context.Context, jobId *string, timeout time.Duration) {
@@ -536,11 +536,11 @@ func (s *AiLanguageJobResourceCrud) waitForJobCompletion(ctx context.Context, jo
 	}
 }
 
-func (s *AiLanguageJobResourceCrud) getJobFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *AiLanguageJobResourceCrud) getJobFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_ai_language.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	jobId, err := jobWaitForWorkRequest(workId, "job",
+	jobId, err := jobWaitForWorkRequest(ctx, workId, "job",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -548,7 +548,7 @@ func (s *AiLanguageJobResourceCrud) getJobFromWorkRequest(workId *string, retryP
 	}
 	s.D.SetId(*jobId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func jobWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -574,7 +574,7 @@ func jobWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_comm
 	}
 }
 
-func jobWaitForWorkRequest(wId *string, entityType string, action oci_ai_language.ActionTypeEnum,
+func jobWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_ai_language.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_ai_language.AIServiceLanguageClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "ai_language")
 	retryPolicy.ShouldRetryOperation = jobWorkRequestShouldRetryFunc(timeout)
@@ -594,7 +594,7 @@ func jobWaitForWorkRequest(wId *string, entityType string, action oci_ai_languag
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_ai_language.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -606,7 +606,7 @@ func jobWaitForWorkRequest(wId *string, entityType string, action oci_ai_languag
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -623,14 +623,14 @@ func jobWaitForWorkRequest(wId *string, entityType string, action oci_ai_languag
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	//if identifier == nil || response.Status == oci_ai_language.OperationStatusFailed || response.Status == oci_ai_language.OperationStatusCanceled {
-	//	return nil, getErrorFromAiLanguageJobWorkRequest(client, wId, retryPolicy, entityType, action)
+	//	return nil, getErrorFromAiLanguageJobWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	//}
 
 	return identifier, nil
 }
 
-func getErrorFromAiLanguageJobWorkRequest(client *oci_ai_language.AIServiceLanguageClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ai_language.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromAiLanguageJobWorkRequest(ctx context.Context, client *oci_ai_language.AIServiceLanguageClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_ai_language.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_ai_language.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -652,7 +652,7 @@ func getErrorFromAiLanguageJobWorkRequest(client *oci_ai_language.AIServiceLangu
 	return workRequestErr
 }
 
-func (s *AiLanguageJobResourceCrud) Get() error {
+func (s *AiLanguageJobResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ai_language.GetJobRequest{}
 
 	tmp := s.D.Id()
@@ -660,7 +660,7 @@ func (s *AiLanguageJobResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_language")
 
-	response, err := s.Client.GetJob(context.Background(), request)
+	response, err := s.Client.GetJob(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -669,11 +669,11 @@ func (s *AiLanguageJobResourceCrud) Get() error {
 	return nil
 }
 
-func (s *AiLanguageJobResourceCrud) Update() error {
+func (s *AiLanguageJobResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -696,7 +696,7 @@ func (s *AiLanguageJobResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_language")
 
-	response, err := s.Client.UpdateJob(context.Background(), request)
+	response, err := s.Client.UpdateJob(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -705,7 +705,7 @@ func (s *AiLanguageJobResourceCrud) Update() error {
 	return nil
 }
 
-func (s *AiLanguageJobResourceCrud) Delete() error {
+func (s *AiLanguageJobResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_ai_language.DeleteJobRequest{}
 	getRequest := oci_ai_language.GetJobRequest{}
 
@@ -722,7 +722,7 @@ func (s *AiLanguageJobResourceCrud) Delete() error {
 	//request.RequestMetadata.RetryPolicy.MaximumNumberAttempts = 2
 	for {
 		// Re-fetch job state each iteration
-		getResponse, err := s.Client.GetJob(context.Background(), getRequest)
+		getResponse, err := s.Client.GetJob(ctx, getRequest)
 		if err != nil {
 			if se, ok := oci_common.IsServiceError(err); ok {
 				if se.GetHTTPStatusCode() == 404 {
@@ -744,7 +744,7 @@ func (s *AiLanguageJobResourceCrud) Delete() error {
 		time.Sleep(5 * time.Second)
 	}
 
-	response, err := s.Client.DeleteJob(context.Background(), request)
+	response, err := s.Client.DeleteJob(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -754,7 +754,7 @@ func (s *AiLanguageJobResourceCrud) Delete() error {
 		fmt.Println("[Warn] WorkRequestID is nil; retrying GetJob to fetch latest work request ID")
 
 		// try to re-fetch job details to get WorkRequestId (some services set it after delete call)
-		getResponse, err := s.Client.GetJob(context.Background(), getRequest)
+		getResponse, err := s.Client.GetJob(ctx, getRequest)
 		if err == nil && getResponse.OpcRequestId != nil {
 			workId = getResponse.OpcRequestId
 			fmt.Println("[Info] Retrieved WorkRequestID from GetJob:", *workId)
@@ -770,7 +770,7 @@ func (s *AiLanguageJobResourceCrud) Delete() error {
 			case <-timeout:
 				return fmt.Errorf("timeout waiting for job deletion (no WorkRequestID available)")
 			default:
-				_, err := s.Client.GetJob(context.Background(), getRequest)
+				_, err := s.Client.GetJob(ctx, getRequest)
 				if err != nil {
 					if se, ok := oci_common.IsServiceError(err); ok {
 						if se.GetHTTPStatusCode() == 404 {
@@ -787,7 +787,7 @@ func (s *AiLanguageJobResourceCrud) Delete() error {
 	}
 	fmt.Println("WorkRequestID error while deleting:", workId)
 	// Wait until it finishes
-	//_, delWorkRequestErr := jobWaitForWorkRequest(workId, "job",
+	//_, delWorkRequestErr := jobWaitForWorkRequest(ctx, workId, "job",
 	//	oci_ai_language.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	//return delWorkRequestErr
 	return nil
@@ -1246,7 +1246,7 @@ func ObjectPrefixOutputLocationToMap(obj *oci_ai_language.ObjectPrefixOutputLoca
 	return result
 }
 
-func (s *AiLanguageJobResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *AiLanguageJobResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_ai_language.ChangeJobCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1257,12 +1257,12 @@ func (s *AiLanguageJobResourceCrud) updateCompartment(compartment interface{}) e
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ai_language")
 
-	_, err := s.Client.ChangeJobCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeJobCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

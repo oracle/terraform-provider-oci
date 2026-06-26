@@ -9,13 +9,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_object_storage "github.com/oracle/oci-go-sdk/v65/objectstorage"
 )
 
 func ObjectStorageObjectsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readObjectStorageObjects,
+		ReadContext: readObjectStorageObjectsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"bucket": {
@@ -106,12 +107,12 @@ func ObjectStorageObjectsDataSource() *schema.Resource {
 	}
 }
 
-func readObjectStorageObjects(d *schema.ResourceData, m interface{}) error {
+func readObjectStorageObjectsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ObjectStorageObjectsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ObjectStorageClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type ObjectStorageObjectsDataSourceCrud struct {
@@ -126,7 +127,7 @@ func (s *ObjectStorageObjectsDataSourceCrud) VoidState() {
 
 var listObjectsFields = "name,size,md5,timeCreated,timeModified,etag,storageTier,archivalState"
 
-func (s *ObjectStorageObjectsDataSourceCrud) Get() error {
+func (s *ObjectStorageObjectsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_object_storage.ListObjectsRequest{
 		// @CODEGEN 2/2018: Need to specify all the fields we want from the ObjectSummaries
 		Fields: &listObjectsFields,
@@ -182,7 +183,7 @@ func (s *ObjectStorageObjectsDataSourceCrud) Get() error {
 	for {
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "object_storage")
 
-		response, err := s.Client.ListObjects(context.Background(), request)
+		response, err := s.Client.ListObjects(ctx, request)
 		if err != nil {
 			return err
 		}

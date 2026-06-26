@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,11 +25,11 @@ func DelegateAccessControlDelegationControlResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDelegateAccessControlDelegationControl,
-		Read:     readDelegateAccessControlDelegationControl,
-		Update:   updateDelegateAccessControlDelegationControl,
-		Delete:   deleteDelegateAccessControlDelegationControl,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDelegateAccessControlDelegationControlWithContext,
+		ReadContext:   readDelegateAccessControlDelegationControlWithContext,
+		UpdateContext: updateDelegateAccessControlDelegationControlWithContext,
+		DeleteContext: deleteDelegateAccessControlDelegationControlWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -147,40 +148,40 @@ func DelegateAccessControlDelegationControlResource() *schema.Resource {
 	}
 }
 
-func createDelegateAccessControlDelegationControl(d *schema.ResourceData, m interface{}) error {
+func createDelegateAccessControlDelegationControlWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DelegateAccessControlDelegationControlResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DelegateAccessControlClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).DelegateAccessControlWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDelegateAccessControlDelegationControl(d *schema.ResourceData, m interface{}) error {
+func readDelegateAccessControlDelegationControlWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DelegateAccessControlDelegationControlResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DelegateAccessControlClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDelegateAccessControlDelegationControl(d *schema.ResourceData, m interface{}) error {
+func updateDelegateAccessControlDelegationControlWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DelegateAccessControlDelegationControlResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DelegateAccessControlClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).DelegateAccessControlWorkRequestClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDelegateAccessControlDelegationControl(d *schema.ResourceData, m interface{}) error {
+func deleteDelegateAccessControlDelegationControlWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DelegateAccessControlDelegationControlResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DelegateAccessControlClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).DelegateAccessControlWorkRequestClient()
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DelegateAccessControlDelegationControlResourceCrud struct {
@@ -220,7 +221,7 @@ func (s *DelegateAccessControlDelegationControlResourceCrud) DeletedTarget() []s
 	}
 }
 
-func (s *DelegateAccessControlDelegationControlResourceCrud) Create() error {
+func (s *DelegateAccessControlDelegationControlResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_delegate_access_control.CreateDelegationControlRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -324,7 +325,7 @@ func (s *DelegateAccessControlDelegationControlResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control")
 
-	response, err := s.Client.CreateDelegationControl(context.Background(), request)
+	response, err := s.Client.CreateDelegationControl(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -335,14 +336,14 @@ func (s *DelegateAccessControlDelegationControlResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getDelegationControlFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control"), oci_delegate_access_control.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDelegationControlFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control"), oci_delegate_access_control.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DelegateAccessControlDelegationControlResourceCrud) getDelegationControlFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DelegateAccessControlDelegationControlResourceCrud) getDelegationControlFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_delegate_access_control.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	delegationControlId, err := delegationControlWaitForWorkRequest(workId, "delegationcontrol",
+	delegationControlId, err := delegationControlWaitForWorkRequest(ctx, workId, "delegationcontrol",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -350,7 +351,7 @@ func (s *DelegateAccessControlDelegationControlResourceCrud) getDelegationContro
 	}
 	s.D.SetId(*delegationControlId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func delegationControlWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -376,7 +377,7 @@ func delegationControlWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 	}
 }
 
-func delegationControlWaitForWorkRequest(wId *string, entityType string, action oci_delegate_access_control.ActionTypeEnum,
+func delegationControlWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_delegate_access_control.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_delegate_access_control.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "delegate_access_control")
 	retryPolicy.ShouldRetryOperation = delegationControlWorkRequestShouldRetryFunc(timeout)
@@ -395,7 +396,7 @@ func delegationControlWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_delegate_access_control.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -407,7 +408,7 @@ func delegationControlWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -424,14 +425,14 @@ func delegationControlWaitForWorkRequest(wId *string, entityType string, action 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_delegate_access_control.OperationStatusFailed || response.Status == oci_delegate_access_control.OperationStatusCanceled {
-		return nil, getErrorFromDelegateAccessControlDelegationControlWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDelegateAccessControlDelegationControlWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDelegateAccessControlDelegationControlWorkRequest(client *oci_delegate_access_control.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_delegate_access_control.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDelegateAccessControlDelegationControlWorkRequest(ctx context.Context, client *oci_delegate_access_control.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_delegate_access_control.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_delegate_access_control.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -453,7 +454,7 @@ func getErrorFromDelegateAccessControlDelegationControlWorkRequest(client *oci_d
 	return workRequestErr
 }
 
-func (s *DelegateAccessControlDelegationControlResourceCrud) Get() error {
+func (s *DelegateAccessControlDelegationControlResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_delegate_access_control.GetDelegationControlRequest{}
 
 	tmp := s.D.Id()
@@ -461,7 +462,7 @@ func (s *DelegateAccessControlDelegationControlResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control")
 
-	response, err := s.Client.GetDelegationControl(context.Background(), request)
+	response, err := s.Client.GetDelegationControl(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -470,11 +471,11 @@ func (s *DelegateAccessControlDelegationControlResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DelegateAccessControlDelegationControlResourceCrud) Update() error {
+func (s *DelegateAccessControlDelegationControlResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -567,16 +568,16 @@ func (s *DelegateAccessControlDelegationControlResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control")
 
-	response, err := s.Client.UpdateDelegationControl(context.Background(), request)
+	response, err := s.Client.UpdateDelegationControl(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDelegationControlFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control"), oci_delegate_access_control.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDelegationControlFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control"), oci_delegate_access_control.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DelegateAccessControlDelegationControlResourceCrud) Delete() error {
+func (s *DelegateAccessControlDelegationControlResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_delegate_access_control.DeleteDelegationControlRequest{}
 
 	tmp := s.D.Id()
@@ -589,14 +590,14 @@ func (s *DelegateAccessControlDelegationControlResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control")
 
-	response, err := s.Client.DeleteDelegationControl(context.Background(), request)
+	response, err := s.Client.DeleteDelegationControl(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := delegationControlWaitForWorkRequest(workId, "delegationcontrol",
+	_, delWorkRequestErr := delegationControlWaitForWorkRequest(ctx, workId, "delegationcontrol",
 		oci_delegate_access_control.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }
@@ -723,7 +724,7 @@ func DelegationControlSummaryToMap(obj oci_delegate_access_control.DelegationCon
 	return result
 }
 
-func (s *DelegateAccessControlDelegationControlResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DelegateAccessControlDelegationControlResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_delegate_access_control.ChangeDelegationControlCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -734,11 +735,11 @@ func (s *DelegateAccessControlDelegationControlResourceCrud) updateCompartment(c
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control")
 
-	response, err := s.Client.ChangeDelegationControlCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeDelegationControlCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDelegationControlFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control"), oci_delegate_access_control.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getDelegationControlFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "delegate_access_control"), oci_delegate_access_control.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

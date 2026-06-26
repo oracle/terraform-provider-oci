@@ -6,6 +6,7 @@ package ai_language
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ai_language "github.com/oracle/oci-go-sdk/v65/ailanguage"
 
@@ -19,15 +20,15 @@ func AiLanguageJobDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(AiLanguageJobResource(), fieldMap, readSingularAiLanguageJob)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(AiLanguageJobResource(), fieldMap, readSingularAiLanguageJobWithContext)
 }
 
-func readSingularAiLanguageJob(d *schema.ResourceData, m interface{}) error {
+func readSingularAiLanguageJobWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &AiLanguageJobDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).AiServiceLanguageClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type AiLanguageJobDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *AiLanguageJobDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *AiLanguageJobDataSourceCrud) Get() error {
+func (s *AiLanguageJobDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_ai_language.GetJobRequest{}
 
 	if jobId, ok := s.D.GetOkExists("job_id"); ok {
@@ -50,7 +51,7 @@ func (s *AiLanguageJobDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ai_language")
 
-	response, err := s.Client.GetJob(context.Background(), request)
+	response, err := s.Client.GetJob(ctx, request)
 	if err != nil {
 		return err
 	}
