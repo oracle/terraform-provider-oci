@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"strings"
 	"testing"
 	"time"
 
@@ -62,7 +63,9 @@ var (
 		"dns_config":                           acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceDnsConfigRepresentation},
 		"freeform_tags":                        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 		"graceful_shutdown_timeout_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"security_context":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceSecurityContextRepresentation},
 		"volumes":                              acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceEmptyDirVolumesRepresentation},
+		"restart_trigger":                      acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
 		"state":                                acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`, Update: `INACTIVE`},
 		"lifecycle":                            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesCIDefinedTagsRepresentation},
 	}
@@ -123,6 +126,11 @@ var (
 		"options":     acctest.Representation{RepType: acctest.Optional, Create: []string{`options`}},
 		"searches":    acctest.Representation{RepType: acctest.Optional, Create: []string{`search domain`}},
 	}
+	ContainerInstancesContainerInstanceSecurityContextRepresentation = map[string]interface{}{
+		"fs_group":               acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"fs_group_change_policy": acctest.Representation{RepType: acctest.Optional, Create: `ALWAYS`},
+		"security_context_type":  acctest.Representation{RepType: acctest.Optional, Create: `LINUX`},
+	}
 	ContainerInstancesContainerInstanceEmptyDirVolumesRepresentation = map[string]interface{}{
 		"name":          acctest.Representation{RepType: acctest.Required, Create: `volumeName`},
 		"volume_type":   acctest.Representation{RepType: acctest.Required, Create: `EMPTYDIR`},
@@ -136,6 +144,15 @@ var (
 	ContainerInstancesContainerInstanceGoodConfigFileVolumesConfigsRepresentation = map[string]interface{}{
 		"data":      acctest.Representation{RepType: acctest.Required, Create: `T0NJ`},
 		"file_name": acctest.Representation{RepType: acctest.Required, Create: `my_file`},
+	}
+	ContainerInstancesContainerInstanceOciFssVolumesRepresentation = map[string]interface{}{
+		"name":          acctest.Representation{RepType: acctest.Required, Create: `volumeFss`},
+		"volume_type":   acctest.Representation{RepType: acctest.Required, Create: `OCI_FSS_FILE_SYSTEM`},
+		"export":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerInstancesContainerInstanceVolumesExportRepresentation},
+		"mount_command": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceVolumesMountCommandRepresentation},
+		"mount_target":  acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerInstancesContainerInstanceVolumesMountTargetRepresentation},
+		"security":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceVolumesSecurityRepresentation},
+		"subnet_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
 	ContainerInstancesContainerInstanceContainersHealthChecksRepresentation = map[string]interface{}{
 		"health_check_type":        acctest.Representation{RepType: acctest.Required, Create: `HTTP`},
@@ -167,7 +184,7 @@ var (
 		"volume_name":  acctest.Representation{RepType: acctest.Required, Create: `volumeName`},
 		"is_read_only": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"partition":    acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"sub_path":     acctest.Representation{RepType: acctest.Optional, Create: `/subPath`},
+		"sub_path":     acctest.Representation{RepType: acctest.Optional, Create: `subPath`},
 	}
 	ContainerInstancesContainerInstanceContainersGoodConfigFileVolumeMountsRepresentation = map[string]interface{}{
 		"mount_path":  acctest.Representation{RepType: acctest.Required, Create: `/mnt`},
@@ -202,13 +219,32 @@ var (
 		"egress_security_rules":  []acctest.RepresentationGroup{{RepType: acctest.Required, Group: CISecurityListTCPEgressSecurityRulesRepresentation}},
 		"ingress_security_rules": []acctest.RepresentationGroup{{RepType: acctest.Required, Group: CISecurityListSSHIngressSecurityRulesRepresentation}, {RepType: acctest.Required, Group: CISecurityListHTTPIngressSecurityRulesRepresentation}, {RepType: acctest.Required, Group: CISecurityListICMPIngressSecurityRulesRepresentation}, {RepType: acctest.Required, Group: CISecurityListICMPVcnCidrIngressSecurityRulesRepresentation}},
 	}
+	ContainerInstancesContainerInstanceVolumesExportRepresentation = map[string]interface{}{
+		"id":                  acctest.Representation{RepType: acctest.Required, Create: `id`},
+		"oci_fss_export_type": acctest.Representation{RepType: acctest.Optional, Create: `OCID`},
+	}
+	ContainerInstancesContainerInstanceVolumesMountCommandRepresentation = map[string]interface{}{
+		"mount_options": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceVolumesMountCommandMountOptionsRepresentation},
+	}
+	ContainerInstancesContainerInstanceVolumesMountTargetRepresentation = map[string]interface{}{
+		"id":                        acctest.Representation{RepType: acctest.Required, Create: `id`},
+		"oci_fss_mount_target_type": acctest.Representation{RepType: acctest.Optional, Create: `OCID`},
+	}
+	ContainerInstancesContainerInstanceVolumesSecurityRepresentation = map[string]interface{}{
+		"auth":                    acctest.Representation{RepType: acctest.Optional, Create: `SYS`},
+		"is_encrypted_in_transit": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
 	ContainerInstancesContainerInstanceContainersHealthChecksHeadersRepresentation = map[string]interface{}{
 		"name":  acctest.Representation{RepType: acctest.Optional, Create: `name`},
 		"value": acctest.Representation{RepType: acctest.Optional, Create: `value`},
 	}
 	ContainerInstancesContainerInstanceContainersSecurityContextCapabilitiesRepresentation = map[string]interface{}{
-		"add_capabilities":  acctest.Representation{RepType: acctest.Optional, Create: []oci_container_instances.ContainerCapabilityTypeEnum{`addCapabilities`}},
-		"drop_capabilities": acctest.Representation{RepType: acctest.Optional, Create: []oci_container_instances.ContainerCapabilityTypeEnum{`dropCapabilities`}},
+		"add_capabilities":  acctest.Representation{RepType: acctest.Optional, Create: []string{`addCapabilities`}},
+		"drop_capabilities": acctest.Representation{RepType: acctest.Optional, Create: []string{`dropCapabilities`}},
+	}
+	ContainerInstancesContainerInstanceVolumesMountCommandMountOptionsRepresentation = map[string]interface{}{
+		"option": acctest.Representation{RepType: acctest.Optional, Create: `option`},
+		"value":  acctest.Representation{RepType: acctest.Optional, Create: `value`},
 	}
 
 	CISecurityListTCPEgressSecurityRulesRepresentation = map[string]interface{}{
@@ -282,6 +318,36 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CIRouteTableRepresentation) +
 		AvailabilityDomainConfig
 )
+
+func TestContainerInstancesContainerInstanceOciFssVolumeRepresentation(t *testing.T) {
+	representations := acctest.RepresentationCopyWithNewProperties(ContainerInstancesContainerInstanceRepresentation, map[string]interface{}{
+		"containers": acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerInstancesContainerInstanceContainersRepresentation},
+		"volumes":    acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerInstancesContainerInstanceOciFssVolumesRepresentation},
+	})
+
+	config := acctest.GenerateResourceFromRepresentationMap("oci_container_instances_container_instance", "test_container_instance", acctest.Optional, acctest.Create, representations)
+	for _, expected := range []string{
+		`volume_type = "OCI_FSS_FILE_SYSTEM"`,
+		`name = "volumeFss"`,
+		`export {`,
+		`id = "id"`,
+		`oci_fss_export_type = "OCID"`,
+		`mount_command {`,
+		`mount_options {`,
+		`option = "option"`,
+		`value = "value"`,
+		`mount_target {`,
+		`oci_fss_mount_target_type = "OCID"`,
+		`security {`,
+		`auth = "SYS"`,
+		`is_encrypted_in_transit = "false"`,
+		`subnet_id = "${oci_core_subnet.test_subnet.id}"`,
+	} {
+		if !strings.Contains(config, expected) {
+			t.Fatalf("expected generated FSS config to contain %q; config:\n%s", expected, config)
+		}
+	}
+}
 
 // issue-routing-tag: container_instances/default
 func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
@@ -467,7 +533,7 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.is_read_only", "false"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.mount_path", "/mnt"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.partition", "10"),
-				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.sub_path", "/subPath"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.sub_path", "subPath"),
 				resource.TestCheckResourceAttrSet(resourceName, "containers.0.volume_mounts.0.volume_name"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.working_directory", "/mnt"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -478,6 +544,10 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "graceful_shutdown_timeout_in_seconds", "10"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "security_context.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "security_context.0.fs_group", "10"),
+				resource.TestCheckResourceAttr(resourceName, "security_context.0.fs_group_change_policy", "ALWAYS"),
+				resource.TestCheckResourceAttr(resourceName, "security_context.0.security_context_type", "LINUX"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "CI.Standard.E4.Flex"),
 				resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "shape_config.0.memory_in_gbs", "8"),
@@ -560,7 +630,7 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.is_read_only", "false"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.mount_path", "/mnt"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.partition", "10"),
-				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.sub_path", "/subPath"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.sub_path", "subPath"),
 				resource.TestCheckResourceAttrSet(resourceName, "containers.0.volume_mounts.0.volume_name"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.working_directory", "/mnt"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -571,6 +641,10 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "graceful_shutdown_timeout_in_seconds", "10"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "security_context.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "security_context.0.fs_group", "10"),
+				resource.TestCheckResourceAttr(resourceName, "security_context.0.fs_group_change_policy", "ALWAYS"),
+				resource.TestCheckResourceAttr(resourceName, "security_context.0.security_context_type", "LINUX"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "CI.Standard.E4.Flex"),
 				resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "shape_config.0.memory_in_gbs", "8"),
@@ -648,7 +722,7 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.is_read_only", "false"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.mount_path", "/mnt"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.partition", "10"),
-				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.sub_path", "/subPath"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.sub_path", "subPath"),
 				resource.TestCheckResourceAttrSet(resourceName, "containers.0.volume_mounts.0.volume_name"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.working_directory", "/mnt"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -659,6 +733,10 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "graceful_shutdown_timeout_in_seconds", "10"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "security_context.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "security_context.0.fs_group", "10"),
+				resource.TestCheckResourceAttr(resourceName, "security_context.0.fs_group_change_policy", "ALWAYS"),
+				resource.TestCheckResourceAttr(resourceName, "security_context.0.security_context_type", "LINUX"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "CI.Standard.E4.Flex"),
 				resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "shape_config.0.memory_in_gbs", "8"),
@@ -725,6 +803,10 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "graceful_shutdown_timeout_in_seconds", "10"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_context.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_context.0.fs_group", "10"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_context.0.fs_group_change_policy", "ALWAYS"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_context.0.security_context_type", "LINUX"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "shape", "CI.Standard.E4.Flex"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.0.memory_in_gbs", "8"),
@@ -789,7 +871,7 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.is_read_only", "false"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.mount_path", "/mnt"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.partition", "10"),
-				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.sub_path", "/subPath"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.sub_path", "subPath"),
 				resource.TestCheckResourceAttrSet(resourceName, "containers.0.volume_mounts.0.volume_name"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.working_directory", "/mnt"),
 				resource.TestCheckResourceAttr(resourceName, "containers.1.arguments.#", "2"),
@@ -806,7 +888,7 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "containers.1.volume_mounts.0.is_read_only", "false"),
 				resource.TestCheckResourceAttr(resourceName, "containers.1.volume_mounts.0.mount_path", "/mnt"),
 				resource.TestCheckResourceAttr(resourceName, "containers.1.volume_mounts.0.partition", "10"),
-				resource.TestCheckResourceAttr(resourceName, "containers.1.volume_mounts.0.sub_path", "/subPath"),
+				resource.TestCheckResourceAttr(resourceName, "containers.1.volume_mounts.0.sub_path", "subPath"),
 				resource.TestCheckResourceAttrSet(resourceName, "containers.1.volume_mounts.0.volume_name"),
 				resource.TestCheckResourceAttr(resourceName, "containers.1.working_directory", "/mnt"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -856,7 +938,7 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.is_read_only", "false"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.mount_path", "/mnt"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.partition", "10"),
-				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.sub_path", "/subPath"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.volume_mounts.0.sub_path", "subPath"),
 				resource.TestCheckResourceAttrSet(resourceName, "containers.0.volume_mounts.0.volume_name"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.working_directory", "/mnt"),
 				resource.TestCheckResourceAttr(resourceName, "containers.1.arguments.#", "2"),
@@ -873,7 +955,7 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "containers.1.volume_mounts.0.is_read_only", "false"),
 				resource.TestCheckResourceAttr(resourceName, "containers.1.volume_mounts.0.mount_path", "/mnt"),
 				resource.TestCheckResourceAttr(resourceName, "containers.1.volume_mounts.0.partition", "10"),
-				resource.TestCheckResourceAttr(resourceName, "containers.1.volume_mounts.0.sub_path", "/subPath"),
+				resource.TestCheckResourceAttr(resourceName, "containers.1.volume_mounts.0.sub_path", "subPath"),
 				resource.TestCheckResourceAttrSet(resourceName, "containers.1.volume_mounts.0.volume_name"),
 				resource.TestCheckResourceAttr(resourceName, "containers.1.working_directory", "/mnt"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
