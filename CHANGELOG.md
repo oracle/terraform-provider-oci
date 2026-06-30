@@ -1,3 +1,18 @@
+## 8.21.0 (June 30, 2026)
+
+### Added
+- Support for Generative AI project resource and memory config updates
+- Support for CCP Windows Alloy BYOL project
+- Support for Sending a tags-only update can still send compute-node scale intent.
+- Support initial jitter for Data Science schedules
+- Support for Point in Time Recovery (PITR) for PSQL.
+- Support for Object Storage Bucket Encryption Keys (UI & API)
+- Support for SKE: Virtual Node Pool Cycling
+
+### Bug Fix
+- Reconcile replica KMS key state for block volume replicas
+- Fix Unable to set sysvar_binlog_row_value_options to empty string
+
 ## 8.20.0 (June 24, 2026)
 
 ### Added
