@@ -120,18 +120,21 @@ type BackupSourceTypeEnum string
 const (
 	BackupSourceTypeScheduled BackupSourceTypeEnum = "SCHEDULED"
 	BackupSourceTypeManual    BackupSourceTypeEnum = "MANUAL"
+	BackupSourceTypePitr      BackupSourceTypeEnum = "PITR"
 	BackupSourceTypeCopied    BackupSourceTypeEnum = "COPIED"
 )
 
 var mappingBackupSourceTypeEnum = map[string]BackupSourceTypeEnum{
 	"SCHEDULED": BackupSourceTypeScheduled,
 	"MANUAL":    BackupSourceTypeManual,
+	"PITR":      BackupSourceTypePitr,
 	"COPIED":    BackupSourceTypeCopied,
 }
 
 var mappingBackupSourceTypeEnumLowerCase = map[string]BackupSourceTypeEnum{
 	"scheduled": BackupSourceTypeScheduled,
 	"manual":    BackupSourceTypeManual,
+	"pitr":      BackupSourceTypePitr,
 	"copied":    BackupSourceTypeCopied,
 }
 
@@ -149,6 +152,7 @@ func GetBackupSourceTypeEnumStringValues() []string {
 	return []string{
 		"SCHEDULED",
 		"MANUAL",
+		"PITR",
 		"COPIED",
 	}
 }

@@ -91,8 +91,8 @@ func (m *createconfigurationsourceproviderdetails) UnmarshalPolymorphicJSON(data
 		mm := CreateGitlabAccessTokenConfigurationSourceProviderDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "BITBUCKET_CLOUD_USERNAME_APPPASSWORD":
-		mm := CreateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails{}
+	case "BITBUCKET_CLOUD_ACCESS_TOKEN":
+		mm := CreateBitbucketCloudEmailApiTokenConfigurationSourceProviderDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "GITHUB_ACCESS_TOKEN":

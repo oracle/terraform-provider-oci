@@ -11,39 +11,45 @@
 package psql
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// RestoreDbSystemDetails Backup details to restore the database system.
-type RestoreDbSystemDetails struct {
+// StandardPitrPolicy A standard point-in-time recovery policy.
+type StandardPitrPolicy struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database system backup.
-	BackupId *string `mandatory:"false" json:"backupId"`
-
-	// The desired AD for regions with three ADs. This parameter is optional.
-	// If not set, the AD is chosen based on the database system's current AD.
-	Ad *string `mandatory:"false" json:"ad"`
-
-	// The target point-in-time that the database system restore can get started from, expressed in
-	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
-	// Example: `2016-08-25T21:10:29.600Z`
-	TimeToRestore *common.SDKTime `mandatory:"false" json:"timeToRestore"`
+	// The number of days the database system retains backups required for point-in-time recovery.
+	RestoreDays *int `mandatory:"true" json:"restoreDays"`
 }
 
-func (m RestoreDbSystemDetails) String() string {
+func (m StandardPitrPolicy) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m RestoreDbSystemDetails) ValidateEnumValue() (bool, error) {
+func (m StandardPitrPolicy) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m StandardPitrPolicy) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeStandardPitrPolicy StandardPitrPolicy
+	s := struct {
+		DiscriminatorParam string `json:"kind"`
+		MarshalTypeStandardPitrPolicy
+	}{
+		"STANDARD",
+		(MarshalTypeStandardPitrPolicy)(m),
+	}
+
+	return json.Marshal(&s)
 }

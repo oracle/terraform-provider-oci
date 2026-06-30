@@ -45,6 +45,12 @@ type GithubAccessTokenConfigurationSourceProvider struct {
 	// Username which is used to authorize the user.
 	Username *string `mandatory:"false" json:"username"`
 
+	// Atlassian account email used for Bitbucket Cloud API token authentication.
+	Email *string `mandatory:"false" json:"email"`
+
+	// Indicates whether this configuration source provider uses legacy Bitbucket Cloud username/app-password credentials and must be migrated.
+	IsMigrationRequired *bool `mandatory:"false" json:"isMigrationRequired"`
+
 	// Secret ocid which is used to authorize the user.
 	SecretId *string `mandatory:"false" json:"secretId"`
 
@@ -111,6 +117,16 @@ func (m GithubAccessTokenConfigurationSourceProvider) GetPrivateServerConfigDeta
 // GetUsername returns Username
 func (m GithubAccessTokenConfigurationSourceProvider) GetUsername() *string {
 	return m.Username
+}
+
+// GetEmail returns Email
+func (m GithubAccessTokenConfigurationSourceProvider) GetEmail() *string {
+	return m.Email
+}
+
+// GetIsMigrationRequired returns IsMigrationRequired
+func (m GithubAccessTokenConfigurationSourceProvider) GetIsMigrationRequired() *bool {
+	return m.IsMigrationRequired
 }
 
 // GetSecretId returns SecretId

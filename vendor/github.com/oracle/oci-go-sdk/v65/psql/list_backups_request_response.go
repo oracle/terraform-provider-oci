@@ -54,6 +54,9 @@ type ListBackupsRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// A filter to return only backups whose backupSourceType matches the given backupSourceType
+	BackupSourceType *string `mandatory:"false" contributesTo:"query" name:"backupSourceType"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
