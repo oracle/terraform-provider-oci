@@ -16,30 +16,34 @@ import (
 	"strings"
 )
 
-// RestoreDbSystemDetails Backup details to restore the database system.
-type RestoreDbSystemDetails struct {
+// PitrTimeWindow Time interval for which point-in-time recovery (PITR) is supported.
+// The database can be restored to any timestamp between
+// `timeRecoveryWindowStart` and `timeRecoveryWindowEnd` (inclusive).
+type PitrTimeWindow struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database system backup.
-	BackupId *string `mandatory:"false" json:"backupId"`
+	// Earliest timestamp in the PITR window to which the database can be
+	// restored. Timestamps earlier than this are not recoverable.
+	// The value must be an RFC 3339 (https://tools.ietf.org/html/rfc3339)
+	// timestamp.
+	// Example: `2016-08-25T21:10:29Z`
+	TimeRecoveryWindowStart *common.SDKTime `mandatory:"true" json:"timeRecoveryWindowStart"`
 
-	// The desired AD for regions with three ADs. This parameter is optional.
-	// If not set, the AD is chosen based on the database system's current AD.
-	Ad *string `mandatory:"false" json:"ad"`
-
-	// The target point-in-time that the database system restore can get started from, expressed in
-	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
-	// Example: `2016-08-25T21:10:29.600Z`
-	TimeToRestore *common.SDKTime `mandatory:"false" json:"timeToRestore"`
+	// Latest timestamp in the PITR window to which the database can be
+	// restored. Timestamps later than this are not recoverable.
+	// The value must be an RFC 3339 (https://tools.ietf.org/html/rfc3339)
+	// timestamp.
+	// Example: `2016-08-25T21:10:29Z`
+	TimeRecoveryWindowEnd *common.SDKTime `mandatory:"true" json:"timeRecoveryWindowEnd"`
 }
 
-func (m RestoreDbSystemDetails) String() string {
+func (m PitrTimeWindow) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m RestoreDbSystemDetails) ValidateEnumValue() (bool, error) {
+func (m PitrTimeWindow) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

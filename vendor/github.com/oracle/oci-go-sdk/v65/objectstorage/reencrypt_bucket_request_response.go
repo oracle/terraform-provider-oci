@@ -25,6 +25,9 @@ type ReencryptBucketRequest struct {
 	// Example: `my-new-bucket1`
 	BucketName *string `mandatory:"true" contributesTo:"path" name:"bucketName"`
 
+	// If true, reencrypt only the intermediate bucket keys and skip everything else in the bucket.
+	IsReencryptBucketKeyOnly *bool `mandatory:"false" contributesTo:"query" name:"isReencryptBucketKeyOnly"`
+
 	// The client request ID for tracing.
 	OpcClientRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-client-request-id"`
 

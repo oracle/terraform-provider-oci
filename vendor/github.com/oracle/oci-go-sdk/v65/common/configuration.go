@@ -31,6 +31,8 @@ const (
 	OAuthDelegationToken AuthenticationType = "oauth_delegation_token"
 	// WorkloadIdentityFederation is used for token exchange grant auth type
 	WorkloadIdentityFederation AuthenticationType = "workload_identity_federation"
+	// PKCS11Authentication is used for PKCS#11 authentication
+	PKCS11Authentication AuthenticationType = "pkcs11_authentication"
 	// UnknownAuthenticationType is used for none meaningful auth type
 	UnknownAuthenticationType AuthenticationType = "unknown_auth_type"
 )
@@ -94,11 +96,18 @@ func IsConfigurationProviderValid(conf ConfigurationProvider) (ok bool, err erro
 	}
 
 	_, err = conf.PrivateRSAKey()
-	ok = err == nil
-	if err != nil {
-		return
+	if err == nil {
+		return true, nil
 	}
-	return true, nil
+
+	if signerConf, signerOK := conf.(signerProvider); signerOK {
+		_, err = signerConf.PrivateKeySigner()
+		if err != nil {
+			return false, err
+		}
+		return true, nil
+	}
+	return false, err
 }
 
 // rawConfigurationProvider allows a user to simply construct a configuration provider from raw values.

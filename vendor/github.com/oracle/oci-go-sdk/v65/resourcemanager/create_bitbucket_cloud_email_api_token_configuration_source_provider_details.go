@@ -19,9 +19,24 @@ import (
 	"strings"
 )
 
-// UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails Update details for a configuration source provider of the type `BITBUCKET_CLOUD_USERNAME_APPPASSWORD`.
-// This type corresponds to a configuration source provider in Bitbucket that is authenticated with a username and app password.
-type UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails struct {
+// CreateBitbucketCloudEmailApiTokenConfigurationSourceProviderDetails Creation details for a configuration source provider of the type `BITBUCKET_CLOUD_ACCESS_TOKEN`.
+// This type corresponds to a configuration source provider in Bitbucket Cloud that is authenticated with Atlassian account email and API token.
+// Legacy username/app-password create request shapes are no longer supported.
+type CreateBitbucketCloudEmailApiTokenConfigurationSourceProviderDetails struct {
+
+	// The Bitbucket cloud service endpoint.
+	// Example: `https://bitbucket.org/`
+	ApiEndpoint *string `mandatory:"true" json:"apiEndpoint"`
+
+	// Atlassian account email used for Bitbucket Cloud API token authentication.
+	Email *string `mandatory:"true" json:"email"`
+
+	// The secret ocid which is used to authorize the user.
+	SecretId *string `mandatory:"true" json:"secretId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where
+	// you want to create the configuration source provider.
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
@@ -40,51 +55,46 @@ type UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails s
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+}
 
-	// The Bitbucket service endpoint.
-	// Example: `https://bitbucket.org/`
-	ApiEndpoint *string `mandatory:"false" json:"apiEndpoint"`
-
-	// The username for the user of the Bitbucket cloud repository.
-	Username *string `mandatory:"false" json:"username"`
-
-	// The secret ocid which is used to authorize the user.
-	SecretId *string `mandatory:"false" json:"secretId"`
+// GetCompartmentId returns CompartmentId
+func (m CreateBitbucketCloudEmailApiTokenConfigurationSourceProviderDetails) GetCompartmentId() *string {
+	return m.CompartmentId
 }
 
 // GetDisplayName returns DisplayName
-func (m UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails) GetDisplayName() *string {
+func (m CreateBitbucketCloudEmailApiTokenConfigurationSourceProviderDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
 // GetDescription returns Description
-func (m UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails) GetDescription() *string {
+func (m CreateBitbucketCloudEmailApiTokenConfigurationSourceProviderDetails) GetDescription() *string {
 	return m.Description
 }
 
 // GetPrivateServerConfigDetails returns PrivateServerConfigDetails
-func (m UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
+func (m CreateBitbucketCloudEmailApiTokenConfigurationSourceProviderDetails) GetPrivateServerConfigDetails() *PrivateServerConfigDetails {
 	return m.PrivateServerConfigDetails
 }
 
 // GetFreeformTags returns FreeformTags
-func (m UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails) GetFreeformTags() map[string]string {
+func (m CreateBitbucketCloudEmailApiTokenConfigurationSourceProviderDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
 // GetDefinedTags returns DefinedTags
-func (m UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails) GetDefinedTags() map[string]map[string]interface{} {
+func (m CreateBitbucketCloudEmailApiTokenConfigurationSourceProviderDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-func (m UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails) String() string {
+func (m CreateBitbucketCloudEmailApiTokenConfigurationSourceProviderDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails) ValidateEnumValue() (bool, error) {
+func (m CreateBitbucketCloudEmailApiTokenConfigurationSourceProviderDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -94,14 +104,14 @@ func (m UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetail
 }
 
 // MarshalJSON marshals to json representation
-func (m UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeUpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails UpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails
+func (m CreateBitbucketCloudEmailApiTokenConfigurationSourceProviderDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeCreateBitbucketCloudEmailApiTokenConfigurationSourceProviderDetails CreateBitbucketCloudEmailApiTokenConfigurationSourceProviderDetails
 	s := struct {
 		DiscriminatorParam string `json:"configSourceProviderType"`
-		MarshalTypeUpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails
+		MarshalTypeCreateBitbucketCloudEmailApiTokenConfigurationSourceProviderDetails
 	}{
-		"BITBUCKET_CLOUD_USERNAME_APPPASSWORD",
-		(MarshalTypeUpdateBitbucketCloudUsernameAppPasswordConfigurationSourceProviderDetails)(m),
+		"BITBUCKET_CLOUD_ACCESS_TOKEN",
+		(MarshalTypeCreateBitbucketCloudEmailApiTokenConfigurationSourceProviderDetails)(m),
 	}
 
 	return json.Marshal(&s)

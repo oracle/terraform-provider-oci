@@ -229,6 +229,9 @@ type GetObjectResponse struct {
 	// and then calculating the SHA384 hash of the concatenated values.
 	OpcMultipartSha384 *string `presentIn:"header" name:"opc-multipart-sha384"`
 
+	// True if bucket key was enabled and used to encrypt the object during upload or reencrypt.
+	OpcBucketKeyEnabled *bool `presentIn:"header" name:"opc-bucket-key-enabled"`
+
 	// Content-Type header, as described in RFC 2616 (https://tools.ietf.org/html/rfc2616#section-14.17).
 	ContentType *string `presentIn:"header" name:"content-type"`
 
