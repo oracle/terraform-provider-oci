@@ -21,6 +21,7 @@ Creates a PrivilegedApiRequest.
 ```hcl
 resource "oci_apiaccesscontrol_privileged_api_request" "test_privileged_api_request" {
 	#Required
+	compartment_id = var.compartment_id
 	privileged_operation_list {
 		#Required
 		api_name = oci_apigateway_api.test_api.name
@@ -32,7 +33,6 @@ resource "oci_apiaccesscontrol_privileged_api_request" "test_privileged_api_requ
 	resource_id = oci_cloud_guard_resource.test_resource.id
 
 	#Optional
-	compartment_id = var.compartment_id
 	defined_tags = {"Operations.CostCenter"= "42"}
 	duration_in_hrs = var.privileged_api_request_duration_in_hrs
 	freeform_tags = {"Department"= "Finance"}
@@ -49,7 +49,7 @@ resource "oci_apiaccesscontrol_privileged_api_request" "test_privileged_api_requ
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `duration_in_hrs` - (Optional) Duration in hours for which access is sought on the target resource.
 * `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
@@ -76,6 +76,7 @@ The following attributes are exported:
 * `approver_details` - Contains the approver details who have approved the privilegedApi Request during the initial request.
 	* `approval_action` - The action done by the approver.
 	* `approval_comment` - Comment specified by the approver of the request.
+	* `approver_group_level` - The group level at which the approver approved.
 	* `approver_id` - The userId of the approver.
 	* `time_approved_for_access` - Time for when the privilegedApi request should start that is authorized by the customer in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.Example: '2020-05-22T21:10:29.600Z' 
 	* `time_of_authorization` - Time when the privilegedApi request was authorized by the customer in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.Example: '2020-05-22T21:10:29.600Z' 

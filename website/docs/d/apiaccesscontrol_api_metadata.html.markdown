@@ -33,10 +33,11 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `api_name` - The name of the api to execute the api request.
+* `attributes` - List of the fields that is use while calling post or put for the data.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - The operation Name of the api. The name must be unique.
 * `entity_type` - ResourceType to which the apiMetadata belongs to.
-* `fields` - List of the fields that is use while calling post or put for the data.
+* `fields` - deprecated; Use attributes field instead.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ApiDetail.
 * `lifecycle_details` - A message that describes the current state of the ApiMetadata in more detail. For example, can be used to provide actionable information for a resource in the Failed state. 

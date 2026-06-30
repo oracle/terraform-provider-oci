@@ -81,15 +81,33 @@ func ApiaccesscontrolPrivilegedApiControlResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"resources": {
-				Type:     schema.TypeList,
-				Required: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
-			},
 
 			// Optional
+			"approver_group_level_list": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"group_id": {
+							Type:     schema.TypeList,
+							Required: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"group_level": {
+							Type:     schema.TypeInt,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -117,6 +135,14 @@ func ApiaccesscontrolPrivilegedApiControlResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
+			},
+			"resources": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 
 			// Computed
@@ -239,6 +265,23 @@ func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) CreateWithContext(ctx
 		}
 		if len(tmp) != 0 || s.D.HasChange("approver_group_id_list") {
 			request.ApproverGroupIdList = tmp
+		}
+	}
+
+	if approverGroupLevelList, ok := s.D.GetOkExists("approver_group_level_list"); ok {
+		interfaces := approverGroupLevelList.([]interface{})
+		tmp := make([]oci_apiaccesscontrol.ApproverGroupLevel, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "approver_group_level_list", stateDataIndex)
+			converted, err := s.mapToApproverGroupLevel(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("approver_group_level_list") {
+			request.ApproverGroupLevelList = tmp
 		}
 	}
 
@@ -499,6 +542,23 @@ func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) UpdateWithContext(ctx
 		}
 	}
 
+	if approverGroupLevelList, ok := s.D.GetOkExists("approver_group_level_list"); ok {
+		interfaces := approverGroupLevelList.([]interface{})
+		tmp := make([]oci_apiaccesscontrol.ApproverGroupLevel, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "approver_group_level_list", stateDataIndex)
+			converted, err := s.mapToApproverGroupLevel(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("approver_group_level_list") {
+			request.ApproverGroupLevelList = tmp
+		}
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -608,6 +668,12 @@ func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) DeleteWithContext(ctx
 func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) SetData() error {
 	s.D.Set("approver_group_id_list", s.Res.ApproverGroupIdList)
 
+	approverGroupLevelList := []interface{}{}
+	for _, item := range s.Res.ApproverGroupLevelList {
+		approverGroupLevelList = append(approverGroupLevelList, ApproverGroupLevelToMap(item))
+	}
+	s.D.Set("approver_group_level_list", approverGroupLevelList)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -675,6 +741,42 @@ func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *ApiaccesscontrolPrivilegedApiControlResourceCrud) mapToApproverGroupLevel(fieldKeyFormat string) (oci_apiaccesscontrol.ApproverGroupLevel, error) {
+	result := oci_apiaccesscontrol.ApproverGroupLevel{}
+
+	if groupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "group_id")); ok {
+		interfaces := groupId.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "group_id")) {
+			result.GroupId = tmp
+		}
+	}
+
+	if groupLevel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "group_level")); ok {
+		tmp := groupLevel.(int)
+		result.GroupLevel = &tmp
+	}
+
+	return result, nil
+}
+
+func ApproverGroupLevelToMap(obj oci_apiaccesscontrol.ApproverGroupLevel) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["group_id"] = obj.GroupId
+
+	if obj.GroupLevel != nil {
+		result["group_level"] = int(*obj.GroupLevel)
+	}
+
+	return result
 }
 
 func PrivilegedApiControlSummaryToMap(obj oci_apiaccesscontrol.PrivilegedApiControlSummary) map[string]interface{} {

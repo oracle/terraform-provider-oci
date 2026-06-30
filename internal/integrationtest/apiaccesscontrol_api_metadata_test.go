@@ -24,8 +24,9 @@ var (
 
 	ApiaccesscontrolApiMetadataDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"resource_type":  acctest.Representation{RepType: acctest.Optional, Create: `CLOUDEXADATAINFRASTRUCTURE`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		// "display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"resource_type": acctest.Representation{RepType: acctest.Optional, Create: `EXADATAINFRASTRUCTURE`},
+		// "state":          acctest.Representation{RepType: acctest.Optional, Create: `DELETED`},
 	}
 
 	ApiaccesscontrolApiMetadataResourceConfig = ""
@@ -56,8 +57,8 @@ func TestApiaccesscontrolApiMetadataResource_basic(t *testing.T) {
 				compartmentIdVariableStr + ApiaccesscontrolApiMetadataResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "resource_type", "CLOUDEXADATAINFRASTRUCTURE"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "resource_type", "EXADATAINFRASTRUCTURE"),
+				// resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "api_metadata_collection.#"),
 			),

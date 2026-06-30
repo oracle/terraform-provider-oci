@@ -17,9 +17,10 @@ Lists all privilegedApi requests in the compartment.
 
 ```hcl
 data "oci_apiaccesscontrol_privileged_api_requests" "test_privileged_api_requests" {
+	#Required
+	compartment_id = var.compartment_id
 
 	#Optional
-	compartment_id = var.compartment_id
 	display_name = var.privileged_api_request_display_name
 	id = var.privileged_api_request_id
 	resource_id = oci_cloud_guard_resource.test_resource.id
@@ -32,7 +33,7 @@ data "oci_apiaccesscontrol_privileged_api_requests" "test_privileged_api_request
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly.
 * `id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the PrivilegedApiRequest.
 * `resource_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource .
@@ -53,6 +54,7 @@ The following attributes are exported:
 * `approver_details` - Contains the approver details who have approved the privilegedApi Request during the initial request.
 	* `approval_action` - The action done by the approver.
 	* `approval_comment` - Comment specified by the approver of the request.
+	* `approver_group_level` - The group level at which the approver approved.
 	* `approver_id` - The userId of the approver.
 	* `time_approved_for_access` - Time for when the privilegedApi request should start that is authorized by the customer in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.Example: '2020-05-22T21:10:29.600Z' 
 	* `time_of_authorization` - Time when the privilegedApi request was authorized by the customer in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.Example: '2020-05-22T21:10:29.600Z' 

@@ -33,14 +33,19 @@ resource "oci_apiaccesscontrol_privileged_api_control" "test_privileged_api_cont
 		entity_type = var.privileged_api_control_privileged_operation_list_entity_type
 	}
 	resource_type = var.privileged_api_control_resource_type
-	resources = var.privileged_api_control_resources
 
 	#Optional
+	approver_group_level_list {
+		#Required
+		group_id = oci_identity_group.test_group.id
+		group_level = var.privileged_api_control_approver_group_level_list_group_level
+	}
 	defined_tags = {"Operations.CostCenter"= "42"}
 	description = var.privileged_api_control_description
 	display_name = var.privileged_api_control_display_name
 	freeform_tags = {"Department"= "Finance"}
 	number_of_approvers = var.privileged_api_control_number_of_approvers
+	resources = var.privileged_api_control_resources
 }
 ```
 
@@ -49,19 +54,22 @@ resource "oci_apiaccesscontrol_privileged_api_control" "test_privileged_api_cont
 The following arguments are supported:
 
 * `approver_group_id_list` - (Required) (Updatable) List of user IAM group ids who can approve an privilegedApi request associated with a resource governed by this operator control.
+* `approver_group_level_list` - (Optional) (Updatable) List of Group containing the levels at which the users belonging to the group can authorize.
+	* `group_id` - (Required) (Updatable) id of the group.
+	* `group_level` - (Required) (Updatable) level of the group.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to create the PrivilegedApiControl in. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) Description of the privilegedApi control.
 * `display_name` - (Optional) (Updatable) Name of the privilegedApi control It has to be unique.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `notification_topic_id` - (Required) (Updatable) The OCID of the Oracle Cloud Infrastructure Notification topic to publish messages related to this Delegation Control.
+* `notification_topic_id` - (Required) (Updatable) The OCID of the Oracle Cloud Infrastructure Notification topic to publish messages related to this Privileged Api Control.
 * `number_of_approvers` - (Optional) (Updatable) Number of approvers required to approve an privilegedApi request.
 * `privileged_operation_list` - (Required) (Updatable) List of privileged operator operations. If Privileged API Managment is enabled for a resource it will be validated whether the operation done by the operator is a part of privileged operation. 
 	* `api_name` - (Required) (Updatable) name of the api which needs to be protected.
 	* `attribute_names` - (Optional) (Updatable) list of attributes belonging to the above api which needs to be protected.
 	* `entity_type` - (Optional) (Updatable) type of the entity which needs to be protected.
 * `resource_type` - (Required) (Updatable) resourceType for which the PrivilegedApiControl is applicable
-* `resources` - (Required) (Updatable) contains Resource details
+* `resources` - (Optional) (Updatable) contains Resource details
 
 
 ** IMPORTANT **
@@ -72,6 +80,9 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `approver_group_id_list` - List of IAM user group ids who can approve an privilegedApi request associated with a target resource under the governance of this operator control.
+* `approver_group_level_list` - List of Group containing the levels at which the users belonging to the group can authorize.
+	* `group_id` - id of the group.
+	* `group_level` - level of the group.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - Description of privilegedApi control.
@@ -90,7 +101,7 @@ The following attributes are exported:
 * `state` - The current state of the PrivilegedApiControl.
 * `state_details` - A message that describes the current state of the PrivilegedApiControl in more detail. For example, can be used to provide actionable information for a resource in the Failed state. 
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `time_created` - The date and time the PrivilegedApiControl was created, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - The date and time the PrivilegedApiControl was created, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339). Example: `2016-08-25T21:10:29.600Z` 
 * `time_deleted` - The date and time the PrivilegedApiControl was marked for delete, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `time_updated` - The date and time the PrivilegedApiControl was updated, in the format defined by [RFC 3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 
