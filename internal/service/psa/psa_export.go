@@ -17,11 +17,11 @@ func init() {
 
 func getPsaPrivateServiceAccesId(resource *tf_export.OCIResource) (string, error) {
 
-	privateServiceAccessId, ok := resource.SourceAttributes["private_service_access_id"].(string)
+	privateServiceAccessId, ok := resource.SourceAttributes["id"].(string)
 	if !ok {
 		return "", fmt.Errorf("[ERROR] unable to find privateServiceAccessId for Psa PrivateServiceAcces")
 	}
-	return GetPrivateServiceAccesCompositeId(privateServiceAccessId), nil
+	return privateServiceAccessId, nil
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
