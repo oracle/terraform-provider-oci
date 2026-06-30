@@ -69,6 +69,12 @@ func (s *ApiaccesscontrolPrivilegedApiControlDataSourceCrud) SetData() error {
 
 	s.D.Set("approver_group_id_list", s.Res.ApproverGroupIdList)
 
+	approverGroupLevelList := []interface{}{}
+	for _, item := range s.Res.ApproverGroupLevelList {
+		approverGroupLevelList = append(approverGroupLevelList, ApproverGroupLevelToMap(item))
+	}
+	s.D.Set("approver_group_level_list", approverGroupLevelList)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

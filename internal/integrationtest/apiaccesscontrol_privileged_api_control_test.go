@@ -31,8 +31,8 @@ var (
 	}
 
 	ApiaccesscontrolPrivilegedApiControlDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `terraformprivilegedapicontrolUpdated`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `tersi_apictl_create`, Update: `tersi_apictl_update`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_apiaccesscontrol_privileged_api_control.test_privileged_api_control.id}`},
 		"resource_type":  acctest.Representation{RepType: acctest.Optional, Create: `EXADATAINFRASTRUCTURE`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
@@ -50,7 +50,7 @@ var (
 		"resource_type":             acctest.Representation{RepType: acctest.Required, Create: `EXADATAINFRASTRUCTURE`},
 		"resources":                 acctest.Representation{RepType: acctest.Required, Create: []string{`${var.resource_id}`}},
 		"description":               acctest.Representation{RepType: acctest.Required, Create: `TerraformPrivilegedApiControl test create`},
-		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `terraformprivilegedapicontrol`, Update: `terraformprivilegedapicontrolUpdated`},
+		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `tersi_apictl_create`, Update: `tersi_apictl_update`},
 		"number_of_approvers":       acctest.Representation{RepType: acctest.Required, Create: `1`},
 	}
 	ApiaccesscontrolPrivilegedApiControlPrivilegedOperationListRepresentation = map[string]interface{}{
@@ -116,7 +116,6 @@ func TestApiaccesscontrolPrivilegedApiControlResource_basic(t *testing.T) {
 						return err3
 					}
 					return approveApiaccesscontrolPrivilegedApiRequestResources(compartmentId, resId)
-
 				},
 			),
 		},
@@ -170,7 +169,7 @@ func TestApiaccesscontrolPrivilegedApiControlResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "approver_group_id_list.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "description", "TerraformPrivilegedApiControl test create"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "terraformprivilegedapicontrol"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "tersi_apictl_create"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "notification_topic_id"),
 				resource.TestCheckResourceAttr(resourceName, "number_of_approvers", "1"),
@@ -200,7 +199,7 @@ func TestApiaccesscontrolPrivilegedApiControlResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "approver_group_id_list.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "TerraformPrivilegedApiControl test create"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "terraformprivilegedapicontrolUpdated"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "tersi_apictl_update"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "notification_topic_id"),
 				resource.TestCheckResourceAttr(resourceName, "number_of_approvers", "1"),
@@ -221,6 +220,7 @@ func TestApiaccesscontrolPrivilegedApiControlResource_basic(t *testing.T) {
 				},
 			),
 		},
+
 		// verify datasource
 		{
 			Config: config + onsTopicIdVariableStr + resourceIdVariableStr +
@@ -229,11 +229,10 @@ func TestApiaccesscontrolPrivilegedApiControlResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_apiaccesscontrol_privileged_api_control", "test_privileged_api_control", acctest.Optional, acctest.Update, ApiaccesscontrolPrivilegedApiControlRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "terraformprivilegedapicontrolUpdated"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "tersi_apictl_update"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttr(datasourceName, "resource_type", "EXADATAINFRASTRUCTURE"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
 				resource.TestCheckResourceAttr(datasourceName, "privileged_api_control_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "privileged_api_control_collection.0.items.#", "1"),
 			),
@@ -245,11 +244,10 @@ func TestApiaccesscontrolPrivilegedApiControlResource_basic(t *testing.T) {
 				compartmentIdVariableStr + ApiaccesscontrolPrivilegedApiControlResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "privileged_api_control_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "approver_group_id_list.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "TerraformPrivilegedApiControl test create"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "terraformprivilegedapicontrolUpdated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "tersi_apictl_update"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "number_of_approvers", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "privileged_operation_list.#", "1"),
@@ -262,6 +260,7 @@ func TestApiaccesscontrolPrivilegedApiControlResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},
+
 		// verify resource import
 		{
 			Config:                  config + ApiaccesscontrolPrivilegedApiControlRequiredOnlyResource,
@@ -328,30 +327,46 @@ func init() {
 }
 
 func approveApiaccesscontrolPrivilegedApiRequestResources(compartment string, clusterId string) error {
-	privilegedApiRequestClient := acctest.GetTestClients(&schema.ResourceData{}).PrivilegedApiRequestsClient()
 	privilegedApiRequestIds, err := getApiaccesscontrolPrivilegedApiRequestIds(compartment, clusterId)
 	if err != nil {
 		return err
 	}
-	for _, privilegedApiRequestId := range privilegedApiRequestIds {
 
-		approvePrivilegedApiRequest := oci_apiaccesscontrol.ApprovePrivilegedApiRequestRequest{}
-
-		approvePrivilegedApiRequest.PrivilegedApiRequestId = &privilegedApiRequestId
-		approvePrivilegedApiRequest.ApprovePrivilegedApiRequestDetails = oci_apiaccesscontrol.ApprovePrivilegedApiRequestDetails{
-			ApproverComment: common.String("Terraform Approved"),
-			// Set other fields if needed
-		}
-		approvePrivilegedApiRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "apiaccesscontrol")
-		_, error := privilegedApiRequestClient.ApprovePrivilegedApiRequest(context.Background(), approvePrivilegedApiRequest)
-		if error != nil {
-			fmt.Printf("Error approving privilegedApiRequestId %s %s, It is possible that the resource is already approved. Please verify manually \n", privilegedApiRequestId, error)
-			continue
-		}
-		acctest.WaitTillCondition(acctest.TestAccProvider, &privilegedApiRequestId, ApiaccesscontrolPrivilegedApiRequestApprovedWaitCondition, time.Duration(3*time.Minute),
-			ApiaccesscontrolPrivilegedApiRequestResponseFetchOperation, "apiaccesscontrol", true)
-
+	fmt.Printf("Found %d privileged API request(s) awaiting approval for resource %s in compartment %s\n", len(privilegedApiRequestIds), clusterId, compartment)
+	if len(privilegedApiRequestIds) == 0 {
+		return fmt.Errorf("no privileged API requests found awaiting approval for resource %s in compartment %s", clusterId, compartment)
 	}
+
+	for _, privilegedApiRequestId := range privilegedApiRequestIds {
+		deadline := time.Now().Add(3 * time.Minute)
+
+		for {
+			client := acctest.GetTestClients(&schema.ResourceData{}).PrivilegedApiRequestsClient()
+			response, err := client.GetPrivilegedApiRequest(context.Background(), oci_apiaccesscontrol.GetPrivilegedApiRequestRequest{
+				PrivilegedApiRequestId: &privilegedApiRequestId,
+				RequestMetadata: common.RequestMetadata{
+					RetryPolicy: tfresource.GetRetryPolicy(true, "apiaccesscontrol"),
+				},
+			})
+			if err != nil {
+				return fmt.Errorf("error checking privileged API request %s state: %w", privilegedApiRequestId, err)
+			}
+
+			fmt.Printf("Privileged API request %s state is %s\n", privilegedApiRequestId, response.State)
+
+			if response.State == oci_apiaccesscontrol.PrivilegedApiRequestStateApproved {
+				fmt.Printf("Privileged API request %s is APPROVED\n", privilegedApiRequestId)
+				break
+			}
+
+			if time.Now().After(deadline) {
+				return fmt.Errorf("privileged API request %s did not become APPROVED within 3 minutes; current state is %s", privilegedApiRequestId, response.State)
+			}
+
+			time.Sleep(30 * time.Second)
+		}
+	}
+
 	return nil
 }
 

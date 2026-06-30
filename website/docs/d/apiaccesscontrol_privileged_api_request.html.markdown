@@ -35,6 +35,7 @@ The following attributes are exported:
 * `approver_details` - Contains the approver details who have approved the privilegedApi Request during the initial request.
 	* `approval_action` - The action done by the approver.
 	* `approval_comment` - Comment specified by the approver of the request.
+	* `approver_group_level` - The group level at which the approver approved.
 	* `approver_id` - The userId of the approver.
 	* `time_approved_for_access` - Time for when the privilegedApi request should start that is authorized by the customer in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.Example: '2020-05-22T21:10:29.600Z' 
 	* `time_of_authorization` - Time when the privilegedApi request was authorized by the customer in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.Example: '2020-05-22T21:10:29.600Z' 

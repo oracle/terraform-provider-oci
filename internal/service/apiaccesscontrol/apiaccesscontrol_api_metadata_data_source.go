@@ -26,6 +26,13 @@ func ApiaccesscontrolApiMetadataDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"attributes": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"defined_tags": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -135,6 +142,8 @@ func (s *ApiaccesscontrolApiMetadataDataSourceCrud) SetData() error {
 	if s.Res.ApiName != nil {
 		s.D.Set("api_name", *s.Res.ApiName)
 	}
+
+	s.D.Set("attributes", s.Res.Attributes)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))

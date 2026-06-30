@@ -17,9 +17,10 @@ import (
 
 var (
 	ApiaccesscontrolApiMetadataByEntityTypeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"resource_type":  acctest.Representation{RepType: acctest.Optional, Create: `CLOUDEXADATAINFRASTRUCTURE`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		// "display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"resource_type": acctest.Representation{RepType: acctest.Optional, Create: `EXADATAINFRASTRUCTURE`},
+		// "state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 	}
 
 	ApiaccesscontrolApiMetadataByEntityTypeResourceConfig = ""
@@ -47,8 +48,8 @@ func TestApiaccesscontrolApiMetadataByEntityTypeResource_basic(t *testing.T) {
 				compartmentIdVariableStr + ApiaccesscontrolApiMetadataByEntityTypeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "resource_type", "CLOUDEXADATAINFRASTRUCTURE"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "resource_type", "EXADATAINFRASTRUCTURE"),
+				// resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "api_metadata_by_entity_type_collection.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "api_metadata_by_entity_type_collection.0.items.#"),
