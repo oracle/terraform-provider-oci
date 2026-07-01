@@ -24,6 +24,8 @@ type ManagementPolicy struct {
 	MaintenanceWindowStart *string `mandatory:"true" json:"maintenanceWindowStart"`
 
 	BackupPolicy BackupPolicy `mandatory:"true" json:"backupPolicy"`
+
+	PitrPolicy PitrPolicy `mandatory:"false" json:"pitrPolicy"`
 }
 
 func (m ManagementPolicy) String() string {
@@ -45,6 +47,7 @@ func (m ManagementPolicy) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ManagementPolicy) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		PitrPolicy             pitrpolicy   `json:"pitrPolicy"`
 		MaintenanceWindowStart *string      `json:"maintenanceWindowStart"`
 		BackupPolicy           backuppolicy `json:"backupPolicy"`
 	}{}
@@ -54,6 +57,16 @@ func (m *ManagementPolicy) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	nn, e = model.PitrPolicy.UnmarshalPolymorphicJSON(model.PitrPolicy.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PitrPolicy = nn.(PitrPolicy)
+	} else {
+		m.PitrPolicy = nil
+	}
+
 	m.MaintenanceWindowStart = model.MaintenanceWindowStart
 
 	nn, e = model.BackupPolicy.UnmarshalPolymorphicJSON(model.BackupPolicy.JsonData)

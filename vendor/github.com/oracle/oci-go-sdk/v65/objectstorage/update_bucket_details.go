@@ -63,6 +63,11 @@ type UpdateBucketDetails struct {
 	// by Oracle.)
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
+	// Specifies whether Object Storage should use intermediate cached Bucket Encryption Keys with server-side
+	// encryption using KMS (SSE-KMS) for new objects in the bucket. This reduces calls to OCI Vault Key Management
+	// Service (KMS). Existing objects are not affected.
+	IsBucketKeyEnabled *bool `mandatory:"false" json:"isBucketKeyEnabled"`
+
 	// The versioning status on the bucket. If in state `Enabled`, multiple versions of the same object can be kept in the bucket.
 	// When the object is overwritten or deleted, previous versions will still be available. When versioning is `Suspended`, the previous versions will still remain but new versions will no longer be created when overwitten or deleted.
 	// Versioning cannot be disabled on a bucket once enabled.

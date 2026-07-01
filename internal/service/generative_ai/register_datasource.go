@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package generative_ai
@@ -16,6 +16,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_generative_ai_imported_models", GenerativeAiImportedModelsDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_model", GenerativeAiModelDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_models", GenerativeAiModelsDataSource())
+	tfresource.RegisterDatasource("oci_generative_ai_project", GenerativeAiProjectDataSource())
+	tfresource.RegisterDatasource("oci_generative_ai_projects", GenerativeAiProjectsDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_semantic_store", GenerativeAiSemanticStoreDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_semantic_stores", GenerativeAiSemanticStoresDataSource())
 }

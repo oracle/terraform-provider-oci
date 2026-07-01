@@ -140,6 +140,7 @@ resource "oci_datascience_schedule" "test_schedule" {
 		cron_expression = var.schedule_trigger_cron_expression
 		frequency = var.schedule_trigger_frequency
 		interval = var.schedule_trigger_interval
+		initial_jitter_in_minutes = 30
 		is_random_start_time = var.schedule_trigger_is_random_start_time
 		recurrence = var.schedule_trigger_recurrence
 		time_end = var.schedule_trigger_time_end
@@ -240,6 +241,7 @@ The following arguments are supported:
 	* `cron_expression` - (Required when trigger_type=CRON) (Updatable) Schedule cron expression
 	* `frequency` - (Required when trigger_type=INTERVAL) (Updatable) The type of frequency
 	* `interval` - (Required when trigger_type=INTERVAL) (Updatable) The interval of frequency.
+	* `initial_jitter_in_minutes` - (Applicable when trigger_type=INTERVAL) (Updatable) Maximum number of minutes after `time_start` that the scheduler may use to randomly select the first execution time. This value is considered only when `is_random_start_time` is true. If omitted and `is_random_start_time` is true, the service defaults the jitter window to half of the configured interval duration.
 	* `is_random_start_time` - (Applicable when trigger_type=INTERVAL) (Updatable) when true and timeStart is null, system generate a random start time between now and now + interval;  isRandomStartTime can be true if timeStart is null. 
 	* `recurrence` - (Required when trigger_type=ICAL) (Updatable) This recurrence field conforms to RFC-5545 formatting
 	* `time_end` - (Optional) (Updatable) The schedule end date time, if null, the schedule will never expire. Format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
@@ -342,6 +344,7 @@ The following attributes are exported:
 	* `cron_expression` - Schedule cron expression
 	* `frequency` - The type of frequency
 	* `interval` - The interval of frequency.
+	* `initial_jitter_in_minutes` - Maximum number of minutes after `time_start` that the scheduler may use to randomly select the first execution time. This value is considered only when `is_random_start_time` is true.
 	* `is_random_start_time` - when true and timeStart is null, system generate a random start time between now and now + interval;  isRandomStartTime can be true if timeStart is null. 
 	* `recurrence` - This recurrence field conforms to RFC-5545 formatting
 	* `time_end` - The schedule end date time, if null, the schedule will never expire. Format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 

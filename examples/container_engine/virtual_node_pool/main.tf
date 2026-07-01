@@ -6,7 +6,7 @@ variable "cluster_id" {
 }
 variable "kubernetes_version" {
   # VNPs are only supported on v1.25+
-  default = "v1.25.4"
+  default = ""
 }
 variable "compartment_ocid" {
 }
@@ -22,7 +22,7 @@ data "oci_containerengine_virtual_node_pools" "test_virtual_node_pools" {
   #Required
   compartment_id = var.compartment_ocid
   #Optional
-  state      = var.virtual_node_pool_state
+  state = var.virtual_node_pool_state
 }
 /*
 A complete example to setup a cluster, then configure add-ons, then create node pool.
@@ -31,14 +31,29 @@ data "oci_identity_availability_domain" "ad1" {
   compartment_id = var.tenancy_ocid
   ad_number      = 1
 }
+data "oci_core_services" "test_services" {
+  filter {
+    name   = "name"
+    values = ["All .* Services In Oracle Services Network"]
+    regex  = true
+  }
+}
 resource "oci_core_vcn" "test_vcn" {
   cidr_block     = "10.0.0.0/16"
   compartment_id = var.compartment_ocid
   display_name   = "tfVcnForClusters"
 }
-resource "oci_core_internet_gateway" "test_ig" {
+resource "oci_core_service_gateway" "test_service_gateway" {
   compartment_id = var.compartment_ocid
-  display_name   = "tfClusterInternetGateway"
+  display_name   = "tfClusterServiceGateway"
+  services {
+    service_id = data.oci_core_services.test_services.services[0].id
+  }
+  vcn_id = oci_core_vcn.test_vcn.id
+}
+resource "oci_core_nat_gateway" "test_nat_gateway" {
+  compartment_id = var.compartment_ocid
+  display_name   = "tfClusterNatGateway"
   vcn_id         = oci_core_vcn.test_vcn.id
 }
 resource "oci_core_route_table" "test_route_table" {
@@ -48,18 +63,24 @@ resource "oci_core_route_table" "test_route_table" {
   route_rules {
     destination       = "0.0.0.0/0"
     destination_type  = "CIDR_BLOCK"
-    network_entity_id = oci_core_internet_gateway.test_ig.id
+    network_entity_id = oci_core_nat_gateway.test_nat_gateway.id
+  }
+  route_rules {
+    destination       = data.oci_core_services.test_services.services[0].cidr_block
+    destination_type  = "SERVICE_CIDR_BLOCK"
+    network_entity_id = oci_core_service_gateway.test_service_gateway.id
   }
 }
 resource "oci_core_subnet" "test_subnet" {
   #Required
-  cidr_block          = "10.0.22.0/24"
-  compartment_id      = var.compartment_ocid
-  vcn_id              = oci_core_vcn.test_vcn.id
+  cidr_block     = "10.0.22.0/24"
+  compartment_id = var.compartment_ocid
+  vcn_id         = oci_core_vcn.test_vcn.id
   # Provider code tries to maintain compatibility with old versions.
-  security_list_ids = [oci_core_vcn.test_vcn.default_security_list_id]
-  display_name      = "tfSubNet1ForNodePool"
-  route_table_id    = oci_core_route_table.test_route_table.id
+  security_list_ids          = [oci_core_security_list.test_security_list.id]
+  display_name               = "tfSubNet1ForNodePool"
+  route_table_id             = oci_core_route_table.test_route_table.id
+  prohibit_public_ip_on_vnic = true
 }
 resource "oci_core_security_list" "test_security_list" {
   compartment_id = var.compartment_ocid
@@ -73,10 +94,10 @@ resource "oci_core_security_list" "test_security_list" {
     description      = "Allowing egress to all via all protocols."
   }
   ingress_security_rules {
-    source           = "10.0.0.0/16"
-    source_type      = "CIDR_BLOCK"
-    protocol         = "all"
-    stateless        = false
+    source      = "10.0.0.0/16"
+    source_type = "CIDR_BLOCK"
+    protocol    = "all"
+    stateless   = false
   }
   ingress_security_rules {
     protocol    = 6 # local.TCP
@@ -122,20 +143,20 @@ resource "oci_core_security_list" "test_security_list" {
 resource "oci_containerengine_cluster" "test_cluster" {
   #Required
   compartment_id     = var.compartment_ocid
-  kubernetes_version = var.kubernetes_version
+  kubernetes_version = var.kubernetes_version != "" ? var.kubernetes_version : reverse(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)[0]
   name               = "tfTestCluster"
   vcn_id             = oci_core_vcn.test_vcn.id
   type               = "ENHANCED_CLUSTER"
-    cluster_pod_network_options {
-        # VNPs require cni_type as OCI_VCN_IP_NATIVE
-        cni_type = "OCI_VCN_IP_NATIVE"
-    }
-    endpoint_config {
-        #Optional
-        is_public_ip_enabled = var.cluster_endpoint_config_is_public_ip_enabled
-        nsg_ids              = ["${oci_core_network_security_group.network_security_group_rd.id}"]
-        subnet_id            = oci_core_subnet.test_subnet.id
-    }
+  cluster_pod_network_options {
+    # VNPs require cni_type as OCI_VCN_IP_NATIVE
+    cni_type = "OCI_VCN_IP_NATIVE"
+  }
+  endpoint_config {
+    #Optional
+    is_public_ip_enabled = var.cluster_endpoint_config_is_public_ip_enabled
+    nsg_ids              = ["${oci_core_network_security_group.network_security_group_rd.id}"]
+    subnet_id            = oci_core_subnet.test_subnet.id
+  }
 }
 resource "oci_core_network_security_group" "network_security_group_rd" {
   compartment_id = var.compartment_ocid
@@ -144,9 +165,9 @@ resource "oci_core_network_security_group" "network_security_group_rd" {
 }
 resource "oci_containerengine_virtual_node_pool" "test_virtual_node_pool" {
   #Required
-  cluster_id         = oci_containerengine_cluster.test_cluster.id
-  compartment_id     = var.compartment_ocid
-  display_name       = "tfVirtualNodePool"
+  cluster_id     = oci_containerengine_cluster.test_cluster.id
+  compartment_id = var.compartment_ocid
+  display_name   = "tfVirtualNodePool"
   placement_configurations {
     #Required
     availability_domain = data.oci_identity_availability_domain.ad1.name
@@ -161,7 +182,7 @@ resource "oci_containerengine_virtual_node_pool" "test_virtual_node_pool" {
   }
   #Required
   pod_configuration {
-    shape = "Pod.Standard.E4.Flex"
+    shape     = "Pod.Standard.E4.Flex"
     subnet_id = oci_core_subnet.test_subnet.id
     # Optional
     # nsg_ids = ["${oci_core_network_security_group.network_security_group_rd.id}"]
@@ -170,6 +191,13 @@ resource "oci_containerengine_virtual_node_pool" "test_virtual_node_pool" {
   # nsg_ids = ["${oci_core_network_security_group.network_security_group_rd.id}"]
   #Required
   size = 1
+  #Optional
+  virtual_node_pool_cycling_details {
+    #Optional
+    is_virtual_node_cycling_enabled = false
+    maximum_surge                   = "1"
+    maximum_unavailable             = "0"
+  }
   #Optional
   taints {
     #Optional

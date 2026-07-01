@@ -1186,6 +1186,64 @@ func (client PostgresqlClient) getDefaultConfiguration(ctx context.Context, requ
 	return response, err
 }
 
+// GetPitrDetails Gets the database system PITR details.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/GetPitrDetails.go.html to see an example of how to use GetPitrDetails API.
+// A default retry strategy applies to this operation GetPitrDetails()
+func (client PostgresqlClient) GetPitrDetails(ctx context.Context, request GetPitrDetailsRequest) (response GetPitrDetailsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getPitrDetails, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetPitrDetailsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetPitrDetailsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetPitrDetailsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetPitrDetailsResponse")
+	}
+	return
+}
+
+// getPitrDetails implements the OCIOperation interface (enables retrying operations)
+func (client PostgresqlClient) getPitrDetails(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/pitrDetails", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetPitrDetailsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "postgresql", "GetPitrDetails")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/PitrDetails/GetPitrDetails"
+		err = common.PostProcessServiceError(err, "Postgresql", "GetPitrDetails", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetPrimaryDbInstance Gets the primary database instance node details.
 //
 // # See also

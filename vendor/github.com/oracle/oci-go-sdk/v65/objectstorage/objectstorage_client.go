@@ -3201,6 +3201,8 @@ func (client ObjectStorageClient) putObjectLifecyclePolicy(ctx context.Context, 
 // assigned key. Similarly, you might want to re-encrypt all data encryption keys if the assigned key has been rotated to
 // a new key version since objects were last added to the bucket. If you call this API and there is no kmsKeyId associated
 // with the bucket, the call will fail.
+// Also, if you set isBucketKeyEnabled, you might want to re-encrypt all data encryption keys
+// using the bucket key. This will help reduce calls to OCI Vault KMS when older objects are downloaded.
 // Calling this API starts a work request task to re-encrypt the data encryption key of all objects in the bucket. Only
 // objects created before the time of the API call will be re-encrypted. The call can take a long time, depending on how many
 // objects are in the bucket and how big they are. This API returns a work request ID that you can use to retrieve the status

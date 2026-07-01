@@ -187,6 +187,37 @@ func ContainerengineVirtualNodePoolResource() *schema.Resource {
 					},
 				},
 			},
+			"virtual_node_pool_cycling_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"is_virtual_node_cycling_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"maximum_surge": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"maximum_unavailable": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"virtual_node_tags": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -424,6 +455,17 @@ func (s *ContainerengineVirtualNodePoolResourceCrud) Create() error {
 		}
 		if len(tmp) != 0 || s.D.HasChange("taints") {
 			request.Taints = tmp
+		}
+	}
+
+	if virtualNodePoolCyclingDetails, ok := s.D.GetOkExists("virtual_node_pool_cycling_details"); ok {
+		if tmpList := virtualNodePoolCyclingDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "virtual_node_pool_cycling_details", 0)
+			tmp, err := s.mapToVirtualNodePoolCyclingDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.VirtualNodePoolCyclingDetails = &tmp
 		}
 	}
 
@@ -700,6 +742,17 @@ func (s *ContainerengineVirtualNodePoolResourceCrud) Update() error {
 		}
 	}
 
+	if virtualNodePoolCyclingDetails, ok := s.D.GetOkExists("virtual_node_pool_cycling_details"); ok {
+		if tmpList := virtualNodePoolCyclingDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "virtual_node_pool_cycling_details", 0)
+			tmp, err := s.mapToVirtualNodePoolCyclingDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.VirtualNodePoolCyclingDetails = &tmp
+		}
+	}
+
 	tmp := s.D.Id()
 	request.VirtualNodePoolId = &tmp
 
@@ -828,6 +881,12 @@ func (s *ContainerengineVirtualNodePoolResourceCrud) SetData() error {
 
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	if s.Res.VirtualNodePoolCyclingDetails != nil {
+		s.D.Set("virtual_node_pool_cycling_details", []interface{}{VirtualNodePoolCyclingDetailsToMap(s.Res.VirtualNodePoolCyclingDetails)})
+	} else {
+		s.D.Set("virtual_node_pool_cycling_details", nil)
 	}
 
 	if s.Res.VirtualNodeTags != nil {
@@ -1002,6 +1061,45 @@ func TaintToMap(obj oci_containerengine.Taint) map[string]interface{} {
 
 	if obj.Value != nil {
 		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
+func (s *ContainerengineVirtualNodePoolResourceCrud) mapToVirtualNodePoolCyclingDetails(fieldKeyFormat string) (oci_containerengine.VirtualNodePoolCyclingDetails, error) {
+	result := oci_containerengine.VirtualNodePoolCyclingDetails{}
+
+	if isVirtualNodeCyclingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_virtual_node_cycling_enabled")); ok {
+		tmp := isVirtualNodeCyclingEnabled.(bool)
+		result.IsVirtualNodeCyclingEnabled = &tmp
+	}
+
+	if maximumSurge, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_surge")); ok {
+		tmp := maximumSurge.(string)
+		result.MaximumSurge = &tmp
+	}
+
+	if maximumUnavailable, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_unavailable")); ok {
+		tmp := maximumUnavailable.(string)
+		result.MaximumUnavailable = &tmp
+	}
+
+	return result, nil
+}
+
+func VirtualNodePoolCyclingDetailsToMap(obj *oci_containerengine.VirtualNodePoolCyclingDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsVirtualNodeCyclingEnabled != nil {
+		result["is_virtual_node_cycling_enabled"] = bool(*obj.IsVirtualNodeCyclingEnabled)
+	}
+
+	if obj.MaximumSurge != nil {
+		result["maximum_surge"] = string(*obj.MaximumSurge)
+	}
+
+	if obj.MaximumUnavailable != nil {
+		result["maximum_unavailable"] = string(*obj.MaximumUnavailable)
 	}
 
 	return result

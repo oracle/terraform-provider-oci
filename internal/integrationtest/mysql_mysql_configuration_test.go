@@ -67,9 +67,30 @@ var (
 	MysqlMysqlConfigurationInitVariablesRepresentation = map[string]interface{}{
 		"lower_case_table_names": acctest.Representation{RepType: acctest.Optional, Create: `CASE_SENSITIVE`},
 	}
+
+	MysqlMysqlConfigurationVariablesEmptyStringRepresentation = map[string]interface{}{
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"shape_name":              acctest.Representation{RepType: acctest.Required, Create: `MySQL.VM.Standard.E3.1.8GB`},
+		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
+		"description":             acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"init_variables":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlConfigurationInitVariablesRepresentation},
+		"parent_configuration_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.MysqlConfigurationOCID[var.region]}`},
+		"variables":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlConfigurationVariablesEmptyRepresentation},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForMysqlConfigBasic},
+	}
+	MysqlMysqlConfigurationVariablesEmptyRepresentation = map[string]interface{}{
+		"binlog_row_value_options": acctest.Representation{RepType: acctest.Optional, Create: ``},
+	}
+
 	MysqlMysqlConfigurationOptionsBinlogRepresentation = map[string]interface{}{
 		"name":  acctest.Representation{RepType: acctest.Required, Create: `binlog_expire_logs_seconds`},
 		"value": acctest.Representation{RepType: acctest.Optional, Create: `3601`},
+	}
+	MysqlMysqlConfigurationOptionsBinlogRowValueOptionsEmptyRepresentation = map[string]interface{}{
+		"name":  acctest.Representation{RepType: acctest.Required, Create: `binlog_row_value_options`},
+		"value": acctest.Representation{RepType: acctest.Optional, Create: ``},
 	}
 	MysqlMysqlConfigurationOptionsOnlyRepresentation = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -80,6 +101,17 @@ var (
 		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
 		"parent_configuration_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.MysqlConfigurationOCID[var.region]}`},
 		"options":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlConfigurationOptionsBinlogRepresentation},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForMysqlConfigBasic},
+	}
+	MysqlMysqlConfigurationOptionsEmptyBinlogRowValueOptionsRepresentation = map[string]interface{}{
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"shape_name":              acctest.Representation{RepType: acctest.Required, Create: `MySQL.VM.Standard.E3.1.8GB`},
+		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`},
+		"description":             acctest.Representation{RepType: acctest.Optional, Create: `description`},
+		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
+		"parent_configuration_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.MysqlConfigurationOCID[var.region]}`},
+		"options":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlConfigurationOptionsBinlogRowValueOptionsEmptyRepresentation},
 		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForMysqlConfigBasic},
 	}
 	MysqlMysqlConfigurationVariablesRepresentation = map[string]interface{}{
@@ -211,7 +243,7 @@ func testCheckOptionsContain(resourceName, optName, optValue string) resource.Te
 		for k, v := range attrs {
 			if strings.HasPrefix(k, "options.") && strings.HasSuffix(k, ".name") && v == optName {
 				prefix := k[:len(k)-len(".name")]
-				if attrs[prefix+".value"] == optValue {
+				if actualValue, ok := attrs[prefix+".value"]; ok && actualValue == optValue {
 					return nil
 				}
 			}
@@ -542,6 +574,43 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				},
 			),
 		},
+		// delete before Create with empty
+		{
+			Config: config + compartmentIdVariableStr + MysqlMysqlConfigurationResourceDependencies,
+		},
+		// verify Create with optional empty
+		{
+			Config: config + compartmentIdVariableStr + MysqlMysqlConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_configuration", "test_mysql_configuration", acctest.Optional, acctest.Create, MysqlMysqlConfigurationVariablesEmptyStringRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "init_variables.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "init_variables.0.lower_case_table_names", "CASE_SENSITIVE"),
+				resource.TestCheckResourceAttrSet(resourceName, "parent_configuration_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(resourceName, "type"),
+				resource.TestCheckResourceAttr(resourceName, "variables.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "variables.0.binlog_row_value_options", ""),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					// Test case to ensure resource discovery works properly
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
 		// delete before Create with options-only
 		{
 			Config: config + compartmentIdVariableStr + MysqlMysqlConfigurationResourceDependencies,
@@ -557,6 +626,17 @@ func TestMysqlMysqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "variables.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "variables.0.binlog_expire_logs_seconds", "3601"),
 				testCheckOptionsContain(resourceName, "binlog_expire_logs_seconds", "3601"),
+			),
+		},
+		// verify empty option value
+		{
+			Config: config + compartmentIdVariableStr + MysqlMysqlConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_configuration", "test_mysql_configuration", acctest.Optional, acctest.Create, MysqlMysqlConfigurationOptionsEmptyBinlogRowValueOptionsRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
+				testCheckOptionsContain(resourceName, "binlog_row_value_options", ""),
 			),
 		},
 		// verify datasource

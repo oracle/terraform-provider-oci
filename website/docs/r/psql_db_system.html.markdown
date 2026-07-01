@@ -94,6 +94,12 @@ resource "oci_psql_db_system" "test_db_system" {
 			retention_days = var.db_system_management_policy_backup_policy_retention_days
 		}
 		maintenance_window_start = var.db_system_management_policy_maintenance_window_start
+		pitr_policy {
+
+			#Optional
+			kind = var.db_system_management_policy_pitr_policy_kind
+			restore_days = var.db_system_management_policy_pitr_policy_restore_days
+		}
 	}
 	odsp_insight_details {
 		#Required
@@ -119,8 +125,10 @@ resource "oci_psql_db_system" "test_db_system" {
 
 		#Optional
 		backup_id = oci_psql_backup.test_backup.id
+		db_system_id = oci_psql_db_system.test_db_system.id
 		is_having_restore_config_overrides = var.db_system_source_is_having_restore_config_overrides
 		primary_db_system_id = oci_psql_db_system.test_db_system.id
+		time_to_restore = var.db_system_source_time_to_restore
 	}
 	system_type = var.db_system_system_type
 
@@ -176,6 +184,9 @@ The following arguments are supported:
 	* `maintenance_window_start` - (Optional) (Updatable) The start of the maintenance window in UTC.
 
 		This string is of the format: "{day-of-week} {time-of-day}". "{day-of-week}" is a case-insensitive string like "mon", "tue", &c. "{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero.
+	* `pitr_policy` - (Optional) (Updatable) Point-in-time recovery policy.
+		* `kind` - (Optional) (Updatable) The kind of recovery policy.
+		* `restore_days` - (Required when kind=STANDARD) (Updatable) The number of days the database system retains backups required for point-in-time recovery.
 * `network_details` - (Required) (Updatable) Network details for the database system.
 	* `is_reader_endpoint_enabled` - (Optional) (Updatable) Specifies if the reader endpoint is enabled on the dbSystem.
 	* `nsg_ids` - (Optional) (Updatable) List of customer Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the database system.
@@ -199,9 +210,13 @@ The following arguments are supported:
 * `apply_change_mode_to_stand_alone` - (Optional) Specify change mode to apply when converting from warm standby to standalone. It can be set to 'IMMEDIATELY' or 'REPLAY_PENDING_UPDATES'. If source.primary_db_system_id is disabled, `REPLAY_PENDING_UPDATES` is used by default.
 * `source` - (Optional) The source of the database system.
 	* `backup_id` - (Required when source_type=BACKUP) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database system backup.
+	* `db_system_id` - (Required when source_type=POINT_IN_TIME_DB_SYSTEM) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source database system which will be used to perform point-in-time recovery.
 	* `is_having_restore_config_overrides` - (Applicable when source_type=BACKUP) Deprecated. Don't use.
 	* `primary_db_system_id` - (Required when source_type=DB_SYSTEM) The [OCID] of the primary database system.
 	* `source_type` - (Required) The source descriminator.
+	* `time_to_restore` - (Required when source_type=POINT_IN_TIME_DB_SYSTEM) The target point-in-time of the source database system that will be restored, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.
+
+		Point-in-time recovery can only performed in granularity of seconds. Example: `2016-08-25T21:10:29Z`
 * `storage_details` - (Required) (Updatable) Storage details of the database system.
 	* `availability_domain` - (Optional) Specifies the availability domain of AD-local storage. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified.
 	* `iops` - (Applicable when system_type=OCI_OPTIMIZED_STORAGE) (Updatable) Guaranteed input/output storage requests per second (IOPS) available to the database system. Find more about the supported Peformance Tiers [here](https://docs.oracle.com/en-us/iaas/Content/postgresql/performance-tiers.htm).
@@ -262,6 +277,9 @@ The following attributes are exported:
 		* `kind` - The kind of backup policy.
 		* `retention_days` - How many days the data should be stored after the database system deletion.
 	* `maintenance_window_start` - The start of the maintenance window.
+	* `pitr_policy` - Point-in-time recovery policy.
+		* `kind` - The kind of recovery policy.
+		* `restore_days` - The number of days the database system retains backups required for point-in-time recovery.
 * `network_details` - Network details for the database system.
 	* `is_reader_endpoint_enabled` - Specifies if the reader endpoint is enabled on the dbSystem.
 	* `nsg_ids` - List of customer Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the database system.
@@ -280,9 +298,13 @@ The following attributes are exported:
 * `shape` - The name of the shape for the database instance. Example: `VM.Standard.E4.Flex`
 * `source` - The source of the database system.
 	* `backup_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database system backup.
+	* `db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source database system which will be used to perform point-in-time recovery.
 	* `is_having_restore_config_overrides` - Deprecated. Don't use.
 	* `primary_db_system_id` - The [OCID] of the primary database system.
 	* `source_type` - The source descriminator.
+	* `time_to_restore` - The target point-in-time of the source database system that will be restored, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.
+
+		Point-in-time recovery can only performed in granularity of seconds. Example: `2016-08-25T21:10:29Z`
 * `state` - The current state of the database system.
 * `storage_details` - Storage details of the database system.
 	* `availability_domain` - Specifies the availability domain of AD-local storage. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified.

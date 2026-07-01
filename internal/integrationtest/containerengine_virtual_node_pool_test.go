@@ -68,11 +68,12 @@ var (
 		//	"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		//	"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		//	"nsg_ids":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
-		"initial_virtual_node_labels": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineVirtualNodePoolInitialVirtualNodeLabelsRepresentation},
-		"pod_configuration":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerengineVirtualNodePoolPodConfigurationRepresentation},
-		"size":                        acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `1`},
-		"taints":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineVirtualNodePoolTaintsRepresentation},
-		"virtual_node_tags":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineVirtualNodePoolVirtualNodeTagsRepresentation},
+		"initial_virtual_node_labels":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineVirtualNodePoolInitialVirtualNodeLabelsRepresentation},
+		"pod_configuration":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerengineVirtualNodePoolPodConfigurationRepresentation},
+		"size":                              acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `1`},
+		"taints":                            acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineVirtualNodePoolTaintsRepresentation},
+		"virtual_node_pool_cycling_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineVirtualNodePoolVirtualNodePoolCyclingDetailsRepresentation},
+		"virtual_node_tags":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineVirtualNodePoolVirtualNodeTagsRepresentation},
 	}
 	ContainerengineVirtualNodePoolPlacementConfigurationsRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`, Update: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
@@ -84,7 +85,7 @@ var (
 		"value": acctest.Representation{RepType: acctest.Optional, Create: `value`, Update: `value2`},
 	}
 	ContainerengineVirtualNodePoolPodConfigurationRepresentation = map[string]interface{}{
-		"shape":     acctest.Representation{RepType: acctest.Required, Create: `Pod.Standard.E4.Flex`, Update: `Pod.Standard.E3.Flex`},
+		"shape":     acctest.Representation{RepType: acctest.Required, Create: `Pod.Standard.E4.Flex`, Update: `Pod.Standard.E4.Flex`},
 		"subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"nsg_ids":   acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 	}
@@ -92,6 +93,11 @@ var (
 		"effect": acctest.Representation{RepType: acctest.Optional, Create: `NoSchedule`},
 		"key":    acctest.Representation{RepType: acctest.Optional, Create: `taint1`, Update: `taint2`},
 		"value":  acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+	}
+	ContainerengineVirtualNodePoolVirtualNodePoolCyclingDetailsRepresentation = map[string]interface{}{
+		"is_virtual_node_cycling_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"maximum_surge":                   acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `1`},
+		"maximum_unavailable":             acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
 	}
 	ContainerengineVirtualNodePoolVirtualNodeTagsRepresentation = map[string]interface{}{
 		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag2.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag2.name}", "updatedValue")}`},
@@ -178,7 +184,7 @@ var (
 		AvailabilityDomainConfig +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", acctest.Required, acctest.Create, ContainerengineVirtualNodePoolClusterOptionSingularDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.20.0/24`}})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.20.0/24`}, "prohibit_public_ip_on_vnic": acctest.Representation{RepType: acctest.Required, Create: `true`}})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
@@ -257,6 +263,10 @@ func TestContainerengineVirtualNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "pod_configuration.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "size", "1"),
 				resource.TestCheckResourceAttr(resourceName, "taints.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "virtual_node_pool_cycling_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "virtual_node_pool_cycling_details.0.is_virtual_node_cycling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "virtual_node_pool_cycling_details.0.maximum_surge", "1"),
+				resource.TestCheckResourceAttr(resourceName, "virtual_node_pool_cycling_details.0.maximum_unavailable", "0"),
 				resource.TestCheckResourceAttr(resourceName, "taints.0.effect", "NoSchedule"),
 				resource.TestCheckResourceAttr(resourceName, "taints.0.key", "taint1"),
 				resource.TestCheckResourceAttr(resourceName, "taints.0.value", "true"),
@@ -294,10 +304,14 @@ func TestContainerengineVirtualNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domain.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "pod_configuration.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "pod_configuration.0.shape", "Pod.Standard.E3.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "pod_configuration.0.shape", "Pod.Standard.E4.Flex"),
 				resource.TestCheckResourceAttrSet(resourceName, "pod_configuration.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "size", "1"),
 				resource.TestCheckResourceAttr(resourceName, "taints.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "virtual_node_pool_cycling_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "virtual_node_pool_cycling_details.0.is_virtual_node_cycling_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "virtual_node_pool_cycling_details.0.maximum_surge", "1"),
+				resource.TestCheckResourceAttr(resourceName, "virtual_node_pool_cycling_details.0.maximum_unavailable", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "taints.0.effect"),
 				resource.TestCheckResourceAttr(resourceName, "taints.0.key", "taint2"),
 				resource.TestCheckResourceAttr(resourceName, "taints.0.value", "false"),
@@ -339,7 +353,7 @@ func TestContainerengineVirtualNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "virtual_node_pools.0.placement_configurations.0.fault_domain.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_node_pools.0.placement_configurations.0.subnet_id"),
 				resource.TestCheckResourceAttr(datasourceName, "virtual_node_pools.0.pod_configuration.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "virtual_node_pools.0.pod_configuration.0.shape", "Pod.Standard.E3.Flex"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_node_pools.0.pod_configuration.0.shape", "Pod.Standard.E4.Flex"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_node_pools.0.pod_configuration.0.subnet_id"),
 				resource.TestCheckResourceAttr(datasourceName, "virtual_node_pools.0.size", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "virtual_node_pools.0.taints.#", "1"),
@@ -348,6 +362,10 @@ func TestContainerengineVirtualNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "virtual_node_pools.0.taints.0.value", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_node_pools.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_node_pools.0.time_updated"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_node_pools.0.virtual_node_pool_cycling_details.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_node_pools.0.virtual_node_pool_cycling_details.0.is_virtual_node_cycling_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_node_pools.0.virtual_node_pool_cycling_details.0.maximum_surge", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_node_pools.0.virtual_node_pool_cycling_details.0.maximum_unavailable", "1"),
 			),
 		},
 		// verify singular datasource
@@ -374,7 +392,7 @@ func TestContainerengineVirtualNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "placement_configurations.0.fault_domain.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "placement_configurations.0.subnet_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "pod_configuration.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "pod_configuration.0.shape", "Pod.Standard.E3.Flex"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "pod_configuration.0.shape", "Pod.Standard.E4.Flex"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "pod_configuration.0.subnet_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "size", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "taints.#", "1"),
@@ -383,6 +401,12 @@ func TestContainerengineVirtualNodePoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "taints.0.value", "false"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "virtual_node_pool_cycling_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "virtual_node_pool_cycling_details.0.is_virtual_node_cycling_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "virtual_node_pool_cycling_details.0.maximum_surge", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "virtual_node_pool_cycling_details.0.maximum_unavailable", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "virtual_node_tags.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "virtual_node_tags.0.freeform_tags.%", "1"),
 			),
 		},
 		// verify resource import
