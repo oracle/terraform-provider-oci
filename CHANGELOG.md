@@ -194,6 +194,7 @@
 - Support for OSMH v3.2 Updates to ALX, Ubuntu Support and Dynamic Groupings
 - Support for VMware to OLVM Virtual Machine Migrations
 - Support for Management Agent: Support for IPv6 dual-stack
+- Support for Resource Manager stack resource
 
 ### Bug Fix
 - Preserve configured IPv6 pair details and derive missing pair details from API during refresh
