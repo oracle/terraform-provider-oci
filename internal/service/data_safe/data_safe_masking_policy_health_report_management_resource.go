@@ -13,6 +13,7 @@ import (
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -21,11 +22,11 @@ import (
 
 func DataSafeMaskingPolicyHealthReportManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeMaskingPolicyHealthReportManagement,
-		Read:     readDataSafeMaskingPolicyHealthReportManagement,
-		Update:   updateDataSafeMaskingPolicyHealthReportManagement,
-		Delete:   deleteDataSafeMaskingPolicyHealthReportManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeMaskingPolicyHealthReportManagement,
+		ReadContext:   readDataSafeMaskingPolicyHealthReportManagement,
+		UpdateContext: updateDataSafeMaskingPolicyHealthReportManagement,
+		DeleteContext: deleteDataSafeMaskingPolicyHealthReportManagement,
 		Schema: map[string]*schema.Schema{
 			"target_id": {
 				Type:     schema.TypeString,
@@ -83,47 +84,47 @@ func DataSafeMaskingPolicyHealthReportManagementResource() *schema.Resource {
 	}
 }
 
-func createDataSafeMaskingPolicyHealthReportManagement(d *schema.ResourceData, m interface{}) error {
+func createDataSafeMaskingPolicyHealthReportManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeMaskingPolicyHealthReportManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	err := sync.getMaskingPolicyHealthReportIdFromFilter()
+	err := sync.getMaskingPolicyHealthReportIdFromFilter(ctx)
 	if err != nil {
-		return err
+		return tfresource.HandleDiagError(m, err)
 	}
 
-	err1 := sync.Get()
+	err1 := sync.GetWithContext(ctx)
 	if err1 != nil {
-		return err1
+		return tfresource.HandleDiagError(m, err1)
 	}
 
 	err = sync.SetData()
 	if err != nil {
-		return err
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	return nil
 }
 
-func readDataSafeMaskingPolicyHealthReportManagement(d *schema.ResourceData, m interface{}) error {
+func readDataSafeMaskingPolicyHealthReportManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeMaskingPolicyHealthReportManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeMaskingPolicyHealthReportManagement(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeMaskingPolicyHealthReportManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDataSafeMaskingPolicyHealthReportManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeMaskingPolicyHealthReportManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeMaskingPolicyHealthReportManagementResourceCrud{}
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	sync.D = d
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataSafeMaskingPolicyHealthReportManagementResourceCrud struct {
@@ -133,7 +134,7 @@ type DataSafeMaskingPolicyHealthReportManagementResourceCrud struct {
 	DisableNotFoundRetries bool
 }
 
-func (s *DataSafeMaskingPolicyHealthReportManagementResourceCrud) Delete() error {
+func (s *DataSafeMaskingPolicyHealthReportManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_data_safe.DeleteMaskingPolicyHealthReportRequest{}
 
 	tmp := s.D.Id()
@@ -141,7 +142,7 @@ func (s *DataSafeMaskingPolicyHealthReportManagementResourceCrud) Delete() error
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	_, err := s.Client.DeleteMaskingPolicyHealthReport(context.Background(), request)
+	_, err := s.Client.DeleteMaskingPolicyHealthReport(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -156,7 +157,7 @@ func (s *DataSafeMaskingPolicyHealthReportManagementResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func generateHealthReportWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func generateHealthReportWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = maskDataWorkRequestShouldRetryFunc(timeout)
@@ -173,7 +174,7 @@ func generateHealthReportWaitForWorkRequest(wId *string, entityType string, acti
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -185,7 +186,7 @@ func generateHealthReportWaitForWorkRequest(wId *string, entityType string, acti
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -201,12 +202,12 @@ func generateHealthReportWaitForWorkRequest(wId *string, entityType string, acti
 	}
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed {
-		return nil, getErrorFromDataSafeMaskDataWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeMaskDataWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
-func (s *DataSafeMaskingPolicyHealthReportManagementResourceCrud) getMaskingPolicyHealthReportIdFromFilter() error {
+func (s *DataSafeMaskingPolicyHealthReportManagementResourceCrud) getMaskingPolicyHealthReportIdFromFilter(ctx context.Context) error {
 	// Masking health report will be in same compartment as of policy
 	getMaskingPolicyRequest := oci_data_safe.GetMaskingPolicyRequest{}
 	var compartmentId *string
@@ -216,7 +217,7 @@ func (s *DataSafeMaskingPolicyHealthReportManagementResourceCrud) getMaskingPoli
 		getMaskingPolicyRequest.MaskingPolicyId = &tmp
 	}
 
-	getMaskingPolicyResponse, err := s.Client.GetMaskingPolicy(context.Background(), getMaskingPolicyRequest)
+	getMaskingPolicyResponse, err := s.Client.GetMaskingPolicy(ctx, getMaskingPolicyRequest)
 	if err != nil {
 		return err
 	}
@@ -229,7 +230,7 @@ func (s *DataSafeMaskingPolicyHealthReportManagementResourceCrud) getMaskingPoli
 	}
 
 	// Get the masking health report for given target and masking policy ID
-	err = s.GetMaskingPolicyHealthReportList()
+	err = s.GetMaskingPolicyHealthReportList(ctx)
 	if err != nil {
 		return err
 	}
@@ -253,13 +254,13 @@ func (s *DataSafeMaskingPolicyHealthReportManagementResourceCrud) getMaskingPoli
 
 	generateHealthReportRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GenerateHealthReport(context.Background(), generateHealthReportRequest)
+	response, err := s.Client.GenerateHealthReport(ctx, generateHealthReportRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	maskingPolicyHealthReportId, err := generateHealthReportWaitForWorkRequest(workId, "policy_check_health",
+	maskingPolicyHealthReportId, err := generateHealthReportWaitForWorkRequest(ctx, workId, "policy_check_health",
 		oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 
 	if err == nil {
@@ -269,7 +270,7 @@ func (s *DataSafeMaskingPolicyHealthReportManagementResourceCrud) getMaskingPoli
 	return err
 }
 
-func (s *DataSafeMaskingPolicyHealthReportManagementResourceCrud) GetMaskingPolicyHealthReportList() error {
+func (s *DataSafeMaskingPolicyHealthReportManagementResourceCrud) GetMaskingPolicyHealthReportList(ctx context.Context) error {
 	request := oci_data_safe.ListMaskingPolicyHealthReportsRequest{}
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -291,14 +292,14 @@ func (s *DataSafeMaskingPolicyHealthReportManagementResourceCrud) GetMaskingPoli
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 	var maskingPolicyHealthReport = new(oci_data_safe.MaskingPolicyHealthReport)
 	var activeStatus bool
-	response, err := s.Client.ListMaskingPolicyHealthReports(context.Background(), request)
+	response, err := s.Client.ListMaskingPolicyHealthReports(ctx, request)
 	if err != nil {
 		return err
 	}
 	if response.MaskingPolicyHealthReportCollection.Items != nil && len(response.MaskingPolicyHealthReportCollection.Items) > 0 {
 		temp1 := response.MaskingPolicyHealthReportCollection.Items[0]
 		if temp1.LifecycleState == "CREATING" {
-			activeStatus, err = WaitForHealthReportStatusSuccess(s, temp1.Id, "MASK_POLICY_GENERATE_HEALTH_REPORT", request.CompartmentId)
+			activeStatus, err = WaitForHealthReportStatusSuccess(ctx, s, temp1.Id, "MASK_POLICY_GENERATE_HEALTH_REPORT", request.CompartmentId)
 			if s.D.SetId(*temp1.Id); activeStatus == true {
 				return nil
 			}
@@ -313,14 +314,14 @@ func (s *DataSafeMaskingPolicyHealthReportManagementResourceCrud) GetMaskingPoli
 	s.D.SetId(*maskingPolicyHealthReport.Id)
 	return nil
 }
-func WaitForHealthReportStatusSuccess(s *DataSafeMaskingPolicyHealthReportManagementResourceCrud, resourceId *string, operationType string, compartmentId *string) (bool, error) {
+func WaitForHealthReportStatusSuccess(ctx context.Context, s *DataSafeMaskingPolicyHealthReportManagementResourceCrud, resourceId *string, operationType string, compartmentId *string) (bool, error) {
 	listWorkRequestsRequest := oci_data_safe.ListWorkRequestsRequest{SortBy: oci_data_safe.ListWorkRequestsSortByEnum("ACCEPTEDTIME"), SortOrder: oci_data_safe.ListWorkRequestsSortOrderEnum("DESC")}
 	var workId *string
 	tmp := operationType
 	listWorkRequestsRequest.OperationType = &tmp
 	listWorkRequestsRequest.CompartmentId = compartmentId
 	listWorkRequestsRequest.ResourceId = resourceId
-	listWorkRequestsResponse, err := s.Client.ListWorkRequests(context.Background(), listWorkRequestsRequest)
+	listWorkRequestsResponse, err := s.Client.ListWorkRequests(ctx, listWorkRequestsRequest)
 	if listWorkRequestsResponse.Items != nil && len(listWorkRequestsResponse.Items) > 0 {
 		var tmp1 = &listWorkRequestsResponse.Items[0]
 		workId = tmp1.Id
@@ -331,7 +332,7 @@ func WaitForHealthReportStatusSuccess(s *DataSafeMaskingPolicyHealthReportManage
 	}
 
 	if workId != nil {
-		_, err = generateHealthReportWaitForWorkRequest(workId, "policy_check_health",
+		_, err = generateHealthReportWaitForWorkRequest(ctx, workId, "policy_check_health",
 			oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 		if err != nil {
 			return true, err
@@ -341,7 +342,7 @@ func WaitForHealthReportStatusSuccess(s *DataSafeMaskingPolicyHealthReportManage
 		return false, err
 	}
 }
-func (s *DataSafeMaskingPolicyHealthReportManagementResourceCrud) Get() error {
+func (s *DataSafeMaskingPolicyHealthReportManagementResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetMaskingPolicyHealthReportRequest{}
 
 	tmp := s.D.Id()
@@ -349,7 +350,7 @@ func (s *DataSafeMaskingPolicyHealthReportManagementResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetMaskingPolicyHealthReport(context.Background(), request)
+	response, err := s.Client.GetMaskingPolicyHealthReport(ctx, request)
 	if err != nil {
 		return err
 	}

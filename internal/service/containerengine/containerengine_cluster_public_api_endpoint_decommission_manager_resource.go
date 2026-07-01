@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_containerengine "github.com/oracle/oci-go-sdk/v65/containerengine"
 
@@ -22,10 +23,10 @@ func ContainerengineClusterPublicApiEndpointDecommissionManagerResource() *schem
 			Update: tfresource.GetTimeoutDuration("1h"),
 			Delete: tfresource.GetTimeoutDuration("1h"),
 		},
-		Create: createContainerengineClusterPublicApiEndpointDecommissionManager,
-		Read:   readContainerengineClusterPublicApiEndpointDecommissionManager,
-		Update: updateContainerengineClusterPublicApiEndpointDecommissionManager,
-		Delete: deleteContainerengineClusterPublicApiEndpointDecommissionManager,
+		CreateContext: createContainerengineClusterPublicApiEndpointDecommissionManager,
+		ReadContext:   readContainerengineClusterPublicApiEndpointDecommissionManager,
+		UpdateContext: updateContainerengineClusterPublicApiEndpointDecommissionManager,
+		DeleteContext: deleteContainerengineClusterPublicApiEndpointDecommissionManager,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"cluster_id": {
@@ -55,30 +56,30 @@ func ContainerengineClusterPublicApiEndpointDecommissionManagerResource() *schem
 	}
 }
 
-func createContainerengineClusterPublicApiEndpointDecommissionManager(d *schema.ResourceData, m interface{}) error {
+func createContainerengineClusterPublicApiEndpointDecommissionManager(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readContainerengineClusterPublicApiEndpointDecommissionManager(d *schema.ResourceData, m interface{}) error {
+func readContainerengineClusterPublicApiEndpointDecommissionManager(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateContainerengineClusterPublicApiEndpointDecommissionManager(d *schema.ResourceData, m interface{}) error {
+func updateContainerengineClusterPublicApiEndpointDecommissionManager(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
 // delete is an no-op
-func deleteContainerengineClusterPublicApiEndpointDecommissionManager(d *schema.ResourceData, m interface{}) error {
+func deleteContainerengineClusterPublicApiEndpointDecommissionManager(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -94,13 +95,13 @@ func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud)
 	return tfresource.GenerateDataSourceHashID("ContainerengineClusterPublicApiEndpointDecommissionManagerResource-", ContainerengineClusterPublicApiEndpointDecommissionManagerResource(), s.D)
 }
 
-func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud) Get() error {
+func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud) GetWithContext(ctx context.Context) error {
 	clusterId, _ := s.D.GetOkExists("cluster_id")
 	tmpClusterId := clusterId.(string)
 	requestGet := oci_containerengine.GetPublicApiEndpointDecommissionStatusRequest{}
 	requestGet.ClusterId = &tmpClusterId
 	requestGet.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
-	responseGet, err := s.Client.GetPublicApiEndpointDecommissionStatus(context.Background(), requestGet)
+	responseGet, err := s.Client.GetPublicApiEndpointDecommissionStatus(ctx, requestGet)
 	if err != nil {
 		return err
 	}
@@ -108,7 +109,7 @@ func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud)
 	return nil
 }
 
-func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud) Create() error {
+func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud) CreateWithContext(ctx context.Context) error {
 	var operation bool
 	if is_public_api_endpoint_decommissioned, ok := s.D.GetOkExists("is_public_api_endpoint_decommissioned"); ok {
 		operation = is_public_api_endpoint_decommissioned.(bool)
@@ -122,7 +123,7 @@ func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud)
 		request := oci_containerengine.StartPublicApiEndpointDecommissionRequest{}
 		request.ClusterId = &tmpClusterId
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
-		response, err := s.Client.StartPublicApiEndpointDecommission(context.Background(), request)
+		response, err := s.Client.StartPublicApiEndpointDecommission(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -130,7 +131,7 @@ func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud)
 		workId := response.OpcWorkRequestId
 
 		// Wait for work request to finish
-		_, waitErr := clusterWaitForWorkRequest(context.Background(), workId, "cluster",
+		_, waitErr := clusterWaitForWorkRequest(ctx, workId, "cluster",
 			oci_containerengine.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 		if waitErr != nil {
 			return waitErr
@@ -140,14 +141,14 @@ func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud)
 		request := oci_containerengine.RollbackPublicApiEndpointDecommissionRequest{}
 		request.ClusterId = &tmpClusterId
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
-		response, err := s.Client.RollbackPublicApiEndpointDecommission(context.Background(), request)
+		response, err := s.Client.RollbackPublicApiEndpointDecommission(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
 		// Wait for work request to finish
-		_, waitErr := clusterWaitForWorkRequest(context.Background(), workId, "cluster",
+		_, waitErr := clusterWaitForWorkRequest(ctx, workId, "cluster",
 			oci_containerengine.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 		if waitErr != nil {
 			return waitErr
@@ -156,7 +157,7 @@ func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud)
 
 	// store in state file in case of failure
 	if setDataErr := s.SetData(); setDataErr != nil {
-		log.Printf("[ERROR] error setting data before clusterWaitForWorkRequest() error: %v", setDataErr)
+		log.Printf("[ERROR] error setting data before clusterWaitForWorkRequest(ctx, ) error: %v", setDataErr)
 	}
 
 	// if rollback deadline delay is specified, raise request for extendRollback deadline delay
@@ -167,18 +168,18 @@ func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud)
 		requestExtend.ClusterId = &tmpClusterId
 
 		requestExtend.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
-		_, err := s.Client.ExtendEndpointDecommissionRollbackDeadline(context.Background(), requestExtend)
+		_, err := s.Client.ExtendEndpointDecommissionRollbackDeadline(ctx, requestExtend)
 		if err != nil {
 			return err
 		}
 		if setDataErr := s.SetData(); setDataErr != nil {
-			log.Printf("[ERROR] error setting data before clusterWaitForWorkRequest() error: %v", setDataErr)
+			log.Printf("[ERROR] error setting data before clusterWaitForWorkRequest(ctx, ) error: %v", setDataErr)
 		}
 	}
 	return nil
 }
 
-func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud) Update() error {
+func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud) UpdateWithContext(ctx context.Context) error {
 	clusterId, _ := s.D.GetOkExists("cluster_id")
 	tmpClusterId := clusterId.(string)
 	// if no change, do nothing
@@ -192,7 +193,7 @@ func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud)
 			request := oci_containerengine.StartPublicApiEndpointDecommissionRequest{}
 			request.ClusterId = &tmpClusterId
 			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
-			response, err := s.Client.StartPublicApiEndpointDecommission(context.Background(), request)
+			response, err := s.Client.StartPublicApiEndpointDecommission(ctx, request)
 			if err != nil {
 				return err
 			}
@@ -200,7 +201,7 @@ func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud)
 			workId := response.OpcWorkRequestId
 
 			// Wait for work request to finish
-			_, waitErr := clusterWaitForWorkRequest(context.Background(), workId, "cluster",
+			_, waitErr := clusterWaitForWorkRequest(ctx, workId, "cluster",
 				oci_containerengine.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 			if waitErr != nil {
 				return waitErr
@@ -210,14 +211,14 @@ func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud)
 			request := oci_containerengine.RollbackPublicApiEndpointDecommissionRequest{}
 			request.ClusterId = &tmpClusterId
 			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
-			response, err := s.Client.RollbackPublicApiEndpointDecommission(context.Background(), request)
+			response, err := s.Client.RollbackPublicApiEndpointDecommission(ctx, request)
 			if err != nil {
 				return err
 			}
 
 			workId := response.OpcWorkRequestId
 			// Wait for work request to finish
-			_, waitErr := clusterWaitForWorkRequest(context.Background(), workId, "cluster",
+			_, waitErr := clusterWaitForWorkRequest(ctx, workId, "cluster",
 				oci_containerengine.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 			if waitErr != nil {
 				return waitErr
@@ -225,7 +226,7 @@ func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud)
 		}
 		// store in state file in case of failure
 		if setDataErr := s.SetData(); setDataErr != nil {
-			log.Printf("[ERROR] error setting data before clusterWaitForWorkRequest() error: %v", setDataErr)
+			log.Printf("[ERROR] error setting data before clusterWaitForWorkRequest(ctx, ) error: %v", setDataErr)
 		}
 	}
 
@@ -237,12 +238,12 @@ func (s *ContainerengineClusterPublicApiEndpointDecommissionManagerResourceCrud)
 		requestExtend.ClusterId = &tmpClusterId
 
 		requestExtend.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
-		_, err := s.Client.ExtendEndpointDecommissionRollbackDeadline(context.Background(), requestExtend)
+		_, err := s.Client.ExtendEndpointDecommissionRollbackDeadline(ctx, requestExtend)
 		if err != nil {
 			return err
 		}
 		if setDataErr := s.SetData(); setDataErr != nil {
-			log.Printf("[ERROR] error setting data before clusterWaitForWorkRequest() error: %v", setDataErr)
+			log.Printf("[ERROR] error setting data before clusterWaitForWorkRequest(ctx, ) error: %v", setDataErr)
 		}
 	}
 	return nil

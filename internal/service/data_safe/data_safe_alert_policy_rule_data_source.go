@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -23,15 +24,15 @@ func DataSafeAlertPolicyRuleDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeAlertPolicyRuleResource(), fieldMap, readSingularDataSafeAlertPolicyRule)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeAlertPolicyRuleResource(), fieldMap, readSingularDataSafeAlertPolicyRuleWithContext)
 }
 
-func readSingularDataSafeAlertPolicyRule(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeAlertPolicyRuleWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAlertPolicyRuleDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeAlertPolicyRuleDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *DataSafeAlertPolicyRuleDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeAlertPolicyRuleDataSourceCrud) Get() error {
+func (s *DataSafeAlertPolicyRuleDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetAlertPolicyRuleRequest{}
 
 	if alertPolicyId, ok := s.D.GetOkExists("alert_policy_id"); ok {
@@ -59,7 +60,7 @@ func (s *DataSafeAlertPolicyRuleDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetAlertPolicyRule(context.Background(), request)
+	response, err := s.Client.GetAlertPolicyRule(ctx, request)
 	if err != nil {
 		return err
 	}

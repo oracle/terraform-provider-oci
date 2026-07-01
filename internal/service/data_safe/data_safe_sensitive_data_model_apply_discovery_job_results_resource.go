@@ -17,6 +17,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
@@ -25,10 +26,10 @@ func DataSafeSensitiveDataModelsApplyDiscoveryJobResultsResource() *schema.Resou
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeSensitiveDataModelsApplyDiscoveryJobResults,
-		Read:     readDataSafeSensitiveDataModelsApplyDiscoveryJobResults,
-		Delete:   deleteDataSafeSensitiveDataModelsApplyDiscoveryJobResults,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeSensitiveDataModelsApplyDiscoveryJobResultsWithContext,
+		ReadContext:   readDataSafeSensitiveDataModelsApplyDiscoveryJobResultsWithContext,
+		DeleteContext: deleteDataSafeSensitiveDataModelsApplyDiscoveryJobResultsWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"discovery_job_id": {
@@ -49,19 +50,19 @@ func DataSafeSensitiveDataModelsApplyDiscoveryJobResultsResource() *schema.Resou
 	}
 }
 
-func createDataSafeSensitiveDataModelsApplyDiscoveryJobResults(d *schema.ResourceData, m interface{}) error {
+func createDataSafeSensitiveDataModelsApplyDiscoveryJobResultsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveDataModelsApplyDiscoveryJobResultsResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDataSafeSensitiveDataModelsApplyDiscoveryJobResults(d *schema.ResourceData, m interface{}) error {
+func readDataSafeSensitiveDataModelsApplyDiscoveryJobResultsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDataSafeSensitiveDataModelsApplyDiscoveryJobResults(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeSensitiveDataModelsApplyDiscoveryJobResultsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -76,11 +77,11 @@ func (s *DataSafeSensitiveDataModelsApplyDiscoveryJobResultsResourceCrud) ID() s
 	return s.D.Id()
 }
 
-func (s *DataSafeSensitiveDataModelsApplyDiscoveryJobResultsResourceCrud) Get() error {
+func (s *DataSafeSensitiveDataModelsApplyDiscoveryJobResultsResourceCrud) GetWithContext(ctx context.Context) error {
 	return nil
 }
 
-func (s *DataSafeSensitiveDataModelsApplyDiscoveryJobResultsResourceCrud) Create() error {
+func (s *DataSafeSensitiveDataModelsApplyDiscoveryJobResultsResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.ApplyDiscoveryJobResultsRequest{}
 
 	if SensitiveDataModelId, ok := s.D.GetOkExists("sensitive_data_model_id"); ok {
@@ -95,20 +96,20 @@ func (s *DataSafeSensitiveDataModelsApplyDiscoveryJobResultsResourceCrud) Create
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.ApplyDiscoveryJobResults(context.Background(), request)
+	response, err := s.Client.ApplyDiscoveryJobResults(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDataSafeSensitiveDataModelsApplyDiscoveryJobResultsFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDataSafeSensitiveDataModelsApplyDiscoveryJobResultsFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeSensitiveDataModelsApplyDiscoveryJobResultsResourceCrud) getDataSafeSensitiveDataModelsApplyDiscoveryJobResultsFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeSensitiveDataModelsApplyDiscoveryJobResultsResourceCrud) getDataSafeSensitiveDataModelsApplyDiscoveryJobResultsFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	sensitiveDataModelId, err := applyDiscoveryJobResultsWaitForWorkRequest(workId, "sensitivedatamodel",
+	sensitiveDataModelId, err := applyDiscoveryJobResultsWaitForWorkRequest(ctx, workId, "sensitivedatamodel",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -116,7 +117,7 @@ func (s *DataSafeSensitiveDataModelsApplyDiscoveryJobResultsResourceCrud) getDat
 	}
 	s.D.SetId(*sensitiveDataModelId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func applyDiscoveryJobResultsWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -142,7 +143,7 @@ func applyDiscoveryJobResultsWorkRequestShouldRetryFunc(timeout time.Duration) f
 	}
 }
 
-func applyDiscoveryJobResultsWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func applyDiscoveryJobResultsWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = applyDiscoveryJobResultsWorkRequestShouldRetryFunc(timeout)
@@ -159,7 +160,7 @@ func applyDiscoveryJobResultsWaitForWorkRequest(wId *string, entityType string, 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -171,7 +172,7 @@ func applyDiscoveryJobResultsWaitForWorkRequest(wId *string, entityType string, 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -188,14 +189,14 @@ func applyDiscoveryJobResultsWaitForWorkRequest(wId *string, entityType string, 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed {
-		return nil, getErrorFromDataSafeSensitiveDataModelsApplyDiscoveryJobResultsWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeSensitiveDataModelsApplyDiscoveryJobResultsWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeSensitiveDataModelsApplyDiscoveryJobResultsWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeSensitiveDataModelsApplyDiscoveryJobResultsWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -221,6 +222,6 @@ func (s *DataSafeSensitiveDataModelsApplyDiscoveryJobResultsResourceCrud) SetDat
 	return nil
 }
 
-func (s *DataSafeSensitiveDataModelsApplyDiscoveryJobResultsResourceCrud) Delete() error {
+func (s *DataSafeSensitiveDataModelsApplyDiscoveryJobResultsResourceCrud) DeleteWithContext(ctx context.Context) error {
 	return nil
 }

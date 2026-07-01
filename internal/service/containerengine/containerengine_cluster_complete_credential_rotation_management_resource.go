@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -26,9 +27,9 @@ func ContainerengineClusterCompleteCredentialRotationManagementResource() *schem
 			Update: tfresource.GetTimeoutDuration("1h"),
 			Delete: tfresource.GetTimeoutDuration("1h"),
 		},
-		Create: createContainerengineClusterCompleteCredentialRotationManagement,
-		Read:   readContainerengineClusterCompleteCredentialRotationManagement,
-		Delete: deleteContainerengineClusterCompleteCredentialRotationManagement,
+		CreateContext: createContainerengineClusterCompleteCredentialRotationManagement,
+		ReadContext:   readContainerengineClusterCompleteCredentialRotationManagement,
+		DeleteContext: deleteContainerengineClusterCompleteCredentialRotationManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"cluster_id": {
@@ -44,19 +45,19 @@ func ContainerengineClusterCompleteCredentialRotationManagementResource() *schem
 	}
 }
 
-func createContainerengineClusterCompleteCredentialRotationManagement(d *schema.ResourceData, m interface{}) error {
+func createContainerengineClusterCompleteCredentialRotationManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &ContainerengineClusterCompleteCredentialRotationManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ContainerEngineClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readContainerengineClusterCompleteCredentialRotationManagement(d *schema.ResourceData, m interface{}) error {
+func readContainerengineClusterCompleteCredentialRotationManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteContainerengineClusterCompleteCredentialRotationManagement(d *schema.ResourceData, m interface{}) error {
+func deleteContainerengineClusterCompleteCredentialRotationManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -71,7 +72,7 @@ func (s *ContainerengineClusterCompleteCredentialRotationManagementResourceCrud)
 	return *s.Res.Id
 }
 
-func (s *ContainerengineClusterCompleteCredentialRotationManagementResourceCrud) Create() error {
+func (s *ContainerengineClusterCompleteCredentialRotationManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_containerengine.CompleteCredentialRotationRequest{}
 
 	if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
@@ -81,7 +82,7 @@ func (s *ContainerengineClusterCompleteCredentialRotationManagementResourceCrud)
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
 
-	response, err := s.Client.CompleteCredentialRotation(context.Background(), request)
+	response, err := s.Client.CompleteCredentialRotation(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -89,7 +90,7 @@ func (s *ContainerengineClusterCompleteCredentialRotationManagementResourceCrud)
 	workId := response.OpcWorkRequestId
 
 	// Wait until it finishes
-	clusterId, waitErr := clusterCompleteCredentialRotationManagementWaitForWorkRequest(workId, "cluster",
+	clusterId, waitErr := clusterCompleteCredentialRotationManagementWaitForWorkRequest(ctx, workId, "cluster",
 		oci_containerengine.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries, s.Client)
 	if waitErr != nil {
 		return waitErr
@@ -98,7 +99,7 @@ func (s *ContainerengineClusterCompleteCredentialRotationManagementResourceCrud)
 	requestGet := oci_containerengine.GetClusterRequest{}
 	requestGet.ClusterId = clusterId
 	requestGet.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
-	responseGet, getClusterErr := s.Client.GetCluster(context.Background(), requestGet)
+	responseGet, getClusterErr := s.Client.GetCluster(ctx, requestGet)
 	if getClusterErr != nil {
 		return getClusterErr
 	}
@@ -130,7 +131,7 @@ func clusterCompleteCredentialRotationManagementWorkRequestShouldRetryFunc(timeo
 	}
 }
 
-func clusterCompleteCredentialRotationManagementWaitForWorkRequest(wId *string, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum,
+func clusterCompleteCredentialRotationManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_containerengine.ContainerEngineClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "containerengine")
 	retryPolicy.ShouldRetryOperation = clusterCompleteCredentialRotationManagementWorkRequestShouldRetryFunc(timeout)
@@ -149,7 +150,7 @@ func clusterCompleteCredentialRotationManagementWaitForWorkRequest(wId *string, 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_containerengine.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -161,7 +162,7 @@ func clusterCompleteCredentialRotationManagementWaitForWorkRequest(wId *string, 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -178,14 +179,14 @@ func clusterCompleteCredentialRotationManagementWaitForWorkRequest(wId *string, 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_containerengine.WorkRequestStatusFailed || response.Status == oci_containerengine.WorkRequestStatusCanceled {
-		return nil, getErrorFromContainerengineClusterCompleteCredentialRotationManagementWorkRequest(client, wId, response.CompartmentId, retryPolicy, entityType, action)
+		return nil, getErrorFromContainerengineClusterCompleteCredentialRotationManagementWorkRequest(ctx, client, wId, response.CompartmentId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromContainerengineClusterCompleteCredentialRotationManagementWorkRequest(client *oci_containerengine.ContainerEngineClient, workId *string, compartmentId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromContainerengineClusterCompleteCredentialRotationManagementWorkRequest(ctx context.Context, client *oci_containerengine.ContainerEngineClient, workId *string, compartmentId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_containerengine.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			CompartmentId: compartmentId,

@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,10 +25,10 @@ func OsManagementHubDynamicSetInstallPackagesManagementResource() *schema.Resour
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOsManagementHubDynamicSetInstallPackagesManagement,
-		Read:     readOsManagementHubDynamicSetInstallPackagesManagement,
-		Delete:   deleteOsManagementHubDynamicSetInstallPackagesManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOsManagementHubDynamicSetInstallPackagesManagement,
+		ReadContext:   readOsManagementHubDynamicSetInstallPackagesManagement,
+		DeleteContext: deleteOsManagementHubDynamicSetInstallPackagesManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"dynamic_set_id": {
@@ -88,20 +89,20 @@ func OsManagementHubDynamicSetInstallPackagesManagementResource() *schema.Resour
 	}
 }
 
-func createOsManagementHubDynamicSetInstallPackagesManagement(d *schema.ResourceData, m interface{}) error {
+func createOsManagementHubDynamicSetInstallPackagesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubDynamicSetInstallPackagesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DynamicSetClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOsManagementHubDynamicSetInstallPackagesManagement(d *schema.ResourceData, m interface{}) error {
+func readOsManagementHubDynamicSetInstallPackagesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteOsManagementHubDynamicSetInstallPackagesManagement(d *schema.ResourceData, m interface{}) error {
+func deleteOsManagementHubDynamicSetInstallPackagesManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -117,7 +118,7 @@ func (s *OsManagementHubDynamicSetInstallPackagesManagementResourceCrud) ID() st
 	return *s.Res.Id
 }
 
-func (s *OsManagementHubDynamicSetInstallPackagesManagementResourceCrud) Get() error {
+func (s *OsManagementHubDynamicSetInstallPackagesManagementResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.GetDynamicSetRequest{}
 
 	if dynamicSetId, ok := s.D.GetOkExists("dynamic_set_id"); ok {
@@ -127,7 +128,7 @@ func (s *OsManagementHubDynamicSetInstallPackagesManagementResourceCrud) Get() e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "os_management_hub")
 
-	response, err := s.Client.GetDynamicSet(context.Background(), request)
+	response, err := s.Client.GetDynamicSet(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -136,7 +137,7 @@ func (s *OsManagementHubDynamicSetInstallPackagesManagementResourceCrud) Get() e
 	return nil
 }
 
-func (s *OsManagementHubDynamicSetInstallPackagesManagementResourceCrud) Create() error {
+func (s *OsManagementHubDynamicSetInstallPackagesManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.InstallPackagesOnDynamicSetRequest{}
 
 	if dynamicSetId, ok := s.D.GetOkExists("dynamic_set_id"); ok {
@@ -183,20 +184,20 @@ func (s *OsManagementHubDynamicSetInstallPackagesManagementResourceCrud) Create(
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.InstallPackagesOnDynamicSet(context.Background(), request)
+	response, err := s.Client.InstallPackagesOnDynamicSet(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDynamicSetInstallPackagesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDynamicSetInstallPackagesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OsManagementHubDynamicSetInstallPackagesManagementResourceCrud) getDynamicSetInstallPackagesManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OsManagementHubDynamicSetInstallPackagesManagementResourceCrud) getDynamicSetInstallPackagesManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_os_management_hub.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	dynamicSetInstallPackagesManagementId, err := dynamicSetInstallPackagesManagementWaitForWorkRequest(workId, "dynamic_set",
+	dynamicSetInstallPackagesManagementId, err := dynamicSetInstallPackagesManagementWaitForWorkRequest(ctx, workId, "dynamic_set",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -204,7 +205,7 @@ func (s *OsManagementHubDynamicSetInstallPackagesManagementResourceCrud) getDyna
 	}
 	s.D.SetId(*dynamicSetInstallPackagesManagementId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func dynamicSetInstallPackagesManagementWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -230,7 +231,7 @@ func dynamicSetInstallPackagesManagementWorkRequestShouldRetryFunc(timeout time.
 	}
 }
 
-func dynamicSetInstallPackagesManagementWaitForWorkRequest(wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
+func dynamicSetInstallPackagesManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_os_management_hub.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "os_management_hub")
 	retryPolicy.ShouldRetryOperation = dynamicSetInstallPackagesManagementWorkRequestShouldRetryFunc(timeout)
@@ -249,7 +250,7 @@ func dynamicSetInstallPackagesManagementWaitForWorkRequest(wId *string, entityTy
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_os_management_hub.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -261,7 +262,7 @@ func dynamicSetInstallPackagesManagementWaitForWorkRequest(wId *string, entityTy
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -278,14 +279,14 @@ func dynamicSetInstallPackagesManagementWaitForWorkRequest(wId *string, entityTy
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_os_management_hub.OperationStatusFailed || response.Status == oci_os_management_hub.OperationStatusCanceled {
-		return nil, getErrorFromOsManagementHubDynamicSetInstallPackagesManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOsManagementHubDynamicSetInstallPackagesManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOsManagementHubDynamicSetInstallPackagesManagementWorkRequest(client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOsManagementHubDynamicSetInstallPackagesManagementWorkRequest(ctx context.Context, client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_os_management_hub.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

@@ -7,6 +7,7 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -15,11 +16,11 @@ import (
 
 func DataSafeMaskingReportManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeMaskingReportManagement,
-		Read:     readDataSafeMaskingReportManagement,
-		Update:   updateDataSafeMaskingReportManagement,
-		Delete:   deleteDataSafeMaskingReportManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeMaskingReportManagement,
+		ReadContext:   readDataSafeMaskingReportManagement,
+		UpdateContext: updateDataSafeMaskingReportManagement,
+		DeleteContext: deleteDataSafeMaskingReportManagement,
 		Schema: map[string]*schema.Schema{
 			"target_id": {
 				Type:     schema.TypeString,
@@ -102,42 +103,42 @@ func DataSafeMaskingReportManagementResource() *schema.Resource {
 	}
 }
 
-func createDataSafeMaskingReportManagement(d *schema.ResourceData, m interface{}) error {
+func createDataSafeMaskingReportManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeMaskingReportManagementResourceCurd{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	err := sync.getMaskingReportWorkReq()
+	err := sync.getMaskingReportWorkReq(ctx)
 	if err != nil {
-		return err
+		return tfresource.HandleDiagError(m, err)
 	}
 
-	err1 := sync.Get()
+	err1 := sync.GetWithContext(ctx)
 	if err1 != nil {
-		return err1
+		return tfresource.HandleDiagError(m, err1)
 	}
 
 	err = sync.SetData()
 	if err != nil {
-		return err
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	return nil
 }
 
-func readDataSafeMaskingReportManagement(d *schema.ResourceData, m interface{}) error {
+func readDataSafeMaskingReportManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeMaskingReportManagementResourceCurd{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeMaskingReportManagement(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeMaskingReportManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDataSafeMaskingReportManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeMaskingReportManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -152,7 +153,7 @@ func (s *DataSafeMaskingReportManagementResourceCurd) ID() string {
 	return *s.Res.Id
 }
 
-func (s *DataSafeMaskingReportManagementResourceCurd) getMaskingReportWorkReq() error {
+func (s *DataSafeMaskingReportManagementResourceCurd) getMaskingReportWorkReq(ctx context.Context) error {
 	// Masking report will be in same compartment as of target
 	getTargetDatabaseRequest := oci_data_safe.GetTargetDatabaseRequest{}
 	var compartmentId *string
@@ -162,7 +163,7 @@ func (s *DataSafeMaskingReportManagementResourceCurd) getMaskingReportWorkReq() 
 		getTargetDatabaseRequest.TargetDatabaseId = &tmp
 	}
 
-	getTargetDatabaseResponse, err := s.Client.GetTargetDatabase(context.Background(), getTargetDatabaseRequest)
+	getTargetDatabaseResponse, err := s.Client.GetTargetDatabase(ctx, getTargetDatabaseRequest)
 	if err != nil {
 		return err
 	}
@@ -175,7 +176,7 @@ func (s *DataSafeMaskingReportManagementResourceCurd) getMaskingReportWorkReq() 
 	}
 
 	// List all masking reports for given target and masking policy ID
-	err = s.GetMaskingReportList()
+	err = s.GetMaskingReportList(ctx)
 	if err != nil {
 		return err
 	}
@@ -199,22 +200,22 @@ func (s *DataSafeMaskingReportManagementResourceCurd) getMaskingReportWorkReq() 
 
 	maskTargetDatabaseRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.MaskData(context.Background(), maskTargetDatabaseRequest)
+	response, err := s.Client.MaskData(ctx, maskTargetDatabaseRequest)
 	if err != nil {
 		return err
 	}
 	workId := response.OpcWorkRequestId
-	_, err = maskDataWaitForWorkRequest(workId, "maskingpolicy",
+	_, err = maskDataWaitForWorkRequest(ctx, workId, "maskingpolicy",
 		oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate),
 		s.DisableNotFoundRetries, s.Client)
 	if err != nil {
 		return err
 	}
 
-	return s.GetMaskingReportList()
+	return s.GetMaskingReportList(ctx)
 }
 
-func (s *DataSafeMaskingReportManagementResourceCurd) GetMaskingReportList() error {
+func (s *DataSafeMaskingReportManagementResourceCurd) GetMaskingReportList(ctx context.Context) error {
 	request := oci_data_safe.ListMaskingReportsRequest{}
 	var maskingReport = new(oci_data_safe.MaskingReport)
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -236,7 +237,7 @@ func (s *DataSafeMaskingReportManagementResourceCurd) GetMaskingReportList() err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.ListMaskingReports(context.Background(), request)
+	response, err := s.Client.ListMaskingReports(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -253,7 +254,7 @@ func (s *DataSafeMaskingReportManagementResourceCurd) GetMaskingReportList() err
 	return nil
 }
 
-func (s *DataSafeMaskingReportManagementResourceCurd) Get() error {
+func (s *DataSafeMaskingReportManagementResourceCurd) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetMaskingReportRequest{}
 
 	tmp := s.D.Id()
@@ -261,7 +262,7 @@ func (s *DataSafeMaskingReportManagementResourceCurd) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetMaskingReport(context.Background(), request)
+	response, err := s.Client.GetMaskingReport(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -16,6 +16,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
@@ -24,10 +25,10 @@ func DataSafeAddColumnsFromSdmResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeAddColumnsFromSdm,
-		Read:     readDataSafeAddColumnsFromSdm,
-		Delete:   deleteDataSafeAddColumnsFromSdm,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeAddColumnsFromSdmWithContext,
+		ReadContext:   readDataSafeAddColumnsFromSdmWithContext,
+		DeleteContext: deleteDataSafeAddColumnsFromSdmWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"masking_policy_id": {
@@ -43,19 +44,19 @@ func DataSafeAddColumnsFromSdmResource() *schema.Resource {
 	}
 }
 
-func createDataSafeAddColumnsFromSdm(d *schema.ResourceData, m interface{}) error {
+func createDataSafeAddColumnsFromSdmWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAddColumnsFromSdmResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDataSafeAddColumnsFromSdm(d *schema.ResourceData, m interface{}) error {
+func readDataSafeAddColumnsFromSdmWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDataSafeAddColumnsFromSdm(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeAddColumnsFromSdmWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -70,11 +71,11 @@ func (s *DataSafeAddColumnsFromSdmResourceCrud) ID() string {
 	return s.D.Id()
 }
 
-func (s *DataSafeAddColumnsFromSdmResourceCrud) Get() error {
+func (s *DataSafeAddColumnsFromSdmResourceCrud) GetWithContext(ctx context.Context) error {
 	return nil
 }
 
-func (s *DataSafeAddColumnsFromSdmResourceCrud) Create() error {
+func (s *DataSafeAddColumnsFromSdmResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.AddMaskingColumnsFromSdmRequest{}
 
 	if comparisonUserAssessmentId, ok := s.D.GetOkExists("masking_policy_id"); ok {
@@ -84,20 +85,20 @@ func (s *DataSafeAddColumnsFromSdmResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.AddMaskingColumnsFromSdm(context.Background(), request)
+	response, err := s.Client.AddMaskingColumnsFromSdm(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAddColumnsFromSdmFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getAddColumnsFromSdmFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeAddColumnsFromSdmResourceCrud) getAddColumnsFromSdmFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeAddColumnsFromSdmResourceCrud) getAddColumnsFromSdmFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	maskingPolicyId, err := addMaskingColumnsWaitForWorkRequest(workId, "maskingcolumn",
+	maskingPolicyId, err := addMaskingColumnsWaitForWorkRequest(ctx, workId, "maskingcolumn",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -105,7 +106,7 @@ func (s *DataSafeAddColumnsFromSdmResourceCrud) getAddColumnsFromSdmFromWorkRequ
 	}
 	s.D.SetId(*maskingPolicyId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func addMaskingColumnsWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -131,7 +132,7 @@ func addMaskingColumnsWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 	}
 }
 
-func addMaskingColumnsWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func addMaskingColumnsWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = addMaskingColumnsWorkRequestShouldRetryFunc(timeout)
@@ -150,7 +151,7 @@ func addMaskingColumnsWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -162,7 +163,7 @@ func addMaskingColumnsWaitForWorkRequest(wId *string, entityType string, action 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -179,14 +180,14 @@ func addMaskingColumnsWaitForWorkRequest(wId *string, entityType string, action 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed {
-		return nil, getErrorFromDataSafeAddMaskingColumnsFromSdmWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeAddMaskingColumnsFromSdmWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeAddMaskingColumnsFromSdmWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeAddMaskingColumnsFromSdmWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -212,6 +213,6 @@ func (s *DataSafeAddColumnsFromSdmResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DataSafeAddColumnsFromSdmResourceCrud) Delete() error {
+func (s *DataSafeAddColumnsFromSdmResourceCrud) DeleteWithContext(ctx context.Context) error {
 	return nil
 }

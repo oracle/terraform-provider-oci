@@ -11,6 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -28,9 +29,9 @@ func BdsBdsInstanceOSPatchActionResource() *schema.Resource {
 			Update: schema.DefaultTimeout(20 * time.Minute),
 			Delete: schema.DefaultTimeout(20 * time.Minute),
 		},
-		Create: createBdsBdsInstanceOSPatchAction,
-		Read:   readBdsBdsInstanceOSPatchAction,
-		Delete: deleteBdsBdsInstanceOSPatchAction,
+		CreateContext: createBdsBdsInstanceOSPatchAction,
+		ReadContext:   readBdsBdsInstanceOSPatchAction,
+		DeleteContext: deleteBdsBdsInstanceOSPatchAction,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"bds_instance_id": {
@@ -113,20 +114,20 @@ func BdsBdsInstanceOSPatchActionResource() *schema.Resource {
 	}
 }
 
-func createBdsBdsInstanceOSPatchAction(d *schema.ResourceData, m interface{}) error {
+func createBdsBdsInstanceOSPatchAction(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceOSPatchActionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
 // Return object nil for below two func because this is an action-type update operation
-func readBdsBdsInstanceOSPatchAction(d *schema.ResourceData, m interface{}) error {
+func readBdsBdsInstanceOSPatchAction(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteBdsBdsInstanceOSPatchAction(d *schema.ResourceData, m interface{}) error {
+func deleteBdsBdsInstanceOSPatchAction(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -140,7 +141,7 @@ func (s *BdsBdsInstanceOSPatchActionResourceCrud) ID() string {
 	return tfresource.GenerateDataSourceHashID("BdsBdsInstanceOSPatchActionResource-", BdsBdsInstanceOSPatchActionResource(), s.D)
 }
 
-func (s *BdsBdsInstanceOSPatchActionResourceCrud) Create() error {
+func (s *BdsBdsInstanceOSPatchActionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_bds.InstallOsPatchRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -176,20 +177,20 @@ func (s *BdsBdsInstanceOSPatchActionResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
-	response, err := s.Client.InstallOsPatch(context.Background(), request)
+	response, err := s.Client.InstallOsPatch(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceOSPatchActionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getBdsInstanceOSPatchActionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *BdsBdsInstanceOSPatchActionResourceCrud) getBdsInstanceOSPatchActionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *BdsBdsInstanceOSPatchActionResourceCrud) getBdsInstanceOSPatchActionFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_bds.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	bdsInstanceOSPatchActionId, err := bdsInstanceOSPatchActionWaitForWorkRequest(workId, "bds",
+	bdsInstanceOSPatchActionId, err := bdsInstanceOSPatchActionWaitForWorkRequest(ctx, workId, "bds",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -223,7 +224,7 @@ func bdsInstanceOSPatchActionWorkRequestShouldRetryFunc(timeout time.Duration) f
 	}
 }
 
-func bdsInstanceOSPatchActionWaitForWorkRequest(wId *string, entityType string, action oci_bds.ActionTypesEnum,
+func bdsInstanceOSPatchActionWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_bds.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_bds.BdsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "bds")
 	retryPolicy.ShouldRetryOperation = bdsInstanceOSPatchActionWorkRequestShouldRetryFunc(timeout)
@@ -242,7 +243,7 @@ func bdsInstanceOSPatchActionWaitForWorkRequest(wId *string, entityType string, 
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_bds.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -254,7 +255,7 @@ func bdsInstanceOSPatchActionWaitForWorkRequest(wId *string, entityType string, 
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -271,14 +272,14 @@ func bdsInstanceOSPatchActionWaitForWorkRequest(wId *string, entityType string, 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_bds.OperationStatusFailed || response.Status == oci_bds.OperationStatusCanceled {
-		return nil, getErrorFromBdsBdsInstanceOSPatchActionWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromBdsBdsInstanceOSPatchActionWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromBdsBdsInstanceOSPatchActionWorkRequest(client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromBdsBdsInstanceOSPatchActionWorkRequest(ctx context.Context, client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_bds.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

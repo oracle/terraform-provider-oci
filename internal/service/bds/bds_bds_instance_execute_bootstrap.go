@@ -182,7 +182,7 @@ func bdsInstanceExecuteBootstrapScriptActionWaitForWorkRequest(wId *string, enti
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_bds.OperationStatusFailed || response.Status == oci_bds.OperationStatusCanceled {
-		return nil, getErrorFromBdsBdsInstanceOSPatchActionWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromBdsBdsInstanceOSPatchActionWorkRequest(context.Background(), client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil

@@ -12,6 +12,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,10 +25,10 @@ func DataSafeUnsetSecurityAssessmentBaselineManagementResource() *schema.Resourc
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeUnsetSecurityAssessmentBaselineManagement,
-		Read:     readDataSafeUnsetSecurityAssessmentBaselineManagement,
-		Delete:   deleteDataSafeUnsetSecurityAssessmentBaselineManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeUnsetSecurityAssessmentBaselineManagement,
+		ReadContext:   readDataSafeUnsetSecurityAssessmentBaselineManagement,
+		DeleteContext: deleteDataSafeUnsetSecurityAssessmentBaselineManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"security_assessment_id": {
@@ -45,7 +46,7 @@ func DataSafeUnsetSecurityAssessmentBaselineManagementResource() *schema.Resourc
 	}
 }
 
-func createDataSafeUnsetSecurityAssessmentBaselineManagement(d *schema.ResourceData, m interface{}) error {
+func createDataSafeUnsetSecurityAssessmentBaselineManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeUnsetSecurityAssessmentBaselineManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
@@ -55,18 +56,18 @@ func createDataSafeUnsetSecurityAssessmentBaselineManagement(d *schema.ResourceD
 	SAId := d.Get("security_assessment_id").(string)
 
 	// Wait for set bseline work req to get completed
-	_, err := sync.GetBaselineWorkReq(compartmentId, SAId)
+	_, err := sync.GetBaselineWorkReq(ctx, compartmentId, SAId)
 	if err != nil {
-		return err
+		return tfresource.HandleDiagError(m, err)
 	}
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDataSafeUnsetSecurityAssessmentBaselineManagement(d *schema.ResourceData, m interface{}) error {
+func readDataSafeUnsetSecurityAssessmentBaselineManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDataSafeUnsetSecurityAssessmentBaselineManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeUnsetSecurityAssessmentBaselineManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -77,7 +78,7 @@ type DataSafeUnsetSecurityAssessmentBaselineManagementResourceCrud struct {
 	DisableNotFoundRetries bool
 }
 
-func (s *DataSafeUnsetSecurityAssessmentBaselineManagementResourceCrud) GetBaselineWorkReq(compartmentId string, SAId string) (string, error) {
+func (s *DataSafeUnsetSecurityAssessmentBaselineManagementResourceCrud) GetBaselineWorkReq(ctx context.Context, compartmentId string, SAId string) (string, error) {
 	listWorkRequestsRequest := oci_data_safe.ListWorkRequestsRequest{SortBy: oci_data_safe.ListWorkRequestsSortByEnum("ACCEPTEDTIME"), SortOrder: oci_data_safe.ListWorkRequestsSortOrderEnum("DESC")}
 	var workId *string
 	tmp := "SET_SECURITY_ASSESSMENT_BASELINE"
@@ -93,7 +94,7 @@ func (s *DataSafeUnsetSecurityAssessmentBaselineManagementResourceCrud) GetBasel
 		listWorkRequestsRequest.ResourceId = &tmp
 	}
 
-	listWorkRequestsResponse, err := s.Client.ListWorkRequests(context.Background(), listWorkRequestsRequest)
+	listWorkRequestsResponse, err := s.Client.ListWorkRequests(ctx, listWorkRequestsRequest)
 	if listWorkRequestsResponse.Items != nil && len(listWorkRequestsResponse.Items) > 0 {
 		// Get the latest work request
 		var tmp1 = &listWorkRequestsResponse.Items[0]
@@ -114,17 +115,17 @@ func (s *DataSafeUnsetSecurityAssessmentBaselineManagementResourceCrud) GetBasel
 	}
 
 	if workId != nil {
-		return s.getSavedAssessmentIdFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		return s.getSavedAssessmentIdFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	} else {
 		return "No Work request found", nil
 	}
 }
 
-func (s *DataSafeUnsetSecurityAssessmentBaselineManagementResourceCrud) getSavedAssessmentIdFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeUnsetSecurityAssessmentBaselineManagementResourceCrud) getSavedAssessmentIdFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) (string, error) {
 
 	// Wait until it finishes
-	baselineId, err := unsetSecurityAssessmentBaselineManagementWaitForWorkRequest(workId, "securityassessment",
+	baselineId, err := unsetSecurityAssessmentBaselineManagementWaitForWorkRequest(ctx, workId, "securityassessment",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -137,7 +138,7 @@ func (s *DataSafeUnsetSecurityAssessmentBaselineManagementResourceCrud) ID() str
 	return *s.Res.OpcRequestId
 }
 
-func (s *DataSafeUnsetSecurityAssessmentBaselineManagementResourceCrud) Create() error {
+func (s *DataSafeUnsetSecurityAssessmentBaselineManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.UnsetSecurityAssessmentBaselineRequest{}
 
 	if securityAssessmentId, ok := s.D.GetOkExists("security_assessment_id"); ok {
@@ -147,20 +148,20 @@ func (s *DataSafeUnsetSecurityAssessmentBaselineManagementResourceCrud) Create()
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UnsetSecurityAssessmentBaseline(context.Background(), request)
+	response, err := s.Client.UnsetSecurityAssessmentBaseline(ctx, request)
 	if err != nil {
 		return err
 	}
 	s.Res = &response
 	workId := response.OpcWorkRequestId
-	return s.getUnsetSecurityAssessmentBaselineManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getUnsetSecurityAssessmentBaselineManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeUnsetSecurityAssessmentBaselineManagementResourceCrud) getUnsetSecurityAssessmentBaselineManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeUnsetSecurityAssessmentBaselineManagementResourceCrud) getUnsetSecurityAssessmentBaselineManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	_, err := unsetSecurityAssessmentBaselineManagementWaitForWorkRequest(workId, "securityassessment",
+	_, err := unsetSecurityAssessmentBaselineManagementWaitForWorkRequest(ctx, workId, "securityassessment",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -193,7 +194,7 @@ func unsetSecurityAssessmentBaselineManagementWorkRequestShouldRetryFunc(timeout
 	}
 }
 
-func unsetSecurityAssessmentBaselineManagementWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func unsetSecurityAssessmentBaselineManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = unsetSecurityAssessmentBaselineManagementWorkRequestShouldRetryFunc(timeout)
@@ -210,7 +211,7 @@ func unsetSecurityAssessmentBaselineManagementWaitForWorkRequest(wId *string, en
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -222,7 +223,7 @@ func unsetSecurityAssessmentBaselineManagementWaitForWorkRequest(wId *string, en
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -239,14 +240,14 @@ func unsetSecurityAssessmentBaselineManagementWaitForWorkRequest(wId *string, en
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed {
-		return nil, getErrorFromDataSafeUnsetSecurityAssessmentBaselineManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeUnsetSecurityAssessmentBaselineManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeUnsetSecurityAssessmentBaselineManagementWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeUnsetSecurityAssessmentBaselineManagementWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

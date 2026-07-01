@@ -17,6 +17,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
@@ -25,10 +26,10 @@ func DataSafeMaskingPolicyApplyDifferenceToMaskingColumnsResource() *schema.Reso
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeMaskingPolicyApplyDifferenceToMaskingColumns,
-		Read:     readDataSafeMaskingPolicyApplyDifferenceToMaskingColumns,
-		Delete:   deleteDataSafeMaskingPolicyApplyDifferenceToMaskingColumns,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeMaskingPolicyApplyDifferenceToMaskingColumnsWithContext,
+		ReadContext:   readDataSafeMaskingPolicyApplyDifferenceToMaskingColumnsWithContext,
+		DeleteContext: deleteDataSafeMaskingPolicyApplyDifferenceToMaskingColumnsWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"sdm_masking_policy_difference_id": {
@@ -49,19 +50,19 @@ func DataSafeMaskingPolicyApplyDifferenceToMaskingColumnsResource() *schema.Reso
 	}
 }
 
-func createDataSafeMaskingPolicyApplyDifferenceToMaskingColumns(d *schema.ResourceData, m interface{}) error {
+func createDataSafeMaskingPolicyApplyDifferenceToMaskingColumnsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeMaskingPolicyApplyDifferenceToMaskingColumnsResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDataSafeMaskingPolicyApplyDifferenceToMaskingColumns(d *schema.ResourceData, m interface{}) error {
+func readDataSafeMaskingPolicyApplyDifferenceToMaskingColumnsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDataSafeMaskingPolicyApplyDifferenceToMaskingColumns(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeMaskingPolicyApplyDifferenceToMaskingColumnsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -76,11 +77,11 @@ func (s *DataSafeMaskingPolicyApplyDifferenceToMaskingColumnsResourceCrud) ID() 
 	return s.D.Id()
 }
 
-func (s *DataSafeMaskingPolicyApplyDifferenceToMaskingColumnsResourceCrud) Get() error {
+func (s *DataSafeMaskingPolicyApplyDifferenceToMaskingColumnsResourceCrud) GetWithContext(ctx context.Context) error {
 	return nil
 }
 
-func (s *DataSafeMaskingPolicyApplyDifferenceToMaskingColumnsResourceCrud) Create() error {
+func (s *DataSafeMaskingPolicyApplyDifferenceToMaskingColumnsResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.ApplySdmMaskingPolicyDifferenceRequest{}
 
 	if MaskingPolicyId, ok := s.D.GetOkExists("masking_policy_id"); ok {
@@ -95,20 +96,20 @@ func (s *DataSafeMaskingPolicyApplyDifferenceToMaskingColumnsResourceCrud) Creat
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.ApplySdmMaskingPolicyDifference(context.Background(), request)
+	response, err := s.Client.ApplySdmMaskingPolicyDifference(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDataSafeMaskingPolicyApplyDifferenceToMaskingColumnsFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDataSafeMaskingPolicyApplyDifferenceToMaskingColumnsFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeMaskingPolicyApplyDifferenceToMaskingColumnsResourceCrud) getDataSafeMaskingPolicyApplyDifferenceToMaskingColumnsFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeMaskingPolicyApplyDifferenceToMaskingColumnsResourceCrud) getDataSafeMaskingPolicyApplyDifferenceToMaskingColumnsFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	MaskingPolicyId, err := applyDifferenceToMaskingColumnsWaitForWorkRequest(workId, "masking_policy",
+	MaskingPolicyId, err := applyDifferenceToMaskingColumnsWaitForWorkRequest(ctx, workId, "masking_policy",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -116,7 +117,7 @@ func (s *DataSafeMaskingPolicyApplyDifferenceToMaskingColumnsResourceCrud) getDa
 	}
 	s.D.SetId(*MaskingPolicyId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func applyDifferenceToMaskingColumnsWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -142,7 +143,7 @@ func applyDifferenceToMaskingColumnsWorkRequestShouldRetryFunc(timeout time.Dura
 	}
 }
 
-func applyDifferenceToMaskingColumnsWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func applyDifferenceToMaskingColumnsWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = applyDifferenceToMaskingColumnsWorkRequestShouldRetryFunc(timeout)
@@ -159,7 +160,7 @@ func applyDifferenceToMaskingColumnsWaitForWorkRequest(wId *string, entityType s
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -171,7 +172,7 @@ func applyDifferenceToMaskingColumnsWaitForWorkRequest(wId *string, entityType s
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -188,14 +189,14 @@ func applyDifferenceToMaskingColumnsWaitForWorkRequest(wId *string, entityType s
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed {
-		return nil, getErrorFromDataSafeMaskingPolicyApplyDifferenceToMaskingColumnsWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeMaskingPolicyApplyDifferenceToMaskingColumnsWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeMaskingPolicyApplyDifferenceToMaskingColumnsWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeMaskingPolicyApplyDifferenceToMaskingColumnsWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -221,6 +222,6 @@ func (s *DataSafeMaskingPolicyApplyDifferenceToMaskingColumnsResourceCrud) SetDa
 	return nil
 }
 
-func (s *DataSafeMaskingPolicyApplyDifferenceToMaskingColumnsResourceCrud) Delete() error {
+func (s *DataSafeMaskingPolicyApplyDifferenceToMaskingColumnsResourceCrud) DeleteWithContext(ctx context.Context) error {
 	return nil
 }

@@ -27,9 +27,9 @@ func DataSafeSetSecurityAssessmentBaselineManagementResource() *schema.Resource 
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createDataSafeSetSecurityAssessmentBaselineManagementWithContext,
-		ReadContext:   readDataSafeSetSecurityAssessmentBaselineManagementWithContext,
-		DeleteContext: deleteDataSafeSetSecurityAssessmentBaselineManagementWithContext,
+		CreateContext: createDataSafeSetSecurityAssessmentBaselineManagement,
+		ReadContext:   readDataSafeSetSecurityAssessmentBaselineManagement,
+		DeleteContext: deleteDataSafeSetSecurityAssessmentBaselineManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"target_id": {
@@ -60,7 +60,7 @@ func DataSafeSetSecurityAssessmentBaselineManagementResource() *schema.Resource 
 	}
 }
 
-func createDataSafeSetSecurityAssessmentBaselineManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func createDataSafeSetSecurityAssessmentBaselineManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSetSecurityAssessmentBaselineManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
@@ -85,11 +85,11 @@ func createDataSafeSetSecurityAssessmentBaselineManagementWithContext(ctx contex
 	return nil
 }
 
-func readDataSafeSetSecurityAssessmentBaselineManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func readDataSafeSetSecurityAssessmentBaselineManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDataSafeSetSecurityAssessmentBaselineManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func deleteDataSafeSetSecurityAssessmentBaselineManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 

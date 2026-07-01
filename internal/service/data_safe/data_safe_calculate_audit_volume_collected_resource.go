@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -25,10 +26,10 @@ func DataSafeCalculateAuditVolumeCollectedResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeCalculateAuditVolumeCollected,
-		Read:     readDataSafeCalculateAuditVolumeCollected,
-		Delete:   deleteDataSafeCalculateAuditVolumeCollected,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeCalculateAuditVolumeCollectedWithContext,
+		ReadContext:   readDataSafeCalculateAuditVolumeCollectedWithContext,
+		DeleteContext: deleteDataSafeCalculateAuditVolumeCollectedWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"audit_profile_id": {
@@ -85,19 +86,19 @@ func DataSafeCalculateAuditVolumeCollectedResource() *schema.Resource {
 	}
 }
 
-func createDataSafeCalculateAuditVolumeCollected(d *schema.ResourceData, m interface{}) error {
+func createDataSafeCalculateAuditVolumeCollectedWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeCalculateAuditVolumeCollectedResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDataSafeCalculateAuditVolumeCollected(d *schema.ResourceData, m interface{}) error {
+func readDataSafeCalculateAuditVolumeCollectedWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDataSafeCalculateAuditVolumeCollected(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeCalculateAuditVolumeCollectedWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -112,7 +113,7 @@ func (s *DataSafeCalculateAuditVolumeCollectedResourceCrud) ID() string {
 	return *s.Res.OpcRequestId
 }
 
-func (s *DataSafeCalculateAuditVolumeCollectedResourceCrud) Create() error {
+func (s *DataSafeCalculateAuditVolumeCollectedResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.CalculateAuditVolumeCollectedRequest{}
 
 	if auditProfileId, ok := s.D.GetOkExists("audit_profile_id"); ok {
@@ -138,27 +139,27 @@ func (s *DataSafeCalculateAuditVolumeCollectedResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.CalculateAuditVolumeCollected(context.Background(), request)
+	response, err := s.Client.CalculateAuditVolumeCollected(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	s.Res = &response
 	workId := response.OpcWorkRequestId
-	return s.getCalculateAuditVolumeCollectedFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getCalculateAuditVolumeCollectedFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeCalculateAuditVolumeCollectedResourceCrud) getCalculateAuditVolumeCollectedFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeCalculateAuditVolumeCollectedResourceCrud) getCalculateAuditVolumeCollectedFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	_, err := calculateAuditVolumeCollectedWaitForWorkRequest(workId, "auditprofile",
+	_, err := calculateAuditVolumeCollectedWaitForWorkRequest(ctx, workId, "auditprofile",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v", workId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_data_safe.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -171,10 +172,10 @@ func (s *DataSafeCalculateAuditVolumeCollectedResourceCrud) getCalculateAuditVol
 		return err
 	}
 
-	return s.Get(workId)
+	return s.Get(ctx, workId)
 }
 
-func (s *DataSafeCalculateAuditVolumeCollectedResourceCrud) Get(workId *string) error {
+func (s *DataSafeCalculateAuditVolumeCollectedResourceCrud) Get(ctx context.Context, workId *string) error {
 	request := oci_data_safe.ListCollectedAuditVolumesRequest{}
 
 	if auditProfileId, ok := s.D.GetOkExists("audit_profile_id"); ok {
@@ -184,7 +185,7 @@ func (s *DataSafeCalculateAuditVolumeCollectedResourceCrud) Get(workId *string) 
 
 	request.WorkRequestId = workId
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
-	listResponse, err := s.Client.ListCollectedAuditVolumes(context.Background(), request)
+	listResponse, err := s.Client.ListCollectedAuditVolumes(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -220,7 +221,7 @@ func calculateAuditVolumeCollectedWorkRequestShouldRetryFunc(timeout time.Durati
 	}
 }
 
-func calculateAuditVolumeCollectedWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func calculateAuditVolumeCollectedWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = calculateAuditVolumeCollectedWorkRequestShouldRetryFunc(timeout)
@@ -239,7 +240,7 @@ func calculateAuditVolumeCollectedWaitForWorkRequest(wId *string, entityType str
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -251,7 +252,7 @@ func calculateAuditVolumeCollectedWaitForWorkRequest(wId *string, entityType str
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -268,14 +269,14 @@ func calculateAuditVolumeCollectedWaitForWorkRequest(wId *string, entityType str
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed || response.Status == oci_data_safe.WorkRequestStatusCanceled {
-		return nil, getErrorFromDataSafeCalculateAuditVolumeCollectedWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeCalculateAuditVolumeCollectedWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeCalculateAuditVolumeCollectedWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeCalculateAuditVolumeCollectedWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

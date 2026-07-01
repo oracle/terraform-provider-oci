@@ -11,6 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -27,9 +28,9 @@ func BdsBdsInstanceReplaceNodeActionResource() *schema.Resource {
 		Timeouts: &schema.ResourceTimeout{
 			Create: &tfresource.OneHour,
 		},
-		Create: createBdsBdsInstanceReplaceNodeAction,
-		Read:   readBdsBdsInstanceReplaceNodeAction,
-		Delete: deleteBdsBdsInstanceReplaceNodeAction,
+		CreateContext: createBdsBdsInstanceReplaceNodeAction,
+		ReadContext:   readBdsBdsInstanceReplaceNodeAction,
+		DeleteContext: deleteBdsBdsInstanceReplaceNodeAction,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"bds_instance_id": {
@@ -104,20 +105,20 @@ func BdsBdsInstanceReplaceNodeActionResource() *schema.Resource {
 	}
 }
 
-func createBdsBdsInstanceReplaceNodeAction(d *schema.ResourceData, m interface{}) error {
+func createBdsBdsInstanceReplaceNodeAction(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &BdsBdsInstanceReplaceNodeActionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
 // Return object nil for below two func because this is an action-type update operation
-func readBdsBdsInstanceReplaceNodeAction(d *schema.ResourceData, m interface{}) error {
+func readBdsBdsInstanceReplaceNodeAction(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteBdsBdsInstanceReplaceNodeAction(d *schema.ResourceData, m interface{}) error {
+func deleteBdsBdsInstanceReplaceNodeAction(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -131,7 +132,7 @@ func (s *BdsBdsInstanceReplaceNodeActionResourceCrud) ID() string {
 	return tfresource.GenerateDataSourceHashID("BdsBdsInstanceReplaceNodeActionResource-", BdsBdsInstanceReplaceNodeActionResource(), s.D)
 }
 
-func (s *BdsBdsInstanceReplaceNodeActionResourceCrud) Create() error {
+func (s *BdsBdsInstanceReplaceNodeActionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_bds.ReplaceNodeRequest{}
 
 	if bdsInstanceId, ok := s.D.GetOkExists("bds_instance_id"); ok {
@@ -165,20 +166,20 @@ func (s *BdsBdsInstanceReplaceNodeActionResourceCrud) Create() error {
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
-	response, err := s.Client.ReplaceNode(context.Background(), request)
+	response, err := s.Client.ReplaceNode(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceReplaceNodeActionFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getBdsInstanceReplaceNodeActionFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceReplaceNodeActionResourceCrud) getBdsInstanceReplaceNodeActionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *BdsBdsInstanceReplaceNodeActionResourceCrud) getBdsInstanceReplaceNodeActionFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_bds.ActionTypesEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	bdsInstanceReplaceNodeActionId, err := bdsInstanceReplaceNodeActionWaitForWorkRequest(workId, "bds",
+	bdsInstanceReplaceNodeActionId, err := bdsInstanceReplaceNodeActionWaitForWorkRequest(ctx, workId, "bds",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -212,7 +213,7 @@ func bdsInstanceReplaceNodeActionWorkRequestShouldRetryFunc(timeout time.Duratio
 	}
 }
 
-func bdsInstanceReplaceNodeActionWaitForWorkRequest(wId *string, entityType string, action oci_bds.ActionTypesEnum,
+func bdsInstanceReplaceNodeActionWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_bds.ActionTypesEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_bds.BdsClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "bds")
 	retryPolicy.ShouldRetryOperation = bdsInstanceReplaceNodeActionWorkRequestShouldRetryFunc(timeout)
@@ -231,7 +232,7 @@ func bdsInstanceReplaceNodeActionWaitForWorkRequest(wId *string, entityType stri
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_bds.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -243,7 +244,7 @@ func bdsInstanceReplaceNodeActionWaitForWorkRequest(wId *string, entityType stri
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -260,14 +261,14 @@ func bdsInstanceReplaceNodeActionWaitForWorkRequest(wId *string, entityType stri
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_bds.OperationStatusFailed || response.Status == oci_bds.OperationStatusCanceled {
-		return nil, getErrorFromBdsBdsInstanceReplaceNodeActionWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromBdsBdsInstanceReplaceNodeActionWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromBdsBdsInstanceReplaceNodeActionWorkRequest(client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromBdsBdsInstanceReplaceNodeActionWorkRequest(ctx context.Context, client *oci_bds.BdsClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_bds.ActionTypesEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_bds.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
