@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -21,11 +22,11 @@ func DatabaseExecutionActionResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseExecutionAction,
-		Read:     readDatabaseExecutionAction,
-		Update:   updateDatabaseExecutionAction,
-		Delete:   deleteDatabaseExecutionAction,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseExecutionAction,
+		ReadContext:   readDatabaseExecutionAction,
+		UpdateContext: updateDatabaseExecutionAction,
+		DeleteContext: deleteDatabaseExecutionAction,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"action_type": {
@@ -147,40 +148,40 @@ func DatabaseExecutionActionResource() *schema.Resource {
 	}
 }
 
-func createDatabaseExecutionAction(d *schema.ResourceData, m interface{}) error {
+func createDatabaseExecutionAction(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExecutionActionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseExecutionAction(d *schema.ResourceData, m interface{}) error {
+func readDatabaseExecutionAction(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExecutionActionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseExecutionAction(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseExecutionAction(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExecutionActionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseExecutionAction(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseExecutionAction(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExecutionActionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseExecutionActionResourceCrud struct {
@@ -218,7 +219,7 @@ func (s *DatabaseExecutionActionResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatabaseExecutionActionResourceCrud) Create() error {
+func (s *DatabaseExecutionActionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateExecutionActionRequest{}
 
 	if actionMembers, ok := s.D.GetOkExists("action_members"); ok {
@@ -270,7 +271,7 @@ func (s *DatabaseExecutionActionResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateExecutionAction(context.Background(), request)
+	response, err := s.Client.CreateExecutionAction(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -285,7 +286,7 @@ func (s *DatabaseExecutionActionResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "executionaction", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "executionaction", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
@@ -293,10 +294,10 @@ func (s *DatabaseExecutionActionResourceCrud) Create() error {
 			return err
 		}
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseExecutionActionResourceCrud) Get() error {
+func (s *DatabaseExecutionActionResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetExecutionActionRequest{}
 
 	tmp := s.D.Id()
@@ -304,7 +305,7 @@ func (s *DatabaseExecutionActionResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetExecutionAction(context.Background(), request)
+	response, err := s.Client.GetExecutionAction(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -313,7 +314,7 @@ func (s *DatabaseExecutionActionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseExecutionActionResourceCrud) Update() error {
+func (s *DatabaseExecutionActionResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database.UpdateExecutionActionRequest{}
 
 	if actionMembers, ok := s.D.GetOkExists("action_members"); ok {
@@ -359,22 +360,22 @@ func (s *DatabaseExecutionActionResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateExecutionAction(context.Background(), request)
+	response, err := s.Client.UpdateExecutionAction(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "executionaction", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "executionaction", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseExecutionActionResourceCrud) Delete() error {
+func (s *DatabaseExecutionActionResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteExecutionActionRequest{}
 
 	tmp := s.D.Id()
@@ -382,14 +383,14 @@ func (s *DatabaseExecutionActionResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DeleteExecutionAction(context.Background(), request)
+	response, err := s.Client.DeleteExecutionAction(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "executionaction", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "executionaction", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

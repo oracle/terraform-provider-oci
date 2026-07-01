@@ -6,6 +6,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
@@ -16,15 +17,15 @@ func DatabaseCloudVmClusterIormConfigDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseCloudVmClusterIormConfigResource(), fieldMap, readSingularDatabaseCloudVmClusterIormConfig)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseCloudVmClusterIormConfigResource(), fieldMap, readSingularDatabaseCloudVmClusterIormConfigWithContext)
 }
 
-func readSingularDatabaseCloudVmClusterIormConfig(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseCloudVmClusterIormConfigWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudVmClusterConfigDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseCloudVmClusterConfigDataSourceCrud struct {
@@ -37,7 +38,7 @@ func (s *DatabaseCloudVmClusterConfigDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseCloudVmClusterConfigDataSourceCrud) Get() error {
+func (s *DatabaseCloudVmClusterConfigDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetCloudVmClusterIormConfigRequest{}
 
 	if cloudVmClusterId, ok := s.D.GetOkExists("cloud_vm_cluster_id"); ok {
@@ -47,7 +48,7 @@ func (s *DatabaseCloudVmClusterConfigDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetCloudVmClusterIormConfig(context.Background(), request)
+	response, err := s.Client.GetCloudVmClusterIormConfig(ctx, request)
 	if err != nil {
 		return err
 	}

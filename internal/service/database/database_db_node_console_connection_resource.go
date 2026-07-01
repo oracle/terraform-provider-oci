@@ -14,6 +14,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -25,11 +26,11 @@ func DatabaseDbNodeConsoleConnectionResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseDbNodeConsoleConnection,
-		Read:     readDatabaseDbNodeConsoleConnection,
-		Update:   updateDatabaseDbNodeConsoleConnection,
-		Delete:   deleteDatabaseDbNodeConsoleConnection,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseDbNodeConsoleConnectionWithContext,
+		ReadContext:   readDatabaseDbNodeConsoleConnectionWithContext,
+		UpdateContext: updateDatabaseDbNodeConsoleConnectionWithContext,
+		DeleteContext: deleteDatabaseDbNodeConsoleConnectionWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"db_node_id": {
@@ -87,40 +88,40 @@ func DatabaseDbNodeConsoleConnectionResource() *schema.Resource {
 	}
 }
 
-func createDatabaseDbNodeConsoleConnection(d *schema.ResourceData, m interface{}) error {
+func createDatabaseDbNodeConsoleConnectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbNodeConsoleConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseDbNodeConsoleConnection(d *schema.ResourceData, m interface{}) error {
+func readDatabaseDbNodeConsoleConnectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbNodeConsoleConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseDbNodeConsoleConnection(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseDbNodeConsoleConnectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbNodeConsoleConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseDbNodeConsoleConnection(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseDbNodeConsoleConnectionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbNodeConsoleConnectionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseDbNodeConsoleConnectionResourceCrud struct {
@@ -159,7 +160,7 @@ func (s *DatabaseDbNodeConsoleConnectionResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatabaseDbNodeConsoleConnectionResourceCrud) Create() error {
+func (s *DatabaseDbNodeConsoleConnectionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateConsoleConnectionRequest{}
 
 	if dbNodeId, ok := s.D.GetOkExists("db_node_id"); ok {
@@ -186,21 +187,25 @@ func (s *DatabaseDbNodeConsoleConnectionResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateConsoleConnection(context.Background(), request)
+	response, err := s.Client.CreateConsoleConnection(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	s.Res = &response.ConsoleConnection
 
-	if waitErr := tfresource.WaitForCreatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForCreatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	return nil
 }
 
-func (s *DatabaseDbNodeConsoleConnectionResourceCrud) Get() error {
+func (s *DatabaseDbNodeConsoleConnectionResourceCrud) Create() error {
+	return s.CreateWithContext(context.Background())
+}
+
+func (s *DatabaseDbNodeConsoleConnectionResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetConsoleConnectionRequest{}
 
 	if dbNodeId, ok := s.D.GetOkExists("db_node_id"); ok {
@@ -221,7 +226,7 @@ func (s *DatabaseDbNodeConsoleConnectionResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetConsoleConnection(context.Background(), request)
+	response, err := s.Client.GetConsoleConnection(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -230,7 +235,7 @@ func (s *DatabaseDbNodeConsoleConnectionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseDbNodeConsoleConnectionResourceCrud) Update() error {
+func (s *DatabaseDbNodeConsoleConnectionResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database.UpdateConsoleConnectionRequest{}
 
 	dbNodeId, id, err := ParseDbNodeConsoleConnectionCompositeId(s.D.Id())
@@ -256,7 +261,7 @@ func (s *DatabaseDbNodeConsoleConnectionResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateConsoleConnection(context.Background(), request)
+	response, err := s.Client.UpdateConsoleConnection(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -265,16 +270,16 @@ func (s *DatabaseDbNodeConsoleConnectionResourceCrud) Update() error {
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "node", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "node", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseDbNodeConsoleConnectionResourceCrud) Delete() error {
+func (s *DatabaseDbNodeConsoleConnectionResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteConsoleConnectionRequest{}
 
 	if dbNodeId, ok := s.D.GetOkExists("db_node_id"); ok {
@@ -292,7 +297,7 @@ func (s *DatabaseDbNodeConsoleConnectionResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.DeleteConsoleConnection(context.Background(), request)
+	_, err := s.Client.DeleteConsoleConnection(ctx, request)
 	return err
 }
 

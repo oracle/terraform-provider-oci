@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -21,11 +22,11 @@ func DatabaseSchedulingPolicyResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseSchedulingPolicy,
-		Read:     readDatabaseSchedulingPolicy,
-		Update:   updateDatabaseSchedulingPolicy,
-		Delete:   deleteDatabaseSchedulingPolicy,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseSchedulingPolicyWithContext,
+		ReadContext:   readDatabaseSchedulingPolicyWithContext,
+		UpdateContext: updateDatabaseSchedulingPolicyWithContext,
+		DeleteContext: deleteDatabaseSchedulingPolicyWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"cadence": {
@@ -101,40 +102,40 @@ func DatabaseSchedulingPolicyResource() *schema.Resource {
 	}
 }
 
-func createDatabaseSchedulingPolicy(d *schema.ResourceData, m interface{}) error {
+func createDatabaseSchedulingPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseSchedulingPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseSchedulingPolicy(d *schema.ResourceData, m interface{}) error {
+func readDatabaseSchedulingPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseSchedulingPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseSchedulingPolicy(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseSchedulingPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseSchedulingPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseSchedulingPolicy(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseSchedulingPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseSchedulingPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseSchedulingPolicyResourceCrud struct {
@@ -174,7 +175,7 @@ func (s *DatabaseSchedulingPolicyResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatabaseSchedulingPolicyResourceCrud) Create() error {
+func (s *DatabaseSchedulingPolicyResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateSchedulingPolicyRequest{}
 
 	if cadence, ok := s.D.GetOkExists("cadence"); ok {
@@ -216,7 +217,7 @@ func (s *DatabaseSchedulingPolicyResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateSchedulingPolicy(context.Background(), request)
+	response, err := s.Client.CreateSchedulingPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -227,10 +228,10 @@ func (s *DatabaseSchedulingPolicyResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseSchedulingPolicyResourceCrud) Get() error {
+func (s *DatabaseSchedulingPolicyResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetSchedulingPolicyRequest{}
 
 	tmp := s.D.Id()
@@ -238,7 +239,7 @@ func (s *DatabaseSchedulingPolicyResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetSchedulingPolicy(context.Background(), request)
+	response, err := s.Client.GetSchedulingPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -247,11 +248,11 @@ func (s *DatabaseSchedulingPolicyResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseSchedulingPolicyResourceCrud) Update() error {
+func (s *DatabaseSchedulingPolicyResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -296,22 +297,22 @@ func (s *DatabaseSchedulingPolicyResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateSchedulingPolicy(context.Background(), request)
+	response, err := s.Client.UpdateSchedulingPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "schedulingpolicy", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "schedulingpolicy", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseSchedulingPolicyResourceCrud) Delete() error {
+func (s *DatabaseSchedulingPolicyResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteSchedulingPolicyRequest{}
 
 	tmp := s.D.Id()
@@ -319,7 +320,7 @@ func (s *DatabaseSchedulingPolicyResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.DeleteSchedulingPolicy(context.Background(), request)
+	_, err := s.Client.DeleteSchedulingPolicy(ctx, request)
 	return err
 }
 
@@ -385,7 +386,7 @@ func MonthToMapPolicy(obj *oci_database.Month) map[string]interface{} {
 	return result
 }
 
-func (s *DatabaseSchedulingPolicyResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseSchedulingPolicyResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database.ChangeSchedulingPolicyCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -396,14 +397,14 @@ func (s *DatabaseSchedulingPolicyResourceCrud) updateCompartment(compartment int
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ChangeSchedulingPolicyCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeSchedulingPolicyCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "schedulingpolicy", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "schedulingpolicy", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -20,11 +21,11 @@ func DatabaseDbNodeResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseDbNode,
-		Read:     readDatabaseDbNode,
-		Update:   updateDatabaseDbNode,
-		Delete:   deleteDatabaseDbNode,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseDbNodeWithContext,
+		ReadContext:   readDatabaseDbNodeWithContext,
+		UpdateContext: updateDatabaseDbNodeWithContext,
+		DeleteContext: deleteDatabaseDbNodeWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"db_node_id": {
@@ -170,33 +171,33 @@ func DatabaseDbNodeResource() *schema.Resource {
 	}
 }
 
-func createDatabaseDbNode(d *schema.ResourceData, m interface{}) error {
+func createDatabaseDbNodeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbNodeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseDbNode(d *schema.ResourceData, m interface{}) error {
+func readDatabaseDbNodeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbNodeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseDbNode(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseDbNodeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbNodeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseDbNode(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseDbNodeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -237,7 +238,7 @@ func (s *DatabaseDbNodeResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatabaseDbNodeResourceCrud) Create() error {
+func (s *DatabaseDbNodeResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.UpdateDbNodeRequest{}
 
 	if dbNodeId, ok := s.D.GetOkExists("db_node_id"); ok {
@@ -259,7 +260,7 @@ func (s *DatabaseDbNodeResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateDbNode(context.Background(), request)
+	response, err := s.Client.UpdateDbNode(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -268,7 +269,7 @@ func (s *DatabaseDbNodeResourceCrud) Create() error {
 	s.Res = &response.DbNode
 
 	if workId != nil {
-		identifier, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "node", oci_work_requests.WorkRequestResourceActionTypeInProgress, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err := tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "node", oci_work_requests.WorkRequestResourceActionTypeInProgress, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
@@ -277,14 +278,18 @@ func (s *DatabaseDbNodeResourceCrud) Create() error {
 		}
 	}
 
-	if waitErr := tfresource.WaitForCreatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForCreatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	return nil
 }
 
-func (s *DatabaseDbNodeResourceCrud) Get() error {
+func (s *DatabaseDbNodeResourceCrud) Create() error {
+	return s.CreateWithContext(context.Background())
+}
+
+func (s *DatabaseDbNodeResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetDbNodeRequest{}
 
 	tmp := s.D.Id()
@@ -292,7 +297,7 @@ func (s *DatabaseDbNodeResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetDbNode(context.Background(), request)
+	response, err := s.Client.GetDbNode(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -301,7 +306,7 @@ func (s *DatabaseDbNodeResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseDbNodeResourceCrud) Update() error {
+func (s *DatabaseDbNodeResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database.UpdateDbNodeRequest{}
 
 	tmp := s.D.Id()
@@ -321,20 +326,20 @@ func (s *DatabaseDbNodeResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateDbNode(context.Background(), request)
+	response, err := s.Client.UpdateDbNode(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "node", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "node", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func (s *DatabaseDbNodeResourceCrud) SetData() error {

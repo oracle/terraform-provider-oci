@@ -2008,6 +2008,28 @@ func WaitForUpdatedStateWithContext(ctx context.Context, d schemaResourceData, s
 	return nil
 }
 
+func WaitForCreatedStateWithContext(ctx context.Context, d schemaResourceData, sync ResourceCreatorWithContext) error {
+	d.SetId(sync.ID())
+	if stateful, ok := sync.(StatefullyCreatedResourceWithContext); ok {
+		if e := waitForStateRefreshVarWithContext(ctx, stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
+			return e
+		}
+	} else if cs, ok := interface{}(sync).(interface {
+		CreatedPending() []string
+		CreatedTarget() []string
+	}); ok {
+		if fetcher, ok2 := interface{}(sync).(ResourceFetcherWithContext); ok2 {
+			if e := waitForStateRefreshWithContextLite(ctx, fetcher, d.Timeout(schema.TimeoutCreate), "creation", cs.CreatedPending(), cs.CreatedTarget()); e != nil {
+				return e
+			}
+		}
+	} else {
+		log.Printf("ERROR WaitForCreatedStateWithContext: %T does not implement StatefullyCreatedResourceWithContext or CreatedPending/CreatedTarget\n", sync)
+	}
+
+	return nil
+}
+
 func WaitForResourceConditionWithContext(ctx context.Context, s ResourceFetcherWithContext, resourceChangedFunc func() bool, timeout time.Duration) error {
 	backoffTime := time.Second
 	startTime := time.Now()

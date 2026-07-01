@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -15,7 +16,7 @@ import (
 
 func DatabaseScheduledActionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseScheduledActions,
+		ReadContext: readDatabaseScheduledActionsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -60,12 +61,12 @@ func DatabaseScheduledActionsDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseScheduledActions(d *schema.ResourceData, m interface{}) error {
+func readDatabaseScheduledActionsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseScheduledActionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseScheduledActionsDataSourceCrud struct {
@@ -78,7 +79,7 @@ func (s *DatabaseScheduledActionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseScheduledActionsDataSourceCrud) Get() error {
+func (s *DatabaseScheduledActionsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListScheduledActionsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -112,7 +113,7 @@ func (s *DatabaseScheduledActionsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListScheduledActions(context.Background(), request)
+	response, err := s.Client.ListScheduledActions(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -121,7 +122,7 @@ func (s *DatabaseScheduledActionsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListScheduledActions(context.Background(), request)
+		listResponse, err := s.Client.ListScheduledActions(ctx, request)
 		if err != nil {
 			return err
 		}

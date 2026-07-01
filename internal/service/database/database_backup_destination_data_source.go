@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
@@ -19,15 +20,15 @@ func DatabaseBackupDestinationDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseBackupDestinationResource(), fieldMap, readSingularDatabaseBackupDestination)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseBackupDestinationResource(), fieldMap, readSingularDatabaseBackupDestinationWithContext)
 }
 
-func readSingularDatabaseBackupDestination(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseBackupDestinationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseBackupDestinationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseBackupDestinationDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseBackupDestinationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseBackupDestinationDataSourceCrud) Get() error {
+func (s *DatabaseBackupDestinationDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetBackupDestinationRequest{}
 
 	if backupDestinationId, ok := s.D.GetOkExists("backup_destination_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseBackupDestinationDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetBackupDestination(context.Background(), request)
+	response, err := s.Client.GetBackupDestination(ctx, request)
 	if err != nil {
 		return err
 	}

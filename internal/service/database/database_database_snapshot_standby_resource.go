@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -21,10 +22,10 @@ func DatabaseDatabaseSnapshotStandbyResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseDatabaseSnapshotStandyby,
-		Read:     readDatabaseDatabaseSnapshotStandyby,
-		Delete:   deleteDatabaseDatabaseSnapshotStandyby,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseDatabaseSnapshotStandybyWithContext,
+		ReadContext:   readDatabaseDatabaseSnapshotStandybyWithContext,
+		DeleteContext: deleteDatabaseDatabaseSnapshotStandybyWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"database_admin_password": {
@@ -362,20 +363,20 @@ func DatabaseDatabaseSnapshotStandbyResource() *schema.Resource {
 	}
 }
 
-func createDatabaseDatabaseSnapshotStandyby(d *schema.ResourceData, m interface{}) error {
+func createDatabaseDatabaseSnapshotStandybyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDatabaseSnapshotStandybyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseDatabaseSnapshotStandyby(d *schema.ResourceData, m interface{}) error {
+func readDatabaseDatabaseSnapshotStandybyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDatabaseDatabaseSnapshotStandyby(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseDatabaseSnapshotStandybyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -415,7 +416,7 @@ func (s *DatabaseDatabaseSnapshotStandybyResourceCrud) DeletedTarget() []string 
 	}
 }
 
-func (s *DatabaseDatabaseSnapshotStandybyResourceCrud) Create() error {
+func (s *DatabaseDatabaseSnapshotStandybyResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.ConvertStandbyDatabaseTypeRequest{}
 
 	if databaseAdminPassword, ok := s.D.GetOkExists("database_admin_password"); ok {
@@ -439,7 +440,7 @@ func (s *DatabaseDatabaseSnapshotStandybyResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ConvertStandbyDatabaseType(context.Background(), request)
+	response, err := s.Client.ConvertStandbyDatabaseType(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -450,7 +451,7 @@ func (s *DatabaseDatabaseSnapshotStandybyResourceCrud) Create() error {
 	if workId != nil {
 		var identifier *string
 		var err error
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}

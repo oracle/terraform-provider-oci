@@ -12,6 +12,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -24,11 +25,11 @@ func DatabaseBackupDestinationResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseBackupDestination,
-		Read:     readDatabaseBackupDestination,
-		Update:   updateDatabaseBackupDestination,
-		Delete:   deleteDatabaseBackupDestination,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseBackupDestinationWithContext,
+		ReadContext:   readDatabaseBackupDestinationWithContext,
+		UpdateContext: updateDatabaseBackupDestinationWithContext,
+		DeleteContext: deleteDatabaseBackupDestinationWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -223,40 +224,40 @@ func DatabaseBackupDestinationResource() *schema.Resource {
 	}
 }
 
-func createDatabaseBackupDestination(d *schema.ResourceData, m interface{}) error {
+func createDatabaseBackupDestinationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseBackupDestinationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseBackupDestination(d *schema.ResourceData, m interface{}) error {
+func readDatabaseBackupDestinationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseBackupDestinationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseBackupDestination(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseBackupDestinationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseBackupDestinationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseBackupDestination(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseBackupDestinationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseBackupDestinationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseBackupDestinationResourceCrud struct {
@@ -291,7 +292,7 @@ func (s *DatabaseBackupDestinationResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatabaseBackupDestinationResourceCrud) Create() error {
+func (s *DatabaseBackupDestinationResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateBackupDestinationRequest{}
 	err := s.populateTopLevelPolymorphicCreateBackupDestinationRequest(&request)
 	if err != nil {
@@ -300,7 +301,7 @@ func (s *DatabaseBackupDestinationResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateBackupDestination(context.Background(), request)
+	response, err := s.Client.CreateBackupDestination(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -309,7 +310,7 @@ func (s *DatabaseBackupDestinationResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatabaseBackupDestinationResourceCrud) Get() error {
+func (s *DatabaseBackupDestinationResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetBackupDestinationRequest{}
 
 	tmp := s.D.Id()
@@ -317,7 +318,7 @@ func (s *DatabaseBackupDestinationResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetBackupDestination(context.Background(), request)
+	response, err := s.Client.GetBackupDestination(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -326,11 +327,11 @@ func (s *DatabaseBackupDestinationResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseBackupDestinationResourceCrud) Update() error {
+func (s *DatabaseBackupDestinationResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -383,7 +384,7 @@ func (s *DatabaseBackupDestinationResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateBackupDestination(context.Background(), request)
+	response, err := s.Client.UpdateBackupDestination(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -392,7 +393,7 @@ func (s *DatabaseBackupDestinationResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DatabaseBackupDestinationResourceCrud) Delete() error {
+func (s *DatabaseBackupDestinationResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteBackupDestinationRequest{}
 
 	tmp := s.D.Id()
@@ -400,7 +401,7 @@ func (s *DatabaseBackupDestinationResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.DeleteBackupDestination(context.Background(), request)
+	_, err := s.Client.DeleteBackupDestination(ctx, request)
 	return err
 }
 
@@ -723,7 +724,7 @@ func (s *DatabaseBackupDestinationResourceCrud) populateTopLevelPolymorphicCreat
 	return nil
 }
 
-func (s *DatabaseBackupDestinationResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseBackupDestinationResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database.ChangeBackupDestinationCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -734,14 +735,14 @@ func (s *DatabaseBackupDestinationResourceCrud) updateCompartment(compartment in
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ChangeBackupDestinationCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeBackupDestinationCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "backupDestination", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "backupDestination", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

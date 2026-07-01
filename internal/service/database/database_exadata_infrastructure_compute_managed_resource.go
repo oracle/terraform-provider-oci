@@ -14,6 +14,7 @@ import (
 
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
@@ -23,11 +24,11 @@ func DatabaseExadataInfrastructureComputeManagedResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   updateDatabaseExadataInfrastructureComputeManagedResource,
-		Read:     readDatabaseExadataInfrastructureComputeManagedResource,
-		Update:   updateDatabaseExadataInfrastructureComputeManagedResource,
-		Delete:   deleteDatabaseExadataInfrastructureComputeManagedResource,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: updateDatabaseExadataInfrastructureComputeManagedResourceWithContext,
+		ReadContext:   readDatabaseExadataInfrastructureComputeManagedResourceWithContext,
+		UpdateContext: updateDatabaseExadataInfrastructureComputeManagedResourceWithContext,
+		DeleteContext: deleteDatabaseExadataInfrastructureComputeManagedResourceWithContext,
 		Schema: map[string]*schema.Schema{
 			//Required
 			"exadata_infrastructure_id": {
@@ -320,25 +321,25 @@ func DatabaseExadataInfrastructureComputeManagedResource() *schema.Resource {
 	}
 }
 
-func updateDatabaseExadataInfrastructureComputeManagedResource(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseExadataInfrastructureComputeManagedResourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExadataInfrastructureComputeManagedResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseExadataInfrastructureComputeManagedResource(d *schema.ResourceData, m interface{}) error {
+func readDatabaseExadataInfrastructureComputeManagedResourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExadataInfrastructureComputeManagedResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteDatabaseExadataInfrastructureComputeManagedResource(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseExadataInfrastructureComputeManagedResourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -385,7 +386,7 @@ func (s *DatabaseExadataInfrastructureComputeManagedResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *DatabaseExadataInfrastructureComputeManagedResourceCrud) Update() error {
+func (s *DatabaseExadataInfrastructureComputeManagedResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database.UpdateExadataInfrastructureRequest{}
 
 	if additionalComputeCount, ok := s.D.GetOkExists("additional_compute_count_compute_managed_resource"); ok {
@@ -421,7 +422,7 @@ func (s *DatabaseExadataInfrastructureComputeManagedResourceCrud) Update() error
 		s.D.Get("additional_compute_count").(int) > 0 {
 		if activationFile, ok := s.D.GetOkExists("activation_file"); ok &&
 			s.D.Get("activation_file").(string) != "" {
-			response, err := s.activateExadataInfrastructureComputeManagedResource(activationFile.(string), s.D.Id())
+			response, err := s.activateExadataInfrastructureComputeManagedResource(ctx, activationFile.(string), s.D.Id())
 			if err != nil {
 				s.D.Set("activation_file", "")
 				return err
@@ -431,7 +432,7 @@ func (s *DatabaseExadataInfrastructureComputeManagedResourceCrud) Update() error
 		}
 	}
 
-	response, err := s.Client.UpdateExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.UpdateExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -442,7 +443,7 @@ func (s *DatabaseExadataInfrastructureComputeManagedResourceCrud) Update() error
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "exadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "exadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -594,7 +595,7 @@ func (s *DatabaseExadataInfrastructureComputeManagedResourceCrud) SetData() erro
 	return nil
 }
 
-func (s *DatabaseExadataInfrastructureComputeManagedResourceCrud) Get() error {
+func (s *DatabaseExadataInfrastructureComputeManagedResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetExadataInfrastructureRequest{}
 
 	tmp := s.D.Id()
@@ -602,7 +603,7 @@ func (s *DatabaseExadataInfrastructureComputeManagedResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.GetExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -611,7 +612,7 @@ func (s *DatabaseExadataInfrastructureComputeManagedResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseExadataInfrastructureComputeManagedResourceCrud) activateExadataInfrastructureComputeManagedResource(activationFile string, exadataInfrastructureId string) (*oci_database.ActivateExadataInfrastructureResponse, error) {
+func (s *DatabaseExadataInfrastructureComputeManagedResourceCrud) activateExadataInfrastructureComputeManagedResource(ctx context.Context, activationFile string, exadataInfrastructureId string) (*oci_database.ActivateExadataInfrastructureResponse, error) {
 	request := oci_database.ActivateExadataInfrastructureRequest{}
 
 	activationKeyFile, err := ioutil.ReadFile(activationFile)
@@ -626,14 +627,14 @@ func (s *DatabaseExadataInfrastructureComputeManagedResourceCrud) activateExadat
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ActivateExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.ActivateExadataInfrastructure(ctx, request)
 	if err != nil {
 		return nil, err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "exadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "exadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return nil, err
 		}

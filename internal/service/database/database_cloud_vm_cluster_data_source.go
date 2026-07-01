@@ -10,6 +10,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
@@ -20,15 +21,15 @@ func DatabaseCloudVmClusterDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseCloudVmClusterResource(), fieldMap, readSingularDatabaseCloudVmCluster)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseCloudVmClusterResource(), fieldMap, readSingularDatabaseCloudVmClusterWithContext)
 }
 
-func readSingularDatabaseCloudVmCluster(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseCloudVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudVmClusterDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseCloudVmClusterDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseCloudVmClusterDataSourceCrud) Get() error {
+func (s *DatabaseCloudVmClusterDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetCloudVmClusterRequest{}
 
 	if cloudVmClusterId, ok := s.D.GetOkExists("cloud_vm_cluster_id"); ok {
@@ -51,7 +52,7 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetCloudVmCluster(context.Background(), request)
+	response, err := s.Client.GetCloudVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}

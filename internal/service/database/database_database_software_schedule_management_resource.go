@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
@@ -19,10 +20,10 @@ func DatabaseDatabaseSoftwareScheduleManagementResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseDatabaseSoftwareScheduleManagement,
-		Read:     readDatabaseDatabaseSoftwareScheduleManagement,
-		Delete:   deleteDatabaseDatabaseSoftwareScheduleManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseDatabaseSoftwareScheduleManagementWithContext,
+		ReadContext:   readDatabaseDatabaseSoftwareScheduleManagementWithContext,
+		DeleteContext: deleteDatabaseDatabaseSoftwareScheduleManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"database_id": {
@@ -34,20 +35,20 @@ func DatabaseDatabaseSoftwareScheduleManagementResource() *schema.Resource {
 	}
 }
 
-func createDatabaseDatabaseSoftwareScheduleManagement(d *schema.ResourceData, m interface{}) error {
+func createDatabaseDatabaseSoftwareScheduleManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDatabaseSoftwareScheduleManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseDatabaseSoftwareScheduleManagement(d *schema.ResourceData, m interface{}) error {
+func readDatabaseDatabaseSoftwareScheduleManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDatabaseDatabaseSoftwareScheduleManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseDatabaseSoftwareScheduleManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -59,7 +60,7 @@ type DatabaseDatabaseSoftwareScheduleManagementResourceCrud struct {
 	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
-func (s *DatabaseDatabaseSoftwareScheduleManagementResourceCrud) Create() error {
+func (s *DatabaseDatabaseSoftwareScheduleManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.RescheduleManagedDbSoftwareUpdateRequest{}
 
 	if databaseId, ok := s.D.GetOkExists("database_id"); ok {
@@ -69,7 +70,7 @@ func (s *DatabaseDatabaseSoftwareScheduleManagementResourceCrud) Create() error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.RescheduleManagedDbSoftwareUpdate(context.Background(), request)
+	response, err := s.Client.RescheduleManagedDbSoftwareUpdate(ctx, request)
 	if err != nil {
 		return fmt.Errorf("failed to call RescheduleManagedDbSoftwareUpdate: %w", err)
 	}
@@ -84,7 +85,7 @@ func (s *DatabaseDatabaseSoftwareScheduleManagementResourceCrud) Create() error 
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}

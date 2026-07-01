@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -15,7 +16,7 @@ import (
 
 func DatabaseSchedulingPolicySchedulingWindowsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseSchedulingPolicySchedulingWindows,
+		ReadContext: readDatabaseSchedulingPolicySchedulingWindowsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -43,12 +44,12 @@ func DatabaseSchedulingPolicySchedulingWindowsDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseSchedulingPolicySchedulingWindows(d *schema.ResourceData, m interface{}) error {
+func readDatabaseSchedulingPolicySchedulingWindowsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseSchedulingPolicySchedulingWindowsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseSchedulingPolicySchedulingWindowsDataSourceCrud struct {
@@ -61,7 +62,7 @@ func (s *DatabaseSchedulingPolicySchedulingWindowsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseSchedulingPolicySchedulingWindowsDataSourceCrud) Get() error {
+func (s *DatabaseSchedulingPolicySchedulingWindowsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListSchedulingWindowsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -85,7 +86,7 @@ func (s *DatabaseSchedulingPolicySchedulingWindowsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListSchedulingWindows(context.Background(), request)
+	response, err := s.Client.ListSchedulingWindows(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -94,7 +95,7 @@ func (s *DatabaseSchedulingPolicySchedulingWindowsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListSchedulingWindows(context.Background(), request)
+		listResponse, err := s.Client.ListSchedulingWindows(ctx, request)
 		if err != nil {
 			return err
 		}

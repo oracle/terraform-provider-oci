@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -20,15 +21,15 @@ func DatabaseExecutionWindowDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseExecutionWindowResource(), fieldMap, readSingularDatabaseExecutionWindow)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseExecutionWindowResource(), fieldMap, readSingularDatabaseExecutionWindowWithContext)
 }
 
-func readSingularDatabaseExecutionWindow(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseExecutionWindowWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExecutionWindowDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseExecutionWindowDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *DatabaseExecutionWindowDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseExecutionWindowDataSourceCrud) Get() error {
+func (s *DatabaseExecutionWindowDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetExecutionWindowRequest{}
 
 	if executionWindowId, ok := s.D.GetOkExists("execution_window_id"); ok {
@@ -51,7 +52,7 @@ func (s *DatabaseExecutionWindowDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetExecutionWindow(context.Background(), request)
+	response, err := s.Client.GetExecutionWindow(ctx, request)
 	if err != nil {
 		return err
 	}

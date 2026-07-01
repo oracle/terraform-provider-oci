@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -22,11 +23,11 @@ func DatabaseScheduledActionResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseScheduledAction,
-		Read:     readDatabaseScheduledAction,
-		Update:   updateDatabaseScheduledAction,
-		Delete:   deleteDatabaseScheduledAction,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseScheduledAction,
+		ReadContext:   readDatabaseScheduledAction,
+		UpdateContext: updateDatabaseScheduledAction,
+		DeleteContext: deleteDatabaseScheduledAction,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"action_type": {
@@ -133,40 +134,40 @@ func DatabaseScheduledActionResource() *schema.Resource {
 	}
 }
 
-func createDatabaseScheduledAction(d *schema.ResourceData, m interface{}) error {
+func createDatabaseScheduledAction(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseScheduledActionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseScheduledAction(d *schema.ResourceData, m interface{}) error {
+func readDatabaseScheduledAction(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseScheduledActionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseScheduledAction(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseScheduledAction(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseScheduledActionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseScheduledAction(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseScheduledAction(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseScheduledActionResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseScheduledActionResourceCrud struct {
@@ -206,7 +207,7 @@ func (s *DatabaseScheduledActionResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatabaseScheduledActionResourceCrud) Create() error {
+func (s *DatabaseScheduledActionResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateScheduledActionRequest{}
 
 	if actionMembers, ok := s.D.GetOkExists("action_members"); ok {
@@ -263,7 +264,7 @@ func (s *DatabaseScheduledActionResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateScheduledAction(context.Background(), request)
+	response, err := s.Client.CreateScheduledAction(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -276,10 +277,10 @@ func (s *DatabaseScheduledActionResourceCrud) Create() error {
 	}
 	//has to wait some time, otherwise subsequent querying will fail
 	time.Sleep(time.Second * 5)
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseScheduledActionResourceCrud) Get() error {
+func (s *DatabaseScheduledActionResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetScheduledActionRequest{}
 
 	tmp := s.D.Id()
@@ -287,7 +288,7 @@ func (s *DatabaseScheduledActionResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetScheduledAction(context.Background(), request)
+	response, err := s.Client.GetScheduledAction(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -296,7 +297,7 @@ func (s *DatabaseScheduledActionResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseScheduledActionResourceCrud) Update() error {
+func (s *DatabaseScheduledActionResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database.UpdateScheduledActionRequest{}
 
 	if actionMembers, ok := s.D.GetOkExists("action_members"); ok {
@@ -330,22 +331,22 @@ func (s *DatabaseScheduledActionResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateScheduledAction(context.Background(), request)
+	response, err := s.Client.UpdateScheduledAction(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "scheduledaction", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "scheduledaction", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseScheduledActionResourceCrud) Delete() error {
+func (s *DatabaseScheduledActionResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteScheduledActionRequest{}
 
 	tmp := s.D.Id()
@@ -353,14 +354,14 @@ func (s *DatabaseScheduledActionResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DeleteScheduledAction(context.Background(), request)
+	response, err := s.Client.DeleteScheduledAction(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "scheduledaction", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "scheduledaction", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

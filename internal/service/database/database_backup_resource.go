@@ -12,6 +12,7 @@ import (
 
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -27,10 +28,10 @@ func DatabaseBackupResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("1h"),
 			Delete: tfresource.GetTimeoutDuration("1h"),
 		},
-		Create: createDatabaseBackup,
-		Read:   readDatabaseBackup,
-		Update: updateDatabaseBackup,
-		Delete: deleteDatabaseBackup,
+		CreateContext: createDatabaseBackupWithContext,
+		ReadContext:   readDatabaseBackupWithContext,
+		UpdateContext: updateDatabaseBackupWithContext,
+		DeleteContext: deleteDatabaseBackupWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"database_id": {
@@ -178,40 +179,40 @@ func DatabaseBackupResource() *schema.Resource {
 	}
 }
 
-func createDatabaseBackup(d *schema.ResourceData, m interface{}) error {
+func createDatabaseBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseBackup(d *schema.ResourceData, m interface{}) error {
+func readDatabaseBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseBackup(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseBackup(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseBackupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseBackupResourceCrud struct {
@@ -251,7 +252,7 @@ func (s *DatabaseBackupResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatabaseBackupResourceCrud) Create() error {
+func (s *DatabaseBackupResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateBackupRequest{}
 
 	if databaseId, ok := s.D.GetOkExists("database_id"); ok {
@@ -276,14 +277,14 @@ func (s *DatabaseBackupResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateBackup(context.Background(), request)
+	response, err := s.Client.CreateBackup(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "backup", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "backup", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -293,7 +294,7 @@ func (s *DatabaseBackupResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatabaseBackupResourceCrud) Get() error {
+func (s *DatabaseBackupResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetBackupRequest{}
 
 	tmp := s.D.Id()
@@ -301,7 +302,7 @@ func (s *DatabaseBackupResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetBackup(context.Background(), request)
+	response, err := s.Client.GetBackup(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -310,7 +311,7 @@ func (s *DatabaseBackupResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseBackupResourceCrud) Update() error {
+func (s *DatabaseBackupResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database.UpdateBackupRequest{}
 
 	tmp := s.D.Id()
@@ -328,22 +329,22 @@ func (s *DatabaseBackupResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateBackup(context.Background(), request)
+	response, err := s.Client.UpdateBackup(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "backup", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "backup", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseBackupResourceCrud) Delete() error {
+func (s *DatabaseBackupResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteBackupRequest{}
 
 	tmp := s.D.Id()
@@ -351,7 +352,7 @@ func (s *DatabaseBackupResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.DeleteBackup(context.Background(), request)
+	_, err := s.Client.DeleteBackup(ctx, request)
 	return err
 }
 

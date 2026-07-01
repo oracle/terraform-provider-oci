@@ -11,6 +11,7 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -25,11 +26,11 @@ func DatabaseSchedulingPolicySchedulingWindowResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseSchedulingPolicySchedulingWindow,
-		Read:     readDatabaseSchedulingPolicySchedulingWindow,
-		Update:   updateDatabaseSchedulingPolicySchedulingWindow,
-		Delete:   deleteDatabaseSchedulingPolicySchedulingWindow,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseSchedulingPolicySchedulingWindowWithContext,
+		ReadContext:   readDatabaseSchedulingPolicySchedulingWindowWithContext,
+		UpdateContext: updateDatabaseSchedulingPolicySchedulingWindowWithContext,
+		DeleteContext: deleteDatabaseSchedulingPolicySchedulingWindowWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"scheduling_policy_id": {
@@ -161,40 +162,40 @@ func DatabaseSchedulingPolicySchedulingWindowResource() *schema.Resource {
 	}
 }
 
-func createDatabaseSchedulingPolicySchedulingWindow(d *schema.ResourceData, m interface{}) error {
+func createDatabaseSchedulingPolicySchedulingWindowWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseSchedulingPolicySchedulingWindowResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseSchedulingPolicySchedulingWindow(d *schema.ResourceData, m interface{}) error {
+func readDatabaseSchedulingPolicySchedulingWindowWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseSchedulingPolicySchedulingWindowResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseSchedulingPolicySchedulingWindow(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseSchedulingPolicySchedulingWindowWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseSchedulingPolicySchedulingWindowResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseSchedulingPolicySchedulingWindow(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseSchedulingPolicySchedulingWindowWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseSchedulingPolicySchedulingWindowResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseSchedulingPolicySchedulingWindowResourceCrud struct {
@@ -233,7 +234,7 @@ func (s *DatabaseSchedulingPolicySchedulingWindowResourceCrud) DeletedTarget() [
 	}
 }
 
-func (s *DatabaseSchedulingPolicySchedulingWindowResourceCrud) Create() error {
+func (s *DatabaseSchedulingPolicySchedulingWindowResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateSchedulingWindowRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -271,7 +272,7 @@ func (s *DatabaseSchedulingPolicySchedulingWindowResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateSchedulingWindow(context.Background(), request)
+	response, err := s.Client.CreateSchedulingWindow(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -283,10 +284,10 @@ func (s *DatabaseSchedulingPolicySchedulingWindowResourceCrud) Create() error {
 		s.D.SetId(*identifier)
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseSchedulingPolicySchedulingWindowResourceCrud) Get() error {
+func (s *DatabaseSchedulingPolicySchedulingWindowResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetSchedulingWindowRequest{}
 
 	if schedulingPolicyId, ok := s.D.GetOkExists("scheduling_policy_id"); ok {
@@ -306,7 +307,7 @@ func (s *DatabaseSchedulingPolicySchedulingWindowResourceCrud) Get() error {
 	}
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetSchedulingWindow(context.Background(), request)
+	response, err := s.Client.GetSchedulingWindow(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -315,7 +316,7 @@ func (s *DatabaseSchedulingPolicySchedulingWindowResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseSchedulingPolicySchedulingWindowResourceCrud) Update() error {
+func (s *DatabaseSchedulingPolicySchedulingWindowResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database.UpdateSchedulingWindowRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -351,22 +352,22 @@ func (s *DatabaseSchedulingPolicySchedulingWindowResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateSchedulingWindow(context.Background(), request)
+	response, err := s.Client.UpdateSchedulingWindow(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "schedulingwindow", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "schedulingwindow", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseSchedulingPolicySchedulingWindowResourceCrud) Delete() error {
+func (s *DatabaseSchedulingPolicySchedulingWindowResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteSchedulingWindowRequest{}
 
 	if schedulingPolicyId, ok := s.D.GetOkExists("scheduling_policy_id"); ok {
@@ -379,7 +380,7 @@ func (s *DatabaseSchedulingPolicySchedulingWindowResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.DeleteSchedulingWindow(context.Background(), request)
+	_, err := s.Client.DeleteSchedulingWindow(ctx, request)
 	return err
 }
 

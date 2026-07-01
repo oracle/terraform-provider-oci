@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
@@ -19,15 +20,15 @@ func DatabaseCloudAutonomousVmClusterDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseCloudAutonomousVmClusterResource(), fieldMap, readSingularDatabaseCloudAutonomousVmCluster)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseCloudAutonomousVmClusterResource(), fieldMap, readSingularDatabaseCloudAutonomousVmClusterWithContext)
 }
 
-func readSingularDatabaseCloudAutonomousVmCluster(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseCloudAutonomousVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudAutonomousVmClusterDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseCloudAutonomousVmClusterDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseCloudAutonomousVmClusterDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseCloudAutonomousVmClusterDataSourceCrud) Get() error {
+func (s *DatabaseCloudAutonomousVmClusterDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetCloudAutonomousVmClusterRequest{}
 
 	if cloudAutonomousVmClusterId, ok := s.D.GetOkExists("cloud_autonomous_vm_cluster_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseCloudAutonomousVmClusterDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetCloudAutonomousVmCluster(context.Background(), request)
+	response, err := s.Client.GetCloudAutonomousVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}

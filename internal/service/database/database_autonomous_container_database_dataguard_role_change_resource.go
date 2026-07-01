@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
@@ -18,9 +19,9 @@ func DatabaseAutonomousContainerDatabaseDataguardRoleChangeResource() *schema.Re
 			Create: tfresource.GetTimeoutDuration("12h"),
 			Delete: tfresource.GetTimeoutDuration("12h"),
 		},
-		Create: createDatabaseAutonomousContainerDatabaseDataguardRoleChange,
-		Read:   readDatabaseAutonomousContainerDatabaseDataguardRoleChange,
-		Delete: deleteDatabaseAutonomousContainerDatabaseDataguardRoleChange,
+		CreateContext: createDatabaseAutonomousContainerDatabaseDataguardRoleChangeWithContext,
+		ReadContext:   readDatabaseAutonomousContainerDatabaseDataguardRoleChangeWithContext,
+		DeleteContext: deleteDatabaseAutonomousContainerDatabaseDataguardRoleChangeWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 
@@ -68,29 +69,29 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardRoleChangeResourceCrud) ID(
 	return fmt.Sprint(utils.GetStringHashcode(s.D.Get("autonomous_container_database_id").(string)))
 }
 
-func createDatabaseAutonomousContainerDatabaseDataguardRoleChange(d *schema.ResourceData, m interface{}) error {
+func createDatabaseAutonomousContainerDatabaseDataguardRoleChangeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousContainerDatabaseDataguardRoleChangeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseAutonomousContainerDatabaseDataguardRoleChange(d *schema.ResourceData, m interface{}) error {
+func readDatabaseAutonomousContainerDatabaseDataguardRoleChangeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousContainerDatabaseDataguardRoleChangeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteDatabaseAutonomousContainerDatabaseDataguardRoleChange(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseAutonomousContainerDatabaseDataguardRoleChangeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func (s *DatabaseAutonomousContainerDatabaseDataguardRoleChangeResourceCrud) Get() error {
+func (s *DatabaseAutonomousContainerDatabaseDataguardRoleChangeResourceCrud) GetWithContext(ctx context.Context) error {
 	return nil
 }
 
@@ -98,7 +99,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardRoleChangeResourceCrud) Set
 	return nil
 }
 
-func (s *DatabaseAutonomousContainerDatabaseDataguardRoleChangeResourceCrud) Create() error {
+func (s *DatabaseAutonomousContainerDatabaseDataguardRoleChangeResourceCrud) CreateWithContext(ctx context.Context) error {
 
 	request := oci_database.ChangeDataguardRoleRequest{}
 	details := oci_database.ChangeDataguardRoleDetails{}
@@ -125,7 +126,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardRoleChangeResourceCrud) Cre
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ChangeDataguardRole(context.Background(), request)
+	response, err := s.Client.ChangeDataguardRole(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -133,7 +134,7 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardRoleChangeResourceCrud) Cre
 	workId := response.OpcWorkRequestId
 
 	if workId != nil {
-		identifier, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "autonomousContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err := tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "autonomousContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}

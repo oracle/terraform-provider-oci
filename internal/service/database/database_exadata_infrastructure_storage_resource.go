@@ -11,6 +11,7 @@ import (
 
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
@@ -20,11 +21,11 @@ func DatabaseExadataInfrastructureStorageResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   updateDatabaseExadataInfrastructureStorage,
-		Read:     readDatabaseExadataInfrastructure,
-		Update:   updateDatabaseExadataInfrastructureStorage,
-		Delete:   deleteDatabaseExadataInfrastructure,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: updateDatabaseExadataInfrastructureStorageWithContext,
+		ReadContext:   readDatabaseExadataInfrastructureWithContext,
+		UpdateContext: updateDatabaseExadataInfrastructureStorageWithContext,
+		DeleteContext: deleteDatabaseExadataInfrastructureWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"admin_network_cidr": {
@@ -304,13 +305,13 @@ func DatabaseExadataInfrastructureStorageResource() *schema.Resource {
 	}
 }
 
-func updateDatabaseExadataInfrastructureStorage(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseExadataInfrastructureStorageWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExadataInfrastructureStorageResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseExadataInfrastructureStorageResourceCrud struct {
@@ -325,7 +326,7 @@ func (s *DatabaseExadataInfrastructureStorageResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *DatabaseExadataInfrastructureStorageResourceCrud) Update() error {
+func (s *DatabaseExadataInfrastructureStorageResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database.AddStorageCapacityExadataInfrastructureRequest{}
 
 	if exadataInfrastructureId, ok := s.D.GetOkExists("exadata_infrastructure_id"); ok {
@@ -335,14 +336,14 @@ func (s *DatabaseExadataInfrastructureStorageResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.AddStorageCapacityExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.AddStorageCapacityExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "exadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "exadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

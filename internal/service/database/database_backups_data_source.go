@@ -12,13 +12,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
 func DatabaseBackupsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseBackups,
+		ReadContext: readDatabaseBackupsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"backup_destination_type": {
@@ -66,12 +67,12 @@ func DatabaseBackupsDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseBackups(d *schema.ResourceData, m interface{}) error {
+func readDatabaseBackupsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseBackupsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseBackupsDataSourceCrud struct {
@@ -84,7 +85,7 @@ func (s *DatabaseBackupsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseBackupsDataSourceCrud) Get() error {
+func (s *DatabaseBackupsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListBackupsRequest{}
 
 	if backupDestinationType, ok := s.D.GetOkExists("backup_destination_type"); ok {
@@ -138,7 +139,7 @@ func (s *DatabaseBackupsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListBackups(context.Background(), request)
+	response, err := s.Client.ListBackups(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -147,7 +148,7 @@ func (s *DatabaseBackupsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListBackups(context.Background(), request)
+		listResponse, err := s.Client.ListBackups(ctx, request)
 		if err != nil {
 			return err
 		}

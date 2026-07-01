@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -19,15 +20,15 @@ func DatabaseExecutionActionDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseExecutionActionResource(), fieldMap, readSingularDatabaseExecutionAction)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseExecutionActionResource(), fieldMap, readSingularDatabaseExecutionActionWithContext)
 }
 
-func readSingularDatabaseExecutionAction(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseExecutionActionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExecutionActionDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseExecutionActionDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseExecutionActionDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseExecutionActionDataSourceCrud) Get() error {
+func (s *DatabaseExecutionActionDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetExecutionActionRequest{}
 
 	if executionActionId, ok := s.D.GetOkExists("execution_action_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseExecutionActionDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetExecutionAction(context.Background(), request)
+	response, err := s.Client.GetExecutionAction(ctx, request)
 	if err != nil {
 		return err
 	}

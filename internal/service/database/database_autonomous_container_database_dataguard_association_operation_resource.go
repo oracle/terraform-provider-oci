@@ -11,6 +11,7 @@ import (
 
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
@@ -21,9 +22,9 @@ func DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResource() 
 			Create: tfresource.GetTimeoutDuration("12h"),
 			Delete: tfresource.GetTimeoutDuration("12h"),
 		},
-		Create: createDatabaseAutonomousContainerDatabaseDataguardAssociationOperation,
-		Read:   readDatabaseAutonomousContainerDatabaseDataguardAssociationOperation,
-		Delete: deleteDatabaseAutonomousContainerDatabaseDataguardAssociationOperation,
+		CreateContext: createDatabaseAutonomousContainerDatabaseDataguardAssociationOperationWithContext,
+		ReadContext:   readDatabaseAutonomousContainerDatabaseDataguardAssociationOperationWithContext,
+		DeleteContext: deleteDatabaseAutonomousContainerDatabaseDataguardAssociationOperationWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"autonomous_container_database_dataguard_association_id": {
@@ -54,29 +55,29 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 	return fmt.Sprint(utils.GetStringHashcode(s.D.Get("autonomous_container_database_id").(string)))
 }
 
-func createDatabaseAutonomousContainerDatabaseDataguardAssociationOperation(d *schema.ResourceData, m interface{}) error {
+func createDatabaseAutonomousContainerDatabaseDataguardAssociationOperationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseAutonomousContainerDatabaseDataguardAssociationOperation(d *schema.ResourceData, m interface{}) error {
+func readDatabaseAutonomousContainerDatabaseDataguardAssociationOperationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteDatabaseAutonomousContainerDatabaseDataguardAssociationOperation(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseAutonomousContainerDatabaseDataguardAssociationOperationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud) Get() error {
+func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud) GetWithContext(ctx context.Context) error {
 	return nil
 }
 
@@ -92,11 +93,11 @@ type DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCru
 	Res                    *DatabaseAutonomousContainerDatabaseDataguardAssociationOperation
 }
 
-func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud) Create() error {
-	return s.dataguardOperation()
+func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud) CreateWithContext(ctx context.Context) error {
+	return s.dataguardOperation(ctx)
 }
 
-func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud) dataguardOperation() error {
+func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourceCrud) dataguardOperation(ctx context.Context) error {
 	dataguardAssociationId := ""
 	tmpId := ""
 	if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
@@ -112,13 +113,13 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 			switchoverRequest.AutonomousContainerDatabaseId = &tmpId
 			switchoverRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 			//switchoverRequest.RequestMetadata.RetryPolicy.
-			response, err := s.Client.SwitchoverAutonomousContainerDatabaseDataguardAssociation(context.Background(), switchoverRequest)
+			response, err := s.Client.SwitchoverAutonomousContainerDatabaseDataguardAssociation(ctx, switchoverRequest)
 			if err != nil {
 				return err
 			}
 			workId := response.OpcWorkRequestId
 			if workId != nil {
-				_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+				_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 				if err != nil {
 					return err
 				}
@@ -130,13 +131,13 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 			failoverRequest.AutonomousContainerDatabaseId = &tmpId
 			failoverRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 			//failoverRequest.RequestMetadata.RetryPolicy.MaximumNumberAttempts = 2
-			response, err := s.Client.FailoverAutonomousContainerDatabaseDataguardAssociation(context.Background(), failoverRequest)
+			response, err := s.Client.FailoverAutonomousContainerDatabaseDataguardAssociation(ctx, failoverRequest)
 			if err != nil {
 				return err
 			}
 			workId := response.OpcWorkRequestId
 			if workId != nil {
-				_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+				_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 				if err != nil {
 					return err
 				}
@@ -148,13 +149,13 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationOperationResourc
 			reinstateRequest.AutonomousContainerDatabaseId = &tmpId
 			reinstateRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 			//reinstateRequest.RequestMetadata.RetryPolicy.MaximumNumberAttempts = 2
-			response, err := s.Client.ReinstateAutonomousContainerDatabaseDataguardAssociation(context.Background(), reinstateRequest)
+			response, err := s.Client.ReinstateAutonomousContainerDatabaseDataguardAssociation(ctx, reinstateRequest)
 			if err != nil {
 				return err
 			}
 			workId := response.OpcWorkRequestId
 			if workId != nil {
-				_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+				_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 				if err != nil {
 					return err
 				}

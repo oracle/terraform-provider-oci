@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -15,7 +16,7 @@ import (
 
 func DatabaseSchedulingPlansDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseSchedulingPlans,
+		ReadContext: readDatabaseSchedulingPlansWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -60,12 +61,12 @@ func DatabaseSchedulingPlansDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseSchedulingPlans(d *schema.ResourceData, m interface{}) error {
+func readDatabaseSchedulingPlansWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseSchedulingPlansDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseSchedulingPlansDataSourceCrud struct {
@@ -78,7 +79,7 @@ func (s *DatabaseSchedulingPlansDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseSchedulingPlansDataSourceCrud) Get() error {
+func (s *DatabaseSchedulingPlansDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListSchedulingPlansRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -112,7 +113,7 @@ func (s *DatabaseSchedulingPlansDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListSchedulingPlans(context.Background(), request)
+	response, err := s.Client.ListSchedulingPlans(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -121,7 +122,7 @@ func (s *DatabaseSchedulingPlansDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListSchedulingPlans(context.Background(), request)
+		listResponse, err := s.Client.ListSchedulingPlans(ctx, request)
 		if err != nil {
 			return err
 		}

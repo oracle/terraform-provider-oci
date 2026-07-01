@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -21,10 +22,10 @@ func DatabaseDatabaseDataPatchResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseDataPatchResource,
-		Read:     readDatabaseDataPatchResource,
-		Delete:   deleteDatabaseDataPatchResource,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseDataPatchResourceWithContext,
+		ReadContext:   readDatabaseDataPatchResourceWithContext,
+		DeleteContext: deleteDatabaseDataPatchResourceWithContext,
 		Schema: map[string]*schema.Schema{
 			"database_id": {
 				Type:     schema.TypeString,
@@ -61,20 +62,20 @@ func DatabaseDatabaseDataPatchResource() *schema.Resource {
 	}
 }
 
-func createDatabaseDataPatchResource(d *schema.ResourceData, m interface{}) error {
+func createDatabaseDataPatchResourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDatabaseDataPatchResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseDataPatchResource(d *schema.ResourceData, m interface{}) error {
+func readDatabaseDataPatchResourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDatabaseDataPatchResource(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseDataPatchResourceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -94,7 +95,7 @@ func (s *DatabaseDatabaseDataPatchResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DatabaseDatabaseDataPatchResourceCrud) Create() error {
+func (s *DatabaseDatabaseDataPatchResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.RunDataPatchRequest{}
 	if databaseId, ok := s.D.GetOkExists("database_id"); ok {
 		tmp := databaseId.(string)
@@ -131,7 +132,7 @@ func (s *DatabaseDatabaseDataPatchResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.RunDataPatch(context.Background(), request)
+	response, err := s.Client.RunDataPatch(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -142,7 +143,7 @@ func (s *DatabaseDatabaseDataPatchResourceCrud) Create() error {
 	if workId != nil {
 		var identifier *string
 		var err error
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

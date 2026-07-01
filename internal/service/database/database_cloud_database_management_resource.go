@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
@@ -16,11 +17,11 @@ import (
 
 func DatabaseCloudDatabaseManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseCloudDatabaseManagement,
-		Update:   updateDatabaseCloudDatabaseManagement,
-		Read:     readDatabaseCloudDatabaseManagement,
-		Delete:   deleteDatabaseCloudDatabaseManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseCloudDatabaseManagementWithContext,
+		UpdateContext: updateDatabaseCloudDatabaseManagementWithContext,
+		ReadContext:   readDatabaseCloudDatabaseManagementWithContext,
+		DeleteContext: deleteDatabaseCloudDatabaseManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"database_id": {
@@ -83,36 +84,36 @@ func DatabaseCloudDatabaseManagementResource() *schema.Resource {
 	}
 }
 
-func createDatabaseCloudDatabaseManagement(d *schema.ResourceData, m interface{}) error {
+func createDatabaseCloudDatabaseManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudDatabaseManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func updateDatabaseCloudDatabaseManagement(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseCloudDatabaseManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudDatabaseManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseCloudDatabaseManagement(d *schema.ResourceData, m interface{}) error {
+func readDatabaseCloudDatabaseManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDatabaseCloudDatabaseManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseCloudDatabaseManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudDatabaseManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseCloudDatabaseManagementResourceCrud struct {
@@ -127,7 +128,7 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) ID() string {
 	return tfresource.GenerateDataSourceHashID("DatabaseCloudDatabaseManagementResource-", DatabaseCloudDatabaseManagementResource(), s.D)
 }
 
-func (s *DatabaseCloudDatabaseManagementResourceCrud) Create() error {
+func (s *DatabaseCloudDatabaseManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 
 	var operation bool
 	if enableManagement, ok := s.D.GetOkExists("enable_management"); ok {
@@ -188,20 +189,20 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) Create() error {
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-		response, err := s.Client.EnableDatabaseManagement(context.Background(), request)
+		response, err := s.Client.EnableDatabaseManagement(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
 		if workId != nil {
-			_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+			_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 			if err != nil {
 				return err
 			}
 		}
 		s.Res = &response.Database
-		return s.getDatabaseFromWorkRequest(workId, oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+		return s.getDatabaseFromWorkRequest(ctx, workId, oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 	}
 	// disable
 	request := oci_database.DisableDatabaseManagementRequest{}
@@ -213,23 +214,23 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DisableDatabaseManagement(context.Background(), request)
+	response, err := s.Client.DisableDatabaseManagement(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 	s.Res = &response.Database
-	return s.getDatabaseFromWorkRequest(workId, oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDatabaseFromWorkRequest(ctx, workId, oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatabaseCloudDatabaseManagementResourceCrud) Update() error {
+func (s *DatabaseCloudDatabaseManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableManagement, ok := s.D.GetOkExists("enable_management"); ok {
 		operation = enableManagement.(bool)
@@ -288,20 +289,20 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) Update() error {
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-		response, err := s.Client.ModifyDatabaseManagement(context.Background(), request)
+		response, err := s.Client.ModifyDatabaseManagement(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
 		if workId != nil {
-			_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+			_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 			if err != nil {
 				return err
 			}
 		}
 		s.Res = &response.Database
-		return s.getDatabaseFromWorkRequest(workId, oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+		return s.getDatabaseFromWorkRequest(ctx, workId, oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 	}
 	// disable
 	request := oci_database.DisableDatabaseManagementRequest{}
@@ -313,23 +314,23 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DisableDatabaseManagement(context.Background(), request)
+	response, err := s.Client.DisableDatabaseManagement(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 	s.Res = &response.Database
-	return s.getDatabaseFromWorkRequest(workId, oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDatabaseFromWorkRequest(ctx, workId, oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatabaseCloudDatabaseManagementResourceCrud) Delete() error {
+func (s *DatabaseCloudDatabaseManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	var operation bool
 	if enableManagement, ok := s.D.GetOkExists("enable_management"); ok {
 		operation = enableManagement.(bool)
@@ -349,21 +350,21 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DisableDatabaseManagement(context.Background(), request)
+	response, err := s.Client.DisableDatabaseManagement(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err := tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
 	s.Res = &response.Database
-	return s.getDatabaseFromWorkRequest(workId, oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getDatabaseFromWorkRequest(ctx, workId, oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *DatabaseCloudDatabaseManagementResourceCrud) SetData() error {
@@ -386,7 +387,7 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) mapToDatabaseManagementCre
 	return result, nil
 }
 
-func (s *DatabaseCloudDatabaseManagementResourceCrud) getDatabaseFromWorkRequest(workId *string, actionTypeEnum oci_work_requests.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
+func (s *DatabaseCloudDatabaseManagementResourceCrud) getDatabaseFromWorkRequest(ctx context.Context, workId *string, actionTypeEnum oci_work_requests.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 	databaseId, err := tfresource.WaitForWorkRequest(s.WorkRequestClient, workId, "database", actionTypeEnum, timeout, s.DisableNotFoundRetries, true)
 	log.Printf("[DEBUG] WaitForWorkRequest finished. databaseId: %v err: %v for workId: %v, actionTypeEnum: %v\n", *databaseId, err, *workId, actionTypeEnum)
 	if err != nil {
@@ -396,10 +397,10 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) getDatabaseFromWorkRequest
 
 	s.D.SetId(*databaseId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseCloudDatabaseManagementResourceCrud) Get() error {
+func (s *DatabaseCloudDatabaseManagementResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetDatabaseRequest{}
 
 	tmp := s.D.Id()
@@ -407,7 +408,7 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetDatabase(context.Background(), request)
+	response, err := s.Client.GetDatabase(ctx, request)
 	if err != nil {
 		return err
 	}

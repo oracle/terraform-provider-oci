@@ -4,9 +4,11 @@
 package tfresource
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"reflect"
 	"strings"
 	"sync"
@@ -253,6 +255,15 @@ func (b createResourceCrudWithCtx) CreatedTarget() []string                     
 func (b createResourceCrudWithCtx) setState(sr StatefulResourceWithContext) error {
 	return nil
 }
+
+type createResourceCrudWithoutStateWithCtx struct{}
+
+func (b createResourceCrudWithoutStateWithCtx) CreateWithContext(ctx context.Context) error {
+	return nil
+}
+func (b createResourceCrudWithoutStateWithCtx) ID() string     { return "" }
+func (b createResourceCrudWithoutStateWithCtx) SetData() error { return nil }
+func (b createResourceCrudWithoutStateWithCtx) VoidState()     {}
 
 type updateResourceCrudWithCtx struct {
 	D *mockResourceData
@@ -2714,6 +2725,67 @@ func TestUnitWaitForUpdatedStateWithContext(t *testing.T) {
 		if res := WaitForUpdatedStateWithContext(context.Background(), test.args.d, test.args.sync); (res != nil) != test.gotError {
 			t.Errorf("Output error - %q which is not equal to expected error - %t", res, test.gotError)
 		}
+	}
+}
+
+func TestUnitWaitForCreatedStateWithContext(t *testing.T) {
+	s := &createResourceCrudWithCtx{}
+	reqResourceData := &mockResourceData{}
+	s.D = reqResourceData
+
+	type args struct {
+		d    *mockResourceData
+		sync ResourceCreatorWithContext
+	}
+	type testFormat struct {
+		name     string
+		args     args
+		gotError bool
+		mockFunc func()
+	}
+	tests := []testFormat{
+		{
+			name:     "Test error is returned",
+			args:     args{sync: s, d: reqResourceData},
+			gotError: true,
+			mockFunc: func() {
+				waitForStateRefreshVarWithContext = func(ctx context.Context, sr StatefulResourceWithContext, timeout time.Duration, operationName string, pending []string, target []string) error {
+					return errors.New("default")
+				}
+			},
+		},
+		{
+			name:     "Test no error is returned",
+			args:     args{sync: s, d: reqResourceData},
+			gotError: false,
+			mockFunc: func() {
+				waitForStateRefreshVarWithContext = func(ctx context.Context, sr StatefulResourceWithContext, timeout time.Duration, operationName string, pending []string, target []string) error {
+					return nil
+				}
+			},
+		},
+	}
+	for _, test := range tests {
+		t.Logf("Running %s", test.name)
+		test.mockFunc()
+		if res := WaitForCreatedStateWithContext(context.Background(), test.args.d, test.args.sync); (res != nil) != test.gotError {
+			t.Errorf("Output error - %q which is not equal to expected error - %t", res, test.gotError)
+		}
+	}
+
+	var logBuffer bytes.Buffer
+	previousLogOutput := log.Writer()
+	log.SetOutput(&logBuffer)
+	t.Cleanup(func() {
+		log.SetOutput(previousLogOutput)
+	})
+
+	if res := WaitForCreatedStateWithContext(context.Background(), reqResourceData, createResourceCrudWithoutStateWithCtx{}); res != nil {
+		t.Errorf("Output error - %q which is not equal to expected error - %t", res, false)
+	}
+
+	if !strings.Contains(logBuffer.String(), "ERROR WaitForCreatedStateWithContext") {
+		t.Errorf("Expected WaitForCreatedStateWithContext to log unsupported sync type, got %q", logBuffer.String())
 	}
 }
 

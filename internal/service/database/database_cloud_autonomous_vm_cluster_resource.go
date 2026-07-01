@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -22,11 +23,11 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseCloudAutonomousVmCluster,
-		Read:     readDatabaseCloudAutonomousVmCluster,
-		Update:   updateDatabaseCloudAutonomousVmCluster,
-		Delete:   deleteDatabaseCloudAutonomousVmCluster,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseCloudAutonomousVmClusterWithContext,
+		ReadContext:   readDatabaseCloudAutonomousVmClusterWithContext,
+		UpdateContext: updateDatabaseCloudAutonomousVmClusterWithContext,
+		DeleteContext: deleteDatabaseCloudAutonomousVmClusterWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"cloud_exadata_infrastructure_id": {
@@ -562,36 +563,36 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 	}
 }
 
-func createDatabaseCloudAutonomousVmCluster(d *schema.ResourceData, m interface{}) error {
+func createDatabaseCloudAutonomousVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudAutonomousVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 
 	if _, ok := sync.D.GetOkExists("register_pkcs_trigger"); ok {
-		err := sync.RegisterCloudAutonomousVmClusterPkcs()
+		err := sync.RegisterCloudAutonomousVmClusterPkcs(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("unregister_pkcs_trigger"); ok {
-		err := sync.UnregisterCloudAutonomousVmClusterPkcs()
+		err := sync.UnregisterCloudAutonomousVmClusterPkcs(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if rotateOrdsCertsTrigger, ok := sync.D.GetOkExists("rotate_ords_certs_trigger"); ok {
 		tmp := rotateOrdsCertsTrigger.(bool)
 		if tmp {
-			err := sync.RotateAutonomousCloudVmClusterOrdsCerts()
+			err := sync.RotateAutonomousCloudVmClusterOrdsCerts(ctx)
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
@@ -599,9 +600,9 @@ func createDatabaseCloudAutonomousVmCluster(d *schema.ResourceData, m interface{
 	if rotateSslCertsTrigger, ok := sync.D.GetOkExists("rotate_ssl_certs_trigger"); ok {
 		tmp := rotateSslCertsTrigger.(bool)
 		if tmp {
-			err := sync.RotateAutonomousCloudVmClusterSslCerts()
+			err := sync.RotateAutonomousCloudVmClusterSslCerts(ctx)
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
@@ -609,15 +610,15 @@ func createDatabaseCloudAutonomousVmCluster(d *schema.ResourceData, m interface{
 	return nil
 }
 
-func readDatabaseCloudAutonomousVmCluster(d *schema.ResourceData, m interface{}) error {
+func readDatabaseCloudAutonomousVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudAutonomousVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseCloudAutonomousVmCluster(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseCloudAutonomousVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudAutonomousVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
@@ -628,14 +629,15 @@ func updateDatabaseCloudAutonomousVmCluster(d *schema.ResourceData, m interface{
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.RegisterCloudAutonomousVmClusterPkcs()
+			err := sync.RegisterCloudAutonomousVmClusterPkcs(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("register_pkcs_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			err := fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
@@ -644,18 +646,19 @@ func updateDatabaseCloudAutonomousVmCluster(d *schema.ResourceData, m interface{
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.UnregisterCloudAutonomousVmClusterPkcs()
+			err := sync.UnregisterCloudAutonomousVmClusterPkcs(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("unregister_pkcs_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			err := fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
-	// 	if err := tfresource.UpdateResource(d, sync); err != nil {
+	// 	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
 	// 		return err
 	// 	}
 	//
@@ -664,9 +667,9 @@ func updateDatabaseCloudAutonomousVmCluster(d *schema.ResourceData, m interface{
 	if rotateOrdsCertsTrigger, ok := sync.D.GetOkExists("rotate_ords_certs_trigger"); ok && sync.D.HasChange("rotate_ords_certs_trigger") {
 		tmp := rotateOrdsCertsTrigger.(bool)
 		if tmp {
-			err := sync.RotateAutonomousCloudVmClusterOrdsCerts()
+			err := sync.RotateAutonomousCloudVmClusterOrdsCerts(ctx)
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
@@ -674,24 +677,24 @@ func updateDatabaseCloudAutonomousVmCluster(d *schema.ResourceData, m interface{
 	if rotateSslCertsTrigger, ok := sync.D.GetOkExists("rotate_ssl_certs_trigger"); ok && sync.D.HasChange("rotate_ssl_certs_trigger") {
 		tmp := rotateSslCertsTrigger.(bool)
 		if tmp {
-			err := sync.RotateAutonomousCloudVmClusterSslCerts()
+			err := sync.RotateAutonomousCloudVmClusterSslCerts(ctx)
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseCloudAutonomousVmCluster(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseCloudAutonomousVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudAutonomousVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseCloudAutonomousVmClusterResourceCrud struct {
@@ -730,7 +733,7 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) DeletedTarget() []string 
 	}
 }
 
-func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Create() error {
+func (s *DatabaseCloudAutonomousVmClusterResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateCloudAutonomousVmClusterRequest{}
 
 	if autonomousDataStorageSizeInTBs, ok := s.D.GetOkExists("autonomous_data_storage_size_in_tbs"); ok {
@@ -881,7 +884,7 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateCloudAutonomousVmCluster(context.Background(), request)
+	response, err := s.Client.CreateCloudAutonomousVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -896,7 +899,7 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudautonomousvmcluster", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "cloudautonomousvmcluster", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
@@ -905,10 +908,10 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Create() error {
 		}
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Get() error {
+func (s *DatabaseCloudAutonomousVmClusterResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetCloudAutonomousVmClusterRequest{}
 
 	tmp := s.D.Id()
@@ -916,7 +919,7 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetCloudAutonomousVmCluster(context.Background(), request)
+	response, err := s.Client.GetCloudAutonomousVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -925,11 +928,11 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Update() error {
+func (s *DatabaseCloudAutonomousVmClusterResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -1041,7 +1044,7 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateCloudAutonomousVmCluster(context.Background(), request)
+	response, err := s.Client.UpdateCloudAutonomousVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -1049,16 +1052,16 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Update() error {
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudAutonomousVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "cloudAutonomousVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Delete() error {
+func (s *DatabaseCloudAutonomousVmClusterResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteCloudAutonomousVmClusterRequest{}
 
 	tmp := s.D.Id()
@@ -1066,14 +1069,14 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DeleteCloudAutonomousVmCluster(context.Background(), request)
+	response, err := s.Client.DeleteCloudAutonomousVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudAutonomousVmCluster", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "cloudAutonomousVmCluster", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -1334,7 +1337,7 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DatabaseCloudAutonomousVmClusterResourceCrud) RegisterCloudAutonomousVmClusterPkcs() error {
+func (s *DatabaseCloudAutonomousVmClusterResourceCrud) RegisterCloudAutonomousVmClusterPkcs(ctx context.Context) error {
 	request := oci_database.RegisterCloudAutonomousVmClusterPkcsRequest{}
 
 	idTmp := s.D.Id()
@@ -1346,20 +1349,20 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) RegisterCloudAutonomousVm
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.RegisterCloudAutonomousVmClusterPkcs(context.Background(), request)
+	response, err := s.Client.RegisterCloudAutonomousVmClusterPkcs(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudAutonomousVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "cloudAutonomousVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -1370,7 +1373,7 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) RegisterCloudAutonomousVm
 	return nil
 }
 
-func (s *DatabaseCloudAutonomousVmClusterResourceCrud) UnregisterCloudAutonomousVmClusterPkcs() error {
+func (s *DatabaseCloudAutonomousVmClusterResourceCrud) UnregisterCloudAutonomousVmClusterPkcs(ctx context.Context) error {
 	request := oci_database.UnregisterCloudAutonomousVmClusterPkcsRequest{}
 
 	idTmp := s.D.Id()
@@ -1382,20 +1385,20 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) UnregisterCloudAutonomous
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UnregisterCloudAutonomousVmClusterPkcs(context.Background(), request)
+	response, err := s.Client.UnregisterCloudAutonomousVmClusterPkcs(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudAutonomousVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "cloudAutonomousVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -1606,7 +1609,7 @@ func MonthToMap(obj oci_database.Month) map[string]interface{} {
 	return result
 }
 
-func (s *DatabaseCloudAutonomousVmClusterResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseCloudAutonomousVmClusterResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database.ChangeCloudAutonomousVmClusterCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -1617,14 +1620,14 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) updateCompartment(compart
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ChangeCloudAutonomousVmClusterCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeCloudAutonomousVmClusterCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudAutonomousVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "cloudAutonomousVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -1632,7 +1635,7 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) updateCompartment(compart
 	return nil
 }
 
-func (s *DatabaseCloudAutonomousVmClusterResourceCrud) RotateAutonomousCloudVmClusterOrdsCerts() error {
+func (s *DatabaseCloudAutonomousVmClusterResourceCrud) RotateAutonomousCloudVmClusterOrdsCerts(ctx context.Context) error {
 	request := oci_database.RotateCloudAutonomousVmClusterOrdsCertsRequest{}
 
 	tmp := s.D.Id()
@@ -1640,13 +1643,13 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) RotateAutonomousCloudVmCl
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.RotateCloudAutonomousVmClusterOrdsCerts(context.Background(), request)
+	response, err := s.Client.RotateCloudAutonomousVmClusterOrdsCerts(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 	if err != nil {
 		return err
 	}
@@ -1654,7 +1657,7 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) RotateAutonomousCloudVmCl
 	return nil
 }
 
-func (s *DatabaseCloudAutonomousVmClusterResourceCrud) RotateAutonomousCloudVmClusterSslCerts() error {
+func (s *DatabaseCloudAutonomousVmClusterResourceCrud) RotateAutonomousCloudVmClusterSslCerts(ctx context.Context) error {
 	request := oci_database.RotateCloudAutonomousVmClusterSslCertsRequest{}
 
 	tmp := s.D.Id()
@@ -1662,13 +1665,13 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) RotateAutonomousCloudVmCl
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.RotateCloudAutonomousVmClusterSslCerts(context.Background(), request)
+	response, err := s.Client.RotateCloudAutonomousVmClusterSslCerts(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+	_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 	if err != nil {
 		return err
 	}

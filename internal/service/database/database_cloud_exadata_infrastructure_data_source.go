@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
@@ -19,15 +20,15 @@ func DatabaseCloudExadataInfrastructureDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseCloudExadataInfrastructureResource(), fieldMap, readSingularDatabaseCloudExadataInfrastructure)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseCloudExadataInfrastructureResource(), fieldMap, readSingularDatabaseCloudExadataInfrastructureWithContext)
 }
 
-func readSingularDatabaseCloudExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseCloudExadataInfrastructureWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudExadataInfrastructureDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseCloudExadataInfrastructureDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseCloudExadataInfrastructureDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseCloudExadataInfrastructureDataSourceCrud) Get() error {
+func (s *DatabaseCloudExadataInfrastructureDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetCloudExadataInfrastructureRequest{}
 
 	if cloudExadataInfrastructureId, ok := s.D.GetOkExists("cloud_exadata_infrastructure_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseCloudExadataInfrastructureDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetCloudExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.GetCloudExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}

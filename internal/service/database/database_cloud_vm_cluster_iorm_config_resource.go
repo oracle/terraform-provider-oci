@@ -9,6 +9,7 @@ import (
 
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -17,11 +18,11 @@ import (
 
 func DatabaseCloudVmClusterIormConfigResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseCloudVmClusterIormConfig,
-		Read:     readDatabaseCloudVmClusterIormConfig,
-		Update:   updateDatabaseCloudVmClusterIormConfig,
-		Delete:   deleteDatabaseCloudVmClusterIormConfig,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseCloudVmClusterIormConfigWithContext,
+		ReadContext:   readDatabaseCloudVmClusterIormConfigWithContext,
+		UpdateContext: updateDatabaseCloudVmClusterIormConfigWithContext,
+		DeleteContext: deleteDatabaseCloudVmClusterIormConfigWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"db_plans": {
@@ -85,40 +86,40 @@ func DatabaseCloudVmClusterIormConfigResource() *schema.Resource {
 	}
 }
 
-func createDatabaseCloudVmClusterIormConfig(d *schema.ResourceData, m interface{}) error {
+func createDatabaseCloudVmClusterIormConfigWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudVmClusterIormConfigResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseCloudVmClusterIormConfig(d *schema.ResourceData, m interface{}) error {
+func readDatabaseCloudVmClusterIormConfigWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudVmClusterIormConfigResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseCloudVmClusterIormConfig(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseCloudVmClusterIormConfigWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudVmClusterIormConfigResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseCloudVmClusterIormConfig(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseCloudVmClusterIormConfigWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudVmClusterIormConfigResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseCloudVmClusterIormConfigResourceCrud struct {
@@ -158,7 +159,7 @@ func (s *DatabaseCloudVmClusterIormConfigResourceCrud) DeletedTarget() []string 
 	}
 }
 
-func (s *DatabaseCloudVmClusterIormConfigResourceCrud) Create() error {
+func (s *DatabaseCloudVmClusterIormConfigResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.GetCloudVmClusterIormConfigRequest{}
 
 	if cloudVmClusterId, ok := s.D.GetOkExists("cloud_vm_cluster_id"); ok {
@@ -168,21 +169,21 @@ func (s *DatabaseCloudVmClusterIormConfigResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	if _, err := s.Client.GetCloudVmClusterIormConfig(context.Background(), request); err != nil {
+	if _, err := s.Client.GetCloudVmClusterIormConfig(ctx, request); err != nil {
 		return err
 	}
 
 	retentionPolicyFunc := func() bool {
 		return s.Res.LifecycleState == oci_database.ExadataIormConfigLifecycleStateDisabled || s.Res.LifecycleState == oci_database.ExadataIormConfigLifecycleStateEnabled
 	}
-	if err := tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate)); err != nil {
+	if err := tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate)); err != nil {
 		return err
 	}
 
-	return s.Update()
+	return s.UpdateWithContext(ctx)
 }
 
-func (s *DatabaseCloudVmClusterIormConfigResourceCrud) Get() error {
+func (s *DatabaseCloudVmClusterIormConfigResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetCloudVmClusterIormConfigRequest{}
 
 	if cloudVmClusterId, ok := s.D.GetOkExists("cloud_vm_cluster_id"); ok {
@@ -192,7 +193,7 @@ func (s *DatabaseCloudVmClusterIormConfigResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetCloudVmClusterIormConfig(context.Background(), request)
+	response, err := s.Client.GetCloudVmClusterIormConfig(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -201,7 +202,7 @@ func (s *DatabaseCloudVmClusterIormConfigResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseCloudVmClusterIormConfigResourceCrud) Update() error {
+func (s *DatabaseCloudVmClusterIormConfigResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database.UpdateCloudVmClusterIormConfigRequest{}
 
 	if dbPlans, ok := s.D.GetOkExists("db_plans"); ok {
@@ -233,21 +234,21 @@ func (s *DatabaseCloudVmClusterIormConfigResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateCloudVmClusterIormConfig(context.Background(), request)
+	response, err := s.Client.UpdateCloudVmClusterIormConfig(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_database.ExadataIormConfigLifecycleStateEnabled }
-	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DatabaseCloudVmClusterIormConfigResourceCrud) SetData() error {
@@ -288,7 +289,7 @@ func (s *DatabaseCloudVmClusterIormConfigResourceCrud) mapTodbIormConfigUpdateDe
 	return result, nil
 }
 
-func (s *DatabaseCloudVmClusterIormConfigResourceCrud) Delete() error {
+func (s *DatabaseCloudVmClusterIormConfigResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.UpdateCloudVmClusterIormConfigRequest{}
 
 	if cloudVmClusterId, ok := s.D.GetOkExists("cloud_vm_cluster_id"); ok {
@@ -298,14 +299,14 @@ func (s *DatabaseCloudVmClusterIormConfigResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateCloudVmClusterIormConfig(context.Background(), request)
+	response, err := s.Client.UpdateCloudVmClusterIormConfig(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

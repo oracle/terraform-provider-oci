@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -17,10 +18,10 @@ import (
 
 func DatabaseAutonomousVmClusterSslCertificateManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseAutonomousVmClusterSslCertificateManagement,
-		Read:     readDatabaseAutonomousVmClusterSslCertificateManagement,
-		Delete:   deleteDatabaseAutonomousVmClusterSslCertificateManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseAutonomousVmClusterSslCertificateManagement,
+		ReadContext:   readDatabaseAutonomousVmClusterSslCertificateManagement,
+		DeleteContext: deleteDatabaseAutonomousVmClusterSslCertificateManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"autonomous_vm_cluster_id": {
@@ -59,20 +60,20 @@ func DatabaseAutonomousVmClusterSslCertificateManagementResource() *schema.Resou
 	}
 }
 
-func createDatabaseAutonomousVmClusterSslCertificateManagement(d *schema.ResourceData, m interface{}) error {
+func createDatabaseAutonomousVmClusterSslCertificateManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseAutonomousVmClusterSslCertificateManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseAutonomousVmClusterSslCertificateManagement(d *schema.ResourceData, m interface{}) error {
+func readDatabaseAutonomousVmClusterSslCertificateManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDatabaseAutonomousVmClusterSslCertificateManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseAutonomousVmClusterSslCertificateManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -88,7 +89,7 @@ func (s *DatabaseAutonomousVmClusterSslCertificateManagementResourceCrud) ID() s
 	return tfresource.GenerateDataSourceHashID("DatabaseAutonomousVmClusterSslCertificateManagementResource-", DatabaseAutonomousVmClusterSslCertificateManagementResource(), s.D)
 }
 
-func (s *DatabaseAutonomousVmClusterSslCertificateManagementResourceCrud) Create() error {
+func (s *DatabaseAutonomousVmClusterSslCertificateManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.RotateAutonomousVmClusterSslCertsRequest{}
 
 	if autonomousVmClusterId, ok := s.D.GetOkExists("autonomous_vm_cluster_id"); ok {
@@ -117,7 +118,7 @@ func (s *DatabaseAutonomousVmClusterSslCertificateManagementResourceCrud) Create
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.RotateAutonomousVmClusterSslCerts(context.Background(), request)
+	response, err := s.Client.RotateAutonomousVmClusterSslCerts(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -128,7 +129,7 @@ func (s *DatabaseAutonomousVmClusterSslCertificateManagementResourceCrud) Create
 	if workId != nil {
 		var identifier *string
 		var err error
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "autonomousvmcluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "autonomousvmcluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}

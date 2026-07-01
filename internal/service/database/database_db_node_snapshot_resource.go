@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
@@ -17,11 +18,11 @@ func DatabaseDbNodeSnapshotResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseDbnodeSnapshot,
-		Read:     readDatabaseDbnodeSnapshot,
-		Update:   updateDatabaseDbnodeSnapshot,
-		Delete:   deleteDatabaseDbnodeSnapshot,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseDbnodeSnapshotWithContext,
+		ReadContext:   readDatabaseDbnodeSnapshotWithContext,
+		UpdateContext: updateDatabaseDbnodeSnapshotWithContext,
+		DeleteContext: deleteDatabaseDbnodeSnapshotWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"dbnode_snapshot_id": {
@@ -128,7 +129,7 @@ func DatabaseDbNodeSnapshotResource() *schema.Resource {
 	}
 }
 
-func createDatabaseDbnodeSnapshot(d *schema.ResourceData, m interface{}) error {
+func createDatabaseDbnodeSnapshotWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbnodeSnapshotResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
@@ -141,8 +142,8 @@ func createDatabaseDbnodeSnapshot(d *schema.ResourceData, m interface{}) error {
 	}
 
 	// Get and populate state. Do not call ReadResource which will clear the state if dbnodeSnapshot is in terminated state
-	if err := tfresource.CreateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.CreateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	// read "mount_dbnode_id" field from the Terraform state of the dbnode snapshot after the first Create call
@@ -153,18 +154,18 @@ func createDatabaseDbnodeSnapshot(d *schema.ResourceData, m interface{}) error {
 
 	if currentMountDbNodeId != targetMountDbNodeId {
 		if currentMountDbNodeId != "null" {
-			if err := sync.UnmountDbNodeSnapshot(currentMountDbNodeId); err != nil {
-				return err
+			if err := sync.UnmountDbNodeSnapshot(ctx, currentMountDbNodeId); err != nil {
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 		if targetMountDbNodeId != "null" {
-			if err := sync.MountDbNodeSnapshot(targetMountDbNodeId); err != nil {
-				return err
+			if err := sync.MountDbNodeSnapshot(ctx, targetMountDbNodeId); err != nil {
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 		// Get and update state. Do not call ReadResource which will clear the state if dbnodeSnapshot is in terminated state
-		if err := tfresource.CreateResource(d, sync); err != nil {
-			return err
+		if err := tfresource.CreateResourceWithContext(ctx, d, sync); err != nil {
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
@@ -172,25 +173,25 @@ func createDatabaseDbnodeSnapshot(d *schema.ResourceData, m interface{}) error {
 
 }
 
-func readDatabaseDbnodeSnapshot(d *schema.ResourceData, m interface{}) error {
+func readDatabaseDbnodeSnapshotWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbnodeSnapshotResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseDbnodeSnapshot(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseDbnodeSnapshotWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbnodeSnapshotResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 
 }
 
-func deleteDatabaseDbnodeSnapshot(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseDbnodeSnapshotWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbnodeSnapshotResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
@@ -200,13 +201,13 @@ func deleteDatabaseDbnodeSnapshot(d *schema.ResourceData, m interface{}) error {
 	if tmp, ok := sync.D.GetOkExists("mount_dbnode_id"); ok {
 		mountDbNodeId := strings.ToLower(tmp.(string))
 		if mountDbNodeId != "null" {
-			if err := sync.UnmountDbNodeSnapshot(mountDbNodeId); err != nil {
-				return err
+			if err := sync.UnmountDbNodeSnapshot(ctx, mountDbNodeId); err != nil {
+				return tfresource.HandleDiagError(m, err)
 			}
 		}
 	}
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseDbnodeSnapshotResourceCrud struct {
@@ -233,23 +234,23 @@ func (s *DatabaseDbnodeSnapshotResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatabaseDbnodeSnapshotResourceCrud) Create() error {
+func (s *DatabaseDbnodeSnapshotResourceCrud) CreateWithContext(ctx context.Context) error {
 	if dbNodeSnapshotId, ok := s.D.GetOkExists("dbnode_snapshot_id"); ok {
 		s.D.SetId(dbNodeSnapshotId.(string))
-		return s.Get()
+		return s.GetWithContext(ctx)
 	}
 	// un-reachable code since dbnode_snapshot_id is a required parameter
 	return fmt.Errorf("dbnode_snapshot resource does not have a dbnode_snapshot_id set")
 }
 
-func (s *DatabaseDbnodeSnapshotResourceCrud) Get() error {
+func (s *DatabaseDbnodeSnapshotResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetDbnodeSnapshotRequest{}
 	tmp := s.D.Id()
 	request.DbnodeSnapshotId = &tmp
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetDbnodeSnapshot(context.Background(), request)
+	response, err := s.Client.GetDbnodeSnapshot(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -258,28 +259,28 @@ func (s *DatabaseDbnodeSnapshotResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseDbnodeSnapshotResourceCrud) Update() error {
+func (s *DatabaseDbnodeSnapshotResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if _, ok := s.D.GetOkExists("mount_dbnode_id"); ok && s.D.HasChange("mount_dbnode_id") {
 		oldRaw, newRaw := s.D.GetChange("mount_dbnode_id")
 		targetMountDbNodeId := strings.ToLower(newRaw.(string))
 		currentMountDbNodeId := strings.ToLower(oldRaw.(string))
 		if currentMountDbNodeId != targetMountDbNodeId {
 			if currentMountDbNodeId != "null" {
-				if err := s.UnmountDbNodeSnapshot(currentMountDbNodeId); err != nil {
+				if err := s.UnmountDbNodeSnapshot(ctx, currentMountDbNodeId); err != nil {
 					return err
 				}
 			}
 			if targetMountDbNodeId != "null" {
-				if err := s.MountDbNodeSnapshot(targetMountDbNodeId); err != nil {
+				if err := s.MountDbNodeSnapshot(ctx, targetMountDbNodeId); err != nil {
 					return err
 				}
 			}
 		}
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseDbnodeSnapshotResourceCrud) Delete() error {
+func (s *DatabaseDbnodeSnapshotResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteDbnodeSnapshotRequest{}
 
 	tmp := s.D.Id()
@@ -287,14 +288,14 @@ func (s *DatabaseDbnodeSnapshotResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DeleteDbnodeSnapshot(context.Background(), request)
+	response, err := s.Client.DeleteDbnodeSnapshot(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dbnodesnapshot", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "dbnodesnapshot", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -369,7 +370,7 @@ func (s *DatabaseDbnodeSnapshotResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DatabaseDbnodeSnapshotResourceCrud) MountDbNodeSnapshot(mountDbNodeId string) error {
+func (s *DatabaseDbnodeSnapshotResourceCrud) MountDbNodeSnapshot(ctx context.Context, mountDbNodeId string) error {
 	request := oci_database.MountDbnodeSnapshotRequest{}
 
 	dbNodeSnapshotId := s.D.Id()
@@ -381,14 +382,14 @@ func (s *DatabaseDbnodeSnapshotResourceCrud) MountDbNodeSnapshot(mountDbNodeId s
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.MountDbnodeSnapshot(context.Background(), request)
+	response, err := s.Client.MountDbnodeSnapshot(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dbnodesnapshot", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "dbnodesnapshot", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -396,7 +397,7 @@ func (s *DatabaseDbnodeSnapshotResourceCrud) MountDbNodeSnapshot(mountDbNodeId s
 	return nil
 }
 
-func (s *DatabaseDbnodeSnapshotResourceCrud) UnmountDbNodeSnapshot(unmountDbNodeId string) error {
+func (s *DatabaseDbnodeSnapshotResourceCrud) UnmountDbNodeSnapshot(ctx context.Context, unmountDbNodeId string) error {
 	request := oci_database.UnmountDbnodeSnapshotRequest{}
 
 	dbNodeSnapshotId := s.D.Id()
@@ -408,14 +409,14 @@ func (s *DatabaseDbnodeSnapshotResourceCrud) UnmountDbNodeSnapshot(unmountDbNode
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UnmountDbnodeSnapshot(context.Background(), request)
+	response, err := s.Client.UnmountDbnodeSnapshot(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dbnodesnapshot", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "dbnodesnapshot", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

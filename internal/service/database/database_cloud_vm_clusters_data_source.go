@@ -10,13 +10,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
 func DatabaseCloudVmClustersDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseCloudVmClusters,
+		ReadContext: readDatabaseCloudVmClustersWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"cloud_exadata_infrastructure_id": {
@@ -48,12 +49,12 @@ func DatabaseCloudVmClustersDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseCloudVmClusters(d *schema.ResourceData, m interface{}) error {
+func readDatabaseCloudVmClustersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudVmClustersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseCloudVmClustersDataSourceCrud struct {
@@ -66,7 +67,7 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseCloudVmClustersDataSourceCrud) Get() error {
+func (s *DatabaseCloudVmClustersDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListCloudVmClustersRequest{}
 
 	if cloudExadataInfrastructureId, ok := s.D.GetOkExists("cloud_exadata_infrastructure_id"); ok {
@@ -94,7 +95,7 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListCloudVmClusters(context.Background(), request)
+	response, err := s.Client.ListCloudVmClusters(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListCloudVmClusters(context.Background(), request)
+		listResponse, err := s.Client.ListCloudVmClusters(ctx, request)
 		if err != nil {
 			return err
 		}

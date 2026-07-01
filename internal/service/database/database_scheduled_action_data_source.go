@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -19,15 +20,15 @@ func DatabaseScheduledActionDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseScheduledActionResource(), fieldMap, readSingularDatabaseScheduledAction)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseScheduledActionResource(), fieldMap, readSingularDatabaseScheduledActionWithContext)
 }
 
-func readSingularDatabaseScheduledAction(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseScheduledActionWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseScheduledActionDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseScheduledActionDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseScheduledActionDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseScheduledActionDataSourceCrud) Get() error {
+func (s *DatabaseScheduledActionDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetScheduledActionRequest{}
 
 	if scheduledActionId, ok := s.D.GetOkExists("scheduled_action_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseScheduledActionDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetScheduledAction(context.Background(), request)
+	response, err := s.Client.GetScheduledAction(ctx, request)
 	if err != nil {
 		return err
 	}

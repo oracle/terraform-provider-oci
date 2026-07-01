@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -17,10 +18,10 @@ import (
 
 func DatabaseDbSystemsUpgradeResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseDbSystemsUpgrade,
-		Read:     readDatabaseDbSystemsUpgrade,
-		Delete:   deleteDatabaseDbSystemsUpgrade,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseDbSystemsUpgradeWithContext,
+		ReadContext:   readDatabaseDbSystemsUpgradeWithContext,
+		DeleteContext: deleteDatabaseDbSystemsUpgradeWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"action": {
@@ -387,20 +388,20 @@ func DatabaseDbSystemsUpgradeResource() *schema.Resource {
 	}
 }
 
-func createDatabaseDbSystemsUpgrade(d *schema.ResourceData, m interface{}) error {
+func createDatabaseDbSystemsUpgradeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbSystemsUpgradeResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseDbSystemsUpgrade(d *schema.ResourceData, m interface{}) error {
+func readDatabaseDbSystemsUpgradeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDatabaseDbSystemsUpgrade(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseDbSystemsUpgradeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -440,7 +441,7 @@ func (s *DatabaseDbSystemsUpgradeResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatabaseDbSystemsUpgradeResourceCrud) Create() error {
+func (s *DatabaseDbSystemsUpgradeResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.UpgradeDbSystemRequest{}
 
 	if action, ok := s.D.GetOkExists("action"); ok {
@@ -474,7 +475,7 @@ func (s *DatabaseDbSystemsUpgradeResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpgradeDbSystem(context.Background(), request)
+	response, err := s.Client.UpgradeDbSystem(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -489,7 +490,7 @@ func (s *DatabaseDbSystemsUpgradeResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dbSystem", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "dbSystem", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
@@ -498,10 +499,10 @@ func (s *DatabaseDbSystemsUpgradeResourceCrud) Create() error {
 		}
 	}
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseDbSystemsUpgradeResourceCrud) Get() error {
+func (s *DatabaseDbSystemsUpgradeResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetDbSystemRequest{}
 
 	tmp := s.D.Id()
@@ -509,7 +510,7 @@ func (s *DatabaseDbSystemsUpgradeResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetDbSystem(context.Background(), request)
+	response, err := s.Client.GetDbSystem(ctx, request)
 	if err != nil {
 		return err
 	}

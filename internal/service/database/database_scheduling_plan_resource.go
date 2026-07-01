@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -20,11 +21,11 @@ func DatabaseSchedulingPlanResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseSchedulingPlan,
-		Read:     readDatabaseSchedulingPlan,
-		Update:   updateDatabaseSchedulingPlan,
-		Delete:   deleteDatabaseSchedulingPlan,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseSchedulingPlanWithContext,
+		ReadContext:   readDatabaseSchedulingPlanWithContext,
+		UpdateContext: updateDatabaseSchedulingPlanWithContext,
+		DeleteContext: deleteDatabaseSchedulingPlanWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -108,40 +109,40 @@ func DatabaseSchedulingPlanResource() *schema.Resource {
 	}
 }
 
-func createDatabaseSchedulingPlan(d *schema.ResourceData, m interface{}) error {
+func createDatabaseSchedulingPlanWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseSchedulingPlanResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseSchedulingPlan(d *schema.ResourceData, m interface{}) error {
+func readDatabaseSchedulingPlanWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseSchedulingPlanResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseSchedulingPlan(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseSchedulingPlanWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseSchedulingPlanResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseSchedulingPlan(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseSchedulingPlanWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseSchedulingPlanResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseSchedulingPlanResourceCrud struct {
@@ -152,7 +153,7 @@ type DatabaseSchedulingPlanResourceCrud struct {
 	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
-func (s *DatabaseSchedulingPlanResourceCrud) Update() error {
+func (s *DatabaseSchedulingPlanResourceCrud) UpdateWithContext(ctx context.Context) error {
 	panic("No update required")
 }
 
@@ -185,7 +186,7 @@ func (s *DatabaseSchedulingPlanResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatabaseSchedulingPlanResourceCrud) Create() error {
+func (s *DatabaseSchedulingPlanResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateSchedulingPlanRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -226,7 +227,7 @@ func (s *DatabaseSchedulingPlanResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateSchedulingPlan(context.Background(), request)
+	response, err := s.Client.CreateSchedulingPlan(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -237,10 +238,10 @@ func (s *DatabaseSchedulingPlanResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DatabaseSchedulingPlanResourceCrud) Get() error {
+func (s *DatabaseSchedulingPlanResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetSchedulingPlanRequest{}
 
 	tmp := s.D.Id()
@@ -248,7 +249,7 @@ func (s *DatabaseSchedulingPlanResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetSchedulingPlan(context.Background(), request)
+	response, err := s.Client.GetSchedulingPlan(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -257,7 +258,7 @@ func (s *DatabaseSchedulingPlanResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseSchedulingPlanResourceCrud) Delete() error {
+func (s *DatabaseSchedulingPlanResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteSchedulingPlanRequest{}
 
 	tmp := s.D.Id()
@@ -265,14 +266,14 @@ func (s *DatabaseSchedulingPlanResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DeleteSchedulingPlan(context.Background(), request)
+	response, err := s.Client.DeleteSchedulingPlan(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "schedulingplan", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "schedulingplan", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -398,7 +399,7 @@ func SchedulingPlanSummaryToMap(obj oci_database.SchedulingPlanSummary) map[stri
 	return result
 }
 
-func (s *DatabaseSchedulingPlanResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseSchedulingPlanResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database.ChangeSchedulingPlanCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -409,14 +410,14 @@ func (s *DatabaseSchedulingPlanResourceCrud) updateCompartment(compartment inter
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ChangeSchedulingPlanCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeSchedulingPlanCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "schedulingplan", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "schedulingplan", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

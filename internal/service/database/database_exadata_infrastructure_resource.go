@@ -14,6 +14,7 @@ import (
 
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -29,10 +30,10 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("12h"),
 			Delete: tfresource.GetTimeoutDuration("12h"),
 		},
-		Create: createDatabaseExadataInfrastructure,
-		Read:   readDatabaseExadataInfrastructure,
-		Update: updateDatabaseExadataInfrastructure,
-		Delete: deleteDatabaseExadataInfrastructure,
+		CreateContext: createDatabaseExadataInfrastructureWithContext,
+		ReadContext:   readDatabaseExadataInfrastructureWithContext,
+		UpdateContext: updateDatabaseExadataInfrastructureWithContext,
+		DeleteContext: deleteDatabaseExadataInfrastructureWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"admin_network_cidr": {
@@ -525,41 +526,41 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 	}
 }
 
-func createDatabaseExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
+func createDatabaseExadataInfrastructureWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
+func readDatabaseExadataInfrastructureWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseExadataInfrastructureWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseExadataInfrastructure(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseExadataInfrastructureWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseExadataInfrastructureResourceCrud struct {
@@ -630,7 +631,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) UpdatedTarget() []string {
 	}
 }
 
-func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
+func (s *DatabaseExadataInfrastructureResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.CreateExadataInfrastructureRequest{}
 
 	if adminNetworkCIDR, ok := s.D.GetOkExists("admin_network_cidr"); ok {
@@ -820,19 +821,19 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.CreateExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	s.Res = &response.ExadataInfrastructure
 
-	if waitErr := tfresource.WaitForCreatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForCreatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	if activationFile, ok := s.D.GetOkExists("activation_file"); ok {
-		response, err := s.activateExadataInfrastructure(activationFile.(string), s.D.Id())
+		response, err := s.activateExadataInfrastructure(ctx, activationFile.(string), s.D.Id())
 		if err != nil {
 			s.D.Set("activation_file", "")
 			return err
@@ -843,7 +844,11 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatabaseExadataInfrastructureResourceCrud) Get() error {
+func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
+	return s.CreateWithContext(context.Background())
+}
+
+func (s *DatabaseExadataInfrastructureResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetExadataInfrastructureRequest{}
 
 	tmp := s.D.Id()
@@ -853,7 +858,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.GetExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -862,11 +867,11 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
+func (s *DatabaseExadataInfrastructureResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -1042,7 +1047,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 		s.D.Get("additional_storage_count").(int) > 0 {
 		if activationFile, ok := s.D.GetOkExists("activation_file"); ok &&
 			s.D.Get("activation_file").(string) != "" {
-			response, err := s.activateExadataInfrastructure(activationFile.(string), s.D.Id())
+			response, err := s.activateExadataInfrastructure(ctx, activationFile.(string), s.D.Id())
 			if err != nil {
 				s.D.Set("activation_file", "")
 				return err
@@ -1052,21 +1057,21 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Update() error {
 		}
 	}
 
-	response, err := s.Client.UpdateExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.UpdateExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	s.Res = &response.ExadataInfrastructure
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	return nil
 }
 
-func (s *DatabaseExadataInfrastructureResourceCrud) Delete() error {
+func (s *DatabaseExadataInfrastructureResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteExadataInfrastructureRequest{}
 
 	tmp := s.D.Id()
@@ -1074,7 +1079,7 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.DeleteExadataInfrastructure(context.Background(), request)
+	_, err := s.Client.DeleteExadataInfrastructure(ctx, request)
 	return err
 }
 
@@ -1616,7 +1621,7 @@ func NetworkBondingModeDetailsToMap(obj *oci_database.NetworkBondingModeDetails)
 	return result
 }
 
-func (s *DatabaseExadataInfrastructureResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseExadataInfrastructureResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database.ChangeExadataInfrastructureCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -1627,19 +1632,19 @@ func (s *DatabaseExadataInfrastructureResourceCrud) updateCompartment(compartmen
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.ChangeExadataInfrastructureCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeExadataInfrastructureCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
 	return nil
 }
 
-func (s *DatabaseExadataInfrastructureResourceCrud) activateExadataInfrastructure(activationFile string, exadataInfrastructureId string) (*oci_database.ActivateExadataInfrastructureResponse, error) {
+func (s *DatabaseExadataInfrastructureResourceCrud) activateExadataInfrastructure(ctx context.Context, activationFile string, exadataInfrastructureId string) (*oci_database.ActivateExadataInfrastructureResponse, error) {
 	request := oci_database.ActivateExadataInfrastructureRequest{}
 
 	activationKeyFile, err := ioutil.ReadFile(activationFile)
@@ -1654,14 +1659,14 @@ func (s *DatabaseExadataInfrastructureResourceCrud) activateExadataInfrastructur
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ActivateExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.ActivateExadataInfrastructure(ctx, request)
 	if err != nil {
 		return nil, err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "exadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "exadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return nil, err
 		}

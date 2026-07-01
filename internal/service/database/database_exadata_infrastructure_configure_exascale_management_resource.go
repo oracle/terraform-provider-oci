@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -20,10 +21,10 @@ func DatabaseExadataInfrastructureConfigureExascaleManagementResource() *schema.
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseExadataInfrastructureConfigureExascaleManagement,
-		Read:     readDatabaseExadataInfrastructureConfigureExascaleManagement,
-		Delete:   deleteDatabaseExadataInfrastructureConfigureExascaleManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseExadataInfrastructureConfigureExascaleManagement,
+		ReadContext:   readDatabaseExadataInfrastructureConfigureExascaleManagement,
+		DeleteContext: deleteDatabaseExadataInfrastructureConfigureExascaleManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"exadata_infrastructure_id": {
@@ -439,20 +440,20 @@ func DatabaseExadataInfrastructureConfigureExascaleManagementResource() *schema.
 	}
 }
 
-func createDatabaseExadataInfrastructureConfigureExascaleManagement(d *schema.ResourceData, m interface{}) error {
+func createDatabaseExadataInfrastructureConfigureExascaleManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExadataInfrastructureConfigureExascaleManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseExadataInfrastructureConfigureExascaleManagement(d *schema.ResourceData, m interface{}) error {
+func readDatabaseExadataInfrastructureConfigureExascaleManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDatabaseExadataInfrastructureConfigureExascaleManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseExadataInfrastructureConfigureExascaleManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -494,7 +495,7 @@ func (s *DatabaseExadataInfrastructureConfigureExascaleManagementResourceCrud) D
 	}
 }
 
-func (s *DatabaseExadataInfrastructureConfigureExascaleManagementResourceCrud) Create() error {
+func (s *DatabaseExadataInfrastructureConfigureExascaleManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.ConfigureExascaleExadataInfrastructureRequest{}
 
 	if exadataInfrastructureId, ok := s.D.GetOkExists("exadata_infrastructure_id"); ok {
@@ -514,7 +515,7 @@ func (s *DatabaseExadataInfrastructureConfigureExascaleManagementResourceCrud) C
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ConfigureExascaleExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.ConfigureExascaleExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -524,7 +525,7 @@ func (s *DatabaseExadataInfrastructureConfigureExascaleManagementResourceCrud) C
 	if workId != nil {
 		var identifier *string
 		var err error
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "exadatainfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "exadatainfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}

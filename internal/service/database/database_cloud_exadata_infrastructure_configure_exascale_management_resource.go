@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -20,10 +21,10 @@ func DatabaseCloudExadataInfrastructureConfigureExascaleManagementResource() *sc
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseCloudExadataInfrastructureConfigureExascaleManagement,
-		Read:     readDatabaseCloudExadataInfrastructureConfigureExascaleManagement,
-		Delete:   deleteDatabaseCloudExadataInfrastructureConfigureExascaleManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseCloudExadataInfrastructureConfigureExascaleManagementWithContext,
+		ReadContext:   readDatabaseCloudExadataInfrastructureConfigureExascaleManagementWithContext,
+		DeleteContext: deleteDatabaseCloudExadataInfrastructureConfigureExascaleManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"cloud_exadata_infrastructure_id": {
@@ -352,20 +353,20 @@ func DatabaseCloudExadataInfrastructureConfigureExascaleManagementResource() *sc
 	}
 }
 
-func createDatabaseCloudExadataInfrastructureConfigureExascaleManagement(d *schema.ResourceData, m interface{}) error {
+func createDatabaseCloudExadataInfrastructureConfigureExascaleManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudExadataInfrastructureConfigureExascaleManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseCloudExadataInfrastructureConfigureExascaleManagement(d *schema.ResourceData, m interface{}) error {
+func readDatabaseCloudExadataInfrastructureConfigureExascaleManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDatabaseCloudExadataInfrastructureConfigureExascaleManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseCloudExadataInfrastructureConfigureExascaleManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -405,7 +406,7 @@ func (s *DatabaseCloudExadataInfrastructureConfigureExascaleManagementResourceCr
 	}
 }
 
-func (s *DatabaseCloudExadataInfrastructureConfigureExascaleManagementResourceCrud) Create() error {
+func (s *DatabaseCloudExadataInfrastructureConfigureExascaleManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database.ConfigureExascaleCloudExadataInfrastructureRequest{}
 
 	if cloudExadataInfrastructureId, ok := s.D.GetOkExists("cloud_exadata_infrastructure_id"); ok {
@@ -425,7 +426,7 @@ func (s *DatabaseCloudExadataInfrastructureConfigureExascaleManagementResourceCr
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.ConfigureExascaleCloudExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.ConfigureExascaleCloudExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -436,7 +437,7 @@ func (s *DatabaseCloudExadataInfrastructureConfigureExascaleManagementResourceCr
 	if workId != nil {
 		var identifier *string
 		var err error
-		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudexadatainfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		identifier, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "cloudexadatainfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
