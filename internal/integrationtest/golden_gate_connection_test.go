@@ -97,6 +97,9 @@ func getSecurityAttributes() map[string]string {
 }
 
 var (
+	aiModelDisplayName        = "aimodel_openai_" + utils.RandomStringOrHttpReplayValue(10, utils.CharsetWithoutDigits, "ownkeycreate")
+	aiModelDisplayNameUpdated = "aimodel_openai_" + utils.RandomStringOrHttpReplayValue(10, utils.CharsetWithoutDigits, "ownkeyupdate")
+
 	// TODO this representation is used only by deployment_test, so if both are modified, we should move it there
 	GoldenGateConnectionRepresentation = map[string]interface{}{
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -106,7 +109,6 @@ var (
 		"description":     acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"bar-key": "value"}},
 		"key_id":          acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`},
-		"private_ip":      acctest.Representation{RepType: acctest.Optional, Create: `10.0.1.78`},
 		"subnet_id":       acctest.Representation{RepType: acctest.Optional, Create: `${var.subnet_id}`},
 		"vault_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.vault_id}`},
 	}
@@ -114,6 +116,7 @@ var (
 	// if enabled action refresh test is executed
 	RefreshTestEnabled     = true
 	EnabledConnectionTests = []oci_golden_gate.ConnectionTypeEnum{
+		oci_golden_gate.ConnectionTypeAiModel,
 		oci_golden_gate.ConnectionTypeAmazonS3,
 		oci_golden_gate.ConnectionTypeAmazonKinesis,
 		oci_golden_gate.ConnectionTypeAmazonRedshift,
@@ -142,6 +145,7 @@ var (
 		oci_golden_gate.ConnectionTypeDatabricks,
 		oci_golden_gate.ConnectionTypeGooglePubsub,
 		oci_golden_gate.ConnectionTypeMicrosoftFabric,
+		oci_golden_gate.ConnectionTypeIceberg,
 		oci_golden_gate.ConnectionTypeOracleAiDataPlatform,
 	}
 
@@ -164,7 +168,6 @@ var (
 			"port":                acctest.Representation{RepType: acctest.Required, Create: `9090`},
 			"username":            acctest.Representation{RepType: acctest.Required, Create: `user`},
 			"password_secret_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.password_secret_id}`},
-			"private_ip":          acctest.Representation{RepType: acctest.Required, Create: `10.0.0.1`},
 			"does_use_secret_ids": acctest.Representation{RepType: acctest.Required, Create: `true`},
 			"display_name":        acctest.Representation{RepType: acctest.Required, Create: `TF-connection-refresh-test`},
 			"description":         acctest.Representation{RepType: acctest.Required, Create: `description`},
@@ -179,7 +182,28 @@ var (
 		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
 	}
 
+	aiModelAuthDetailsRepresentation = map[string]interface{}{
+		"auth_type":         acctest.Representation{RepType: acctest.Required, Create: `API_KEY`},
+		"api_key":           acctest.Representation{RepType: acctest.Required, Create: `1234`, Update: ``},
+		"api_key_secret_id": acctest.Representation{RepType: acctest.Required, Update: `${var.password_secret_id}`},
+		"base_url":          acctest.Representation{RepType: acctest.Required, Create: `https://api.openai.com/v1/embeddings`},
+	}
+
 	ConnectionTestDescriptors = []ConnectionTestDescriptor{
+		// AI Model
+		{connectionType: oci_golden_gate.ConnectionTypeAiModel, technologyType: oci_golden_gate.TechnologyTypeAiModel,
+			representation: map[string]interface{}{
+				"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+				"display_name":        acctest.Representation{RepType: acctest.Required, Create: aiModelDisplayName, Update: aiModelDisplayNameUpdated},
+				"description":         acctest.Representation{RepType: acctest.Required, Create: aiModelDisplayName, Update: aiModelDisplayNameUpdated},
+				"provider_type":       acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.AiModelConnectionProviderTypeOpenAi)},
+				"max_input_chars":     acctest.Representation{RepType: acctest.Required, Create: `20000`},
+				"model_key":           acctest.Representation{RepType: acctest.Required, Create: `text-embedding-3-small`},
+				"does_use_secret_ids": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+				"auth_details":        acctest.RepresentationGroup{RepType: acctest.Required, Group: aiModelAuthDetailsRepresentation},
+			},
+		},
+
 		// AmazonS3, create a locked resource, only for this type. Resource locking is generic it applies the same way for the other types
 		// - test moving connection to another compartment
 		{connectionType: oci_golden_gate.ConnectionTypeAmazonS3, technologyType: oci_golden_gate.TechnologyTypeAmazonS3,
@@ -389,11 +413,10 @@ var (
 		// Goldengate
 		{connectionType: oci_golden_gate.ConnectionTypeGoldengate, technologyType: oci_golden_gate.TechnologyTypeGoldengate,
 			representation: map[string]interface{}{
-				"host":       acctest.Representation{RepType: acctest.Required, Create: `goldengate.oci.oraclecloud.com`, Update: `goldengate2.oci.oraclecloud.com`},
-				"port":       acctest.Representation{RepType: acctest.Required, Create: `9090`, Update: `9091`},
-				"password":   acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
-				"username":   acctest.Representation{RepType: acctest.Required, Create: `user`, Update: `updatedUser`},
-				"private_ip": acctest.Representation{RepType: acctest.Required, Create: `10.0.0.1`, Update: `10.0.0.2`},
+				"host":     acctest.Representation{RepType: acctest.Required, Create: `goldengate.oci.oraclecloud.com`, Update: `goldengate2.oci.oraclecloud.com`},
+				"port":     acctest.Representation{RepType: acctest.Required, Create: `9090`, Update: `9091`},
+				"password": acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
+				"username": acctest.Representation{RepType: acctest.Required, Create: `user`, Update: `updatedUser`},
 			},
 		},
 
@@ -416,7 +439,6 @@ var (
 			"connection_factory": acctest.Representation{RepType: acctest.Required, Create: `com.stc.jmsjca.core.JConnectionFactoryXA`, Update: `mq://foo.bar.com:7677`},
 			"password":           acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 			"username":           acctest.Representation{RepType: acctest.Required, Create: `user`, Update: `updatedUser`},
-			"private_ip":         acctest.Representation{RepType: acctest.Required, Create: `10.0.0.1`, Update: `10.0.0.2`},
 		},
 		},
 
@@ -427,9 +449,8 @@ var (
 				"username":          acctest.Representation{RepType: acctest.Required, Create: `username`, Update: `newUsername`},
 				"password":          acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 				"bootstrap_servers": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
-					"host":       acctest.Representation{RepType: acctest.Required, Create: `whatever.fqdn.oraclecloud.com`},
-					"port":       acctest.Representation{RepType: acctest.Required, Create: `9093`},
-					"private_ip": acctest.Representation{RepType: acctest.Required, Create: `10.0.0.1`},
+					"host": acctest.Representation{RepType: acctest.Required, Create: `whatever.fqdn.oraclecloud.com`},
+					"port": acctest.Representation{RepType: acctest.Required, Create: `9093`},
 				}},
 			},
 			excludedFieldsFromDataCheck: []string{"bootstrap_servers"},
@@ -451,9 +472,8 @@ var (
 				"username":          acctest.Representation{RepType: acctest.Optional, Create: `username`, Update: `newUsername`},
 				"password":          acctest.Representation{RepType: acctest.Optional, Create: `${var.password}`, Update: `${var.new_password}`},
 				"bootstrap_servers": acctest.RepresentationGroup{RepType: acctest.Optional, Group: map[string]interface{}{
-					"host":       acctest.Representation{RepType: acctest.Required, Create: `whatever.fqdn.oraclecloud.com`},
-					"port":       acctest.Representation{RepType: acctest.Required, Create: `9092`},
-					"private_ip": acctest.Representation{RepType: acctest.Required, Create: `10.0.0.1`},
+					"host": acctest.Representation{RepType: acctest.Required, Create: `whatever.fqdn.oraclecloud.com`},
+					"port": acctest.Representation{RepType: acctest.Required, Create: `9092`},
 				}},
 			},
 			excludedFieldsFromDataCheck: []string{"bootstrap_servers"},
@@ -478,7 +498,6 @@ var (
 				"port":              acctest.Representation{RepType: acctest.Required, Create: `10000`, Update: `10001`},
 				"username":          acctest.Representation{RepType: acctest.Required, Create: `username`, Update: `newUsername`},
 				"password":          acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
-				"private_ip":        acctest.Representation{RepType: acctest.Required, Create: `10.0.0.1`, Update: `10.0.0.2`},
 			},
 		},
 
@@ -503,7 +522,6 @@ var (
 				"password":          acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 				"database_name":     acctest.Representation{RepType: acctest.Required, Create: `database`, Update: `anotherdatabase`},
 				"security_protocol": acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.MysqlConnectionSecurityProtocolPlain)},
-				"private_ip":        acctest.Representation{RepType: acctest.Required, Create: `10.0.0.1`, Update: `10.0.0.2`},
 				"host":              acctest.Representation{RepType: acctest.Required, Create: `validfqdn.com`, Update: `updatedfqdn.com`},
 				"port":              acctest.Representation{RepType: acctest.Required, Create: `10000`, Update: `10001`},
 			},
@@ -550,13 +568,16 @@ var (
 		// Postgresql
 		{connectionType: oci_golden_gate.ConnectionTypePostgresql, technologyType: oci_golden_gate.TechnologyTypePostgresqlServer,
 			representation: map[string]interface{}{
+				"additional_attributes": acctest.RepresentationGroup{RepType: acctest.Optional, Group: map[string]interface{}{
+					"name":  acctest.Representation{RepType: acctest.Optional, Create: `test_attribute_name`},
+					"value": acctest.Representation{RepType: acctest.Optional, Create: `test_attribute_value`},
+				}},
 				"database_name":     acctest.Representation{RepType: acctest.Required, Create: `database`, Update: `database2`},
 				"host":              acctest.Representation{RepType: acctest.Required, Create: `whatever.fqdn.com`, Update: `whatever.fqdn.com`},
 				"port":              acctest.Representation{RepType: acctest.Required, Create: `10000`, Update: `10001`},
 				"username":          acctest.Representation{RepType: acctest.Required, Create: `admin`, Update: `new_admin`},
 				"password":          acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 				"security_protocol": acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.PostgresqlConnectionSecurityProtocolPlain)},
-				"private_ip":        acctest.Representation{RepType: acctest.Required, Create: `10.0.0.1`, Update: `10.0.0.2`},
 			},
 		},
 
@@ -637,6 +658,7 @@ var (
 		// Iceberg
 		{connectionType: oci_golden_gate.ConnectionTypeIceberg, technologyType: oci_golden_gate.TechnologyTypeApacheIceberg,
 			representation: map[string]interface{}{
+				"does_use_secret_ids": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
 				"catalog": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
 					"catalog_type": acctest.Representation{RepType: acctest.Required, Create: `HADOOP`},
 				}},
@@ -644,7 +666,8 @@ var (
 					"storage_type":                       acctest.Representation{RepType: acctest.Required, Create: `GOOGLE_CLOUD_STORAGE`},
 					"bucket":                             acctest.Representation{RepType: acctest.Required, Create: `bucket`},
 					"project_id":                         acctest.Representation{RepType: acctest.Required, Create: `projectId`},
-					"service_account_key_file_secret_id": acctest.Representation{RepType: acctest.Required, Create: `${var.password_secret_id}`},
+					"service_account_key_file":           acctest.Representation{RepType: acctest.Required, Create: `ewogICJwcm9wZXJ0aWVzIjogewogICAgImJhc2VVcmwiOiAiaHR0cHM6Ly9hcGkuZXhhbXBsZS5jb20vY2F0YWxvZyIsCiAgICAiYXV0aGVudGljYXRpb25UeXBlIjogIk9BdXRoMkNsaWVudENyZWRlbnRpYWxzIiwKICAgICJjbGllbnRJZCI6ICJteS1jbGllbnQtaWQiLAogICAgImNsaWVudFNlY3JldCI6ICJteS1jbGllbnQtc2VjcmV0IiwgICAKICAgICJ0b2tlblVybCI6ICJodHRwczovL2F1dGguZXhhbXBsZS5jb20vb2F1dGgyL3Rva2VuIiwKICAgICJwYWdpbmF0aW9uVHlwZSI6ICJPRkZTRVQiLAogICAgInBhZ2VTaXplUGFyYW0iOiAibGltaXQiLAogICAgInBhZ2VPZmZzZXRQYXJhbSI6ICJvZmZzZXQiLAogICAgInJlc3BvbnNlUGF0aCI6ICIkLml0ZW1zWypdIiwgICAgICAgIAogICAgInNjaGVtYVBhdGgiOiAiJC5zY2hlbWEiLCAgICAgICAgICAgICAKICAgICJoZWFkZXJzIjogewogICAgICAiQWNjZXB0IjogImFwcGxpY2F0aW9uL2pzb24iLAogICAgICAiQ3VzdG9tLUhlYWRlciI6ICJ2YWx1ZTEyMyIKICAgIH0sCiAgICAicXVlcnlQYXJhbXMiOiB7CiAgICAgICJmaWx0ZXIiOiAidHlwZTpkYXRhc2V0IgogICAgfSwKICAgICJodHRwTWV0aG9kIjogIkdFVCIKICB9Cn0`},
+					"service_account_key_file_secret_id": acctest.Representation{RepType: acctest.Required, Update: `${var.iceberg_service_account_key_file_secret_id}`},
 				}},
 			},
 		},
@@ -672,6 +695,8 @@ var (
 		"key_store",
 		"key_store_password",
 		"password",
+		"api_key",
+		"auth_details.0.api_key",
 		"private_key_file",
 		"private_key_passphrase",
 		"producer_properties",
@@ -688,6 +713,7 @@ var (
 		"core_site_xml",
 		"secret_access_key",
 		"service_account_key_file",
+		"storage.0.service_account_key_file",
 		"is_lock_override",
 		"view",
 		"trigger_refresh",
@@ -701,25 +727,26 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 	defer httpreplay.SaveScenario()
 
 	const (
-		COMPARTMENT_ID             = "compartment_id"
-		COMPARTMENT_ID_FOR_MOVE    = "compartment_id_for_move"
-		KMS_KEY_ID                 = "kms_key_id"
-		SUBNET_ID                  = "subnet_id"
-		VAULT_ID                   = "vault_id"
-		CONNECTION_TYPE            = "connection_type"
-		TECHNOLOGY_TYPE            = "technology_type"
-		ORACLE_WALLET              = "oracle_wallet"
-		PASSWORD                   = "password"
-		NEW_PASSWORD               = "new_password"
-		PASSWORD_SECRET_ID         = "password_secret_id"
-		NEW_PASSWORD_SECRET_ID     = "new_password_secret_id"
-		SUBSCRIPTION_ID            = "subscription_id"
-		CLUSTER_PLACEMENT_GROUP_ID = "cluster_placement_group_id"
-		SECURITY_ATTRIBUTES        = "security_attributes"
-		STREAM_POOL_ID             = "stream_pool_id"
-		STREAMING_USERNAME         = "streaming_username"
-		CLUSTER_ID                 = "cluster_id"
-		USER_ID                    = "user_ocid"
+		COMPARTMENT_ID                             = "compartment_id"
+		COMPARTMENT_ID_FOR_MOVE                    = "compartment_id_for_move"
+		KMS_KEY_ID                                 = "kms_key_id"
+		SUBNET_ID                                  = "subnet_id"
+		VAULT_ID                                   = "vault_id"
+		CONNECTION_TYPE                            = "connection_type"
+		TECHNOLOGY_TYPE                            = "technology_type"
+		ORACLE_WALLET                              = "oracle_wallet"
+		PASSWORD                                   = "password"
+		NEW_PASSWORD                               = "new_password"
+		PASSWORD_SECRET_ID                         = "password_secret_id"
+		NEW_PASSWORD_SECRET_ID                     = "new_password_secret_id"
+		SUBSCRIPTION_ID                            = "subscription_id"
+		CLUSTER_PLACEMENT_GROUP_ID                 = "cluster_placement_group_id"
+		SECURITY_ATTRIBUTES                        = "security_attributes"
+		STREAM_POOL_ID                             = "stream_pool_id"
+		STREAMING_USERNAME                         = "streaming_username"
+		CLUSTER_ID                                 = "cluster_id"
+		USER_ID                                    = "user_ocid"
+		ICEBERG_SERVICE_ACCOUNT_KEY_FILE_SECRET_ID = "iceberg_service_account_key_file_secret_id"
 	)
 
 	config := acctest.ProviderTestConfig() +
@@ -738,7 +765,8 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 		makeVariableStr(STREAM_POOL_ID, t) +
 		makeVariableStr(STREAMING_USERNAME, t) +
 		makeVariableStr(CLUSTER_ID, t) +
-		makeVariableStr(USER_ID, t)
+		makeVariableStr(USER_ID, t) +
+		makeVariableStr(ICEBERG_SERVICE_ACCOUNT_KEY_FILE_SECRET_ID, t)
 
 	var createResourcesConfig, dataSourceConfig, listDataSourceConfig, updateResourcesConfig string
 	// CREATE CHECK FUNCTION MAPS
@@ -750,6 +778,11 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 	for _, connectionTestDescriptor := range ConnectionTestDescriptors {
 		if !containsConnection(EnabledConnectionTests, connectionTestDescriptor.connectionType) {
 			log.Printf("Skip connectionType, because it's not enabled: %s", connectionTestDescriptor.connectionType)
+			continue
+		}
+		if connectionTestDescriptor.connectionType == oci_golden_gate.ConnectionTypeKafka &&
+			connectionTestDescriptor.technologyType == oci_golden_gate.TechnologyTypeOciStreaming {
+			log.Printf("Skip connectionType/technologyType, because it's temporarily disabled: %s/%s", connectionTestDescriptor.connectionType, connectionTestDescriptor.technologyType)
 			continue
 		}
 		// DEFINE RESOURCE NAMES
@@ -767,6 +800,30 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 			"technology_type": acctest.Representation{RepType: acctest.Required, Create: technologyType},
 		})
 		connectionRepresentation = acctest.RepresentationCopyWithNewProperties(connectionRepresentation, connectionTestDescriptor.representation)
+		updateConnectionRepresentation := acctest.RepresentationCopyWithNewProperties(connectionRepresentation, map[string]interface{}{})
+
+		if doesUseSecretIdsRepresentation, ok := connectionRepresentation["does_use_secret_ids"].(acctest.Representation); ok {
+			if doesUseSecretIdsCreate, ok := doesUseSecretIdsRepresentation.Create.(string); ok && doesUseSecretIdsCreate == "true" {
+				connectionRepresentation = acctest.RepresentationCopyWithRemovedProperties(connectionRepresentation, []string{"key_id", "vault_id"})
+			}
+			if doesUseSecretIdsUpdate, ok := doesUseSecretIdsRepresentation.Update.(string); ok && doesUseSecretIdsUpdate == "true" {
+				updateConnectionRepresentation = acctest.RepresentationCopyWithRemovedProperties(updateConnectionRepresentation, []string{"key_id", "vault_id"})
+			}
+		}
+
+		if connectionTestDescriptor.connectionType == oci_golden_gate.ConnectionTypeIceberg {
+			updateConnectionRepresentation = acctest.RepresentationCopyWithRemovedNestedProperties("storage.service_account_key_file", updateConnectionRepresentation)
+		}
+		if connectionTestDescriptor.connectionType == oci_golden_gate.ConnectionTypeAiModel {
+			updateConnectionRepresentation = acctest.RepresentationCopyWithRemovedNestedProperties("auth_details.api_key", updateConnectionRepresentation)
+		}
+		if connectionTestDescriptor.connectionType == oci_golden_gate.ConnectionTypePostgresql {
+			updateConnectionRepresentation = acctest.RepresentationCopyWithRemovedProperties(updateConnectionRepresentation, []string{"additional_attributes"})
+		}
+		if connectionTestDescriptor.connectionType == oci_golden_gate.ConnectionTypeKafka &&
+			connectionTestDescriptor.technologyType == oci_golden_gate.TechnologyTypeOciStreamingWithApacheKafka {
+			updateConnectionRepresentation = acctest.RepresentationCopyWithRemovedProperties(updateConnectionRepresentation, []string{"bootstrap_servers"})
+		}
 		// ADD connectionTypeCheck
 		connectionTypeCheck := resource.TestCheckResourceAttr(checkResourceName, CONNECTION_TYPE, connectionType)
 		resourceCheckFunctions = append(resourceCheckFunctions, connectionTypeCheck)
@@ -819,6 +876,14 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 			}
 		}
 
+		if connectionTestDescriptor.connectionType == oci_golden_gate.ConnectionTypeAiModel {
+			authTypeCheck := resource.TestCheckResourceAttr(checkResourceName, "auth_details.0.auth_type", "API_KEY")
+			baseURLCheck := resource.TestCheckResourceAttr(checkResourceName, "auth_details.0.base_url", "https://api.openai.com/v1/embeddings")
+			resourceCheckFunctions = append(resourceCheckFunctions, authTypeCheck, baseURLCheck)
+			updatedResourceCheckFunctions = append(updatedResourceCheckFunctions, authTypeCheck, baseURLCheck)
+			dataValidatorFunctions = append(dataValidatorFunctions, authTypeCheck, baseURLCheck)
+		}
+
 		// ADD create validator function
 		var resId, resId2 string
 		resourceCheckFunctions = append(resourceCheckFunctions, func(s *terraform.State) (err error) {
@@ -863,7 +928,7 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 		dataSourceConfig += acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_connection", resourceName, acctest.Optional, acctest.Create, map[string]interface{}{
 			"connection_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_golden_gate_connection.` + resourceName + `.id}`},
 		})
-		updateResourcesConfig += acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection", resourceName, acctest.Optional, acctest.Update, connectionRepresentation)
+		updateResourcesConfig += acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection", resourceName, acctest.Optional, acctest.Update, updateConnectionRepresentation)
 		listDataSourceConfig += acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection", resourceName, acctest.Optional, acctest.Update, connectionRepresentation) +
 			acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_connections", resourceName, acctest.Optional, acctest.Create, dataSourceRepresentation)
 	}

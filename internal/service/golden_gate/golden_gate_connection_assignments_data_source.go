@@ -27,6 +27,20 @@ func GoldenGateConnectionAssignmentsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"connection_type": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"connection_type_not_equal_to": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"deployment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -86,6 +100,32 @@ func (s *GoldenGateConnectionAssignmentsDataSourceCrud) GetWithContext(ctx conte
 	if connectionId, ok := s.D.GetOkExists("connection_id"); ok {
 		tmp := connectionId.(string)
 		request.ConnectionId = &tmp
+	}
+
+	if connectionType, ok := s.D.GetOkExists("connection_type"); ok {
+		interfaces := connectionType.([]interface{})
+		tmp := make([]oci_golden_gate.ConnectionTypeEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_golden_gate.ConnectionTypeEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("connection_type") {
+			request.ConnectionType = tmp
+		}
+	}
+
+	if connectionTypeNotEqualTo, ok := s.D.GetOkExists("connection_type_not_equal_to"); ok {
+		interfaces := connectionTypeNotEqualTo.([]interface{})
+		tmp := make([]oci_golden_gate.ConnectionTypeEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_golden_gate.ConnectionTypeEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("connection_type_not_equal_to") {
+			request.ConnectionTypeNotEqualTo = tmp
+		}
 	}
 
 	if deploymentId, ok := s.D.GetOkExists("deployment_id"); ok {

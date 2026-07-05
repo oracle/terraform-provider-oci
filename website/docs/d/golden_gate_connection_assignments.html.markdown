@@ -21,6 +21,8 @@ data "oci_golden_gate_connection_assignments" "test_connection_assignments" {
 
 	#Optional
 	connection_id = oci_golden_gate_connection.test_connection.id
+	connection_type = var.connection_assignment_connection_type
+	connection_type_not_equal_to = var.connection_assignment_connection_type_not_equal_to
 	deployment_id = oci_golden_gate_deployment.test_deployment.id
 	name = var.connection_assignment_name
 	state = var.connection_assignment_state
@@ -33,6 +35,8 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The OCID of the compartment that contains the work request. Work requests should be scoped  to the same compartment as the resource the work request affects. If the work request concerns  multiple resources, and those resources are not in the same compartment, it is up to the service team  to pick the primary resource whose compartment should be used. 
 * `connection_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connection. 
+* `connection_type` - (Optional) The array of connection types. 
+* `connection_type_not_equal_to` - (Optional) The array of connection types to exclude. 
 * `deployment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment in which to list resources. 
 * `name` - (Optional) The name of the connection in the assignment (aliasName).
 * `state` - (Optional) A filter to return only connection assignments having the 'lifecycleState' given.
@@ -51,6 +55,7 @@ The following attributes are exported:
 * `alias_name` - Credential store alias. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced. 
 * `connection_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connection being referenced. 
+* `connection_type` - The connection type. 
 * `deployment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced. 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connection assignment being referenced. 
 * `state` - Possible lifecycle states for connection assignments.
