@@ -45,6 +45,7 @@ func GoldenGateConnectionResource() *schema.Resource {
 				ForceNew:         true,
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
+					"AI_MODEL",
 					"AMAZON_KINESIS",
 					"AMAZON_REDSHIFT",
 					"AMAZON_S3",
@@ -123,6 +124,66 @@ func GoldenGateConnectionResource() *schema.Resource {
 							Computed: true,
 						},
 						"value": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"auth_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"auth_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"API_KEY",
+								"OCI_GEN_AI",
+							}, true),
+						},
+
+						// Optional
+						"api_key": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"api_key_secret_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"base_url": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"key_fingerprint": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"region": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"tenancy_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"user_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -458,6 +519,16 @@ func GoldenGateConnectionResource() *schema.Resource {
 					},
 				},
 			},
+			"max_input_chars": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"model_key": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"is_lock_override": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -511,6 +582,12 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"provider_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"public_key_fingerprint": {
 				Type:     schema.TypeString,
@@ -680,6 +757,8 @@ func GoldenGateConnectionResource() *schema.Resource {
 								"AMAZON_S3",
 								"AZURE_DATA_LAKE_STORAGE",
 								"GOOGLE_CLOUD_STORAGE",
+								"NONE",
+								"OCI_OBJECT_STORAGE_S3_API",
 							}, true),
 						},
 
@@ -1033,6 +1112,7 @@ func (s *GoldenGateConnectionResourceCrud) CreatedPending() []string {
 func (s *GoldenGateConnectionResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_golden_gate.ConnectionLifecycleStateActive),
+		string(oci_golden_gate.ConnectionLifecycleStateNeedsAttention),
 	}
 }
 
@@ -1257,6 +1337,119 @@ func (s *GoldenGateConnectionResourceCrud) DeleteWithContext(ctx context.Context
 
 func (s *GoldenGateConnectionResourceCrud) SetData() error {
 	switch v := (*s.Res).(type) {
+	case oci_golden_gate.AiModelConnection:
+		s.D.Set("connection_type", "AI_MODEL")
+
+		if v.AuthDetails != nil {
+			authDetailsArray := []interface{}{}
+			if authDetailsMap := AiModelAuthDetailsToMap(&v.AuthDetails); authDetailsMap != nil {
+				authDetailsMap = preserveAiModelAuthDetailsWriteOnlyFields(s.D, authDetailsMap)
+				authDetailsArray = append(authDetailsArray, authDetailsMap)
+			}
+			s.D.Set("auth_details", authDetailsArray)
+		} else {
+			s.D.Set("auth_details", nil)
+		}
+
+		if v.MaxInputChars != nil {
+			s.D.Set("max_input_chars", *v.MaxInputChars)
+		}
+
+		if v.ModelKey != nil {
+			s.D.Set("model_key", *v.ModelKey)
+		}
+
+		s.D.Set("provider_type", v.ProviderType)
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.SetId(*v.Id)
+		}
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
+
+		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
 	case oci_golden_gate.AmazonKinesisConnection:
 		s.D.Set("connection_type", "AMAZON_KINESIS")
 
@@ -2775,6 +2968,7 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		if v.Catalog != nil {
 			catalogArray := []interface{}{}
 			if catalogMap := IcebergCatalogToMap(&v.Catalog); catalogMap != nil {
+				catalogMap = preserveIcebergCatalogWriteOnlyFields(s.D, catalogMap)
 				catalogArray = append(catalogArray, catalogMap)
 			}
 			s.D.Set("catalog", catalogArray)
@@ -2785,6 +2979,7 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		if v.Storage != nil {
 			storageArray := []interface{}{}
 			if storageMap := IcebergStorageToMap(&v.Storage); storageMap != nil {
+				storageMap = preserveIcebergStorageWriteOnlyFields(s.D, storageMap)
 				storageArray = append(storageArray, storageMap)
 			}
 			s.D.Set("storage", storageArray)
@@ -4706,6 +4901,90 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 	return nil
 }
 
+func preserveAiModelAuthDetailsWriteOnlyFields(d *schema.ResourceData, authDetailsMap map[string]interface{}) map[string]interface{} {
+	existingAuthDetails, ok := d.GetOkExists("auth_details")
+	if !ok {
+		return authDetailsMap
+	}
+
+	existingList, ok := existingAuthDetails.([]interface{})
+	if !ok || len(existingList) == 0 || existingList[0] == nil {
+		return authDetailsMap
+	}
+
+	existingMap, ok := existingList[0].(map[string]interface{})
+	if !ok {
+		return authDetailsMap
+	}
+
+	for _, key := range []string{"api_key", "api_key_secret_id"} {
+		if _, exists := authDetailsMap[key]; exists {
+			continue
+		}
+		if value, ok := existingMap[key]; ok && value != nil && value != "" {
+			authDetailsMap[key] = value
+		}
+	}
+
+	return authDetailsMap
+}
+
+func preserveIcebergCatalogWriteOnlyFields(d *schema.ResourceData, catalogMap map[string]interface{}) map[string]interface{} {
+	existingCatalog, ok := d.GetOkExists("catalog")
+	if !ok {
+		return catalogMap
+	}
+
+	existingList, ok := existingCatalog.([]interface{})
+	if !ok || len(existingList) == 0 || existingList[0] == nil {
+		return catalogMap
+	}
+
+	existingMap, ok := existingList[0].(map[string]interface{})
+	if !ok {
+		return catalogMap
+	}
+
+	for _, key := range []string{"client_secret", "properties"} {
+		if _, exists := catalogMap[key]; exists {
+			continue
+		}
+		if value, ok := existingMap[key]; ok && value != nil && value != "" {
+			catalogMap[key] = value
+		}
+	}
+
+	return catalogMap
+}
+
+func preserveIcebergStorageWriteOnlyFields(d *schema.ResourceData, storageMap map[string]interface{}) map[string]interface{} {
+	existingStorage, ok := d.GetOkExists("storage")
+	if !ok {
+		return storageMap
+	}
+
+	existingList, ok := existingStorage.([]interface{})
+	if !ok || len(existingList) == 0 || existingList[0] == nil {
+		return storageMap
+	}
+
+	existingMap, ok := existingList[0].(map[string]interface{})
+	if !ok {
+		return storageMap
+	}
+
+	for _, key := range []string{"secret_access_key", "account_key", "service_account_key_file"} {
+		if _, exists := storageMap[key]; exists {
+			continue
+		}
+		if value, ok := existingMap[key]; ok && value != nil && value != "" {
+			storageMap[key] = value
+		}
+	}
+
+	return storageMap
+}
+
 func (s *GoldenGateConnectionResourceCrud) mapToAddResourceLockDetails(fieldKeyFormat string) (oci_golden_gate.AddResourceLockDetails, error) {
 	result := oci_golden_gate.AddResourceLockDetails{}
 
@@ -4719,6 +4998,222 @@ func (s *GoldenGateConnectionResourceCrud) mapToAddResourceLockDetails(fieldKeyF
 	}
 
 	return result, nil
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToAiModelAuthDetails(fieldKeyFormat string) (oci_golden_gate.AiModelAuthDetails, error) {
+	var baseObject oci_golden_gate.AiModelAuthDetails
+	useSecretIds := false
+	if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+		useSecretIds = doesUseSecretIds.(bool)
+	}
+	//discriminator
+	authTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auth_type"))
+	var authType string
+	if ok {
+		authType = authTypeRaw.(string)
+	} else {
+		authType = "" // default value
+	}
+	switch strings.ToLower(authType) {
+	case strings.ToLower("API_KEY"):
+		details := oci_golden_gate.ApiKeyAiModelAuthDetails{}
+		if !useSecretIds {
+			if apiKey, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "api_key")); ok {
+				tmp := apiKey.(string)
+				details.ApiKey = &tmp
+			}
+		}
+		if useSecretIds {
+			if apiKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "api_key_secret_id")); ok {
+				tmp := apiKeySecretId.(string)
+				details.ApiKeySecretId = &tmp
+			}
+		}
+		if baseUrl, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "base_url")); ok {
+			tmp := baseUrl.(string)
+			details.BaseUrl = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OCI_GEN_AI"):
+		details := oci_golden_gate.OciGenAiModelAuthDetails{}
+		if !useSecretIds {
+			if apiKey, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "api_key")); ok {
+				tmp := apiKey.(string)
+				details.ApiKey = &tmp
+			}
+		}
+		if useSecretIds {
+			if apiKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "api_key_secret_id")); ok {
+				tmp := apiKeySecretId.(string)
+				details.ApiKeySecretId = &tmp
+			}
+		}
+		if keyFingerprint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "key_fingerprint")); ok {
+			tmp := keyFingerprint.(string)
+			details.KeyFingerprint = &tmp
+		}
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if tenancyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "tenancy_id")); ok {
+			tmp := tenancyId.(string)
+			details.TenancyId = &tmp
+		}
+		if userId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "user_id")); ok {
+			tmp := userId.(string)
+			details.UserId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown auth_type '%v' was specified", authType)
+	}
+	return baseObject, nil
+}
+
+func AiModelAuthDetailsToMap(obj *oci_golden_gate.AiModelAuthDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.ApiKeyAiModelAuthDetails:
+		result["auth_type"] = "API_KEY"
+
+		if v.ApiKey != nil {
+			result["api_key"] = string(*v.ApiKey)
+		}
+
+		if v.ApiKeySecretId != nil {
+			result["api_key_secret_id"] = string(*v.ApiKeySecretId)
+		}
+
+		if v.BaseUrl != nil {
+			result["base_url"] = string(*v.BaseUrl)
+		}
+	case oci_golden_gate.OciGenAiModelAuthDetails:
+		result["auth_type"] = "OCI_GEN_AI"
+
+		if v.ApiKey != nil {
+			result["api_key"] = string(*v.ApiKey)
+		}
+
+		if v.ApiKeySecretId != nil {
+			result["api_key_secret_id"] = string(*v.ApiKeySecretId)
+		}
+
+		if v.KeyFingerprint != nil {
+			result["key_fingerprint"] = string(*v.KeyFingerprint)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.TenancyId != nil {
+			result["tenancy_id"] = string(*v.TenancyId)
+		}
+
+		if v.UserId != nil {
+			result["user_id"] = string(*v.UserId)
+		}
+	default:
+		log.Printf("[WARN] Received 'auth_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToAiModelAuthDetailsSummary(fieldKeyFormat string) (oci_golden_gate.AiModelAuthDetailsSummary, error) {
+	var baseObject oci_golden_gate.AiModelAuthDetailsSummary
+	//discriminator
+	authTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auth_type"))
+	var authType string
+	if ok {
+		authType = authTypeRaw.(string)
+	} else {
+		authType = "" // default value
+	}
+	switch strings.ToLower(authType) {
+	case strings.ToLower("API_KEY"):
+		details := oci_golden_gate.ApiKeyAiModelAuthDetailsSummary{}
+		if apiKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "api_key_secret_id")); ok {
+			tmp := apiKeySecretId.(string)
+			details.ApiKeySecretId = &tmp
+		}
+		if baseUrl, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "base_url")); ok {
+			tmp := baseUrl.(string)
+			details.BaseUrl = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OCI_GEN_AI"):
+		details := oci_golden_gate.OciGenAiModelAuthDetailsSummary{}
+		if apiKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "api_key_secret_id")); ok {
+			tmp := apiKeySecretId.(string)
+			details.ApiKeySecretId = &tmp
+		}
+		if keyFingerprint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "key_fingerprint")); ok {
+			tmp := keyFingerprint.(string)
+			details.KeyFingerprint = &tmp
+		}
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if tenancyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "tenancy_id")); ok {
+			tmp := tenancyId.(string)
+			details.TenancyId = &tmp
+		}
+		if userId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "user_id")); ok {
+			tmp := userId.(string)
+			details.UserId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown auth_type '%v' was specified", authType)
+	}
+	return baseObject, nil
+}
+
+func AiModelAuthDetailsSummaryToMap(obj *oci_golden_gate.AiModelAuthDetailsSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.ApiKeyAiModelAuthDetailsSummary:
+		result["auth_type"] = "API_KEY"
+
+		if v.ApiKeySecretId != nil {
+			result["api_key_secret_id"] = string(*v.ApiKeySecretId)
+		}
+
+		if v.BaseUrl != nil {
+			result["base_url"] = string(*v.BaseUrl)
+		}
+	case oci_golden_gate.OciGenAiModelAuthDetailsSummary:
+		result["auth_type"] = "OCI_GEN_AI"
+
+		if v.ApiKeySecretId != nil {
+			result["api_key_secret_id"] = string(*v.ApiKeySecretId)
+		}
+
+		if v.KeyFingerprint != nil {
+			result["key_fingerprint"] = string(*v.KeyFingerprint)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.TenancyId != nil {
+			result["tenancy_id"] = string(*v.TenancyId)
+		}
+
+		if v.UserId != nil {
+			result["user_id"] = string(*v.UserId)
+		}
+	default:
+		log.Printf("[WARN] Received 'auth_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
 }
 
 func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bool) map[string]interface{} {
@@ -4778,6 +5273,28 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 
 	// set type specific fields
 	switch v := (obj).(type) {
+	case oci_golden_gate.AiModelConnectionSummary:
+		result["connection_type"] = "AI_MODEL"
+
+		if v.AuthDetails != nil {
+			authDetailsArray := []interface{}{}
+			if authDetailsMap := AiModelAuthDetailsSummaryToMap(&v.AuthDetails); authDetailsMap != nil {
+				authDetailsArray = append(authDetailsArray, authDetailsMap)
+			}
+			result["auth_details"] = authDetailsArray
+		}
+
+		if v.MaxInputChars != nil {
+			result["max_input_chars"] = int(*v.MaxInputChars)
+		}
+
+		if v.ModelKey != nil {
+			result["model_key"] = string(*v.ModelKey)
+		}
+
+		result["provider_type"] = string(v.ProviderType)
+
+		result["technology_type"] = string(v.TechnologyType)
 	case oci_golden_gate.AmazonKinesisConnectionSummary:
 		result["connection_type"] = "AMAZON_KINESIS"
 
@@ -5624,8 +6141,134 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 	return result
 }
 
+func (s *GoldenGateConnectionResourceCrud) mapToCreateAiModelAuthDetails(fieldKeyFormat string) (oci_golden_gate.CreateAiModelAuthDetails, error) {
+	var baseObject oci_golden_gate.CreateAiModelAuthDetails
+	useSecretIds := false
+	if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+		useSecretIds = doesUseSecretIds.(bool)
+	}
+	//discriminator
+	authTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auth_type"))
+	var authType string
+	if ok {
+		authType = authTypeRaw.(string)
+	} else {
+		authType = "" // default value
+	}
+	switch strings.ToLower(authType) {
+	case strings.ToLower("API_KEY"):
+		details := oci_golden_gate.CreateApiKeyAiModelAuthDetails{}
+		if !useSecretIds {
+			if apiKey, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "api_key")); ok {
+				tmp := apiKey.(string)
+				details.ApiKey = &tmp
+			}
+		}
+		if useSecretIds {
+			if apiKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "api_key_secret_id")); ok {
+				tmp := apiKeySecretId.(string)
+				details.ApiKeySecretId = &tmp
+			}
+		}
+		if baseUrl, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "base_url")); ok {
+			tmp := baseUrl.(string)
+			details.BaseUrl = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OCI_GEN_AI"):
+		details := oci_golden_gate.CreateOciGenAiModelAuthDetails{}
+		if !useSecretIds {
+			if apiKey, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "api_key")); ok {
+				tmp := apiKey.(string)
+				details.ApiKey = &tmp
+			}
+		}
+		if useSecretIds {
+			if apiKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "api_key_secret_id")); ok {
+				tmp := apiKeySecretId.(string)
+				details.ApiKeySecretId = &tmp
+			}
+		}
+		if keyFingerprint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "key_fingerprint")); ok {
+			tmp := keyFingerprint.(string)
+			details.KeyFingerprint = &tmp
+		}
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if tenancyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "tenancy_id")); ok {
+			tmp := tenancyId.(string)
+			details.TenancyId = &tmp
+		}
+		if userId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "user_id")); ok {
+			tmp := userId.(string)
+			details.UserId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown auth_type '%v' was specified", authType)
+	}
+	return baseObject, nil
+}
+
+func CreateAiModelAuthDetailsToMap(obj *oci_golden_gate.CreateAiModelAuthDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.CreateApiKeyAiModelAuthDetails:
+		result["auth_type"] = "API_KEY"
+
+		if v.ApiKey != nil {
+			result["api_key"] = string(*v.ApiKey)
+		}
+
+		if v.ApiKeySecretId != nil {
+			result["api_key_secret_id"] = string(*v.ApiKeySecretId)
+		}
+
+		if v.BaseUrl != nil {
+			result["base_url"] = string(*v.BaseUrl)
+		}
+	case oci_golden_gate.CreateOciGenAiModelAuthDetails:
+		result["auth_type"] = "OCI_GEN_AI"
+
+		if v.ApiKey != nil {
+			result["api_key"] = string(*v.ApiKey)
+		}
+
+		if v.ApiKeySecretId != nil {
+			result["api_key_secret_id"] = string(*v.ApiKeySecretId)
+		}
+
+		if v.KeyFingerprint != nil {
+			result["key_fingerprint"] = string(*v.KeyFingerprint)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.TenancyId != nil {
+			result["tenancy_id"] = string(*v.TenancyId)
+		}
+
+		if v.UserId != nil {
+			result["user_id"] = string(*v.UserId)
+		}
+	default:
+		log.Printf("[WARN] Received 'auth_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *GoldenGateConnectionResourceCrud) mapToCreateIcebergCatalogDetails(fieldKeyFormat string) (oci_golden_gate.CreateIcebergCatalogDetails, error) {
 	var baseObject oci_golden_gate.CreateIcebergCatalogDetails
+	useSecretIds := false
+	if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+		useSecretIds = doesUseSecretIds.(bool)
+	}
 	//discriminator
 	catalogTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "catalog_type"))
 	var catalogType string
@@ -5637,7 +6280,7 @@ func (s *GoldenGateConnectionResourceCrud) mapToCreateIcebergCatalogDetails(fiel
 	switch strings.ToLower(catalogType) {
 	case strings.ToLower("GLUE"):
 		details := oci_golden_gate.CreateGlueIcebergCatalogDetails{}
-		if glueId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "glue_id")); ok {
+		if glueId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "glue_id")); ok {
 			tmp := glueId.(string)
 			details.GlueId = &tmp
 		}
@@ -5647,53 +6290,61 @@ func (s *GoldenGateConnectionResourceCrud) mapToCreateIcebergCatalogDetails(fiel
 		baseObject = details
 	case strings.ToLower("NESSIE"):
 		details := oci_golden_gate.CreateNessieIcebergCatalogDetails{}
-		if branch, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "branch")); ok {
+		if branch, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "branch")); ok {
 			tmp := branch.(string)
 			details.Branch = &tmp
 		}
-		if uri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
+		if uri, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
 			tmp := uri.(string)
 			details.Uri = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("POLARIS"):
 		details := oci_golden_gate.CreatePolarisIcebergCatalogDetails{}
-		if clientId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_id")); ok {
+		if clientId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "client_id")); ok {
 			tmp := clientId.(string)
 			details.ClientId = &tmp
 		}
-		if clientSecret, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_secret")); ok {
-			tmp := clientSecret.(string)
-			details.ClientSecret = &tmp
+		if !useSecretIds {
+			if clientSecret, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "client_secret")); ok {
+				tmp := clientSecret.(string)
+				details.ClientSecret = &tmp
+			}
 		}
-		if clientSecretSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_secret_secret_id")); ok {
-			tmp := clientSecretSecretId.(string)
-			details.ClientSecretSecretId = &tmp
+		if useSecretIds {
+			if clientSecretSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "client_secret_secret_id")); ok {
+				tmp := clientSecretSecretId.(string)
+				details.ClientSecretSecretId = &tmp
+			}
 		}
-		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		if name, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "name")); ok {
 			tmp := name.(string)
 			details.Name = &tmp
 		}
-		if principalRole, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "principal_role")); ok {
+		if principalRole, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "principal_role")); ok {
 			tmp := principalRole.(string)
 			details.PrincipalRole = &tmp
 		}
-		if uri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
+		if uri, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
 			tmp := uri.(string)
 			details.Uri = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("REST"):
 		details := oci_golden_gate.CreateRestIcebergCatalogDetails{}
-		if properties, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "properties")); ok {
-			tmp := properties.(string)
-			details.Properties = &tmp
+		if !useSecretIds {
+			if properties, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties")); ok {
+				tmp := properties.(string)
+				details.Properties = &tmp
+			}
 		}
-		if propertiesSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
-			tmp := propertiesSecretId.(string)
-			details.PropertiesSecretId = &tmp
+		if useSecretIds {
+			if propertiesSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
+				tmp := propertiesSecretId.(string)
+				details.PropertiesSecretId = &tmp
+			}
 		}
-		if uri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
+		if uri, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
 			tmp := uri.(string)
 			details.Uri = &tmp
 		}
@@ -5775,6 +6426,10 @@ func CreateIcebergCatalogDetailsToMap(obj *oci_golden_gate.CreateIcebergCatalogD
 
 func (s *GoldenGateConnectionResourceCrud) mapToCreateIcebergStorageDetails(fieldKeyFormat string) (oci_golden_gate.CreateIcebergStorageDetails, error) {
 	var baseObject oci_golden_gate.CreateIcebergStorageDetails
+	useSecretIds := false
+	if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+		useSecretIds = doesUseSecretIds.(bool)
+	}
 	//discriminator
 	storageTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "storage_type"))
 	var storageType string
@@ -5786,78 +6441,120 @@ func (s *GoldenGateConnectionResourceCrud) mapToCreateIcebergStorageDetails(fiel
 	switch strings.ToLower(storageType) {
 	case strings.ToLower("AMAZON_S3"):
 		details := oci_golden_gate.CreateAmazonS3IcebergStorageDetails{}
-		if accessKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+		if accessKeyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
 			tmp := accessKeyId.(string)
 			details.AccessKeyId = &tmp
 		}
-		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
 			tmp := bucket.(string)
 			details.Bucket = &tmp
 		}
-		if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+		if endpoint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
 			tmp := endpoint.(string)
 			details.Endpoint = &tmp
 		}
-		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
 			tmp := region.(string)
 			details.Region = &tmp
 		}
-		if schemeType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scheme_type")); ok {
+		if schemeType, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "scheme_type")); ok {
 			details.SchemeType = oci_golden_gate.AmazonS3IcebergStorageSchemeTypeEnum(schemeType.(string))
 		}
-		if secretAccessKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
-			tmp := secretAccessKey.(string)
-			details.SecretAccessKey = &tmp
+		if !useSecretIds {
+			if secretAccessKey, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
+				tmp := secretAccessKey.(string)
+				details.SecretAccessKey = &tmp
+			}
 		}
-		if secretAccessKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
-			tmp := secretAccessKeySecretId.(string)
-			details.SecretAccessKeySecretId = &tmp
+		if useSecretIds {
+			if secretAccessKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+				tmp := secretAccessKeySecretId.(string)
+				details.SecretAccessKeySecretId = &tmp
+			}
 		}
 		baseObject = details
 	case strings.ToLower("AZURE_DATA_LAKE_STORAGE"):
 		details := oci_golden_gate.CreateAzureDataLakeStorageIcebergStorageDetails{}
-		if accountKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_key")); ok {
-			tmp := accountKey.(string)
-			details.AccountKey = &tmp
+		if !useSecretIds {
+			if accountKey, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_key")); ok {
+				tmp := accountKey.(string)
+				details.AccountKey = &tmp
+			}
 		}
-		if accountKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
-			tmp := accountKeySecretId.(string)
-			details.AccountKeySecretId = &tmp
+		if useSecretIds {
+			if accountKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
+				tmp := accountKeySecretId.(string)
+				details.AccountKeySecretId = &tmp
+			}
 		}
-		if accountName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_name")); ok {
+		if accountName, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_name")); ok {
 			tmp := accountName.(string)
 			details.AccountName = &tmp
 		}
-		if container, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "container")); ok {
+		if container, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "container")); ok {
 			tmp := container.(string)
 			details.Container = &tmp
 		}
-		if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+		if endpoint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
 			tmp := endpoint.(string)
 			details.Endpoint = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("GOOGLE_CLOUD_STORAGE"):
 		details := oci_golden_gate.CreateGoogleCloudStorageIcebergStorageDetails{}
-		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
 			tmp := bucket.(string)
 			details.Bucket = &tmp
 		}
-		if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+		if endpoint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
 			tmp := endpoint.(string)
 			details.Endpoint = &tmp
 		}
-		if projectId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "project_id")); ok {
+		if projectId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "project_id")); ok {
 			tmp := projectId.(string)
 			details.ProjectId = &tmp
 		}
-		if serviceAccountKeyFile, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_account_key_file")); ok {
-			tmp := serviceAccountKeyFile.(string)
-			details.ServiceAccountKeyFile = &tmp
+		if !useSecretIds {
+			if serviceAccountKeyFile, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "service_account_key_file")); ok {
+				tmp := serviceAccountKeyFile.(string)
+				details.ServiceAccountKeyFile = &tmp
+			}
 		}
-		if serviceAccountKeyFileSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_account_key_file_secret_id")); ok {
-			tmp := serviceAccountKeyFileSecretId.(string)
-			details.ServiceAccountKeyFileSecretId = &tmp
+		if useSecretIds {
+			if serviceAccountKeyFileSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "service_account_key_file_secret_id")); ok {
+				tmp := serviceAccountKeyFileSecretId.(string)
+				details.ServiceAccountKeyFileSecretId = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("NONE"):
+		details := oci_golden_gate.CreateNoIcebergStorageDetails{}
+		baseObject = details
+	case strings.ToLower("OCI_OBJECT_STORAGE_S3_API"):
+		details := oci_golden_gate.CreateOciObjectStorageS3ApiIcebergStorageDetails{}
+		if accessKeyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := accessKeyId.(string)
+			details.AccessKeyId = &tmp
+		}
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if endpoint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+			tmp := endpoint.(string)
+			details.Endpoint = &tmp
+		}
+		if !useSecretIds {
+			if secretAccessKey, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
+				tmp := secretAccessKey.(string)
+				details.SecretAccessKey = &tmp
+			}
+		}
+		if useSecretIds {
+			if secretAccessKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+				tmp := secretAccessKeySecretId.(string)
+				details.SecretAccessKeySecretId = &tmp
+			}
 		}
 		baseObject = details
 	default:
@@ -5941,6 +6638,30 @@ func CreateIcebergStorageDetailsToMap(obj *oci_golden_gate.CreateIcebergStorageD
 		if v.ServiceAccountKeyFileSecretId != nil {
 			result["service_account_key_file_secret_id"] = string(*v.ServiceAccountKeyFileSecretId)
 		}
+	case oci_golden_gate.CreateNoIcebergStorageDetails:
+		result["storage_type"] = "NONE"
+	case oci_golden_gate.CreateOciObjectStorageS3ApiIcebergStorageDetails:
+		result["storage_type"] = "OCI_OBJECT_STORAGE_S3_API"
+
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = string(*v.AccessKeyId)
+		}
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Endpoint != nil {
+			result["endpoint"] = string(*v.Endpoint)
+		}
+
+		if v.SecretAccessKey != nil {
+			result["secret_access_key"] = string(*v.SecretAccessKey)
+		}
+
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
+		}
 	default:
 		log.Printf("[WARN] Received 'storage_type' of unknown type %v", *obj)
 		return nil
@@ -5952,12 +6673,12 @@ func CreateIcebergStorageDetailsToMap(obj *oci_golden_gate.CreateIcebergStorageD
 func (s *GoldenGateConnectionResourceCrud) mapToCreateKafkaBootstrapServer(fieldKeyFormat string) (oci_golden_gate.CreateKafkaBootstrapServer, error) {
 	result := oci_golden_gate.CreateKafkaBootstrapServer{}
 
-	if host, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "host")); ok {
+	if host, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "host")); ok {
 		tmp := host.(string)
 		result.Host = &tmp
 	}
 
-	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
+	if port, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "port")); ok {
 		tmp := port.(int)
 		result.Port = &tmp
 	}
@@ -5992,7 +6713,7 @@ func (s *GoldenGateConnectionResourceCrud) mapToIcebergCatalog(fieldKeyFormat st
 	switch strings.ToLower(catalogType) {
 	case strings.ToLower("GLUE"):
 		details := oci_golden_gate.GlueIcebergCatalog{}
-		if glueId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "glue_id")); ok {
+		if glueId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "glue_id")); ok {
 			tmp := glueId.(string)
 			details.GlueId = &tmp
 		}
@@ -6002,45 +6723,45 @@ func (s *GoldenGateConnectionResourceCrud) mapToIcebergCatalog(fieldKeyFormat st
 		baseObject = details
 	case strings.ToLower("NESSIE"):
 		details := oci_golden_gate.NessieIcebergCatalog{}
-		if branch, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "branch")); ok {
+		if branch, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "branch")); ok {
 			tmp := branch.(string)
 			details.Branch = &tmp
 		}
-		if uri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
+		if uri, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
 			tmp := uri.(string)
 			details.Uri = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("POLARIS"):
 		details := oci_golden_gate.PolarisIcebergCatalog{}
-		if clientId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_id")); ok {
+		if clientId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "client_id")); ok {
 			tmp := clientId.(string)
 			details.ClientId = &tmp
 		}
-		if clientSecretSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_secret_secret_id")); ok {
+		if clientSecretSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "client_secret_secret_id")); ok {
 			tmp := clientSecretSecretId.(string)
 			details.ClientSecretSecretId = &tmp
 		}
-		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		if name, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "name")); ok {
 			tmp := name.(string)
 			details.Name = &tmp
 		}
-		if principalRole, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "principal_role")); ok {
+		if principalRole, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "principal_role")); ok {
 			tmp := principalRole.(string)
 			details.PrincipalRole = &tmp
 		}
-		if uri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
+		if uri, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
 			tmp := uri.(string)
 			details.Uri = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("REST"):
 		details := oci_golden_gate.RestIcebergCatalog{}
-		if propertiesSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
+		if propertiesSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
 			tmp := propertiesSecretId.(string)
 			details.PropertiesSecretId = &tmp
 		}
-		if uri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
+		if uri, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
 			tmp := uri.(string)
 			details.Uri = &tmp
 		}
@@ -6125,7 +6846,7 @@ func (s *GoldenGateConnectionResourceCrud) mapToIcebergCatalogSummary(fieldKeyFo
 	switch strings.ToLower(catalogType) {
 	case strings.ToLower("GLUE"):
 		details := oci_golden_gate.GlueIcebergCatalogSummary{}
-		if glueId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "glue_id")); ok {
+		if glueId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "glue_id")); ok {
 			tmp := glueId.(string)
 			details.GlueId = &tmp
 		}
@@ -6135,45 +6856,45 @@ func (s *GoldenGateConnectionResourceCrud) mapToIcebergCatalogSummary(fieldKeyFo
 		baseObject = details
 	case strings.ToLower("NESSIE"):
 		details := oci_golden_gate.NessieIcebergCatalogSummary{}
-		if branch, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "branch")); ok {
+		if branch, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "branch")); ok {
 			tmp := branch.(string)
 			details.Branch = &tmp
 		}
-		if uri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
+		if uri, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
 			tmp := uri.(string)
 			details.Uri = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("POLARIS"):
 		details := oci_golden_gate.PolarisIcebergCatalogSummary{}
-		if clientId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_id")); ok {
+		if clientId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "client_id")); ok {
 			tmp := clientId.(string)
 			details.ClientId = &tmp
 		}
-		if clientSecretSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_secret_secret_id")); ok {
+		if clientSecretSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "client_secret_secret_id")); ok {
 			tmp := clientSecretSecretId.(string)
 			details.ClientSecretSecretId = &tmp
 		}
-		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		if name, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "name")); ok {
 			tmp := name.(string)
 			details.Name = &tmp
 		}
-		if principalRole, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "principal_role")); ok {
+		if principalRole, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "principal_role")); ok {
 			tmp := principalRole.(string)
 			details.PrincipalRole = &tmp
 		}
-		if uri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
+		if uri, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
 			tmp := uri.(string)
 			details.Uri = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("REST"):
 		details := oci_golden_gate.RestIcebergCatalogSummary{}
-		if propertiesSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
+		if propertiesSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
 			tmp := propertiesSecretId.(string)
 			details.PropertiesSecretId = &tmp
 		}
-		if uri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
+		if uri, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
 			tmp := uri.(string)
 			details.Uri = &tmp
 		}
@@ -6258,66 +6979,88 @@ func (s *GoldenGateConnectionResourceCrud) mapToIcebergStorage(fieldKeyFormat st
 	switch strings.ToLower(storageType) {
 	case strings.ToLower("AMAZON_S3"):
 		details := oci_golden_gate.AmazonS3IcebergStorage{}
-		if accessKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+		if accessKeyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
 			tmp := accessKeyId.(string)
 			details.AccessKeyId = &tmp
 		}
-		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
 			tmp := bucket.(string)
 			details.Bucket = &tmp
 		}
-		if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+		if endpoint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
 			tmp := endpoint.(string)
 			details.Endpoint = &tmp
 		}
-		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
 			tmp := region.(string)
 			details.Region = &tmp
 		}
-		if schemeType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scheme_type")); ok {
+		if schemeType, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "scheme_type")); ok {
 			details.SchemeType = oci_golden_gate.AmazonS3IcebergStorageSchemeTypeEnum(schemeType.(string))
 		}
-		if secretAccessKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+		if secretAccessKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
 			tmp := secretAccessKeySecretId.(string)
 			details.SecretAccessKeySecretId = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("AZURE_DATA_LAKE_STORAGE"):
 		details := oci_golden_gate.AzureDataLakeStorageIcebergStorage{}
-		if accountKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
+		if accountKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
 			tmp := accountKeySecretId.(string)
 			details.AccountKeySecretId = &tmp
 		}
-		if accountName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_name")); ok {
+		if accountName, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_name")); ok {
 			tmp := accountName.(string)
 			details.AccountName = &tmp
 		}
-		if container, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "container")); ok {
+		if container, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "container")); ok {
 			tmp := container.(string)
 			details.Container = &tmp
 		}
-		if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+		if endpoint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
 			tmp := endpoint.(string)
 			details.Endpoint = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("GOOGLE_CLOUD_STORAGE"):
 		details := oci_golden_gate.GoogleCloudStorageIcebergStorage{}
-		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
 			tmp := bucket.(string)
 			details.Bucket = &tmp
 		}
-		if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+		if endpoint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
 			tmp := endpoint.(string)
 			details.Endpoint = &tmp
 		}
-		if projectId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "project_id")); ok {
+		if projectId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "project_id")); ok {
 			tmp := projectId.(string)
 			details.ProjectId = &tmp
 		}
-		if serviceAccountKeyFileSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_account_key_file_secret_id")); ok {
+		if serviceAccountKeyFileSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "service_account_key_file_secret_id")); ok {
 			tmp := serviceAccountKeyFileSecretId.(string)
 			details.ServiceAccountKeyFileSecretId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("NONE"):
+		details := oci_golden_gate.NoIcebergStorage{}
+		baseObject = details
+	case strings.ToLower("OCI_OBJECT_STORAGE_S3_API"):
+		details := oci_golden_gate.OciObjectStorageS3ApiIcebergStorage{}
+		if accessKeyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := accessKeyId.(string)
+			details.AccessKeyId = &tmp
+		}
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if endpoint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+			tmp := endpoint.(string)
+			details.Endpoint = &tmp
+		}
+		if secretAccessKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+			tmp := secretAccessKeySecretId.(string)
+			details.SecretAccessKeySecretId = &tmp
 		}
 		baseObject = details
 	default:
@@ -6389,6 +7132,26 @@ func IcebergStorageToMap(obj *oci_golden_gate.IcebergStorage) map[string]interfa
 		if v.ServiceAccountKeyFileSecretId != nil {
 			result["service_account_key_file_secret_id"] = string(*v.ServiceAccountKeyFileSecretId)
 		}
+	case oci_golden_gate.NoIcebergStorage:
+		result["storage_type"] = "NONE"
+	case oci_golden_gate.OciObjectStorageS3ApiIcebergStorage:
+		result["storage_type"] = "OCI_OBJECT_STORAGE_S3_API"
+
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = string(*v.AccessKeyId)
+		}
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Endpoint != nil {
+			result["endpoint"] = string(*v.Endpoint)
+		}
+
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
+		}
 	default:
 		log.Printf("[WARN] Received 'storage_type' of unknown type %v", *obj)
 		return nil
@@ -6410,66 +7173,88 @@ func (s *GoldenGateConnectionResourceCrud) mapToIcebergStorageSummary(fieldKeyFo
 	switch strings.ToLower(storageType) {
 	case strings.ToLower("AMAZON_S3"):
 		details := oci_golden_gate.AmazonS3IcebergStorageSummary{}
-		if accessKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+		if accessKeyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
 			tmp := accessKeyId.(string)
 			details.AccessKeyId = &tmp
 		}
-		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
 			tmp := bucket.(string)
 			details.Bucket = &tmp
 		}
-		if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+		if endpoint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
 			tmp := endpoint.(string)
 			details.Endpoint = &tmp
 		}
-		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
 			tmp := region.(string)
 			details.Region = &tmp
 		}
-		if schemeType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scheme_type")); ok {
+		if schemeType, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "scheme_type")); ok {
 			details.SchemeType = oci_golden_gate.AmazonS3IcebergStorageSchemeTypeEnum(schemeType.(string))
 		}
-		if secretAccessKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+		if secretAccessKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
 			tmp := secretAccessKeySecretId.(string)
 			details.SecretAccessKeySecretId = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("AZURE_DATA_LAKE_STORAGE"):
 		details := oci_golden_gate.AzureDataLakeStorageIcebergStorageSummary{}
-		if accountKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
+		if accountKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
 			tmp := accountKeySecretId.(string)
 			details.AccountKeySecretId = &tmp
 		}
-		if accountName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_name")); ok {
+		if accountName, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_name")); ok {
 			tmp := accountName.(string)
 			details.AccountName = &tmp
 		}
-		if container, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "container")); ok {
+		if container, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "container")); ok {
 			tmp := container.(string)
 			details.Container = &tmp
 		}
-		if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+		if endpoint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
 			tmp := endpoint.(string)
 			details.Endpoint = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("GOOGLE_CLOUD_STORAGE"):
 		details := oci_golden_gate.GoogleCloudStorageIcebergStorageSummary{}
-		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
 			tmp := bucket.(string)
 			details.Bucket = &tmp
 		}
-		if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+		if endpoint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
 			tmp := endpoint.(string)
 			details.Endpoint = &tmp
 		}
-		if projectId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "project_id")); ok {
+		if projectId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "project_id")); ok {
 			tmp := projectId.(string)
 			details.ProjectId = &tmp
 		}
-		if serviceAccountKeyFileSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_account_key_file_secret_id")); ok {
+		if serviceAccountKeyFileSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "service_account_key_file_secret_id")); ok {
 			tmp := serviceAccountKeyFileSecretId.(string)
 			details.ServiceAccountKeyFileSecretId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("NONE"):
+		details := oci_golden_gate.NoIcebergStorageSummary{}
+		baseObject = details
+	case strings.ToLower("OCI_OBJECT_STORAGE_S3_API"):
+		details := oci_golden_gate.OciObjectStorageS3ApiIcebergStorageSummary{}
+		if accessKeyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := accessKeyId.(string)
+			details.AccessKeyId = &tmp
+		}
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if endpoint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+			tmp := endpoint.(string)
+			details.Endpoint = &tmp
+		}
+		if secretAccessKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+			tmp := secretAccessKeySecretId.(string)
+			details.SecretAccessKeySecretId = &tmp
 		}
 		baseObject = details
 	default:
@@ -6541,6 +7326,26 @@ func IcebergStorageSummaryToMap(obj *oci_golden_gate.IcebergStorageSummary) map[
 		if v.ServiceAccountKeyFileSecretId != nil {
 			result["service_account_key_file_secret_id"] = string(*v.ServiceAccountKeyFileSecretId)
 		}
+	case oci_golden_gate.NoIcebergStorageSummary:
+		result["storage_type"] = "NONE"
+	case oci_golden_gate.OciObjectStorageS3ApiIcebergStorageSummary:
+		result["storage_type"] = "OCI_OBJECT_STORAGE_S3_API"
+
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = string(*v.AccessKeyId)
+		}
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Endpoint != nil {
+			result["endpoint"] = string(*v.Endpoint)
+		}
+
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
+		}
 	default:
 		log.Printf("[WARN] Received 'storage_type' of unknown type %v", *obj)
 		return nil
@@ -6562,19 +7367,14 @@ func IngressIpDetailsToMap(obj oci_golden_gate.IngressIpDetails) map[string]inte
 func (s *GoldenGateConnectionResourceCrud) mapToKafkaBootstrapServer(fieldKeyFormat string) (oci_golden_gate.KafkaBootstrapServer, error) {
 	result := oci_golden_gate.KafkaBootstrapServer{}
 
-	if host, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "host")); ok {
+	if host, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "host")); ok {
 		tmp := host.(string)
 		result.Host = &tmp
 	}
 
-	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
+	if port, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "port")); ok {
 		tmp := port.(int)
 		result.Port = &tmp
-	}
-
-	if privateIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_ip")); ok {
-		tmp := privateIp.(string)
-		result.PrivateIp = &tmp
 	}
 
 	return result, nil
@@ -6601,12 +7401,12 @@ func KafkaBootstrapServerToMap(obj oci_golden_gate.KafkaBootstrapServer) map[str
 func (s *GoldenGateConnectionResourceCrud) mapToNameValuePair(fieldKeyFormat string) (oci_golden_gate.NameValuePair, error) {
 	result := oci_golden_gate.NameValuePair{}
 
-	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+	if name, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "name")); ok {
 		tmp := name.(string)
 		result.Name = &tmp
 	}
 
-	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+	if value, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "value")); ok {
 		tmp := value.(string)
 		result.Value = &tmp
 	}
@@ -6628,8 +7428,134 @@ func NameValuePairToMap(obj oci_golden_gate.NameValuePair) map[string]interface{
 	return result
 }
 
+func (s *GoldenGateConnectionResourceCrud) mapToUpdateAiModelAuthDetails(fieldKeyFormat string) (oci_golden_gate.UpdateAiModelAuthDetails, error) {
+	var baseObject oci_golden_gate.UpdateAiModelAuthDetails
+	useSecretIds := false
+	if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+		useSecretIds = doesUseSecretIds.(bool)
+	}
+	//discriminator
+	authTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auth_type"))
+	var authType string
+	if ok {
+		authType = authTypeRaw.(string)
+	} else {
+		authType = "" // default value
+	}
+	switch strings.ToLower(authType) {
+	case strings.ToLower("API_KEY"):
+		details := oci_golden_gate.UpdateApiKeyAiModelAuthDetails{}
+		if !useSecretIds {
+			if apiKey, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "api_key")); ok {
+				tmp := apiKey.(string)
+				details.ApiKey = &tmp
+			}
+		}
+		if useSecretIds {
+			if apiKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "api_key_secret_id")); ok {
+				tmp := apiKeySecretId.(string)
+				details.ApiKeySecretId = &tmp
+			}
+		}
+		if baseUrl, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "base_url")); ok {
+			tmp := baseUrl.(string)
+			details.BaseUrl = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OCI_GEN_AI"):
+		details := oci_golden_gate.UpdateOciGenAiModelAuthDetails{}
+		if !useSecretIds {
+			if apiKey, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "api_key")); ok {
+				tmp := apiKey.(string)
+				details.ApiKey = &tmp
+			}
+		}
+		if useSecretIds {
+			if apiKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "api_key_secret_id")); ok {
+				tmp := apiKeySecretId.(string)
+				details.ApiKeySecretId = &tmp
+			}
+		}
+		if keyFingerprint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "key_fingerprint")); ok {
+			tmp := keyFingerprint.(string)
+			details.KeyFingerprint = &tmp
+		}
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+			tmp := region.(string)
+			details.Region = &tmp
+		}
+		if tenancyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "tenancy_id")); ok {
+			tmp := tenancyId.(string)
+			details.TenancyId = &tmp
+		}
+		if userId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "user_id")); ok {
+			tmp := userId.(string)
+			details.UserId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown auth_type '%v' was specified", authType)
+	}
+	return baseObject, nil
+}
+
+func UpdateAiModelAuthDetailsToMap(obj *oci_golden_gate.UpdateAiModelAuthDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_golden_gate.UpdateApiKeyAiModelAuthDetails:
+		result["auth_type"] = "API_KEY"
+
+		if v.ApiKey != nil {
+			result["api_key"] = string(*v.ApiKey)
+		}
+
+		if v.ApiKeySecretId != nil {
+			result["api_key_secret_id"] = string(*v.ApiKeySecretId)
+		}
+
+		if v.BaseUrl != nil {
+			result["base_url"] = string(*v.BaseUrl)
+		}
+	case oci_golden_gate.UpdateOciGenAiModelAuthDetails:
+		result["auth_type"] = "OCI_GEN_AI"
+
+		if v.ApiKey != nil {
+			result["api_key"] = string(*v.ApiKey)
+		}
+
+		if v.ApiKeySecretId != nil {
+			result["api_key_secret_id"] = string(*v.ApiKeySecretId)
+		}
+
+		if v.KeyFingerprint != nil {
+			result["key_fingerprint"] = string(*v.KeyFingerprint)
+		}
+
+		if v.Region != nil {
+			result["region"] = string(*v.Region)
+		}
+
+		if v.TenancyId != nil {
+			result["tenancy_id"] = string(*v.TenancyId)
+		}
+
+		if v.UserId != nil {
+			result["user_id"] = string(*v.UserId)
+		}
+	default:
+		log.Printf("[WARN] Received 'auth_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *GoldenGateConnectionResourceCrud) mapToUpdateIcebergCatalogDetails(fieldKeyFormat string) (oci_golden_gate.UpdateIcebergCatalogDetails, error) {
 	var baseObject oci_golden_gate.UpdateIcebergCatalogDetails
+	useSecretIds := false
+	if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+		useSecretIds = doesUseSecretIds.(bool)
+	}
 	//discriminator
 	catalogTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "catalog_type"))
 	var catalogType string
@@ -6641,7 +7567,7 @@ func (s *GoldenGateConnectionResourceCrud) mapToUpdateIcebergCatalogDetails(fiel
 	switch strings.ToLower(catalogType) {
 	case strings.ToLower("GLUE"):
 		details := oci_golden_gate.UpdateGlueIcebergCatalogDetails{}
-		if glueId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "glue_id")); ok {
+		if glueId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "glue_id")); ok {
 			tmp := glueId.(string)
 			details.GlueId = &tmp
 		}
@@ -6651,53 +7577,61 @@ func (s *GoldenGateConnectionResourceCrud) mapToUpdateIcebergCatalogDetails(fiel
 		baseObject = details
 	case strings.ToLower("NESSIE"):
 		details := oci_golden_gate.UpdateNessieIcebergCatalogDetails{}
-		if branch, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "branch")); ok {
+		if branch, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "branch")); ok {
 			tmp := branch.(string)
 			details.Branch = &tmp
 		}
-		if uri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
+		if uri, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
 			tmp := uri.(string)
 			details.Uri = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("POLARIS"):
 		details := oci_golden_gate.UpdatePolarisIcebergCatalogDetails{}
-		if clientId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_id")); ok {
+		if clientId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "client_id")); ok {
 			tmp := clientId.(string)
 			details.ClientId = &tmp
 		}
-		if clientSecret, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_secret")); ok {
-			tmp := clientSecret.(string)
-			details.ClientSecret = &tmp
+		if !useSecretIds {
+			if clientSecret, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "client_secret")); ok {
+				tmp := clientSecret.(string)
+				details.ClientSecret = &tmp
+			}
 		}
-		if clientSecretSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_secret_secret_id")); ok {
-			tmp := clientSecretSecretId.(string)
-			details.ClientSecretSecretId = &tmp
+		if useSecretIds {
+			if clientSecretSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "client_secret_secret_id")); ok {
+				tmp := clientSecretSecretId.(string)
+				details.ClientSecretSecretId = &tmp
+			}
 		}
-		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		if name, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "name")); ok {
 			tmp := name.(string)
 			details.Name = &tmp
 		}
-		if principalRole, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "principal_role")); ok {
+		if principalRole, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "principal_role")); ok {
 			tmp := principalRole.(string)
 			details.PrincipalRole = &tmp
 		}
-		if uri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
+		if uri, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
 			tmp := uri.(string)
 			details.Uri = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("REST"):
 		details := oci_golden_gate.UpdateRestIcebergCatalogDetails{}
-		if properties, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "properties")); ok {
-			tmp := properties.(string)
-			details.Properties = &tmp
+		if !useSecretIds {
+			if properties, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties")); ok {
+				tmp := properties.(string)
+				details.Properties = &tmp
+			}
 		}
-		if propertiesSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
-			tmp := propertiesSecretId.(string)
-			details.PropertiesSecretId = &tmp
+		if useSecretIds {
+			if propertiesSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "properties_secret_id")); ok {
+				tmp := propertiesSecretId.(string)
+				details.PropertiesSecretId = &tmp
+			}
 		}
-		if uri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
+		if uri, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "uri")); ok {
 			tmp := uri.(string)
 			details.Uri = &tmp
 		}
@@ -6779,6 +7713,10 @@ func UpdateIcebergCatalogDetailsToMap(obj *oci_golden_gate.UpdateIcebergCatalogD
 
 func (s *GoldenGateConnectionResourceCrud) mapToUpdateIcebergStorageDetails(fieldKeyFormat string) (oci_golden_gate.UpdateIcebergStorageDetails, error) {
 	var baseObject oci_golden_gate.UpdateIcebergStorageDetails
+	useSecretIds := false
+	if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+		useSecretIds = doesUseSecretIds.(bool)
+	}
 	//discriminator
 	storageTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "storage_type"))
 	var storageType string
@@ -6790,78 +7728,120 @@ func (s *GoldenGateConnectionResourceCrud) mapToUpdateIcebergStorageDetails(fiel
 	switch strings.ToLower(storageType) {
 	case strings.ToLower("AMAZON_S3"):
 		details := oci_golden_gate.UpdateAmazonS3IcebergStorageDetails{}
-		if accessKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+		if accessKeyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
 			tmp := accessKeyId.(string)
 			details.AccessKeyId = &tmp
 		}
-		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
 			tmp := bucket.(string)
 			details.Bucket = &tmp
 		}
-		if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+		if endpoint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
 			tmp := endpoint.(string)
 			details.Endpoint = &tmp
 		}
-		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+		if region, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "region")); ok {
 			tmp := region.(string)
 			details.Region = &tmp
 		}
-		if schemeType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scheme_type")); ok {
+		if schemeType, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "scheme_type")); ok {
 			details.SchemeType = oci_golden_gate.AmazonS3IcebergStorageSchemeTypeEnum(schemeType.(string))
 		}
-		if secretAccessKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
-			tmp := secretAccessKey.(string)
-			details.SecretAccessKey = &tmp
+		if !useSecretIds {
+			if secretAccessKey, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
+				tmp := secretAccessKey.(string)
+				details.SecretAccessKey = &tmp
+			}
 		}
-		if secretAccessKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
-			tmp := secretAccessKeySecretId.(string)
-			details.SecretAccessKeySecretId = &tmp
+		if useSecretIds {
+			if secretAccessKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+				tmp := secretAccessKeySecretId.(string)
+				details.SecretAccessKeySecretId = &tmp
+			}
 		}
 		baseObject = details
 	case strings.ToLower("AZURE_DATA_LAKE_STORAGE"):
 		details := oci_golden_gate.UpdateAzureDataLakeStorageIcebergStorageDetails{}
-		if accountKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_key")); ok {
-			tmp := accountKey.(string)
-			details.AccountKey = &tmp
+		if !useSecretIds {
+			if accountKey, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_key")); ok {
+				tmp := accountKey.(string)
+				details.AccountKey = &tmp
+			}
 		}
-		if accountKeySecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
-			tmp := accountKeySecretId.(string)
-			details.AccountKeySecretId = &tmp
+		if useSecretIds {
+			if accountKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_key_secret_id")); ok {
+				tmp := accountKeySecretId.(string)
+				details.AccountKeySecretId = &tmp
+			}
 		}
-		if accountName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "account_name")); ok {
+		if accountName, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "account_name")); ok {
 			tmp := accountName.(string)
 			details.AccountName = &tmp
 		}
-		if container, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "container")); ok {
+		if container, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "container")); ok {
 			tmp := container.(string)
 			details.Container = &tmp
 		}
-		if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+		if endpoint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
 			tmp := endpoint.(string)
 			details.Endpoint = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("GOOGLE_CLOUD_STORAGE"):
 		details := oci_golden_gate.UpdateGoogleCloudStorageIcebergStorageDetails{}
-		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
 			tmp := bucket.(string)
 			details.Bucket = &tmp
 		}
-		if endpoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+		if endpoint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
 			tmp := endpoint.(string)
 			details.Endpoint = &tmp
 		}
-		if projectId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "project_id")); ok {
+		if projectId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "project_id")); ok {
 			tmp := projectId.(string)
 			details.ProjectId = &tmp
 		}
-		if serviceAccountKeyFile, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_account_key_file")); ok {
-			tmp := serviceAccountKeyFile.(string)
-			details.ServiceAccountKeyFile = &tmp
+		if !useSecretIds {
+			if serviceAccountKeyFile, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "service_account_key_file")); ok {
+				tmp := serviceAccountKeyFile.(string)
+				details.ServiceAccountKeyFile = &tmp
+			}
 		}
-		if serviceAccountKeyFileSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_account_key_file_secret_id")); ok {
-			tmp := serviceAccountKeyFileSecretId.(string)
-			details.ServiceAccountKeyFileSecretId = &tmp
+		if useSecretIds {
+			if serviceAccountKeyFileSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "service_account_key_file_secret_id")); ok {
+				tmp := serviceAccountKeyFileSecretId.(string)
+				details.ServiceAccountKeyFileSecretId = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("NONE"):
+		details := oci_golden_gate.UpdateNoIcebergStorageDetails{}
+		baseObject = details
+	case strings.ToLower("OCI_OBJECT_STORAGE_S3_API"):
+		details := oci_golden_gate.UpdateOciObjectStorageS3ApiIcebergStorageDetails{}
+		if accessKeyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "access_key_id")); ok {
+			tmp := accessKeyId.(string)
+			details.AccessKeyId = &tmp
+		}
+		if bucket, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if endpoint, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "endpoint")); ok {
+			tmp := endpoint.(string)
+			details.Endpoint = &tmp
+		}
+		if !useSecretIds {
+			if secretAccessKey, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key")); ok {
+				tmp := secretAccessKey.(string)
+				details.SecretAccessKey = &tmp
+			}
+		}
+		if useSecretIds {
+			if secretAccessKeySecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "secret_access_key_secret_id")); ok {
+				tmp := secretAccessKeySecretId.(string)
+				details.SecretAccessKeySecretId = &tmp
+			}
 		}
 		baseObject = details
 	default:
@@ -6945,6 +7925,30 @@ func UpdateIcebergStorageDetailsToMap(obj *oci_golden_gate.UpdateIcebergStorageD
 		if v.ServiceAccountKeyFileSecretId != nil {
 			result["service_account_key_file_secret_id"] = string(*v.ServiceAccountKeyFileSecretId)
 		}
+	case oci_golden_gate.UpdateNoIcebergStorageDetails:
+		result["storage_type"] = "NONE"
+	case oci_golden_gate.UpdateOciObjectStorageS3ApiIcebergStorageDetails:
+		result["storage_type"] = "OCI_OBJECT_STORAGE_S3_API"
+
+		if v.AccessKeyId != nil {
+			result["access_key_id"] = string(*v.AccessKeyId)
+		}
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Endpoint != nil {
+			result["endpoint"] = string(*v.Endpoint)
+		}
+
+		if v.SecretAccessKey != nil {
+			result["secret_access_key"] = string(*v.SecretAccessKey)
+		}
+
+		if v.SecretAccessKeySecretId != nil {
+			result["secret_access_key_secret_id"] = string(*v.SecretAccessKeySecretId)
+		}
 	default:
 		log.Printf("[WARN] Received 'storage_type' of unknown type %v", *obj)
 		return nil
@@ -6963,6 +7967,117 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		connectionType = "" // default value
 	}
 	switch strings.ToLower(connectionType) {
+	case strings.ToLower("AI_MODEL"):
+		details := oci_golden_gate.CreateAiModelConnectionDetails{}
+		if authDetails, ok := s.D.GetOkExists("auth_details"); ok {
+			if tmpList := authDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "auth_details", 0)
+				tmp, err := s.mapToCreateAiModelAuthDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.AuthDetails = tmp
+			}
+		}
+		if maxInputChars, ok := s.D.GetOkExists("max_input_chars"); ok {
+			tmp := maxInputChars.(int)
+			details.MaxInputChars = &tmp
+		}
+		if modelKey, ok := s.D.GetOkExists("model_key"); ok {
+			tmp := modelKey.(string)
+			details.ModelKey = &tmp
+		}
+		if providerType, ok := s.D.GetOkExists("provider_type"); ok {
+			details.ProviderType = oci_golden_gate.CreateAiModelConnectionDetailsProviderTypeEnum(providerType.(string))
+		}
+		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
+			details.TechnologyType = oci_golden_gate.AiModelConnectionTechnologyTypeEnum(technologyType.(string))
+		}
+		if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+			tmp := clusterPlacementGroupId.(string)
+			details.ClusterPlacementGroupId = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+			tmp := doesUseSecretIds.(bool)
+			details.DoesUseSecretIds = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if keyId, ok := s.D.GetOkExists("key_id"); ok {
+			tmp := keyId.(string)
+			details.KeyId = &tmp
+		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
+		}
+		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
+			details.TechnologyType = oci_golden_gate.AiModelConnectionTechnologyTypeEnum(technologyType.(string))
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		request.CreateConnectionDetails = details
 	case strings.ToLower("AMAZON_KINESIS"):
 		details := oci_golden_gate.CreateAmazonKinesisConnectionDetails{}
 		if accessKeyId, ok := s.D.GetOkExists("access_key_id"); ok {
@@ -7637,7 +8752,7 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		request.CreateConnectionDetails = details
 	case strings.ToLower("DB2"):
 		details := oci_golden_gate.CreateDb2ConnectionDetails{}
-		if additionalAttributes, ok := s.D.GetOkExists("additional_attributes"); ok {
+		if additionalAttributes, ok := s.D.GetOk("additional_attributes"); ok {
 			interfaces := additionalAttributes.([]interface{})
 			tmp := make([]oci_golden_gate.NameValuePair, len(interfaces))
 			for i := range interfaces {
@@ -8777,7 +9892,7 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		request.CreateConnectionDetails = details
 	case strings.ToLower("KAFKA"):
 		details := oci_golden_gate.CreateKafkaConnectionDetails{}
-		if bootstrapServers, ok := s.D.GetOkExists("bootstrap_servers"); ok {
+		if bootstrapServers, ok := s.D.GetOk("bootstrap_servers"); ok {
 			interfaces := bootstrapServers.([]interface{})
 			tmp := make([]oci_golden_gate.CreateKafkaBootstrapServer, len(interfaces))
 			for i := range interfaces {
@@ -9208,7 +10323,7 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		request.CreateConnectionDetails = details
 	case strings.ToLower("MICROSOFT_SQLSERVER"):
 		details := oci_golden_gate.CreateMicrosoftSqlserverConnectionDetails{}
-		if additionalAttributes, ok := s.D.GetOkExists("additional_attributes"); ok {
+		if additionalAttributes, ok := s.D.GetOk("additional_attributes"); ok {
 			interfaces := additionalAttributes.([]interface{})
 			tmp := make([]oci_golden_gate.NameValuePair, len(interfaces))
 			for i := range interfaces {
@@ -9476,7 +10591,7 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		request.CreateConnectionDetails = details
 	case strings.ToLower("MYSQL"):
 		details := oci_golden_gate.CreateMysqlConnectionDetails{}
-		if additionalAttributes, ok := s.D.GetOkExists("additional_attributes"); ok {
+		if additionalAttributes, ok := s.D.GetOk("additional_attributes"); ok {
 			interfaces := additionalAttributes.([]interface{})
 			tmp := make([]oci_golden_gate.NameValuePair, len(interfaces))
 			for i := range interfaces {
@@ -10122,7 +11237,7 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		request.CreateConnectionDetails = details
 	case strings.ToLower("POSTGRESQL"):
 		details := oci_golden_gate.CreatePostgresqlConnectionDetails{}
-		if additionalAttributes, ok := s.D.GetOkExists("additional_attributes"); ok {
+		if additionalAttributes, ok := s.D.GetOk("additional_attributes"); ok {
 			interfaces := additionalAttributes.([]interface{})
 			tmp := make([]oci_golden_gate.NameValuePair, len(interfaces))
 			for i := range interfaces {
@@ -10561,6 +11676,86 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		connectionType = "" // default value
 	}
 	switch strings.ToLower(connectionType) {
+	case strings.ToLower("AI_MODEL"):
+		details := oci_golden_gate.UpdateAiModelConnectionDetails{}
+		if authDetails, ok := s.D.GetOkExists("auth_details"); ok {
+			if tmpList := authDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "auth_details", 0)
+				tmp, err := s.mapToUpdateAiModelAuthDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.AuthDetails = tmp
+			}
+		}
+		if maxInputChars, ok := s.D.GetOkExists("max_input_chars"); ok {
+			tmp := maxInputChars.(int)
+			details.MaxInputChars = &tmp
+		}
+		if modelKey, ok := s.D.GetOkExists("model_key"); ok {
+			tmp := modelKey.(string)
+			details.ModelKey = &tmp
+		}
+		tmp := s.D.Id()
+		request.ConnectionId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if doesUseSecretIds, ok := s.D.GetOkExists("does_use_secret_ids"); ok {
+			tmp := doesUseSecretIds.(bool)
+			details.DoesUseSecretIds = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
+		if keyId, ok := s.D.GetOkExists("key_id"); ok {
+			tmp := keyId.(string)
+			details.KeyId = &tmp
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		request.UpdateConnectionDetails = details
 	case strings.ToLower("AMAZON_KINESIS"):
 		details := oci_golden_gate.UpdateAmazonKinesisConnectionDetails{}
 		if accessKeyId, ok := s.D.GetOkExists("access_key_id"); ok {
@@ -11085,7 +12280,7 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		request.UpdateConnectionDetails = details
 	case strings.ToLower("DB2"):
 		details := oci_golden_gate.UpdateDb2ConnectionDetails{}
-		if additionalAttributes, ok := s.D.GetOkExists("additional_attributes"); ok {
+		if additionalAttributes, ok := s.D.GetOk("additional_attributes"); ok {
 			interfaces := additionalAttributes.([]interface{})
 			tmp := make([]oci_golden_gate.NameValuePair, len(interfaces))
 			for i := range interfaces {
@@ -11973,7 +13168,7 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		request.UpdateConnectionDetails = details
 	case strings.ToLower("KAFKA"):
 		details := oci_golden_gate.UpdateKafkaConnectionDetails{}
-		if bootstrapServers, ok := s.D.GetOkExists("bootstrap_servers"); ok {
+		if bootstrapServers, ok := s.D.GetOk("bootstrap_servers"); ok {
 			interfaces := bootstrapServers.([]interface{})
 			tmp := make([]oci_golden_gate.KafkaBootstrapServer, len(interfaces))
 			for i := range interfaces {
@@ -12329,7 +13524,7 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		request.UpdateConnectionDetails = details
 	case strings.ToLower("MICROSOFT_SQLSERVER"):
 		details := oci_golden_gate.UpdateMicrosoftSqlserverConnectionDetails{}
-		if additionalAttributes, ok := s.D.GetOkExists("additional_attributes"); ok {
+		if additionalAttributes, ok := s.D.GetOk("additional_attributes"); ok {
 			interfaces := additionalAttributes.([]interface{})
 			tmp := make([]oci_golden_gate.NameValuePair, len(interfaces))
 			for i := range interfaces {
@@ -12547,7 +13742,7 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		request.UpdateConnectionDetails = details
 	case strings.ToLower("MYSQL"):
 		details := oci_golden_gate.UpdateMysqlConnectionDetails{}
-		if additionalAttributes, ok := s.D.GetOkExists("additional_attributes"); ok {
+		if additionalAttributes, ok := s.D.GetOk("additional_attributes"); ok {
 			interfaces := additionalAttributes.([]interface{})
 			tmp := make([]oci_golden_gate.NameValuePair, len(interfaces))
 			for i := range interfaces {
@@ -13065,7 +14260,7 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		request.UpdateConnectionDetails = details
 	case strings.ToLower("POSTGRESQL"):
 		details := oci_golden_gate.UpdatePostgresqlConnectionDetails{}
-		if additionalAttributes, ok := s.D.GetOkExists("additional_attributes"); ok {
+		if additionalAttributes, ok := s.D.GetOk("additional_attributes"); ok {
 			interfaces := additionalAttributes.([]interface{})
 			tmp := make([]oci_golden_gate.NameValuePair, len(interfaces))
 			for i := range interfaces {

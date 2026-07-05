@@ -60,6 +60,10 @@ func GoldenGateConnectionAssignmentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"connection_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -314,6 +318,8 @@ func (s *GoldenGateConnectionAssignmentResourceCrud) SetData() error {
 		s.D.Set("connection_id", *s.Res.ConnectionId)
 	}
 
+	s.D.Set("connection_type", s.Res.ConnectionType)
+
 	if s.Res.DeploymentId != nil {
 		s.D.Set("deployment_id", *s.Res.DeploymentId)
 	}
@@ -345,6 +351,8 @@ func ConnectionAssignmentSummaryToMap(obj oci_golden_gate.ConnectionAssignmentSu
 	if obj.ConnectionId != nil {
 		result["connection_id"] = string(*obj.ConnectionId)
 	}
+
+	result["connection_type"] = string(obj.ConnectionType)
 
 	if obj.DeploymentId != nil {
 		result["deployment_id"] = string(*obj.DeploymentId)

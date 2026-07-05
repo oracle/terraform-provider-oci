@@ -86,6 +86,7 @@ var exportGoldenGateConnectionHints = &tf_export.TerraformResourceHints{
 	RequireResourceRefresh: true,
 	DiscoverableLifecycleStates: []string{
 		string(oci_golden_gate.ConnectionLifecycleStateActive),
+		string(oci_golden_gate.ConnectionLifecycleStateNeedsAttention),
 	},
 }
 

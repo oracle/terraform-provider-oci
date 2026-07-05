@@ -40,15 +40,18 @@ var (
 		"connection_assignment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_golden_gate_connection_assignment.test_connection_assignment.id}`},
 	}
 
-	GoldenGateGoldenGateConnectionAssignmentDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"connection_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.connection_id}`},
-		"deployment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.deployment_id}`},
-		"name":           acctest.Representation{RepType: acctest.Optional, Create: `name`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: GoldenGateConnectionAssignmentDataSourceFilterRepresentation}}
+	GoldenGateGoldenGateConnectionAssignmentDataSourceRepresentationByConnectionType = map[string]interface{}{
+		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"connection_type": acctest.Representation{RepType: acctest.Optional, Create: []string{`ORACLE`}},
+		"deployment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.deployment_id}`},
+		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: GoldenGateConnectionAssignmentDataSourceFilterRepresentation}}
+	GoldenGateGoldenGateConnectionAssignmentDataSourceRepresentationByConnectionTypeNotEqualTo = map[string]interface{}{
+		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"connection_type_not_equal_to": acctest.Representation{RepType: acctest.Optional, Create: []string{`AI_MODEL`}},
+		"deployment_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.deployment_id}`},
+		"filter":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: GoldenGateConnectionAssignmentDataSourceFilterRepresentation}}
 	GoldenGateConnectionAssignmentDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   acctest.Representation{RepType: acctest.Required, Create: `name`},
+		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_golden_gate_connection_assignment.test_connection_assignment.id}`}},
 	}
 
@@ -75,11 +78,11 @@ func TestGoldenGateConnectionAssignmentResource_basic(t *testing.T) {
 		makeVariableStr(CONNECTION_ID, t)
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_id")
-	connectionId := utils.GetEnvSettingWithBlankDefault("connection_id")
 	deploymentId := utils.GetEnvSettingWithBlankDefault("deployment_ocid")
 
 	resourceName := "oci_golden_gate_connection_assignment.test_connection_assignment"
-	datasourceName := "data.oci_golden_gate_connection_assignments.test_connection_assignments"
+	datasourceNameByConnectionType := "data.oci_golden_gate_connection_assignments.test_connection_assignments_by_connection_type"
+	datasourceNameByConnectionTypeNotEqualTo := "data.oci_golden_gate_connection_assignments.test_connection_assignments_by_connection_type_not_equal_to"
 	singularDatasourceName := "data.oci_golden_gate_connection_assignment.test_connection_assignment"
 
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
@@ -107,17 +110,17 @@ func TestGoldenGateConnectionAssignmentResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_connection_assignments", "test_connection_assignments", acctest.Optional, acctest.Update, GoldenGateGoldenGateConnectionAssignmentDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_connection_assignments", "test_connection_assignments_by_connection_type", acctest.Optional, acctest.Update, GoldenGateGoldenGateConnectionAssignmentDataSourceRepresentationByConnectionType) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_connection_assignments", "test_connection_assignments_by_connection_type_not_equal_to", acctest.Optional, acctest.Update, GoldenGateGoldenGateConnectionAssignmentDataSourceRepresentationByConnectionTypeNotEqualTo) +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection_assignment", "test_connection_assignment", acctest.Optional, acctest.Update, GoldenGateConnectionAssignmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "connection_id", connectionId),
-				resource.TestCheckResourceAttr(datasourceName, "deployment_id", deploymentId),
-				resource.TestCheckResourceAttr(datasourceName, "name", "name"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceNameByConnectionType, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceNameByConnectionType, "connection_type.#", "1"),
+				resource.TestCheckResourceAttr(datasourceNameByConnectionType, "deployment_id", deploymentId),
 
-				resource.TestCheckResourceAttr(datasourceName, "connection_assignment_collection.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "connection_assignment_collection.0.items.#", "0"),
+				resource.TestCheckResourceAttr(datasourceNameByConnectionTypeNotEqualTo, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceNameByConnectionTypeNotEqualTo, "connection_type_not_equal_to.#", "1"),
+				resource.TestCheckResourceAttr(datasourceNameByConnectionTypeNotEqualTo, "deployment_id", deploymentId),
 			),
 		},
 		// verify singular datasource
@@ -129,6 +132,7 @@ func TestGoldenGateConnectionAssignmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_assignment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "alias_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

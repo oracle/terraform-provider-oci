@@ -43,6 +43,13 @@ func GoldenGateConnectionsDataSource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"connection_type_not_equal_to": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -135,6 +142,19 @@ func (s *GoldenGateConnectionsDataSourceCrud) GetWithContext(ctx context.Context
 		}
 		if len(tmp) != 0 || s.D.HasChange("connection_type") {
 			request.ConnectionType = tmp
+		}
+	}
+
+	if connectionTypeNotEqualTo, ok := s.D.GetOkExists("connection_type_not_equal_to"); ok {
+		interfaces := connectionTypeNotEqualTo.([]interface{})
+		tmp := make([]oci_golden_gate.ConnectionTypeEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_golden_gate.ConnectionTypeEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("connection_type_not_equal_to") {
+			request.ConnectionTypeNotEqualTo = tmp
 		}
 	}
 
