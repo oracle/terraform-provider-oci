@@ -60,6 +60,39 @@ func ImportDefaultVcnResource(d *schema.ResourceData, value interface{}) ([]*sch
 	return []*schema.ResourceData{d}, err
 }
 
+// This applies the differences between the regular DRG route table schema and
+// the one we supply for default DRG route table management resources.
+func ConvertToDefaultDrgRouteTableSchema(resourceSchema *schema.Resource) *schema.Resource {
+	if resourceSchema == nil {
+		return nil
+	}
+
+	resourceSchema.Importer = &schema.ResourceImporter{
+		State: ImportDefaultDrgRouteTableResource,
+	}
+
+	resourceSchema.Schema["manage_default_resource_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+		ForceNew: true,
+	}
+
+	resourceSchema.Schema["compartment_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Optional: true,
+		Computed: true,
+	}
+
+	delete(resourceSchema.Schema, "drg_id")
+
+	return resourceSchema
+}
+
+func ImportDefaultDrgRouteTableResource(d *schema.ResourceData, value interface{}) ([]*schema.ResourceData, error) {
+	err := d.Set("manage_default_resource_id", d.Id())
+	return []*schema.ResourceData{d}, err
+}
+
 // validateCoreWorkRequestStatus is intentionally scoped to Core VCN/Subnet
 // callers. For these Core work requests, the top-level status is authoritative
 // when it disagrees with a matching resource action that still reports

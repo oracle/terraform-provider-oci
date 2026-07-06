@@ -19,6 +19,7 @@ func init() {
 	exportCoreBootVolumeHints.ProcessDiscoveredResourcesFn = filterSourcedBootVolumes
 	exportCoreCrossConnectGroupHints.DiscoverableLifecycleStates = append(exportCoreCrossConnectGroupHints.DiscoverableLifecycleStates, string(oci_core.CrossConnectGroupLifecycleStateInactive))
 	exportCoreDhcpOptionsHints.ProcessDiscoveredResourcesFn = processDefaultDhcpOptions
+	exportCoreDrgHints.ProcessDiscoveredResourcesFn = processCoreDrgs
 	exportCoreImageHints.ProcessDiscoveredResourcesFn = filterCustomImages
 
 	exportCoreInstanceHints.DiscoverableLifecycleStates = append(exportCoreInstanceHints.DiscoverableLifecycleStates, string(oci_core.InstanceLifecycleStateStopped))
@@ -162,6 +163,38 @@ func processCoreVcns(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_ex
 	return resources, nil
 }
 
+func processCoreDrgs(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_export.OCIResource) ([]*tf_export.OCIResource, error) {
+	for _, resource := range resources {
+		defaultDrgRouteTables, exists := resource.SourceAttributes["default_drg_route_tables"]
+		if !exists {
+			continue
+		}
+
+		defaultDrgRouteTableList, ok := defaultDrgRouteTables.([]interface{})
+		if !ok || len(defaultDrgRouteTableList) == 0 {
+			continue
+		}
+
+		defaultDrgRouteTableMap, ok := defaultDrgRouteTableList[0].(map[string]interface{})
+		if !ok {
+			continue
+		}
+
+		for fieldName, fieldValue := range defaultDrgRouteTableMap {
+			defaultRouteTableID, ok := fieldValue.(string)
+			if !ok || defaultRouteTableID == "" {
+				continue
+			}
+
+			tf_export.RefMapLock.Lock()
+			tf_export.ReferenceMap[defaultRouteTableID] = tf_export.TfHclVersionvar.GetDoubleExpHclString(resource.GetTerraformReference(), fmt.Sprintf("default_drg_route_tables[0].%s", fieldName))
+			tf_export.RefMapLock.Unlock()
+		}
+	}
+
+	return resources, nil
+}
+
 func processDefaultSecurityLists(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_export.OCIResource) ([]*tf_export.OCIResource, error) {
 	// Default security lists need to be handled as default resources
 	for _, resource := range resources {
@@ -211,6 +244,51 @@ func processDefaultRouteTables(ctx *tf_export.ResourceDiscoveryContext, resource
 			}
 		}
 	}
+	return resources, nil
+}
+
+func processDefaultDrgRouteTables(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_export.OCIResource) ([]*tf_export.OCIResource, error) {
+	for _, resource := range resources {
+		if resource.SourceAttributes["drg_id"] == nil {
+			continue
+		}
+
+		drgID := resource.SourceAttributes["drg_id"].(string)
+		request := oci_core.GetDrgRequest{}
+		request.DrgId = &drgID
+
+		response, err := ctx.Clients.VirtualNetworkClient().GetDrg(context.Background(), request)
+		if err != nil {
+			return resources, err
+		}
+
+		defaultDrgRouteTables := response.Drg.DefaultDrgRouteTables
+		if defaultDrgRouteTables == nil {
+			continue
+		}
+
+		defaultIDs := []*string{
+			defaultDrgRouteTables.IpsecTunnel,
+			defaultDrgRouteTables.RemotePeeringConnection,
+			defaultDrgRouteTables.Vcn,
+			defaultDrgRouteTables.VirtualCircuit,
+		}
+
+		for _, defaultID := range defaultIDs {
+			if defaultID == nil || resource.Id != *defaultID {
+				continue
+			}
+
+			resource.SourceAttributes["manage_default_resource_id"] = resource.Id
+			resource.TerraformResource.TerraformClass = "oci_core_default_drg_route_table"
+
+			if referenceVal, exists := tf_export.ReferenceMap[resource.Id]; exists {
+				resource.TerraformResource.TerraformReferenceIdString = referenceVal
+			}
+			break
+		}
+	}
+
 	return resources, nil
 }
 
@@ -860,10 +938,11 @@ var exportCoreIpv6Hints = &tf_export.TerraformResourceHints{
 }
 
 var exportCoreDrgRouteTableHints = &tf_export.TerraformResourceHints{
-	ResourceClass:        "oci_core_drg_route_table",
-	DatasourceClass:      "oci_core_drg_route_tables",
-	DatasourceItemsAttr:  "drg_route_tables",
-	ResourceAbbreviation: "drg_route_table",
+	ResourceClass:                "oci_core_drg_route_table",
+	DatasourceClass:              "oci_core_drg_route_tables",
+	DatasourceItemsAttr:          "drg_route_tables",
+	ResourceAbbreviation:         "drg_route_table",
+	ProcessDiscoveredResourcesFn: processDefaultDrgRouteTables,
 	DiscoverableLifecycleStates: []string{
 		string(oci_core.DrgRouteTableLifecycleStateAvailable),
 	},

@@ -337,7 +337,7 @@ func (s *CoreDrgRouteTableResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
-	if s.Res.DrgId != nil {
+	if _, ok := s.D.GetOk("manage_default_resource_id"); !ok && s.Res.DrgId != nil {
 		s.D.Set("drg_id", *s.Res.DrgId)
 	}
 

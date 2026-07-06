@@ -62,6 +62,14 @@ var (
 		"remove_import_trigger": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
+	CoreDefaultDrgRouteTableRepresentation = map[string]interface{}{
+		"manage_default_resource_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg.test_drg.default_drg_route_tables[0].vcn}`},
+		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
+		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `defaultDisplayName`, Update: `updatedDefaultDisplayName`},
+		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_ecmp_enabled":            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+	}
+
 	CoreDrgRouteTableResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_distribution", "test_drg_route_distribution", acctest.Required, acctest.Create, CoreDrgRouteDistributionRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Required, acctest.Create, CoreDrgRepresentation) +
 		DefinedTagsDependencies
@@ -277,6 +285,98 @@ func testAccCheckCoreDrgRouteTableDestroy(s *terraform.State) error {
 	}
 
 	return nil
+}
+
+// issue-routing-tag: core/pnp
+func TestCoreDefaultDrgRouteTableResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestCoreDefaultDrgRouteTableResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_default_drg_route_table.test_default_drg_route_table"
+
+	var resID, updatedResID string
+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreDrgRouteTableResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_default_drg_route_table", "test_default_drg_route_table", acctest.Optional, acctest.Create, CoreDefaultDrgRouteTableRepresentation), "core", "defaultDrgRouteTable", t)
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		{
+			Config: config + compartmentIdVariableStr + CoreDrgRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_default_drg_route_table", "test_default_drg_route_table", acctest.Required, acctest.Create, CoreDefaultDrgRouteTableRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "manage_default_resource_id"),
+				resource.TestCheckNoResourceAttr(resourceName, "drg_id"),
+				resource.TestCheckResourceAttr(resourceName, "is_ecmp_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+
+				func(s *terraform.State) (err error) {
+					resID, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + CoreDrgRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_default_drg_route_table", "test_default_drg_route_table", acctest.Optional, acctest.Create, CoreDefaultDrgRouteTableRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "defaultDisplayName"),
+				resource.TestCheckNoResourceAttr(resourceName, "drg_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_ecmp_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "manage_default_resource_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + CoreDrgRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_default_drg_route_table", "test_default_drg_route_table", acctest.Optional, acctest.Update, CoreDefaultDrgRouteTableRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "display_name", "updatedDefaultDisplayName"),
+				resource.TestCheckNoResourceAttr(resourceName, "drg_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "is_ecmp_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "manage_default_resource_id"),
+
+				func(s *terraform.State) (err error) {
+					updatedResID, err = acctest.FromInstanceState(s, resourceName, "id")
+					if err != nil {
+						return err
+					}
+					if resID != updatedResID {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return nil
+				},
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + CoreDrgRouteTableResourceDependencies,
+		},
+		{
+			Config: config + compartmentIdVariableStr + CoreDrgRouteTableResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_default_drg_route_table", "test_default_drg_route_table", acctest.Required, acctest.Create, CoreDefaultDrgRouteTableRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "manage_default_resource_id"),
+				resource.TestCheckNoResourceAttr(resourceName, "drg_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+			),
+		},
+		{
+			Config:                  config + compartmentIdVariableStr + CoreDrgRouteTableResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_core_default_drg_route_table", "test_default_drg_route_table", acctest.Required, acctest.Create, CoreDefaultDrgRouteTableRepresentation),
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
+		},
+	})
 }
 
 func init() {
