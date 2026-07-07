@@ -26,7 +26,7 @@ install_go_ol9: GOBIN = /usr/local/sbin
 install_go_ol9:
 	# Install Golang and required tool on build service instance
 	@echo "Installing Golang using command dnf install go-toolset"
-	dnf install go-toolset-1.23.*
+	dnf install go-toolset-1.25.*
 	go version
 	@if [ ! -d "$(GOBIN)" ]; then \
 		mkdir -p "$(GOBIN)"; \
