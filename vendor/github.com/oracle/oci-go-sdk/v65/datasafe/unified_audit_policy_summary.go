@@ -54,12 +54,6 @@ type UnifiedAuditPolicySummary struct {
 	// Indicates the users for which the unified audit policy is enabled.
 	EnabledEntities UnifiedAuditPolicyEnabledEntitiesEnum `mandatory:"false" json:"enabledEntities,omitempty"`
 
-	// Indicates whether the unified audit policy overrides the enabled conditions on the target database during deployment.
-	// When set to YES, This overrides both the enabled conditions and the status (enabled/disabled) on the target during security policy deployment.
-	// If the same unified audit policy definition is referenced by another unified audit policy under a different security policy,
-	// this value also takes precedence and overrides its enabled conditions if both are deployed on the same target database.
-	OverrideTargetEnabledConditions UnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnum `mandatory:"false" json:"overrideTargetEnabledConditions,omitempty"`
-
 	// The last date and time the unified audit policy was updated, in the format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
@@ -95,53 +89,8 @@ func (m UnifiedAuditPolicySummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingUnifiedAuditPolicyEnabledEntitiesEnum(string(m.EnabledEntities)); !ok && m.EnabledEntities != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnabledEntities: %s. Supported values are: %s.", m.EnabledEntities, strings.Join(GetUnifiedAuditPolicyEnabledEntitiesEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingUnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnum(string(m.OverrideTargetEnabledConditions)); !ok && m.OverrideTargetEnabledConditions != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OverrideTargetEnabledConditions: %s. Supported values are: %s.", m.OverrideTargetEnabledConditions, strings.Join(GetUnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// UnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnum Enum with underlying type: string
-type UnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnum string
-
-// Set of constants representing the allowable values for UnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnum
-const (
-	UnifiedAuditPolicySummaryOverrideTargetEnabledConditionsYes UnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnum = "YES"
-	UnifiedAuditPolicySummaryOverrideTargetEnabledConditionsNo  UnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnum = "NO"
-)
-
-var mappingUnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnum = map[string]UnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnum{
-	"YES": UnifiedAuditPolicySummaryOverrideTargetEnabledConditionsYes,
-	"NO":  UnifiedAuditPolicySummaryOverrideTargetEnabledConditionsNo,
-}
-
-var mappingUnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnumLowerCase = map[string]UnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnum{
-	"yes": UnifiedAuditPolicySummaryOverrideTargetEnabledConditionsYes,
-	"no":  UnifiedAuditPolicySummaryOverrideTargetEnabledConditionsNo,
-}
-
-// GetUnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnumValues Enumerates the set of values for UnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnum
-func GetUnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnumValues() []UnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnum {
-	values := make([]UnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnum, 0)
-	for _, v := range mappingUnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetUnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnumStringValues Enumerates the set of values in String for UnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnum
-func GetUnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnumStringValues() []string {
-	return []string{
-		"YES",
-		"NO",
-	}
-}
-
-// GetMappingUnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingUnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnum(val string) (UnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnum, bool) {
-	enum, ok := mappingUnifiedAuditPolicySummaryOverrideTargetEnabledConditionsEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

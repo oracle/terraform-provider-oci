@@ -35,6 +35,9 @@ type ListBaseccVmClustersRequest struct {
 	// A filter to return only resources that match the given lifecycle state exactly.
 	LifecycleState BaseccVmClusterSummaryLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// A filter to return only resources that match the given availability domain exactly.
+	AvailabilityDomain *string `mandatory:"false" contributesTo:"query" name:"availabilityDomain"`
+
 	// A filter to return only resources that match the entire display name given. The match is not case sensitive.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 

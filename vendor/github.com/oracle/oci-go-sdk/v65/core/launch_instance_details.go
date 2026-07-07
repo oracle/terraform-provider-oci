@@ -216,6 +216,9 @@ type LaunchInstanceDetails struct {
 
 	// List of licensing configurations associated with target launch values.
 	LicensingConfigs []LaunchInstanceLicensingConfig `mandatory:"false" json:"licensingConfigs"`
+
+	// This field is reserved for internal use.
+	InternalOverlayEnclave LaunchInstanceDetailsInternalOverlayEnclaveEnum `mandatory:"false" json:"internalOverlayEnclave,omitempty"`
 }
 
 func (m LaunchInstanceDetails) String() string {
@@ -230,6 +233,9 @@ func (m LaunchInstanceDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingLaunchInstanceDetailsPreferredMaintenanceActionEnum(string(m.PreferredMaintenanceAction)); !ok && m.PreferredMaintenanceAction != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PreferredMaintenanceAction: %s. Supported values are: %s.", m.PreferredMaintenanceAction, strings.Join(GetLaunchInstanceDetailsPreferredMaintenanceActionEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingLaunchInstanceDetailsInternalOverlayEnclaveEnum(string(m.InternalOverlayEnclave)); !ok && m.InternalOverlayEnclave != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InternalOverlayEnclave: %s. Supported values are: %s.", m.InternalOverlayEnclave, strings.Join(GetLaunchInstanceDetailsInternalOverlayEnclaveEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -274,6 +280,7 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		IsAIEnterpriseEnabled          *bool                                               `json:"isAIEnterpriseEnabled"`
 		InstanceConfigurationId        *string                                             `json:"instanceConfigurationId"`
 		LicensingConfigs               []launchinstancelicensingconfig                     `json:"licensingConfigs"`
+		InternalOverlayEnclave         LaunchInstanceDetailsInternalOverlayEnclaveEnum     `json:"internalOverlayEnclave"`
 		AvailabilityDomain             *string                                             `json:"availabilityDomain"`
 		CompartmentId                  *string                                             `json:"compartmentId"`
 	}{}
@@ -405,6 +412,8 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 			m.LicensingConfigs[i] = nil
 		}
 	}
+	m.InternalOverlayEnclave = model.InternalOverlayEnclave
+
 	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.CompartmentId = model.CompartmentId
@@ -451,5 +460,43 @@ func GetLaunchInstanceDetailsPreferredMaintenanceActionEnumStringValues() []stri
 // GetMappingLaunchInstanceDetailsPreferredMaintenanceActionEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingLaunchInstanceDetailsPreferredMaintenanceActionEnum(val string) (LaunchInstanceDetailsPreferredMaintenanceActionEnum, bool) {
 	enum, ok := mappingLaunchInstanceDetailsPreferredMaintenanceActionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// LaunchInstanceDetailsInternalOverlayEnclaveEnum Enum with underlying type: string
+type LaunchInstanceDetailsInternalOverlayEnclaveEnum string
+
+// Set of constants representing the allowable values for LaunchInstanceDetailsInternalOverlayEnclaveEnum
+const (
+	LaunchInstanceDetailsInternalOverlayEnclaveSecurity LaunchInstanceDetailsInternalOverlayEnclaveEnum = "SECURITY"
+)
+
+var mappingLaunchInstanceDetailsInternalOverlayEnclaveEnum = map[string]LaunchInstanceDetailsInternalOverlayEnclaveEnum{
+	"SECURITY": LaunchInstanceDetailsInternalOverlayEnclaveSecurity,
+}
+
+var mappingLaunchInstanceDetailsInternalOverlayEnclaveEnumLowerCase = map[string]LaunchInstanceDetailsInternalOverlayEnclaveEnum{
+	"security": LaunchInstanceDetailsInternalOverlayEnclaveSecurity,
+}
+
+// GetLaunchInstanceDetailsInternalOverlayEnclaveEnumValues Enumerates the set of values for LaunchInstanceDetailsInternalOverlayEnclaveEnum
+func GetLaunchInstanceDetailsInternalOverlayEnclaveEnumValues() []LaunchInstanceDetailsInternalOverlayEnclaveEnum {
+	values := make([]LaunchInstanceDetailsInternalOverlayEnclaveEnum, 0)
+	for _, v := range mappingLaunchInstanceDetailsInternalOverlayEnclaveEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetLaunchInstanceDetailsInternalOverlayEnclaveEnumStringValues Enumerates the set of values in String for LaunchInstanceDetailsInternalOverlayEnclaveEnum
+func GetLaunchInstanceDetailsInternalOverlayEnclaveEnumStringValues() []string {
+	return []string{
+		"SECURITY",
+	}
+}
+
+// GetMappingLaunchInstanceDetailsInternalOverlayEnclaveEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingLaunchInstanceDetailsInternalOverlayEnclaveEnum(val string) (LaunchInstanceDetailsInternalOverlayEnclaveEnum, bool) {
+	enum, ok := mappingLaunchInstanceDetailsInternalOverlayEnclaveEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

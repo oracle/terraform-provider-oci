@@ -48,6 +48,8 @@ type CreateExportDetails struct {
 	//   For exports of mount targets with IPv6 address, if client options are
 	//   left unspecified, client options would be an empty array, i.e. export
 	//   would not be visible to any clients.
+	//   When default client options are generated for read-only exports,
+	//   they use `READ_ONLY` access.
 	//   **Note:** Mount targets do not have Internet-routable IP
 	//   addresses.  Therefore they will not be reachable from the
 	//   Internet, even if an associated `ClientOptions` item has
@@ -63,6 +65,13 @@ type CreateExportDetails struct {
 
 	// Whether or not the export should use ID mapping for Unix groups rather than the group list provided within an NFS request's RPC header. When this flag is true the Unix UID from the RPC header is used to retrieve the list of secondary groups from a the ID mapping subsystem. The primary GID is always taken from the RPC header. If ID mapping is not configured, incorrectly configured, unavailable, or cannot be used to determine a list of secondary groups then an empty secondary group list is used for authorization. If the number of groups exceeds the limit of 256 groups, the list retrieved from LDAP is truncated to the first 256 groups read.
 	IsIdmapGroupsForSysAuth *bool `mandatory:"false" json:"isIdmapGroupsForSysAuth"`
+
+	// The mode for the new export. Use `READ_ONLY` to create a read-only
+	// export or `READ_WRITE` to create a read-write export. If
+	// unspecified, defaults to `READ_WRITE`. This export-level mode is
+	// distinct from per-client `exportOptions` access. For read-only
+	// exports, the effective client access is `READ_ONLY`.
+	ExportMode CreateExportDetailsExportModeEnum `mandatory:"false" json:"exportMode,omitempty"`
 }
 
 func (m CreateExportDetails) String() string {
@@ -75,8 +84,53 @@ func (m CreateExportDetails) String() string {
 func (m CreateExportDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreateExportDetailsExportModeEnum(string(m.ExportMode)); !ok && m.ExportMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ExportMode: %s. Supported values are: %s.", m.ExportMode, strings.Join(GetCreateExportDetailsExportModeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CreateExportDetailsExportModeEnum Enum with underlying type: string
+type CreateExportDetailsExportModeEnum string
+
+// Set of constants representing the allowable values for CreateExportDetailsExportModeEnum
+const (
+	CreateExportDetailsExportModeWrite CreateExportDetailsExportModeEnum = "READ_WRITE"
+	CreateExportDetailsExportModeOnly  CreateExportDetailsExportModeEnum = "READ_ONLY"
+)
+
+var mappingCreateExportDetailsExportModeEnum = map[string]CreateExportDetailsExportModeEnum{
+	"READ_WRITE": CreateExportDetailsExportModeWrite,
+	"READ_ONLY":  CreateExportDetailsExportModeOnly,
+}
+
+var mappingCreateExportDetailsExportModeEnumLowerCase = map[string]CreateExportDetailsExportModeEnum{
+	"read_write": CreateExportDetailsExportModeWrite,
+	"read_only":  CreateExportDetailsExportModeOnly,
+}
+
+// GetCreateExportDetailsExportModeEnumValues Enumerates the set of values for CreateExportDetailsExportModeEnum
+func GetCreateExportDetailsExportModeEnumValues() []CreateExportDetailsExportModeEnum {
+	values := make([]CreateExportDetailsExportModeEnum, 0)
+	for _, v := range mappingCreateExportDetailsExportModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateExportDetailsExportModeEnumStringValues Enumerates the set of values in String for CreateExportDetailsExportModeEnum
+func GetCreateExportDetailsExportModeEnumStringValues() []string {
+	return []string{
+		"READ_WRITE",
+		"READ_ONLY",
+	}
+}
+
+// GetMappingCreateExportDetailsExportModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateExportDetailsExportModeEnum(val string) (CreateExportDetailsExportModeEnum, bool) {
+	enum, ok := mappingCreateExportDetailsExportModeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

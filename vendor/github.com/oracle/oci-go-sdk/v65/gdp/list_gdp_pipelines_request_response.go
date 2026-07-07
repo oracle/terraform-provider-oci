@@ -24,7 +24,7 @@ type ListGdpPipelinesRequest struct {
 	GdpPipelineId *string `mandatory:"false" contributesTo:"query" name:"gdpPipelineId"`
 
 	// A filter to return only resources with a lifecycleState that matches the given lifecycleState.
-	LifecycleState GdpPipelineLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+	LifecycleState ListGdpPipelinesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
@@ -77,8 +77,8 @@ func (request ListGdpPipelinesRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListGdpPipelinesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingGdpPipelineLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetGdpPipelineLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingListGdpPipelinesLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListGdpPipelinesLifecycleStateEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListGdpPipelinesSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListGdpPipelinesSortOrderEnumStringValues(), ",")))
@@ -118,6 +118,72 @@ func (response ListGdpPipelinesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListGdpPipelinesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListGdpPipelinesLifecycleStateEnum Enum with underlying type: string
+type ListGdpPipelinesLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListGdpPipelinesLifecycleStateEnum
+const (
+	ListGdpPipelinesLifecycleStateCreating       ListGdpPipelinesLifecycleStateEnum = "CREATING"
+	ListGdpPipelinesLifecycleStateUpdating       ListGdpPipelinesLifecycleStateEnum = "UPDATING"
+	ListGdpPipelinesLifecycleStateActive         ListGdpPipelinesLifecycleStateEnum = "ACTIVE"
+	ListGdpPipelinesLifecycleStateInactive       ListGdpPipelinesLifecycleStateEnum = "INACTIVE"
+	ListGdpPipelinesLifecycleStateDeleting       ListGdpPipelinesLifecycleStateEnum = "DELETING"
+	ListGdpPipelinesLifecycleStateDeleted        ListGdpPipelinesLifecycleStateEnum = "DELETED"
+	ListGdpPipelinesLifecycleStateFailed         ListGdpPipelinesLifecycleStateEnum = "FAILED"
+	ListGdpPipelinesLifecycleStateNeedsAttention ListGdpPipelinesLifecycleStateEnum = "NEEDS_ATTENTION"
+)
+
+var mappingListGdpPipelinesLifecycleStateEnum = map[string]ListGdpPipelinesLifecycleStateEnum{
+	"CREATING":        ListGdpPipelinesLifecycleStateCreating,
+	"UPDATING":        ListGdpPipelinesLifecycleStateUpdating,
+	"ACTIVE":          ListGdpPipelinesLifecycleStateActive,
+	"INACTIVE":        ListGdpPipelinesLifecycleStateInactive,
+	"DELETING":        ListGdpPipelinesLifecycleStateDeleting,
+	"DELETED":         ListGdpPipelinesLifecycleStateDeleted,
+	"FAILED":          ListGdpPipelinesLifecycleStateFailed,
+	"NEEDS_ATTENTION": ListGdpPipelinesLifecycleStateNeedsAttention,
+}
+
+var mappingListGdpPipelinesLifecycleStateEnumLowerCase = map[string]ListGdpPipelinesLifecycleStateEnum{
+	"creating":        ListGdpPipelinesLifecycleStateCreating,
+	"updating":        ListGdpPipelinesLifecycleStateUpdating,
+	"active":          ListGdpPipelinesLifecycleStateActive,
+	"inactive":        ListGdpPipelinesLifecycleStateInactive,
+	"deleting":        ListGdpPipelinesLifecycleStateDeleting,
+	"deleted":         ListGdpPipelinesLifecycleStateDeleted,
+	"failed":          ListGdpPipelinesLifecycleStateFailed,
+	"needs_attention": ListGdpPipelinesLifecycleStateNeedsAttention,
+}
+
+// GetListGdpPipelinesLifecycleStateEnumValues Enumerates the set of values for ListGdpPipelinesLifecycleStateEnum
+func GetListGdpPipelinesLifecycleStateEnumValues() []ListGdpPipelinesLifecycleStateEnum {
+	values := make([]ListGdpPipelinesLifecycleStateEnum, 0)
+	for _, v := range mappingListGdpPipelinesLifecycleStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListGdpPipelinesLifecycleStateEnumStringValues Enumerates the set of values in String for ListGdpPipelinesLifecycleStateEnum
+func GetListGdpPipelinesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"INACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+		"NEEDS_ATTENTION",
+	}
+}
+
+// GetMappingListGdpPipelinesLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListGdpPipelinesLifecycleStateEnum(val string) (ListGdpPipelinesLifecycleStateEnum, bool) {
+	enum, ok := mappingListGdpPipelinesLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ListGdpPipelinesSortOrderEnum Enum with underlying type: string

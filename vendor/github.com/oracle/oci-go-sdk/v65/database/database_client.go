@@ -22256,6 +22256,64 @@ func (client DatabaseClient) registerCloudVmClusterPkcs(ctx context.Context, req
 	return response, err
 }
 
+// RegisterExadbVmClusterPkcs Install the PKCS11 driver for given keystore type
+func (client DatabaseClient) RegisterExadbVmClusterPkcs(ctx context.Context, request RegisterExadbVmClusterPkcsRequest) (response RegisterExadbVmClusterPkcsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.registerExadbVmClusterPkcs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RegisterExadbVmClusterPkcsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RegisterExadbVmClusterPkcsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RegisterExadbVmClusterPkcsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RegisterExadbVmClusterPkcsResponse")
+	}
+	return
+}
+
+// registerExadbVmClusterPkcs implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) registerExadbVmClusterPkcs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadbVmClusters/{exadbVmClusterId}/actions/registerPkcs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RegisterExadbVmClusterPkcsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "RegisterExadbVmClusterPkcs")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadbVmCluster/RegisterExadbVmClusterPkcs"
+		err = common.PostProcessServiceError(err, "Database", "RegisterExadbVmClusterPkcs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ReinstateAutonomousContainerDatabaseDataguard Reinstates a disabled standby Autonomous Container Database (ACD), identified by the autonomousContainerDatabaseId parameter to an active standby ACD. For more information, see
 // Reinstate the Disabled Standby in an Autonomous Data Guard Configuration (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-B5C6A90D-72E3-4F32-988D-8AECC0A2D947).
 func (client DatabaseClient) ReinstateAutonomousContainerDatabaseDataguard(ctx context.Context, request ReinstateAutonomousContainerDatabaseDataguardRequest) (response ReinstateAutonomousContainerDatabaseDataguardResponse, err error) {
@@ -25258,6 +25316,64 @@ func (client DatabaseClient) unregisterCloudVmClusterPkcs(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudVmCluster/UnregisterCloudVmClusterPkcs"
 		err = common.PostProcessServiceError(err, "Database", "UnregisterCloudVmClusterPkcs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UnregisterExadbVmClusterPkcs Uninstall the PKCS11 driver for given keystore type
+func (client DatabaseClient) UnregisterExadbVmClusterPkcs(ctx context.Context, request UnregisterExadbVmClusterPkcsRequest) (response UnregisterExadbVmClusterPkcsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.unregisterExadbVmClusterPkcs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UnregisterExadbVmClusterPkcsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UnregisterExadbVmClusterPkcsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UnregisterExadbVmClusterPkcsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UnregisterExadbVmClusterPkcsResponse")
+	}
+	return
+}
+
+// unregisterExadbVmClusterPkcs implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) unregisterExadbVmClusterPkcs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadbVmClusters/{exadbVmClusterId}/actions/unregisterPkcs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UnregisterExadbVmClusterPkcsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "UnregisterExadbVmClusterPkcs")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadbVmCluster/UnregisterExadbVmClusterPkcs"
+		err = common.PostProcessServiceError(err, "Database", "UnregisterExadbVmClusterPkcs", apiReferenceLink)
 		return response, err
 	}
 

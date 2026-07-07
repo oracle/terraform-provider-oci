@@ -25,7 +25,7 @@ type CreateGdpPipelineDetails struct {
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// Type of pipeline. Can be SENDER or RECEIVER.
-	PipelineType GdpPipelinePipelineTypeEnum `mandatory:"true" json:"pipelineType"`
+	PipelineType PipelineTypeEnum `mandatory:"true" json:"pipelineType"`
 
 	// Information about the bucket in the pipeline being configured.
 	BucketDetails []BucketDetailsDefinition `mandatory:"true" json:"bucketDetails"`
@@ -78,8 +78,8 @@ func (m CreateGdpPipelineDetails) String() string {
 // Not recommended for calling this function directly
 func (m CreateGdpPipelineDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingGdpPipelinePipelineTypeEnum(string(m.PipelineType)); !ok && m.PipelineType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PipelineType: %s. Supported values are: %s.", m.PipelineType, strings.Join(GetGdpPipelinePipelineTypeEnumStringValues(), ",")))
+	if _, ok := GetMappingPipelineTypeEnum(string(m.PipelineType)); !ok && m.PipelineType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PipelineType: %s. Supported values are: %s.", m.PipelineType, strings.Join(GetPipelineTypeEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {

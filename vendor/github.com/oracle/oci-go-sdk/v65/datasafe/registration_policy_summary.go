@@ -29,7 +29,7 @@ type RegistrationPolicySummary struct {
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The type of resource that is opted-in for the registration policy.
-	ResourceType RegistrationPolicyResourceTypeEnum `mandatory:"true" json:"resourceType"`
+	EnablementLevel RegistrationPolicyEnablementLevelEnum `mandatory:"true" json:"enablementLevel"`
 
 	// The OCID of the resource used in the registration policy.
 	ResourceId *string `mandatory:"true" json:"resourceId"`
@@ -73,8 +73,8 @@ func (m RegistrationPolicySummary) String() string {
 // Not recommended for calling this function directly
 func (m RegistrationPolicySummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingRegistrationPolicyResourceTypeEnum(string(m.ResourceType)); !ok && m.ResourceType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceType: %s. Supported values are: %s.", m.ResourceType, strings.Join(GetRegistrationPolicyResourceTypeEnumStringValues(), ",")))
+	if _, ok := GetMappingRegistrationPolicyEnablementLevelEnum(string(m.EnablementLevel)); !ok && m.EnablementLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnablementLevel: %s. Supported values are: %s.", m.EnablementLevel, strings.Join(GetRegistrationPolicyEnablementLevelEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingRegistrationPolicyLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetRegistrationPolicyLifecycleStateEnumStringValues(), ",")))

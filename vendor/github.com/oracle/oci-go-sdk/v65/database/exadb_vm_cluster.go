@@ -192,6 +192,12 @@ type ExadbVmCluster struct {
 	// Represents HA status of Exadata VM cluster and database. If either of the VMCluster in a pair is down then state will be NEEDS_ATTENTION.
 	ManagedHaStatus ExadbVmClusterManagedHaStatusEnum `mandatory:"false" json:"managedHaStatus,omitempty"`
 
+	// Details of the multi cloud identity connectors of the VM cluster.
+	MultiCloudIdentityConnectorConfigs []IdentityConnectorDetails `mandatory:"false" json:"multiCloudIdentityConnectorConfigs"`
+
+	// TDE keystore type
+	TdeKeyStoreType ExadbVmClusterTdeKeyStoreTypeEnum `mandatory:"false" json:"tdeKeyStoreType,omitempty"`
+
 	IormConfigCache *ExadataIormConfig `mandatory:"false" json:"iormConfigCache"`
 
 	// Details of the file system configuration of the VM cluster.
@@ -225,6 +231,9 @@ func (m ExadbVmCluster) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingExadbVmClusterManagedHaStatusEnum(string(m.ManagedHaStatus)); !ok && m.ManagedHaStatus != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagedHaStatus: %s. Supported values are: %s.", m.ManagedHaStatus, strings.Join(GetExadbVmClusterManagedHaStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingExadbVmClusterTdeKeyStoreTypeEnum(string(m.TdeKeyStoreType)); !ok && m.TdeKeyStoreType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TdeKeyStoreType: %s. Supported values are: %s.", m.TdeKeyStoreType, strings.Join(GetExadbVmClusterTdeKeyStoreTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -505,5 +514,55 @@ func GetExadbVmClusterManagedHaStatusEnumStringValues() []string {
 // GetMappingExadbVmClusterManagedHaStatusEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingExadbVmClusterManagedHaStatusEnum(val string) (ExadbVmClusterManagedHaStatusEnum, bool) {
 	enum, ok := mappingExadbVmClusterManagedHaStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ExadbVmClusterTdeKeyStoreTypeEnum Enum with underlying type: string
+type ExadbVmClusterTdeKeyStoreTypeEnum string
+
+// Set of constants representing the allowable values for ExadbVmClusterTdeKeyStoreTypeEnum
+const (
+	ExadbVmClusterTdeKeyStoreTypeAzure ExadbVmClusterTdeKeyStoreTypeEnum = "AZURE"
+	ExadbVmClusterTdeKeyStoreTypeOci   ExadbVmClusterTdeKeyStoreTypeEnum = "OCI"
+	ExadbVmClusterTdeKeyStoreTypeGcp   ExadbVmClusterTdeKeyStoreTypeEnum = "GCP"
+	ExadbVmClusterTdeKeyStoreTypeAws   ExadbVmClusterTdeKeyStoreTypeEnum = "AWS"
+)
+
+var mappingExadbVmClusterTdeKeyStoreTypeEnum = map[string]ExadbVmClusterTdeKeyStoreTypeEnum{
+	"AZURE": ExadbVmClusterTdeKeyStoreTypeAzure,
+	"OCI":   ExadbVmClusterTdeKeyStoreTypeOci,
+	"GCP":   ExadbVmClusterTdeKeyStoreTypeGcp,
+	"AWS":   ExadbVmClusterTdeKeyStoreTypeAws,
+}
+
+var mappingExadbVmClusterTdeKeyStoreTypeEnumLowerCase = map[string]ExadbVmClusterTdeKeyStoreTypeEnum{
+	"azure": ExadbVmClusterTdeKeyStoreTypeAzure,
+	"oci":   ExadbVmClusterTdeKeyStoreTypeOci,
+	"gcp":   ExadbVmClusterTdeKeyStoreTypeGcp,
+	"aws":   ExadbVmClusterTdeKeyStoreTypeAws,
+}
+
+// GetExadbVmClusterTdeKeyStoreTypeEnumValues Enumerates the set of values for ExadbVmClusterTdeKeyStoreTypeEnum
+func GetExadbVmClusterTdeKeyStoreTypeEnumValues() []ExadbVmClusterTdeKeyStoreTypeEnum {
+	values := make([]ExadbVmClusterTdeKeyStoreTypeEnum, 0)
+	for _, v := range mappingExadbVmClusterTdeKeyStoreTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetExadbVmClusterTdeKeyStoreTypeEnumStringValues Enumerates the set of values in String for ExadbVmClusterTdeKeyStoreTypeEnum
+func GetExadbVmClusterTdeKeyStoreTypeEnumStringValues() []string {
+	return []string{
+		"AZURE",
+		"OCI",
+		"GCP",
+		"AWS",
+	}
+}
+
+// GetMappingExadbVmClusterTdeKeyStoreTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingExadbVmClusterTdeKeyStoreTypeEnum(val string) (ExadbVmClusterTdeKeyStoreTypeEnum, bool) {
+	enum, ok := mappingExadbVmClusterTdeKeyStoreTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

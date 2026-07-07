@@ -3,6 +3,7 @@
 
 package gdp
 
+/*
 import (
 	"context"
 	"strings"
@@ -162,3 +163,4 @@ func (s *GdpGdpPipelineDataSourceCrud) SetData() error {
 
 	return nil
 }
+*/

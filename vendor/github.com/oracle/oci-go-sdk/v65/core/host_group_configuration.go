@@ -35,6 +35,8 @@ type HostGroupConfiguration struct {
 	// * `FULL_RECYCLE` - Does not skip host wipe. This is the default behavior.
 	RecycleLevel HostGroupConfigurationRecycleLevelEnum `mandatory:"false" json:"recycleLevel,omitempty"`
 
+	QuickRecycleSettings *QuickRecycleSettings `mandatory:"false" json:"quickRecycleSettings"`
+
 	// The state of the host group configuration.
 	State HostGroupConfigurationStateEnum `mandatory:"false" json:"state,omitempty"`
 }

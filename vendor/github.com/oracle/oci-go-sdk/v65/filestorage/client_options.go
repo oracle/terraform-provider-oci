@@ -37,6 +37,7 @@ type ClientOptions struct {
 
 	// Type of access to grant clients using the file system
 	// through this export. If unspecified defaults to `READ_WRITE`.
+	// For read-only exports, the effective client access is `READ_ONLY`.
 	Access ClientOptionsAccessEnum `mandatory:"false" json:"access,omitempty"`
 
 	// Used when clients accessing the file system through this export

@@ -48,6 +48,9 @@ type InstanceReservationConfig struct {
 
 	// The OCID of the cluster placement group for this instance reservation capacity configuration.
 	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
+	// This field is reserved for internal use.
+	InternalOverlayEnclave InstanceReservationConfigInternalOverlayEnclaveEnum `mandatory:"false" json:"internalOverlayEnclave,omitempty"`
 }
 
 func (m InstanceReservationConfig) String() string {
@@ -60,8 +63,49 @@ func (m InstanceReservationConfig) String() string {
 func (m InstanceReservationConfig) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingInstanceReservationConfigInternalOverlayEnclaveEnum(string(m.InternalOverlayEnclave)); !ok && m.InternalOverlayEnclave != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InternalOverlayEnclave: %s. Supported values are: %s.", m.InternalOverlayEnclave, strings.Join(GetInstanceReservationConfigInternalOverlayEnclaveEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// InstanceReservationConfigInternalOverlayEnclaveEnum Enum with underlying type: string
+type InstanceReservationConfigInternalOverlayEnclaveEnum string
+
+// Set of constants representing the allowable values for InstanceReservationConfigInternalOverlayEnclaveEnum
+const (
+	InstanceReservationConfigInternalOverlayEnclaveSecurity InstanceReservationConfigInternalOverlayEnclaveEnum = "SECURITY"
+)
+
+var mappingInstanceReservationConfigInternalOverlayEnclaveEnum = map[string]InstanceReservationConfigInternalOverlayEnclaveEnum{
+	"SECURITY": InstanceReservationConfigInternalOverlayEnclaveSecurity,
+}
+
+var mappingInstanceReservationConfigInternalOverlayEnclaveEnumLowerCase = map[string]InstanceReservationConfigInternalOverlayEnclaveEnum{
+	"security": InstanceReservationConfigInternalOverlayEnclaveSecurity,
+}
+
+// GetInstanceReservationConfigInternalOverlayEnclaveEnumValues Enumerates the set of values for InstanceReservationConfigInternalOverlayEnclaveEnum
+func GetInstanceReservationConfigInternalOverlayEnclaveEnumValues() []InstanceReservationConfigInternalOverlayEnclaveEnum {
+	values := make([]InstanceReservationConfigInternalOverlayEnclaveEnum, 0)
+	for _, v := range mappingInstanceReservationConfigInternalOverlayEnclaveEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetInstanceReservationConfigInternalOverlayEnclaveEnumStringValues Enumerates the set of values in String for InstanceReservationConfigInternalOverlayEnclaveEnum
+func GetInstanceReservationConfigInternalOverlayEnclaveEnumStringValues() []string {
+	return []string{
+		"SECURITY",
+	}
+}
+
+// GetMappingInstanceReservationConfigInternalOverlayEnclaveEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingInstanceReservationConfigInternalOverlayEnclaveEnum(val string) (InstanceReservationConfigInternalOverlayEnclaveEnum, bool) {
+	enum, ok := mappingInstanceReservationConfigInternalOverlayEnclaveEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

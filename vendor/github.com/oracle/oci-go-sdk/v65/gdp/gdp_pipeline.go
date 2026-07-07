@@ -25,13 +25,13 @@ type GdpPipeline struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The current state of the pipeline.
-	LifecycleState GdpPipelineLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Pipeline short name.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// Type of pipeline. Can be SENDER or RECEIVER.
-	PipelineType GdpPipelinePipelineTypeEnum `mandatory:"true" json:"pipelineType"`
+	PipelineType PipelineTypeEnum `mandatory:"true" json:"pipelineType"`
 
 	// Public region name where the peered pipeline exists.
 	PeeringRegion *string `mandatory:"true" json:"peeringRegion"`
@@ -100,123 +100,15 @@ func (m GdpPipeline) String() string {
 // Not recommended for calling this function directly
 func (m GdpPipeline) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingGdpPipelineLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetGdpPipelineLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingGdpPipelinePipelineTypeEnum(string(m.PipelineType)); !ok && m.PipelineType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PipelineType: %s. Supported values are: %s.", m.PipelineType, strings.Join(GetGdpPipelinePipelineTypeEnumStringValues(), ",")))
+	if _, ok := GetMappingPipelineTypeEnum(string(m.PipelineType)); !ok && m.PipelineType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PipelineType: %s. Supported values are: %s.", m.PipelineType, strings.Join(GetPipelineTypeEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// GdpPipelineLifecycleStateEnum Enum with underlying type: string
-type GdpPipelineLifecycleStateEnum string
-
-// Set of constants representing the allowable values for GdpPipelineLifecycleStateEnum
-const (
-	GdpPipelineLifecycleStateCreating       GdpPipelineLifecycleStateEnum = "CREATING"
-	GdpPipelineLifecycleStateUpdating       GdpPipelineLifecycleStateEnum = "UPDATING"
-	GdpPipelineLifecycleStateActive         GdpPipelineLifecycleStateEnum = "ACTIVE"
-	GdpPipelineLifecycleStateInactive       GdpPipelineLifecycleStateEnum = "INACTIVE"
-	GdpPipelineLifecycleStateDeleting       GdpPipelineLifecycleStateEnum = "DELETING"
-	GdpPipelineLifecycleStateDeleted        GdpPipelineLifecycleStateEnum = "DELETED"
-	GdpPipelineLifecycleStateFailed         GdpPipelineLifecycleStateEnum = "FAILED"
-	GdpPipelineLifecycleStateNeedsAttention GdpPipelineLifecycleStateEnum = "NEEDS_ATTENTION"
-)
-
-var mappingGdpPipelineLifecycleStateEnum = map[string]GdpPipelineLifecycleStateEnum{
-	"CREATING":        GdpPipelineLifecycleStateCreating,
-	"UPDATING":        GdpPipelineLifecycleStateUpdating,
-	"ACTIVE":          GdpPipelineLifecycleStateActive,
-	"INACTIVE":        GdpPipelineLifecycleStateInactive,
-	"DELETING":        GdpPipelineLifecycleStateDeleting,
-	"DELETED":         GdpPipelineLifecycleStateDeleted,
-	"FAILED":          GdpPipelineLifecycleStateFailed,
-	"NEEDS_ATTENTION": GdpPipelineLifecycleStateNeedsAttention,
-}
-
-var mappingGdpPipelineLifecycleStateEnumLowerCase = map[string]GdpPipelineLifecycleStateEnum{
-	"creating":        GdpPipelineLifecycleStateCreating,
-	"updating":        GdpPipelineLifecycleStateUpdating,
-	"active":          GdpPipelineLifecycleStateActive,
-	"inactive":        GdpPipelineLifecycleStateInactive,
-	"deleting":        GdpPipelineLifecycleStateDeleting,
-	"deleted":         GdpPipelineLifecycleStateDeleted,
-	"failed":          GdpPipelineLifecycleStateFailed,
-	"needs_attention": GdpPipelineLifecycleStateNeedsAttention,
-}
-
-// GetGdpPipelineLifecycleStateEnumValues Enumerates the set of values for GdpPipelineLifecycleStateEnum
-func GetGdpPipelineLifecycleStateEnumValues() []GdpPipelineLifecycleStateEnum {
-	values := make([]GdpPipelineLifecycleStateEnum, 0)
-	for _, v := range mappingGdpPipelineLifecycleStateEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetGdpPipelineLifecycleStateEnumStringValues Enumerates the set of values in String for GdpPipelineLifecycleStateEnum
-func GetGdpPipelineLifecycleStateEnumStringValues() []string {
-	return []string{
-		"CREATING",
-		"UPDATING",
-		"ACTIVE",
-		"INACTIVE",
-		"DELETING",
-		"DELETED",
-		"FAILED",
-		"NEEDS_ATTENTION",
-	}
-}
-
-// GetMappingGdpPipelineLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingGdpPipelineLifecycleStateEnum(val string) (GdpPipelineLifecycleStateEnum, bool) {
-	enum, ok := mappingGdpPipelineLifecycleStateEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// GdpPipelinePipelineTypeEnum Enum with underlying type: string
-type GdpPipelinePipelineTypeEnum string
-
-// Set of constants representing the allowable values for GdpPipelinePipelineTypeEnum
-const (
-	GdpPipelinePipelineTypeSender   GdpPipelinePipelineTypeEnum = "SENDER"
-	GdpPipelinePipelineTypeReceiver GdpPipelinePipelineTypeEnum = "RECEIVER"
-)
-
-var mappingGdpPipelinePipelineTypeEnum = map[string]GdpPipelinePipelineTypeEnum{
-	"SENDER":   GdpPipelinePipelineTypeSender,
-	"RECEIVER": GdpPipelinePipelineTypeReceiver,
-}
-
-var mappingGdpPipelinePipelineTypeEnumLowerCase = map[string]GdpPipelinePipelineTypeEnum{
-	"sender":   GdpPipelinePipelineTypeSender,
-	"receiver": GdpPipelinePipelineTypeReceiver,
-}
-
-// GetGdpPipelinePipelineTypeEnumValues Enumerates the set of values for GdpPipelinePipelineTypeEnum
-func GetGdpPipelinePipelineTypeEnumValues() []GdpPipelinePipelineTypeEnum {
-	values := make([]GdpPipelinePipelineTypeEnum, 0)
-	for _, v := range mappingGdpPipelinePipelineTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetGdpPipelinePipelineTypeEnumStringValues Enumerates the set of values in String for GdpPipelinePipelineTypeEnum
-func GetGdpPipelinePipelineTypeEnumStringValues() []string {
-	return []string{
-		"SENDER",
-		"RECEIVER",
-	}
-}
-
-// GetMappingGdpPipelinePipelineTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingGdpPipelinePipelineTypeEnum(val string) (GdpPipelinePipelineTypeEnum, bool) {
-	enum, ok := mappingGdpPipelinePipelineTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

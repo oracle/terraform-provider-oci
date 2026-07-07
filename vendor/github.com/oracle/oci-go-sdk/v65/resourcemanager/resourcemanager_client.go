@@ -2009,6 +2009,115 @@ func (client ResourceManagerClient) getWorkRequest(ctx context.Context, request 
 	return response, err
 }
 
+// GetWorkRequestLogEntries Returns console log entries for the specified work request in JSON format.
+// A default retry strategy applies to this operation GetWorkRequestLogEntries()
+func (client ResourceManagerClient) GetWorkRequestLogEntries(ctx context.Context, request GetWorkRequestLogEntriesRequest) (response GetWorkRequestLogEntriesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getWorkRequestLogEntries, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetWorkRequestLogEntriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetWorkRequestLogEntriesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetWorkRequestLogEntriesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetWorkRequestLogEntriesResponse")
+	}
+	return
+}
+
+// getWorkRequestLogEntries implements the OCIOperation interface (enables retrying operations)
+func (client ResourceManagerClient) getWorkRequestLogEntries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logEntries", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetWorkRequestLogEntriesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "GetWorkRequestLogEntries")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/WorkRequest/GetWorkRequestLogEntries"
+		err = common.PostProcessServiceError(err, "ResourceManager", "GetWorkRequestLogEntries", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetWorkRequestLogEntriesContent Returns the raw log file for the specified work request in text format.
+// The file includes a maximum of 100,000 log entries.
+// A default retry strategy applies to this operation GetWorkRequestLogEntriesContent()
+func (client ResourceManagerClient) GetWorkRequestLogEntriesContent(ctx context.Context, request GetWorkRequestLogEntriesContentRequest) (response GetWorkRequestLogEntriesContentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getWorkRequestLogEntriesContent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetWorkRequestLogEntriesContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetWorkRequestLogEntriesContentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetWorkRequestLogEntriesContentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetWorkRequestLogEntriesContentResponse")
+	}
+	return
+}
+
+// getWorkRequestLogEntriesContent implements the OCIOperation interface (enables retrying operations)
+func (client ResourceManagerClient) getWorkRequestLogEntriesContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/logEntries/content", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetWorkRequestLogEntriesContentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "resourceManager", "GetWorkRequestLogEntriesContent")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/WorkRequest/GetWorkRequestLogEntriesContent"
+		err = common.PostProcessServiceError(err, "ResourceManager", "GetWorkRequestLogEntriesContent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListConfigurationSourceProviders Lists configuration source providers according to the specified filter.
 // For more information, see
 // Listing Configuration Source Providers (https://docs.oracle.com/iaas/Content/ResourceManager/Tasks/list-csp.htm).

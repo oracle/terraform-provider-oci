@@ -124,8 +124,6 @@ type IcebergConnection struct {
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
 	// The Iceberg technology type.
-	// APACHE_ICEBERG - supports all catalog types
-	// AMAZON_S3_TABLES - supports only Rest catalog and S3 storage
 	TechnologyType IcebergConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 
 	// Possible lifecycle states for connection.
@@ -399,18 +397,15 @@ type IcebergConnectionTechnologyTypeEnum string
 
 // Set of constants representing the allowable values for IcebergConnectionTechnologyTypeEnum
 const (
-	IcebergConnectionTechnologyTypeApacheIceberg  IcebergConnectionTechnologyTypeEnum = "APACHE_ICEBERG"
-	IcebergConnectionTechnologyTypeAmazonS3Tables IcebergConnectionTechnologyTypeEnum = "AMAZON_S3_TABLES"
+	IcebergConnectionTechnologyTypeApacheIceberg IcebergConnectionTechnologyTypeEnum = "APACHE_ICEBERG"
 )
 
 var mappingIcebergConnectionTechnologyTypeEnum = map[string]IcebergConnectionTechnologyTypeEnum{
-	"APACHE_ICEBERG":   IcebergConnectionTechnologyTypeApacheIceberg,
-	"AMAZON_S3_TABLES": IcebergConnectionTechnologyTypeAmazonS3Tables,
+	"APACHE_ICEBERG": IcebergConnectionTechnologyTypeApacheIceberg,
 }
 
 var mappingIcebergConnectionTechnologyTypeEnumLowerCase = map[string]IcebergConnectionTechnologyTypeEnum{
-	"apache_iceberg":   IcebergConnectionTechnologyTypeApacheIceberg,
-	"amazon_s3_tables": IcebergConnectionTechnologyTypeAmazonS3Tables,
+	"apache_iceberg": IcebergConnectionTechnologyTypeApacheIceberg,
 }
 
 // GetIcebergConnectionTechnologyTypeEnumValues Enumerates the set of values for IcebergConnectionTechnologyTypeEnum
@@ -426,7 +421,6 @@ func GetIcebergConnectionTechnologyTypeEnumValues() []IcebergConnectionTechnolog
 func GetIcebergConnectionTechnologyTypeEnumStringValues() []string {
 	return []string{
 		"APACHE_ICEBERG",
-		"AMAZON_S3_TABLES",
 	}
 }
 

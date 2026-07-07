@@ -25,13 +25,13 @@ type GdpPipelineSummary struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The current state of the pipeline.
-	LifecycleState GdpPipelineLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Pipeline short name.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// Type of pipeline. Can be SENDER or RECEIVER.
-	PipelineType GdpPipelinePipelineTypeEnum `mandatory:"true" json:"pipelineType"`
+	PipelineType PipelineTypeEnum `mandatory:"true" json:"pipelineType"`
 
 	// Public region name where the peered pipeline exists.
 	PeeringRegion *string `mandatory:"true" json:"peeringRegion"`
@@ -85,11 +85,11 @@ func (m GdpPipelineSummary) String() string {
 // Not recommended for calling this function directly
 func (m GdpPipelineSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingGdpPipelineLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetGdpPipelineLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingGdpPipelinePipelineTypeEnum(string(m.PipelineType)); !ok && m.PipelineType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PipelineType: %s. Supported values are: %s.", m.PipelineType, strings.Join(GetGdpPipelinePipelineTypeEnumStringValues(), ",")))
+	if _, ok := GetMappingPipelineTypeEnum(string(m.PipelineType)); !ok && m.PipelineType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PipelineType: %s. Supported values are: %s.", m.PipelineType, strings.Join(GetPipelineTypeEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {

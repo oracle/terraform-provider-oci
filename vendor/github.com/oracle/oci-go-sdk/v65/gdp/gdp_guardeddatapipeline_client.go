@@ -91,6 +91,65 @@ func (client *GuardedDataPipelineClient) ConfigurationProvider() *common.Configu
 	return client.config
 }
 
+// ChangeGdpMpPipelineCompartment Moves a pipeline resource from one compartment to another. When provided, if-match is checked against etag values of the resource.
+// A default retry strategy applies to this operation ChangeGdpMpPipelineCompartment()
+func (client GuardedDataPipelineClient) ChangeGdpMpPipelineCompartment(ctx context.Context, request ChangeGdpMpPipelineCompartmentRequest) (response ChangeGdpMpPipelineCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeGdpMpPipelineCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeGdpMpPipelineCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeGdpMpPipelineCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeGdpMpPipelineCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeGdpMpPipelineCompartmentResponse")
+	}
+	return
+}
+
+// changeGdpMpPipelineCompartment implements the OCIOperation interface (enables retrying operations)
+func (client GuardedDataPipelineClient) changeGdpMpPipelineCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/gdpMpPipelines/{gdpMpPipelineId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeGdpMpPipelineCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "ChangeGdpMpPipelineCompartment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "GuardedDataPipeline", "ChangeGdpMpPipelineCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeGdpPipelineCompartment Moves a pipeline resource from one compartment to another. When provided, if-match is checked against etag values of the resource.
 // A default retry strategy applies to this operation ChangeGdpPipelineCompartment()
 func (client GuardedDataPipelineClient) ChangeGdpPipelineCompartment(ctx context.Context, request ChangeGdpPipelineCompartmentRequest) (response ChangeGdpPipelineCompartmentResponse, err error) {
@@ -143,6 +202,65 @@ func (client GuardedDataPipelineClient) changeGdpPipelineCompartment(ctx context
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GuardedDataPipeline", "ChangeGdpPipelineCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateGdpMpPipeline Creates a new pipeline.
+// A default retry strategy applies to this operation CreateGdpMpPipeline()
+func (client GuardedDataPipelineClient) CreateGdpMpPipeline(ctx context.Context, request CreateGdpMpPipelineRequest) (response CreateGdpMpPipelineResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createGdpMpPipeline, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateGdpMpPipelineResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateGdpMpPipelineResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateGdpMpPipelineResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateGdpMpPipelineResponse")
+	}
+	return
+}
+
+// createGdpMpPipeline implements the OCIOperation interface (enables retrying operations)
+func (client GuardedDataPipelineClient) createGdpMpPipeline(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/gdpMpPipelines", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateGdpMpPipelineResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "CreateGdpMpPipeline")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "GuardedDataPipeline", "CreateGdpMpPipeline", apiReferenceLink)
 		return response, err
 	}
 
@@ -209,6 +327,60 @@ func (client GuardedDataPipelineClient) createGdpPipeline(ctx context.Context, r
 	return response, err
 }
 
+// DeleteGdpMpPipeline Deletes a pipeline by identifier.
+// A default retry strategy applies to this operation DeleteGdpMpPipeline()
+func (client GuardedDataPipelineClient) DeleteGdpMpPipeline(ctx context.Context, request DeleteGdpMpPipelineRequest) (response DeleteGdpMpPipelineResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteGdpMpPipeline, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteGdpMpPipelineResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteGdpMpPipelineResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteGdpMpPipelineResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteGdpMpPipelineResponse")
+	}
+	return
+}
+
+// deleteGdpMpPipeline implements the OCIOperation interface (enables retrying operations)
+func (client GuardedDataPipelineClient) deleteGdpMpPipeline(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/gdpMpPipelines/{gdpMpPipelineId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteGdpMpPipelineResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "DeleteGdpMpPipeline")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "GuardedDataPipeline", "DeleteGdpMpPipeline", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteGdpPipeline Deletes a pipeline by identifier.
 // A default retry strategy applies to this operation DeleteGdpPipeline()
 func (client GuardedDataPipelineClient) DeleteGdpPipeline(ctx context.Context, request DeleteGdpPipelineRequest) (response DeleteGdpPipelineResponse, err error) {
@@ -256,6 +428,60 @@ func (client GuardedDataPipelineClient) deleteGdpPipeline(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GuardedDataPipeline", "DeleteGdpPipeline", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetGdpMpPipeline Retrieves a pipeline by identifier.
+// A default retry strategy applies to this operation GetGdpMpPipeline()
+func (client GuardedDataPipelineClient) GetGdpMpPipeline(ctx context.Context, request GetGdpMpPipelineRequest) (response GetGdpMpPipelineResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getGdpMpPipeline, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetGdpMpPipelineResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetGdpMpPipelineResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetGdpMpPipelineResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetGdpMpPipelineResponse")
+	}
+	return
+}
+
+// getGdpMpPipeline implements the OCIOperation interface (enables retrying operations)
+func (client GuardedDataPipelineClient) getGdpMpPipeline(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/gdpMpPipelines/{gdpMpPipelineId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetGdpMpPipelineResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "GetGdpMpPipeline")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "GuardedDataPipeline", "GetGdpMpPipeline", apiReferenceLink)
 		return response, err
 	}
 
@@ -364,6 +590,114 @@ func (client GuardedDataPipelineClient) getGdpWorkRequest(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GuardedDataPipeline", "GetGdpWorkRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetTransferStatusPipelineTransferId Gets the transfer status for the provided pipeline and transfer identifiers.
+// A default retry strategy applies to this operation GetTransferStatusPipelineTransferId()
+func (client GuardedDataPipelineClient) GetTransferStatusPipelineTransferId(ctx context.Context, request GetTransferStatusPipelineTransferIdRequest) (response GetTransferStatusPipelineTransferIdResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getTransferStatusPipelineTransferId, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetTransferStatusPipelineTransferIdResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetTransferStatusPipelineTransferIdResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetTransferStatusPipelineTransferIdResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetTransferStatusPipelineTransferIdResponse")
+	}
+	return
+}
+
+// getTransferStatusPipelineTransferId implements the OCIOperation interface (enables retrying operations)
+func (client GuardedDataPipelineClient) getTransferStatusPipelineTransferId(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/transferStatus/pipeline/{pipelineId}/transferId/{transferStatusId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetTransferStatusPipelineTransferIdResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "GetTransferStatusPipelineTransferId")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "GuardedDataPipeline", "GetTransferStatusPipelineTransferId", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListGdpMpPipelines Returns a list of pipelines.
+// A default retry strategy applies to this operation ListGdpMpPipelines()
+func (client GuardedDataPipelineClient) ListGdpMpPipelines(ctx context.Context, request ListGdpMpPipelinesRequest) (response ListGdpMpPipelinesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listGdpMpPipelines, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListGdpMpPipelinesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListGdpMpPipelinesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListGdpMpPipelinesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListGdpMpPipelinesResponse")
+	}
+	return
+}
+
+// listGdpMpPipelines implements the OCIOperation interface (enables retrying operations)
+func (client GuardedDataPipelineClient) listGdpMpPipelines(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/gdpMpPipelines", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListGdpMpPipelinesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "ListGdpMpPipelines")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "GuardedDataPipeline", "ListGdpMpPipelines", apiReferenceLink)
 		return response, err
 	}
 
@@ -587,6 +921,173 @@ func (client GuardedDataPipelineClient) listGdpWorkRequests(ctx context.Context,
 	return response, err
 }
 
+// ListTransferStatusPipelines Lists transfer statuses for the provided pipeline, filename, and checksum.
+// A default retry strategy applies to this operation ListTransferStatusPipelines()
+func (client GuardedDataPipelineClient) ListTransferStatusPipelines(ctx context.Context, request ListTransferStatusPipelinesRequest) (response ListTransferStatusPipelinesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listTransferStatusPipelines, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListTransferStatusPipelinesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListTransferStatusPipelinesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListTransferStatusPipelinesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListTransferStatusPipelinesResponse")
+	}
+	return
+}
+
+// listTransferStatusPipelines implements the OCIOperation interface (enables retrying operations)
+func (client GuardedDataPipelineClient) listTransferStatusPipelines(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/transferStatus/pipeline/{pipelineId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListTransferStatusPipelinesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "ListTransferStatusPipelines")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "GuardedDataPipeline", "ListTransferStatusPipelines", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListTransferStatuses Lists transfer statuses for a CDS pipeline, filename, and checksum combination.
+// A default retry strategy applies to this operation ListTransferStatuses()
+func (client GuardedDataPipelineClient) ListTransferStatuses(ctx context.Context, request ListTransferStatusesRequest) (response ListTransferStatusesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listTransferStatuses, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListTransferStatusesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListTransferStatusesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListTransferStatusesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListTransferStatusesResponse")
+	}
+	return
+}
+
+// listTransferStatuses implements the OCIOperation interface (enables retrying operations)
+func (client GuardedDataPipelineClient) listTransferStatuses(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/transferStatus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListTransferStatusesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "ListTransferStatuses")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "GuardedDataPipeline", "ListTransferStatuses", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PeerGdpMpPipeline Peers the pipeline.
+// A default retry strategy applies to this operation PeerGdpMpPipeline()
+func (client GuardedDataPipelineClient) PeerGdpMpPipeline(ctx context.Context, request PeerGdpMpPipelineRequest) (response PeerGdpMpPipelineResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.peerGdpMpPipeline, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PeerGdpMpPipelineResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PeerGdpMpPipelineResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PeerGdpMpPipelineResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PeerGdpMpPipelineResponse")
+	}
+	return
+}
+
+// peerGdpMpPipeline implements the OCIOperation interface (enables retrying operations)
+func (client GuardedDataPipelineClient) peerGdpMpPipeline(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/gdpMpPipelines/{gdpMpPipelineId}/actions/peer", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PeerGdpMpPipelineResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "PeerGdpMpPipeline")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "GuardedDataPipeline", "PeerGdpMpPipeline", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // PeerGdpPipeline Peers the pipeline.
 // A default retry strategy applies to this operation PeerGdpPipeline()
 func (client GuardedDataPipelineClient) PeerGdpPipeline(ctx context.Context, request PeerGdpPipelineRequest) (response PeerGdpPipelineResponse, err error) {
@@ -639,6 +1140,65 @@ func (client GuardedDataPipelineClient) peerGdpPipeline(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GuardedDataPipeline", "PeerGdpPipeline", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RotateGdpMpPipelineKeys Rotates the pipeline keys by resending the control message with a fresh pair of keys.
+// A default retry strategy applies to this operation RotateGdpMpPipelineKeys()
+func (client GuardedDataPipelineClient) RotateGdpMpPipelineKeys(ctx context.Context, request RotateGdpMpPipelineKeysRequest) (response RotateGdpMpPipelineKeysResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.rotateGdpMpPipelineKeys, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RotateGdpMpPipelineKeysResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RotateGdpMpPipelineKeysResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RotateGdpMpPipelineKeysResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RotateGdpMpPipelineKeysResponse")
+	}
+	return
+}
+
+// rotateGdpMpPipelineKeys implements the OCIOperation interface (enables retrying operations)
+func (client GuardedDataPipelineClient) rotateGdpMpPipelineKeys(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/gdpMpPipelines/{gdpMpPipelineId}/actions/rotateKeys", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RotateGdpMpPipelineKeysResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "RotateGdpMpPipelineKeys")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "GuardedDataPipeline", "RotateGdpMpPipelineKeys", apiReferenceLink)
 		return response, err
 	}
 
@@ -705,6 +1265,65 @@ func (client GuardedDataPipelineClient) rotateGdpPipelineKeys(ctx context.Contex
 	return response, err
 }
 
+// StartGdpMpPipeline Starts the pipeline.
+// A default retry strategy applies to this operation StartGdpMpPipeline()
+func (client GuardedDataPipelineClient) StartGdpMpPipeline(ctx context.Context, request StartGdpMpPipelineRequest) (response StartGdpMpPipelineResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.startGdpMpPipeline, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StartGdpMpPipelineResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StartGdpMpPipelineResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StartGdpMpPipelineResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StartGdpMpPipelineResponse")
+	}
+	return
+}
+
+// startGdpMpPipeline implements the OCIOperation interface (enables retrying operations)
+func (client GuardedDataPipelineClient) startGdpMpPipeline(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/gdpMpPipelines/{gdpMpPipelineId}/actions/start", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StartGdpMpPipelineResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "StartGdpMpPipeline")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "GuardedDataPipeline", "StartGdpMpPipeline", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // StartGdpPipeline Starts the pipeline.
 // A default retry strategy applies to this operation StartGdpPipeline()
 func (client GuardedDataPipelineClient) StartGdpPipeline(ctx context.Context, request StartGdpPipelineRequest) (response StartGdpPipelineResponse, err error) {
@@ -764,6 +1383,65 @@ func (client GuardedDataPipelineClient) startGdpPipeline(ctx context.Context, re
 	return response, err
 }
 
+// StopGdpMpPipeline Stops the pipeline.
+// A default retry strategy applies to this operation StopGdpMpPipeline()
+func (client GuardedDataPipelineClient) StopGdpMpPipeline(ctx context.Context, request StopGdpMpPipelineRequest) (response StopGdpMpPipelineResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.stopGdpMpPipeline, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StopGdpMpPipelineResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StopGdpMpPipelineResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StopGdpMpPipelineResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StopGdpMpPipelineResponse")
+	}
+	return
+}
+
+// stopGdpMpPipeline implements the OCIOperation interface (enables retrying operations)
+func (client GuardedDataPipelineClient) stopGdpMpPipeline(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/gdpMpPipelines/{gdpMpPipelineId}/actions/stop", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StopGdpMpPipelineResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "StopGdpMpPipeline")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "GuardedDataPipeline", "StopGdpMpPipeline", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // StopGdpPipeline Stops the pipeline.
 // A default retry strategy applies to this operation StopGdpPipeline()
 func (client GuardedDataPipelineClient) StopGdpPipeline(ctx context.Context, request StopGdpPipelineRequest) (response StopGdpPipelineResponse, err error) {
@@ -816,6 +1494,65 @@ func (client GuardedDataPipelineClient) stopGdpPipeline(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GuardedDataPipeline", "StopGdpPipeline", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateGdpMpPipeline Updates the pipeline.
+// A default retry strategy applies to this operation UpdateGdpMpPipeline()
+func (client GuardedDataPipelineClient) UpdateGdpMpPipeline(ctx context.Context, request UpdateGdpMpPipelineRequest) (response UpdateGdpMpPipelineResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateGdpMpPipeline, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateGdpMpPipelineResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateGdpMpPipelineResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateGdpMpPipelineResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateGdpMpPipelineResponse")
+	}
+	return
+}
+
+// updateGdpMpPipeline implements the OCIOperation interface (enables retrying operations)
+func (client GuardedDataPipelineClient) updateGdpMpPipeline(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/gdpMpPipelines/{gdpMpPipelineId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateGdpMpPipelineResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "guardedDataPipeline", "UpdateGdpMpPipeline")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "GuardedDataPipeline", "UpdateGdpMpPipeline", apiReferenceLink)
 		return response, err
 	}
 

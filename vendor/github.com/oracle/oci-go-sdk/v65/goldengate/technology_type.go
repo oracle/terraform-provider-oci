@@ -55,7 +55,6 @@ const (
 	TechnologyTypeAmazonRdsMariadb                        TechnologyTypeEnum = "AMAZON_RDS_MARIADB"
 	TechnologyTypeAmazonRdsMysql                          TechnologyTypeEnum = "AMAZON_RDS_MYSQL"
 	TechnologyTypeAmazonRdsPostgresql                     TechnologyTypeEnum = "AMAZON_RDS_POSTGRESQL"
-	TechnologyTypeAmazonS3Tables                          TechnologyTypeEnum = "AMAZON_S3_TABLES"
 	TechnologyTypeApacheIceberg                           TechnologyTypeEnum = "APACHE_ICEBERG"
 	TechnologyTypeApacheKafka                             TechnologyTypeEnum = "APACHE_KAFKA"
 	TechnologyTypeAzureCosmosDbForMongodb                 TechnologyTypeEnum = "AZURE_COSMOS_DB_FOR_MONGODB"
@@ -139,7 +138,6 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"AMAZON_RDS_MARIADB":                            TechnologyTypeAmazonRdsMariadb,
 	"AMAZON_RDS_MYSQL":                              TechnologyTypeAmazonRdsMysql,
 	"AMAZON_RDS_POSTGRESQL":                         TechnologyTypeAmazonRdsPostgresql,
-	"AMAZON_S3_TABLES":                              TechnologyTypeAmazonS3Tables,
 	"APACHE_ICEBERG":                                TechnologyTypeApacheIceberg,
 	"APACHE_KAFKA":                                  TechnologyTypeApacheKafka,
 	"AZURE_COSMOS_DB_FOR_MONGODB":                   TechnologyTypeAzureCosmosDbForMongodb,
@@ -223,7 +221,6 @@ var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"amazon_rds_mariadb":                            TechnologyTypeAmazonRdsMariadb,
 	"amazon_rds_mysql":                              TechnologyTypeAmazonRdsMysql,
 	"amazon_rds_postgresql":                         TechnologyTypeAmazonRdsPostgresql,
-	"amazon_s3_tables":                              TechnologyTypeAmazonS3Tables,
 	"apache_iceberg":                                TechnologyTypeApacheIceberg,
 	"apache_kafka":                                  TechnologyTypeApacheKafka,
 	"azure_cosmos_db_for_mongodb":                   TechnologyTypeAzureCosmosDbForMongodb,
@@ -318,7 +315,6 @@ func GetTechnologyTypeEnumStringValues() []string {
 		"AMAZON_RDS_MARIADB",
 		"AMAZON_RDS_MYSQL",
 		"AMAZON_RDS_POSTGRESQL",
-		"AMAZON_S3_TABLES",
 		"APACHE_ICEBERG",
 		"APACHE_KAFKA",
 		"AZURE_COSMOS_DB_FOR_MONGODB",

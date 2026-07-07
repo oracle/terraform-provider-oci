@@ -17,6 +17,13 @@ type CreateRegistrationPolicyRequest struct {
 	// Details of the Registration Policy
 	CreateRegistrationPolicyDetails `contributesTo:"body"`
 
+	// Indicates that the request is a dry run, if set to "true". A dry run request does not modify the
+	// configuration item details and is used only to perform validation on the submitted data.
+	OpcDryRun *bool `mandatory:"false" contributesTo:"header" name:"opc-dry-run"`
+
+	// Identifier of the cluster of the CDB associated to the registration policy being created.
+	XClusterId *string `mandatory:"false" contributesTo:"header" name:"x-cluster-id"`
+
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
 	// hours, but can be invalidated before then due to conflicting operations. For example, if a resource

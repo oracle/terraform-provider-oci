@@ -28,8 +28,6 @@ type CreateAiModelConnectionDetails struct {
 	// AI model identifier.
 	ModelKey *string `mandatory:"true" json:"modelKey"`
 
-	AuthDetails CreateAiModelAuthDetails `mandatory:"true" json:"authDetails"`
-
 	// Metadata about this specific object.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -101,8 +99,10 @@ type CreateAiModelConnectionDetails struct {
 	// Maximum number of input characters supported by this AI model connection.
 	MaxInputChars *int `mandatory:"false" json:"maxInputChars"`
 
+	AuthDetails CreateAiModelAuthDetails `mandatory:"false" json:"authDetails"`
+
 	// AI Provider type used by the AI Model Connection.
-	ProviderType CreateAiModelConnectionDetailsProviderTypeEnum `mandatory:"true" json:"providerType"`
+	ProviderType CreateAiModelConnectionDetailsProviderTypeEnum `mandatory:"false" json:"providerType,omitempty"`
 
 	// Controls the network traffic direction to the target:
 	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
@@ -247,13 +247,13 @@ func (m *CreateAiModelConnectionDetails) UnmarshalJSON(data []byte) (e error) {
 		SubscriptionId          *string                                        `json:"subscriptionId"`
 		ClusterPlacementGroupId *string                                        `json:"clusterPlacementGroupId"`
 		SecurityAttributes      map[string]map[string]interface{}              `json:"securityAttributes"`
+		ProviderType            CreateAiModelConnectionDetailsProviderTypeEnum `json:"providerType"`
 		MaxInputChars           *int                                           `json:"maxInputChars"`
+		AuthDetails             createaimodelauthdetails                       `json:"authDetails"`
 		DisplayName             *string                                        `json:"displayName"`
 		CompartmentId           *string                                        `json:"compartmentId"`
 		TechnologyType          AiModelConnectionTechnologyTypeEnum            `json:"technologyType"`
-		ProviderType            CreateAiModelConnectionDetailsProviderTypeEnum `json:"providerType"`
 		ModelKey                *string                                        `json:"modelKey"`
-		AuthDetails             createaimodelauthdetails                       `json:"authDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -287,17 +287,9 @@ func (m *CreateAiModelConnectionDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.SecurityAttributes = model.SecurityAttributes
 
-	m.MaxInputChars = model.MaxInputChars
-
-	m.DisplayName = model.DisplayName
-
-	m.CompartmentId = model.CompartmentId
-
-	m.TechnologyType = model.TechnologyType
-
 	m.ProviderType = model.ProviderType
 
-	m.ModelKey = model.ModelKey
+	m.MaxInputChars = model.MaxInputChars
 
 	nn, e = model.AuthDetails.UnmarshalPolymorphicJSON(model.AuthDetails.JsonData)
 	if e != nil {
@@ -308,6 +300,14 @@ func (m *CreateAiModelConnectionDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.AuthDetails = nil
 	}
+
+	m.DisplayName = model.DisplayName
+
+	m.CompartmentId = model.CompartmentId
+
+	m.TechnologyType = model.TechnologyType
+
+	m.ModelKey = model.ModelKey
 
 	return
 }

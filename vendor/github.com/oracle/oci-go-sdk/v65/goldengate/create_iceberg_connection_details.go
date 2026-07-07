@@ -107,8 +107,6 @@ type CreateIcebergConnectionDetails struct {
 	RoutingMethod RoutingMethodEnum `mandatory:"false" json:"routingMethod,omitempty"`
 
 	// The Iceberg technology type.
-	// APACHE_ICEBERG - supports all catalog types
-	// AMAZON_S3_TABLES - supports only Rest catalog and S3 storage
 	TechnologyType IcebergConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 }
 

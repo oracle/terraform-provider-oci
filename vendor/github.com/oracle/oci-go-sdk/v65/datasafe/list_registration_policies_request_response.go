@@ -27,7 +27,7 @@ type ListRegistrationPoliciesRequest struct {
 	LifecycleState RegistrationPolicyLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// Filter registration policies by resource type.
-	ResourceType RegistrationPolicyResourceTypeEnum `mandatory:"false" contributesTo:"query" name:"resourceType" omitEmpty:"true"`
+	EnablementLevel RegistrationPolicyEnablementLevelEnum `mandatory:"false" contributesTo:"query" name:"enablementLevel" omitEmpty:"true"`
 
 	// Filter to return the registration policy matching the specified resource OCID.
 	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
@@ -118,8 +118,8 @@ func (request ListRegistrationPoliciesRequest) ValidateEnumValue() (bool, error)
 	if _, ok := GetMappingRegistrationPolicyLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetRegistrationPolicyLifecycleStateEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingRegistrationPolicyResourceTypeEnum(string(request.ResourceType)); !ok && request.ResourceType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceType: %s. Supported values are: %s.", request.ResourceType, strings.Join(GetRegistrationPolicyResourceTypeEnumStringValues(), ",")))
+	if _, ok := GetMappingRegistrationPolicyEnablementLevelEnum(string(request.EnablementLevel)); !ok && request.EnablementLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnablementLevel: %s. Supported values are: %s.", request.EnablementLevel, strings.Join(GetRegistrationPolicyEnablementLevelEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListRegistrationPoliciesAccessLevelEnum(string(request.AccessLevel)); !ok && request.AccessLevel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListRegistrationPoliciesAccessLevelEnumStringValues(), ",")))
@@ -171,24 +171,24 @@ type ListRegistrationPoliciesSortByEnum string
 
 // Set of constants representing the allowable values for ListRegistrationPoliciesSortByEnum
 const (
-	ListRegistrationPoliciesSortByTimecreated    ListRegistrationPoliciesSortByEnum = "timeCreated"
-	ListRegistrationPoliciesSortByDisplayname    ListRegistrationPoliciesSortByEnum = "displayName"
-	ListRegistrationPoliciesSortByResourcetype   ListRegistrationPoliciesSortByEnum = "resourceType"
-	ListRegistrationPoliciesSortByLifecyclestate ListRegistrationPoliciesSortByEnum = "lifecycleState"
+	ListRegistrationPoliciesSortByTimecreated     ListRegistrationPoliciesSortByEnum = "timeCreated"
+	ListRegistrationPoliciesSortByDisplayname     ListRegistrationPoliciesSortByEnum = "displayName"
+	ListRegistrationPoliciesSortByEnablementlevel ListRegistrationPoliciesSortByEnum = "enablementLevel"
+	ListRegistrationPoliciesSortByLifecyclestate  ListRegistrationPoliciesSortByEnum = "lifecycleState"
 )
 
 var mappingListRegistrationPoliciesSortByEnum = map[string]ListRegistrationPoliciesSortByEnum{
-	"timeCreated":    ListRegistrationPoliciesSortByTimecreated,
-	"displayName":    ListRegistrationPoliciesSortByDisplayname,
-	"resourceType":   ListRegistrationPoliciesSortByResourcetype,
-	"lifecycleState": ListRegistrationPoliciesSortByLifecyclestate,
+	"timeCreated":     ListRegistrationPoliciesSortByTimecreated,
+	"displayName":     ListRegistrationPoliciesSortByDisplayname,
+	"enablementLevel": ListRegistrationPoliciesSortByEnablementlevel,
+	"lifecycleState":  ListRegistrationPoliciesSortByLifecyclestate,
 }
 
 var mappingListRegistrationPoliciesSortByEnumLowerCase = map[string]ListRegistrationPoliciesSortByEnum{
-	"timecreated":    ListRegistrationPoliciesSortByTimecreated,
-	"displayname":    ListRegistrationPoliciesSortByDisplayname,
-	"resourcetype":   ListRegistrationPoliciesSortByResourcetype,
-	"lifecyclestate": ListRegistrationPoliciesSortByLifecyclestate,
+	"timecreated":     ListRegistrationPoliciesSortByTimecreated,
+	"displayname":     ListRegistrationPoliciesSortByDisplayname,
+	"enablementlevel": ListRegistrationPoliciesSortByEnablementlevel,
+	"lifecyclestate":  ListRegistrationPoliciesSortByLifecyclestate,
 }
 
 // GetListRegistrationPoliciesSortByEnumValues Enumerates the set of values for ListRegistrationPoliciesSortByEnum
@@ -205,7 +205,7 @@ func GetListRegistrationPoliciesSortByEnumStringValues() []string {
 	return []string{
 		"timeCreated",
 		"displayName",
-		"resourceType",
+		"enablementLevel",
 		"lifecycleState",
 	}
 }

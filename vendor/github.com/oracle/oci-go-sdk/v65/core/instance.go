@@ -210,6 +210,9 @@ type Instance struct {
 
 	// List of licensing configurations associated with the instance.
 	LicensingConfigs []LicensingConfig `mandatory:"false" json:"licensingConfigs"`
+
+	// This field is reserved for internal use.
+	InternalOverlayEnclave InstanceInternalOverlayEnclaveEnum `mandatory:"false" json:"internalOverlayEnclave,omitempty"`
 }
 
 func (m Instance) String() string {
@@ -233,6 +236,9 @@ func (m Instance) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingInstancePreferredMaintenanceActionEnum(string(m.PreferredMaintenanceAction)); !ok && m.PreferredMaintenanceAction != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PreferredMaintenanceAction: %s. Supported values are: %s.", m.PreferredMaintenanceAction, strings.Join(GetInstancePreferredMaintenanceActionEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingInstanceInternalOverlayEnclaveEnum(string(m.InternalOverlayEnclave)); !ok && m.InternalOverlayEnclave != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InternalOverlayEnclave: %s. Supported values are: %s.", m.InternalOverlayEnclave, strings.Join(GetInstanceInternalOverlayEnclaveEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -274,6 +280,7 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 		PlatformConfig             platformconfig                         `json:"platformConfig"`
 		InstanceConfigurationId    *string                                `json:"instanceConfigurationId"`
 		LicensingConfigs           []LicensingConfig                      `json:"licensingConfigs"`
+		InternalOverlayEnclave     InstanceInternalOverlayEnclaveEnum     `json:"internalOverlayEnclave"`
 		AvailabilityDomain         *string                                `json:"availabilityDomain"`
 		CompartmentId              *string                                `json:"compartmentId"`
 		Id                         *string                                `json:"id"`
@@ -374,6 +381,8 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 
 	m.LicensingConfigs = make([]LicensingConfig, len(model.LicensingConfigs))
 	copy(m.LicensingConfigs, model.LicensingConfigs)
+	m.InternalOverlayEnclave = model.InternalOverlayEnclave
+
 	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.CompartmentId = model.CompartmentId
@@ -608,5 +617,43 @@ func GetInstancePreferredMaintenanceActionEnumStringValues() []string {
 // GetMappingInstancePreferredMaintenanceActionEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingInstancePreferredMaintenanceActionEnum(val string) (InstancePreferredMaintenanceActionEnum, bool) {
 	enum, ok := mappingInstancePreferredMaintenanceActionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// InstanceInternalOverlayEnclaveEnum Enum with underlying type: string
+type InstanceInternalOverlayEnclaveEnum string
+
+// Set of constants representing the allowable values for InstanceInternalOverlayEnclaveEnum
+const (
+	InstanceInternalOverlayEnclaveSecurity InstanceInternalOverlayEnclaveEnum = "SECURITY"
+)
+
+var mappingInstanceInternalOverlayEnclaveEnum = map[string]InstanceInternalOverlayEnclaveEnum{
+	"SECURITY": InstanceInternalOverlayEnclaveSecurity,
+}
+
+var mappingInstanceInternalOverlayEnclaveEnumLowerCase = map[string]InstanceInternalOverlayEnclaveEnum{
+	"security": InstanceInternalOverlayEnclaveSecurity,
+}
+
+// GetInstanceInternalOverlayEnclaveEnumValues Enumerates the set of values for InstanceInternalOverlayEnclaveEnum
+func GetInstanceInternalOverlayEnclaveEnumValues() []InstanceInternalOverlayEnclaveEnum {
+	values := make([]InstanceInternalOverlayEnclaveEnum, 0)
+	for _, v := range mappingInstanceInternalOverlayEnclaveEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetInstanceInternalOverlayEnclaveEnumStringValues Enumerates the set of values in String for InstanceInternalOverlayEnclaveEnum
+func GetInstanceInternalOverlayEnclaveEnumStringValues() []string {
+	return []string{
+		"SECURITY",
+	}
+}
+
+// GetMappingInstanceInternalOverlayEnclaveEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingInstanceInternalOverlayEnclaveEnum(val string) (InstanceInternalOverlayEnclaveEnum, bool) {
+	enum, ok := mappingInstanceInternalOverlayEnclaveEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

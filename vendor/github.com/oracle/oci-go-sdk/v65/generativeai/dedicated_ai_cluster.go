@@ -356,6 +356,8 @@ const (
 	DedicatedAiClusterUnitShapeH100X2          DedicatedAiClusterUnitShapeEnum = "H100_X2"
 	DedicatedAiClusterUnitShapeH100X4          DedicatedAiClusterUnitShapeEnum = "H100_X4"
 	DedicatedAiClusterUnitShapeH100X8          DedicatedAiClusterUnitShapeEnum = "H100_X8"
+	DedicatedAiClusterUnitShapeH100X16         DedicatedAiClusterUnitShapeEnum = "H100_X16"
+	DedicatedAiClusterUnitShapeH100X32         DedicatedAiClusterUnitShapeEnum = "H100_X32"
 	DedicatedAiClusterUnitShapeH200X1          DedicatedAiClusterUnitShapeEnum = "H200_X1"
 	DedicatedAiClusterUnitShapeH200X2          DedicatedAiClusterUnitShapeEnum = "H200_X2"
 	DedicatedAiClusterUnitShapeH200X4          DedicatedAiClusterUnitShapeEnum = "H200_X4"
@@ -457,6 +459,8 @@ var mappingDedicatedAiClusterUnitShapeEnum = map[string]DedicatedAiClusterUnitSh
 	"H100_X2":            DedicatedAiClusterUnitShapeH100X2,
 	"H100_X4":            DedicatedAiClusterUnitShapeH100X4,
 	"H100_X8":            DedicatedAiClusterUnitShapeH100X8,
+	"H100_X16":           DedicatedAiClusterUnitShapeH100X16,
+	"H100_X32":           DedicatedAiClusterUnitShapeH100X32,
 	"H200_X1":            DedicatedAiClusterUnitShapeH200X1,
 	"H200_X2":            DedicatedAiClusterUnitShapeH200X2,
 	"H200_X4":            DedicatedAiClusterUnitShapeH200X4,
@@ -558,6 +562,8 @@ var mappingDedicatedAiClusterUnitShapeEnumLowerCase = map[string]DedicatedAiClus
 	"h100_x2":            DedicatedAiClusterUnitShapeH100X2,
 	"h100_x4":            DedicatedAiClusterUnitShapeH100X4,
 	"h100_x8":            DedicatedAiClusterUnitShapeH100X8,
+	"h100_x16":           DedicatedAiClusterUnitShapeH100X16,
+	"h100_x32":           DedicatedAiClusterUnitShapeH100X32,
 	"h200_x1":            DedicatedAiClusterUnitShapeH200X1,
 	"h200_x2":            DedicatedAiClusterUnitShapeH200X2,
 	"h200_x4":            DedicatedAiClusterUnitShapeH200X4,
@@ -670,6 +676,8 @@ func GetDedicatedAiClusterUnitShapeEnumStringValues() []string {
 		"H100_X2",
 		"H100_X4",
 		"H100_X8",
+		"H100_X16",
+		"H100_X32",
 		"H200_X1",
 		"H200_X2",
 		"H200_X4",

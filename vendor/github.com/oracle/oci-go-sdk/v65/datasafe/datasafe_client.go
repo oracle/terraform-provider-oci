@@ -4018,8 +4018,8 @@ func (client DataSafeClient) createSdmMaskingPolicyDifference(ctx context.Contex
 	return response, err
 }
 
-// CreateSecurityAssessment Creates a new saved security assessment for one or multiple targets in a compartment. When this operation is performed,
-// it will save the latest assessments in the specified compartment. If a schedule is passed, it will persist the latest assessments,
+// CreateSecurityAssessment Creates a new saved security assessment for a target database or target database group in a compartment. When this operation is performed,
+// it will save the latest assessment in the specified compartment. If a schedule is passed, it will persist the latest assessment,
 // at the defined date and time, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 // A default retry strategy applies to this operation CreateSecurityAssessment()
 func (client DataSafeClient) CreateSecurityAssessment(ctx context.Context, request CreateSecurityAssessmentRequest) (response CreateSecurityAssessmentResponse, err error) {
@@ -4852,8 +4852,8 @@ func (client DataSafeClient) createUnifiedAuditPolicy(ctx context.Context, reque
 	return response, err
 }
 
-// CreateUserAssessment Creates a new saved user assessment for one or multiple targets in a compartment. It saves the latest assessments in the
-// specified compartment. If a scheduled is passed in, this operation persists the latest assessments that exist at the defined
+// CreateUserAssessment Creates a new saved user assessment for a target database or target database group in a compartment. It saves the latest assessment in the
+// specified compartment. If a schedule is passed in, this operation persists the latest assessment that exists at the defined
 // date and time, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 // A default retry strategy applies to this operation CreateUserAssessment()
 func (client DataSafeClient) CreateUserAssessment(ctx context.Context, request CreateUserAssessmentRequest) (response CreateUserAssessmentResponse, err error) {
@@ -12697,6 +12697,7 @@ func (client DataSafeClient) listDatabaseTableAccessEntries(ctx context.Context,
 
 // ListDatabaseViewAccessEntries Retrieves a list of all database view access entries in Data Safe.
 // The ListDatabaseViewAccessEntries operation returns only the database view access objects for the specified security policy report.
+// If targetId is specified, it must match the target associated with the securityPolicyReportId path parameter; otherwise, the request is rejected.
 // A default retry strategy applies to this operation ListDatabaseViewAccessEntries()
 func (client DataSafeClient) ListDatabaseViewAccessEntries(ctx context.Context, request ListDatabaseViewAccessEntriesRequest) (response ListDatabaseViewAccessEntriesResponse, err error) {
 	var ociResponse common.OCIResponse

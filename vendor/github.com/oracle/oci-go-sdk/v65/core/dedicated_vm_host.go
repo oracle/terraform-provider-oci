@@ -84,6 +84,9 @@ type DedicatedVmHost struct {
 	// Specifies if the Dedicated Virtual Machine Host (DVMH) is restricted to running only Confidential VMs. If `true`, only Confidential VMs can be launched. If `false`, Confidential VMs cannot be launched.
 	IsMemoryEncryptionEnabled *bool `mandatory:"false" json:"isMemoryEncryptionEnabled"`
 
+	// Specifies if the Dedicated Virtual Machine Host (DVMH) is to running only Burstable VMs. If `true`, only Burstable VMs can be launched. If `false`, Burstable VMs cannot be launched.
+	IsBurstable *bool `mandatory:"false" json:"isBurstable"`
+
 	// The total memory of the dedicated VM host, in GBs.
 	TotalMemoryInGBs *float32 `mandatory:"false" json:"totalMemoryInGBs"`
 
@@ -131,6 +134,7 @@ func (m *DedicatedVmHost) UnmarshalJSON(data []byte) (e error) {
 		PlacementConstraintDetails placementconstraintdetails        `json:"placementConstraintDetails"`
 		CapacityConfig             *string                           `json:"capacityConfig"`
 		IsMemoryEncryptionEnabled  *bool                             `json:"isMemoryEncryptionEnabled"`
+		IsBurstable                *bool                             `json:"isBurstable"`
 		TotalMemoryInGBs           *float32                          `json:"totalMemoryInGBs"`
 		RemainingMemoryInGBs       *float32                          `json:"remainingMemoryInGBs"`
 		TotalLocalVolumeInGBs      *float32                          `json:"totalLocalVolumeInGBs"`
@@ -172,6 +176,8 @@ func (m *DedicatedVmHost) UnmarshalJSON(data []byte) (e error) {
 	m.CapacityConfig = model.CapacityConfig
 
 	m.IsMemoryEncryptionEnabled = model.IsMemoryEncryptionEnabled
+
+	m.IsBurstable = model.IsBurstable
 
 	m.TotalMemoryInGBs = model.TotalMemoryInGBs
 

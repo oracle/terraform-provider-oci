@@ -43,6 +43,9 @@ type DedicatedVmHostInstanceSummary struct {
 
 	// Specifies whether the VM instance is confidential.
 	IsMemoryEncryptionEnabled *bool `mandatory:"false" json:"isMemoryEncryptionEnabled"`
+
+	// Specifies if the Dedicated Virtual Machine Host (DVMH) is to running only Burstable VMs. If `true`, only Burstable VMs can be launched. If `false`, Burstable VMs cannot be launched.
+	IsBurstable *bool `mandatory:"false" json:"isBurstable"`
 }
 
 func (m DedicatedVmHostInstanceSummary) String() string {

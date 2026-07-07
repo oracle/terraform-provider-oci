@@ -65,11 +65,8 @@ type RegistrationPolicy struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	// The resource type which has been opted in for the registration policy.
-	// - CLOUD_VMCLUSTER  - The Registration policy is applied at the ExaCS VM Cluster level, enabling opt-in for this resource
-	// - VMCLUSTER  - The registration policy will be opted in at Exadata Cloud@Customer instances.
-	// - EXADB_VMCLUSTER - The registration policy will be opted in at Exadata VM cluster on Exascale Infrastructure
 	// - DATABASE - The registration policy will be opted in at the Container Database level.
-	ResourceType RegistrationPolicyResourceTypeEnum `mandatory:"false" json:"resourceType,omitempty"`
+	EnablementLevel RegistrationPolicyEnablementLevelEnum `mandatory:"false" json:"enablementLevel,omitempty"`
 
 	// Indicates whether features will be overridden.
 	CanOverrideFeatures *bool `mandatory:"false" json:"canOverrideFeatures"`
@@ -99,8 +96,8 @@ func (m RegistrationPolicy) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetRegistrationPolicyLifecycleStateEnumStringValues(), ",")))
 	}
 
-	if _, ok := GetMappingRegistrationPolicyResourceTypeEnum(string(m.ResourceType)); !ok && m.ResourceType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceType: %s. Supported values are: %s.", m.ResourceType, strings.Join(GetRegistrationPolicyResourceTypeEnumStringValues(), ",")))
+	if _, ok := GetMappingRegistrationPolicyEnablementLevelEnum(string(m.EnablementLevel)); !ok && m.EnablementLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnablementLevel: %s. Supported values are: %s.", m.EnablementLevel, strings.Join(GetRegistrationPolicyEnablementLevelEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -108,53 +105,41 @@ func (m RegistrationPolicy) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// RegistrationPolicyResourceTypeEnum Enum with underlying type: string
-type RegistrationPolicyResourceTypeEnum string
+// RegistrationPolicyEnablementLevelEnum Enum with underlying type: string
+type RegistrationPolicyEnablementLevelEnum string
 
-// Set of constants representing the allowable values for RegistrationPolicyResourceTypeEnum
+// Set of constants representing the allowable values for RegistrationPolicyEnablementLevelEnum
 const (
-	RegistrationPolicyResourceTypeCloudVmCluster RegistrationPolicyResourceTypeEnum = "CLOUD_VM_CLUSTER"
-	RegistrationPolicyResourceTypeVmCluster      RegistrationPolicyResourceTypeEnum = "VM_CLUSTER"
-	RegistrationPolicyResourceTypeExadbVmCluster RegistrationPolicyResourceTypeEnum = "EXADB_VM_CLUSTER"
-	RegistrationPolicyResourceTypeDatabase       RegistrationPolicyResourceTypeEnum = "DATABASE"
+	RegistrationPolicyEnablementLevelDatabase RegistrationPolicyEnablementLevelEnum = "DATABASE"
 )
 
-var mappingRegistrationPolicyResourceTypeEnum = map[string]RegistrationPolicyResourceTypeEnum{
-	"CLOUD_VM_CLUSTER": RegistrationPolicyResourceTypeCloudVmCluster,
-	"VM_CLUSTER":       RegistrationPolicyResourceTypeVmCluster,
-	"EXADB_VM_CLUSTER": RegistrationPolicyResourceTypeExadbVmCluster,
-	"DATABASE":         RegistrationPolicyResourceTypeDatabase,
+var mappingRegistrationPolicyEnablementLevelEnum = map[string]RegistrationPolicyEnablementLevelEnum{
+	"DATABASE": RegistrationPolicyEnablementLevelDatabase,
 }
 
-var mappingRegistrationPolicyResourceTypeEnumLowerCase = map[string]RegistrationPolicyResourceTypeEnum{
-	"cloud_vm_cluster": RegistrationPolicyResourceTypeCloudVmCluster,
-	"vm_cluster":       RegistrationPolicyResourceTypeVmCluster,
-	"exadb_vm_cluster": RegistrationPolicyResourceTypeExadbVmCluster,
-	"database":         RegistrationPolicyResourceTypeDatabase,
+var mappingRegistrationPolicyEnablementLevelEnumLowerCase = map[string]RegistrationPolicyEnablementLevelEnum{
+	"database": RegistrationPolicyEnablementLevelDatabase,
 }
 
-// GetRegistrationPolicyResourceTypeEnumValues Enumerates the set of values for RegistrationPolicyResourceTypeEnum
-func GetRegistrationPolicyResourceTypeEnumValues() []RegistrationPolicyResourceTypeEnum {
-	values := make([]RegistrationPolicyResourceTypeEnum, 0)
-	for _, v := range mappingRegistrationPolicyResourceTypeEnum {
+// GetRegistrationPolicyEnablementLevelEnumValues Enumerates the set of values for RegistrationPolicyEnablementLevelEnum
+func GetRegistrationPolicyEnablementLevelEnumValues() []RegistrationPolicyEnablementLevelEnum {
+	values := make([]RegistrationPolicyEnablementLevelEnum, 0)
+	for _, v := range mappingRegistrationPolicyEnablementLevelEnum {
 		values = append(values, v)
 	}
 	return values
 }
 
-// GetRegistrationPolicyResourceTypeEnumStringValues Enumerates the set of values in String for RegistrationPolicyResourceTypeEnum
-func GetRegistrationPolicyResourceTypeEnumStringValues() []string {
+// GetRegistrationPolicyEnablementLevelEnumStringValues Enumerates the set of values in String for RegistrationPolicyEnablementLevelEnum
+func GetRegistrationPolicyEnablementLevelEnumStringValues() []string {
 	return []string{
-		"CLOUD_VM_CLUSTER",
-		"VM_CLUSTER",
-		"EXADB_VM_CLUSTER",
 		"DATABASE",
 	}
 }
 
-// GetMappingRegistrationPolicyResourceTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingRegistrationPolicyResourceTypeEnum(val string) (RegistrationPolicyResourceTypeEnum, bool) {
-	enum, ok := mappingRegistrationPolicyResourceTypeEnumLowerCase[strings.ToLower(val)]
+// GetMappingRegistrationPolicyEnablementLevelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingRegistrationPolicyEnablementLevelEnum(val string) (RegistrationPolicyEnablementLevelEnum, bool) {
+	enum, ok := mappingRegistrationPolicyEnablementLevelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

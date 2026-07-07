@@ -1019,6 +1019,72 @@ func (client GenerativeAiClient) changeModelCompartment(ctx context.Context, req
 	return response, err
 }
 
+// ChangeRoutingProfileCompartment Moves a routing profile into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// A default retry strategy applies to this operation ChangeRoutingProfileCompartment()
+func (client GenerativeAiClient) ChangeRoutingProfileCompartment(ctx context.Context, request ChangeRoutingProfileCompartmentRequest) (response ChangeRoutingProfileCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeRoutingProfileCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeRoutingProfileCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeRoutingProfileCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeRoutingProfileCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeRoutingProfileCompartmentResponse")
+	}
+	return
+}
+
+// changeRoutingProfileCompartment implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) changeRoutingProfileCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/routingProfiles/{routingProfileId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ChangeRoutingProfileCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "ChangeRoutingProfileCompartment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/RoutingProfile/ChangeRoutingProfileCompartment"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "ChangeRoutingProfileCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeSemanticStoreCompartment Moves a SemanticStore into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeSemanticStoreCompartment()
 func (client GenerativeAiClient) ChangeSemanticStoreCompartment(ctx context.Context, request ChangeSemanticStoreCompartmentRequest) (response ChangeSemanticStoreCompartmentResponse, err error) {
@@ -1942,6 +2008,72 @@ func (client GenerativeAiClient) createModel(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Model/CreateModel"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "CreateModel", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateRoutingProfile Creates a routing profile.
+// A default retry strategy applies to this operation CreateRoutingProfile()
+func (client GenerativeAiClient) CreateRoutingProfile(ctx context.Context, request CreateRoutingProfileRequest) (response CreateRoutingProfileResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createRoutingProfile, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateRoutingProfileResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateRoutingProfileResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateRoutingProfileResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateRoutingProfileResponse")
+	}
+	return
+}
+
+// createRoutingProfile implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) createRoutingProfile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/routingProfiles", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response CreateRoutingProfileResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "CreateRoutingProfile")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/RoutingProfile/CreateRoutingProfile"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "CreateRoutingProfile", apiReferenceLink)
 		return response, err
 	}
 
@@ -3008,6 +3140,67 @@ func (client GenerativeAiClient) deleteModel(ctx context.Context, request common
 	return response, err
 }
 
+// DeleteRoutingProfile Deletes a routing profile.
+// A default retry strategy applies to this operation DeleteRoutingProfile()
+func (client GenerativeAiClient) DeleteRoutingProfile(ctx context.Context, request DeleteRoutingProfileRequest) (response DeleteRoutingProfileResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteRoutingProfile, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteRoutingProfileResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteRoutingProfileResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteRoutingProfileResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteRoutingProfileResponse")
+	}
+	return
+}
+
+// deleteRoutingProfile implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) deleteRoutingProfile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/routingProfiles/{routingProfileId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response DeleteRoutingProfileResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "DeleteRoutingProfile")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/RoutingProfile/DeleteRoutingProfile"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "DeleteRoutingProfile", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteSemanticStore Deletes a semanticStore.
 // A default retry strategy applies to this operation DeleteSemanticStore()
 func (client GenerativeAiClient) DeleteSemanticStore(ctx context.Context, request DeleteSemanticStoreRequest) (response DeleteSemanticStoreResponse, err error) {
@@ -3916,6 +4109,67 @@ func (client GenerativeAiClient) getModel(ctx context.Context, request common.OC
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Model/GetModel"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "GetModel", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetRoutingProfile Gets information about a routing profile.
+// A default retry strategy applies to this operation GetRoutingProfile()
+func (client GenerativeAiClient) GetRoutingProfile(ctx context.Context, request GetRoutingProfileRequest) (response GetRoutingProfileResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getRoutingProfile, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetRoutingProfileResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetRoutingProfileResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetRoutingProfileResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetRoutingProfileResponse")
+	}
+	return
+}
+
+// getRoutingProfile implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) getRoutingProfile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/routingProfiles/{routingProfileId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetRoutingProfileResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "GetRoutingProfile")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/RoutingProfile/GetRoutingProfile"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "GetRoutingProfile", apiReferenceLink)
 		return response, err
 	}
 
@@ -4960,6 +5214,68 @@ func (client GenerativeAiClient) listLangfuseInstances(ctx context.Context, requ
 	return response, err
 }
 
+// ListModelDiscovery Retrieves a list of models along with their capabilities, supported features, and deployment availability.
+// Results can be filtered by attributes such as region, realm, model identifier, supported inference APIs, serving modes, and access type.
+// A default retry strategy applies to this operation ListModelDiscovery()
+func (client GenerativeAiClient) ListModelDiscovery(ctx context.Context, request ListModelDiscoveryRequest) (response ListModelDiscoveryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listModelDiscovery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListModelDiscoveryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListModelDiscoveryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListModelDiscoveryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListModelDiscoveryResponse")
+	}
+	return
+}
+
+// listModelDiscovery implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) listModelDiscovery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/modelDiscovery", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListModelDiscoveryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "ListModelDiscovery")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/ModelDiscoveryCollection/ListModelDiscovery"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "ListModelDiscovery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListModels Lists the models in a specific compartment. Includes pretrained base models and fine-tuned custom models.
 // A default retry strategy applies to this operation ListModels()
 func (client GenerativeAiClient) ListModels(ctx context.Context, request ListModelsRequest) (response ListModelsResponse, err error) {
@@ -5014,6 +5330,67 @@ func (client GenerativeAiClient) listModels(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/ModelCollection/ListModels"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ListModels", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListRoutingProfiles Lists the routing profiles of a specific compartment.
+// A default retry strategy applies to this operation ListRoutingProfiles()
+func (client GenerativeAiClient) ListRoutingProfiles(ctx context.Context, request ListRoutingProfilesRequest) (response ListRoutingProfilesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRoutingProfiles, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRoutingProfilesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRoutingProfilesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRoutingProfilesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRoutingProfilesResponse")
+	}
+	return
+}
+
+// listRoutingProfiles implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) listRoutingProfiles(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/routingProfiles", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListRoutingProfilesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "ListRoutingProfiles")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/RoutingProfileCollection/ListRoutingProfiles"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "ListRoutingProfiles", apiReferenceLink)
 		return response, err
 	}
 
@@ -6371,6 +6748,67 @@ func (client GenerativeAiClient) updateModel(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Model/UpdateModel"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "UpdateModel", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateRoutingProfile Updates the properties of a routing profile.
+// A default retry strategy applies to this operation UpdateRoutingProfile()
+func (client GenerativeAiClient) UpdateRoutingProfile(ctx context.Context, request UpdateRoutingProfileRequest) (response UpdateRoutingProfileResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateRoutingProfile, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateRoutingProfileResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateRoutingProfileResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateRoutingProfileResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateRoutingProfileResponse")
+	}
+	return
+}
+
+// updateRoutingProfile implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) updateRoutingProfile(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/routingProfiles/{routingProfileId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UpdateRoutingProfileResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "UpdateRoutingProfile")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/RoutingProfile/UpdateRoutingProfile"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "UpdateRoutingProfile", apiReferenceLink)
 		return response, err
 	}
 

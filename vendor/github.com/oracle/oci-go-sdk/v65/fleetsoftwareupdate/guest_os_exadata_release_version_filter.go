@@ -21,8 +21,10 @@ import (
 // Only release versions related to the specified sourceMajorVersion are allowed.
 type GuestOsExadataReleaseVersionFilter struct {
 
-	// Forward-compatible Exadata release version tokens.
+	// Forward-compatible Exadata release versions to include when discovering Exadata VM Cluster targets for Guest OS updates.
 	// Applicable only when 'exadataReleases' contains CUSTOM.
+	// Specify values in the format EXA_OL_<OracleLinux majorVersion>_<Exadata major release version>_<Exadata patch release version>, for example EXA_OL_8_26_1.
+	// Supported values can be obtained by calling the ListReleaseVersions API with versionType EXADATA_RELEASE_VERSION.
 	CustomExadataReleases []string `mandatory:"false" json:"customExadataReleases"`
 
 	// INCLUDE or EXCLUDE the filter results when discovering Exadata VM Cluster targets for a 'GUEST_OS' collection.

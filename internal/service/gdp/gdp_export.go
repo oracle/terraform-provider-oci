@@ -1,5 +1,6 @@
 package gdp
 
+/*
 import (
 	oci_gdp "github.com/oracle/oci-go-sdk/v65/gdp"
 
@@ -31,3 +32,4 @@ var gdpResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportGdpGdpPipelineHints},
 	},
 }
+*/

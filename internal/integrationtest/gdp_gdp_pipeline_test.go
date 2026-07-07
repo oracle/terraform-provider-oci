@@ -3,6 +3,7 @@
 
 package integrationtest
 
+/*
 import (
 	"context"
 	"fmt"
@@ -488,3 +489,4 @@ func GdpGdpPipelineSweepResponseFetchOperation(client *tf_client.OracleClients, 
 	})
 	return err
 }
+*/
