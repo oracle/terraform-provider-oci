@@ -1,3 +1,13 @@
+## 8.22.0 (July 8, 2026)
+
+### Added
+- Support generic WorkloadIdentityFederation authentication for non-OKE kubernetes
+
+### Bug Fix
+- Fix IPv6 semantic diff suppression for core VNIC pair details
+- oci_psa_private_service_access resource discovery
+- Improve events rule condition and action schema
+
 ## 8.21.0 (June 30, 2026)
 
 ### Added
