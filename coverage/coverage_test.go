@@ -14,7 +14,7 @@ import (
 
 var totalRgx = regexp.MustCompile(`total:\s+\(statements\)\s+([^"]*)%`)
 
-const CodeCoverageThreshold = 52.9
+const CodeCoverageThreshold = 54.5
 
 func TestCoverage(t *testing.T) {
 	if os.Getenv("CHECK_COVERAGE") != "true" {

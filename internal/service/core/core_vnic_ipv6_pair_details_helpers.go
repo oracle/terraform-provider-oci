@@ -115,6 +115,7 @@ func deriveIpv6PairDetailsFromVnic(vnic *oci_core.Vnic, virtualNetworkClient *oc
 		if ipv6Address == "" {
 			continue
 		}
+		ipv6Address = normalizeIpv6Address(ipv6Address)
 		if _, exists := ipv6DetailsByAddress[ipv6Address]; !exists {
 			ipv6DetailsByAddress[ipv6Address] = ipv6Details{}
 		}
@@ -138,7 +139,7 @@ func deriveIpv6PairDetailsFromVnic(vnic *oci_core.Vnic, virtualNetworkClient *oc
 					continue
 				}
 
-				ipv6Address := *ipv6.IpAddress
+				ipv6Address := normalizeIpv6Address(*ipv6.IpAddress)
 				details := ipv6DetailsByAddress[ipv6Address]
 
 				if ipv6.Id != nil && *ipv6.Id != "" {
@@ -182,6 +183,20 @@ func deriveIpv6PairDetailsFromVnic(vnic *oci_core.Vnic, virtualNetworkClient *oc
 	}
 
 	return result
+}
+
+func normalizeIpv6Address(ipv6Address string) string {
+	parsedAddress := net.ParseIP(ipv6Address)
+	if parsedAddress == nil || parsedAddress.To4() != nil {
+		return ipv6Address
+	}
+
+	normalizedIpv6 := parsedAddress.To16()
+	if normalizedIpv6 == nil {
+		return ipv6Address
+	}
+
+	return normalizedIpv6.String()
 }
 
 func deriveIpv6SubnetCidrFromAddress(ipv6Address string, cidrPrefixLength int) string {

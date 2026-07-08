@@ -102,8 +102,9 @@ func CoreVnicAttachmentResource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									"ipv6address": {
-										Type:     schema.TypeString,
-										Optional: true,
+										Type:             schema.TypeString,
+										Optional:         true,
+										DiffSuppressFunc: ipv6CompressionDiffSuppressFunction,
 									},
 									"ipv6id": {
 										Type:     schema.TypeString,

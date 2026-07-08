@@ -115,6 +115,132 @@ func TestValidateCoreWorkRequestStatus(t *testing.T) {
 	}
 }
 
+func TestIpv6CompressionDiffSuppressFunctionPlainAddress(t *testing.T) {
+	tests := []struct {
+		name string
+		old  string
+		new  string
+		want bool
+	}{
+		{
+			name: "suppresses equivalent compressed and expanded addresses",
+			old:  "2001:db8:4505:3600::9622",
+			new:  "2001:0db8:4505:3600:0000:0000:0000:9622",
+			want: true,
+		},
+		{
+			name: "suppresses equivalent expanded and compressed addresses",
+			old:  "2001:0db8:4505:3600:0000:0000:0000:9622",
+			new:  "2001:db8:4505:3600::9622",
+			want: true,
+		},
+		{
+			name: "does not suppress different addresses",
+			old:  "2001:db8:4505:3600::9622",
+			new:  "2001:db8:4505:3600::9623",
+			want: false,
+		},
+		{
+			name: "does not suppress address and cidr",
+			old:  "2001:db8:4505:3600::9622",
+			new:  "2001:db8:4505:3600::/64",
+			want: false,
+		},
+		{
+			name: "does not suppress malformed values",
+			old:  "not-an-ip",
+			new:  "not-an-ip",
+			want: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := ipv6CompressionDiffSuppressFunction("ipv6address", tt.old, tt.new, nil)
+			if got != tt.want {
+				t.Fatalf("ipv6CompressionDiffSuppressFunction(%q, %q) = %v, want %v", tt.old, tt.new, got, tt.want)
+			}
+		})
+	}
+}
+
+func TestCoreInstanceResourceIpv6PairDetailsAddressDiffSuppress(t *testing.T) {
+	ipv6AddressSchema := nestedIpv6PairDetailsAddressSchema(t, CoreInstanceResource())
+
+	if ipv6AddressSchema.DiffSuppressFunc == nil {
+		t.Fatal("expected nested ipv6address to define a DiffSuppressFunc")
+	}
+
+	if !ipv6AddressSchema.DiffSuppressFunc("create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6address", "2001:db8:4505:3600::9622", "2001:0db8:4505:3600:0000:0000:0000:9622", nil) {
+		t.Fatal("expected nested ipv6address DiffSuppressFunc to suppress equivalent IPv6 address formatting")
+	}
+}
+
+func TestCoreVnicAttachmentResourceIpv6PairDetailsAddressDiffSuppress(t *testing.T) {
+	ipv6AddressSchema := nestedIpv6PairDetailsAddressSchema(t, CoreVnicAttachmentResource())
+
+	if ipv6AddressSchema.DiffSuppressFunc == nil {
+		t.Fatal("expected nested ipv6address to define a DiffSuppressFunc")
+	}
+
+	if !ipv6AddressSchema.DiffSuppressFunc("create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6address", "2001:db8:4505:3600::9622", "2001:0db8:4505:3600:0000:0000:0000:9622", nil) {
+		t.Fatal("expected nested ipv6address DiffSuppressFunc to suppress equivalent IPv6 address formatting")
+	}
+}
+
+func nestedIpv6PairDetailsAddressSchema(t *testing.T, resource *schema.Resource) *schema.Schema {
+	t.Helper()
+
+	createVnicDetailsSchema, ok := resource.Schema["create_vnic_details"]
+	if !ok {
+		t.Fatal("resource schema is missing create_vnic_details")
+	}
+
+	createVnicDetailsResource, ok := createVnicDetailsSchema.Elem.(*schema.Resource)
+	if !ok {
+		t.Fatalf("create_vnic_details Elem = %T, want *schema.Resource", createVnicDetailsSchema.Elem)
+	}
+
+	pairDetailsSchema, ok := createVnicDetailsResource.Schema["ipv6address_ipv6subnet_cidr_pair_details"]
+	if !ok {
+		t.Fatal("create_vnic_details schema is missing ipv6address_ipv6subnet_cidr_pair_details")
+	}
+
+	pairDetailsResource, ok := pairDetailsSchema.Elem.(*schema.Resource)
+	if !ok {
+		t.Fatalf("ipv6address_ipv6subnet_cidr_pair_details Elem = %T, want *schema.Resource", pairDetailsSchema.Elem)
+	}
+
+	ipv6AddressSchema, ok := pairDetailsResource.Schema["ipv6address"]
+	if !ok {
+		t.Fatal("ipv6address_ipv6subnet_cidr_pair_details schema is missing ipv6address")
+	}
+
+	return ipv6AddressSchema
+}
+
+func TestDeriveIpv6PairDetailsFromVnicNormalizesEquivalentAddresses(t *testing.T) {
+	result := deriveIpv6PairDetailsFromVnic(&oci_core.Vnic{
+		Ipv6Addresses: []string{
+			"2001:0db8:4505:3600:0000:0000:0000:9622",
+			"2001:db8:4505:3600::9622",
+		},
+	}, nil, false)
+
+	if len(result) != 1 {
+		t.Fatalf("deriveIpv6PairDetailsFromVnic() len = %d, want 1; result = %#v", len(result), result)
+	}
+
+	item, ok := result[0].(map[string]interface{})
+	if !ok {
+		t.Fatalf("deriveIpv6PairDetailsFromVnic()[0] = %T, want map[string]interface{}", result[0])
+	}
+
+	if got := item["ipv6address"]; got != "2001:db8:4505:3600::9622" {
+		t.Fatalf("ipv6address = %#v, want %q", got, "2001:db8:4505:3600::9622")
+	}
+}
+
 func Test_computeIPv6BlocksFromBYOIPv6Details(t *testing.T) {
 	var byoIpV6CidrDetailsCorrupted interface{} = []map[string]interface{}{
 		{
