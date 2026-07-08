@@ -6,6 +6,7 @@ package events
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"strings"
@@ -41,9 +42,78 @@ func EventsRuleResource() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						// Required
 						"actions": {
+							Type:       schema.TypeSet,
+							Optional:   true,
+							Computed:   true,
+							Deprecated: "Use action instead. This field is retained for backward compatibility.",
+							ConflictsWith: []string{
+								"actions.0.action",
+							},
+							Set: actionsHashCodeForSets,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"action_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"FAAS",
+											"ONS",
+											"OSS",
+										}, true),
+									},
+									"is_enabled": {
+										Type:     schema.TypeBool,
+										Required: true,
+									},
+
+									// Optional
+									"description": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"function_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"stream_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"topic_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+									"id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"lifecycle_message": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"action": {
 							Type:     schema.TypeSet,
-							Required: true,
-							Set:      actionsHashCodeForSets,
+							Optional: true,
+							Computed: true,
+							ConflictsWith: []string{
+								"actions.0.actions",
+							},
+							Set: actionsHashCodeForSets,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -112,8 +182,35 @@ func EventsRuleResource() *schema.Resource {
 				Required: true,
 			},
 			"condition": {
-				Type:     schema.TypeString,
-				Required: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ConflictsWith:    []string{"condition_details"},
+				ValidateFunc:     validation.StringIsJSON,
+				DiffSuppressFunc: tfresource.JsonStringDiffSuppressFunction,
+			},
+			"condition_details": {
+				Type:          schema.TypeList,
+				Optional:      true,
+				MaxItems:      1,
+				ConflictsWith: []string{"condition"},
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"event_types": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"data": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							ValidateFunc:     validation.StringIsJSON,
+							DiffSuppressFunc: tfresource.JsonStringDiffSuppressFunction,
+						},
+					},
+				},
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -249,9 +346,14 @@ func (s *EventsRuleResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
-	if condition, ok := s.D.GetOkExists("condition"); ok {
-		tmp := condition.(string)
-		request.Condition = &tmp
+	condition, err := s.getCondition()
+	if err != nil {
+		return err
+	}
+	request.Condition = condition
+
+	if request.Condition == nil {
+		return fmt.Errorf("one of condition or condition_details must be specified")
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -332,9 +434,12 @@ func (s *EventsRuleResourceCrud) Update() error {
 		}
 	}
 
-	if condition, ok := s.D.GetOkExists("condition"); ok {
-		tmp := condition.(string)
-		request.Condition = &tmp
+	condition, err := s.getCondition()
+	if err != nil {
+		return err
+	}
+	if condition != nil {
+		request.Condition = condition
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -392,7 +497,7 @@ func (s *EventsRuleResourceCrud) Delete() error {
 
 func (s *EventsRuleResourceCrud) SetData() error {
 	if s.Res.Actions != nil {
-		s.D.Set("actions", []interface{}{ActionListToMap(s.Res.Actions, false)})
+		s.D.Set("actions", []interface{}{ActionListToMap(s.Res.Actions, false, s.usesActionAlias())})
 	} else {
 		s.D.Set("actions", nil)
 	}
@@ -434,6 +539,72 @@ func (s *EventsRuleResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *EventsRuleResourceCrud) getCondition() (*string, error) {
+	if conditionDetails, ok := s.D.GetOkExists("condition_details"); ok {
+		if tmpList := conditionDetails.([]interface{}); len(tmpList) > 0 && tmpList[0] != nil {
+			condition, err := buildConditionFromDetails(tmpList[0].(map[string]interface{}))
+			if err != nil {
+				return nil, err
+			}
+			return &condition, nil
+		}
+	}
+
+	if condition, ok := s.D.GetOkExists("condition"); ok {
+		tmp := condition.(string)
+		return &tmp, nil
+	}
+
+	return nil, nil
+}
+
+func buildConditionFromDetails(conditionDetails map[string]interface{}) (string, error) {
+	condition := map[string]interface{}{}
+
+	if eventTypes, ok := conditionDetails["event_types"]; ok {
+		eventTypesList := eventTypes.([]interface{})
+		tmp := make([]string, 0, len(eventTypesList))
+		for _, eventType := range eventTypesList {
+			if eventType == nil || eventType.(string) == "" {
+				continue
+			}
+			tmp = append(tmp, eventType.(string))
+		}
+		if len(tmp) > 0 {
+			condition["eventType"] = tmp
+		}
+	}
+
+	if data, ok := conditionDetails["data"]; ok && data.(string) != "" {
+		var dataObject interface{}
+		if err := json.Unmarshal([]byte(data.(string)), &dataObject); err != nil {
+			return "", err
+		}
+		condition["data"] = dataObject
+	}
+
+	bytes, err := json.Marshal(condition)
+	if err != nil {
+		return "", err
+	}
+
+	return string(bytes), nil
+}
+
+func (s *EventsRuleResourceCrud) usesActionAlias() bool {
+	if actions, ok := s.D.GetOkExists("actions"); ok {
+		if tmpList := actions.([]interface{}); len(tmpList) > 0 && tmpList[0] != nil {
+			actionMap := tmpList[0].(map[string]interface{})
+			if action, ok := actionMap["action"]; ok {
+				if set, ok := action.(*schema.Set); ok && set.Len() > 0 {
+					return true
+				}
+			}
+		}
+	}
+	return false
 }
 
 func (s *EventsRuleResourceCrud) mapToActionDetails(fieldKeyFormat string) (oci_events.ActionDetails, error) {
@@ -584,28 +755,57 @@ func EventsActionToMap(obj oci_events.Action) map[string]interface{} {
 func (s *EventsRuleResourceCrud) mapToActionDetailsList(fieldKeyFormat string) (oci_events.ActionDetailsList, error) {
 	result := oci_events.ActionDetailsList{}
 
-	if actions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "actions")); ok {
+	oldActionsKey := fmt.Sprintf(fieldKeyFormat, "actions")
+	actionKey := fmt.Sprintf(fieldKeyFormat, "action")
+	oldActionsLen := 0
+	if actions, ok := s.D.GetOkExists(oldActionsKey); ok {
+		oldActionsLen = actions.(*schema.Set).Len()
+	}
+	actionLen := 0
+	if action, ok := s.D.GetOkExists(actionKey); ok {
+		actionLen = action.(*schema.Set).Len()
+	}
+	actionFieldName := selectRuleActionField(oldActionsLen, actionLen, s.D.HasChange(oldActionsKey), s.D.HasChange(actionKey))
+
+	if actions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, actionFieldName)); ok {
 		set := actions.(*schema.Set)
 		interfaces := set.List()
 		tmp := make([]oci_events.ActionDetails, len(interfaces))
 		for i := range interfaces {
 			stateDataIndex := actionsHashCodeForSets(interfaces[i])
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "actions"), stateDataIndex)
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, actionFieldName), stateDataIndex)
 			converted, err := s.mapToActionDetails(fieldKeyFormatNextLevel)
 			if err != nil {
 				return result, err
 			}
 			tmp[i] = converted
 		}
-		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "actions")) {
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, actionFieldName)) {
 			result.Actions = tmp
 		}
+	}
+
+	if len(result.Actions) == 0 {
+		return result, fmt.Errorf("one of actions.actions or actions.action must be specified")
 	}
 
 	return result, nil
 }
 
-func ActionListToMap(obj *oci_events.ActionList, datasource bool) map[string]interface{} {
+func selectRuleActionField(oldActionsLen, actionLen int, oldActionsChanged, actionChanged bool) string {
+	if oldActionsChanged && oldActionsLen > 0 && !(actionChanged && actionLen > 0) {
+		return "actions"
+	}
+	if actionChanged && actionLen > 0 {
+		return "action"
+	}
+	if actionLen > 0 {
+		return "action"
+	}
+	return "actions"
+}
+
+func ActionListToMap(obj *oci_events.ActionList, datasource bool, useActionAlias ...bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	actions := []interface{}{}
@@ -616,6 +816,8 @@ func ActionListToMap(obj *oci_events.ActionList, datasource bool) map[string]int
 	}
 	if datasource {
 		result["actions"] = actions
+	} else if len(useActionAlias) > 0 && useActionAlias[0] {
+		result["action"] = schema.NewSet(actionsHashCodeForSets, actions)
 	} else {
 		result["actions"] = schema.NewSet(actionsHashCodeForSets, actions)
 	}

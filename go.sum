@@ -181,6 +181,8 @@ github.com/oklog/run v1.2.0/go.mod h1:mgDbKRSwPhJfesJ4PntqFUbKQRZ50NgmZTSPlFA0YF
 github.com/onsi/ginkgo v1.6.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/ginkgo v1.7.0/go.mod h1:lLunBs/Ym6LB5Z9jYTR76FiuTmxDTDusOGeTQH+WWjE=
 github.com/onsi/gomega v1.4.3/go.mod h1:ex+gbHU/CVuBBDIJjb2X0qEXbFg53c61hWP/1CpauHY=
+github.com/oracle/oci-go-sdk/v65 v65.117.0 h1:S2mgYZaHg8kh+FYPTWHZ6mEWzSrJcG5Lg4CQJ3jxRhU=
+github.com/oracle/oci-go-sdk/v65 v65.117.0/go.mod h1:oo33NDf2XPqx3/N6oLG4jFlrqJ0xu4Rlt9SfuAbtDFs=
 github.com/oracle/oci-go-sdk/v65 v65.117.1 h1:DurEtbj8xEuF2B6K73uifNqWJ4dh6CJPADVmNzclrGU=
 github.com/oracle/oci-go-sdk/v65 v65.117.1/go.mod h1:oo33NDf2XPqx3/N6oLG4jFlrqJ0xu4Rlt9SfuAbtDFs=
 github.com/oracle/oci-go-sdk/v65 v65.118.0 h1:m+wwAye5TvwJ5S+u45HM4MFetU56KWWbprNN3m52FvQ=
@@ -189,6 +191,8 @@ github.com/oracle/oci-go-sdk/v65 v65.118.1 h1:Uf0xBYI2mhv3Cvl7DR9aEshodvjpD9BodV
 github.com/oracle/oci-go-sdk/v65 v65.118.1/go.mod h1:oo33NDf2XPqx3/N6oLG4jFlrqJ0xu4Rlt9SfuAbtDFs=
 github.com/oracle/oci-go-sdk/v65 v65.119.0 h1:0u9ujtEACjk3Sr72bnbTyJlCquhJiiEceIyMDhN9zcs=
 github.com/oracle/oci-go-sdk/v65 v65.119.0/go.mod h1:nv7HqsLpM/5aH66gu6JD1oqMftTxGfxo3ow1eYKPSmI=
+github.com/oracle/oci-go-sdk/v65 v65.120.0 h1:qpGdts2Yleg6TdmtxXkL8MAnsASO+SOG+iG/Nd8wUGk=
+github.com/oracle/oci-go-sdk/v65 v65.120.0/go.mod h1:Pzy+BpgkDesvGZXEHgslwhIYobHCPHg6wRta1mWnlqQ=
 github.com/pjbgf/sha1cd v0.3.2 h1:a9wb0bp1oC2TGwStyn0Umc/IGKQnEgF0vVaZ8QF8eo4=
 github.com/pjbgf/sha1cd v0.3.2/go.mod h1:zQWigSxVmsHEZow5qaLtPYxpcKMMQpa09ixqBxuCS6A=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
