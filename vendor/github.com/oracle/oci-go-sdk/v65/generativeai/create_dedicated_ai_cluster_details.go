@@ -106,6 +106,9 @@ type CreateDedicatedAiClusterDetails struct {
 	// An optional description of the dedicated AI cluster.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The OCID of the capacity reservation.
+	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

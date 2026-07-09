@@ -27,6 +27,10 @@ type UpdateRoutingProfileDetails struct {
 	// An optional description of the routing profile.
 	Description *string `mandatory:"false" json:"description"`
 
+	RegionRoutingPolicy *RegionRoutingPolicy `mandatory:"false" json:"regionRoutingPolicy"`
+
+	ModelRoutingPolicy *ModelRoutingPolicy `mandatory:"false" json:"modelRoutingPolicy"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

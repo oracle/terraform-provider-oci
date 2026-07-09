@@ -132,7 +132,7 @@ type CreateVirtualCircuitDetails struct {
 	// To get the list of associated provider remote region use the ListProviderRemoteRegions operation
 	ProviderRemoteRegion *string `mandatory:"false" json:"providerRemoteRegion"`
 
-	// The ID of the customer's provider (AWS, GCP or any other) account
+	// Customer's account on Provider/Partner cloud (AWS, GCP or any other)
 	RemoteAccountId *string `mandatory:"false" json:"remoteAccountId"`
 
 	// The traffic mode to be set with this Virtual Circuit. This controls whether the traffic is to be drained

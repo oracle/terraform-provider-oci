@@ -21,12 +21,16 @@ import (
 	"strings"
 )
 
-// ProviderRemoteRegionName An individual Provider remote region name associated with an OCI region.
+// ProviderRemoteRegionName A pair of OCI region and Provider remote region names for FastConnect MultiCloud interconnect.
 type ProviderRemoteRegionName struct {
 
-	// An individual Provider remote region name associated with an OCI region.
+	// The OCI region name associated with the provider remote region.
+	// Example: `us-ashburn-1`.
+	OciRegionName *string `mandatory:"true" json:"ociRegionName"`
+
+	// The provider remote region name associated with the OCI region.
 	// Example: `us-east-1`.
-	RegionName *string `mandatory:"true" json:"regionName"`
+	ProviderRegionName *string `mandatory:"true" json:"providerRegionName"`
 }
 
 func (m ProviderRemoteRegionName) String() string {

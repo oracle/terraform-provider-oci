@@ -13,31 +13,45 @@
 package generativeai
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// ModelRoutingPolicy The model routing policy for the routing profile. Routing candidates are selected from the allowed models list.
-type ModelRoutingPolicy struct {
+// CustomSemanticStoreModelSelection Uses a customer-selected generative AI model for SemanticStore enrichment.
+type CustomSemanticStoreModelSelection struct {
 
-	// The ordered list of model names the routing candidate is selected from (for example, `meta.llama-3-70b-instruct`).
-	// The order of entries is preserved. Duplicate entries are not allowed.
-	AllowedModels []string `mandatory:"false" json:"allowedModels"`
+	// The generative AI modelId to use for SemanticStore enrichment. You can use the ListModels API to list the available models. https://docs.oracle.com/en-us/iaas/api/#/en/generative-ai/20231130/ModelCollection/ListModels
+	ModelId *string `mandatory:"true" json:"modelId"`
 }
 
-func (m ModelRoutingPolicy) String() string {
+func (m CustomSemanticStoreModelSelection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ModelRoutingPolicy) ValidateEnumValue() (bool, error) {
+func (m CustomSemanticStoreModelSelection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m CustomSemanticStoreModelSelection) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeCustomSemanticStoreModelSelection CustomSemanticStoreModelSelection
+	s := struct {
+		DiscriminatorParam string `json:"modelSelectionType"`
+		MarshalTypeCustomSemanticStoreModelSelection
+	}{
+		"CUSTOM",
+		(MarshalTypeCustomSemanticStoreModelSelection)(m),
+	}
+
+	return json.Marshal(&s)
 }

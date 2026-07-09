@@ -77,6 +77,10 @@ func (m *action) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := UpgradeAction{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "APPLICATION_MIGRATION":
+		mm := ApplicationMigrationAction{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VERTEX":
 		mm := VertexAction{}
 		err = json.Unmarshal(data, &mm)
@@ -180,24 +184,27 @@ type ActionActionTypeEnum string
 
 // Set of constants representing the allowable values for ActionActionTypeEnum
 const (
-	ActionActionTypeQuarterlyUpgrade ActionActionTypeEnum = "QUARTERLY_UPGRADE"
-	ActionActionTypePatch            ActionActionTypeEnum = "PATCH"
-	ActionActionTypeVertex           ActionActionTypeEnum = "VERTEX"
-	ActionActionTypeMfaEnforcement   ActionActionTypeEnum = "MFA_ENFORCEMENT"
+	ActionActionTypeQuarterlyUpgrade     ActionActionTypeEnum = "QUARTERLY_UPGRADE"
+	ActionActionTypePatch                ActionActionTypeEnum = "PATCH"
+	ActionActionTypeVertex               ActionActionTypeEnum = "VERTEX"
+	ActionActionTypeMfaEnforcement       ActionActionTypeEnum = "MFA_ENFORCEMENT"
+	ActionActionTypeApplicationMigration ActionActionTypeEnum = "APPLICATION_MIGRATION"
 )
 
 var mappingActionActionTypeEnum = map[string]ActionActionTypeEnum{
-	"QUARTERLY_UPGRADE": ActionActionTypeQuarterlyUpgrade,
-	"PATCH":             ActionActionTypePatch,
-	"VERTEX":            ActionActionTypeVertex,
-	"MFA_ENFORCEMENT":   ActionActionTypeMfaEnforcement,
+	"QUARTERLY_UPGRADE":     ActionActionTypeQuarterlyUpgrade,
+	"PATCH":                 ActionActionTypePatch,
+	"VERTEX":                ActionActionTypeVertex,
+	"MFA_ENFORCEMENT":       ActionActionTypeMfaEnforcement,
+	"APPLICATION_MIGRATION": ActionActionTypeApplicationMigration,
 }
 
 var mappingActionActionTypeEnumLowerCase = map[string]ActionActionTypeEnum{
-	"quarterly_upgrade": ActionActionTypeQuarterlyUpgrade,
-	"patch":             ActionActionTypePatch,
-	"vertex":            ActionActionTypeVertex,
-	"mfa_enforcement":   ActionActionTypeMfaEnforcement,
+	"quarterly_upgrade":     ActionActionTypeQuarterlyUpgrade,
+	"patch":                 ActionActionTypePatch,
+	"vertex":                ActionActionTypeVertex,
+	"mfa_enforcement":       ActionActionTypeMfaEnforcement,
+	"application_migration": ActionActionTypeApplicationMigration,
 }
 
 // GetActionActionTypeEnumValues Enumerates the set of values for ActionActionTypeEnum
@@ -216,6 +223,7 @@ func GetActionActionTypeEnumStringValues() []string {
 		"PATCH",
 		"VERTEX",
 		"MFA_ENFORCEMENT",
+		"APPLICATION_MIGRATION",
 	}
 }
 

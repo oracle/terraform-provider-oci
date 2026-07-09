@@ -18,22 +18,24 @@ import (
 	"strings"
 )
 
-// ModelRoutingPolicy The model routing policy for the routing profile. Routing candidates are selected from the allowed models list.
-type ModelRoutingPolicy struct {
+// GpuAllocation GPU allocation details for an underlying capacity allocation.
+type GpuAllocation struct {
 
-	// The ordered list of model names the routing candidate is selected from (for example, `meta.llama-3-70b-instruct`).
-	// The order of entries is preserved. Duplicate entries are not allowed.
-	AllowedModels []string `mandatory:"false" json:"allowedModels"`
+	// The number of used GPUs in this allocation.
+	UsedGpus *int `mandatory:"true" json:"usedGpus"`
+
+	// The number of available GPUs in this allocation.
+	AvailableGpus *int `mandatory:"true" json:"availableGpus"`
 }
 
-func (m ModelRoutingPolicy) String() string {
+func (m GpuAllocation) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ModelRoutingPolicy) ValidateEnumValue() (bool, error) {
+func (m GpuAllocation) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

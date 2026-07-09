@@ -18,22 +18,33 @@ import (
 	"strings"
 )
 
-// ModelRoutingPolicy The model routing policy for the routing profile. Routing candidates are selected from the allowed models list.
-type ModelRoutingPolicy struct {
+// AllocatableGpuSummary Information about allocatable GPUs that can be used to launch dedicated AI clusters.
+type AllocatableGpuSummary struct {
 
-	// The ordered list of model names the routing candidate is selected from (for example, `meta.llama-3-70b-instruct`).
-	// The order of entries is preserved. Duplicate entries are not allowed.
-	AllowedModels []string `mandatory:"false" json:"allowedModels"`
+	// The compute shape for the allocatable GPUs.
+	ComputeShape *string `mandatory:"true" json:"computeShape"`
+
+	// The total number of available GPU units for the compute shape.
+	TotalAvailableGpuUnits *int `mandatory:"true" json:"totalAvailableGpuUnits"`
+
+	// The total number of used GPU units for the compute shape.
+	TotalUsedGpuUnits *int `mandatory:"true" json:"totalUsedGpuUnits"`
+
+	// The maximum number of GPU units that can be allocated to a single dedicated AI cluster for the compute shape without requiring additional provisioning.
+	MaxAllocatableGpuUnits *int `mandatory:"true" json:"maxAllocatableGpuUnits"`
+
+	// The GPU allocation details for the compute shape. Each item represents one underlying capacity allocation.
+	GpuAllocations []GpuAllocation `mandatory:"true" json:"gpuAllocations"`
 }
 
-func (m ModelRoutingPolicy) String() string {
+func (m AllocatableGpuSummary) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ModelRoutingPolicy) ValidateEnumValue() (bool, error) {
+func (m AllocatableGpuSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

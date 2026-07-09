@@ -68,10 +68,20 @@ type SemanticStoreSummary struct {
 	// An optional description of the SemanticStore.
 	Description *string `mandatory:"false" json:"description"`
 
+	ModelSelection SemanticStoreModelSelection `mandatory:"false" json:"modelSelection"`
+
 	RefreshSchedule RefreshScheduleDetails `mandatory:"false" json:"refreshSchedule"`
 
 	// A message describing the current state in more detail that can provide actionable information.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// Controls which enrichment inputs are applied to this semantic store.
+	// If not explicitly set when the semantic store is created, this defaults to COMBINED.
+	// Allowed values are:
+	// - COMBINED
+	// - METADATA_ONLY
+	// - ANNOTATION_ONLY
+	EnrichmentMode SemanticStoreEnrichmentModeEnum `mandatory:"false" json:"enrichmentMode,omitempty"`
 }
 
 func (m SemanticStoreSummary) String() string {
@@ -87,6 +97,9 @@ func (m SemanticStoreSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSemanticStoreLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingSemanticStoreEnrichmentModeEnum(string(m.EnrichmentMode)); !ok && m.EnrichmentMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnrichmentMode: %s. Supported values are: %s.", m.EnrichmentMode, strings.Join(GetSemanticStoreEnrichmentModeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -97,8 +110,10 @@ func (m SemanticStoreSummary) ValidateEnumValue() (bool, error) {
 func (m *SemanticStoreSummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description      *string                           `json:"description"`
+		ModelSelection   semanticstoremodelselection       `json:"modelSelection"`
 		RefreshSchedule  refreshscheduledetails            `json:"refreshSchedule"`
 		LifecycleDetails *string                           `json:"lifecycleDetails"`
+		EnrichmentMode   SemanticStoreEnrichmentModeEnum   `json:"enrichmentMode"`
 		Id               *string                           `json:"id"`
 		DisplayName      *string                           `json:"displayName"`
 		CompartmentId    *string                           `json:"compartmentId"`
@@ -119,6 +134,16 @@ func (m *SemanticStoreSummary) UnmarshalJSON(data []byte) (e error) {
 	var nn interface{}
 	m.Description = model.Description
 
+	nn, e = model.ModelSelection.UnmarshalPolymorphicJSON(model.ModelSelection.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ModelSelection = nn.(SemanticStoreModelSelection)
+	} else {
+		m.ModelSelection = nil
+	}
+
 	nn, e = model.RefreshSchedule.UnmarshalPolymorphicJSON(model.RefreshSchedule.JsonData)
 	if e != nil {
 		return
@@ -130,6 +155,8 @@ func (m *SemanticStoreSummary) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.LifecycleDetails = model.LifecycleDetails
+
+	m.EnrichmentMode = model.EnrichmentMode
 
 	m.Id = model.Id
 

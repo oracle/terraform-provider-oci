@@ -66,6 +66,16 @@ type SemanticStore struct {
 	// A message describing the current state in more detail that can provide actionable information.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// Controls which enrichment inputs are applied to this semantic store.
+	// If not explicitly set when the semantic store is created, this defaults to COMBINED.
+	// Allowed values are:
+	// - COMBINED: ingest both schema metadata and annotation data into the semantic store
+	// - METADATA_ONLY: ingest only schema metadata and skip annotation ingestion
+	// - ANNOTATION_ONLY: ingest only annotation-derived semantic content and skip metadata enrichment refresh for that run path
+	EnrichmentMode SemanticStoreEnrichmentModeEnum `mandatory:"false" json:"enrichmentMode,omitempty"`
+
+	ModelSelection SemanticStoreModelSelection `mandatory:"false" json:"modelSelection"`
+
 	RefreshSchedule RefreshScheduleDetails `mandatory:"false" json:"refreshSchedule"`
 }
 
@@ -82,6 +92,9 @@ func (m SemanticStore) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSemanticStoreLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingSemanticStoreEnrichmentModeEnum(string(m.EnrichmentMode)); !ok && m.EnrichmentMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnrichmentMode: %s. Supported values are: %s.", m.EnrichmentMode, strings.Join(GetSemanticStoreEnrichmentModeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -93,6 +106,8 @@ func (m *SemanticStore) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description      *string                           `json:"description"`
 		LifecycleDetails *string                           `json:"lifecycleDetails"`
+		EnrichmentMode   SemanticStoreEnrichmentModeEnum   `json:"enrichmentMode"`
+		ModelSelection   semanticstoremodelselection       `json:"modelSelection"`
 		RefreshSchedule  refreshscheduledetails            `json:"refreshSchedule"`
 		Id               *string                           `json:"id"`
 		DisplayName      *string                           `json:"displayName"`
@@ -115,6 +130,18 @@ func (m *SemanticStore) UnmarshalJSON(data []byte) (e error) {
 	m.Description = model.Description
 
 	m.LifecycleDetails = model.LifecycleDetails
+
+	m.EnrichmentMode = model.EnrichmentMode
+
+	nn, e = model.ModelSelection.UnmarshalPolymorphicJSON(model.ModelSelection.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ModelSelection = nn.(SemanticStoreModelSelection)
+	} else {
+		m.ModelSelection = nil
+	}
 
 	nn, e = model.RefreshSchedule.UnmarshalPolymorphicJSON(model.RefreshSchedule.JsonData)
 	if e != nil {
@@ -222,5 +249,51 @@ func GetSemanticStoreLifecycleStateEnumStringValues() []string {
 // GetMappingSemanticStoreLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingSemanticStoreLifecycleStateEnum(val string) (SemanticStoreLifecycleStateEnum, bool) {
 	enum, ok := mappingSemanticStoreLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// SemanticStoreEnrichmentModeEnum Enum with underlying type: string
+type SemanticStoreEnrichmentModeEnum string
+
+// Set of constants representing the allowable values for SemanticStoreEnrichmentModeEnum
+const (
+	SemanticStoreEnrichmentModeCombined       SemanticStoreEnrichmentModeEnum = "COMBINED"
+	SemanticStoreEnrichmentModeMetadataOnly   SemanticStoreEnrichmentModeEnum = "METADATA_ONLY"
+	SemanticStoreEnrichmentModeAnnotationOnly SemanticStoreEnrichmentModeEnum = "ANNOTATION_ONLY"
+)
+
+var mappingSemanticStoreEnrichmentModeEnum = map[string]SemanticStoreEnrichmentModeEnum{
+	"COMBINED":        SemanticStoreEnrichmentModeCombined,
+	"METADATA_ONLY":   SemanticStoreEnrichmentModeMetadataOnly,
+	"ANNOTATION_ONLY": SemanticStoreEnrichmentModeAnnotationOnly,
+}
+
+var mappingSemanticStoreEnrichmentModeEnumLowerCase = map[string]SemanticStoreEnrichmentModeEnum{
+	"combined":        SemanticStoreEnrichmentModeCombined,
+	"metadata_only":   SemanticStoreEnrichmentModeMetadataOnly,
+	"annotation_only": SemanticStoreEnrichmentModeAnnotationOnly,
+}
+
+// GetSemanticStoreEnrichmentModeEnumValues Enumerates the set of values for SemanticStoreEnrichmentModeEnum
+func GetSemanticStoreEnrichmentModeEnumValues() []SemanticStoreEnrichmentModeEnum {
+	values := make([]SemanticStoreEnrichmentModeEnum, 0)
+	for _, v := range mappingSemanticStoreEnrichmentModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSemanticStoreEnrichmentModeEnumStringValues Enumerates the set of values in String for SemanticStoreEnrichmentModeEnum
+func GetSemanticStoreEnrichmentModeEnumStringValues() []string {
+	return []string{
+		"COMBINED",
+		"METADATA_ONLY",
+		"ANNOTATION_ONLY",
+	}
+}
+
+// GetMappingSemanticStoreEnrichmentModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSemanticStoreEnrichmentModeEnum(val string) (SemanticStoreEnrichmentModeEnum, bool) {
+	enum, ok := mappingSemanticStoreEnrichmentModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

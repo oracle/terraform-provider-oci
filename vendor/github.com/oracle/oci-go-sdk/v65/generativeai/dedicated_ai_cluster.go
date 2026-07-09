@@ -57,6 +57,9 @@ type DedicatedAiCluster struct {
 	// A message describing the current state with detail that can provide actionable information.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// The OCID of the capacity reservation.
+	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
+
 	Capacity DedicatedAiClusterCapacity `mandatory:"false" json:"capacity"`
 
 	PreviousState *DedicatedAiCluster `mandatory:"false" json:"previousState"`
@@ -104,22 +107,23 @@ func (m DedicatedAiCluster) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *DedicatedAiCluster) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName      *string                              `json:"displayName"`
-		Description      *string                              `json:"description"`
-		TimeUpdated      *common.SDKTime                      `json:"timeUpdated"`
-		LifecycleDetails *string                              `json:"lifecycleDetails"`
-		Capacity         dedicatedaiclustercapacity           `json:"capacity"`
-		PreviousState    *DedicatedAiCluster                  `json:"previousState"`
-		FreeformTags     map[string]string                    `json:"freeformTags"`
-		DefinedTags      map[string]map[string]interface{}    `json:"definedTags"`
-		SystemTags       map[string]map[string]interface{}    `json:"systemTags"`
-		Id               *string                              `json:"id"`
-		Type             DedicatedAiClusterTypeEnum           `json:"type"`
-		CompartmentId    *string                              `json:"compartmentId"`
-		TimeCreated      *common.SDKTime                      `json:"timeCreated"`
-		LifecycleState   DedicatedAiClusterLifecycleStateEnum `json:"lifecycleState"`
-		UnitCount        *int                                 `json:"unitCount"`
-		UnitShape        DedicatedAiClusterUnitShapeEnum      `json:"unitShape"`
+		DisplayName           *string                              `json:"displayName"`
+		Description           *string                              `json:"description"`
+		TimeUpdated           *common.SDKTime                      `json:"timeUpdated"`
+		LifecycleDetails      *string                              `json:"lifecycleDetails"`
+		CapacityReservationId *string                              `json:"capacityReservationId"`
+		Capacity              dedicatedaiclustercapacity           `json:"capacity"`
+		PreviousState         *DedicatedAiCluster                  `json:"previousState"`
+		FreeformTags          map[string]string                    `json:"freeformTags"`
+		DefinedTags           map[string]map[string]interface{}    `json:"definedTags"`
+		SystemTags            map[string]map[string]interface{}    `json:"systemTags"`
+		Id                    *string                              `json:"id"`
+		Type                  DedicatedAiClusterTypeEnum           `json:"type"`
+		CompartmentId         *string                              `json:"compartmentId"`
+		TimeCreated           *common.SDKTime                      `json:"timeCreated"`
+		LifecycleState        DedicatedAiClusterLifecycleStateEnum `json:"lifecycleState"`
+		UnitCount             *int                                 `json:"unitCount"`
+		UnitShape             DedicatedAiClusterUnitShapeEnum      `json:"unitShape"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -134,6 +138,8 @@ func (m *DedicatedAiCluster) UnmarshalJSON(data []byte) (e error) {
 	m.TimeUpdated = model.TimeUpdated
 
 	m.LifecycleDetails = model.LifecycleDetails
+
+	m.CapacityReservationId = model.CapacityReservationId
 
 	nn, e = model.Capacity.UnmarshalPolymorphicJSON(model.Capacity.JsonData)
 	if e != nil {

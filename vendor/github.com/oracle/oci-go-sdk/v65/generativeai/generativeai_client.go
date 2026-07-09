@@ -4665,6 +4665,67 @@ func (client GenerativeAiClient) listDedicatedAiClusters(ctx context.Context, re
 	return response, err
 }
 
+// ListDedicatedAiClustersAllocatableGpus Lists the allocatable GPUs for launching dedicated AI clusters tied to a specific capacity reservation id.
+// A default retry strategy applies to this operation ListDedicatedAiClustersAllocatableGpus()
+func (client GenerativeAiClient) ListDedicatedAiClustersAllocatableGpus(ctx context.Context, request ListDedicatedAiClustersAllocatableGpusRequest) (response ListDedicatedAiClustersAllocatableGpusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDedicatedAiClustersAllocatableGpus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDedicatedAiClustersAllocatableGpusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDedicatedAiClustersAllocatableGpusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDedicatedAiClustersAllocatableGpusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDedicatedAiClustersAllocatableGpusResponse")
+	}
+	return
+}
+
+// listDedicatedAiClustersAllocatableGpus implements the OCIOperation interface (enables retrying operations)
+func (client GenerativeAiClient) listDedicatedAiClustersAllocatableGpus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dedicatedAiClusters/allocatableGpus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListDedicatedAiClustersAllocatableGpusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "generativeAi", "ListDedicatedAiClustersAllocatableGpus")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/AllocatableGpuCollection/ListDedicatedAiClustersAllocatableGpus"
+		err = common.PostProcessServiceError(err, "GenerativeAi", "ListDedicatedAiClustersAllocatableGpus", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListEndpoints Lists the endpoints of a specific compartment.
 // A default retry strategy applies to this operation ListEndpoints()
 func (client GenerativeAiClient) ListEndpoints(ctx context.Context, request ListEndpointsRequest) (response ListEndpointsResponse, err error) {

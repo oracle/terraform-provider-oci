@@ -43,6 +43,9 @@ type ListDedicatedAiClustersRequest struct {
 	// is descending. Default order for `displayName` is ascending.
 	SortBy ListDedicatedAiClustersSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the capacity reservation.
+	CapacityReservationId *string `mandatory:"false" contributesTo:"query" name:"capacityReservationId"`
+
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	// The only valid characters for request IDs are letters, numbers,

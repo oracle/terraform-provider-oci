@@ -181,6 +181,12 @@ type VirtualCircuit struct {
 	// To get the list of associated provider remote region use the ListProviderRemoteRegions operation
 	ProviderRemoteRegion *string `mandatory:"false" json:"providerRemoteRegion"`
 
+	// The Shared unique identifier for the connection between the multicloud interconnect providers
+	SharedConnectionUuid *string `mandatory:"false" json:"sharedConnectionUuid"`
+
+	// Customer's account on Provider/Partner cloud (AWS, GCP or any other)
+	RemoteAccountId *string `mandatory:"false" json:"remoteAccountId"`
+
 	// The current traffic mode for the Virtual Circuit. This indicates whether the traffic is drained for the
 	// associated Virtual Circuit or not.
 	TrafficMode VirtualCircuitTrafficModeEnum `mandatory:"false" json:"trafficMode,omitempty"`

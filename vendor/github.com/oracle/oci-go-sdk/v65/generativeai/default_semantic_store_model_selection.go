@@ -13,31 +13,42 @@
 package generativeai
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// ModelRoutingPolicy The model routing policy for the routing profile. Routing candidates are selected from the allowed models list.
-type ModelRoutingPolicy struct {
-
-	// The ordered list of model names the routing candidate is selected from (for example, `meta.llama-3-70b-instruct`).
-	// The order of entries is preserved. Duplicate entries are not allowed.
-	AllowedModels []string `mandatory:"false" json:"allowedModels"`
+// DefaultSemanticStoreModelSelection Uses the service default generative AI model for SemanticStore enrichment.
+type DefaultSemanticStoreModelSelection struct {
 }
 
-func (m ModelRoutingPolicy) String() string {
+func (m DefaultSemanticStoreModelSelection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ModelRoutingPolicy) ValidateEnumValue() (bool, error) {
+func (m DefaultSemanticStoreModelSelection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m DefaultSemanticStoreModelSelection) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeDefaultSemanticStoreModelSelection DefaultSemanticStoreModelSelection
+	s := struct {
+		DiscriminatorParam string `json:"modelSelectionType"`
+		MarshalTypeDefaultSemanticStoreModelSelection
+	}{
+		"DEFAULT",
+		(MarshalTypeDefaultSemanticStoreModelSelection)(m),
+	}
+
+	return json.Marshal(&s)
 }
