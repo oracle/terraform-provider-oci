@@ -3,7 +3,6 @@
 
 package integrationtest
 
-/*
 import (
 	"context"
 	"fmt"
@@ -360,7 +359,7 @@ func TestGdpGdpPipelineResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + GdpGdpPipelineRequiredOnlyResource,
+			Config:                  config + compartmentIdVariableStr + GdpGdpPipelineRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{"env"},
@@ -386,7 +385,7 @@ func testAccCheckGdpGdpPipelineDestroy(s *terraform.State) error {
 
 			if err == nil {
 				deletedLifecycleStates := map[string]bool{
-					string(oci_gdp.GdpPipelineLifecycleStateDeleted): true,
+					string(oci_gdp.LifecycleStateDeleted): true,
 				}
 				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
 					//resource lifecycle state is not in expected deleted lifecycle states.
@@ -458,7 +457,7 @@ func getGdpGdpPipelineIds(compartment string) ([]string, error) {
 
 	listGdpPipelinesRequest := oci_gdp.ListGdpPipelinesRequest{}
 	listGdpPipelinesRequest.CompartmentId = &compartmentId
-	listGdpPipelinesRequest.LifecycleState = oci_gdp.GdpPipelineLifecycleStateNeedsAttention
+	listGdpPipelinesRequest.LifecycleState = oci_gdp.ListGdpPipelinesLifecycleStateNeedsAttention
 	listGdpPipelinesResponse, err := guardedDataPipelineClient.ListGdpPipelines(context.Background(), listGdpPipelinesRequest)
 
 	if err != nil {
@@ -475,7 +474,7 @@ func getGdpGdpPipelineIds(compartment string) ([]string, error) {
 func GdpGdpPipelineSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
 	if gdpPipelineResponse, ok := response.Response.(oci_gdp.GetGdpPipelineResponse); ok {
-		return gdpPipelineResponse.LifecycleState != oci_gdp.GdpPipelineLifecycleStateDeleted
+		return gdpPipelineResponse.LifecycleState != oci_gdp.LifecycleStateDeleted
 	}
 	return false
 }
@@ -489,4 +488,3 @@ func GdpGdpPipelineSweepResponseFetchOperation(client *tf_client.OracleClients, 
 	})
 	return err
 }
-*/

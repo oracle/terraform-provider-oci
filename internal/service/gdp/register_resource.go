@@ -3,6 +3,8 @@
 
 package gdp
 
+import "github.com/oracle/terraform-provider-oci/internal/tfresource"
+
 func RegisterResource() {
-	//tfresource.RegisterResource("oci_gdp_gdp_pipeline", GdpGdpPipelineResource())
+	tfresource.RegisterResource("oci_gdp_gdp_pipeline", GdpGdpPipelineResource())
 }

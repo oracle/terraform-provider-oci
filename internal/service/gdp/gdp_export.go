@@ -1,6 +1,5 @@
 package gdp
 
-/*
 import (
 	oci_gdp "github.com/oracle/oci-go-sdk/v65/gdp"
 
@@ -22,8 +21,9 @@ var exportGdpGdpPipelineHints = &tf_export.TerraformResourceHints{
 	ResourceAbbreviation:   "gdp_pipeline",
 	RequireResourceRefresh: true,
 	DiscoverableLifecycleStates: []string{
-		string(oci_gdp.GdpPipelineLifecycleStateActive),
-		string(oci_gdp.GdpPipelineLifecycleStateNeedsAttention),
+		string(oci_gdp.LifecycleStateActive),
+		string(oci_gdp.LifecycleStateNeedsAttention),
+		string(oci_gdp.LifecycleStateInactive),
 	},
 }
 
@@ -32,4 +32,3 @@ var gdpResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportGdpGdpPipelineHints},
 	},
 }
-*/

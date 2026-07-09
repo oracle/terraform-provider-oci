@@ -3,7 +3,6 @@
 
 package gdp
 
-/*
 import (
 	"context"
 	"fmt"
@@ -17,12 +16,11 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_gdp "github.com/oracle/oci-go-sdk/v65/gdp"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 var gdpPipelineEntityTypes = []string{"gdppipeline", "cdspipeline"}
-var commercialSubdomain = "prod.cp.cdsaas"
+var commercialSubdomain = "prod.cp.gdp"
 var gdpUSGovCode = "USGOV"
 var gdpCommercialCode = "COMMERCIAL"
 
@@ -165,8 +163,8 @@ func GdpGdpPipelineResource() *schema.Resource {
 				Computed:         true,
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
-					string(oci_gdp.GdpPipelineLifecycleStateInactive),
-					string(oci_gdp.GdpPipelineLifecycleStateActive),
+					string(oci_gdp.LifecycleStateInactive),
+					string(oci_gdp.LifecycleStateActive),
 				}, true),
 			},
 
@@ -199,13 +197,8 @@ func GdpGdpPipelineResource() *schema.Resource {
 func createGdpGdpPipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GdpGdpPipelineResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GuardedDataPipelineClient()
-
-	if env, ok := sync.D.GetOk("env"); !ok || env.(string) != gdpUSGovCode {
-		currentHost := sync.Client.Host
-		newHost := strings.Replace(currentHost, "gdp", commercialSubdomain, 1)
-		sync.Client.Host = newHost
-	}
+	env, _ := sync.D.GetOk("env")
+	sync.Client = getGdpClient(m, env == nil || env.(string) != gdpUSGovCode)
 
 	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
 		return tfresource.HandleDiagError(m, e)
@@ -218,13 +211,8 @@ func createGdpGdpPipelineWithContext(ctx context.Context, d *schema.ResourceData
 func readGdpGdpPipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GdpGdpPipelineResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GuardedDataPipelineClient()
-
-	if env, ok := sync.D.GetOk("env"); !ok || env.(string) != gdpUSGovCode {
-		currentHost := sync.Client.Host
-		newHost := strings.Replace(currentHost, "gdp", commercialSubdomain, 1)
-		sync.Client.Host = newHost
-	}
+	env, _ := sync.D.GetOk("env")
+	sync.Client = getGdpClient(m, env == nil || env.(string) != gdpUSGovCode)
 
 	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
@@ -232,13 +220,8 @@ func readGdpGdpPipelineWithContext(ctx context.Context, d *schema.ResourceData, 
 func updateGdpGdpPipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GdpGdpPipelineResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GuardedDataPipelineClient()
-
-	if env, ok := sync.D.GetOk("env"); !ok || env.(string) != gdpUSGovCode {
-		currentHost := sync.Client.Host
-		newHost := strings.Replace(currentHost, "gdp", commercialSubdomain, 1)
-		sync.Client.Host = newHost
-	}
+	env, _ := sync.D.GetOk("env")
+	sync.Client = getGdpClient(m, env == nil || env.(string) != gdpUSGovCode)
 
 	//powerOn, powerOff := false, false
 
@@ -276,12 +259,8 @@ func updateGdpGdpPipelineWithContext(ctx context.Context, d *schema.ResourceData
 func deleteGdpGdpPipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GdpGdpPipelineResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GuardedDataPipelineClient()
-	if env, ok := sync.D.GetOk("env"); !ok || env.(string) != gdpUSGovCode {
-		currentHost := sync.Client.Host
-		newHost := strings.Replace(currentHost, "gdp", commercialSubdomain, 1)
-		sync.Client.Host = newHost
-	}
+	env, _ := sync.D.GetOk("env")
+	sync.Client = getGdpClient(m, env == nil || env.(string) != gdpUSGovCode)
 
 	sync.DisableNotFoundRetries = true
 
@@ -301,26 +280,26 @@ func (s *GdpGdpPipelineResourceCrud) ID() string {
 
 func (s *GdpGdpPipelineResourceCrud) CreatedPending() []string {
 	return []string{
-		string(oci_gdp.GdpPipelineLifecycleStateCreating),
+		string(oci_gdp.LifecycleStateCreating),
 	}
 }
 
 func (s *GdpGdpPipelineResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_gdp.GdpPipelineLifecycleStateInactive),
-		string(oci_gdp.GdpPipelineLifecycleStateNeedsAttention),
+		string(oci_gdp.LifecycleStateInactive),
+		string(oci_gdp.LifecycleStateNeedsAttention),
 	}
 }
 
 func (s *GdpGdpPipelineResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_gdp.GdpPipelineLifecycleStateDeleting),
+		string(oci_gdp.LifecycleStateDeleting),
 	}
 }
 
 func (s *GdpGdpPipelineResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_gdp.GdpPipelineLifecycleStateDeleted),
+		string(oci_gdp.LifecycleStateDeleted),
 	}
 }
 
@@ -420,7 +399,7 @@ func (s *GdpGdpPipelineResourceCrud) CreateWithContext(ctx context.Context) erro
 	}
 
 	if pipelineType, ok := s.D.GetOkExists("pipeline_type"); ok {
-		request.PipelineType = oci_gdp.GdpPipelinePipelineTypeEnum(pipelineType.(string))
+		request.PipelineType = oci_gdp.PipelineTypeEnum(pipelineType.(string))
 	}
 
 	if serviceLogGroupId, ok := s.D.GetOkExists("service_log_group_id"); ok {
@@ -819,7 +798,7 @@ func (s *GdpGdpPipelineResourceCrud) StartGdpPipeline(ctx context.Context) error
 		return err
 	}
 
-	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_gdp.GdpPipelineLifecycleStateActive }
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_gdp.LifecycleStateActive }
 	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
@@ -836,7 +815,7 @@ func (s *GdpGdpPipelineResourceCrud) StopGdpPipeline(ctx context.Context) error 
 		return err
 	}
 
-	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_gdp.GdpPipelineLifecycleStateInactive }
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_gdp.LifecycleStateInactive }
 	return tfresource.WaitForResourceConditionWithContext(ctx, s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
@@ -1016,5 +995,3 @@ func contains(s []string, str string) bool {
 	}
 	return false
 }
-
-*/

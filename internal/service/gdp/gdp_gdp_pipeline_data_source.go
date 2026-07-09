@@ -3,16 +3,13 @@
 
 package gdp
 
-/*
 import (
 	"context"
-	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_gdp "github.com/oracle/oci-go-sdk/v65/gdp"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
@@ -33,12 +30,8 @@ func GdpGdpPipelineDataSource() *schema.Resource {
 func readSingularGdpGdpPipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GdpGdpPipelineDataSourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GuardedDataPipelineClient()
-	if env, ok := sync.D.GetOk("env"); !ok || env.(string) != gdpUSGovCode {
-		currentHost := sync.Client.Host
-		newHost := strings.Replace(currentHost, "gdp", commercialSubdomain, 1)
-		sync.Client.Host = newHost
-	}
+	env, _ := sync.D.GetOk("env")
+	sync.Client = getGdpClient(m, env == nil || env.(string) != gdpUSGovCode)
 
 	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
@@ -163,4 +156,3 @@ func (s *GdpGdpPipelineDataSourceCrud) SetData() error {
 
 	return nil
 }
-*/
