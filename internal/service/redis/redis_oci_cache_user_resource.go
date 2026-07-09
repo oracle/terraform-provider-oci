@@ -130,6 +130,7 @@ func createRedisOciCacheUserWithContext(ctx context.Context, d *schema.ResourceD
 	sync := &RedisOciCacheUserResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OciCacheUserClient()
+	sync.RedisClusterClient = m.(*client.OracleClients).RedisClusterClient()
 
 	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
