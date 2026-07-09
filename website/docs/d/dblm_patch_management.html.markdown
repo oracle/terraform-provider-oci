@@ -10,6 +10,8 @@ description: |-
 # Data Source: oci_dblm_patch_management
 This data source provides details about a specific Patch Management resource in Oracle Cloud Infrastructure Dblm service.
 
+!> **WARNING:** End of Life: Database Lifecycle Management is deprecated and will reach end of life in January 2027. DBLM Terraform resources and data sources will no longer be supported after that date.
+
 Overview of Patch Management.
 
 
@@ -68,4 +70,3 @@ The following attributes are exported:
 * `state` - The current state of the feature.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_enabled` - The time the Vulnerability was enabled. An RFC3339 formatted datetime string.
-

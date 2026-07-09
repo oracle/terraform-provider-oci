@@ -17,7 +17,8 @@ import (
 
 func DblmPatchManagementDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readSingularDblmPatchManagement,
+		Read:               readSingularDblmPatchManagement,
+		DeprecationMessage: dblmDeprecationMessage,
 		Schema: map[string]*schema.Schema{
 			"compartment_id": {
 				Type:     schema.TypeString,
