@@ -541,7 +541,7 @@ func (s *FunctionsApplicationResourceCrud) SetData() error {
 	}
 	s.D.Set("network_security_group_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, networkSecurityGroupIds))
 
-	s.D.Set("security_attributes", s.Res.SecurityAttributes)
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 
 	s.D.Set("shape", s.Res.Shape)
 
