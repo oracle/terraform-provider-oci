@@ -94,8 +94,26 @@ func (s *CoreBootVolumeBackupDataSourceCrud) SetData() error {
 		s.D.Set("image_id", *s.Res.ImageId)
 	}
 
+	if s.Res.IsIndefiniteRetentionEnabled != nil {
+		s.D.Set("is_indefinite_retention_enabled", *s.Res.IsIndefiniteRetentionEnabled)
+	}
+
+	if s.Res.IsPreventDeletionEnabled != nil {
+		s.D.Set("is_prevent_deletion_enabled", *s.Res.IsPreventDeletionEnabled)
+	}
+
+	if s.Res.IsRetentionLockEnabled != nil {
+		s.D.Set("is_retention_lock_enabled", *s.Res.IsRetentionLockEnabled)
+	}
+
 	if s.Res.KmsKeyId != nil {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
+	}
+
+	if s.Res.RetentionPeriod != nil {
+		s.D.Set("retention_period", []interface{}{RetentionDurationToMap(s.Res.RetentionPeriod)})
+	} else {
+		s.D.Set("retention_period", nil)
 	}
 
 	if s.Res.SizeInGBs != nil {
@@ -122,10 +140,18 @@ func (s *CoreBootVolumeBackupDataSourceCrud) SetData() error {
 		s.D.Set("time_request_received", s.Res.TimeRequestReceived.String())
 	}
 
+	if s.Res.TimeRetentionExpiresAt != nil {
+		s.D.Set("time_retention_expires_at", s.Res.TimeRetentionExpiresAt.String())
+	}
+
 	s.D.Set("type", s.Res.Type)
 
 	if s.Res.UniqueSizeInGBs != nil {
 		s.D.Set("unique_size_in_gbs", strconv.FormatInt(*s.Res.UniqueSizeInGBs, 10))
+	}
+
+	if s.Res.VolumeGroupBackupId != nil {
+		s.D.Set("volume_group_backup_id", *s.Res.VolumeGroupBackupId)
 	}
 
 	return nil

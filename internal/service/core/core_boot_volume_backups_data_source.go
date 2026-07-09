@@ -156,8 +156,26 @@ func (s *CoreBootVolumeBackupsDataSourceCrud) SetData() error {
 			bootVolumeBackup["image_id"] = *r.ImageId
 		}
 
+		if r.IsIndefiniteRetentionEnabled != nil {
+			bootVolumeBackup["is_indefinite_retention_enabled"] = *r.IsIndefiniteRetentionEnabled
+		}
+
+		if r.IsPreventDeletionEnabled != nil {
+			bootVolumeBackup["is_prevent_deletion_enabled"] = *r.IsPreventDeletionEnabled
+		}
+
+		if r.IsRetentionLockEnabled != nil {
+			bootVolumeBackup["is_retention_lock_enabled"] = *r.IsRetentionLockEnabled
+		}
+
 		if r.KmsKeyId != nil {
 			bootVolumeBackup["kms_key_id"] = *r.KmsKeyId
+		}
+
+		if r.RetentionPeriod != nil {
+			bootVolumeBackup["retention_period"] = []interface{}{RetentionDurationToMap(r.RetentionPeriod)}
+		} else {
+			bootVolumeBackup["retention_period"] = nil
 		}
 
 		if r.SizeInGBs != nil {
@@ -184,10 +202,18 @@ func (s *CoreBootVolumeBackupsDataSourceCrud) SetData() error {
 			bootVolumeBackup["time_request_received"] = r.TimeRequestReceived.String()
 		}
 
+		if r.TimeRetentionExpiresAt != nil {
+			bootVolumeBackup["time_retention_expires_at"] = r.TimeRetentionExpiresAt.String()
+		}
+
 		bootVolumeBackup["type"] = r.Type
 
 		if r.UniqueSizeInGBs != nil {
 			bootVolumeBackup["unique_size_in_gbs"] = strconv.FormatInt(*r.UniqueSizeInGBs, 10)
+		}
+
+		if r.VolumeGroupBackupId != nil {
+			bootVolumeBackup["volume_group_backup_id"] = *r.VolumeGroupBackupId
 		}
 
 		resources = append(resources, bootVolumeBackup)

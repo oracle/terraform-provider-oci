@@ -54,6 +54,8 @@ The following attributes are exported:
 	* `day_of_month` - The day of the month to schedule the volume backup.
 	* `day_of_week` - The day of the week to schedule the volume backup.
 	* `hour_of_day` - The hour of the day to schedule the volume backup.
+	* `is_prevent_deletion_enabled` - Prevent backups from being deleted during the configured retention period. This is an optional field. If it is not specified, it is set to null, prevent deletion will not be applied to the backups.
+	* `is_retention_lock_enabled` - feature that prevents deletion or alteration of backup data for a specified period to ensure data protection and regulatory compliance. This is an optional field. If it is not specified, it is set to null, no retention lock will be applied to the backups. This feature should be used in conjunction with the retention-period field.
 	* `month` - The month of the year to schedule the volume backup.
 	* `offset_seconds` - The number of seconds that the volume backup start time should be shifted from the default interval boundaries specified by the period. The volume backup start time is the frequency start time plus the offset. 
 	* `offset_type` - Indicates how the offset is defined. If value is `STRUCTURED`, then `hourOfDay`, `dayOfWeek`, `dayOfMonth`, and `month` fields are used and `offsetSeconds` will be ignored in requests and users should ignore its value from the responses.
@@ -72,6 +74,9 @@ The following attributes are exported:
 
 		For clients using older versions of Apis and not sending `offsetType` in their requests, the behaviour is just like `NUMERIC_SECONDS`. 
 	* `period` - The volume backup frequency.
+	* `retention_period` - This field is used to define the retention period for backups. This is an optional field. If it is not specified, it is set to null, no retention period will be applied to the backups.
+		* `retention_time_amount` - The value to enter for the amount of retention time should be a numerical figure (such as 1, 7, 30, etc.) that corresponds to the period specified in the retention time unit property (such as YEARS, DAYS). The combination of these two properties determines the total length of the retention period.
+		* `retention_time_unit` - The value you can assign to the Time Unit property for this Duration may be either "YEARS" or "DAYS".
 	* `retention_seconds` - How long, in seconds, to keep the volume backups created by this schedule.
 	* `time_zone` - Specifies what time zone is the schedule in
 * `time_created` - The date and time the volume backup policy was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
