@@ -71,7 +71,7 @@ var (
 func TestApigatewayApiResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestApigatewayApiResource_basic")
 	defer httpreplay.SaveScenario()
-	//adding dummy comment for resource discovery
+
 	config := acctest.ProviderTestConfig()
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
