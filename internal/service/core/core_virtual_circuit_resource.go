@@ -158,6 +158,12 @@ func CoreVirtualCircuitResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"provider_remote_region": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"provider_service_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -188,6 +194,12 @@ func CoreVirtualCircuitResource() *schema.Resource {
 				},
 			},
 			"region": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"remote_account_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -234,6 +246,10 @@ func CoreVirtualCircuitResource() *schema.Resource {
 				Computed: true,
 			},
 			"service_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"shared_connection_uuid": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -443,6 +459,11 @@ func (s *CoreVirtualCircuitResourceCrud) Create() error {
 		}
 	}
 
+	if providerRemoteRegion, ok := s.D.GetOkExists("provider_remote_region"); ok {
+		tmp := providerRemoteRegion.(string)
+		request.ProviderRemoteRegion = &tmp
+	}
+
 	if providerServiceId, ok := s.D.GetOkExists("provider_service_id"); ok {
 		tmp := providerServiceId.(string)
 		request.ProviderServiceId = &tmp
@@ -479,6 +500,11 @@ func (s *CoreVirtualCircuitResourceCrud) Create() error {
 	if region, ok := s.D.GetOkExists("region"); ok {
 		tmp := region.(string)
 		request.Region = &tmp
+	}
+
+	if remoteAccountId, ok := s.D.GetOkExists("remote_account_id"); ok {
+		tmp := remoteAccountId.(string)
+		request.RemoteAccountId = &tmp
 	}
 
 	if routingPolicy, ok := s.D.GetOkExists("routing_policy"); ok {
@@ -828,6 +854,10 @@ func (s *CoreVirtualCircuitResourceCrud) SetData() error {
 		s.D.Set("oracle_bgp_asn", *s.Res.OracleBgpAsn)
 	}
 
+	if s.Res.ProviderRemoteRegion != nil {
+		s.D.Set("provider_remote_region", *s.Res.ProviderRemoteRegion)
+	}
+
 	if s.Res.ProviderServiceId != nil {
 		s.D.Set("provider_service_id", *s.Res.ProviderServiceId)
 	}
@@ -852,9 +882,17 @@ func (s *CoreVirtualCircuitResourceCrud) SetData() error {
 		s.D.Set("region", *s.Res.Region)
 	}
 
+	if s.Res.RemoteAccountId != nil {
+		s.D.Set("remote_account_id", *s.Res.RemoteAccountId)
+	}
+
 	s.D.Set("routing_policy", s.Res.RoutingPolicy)
 
 	s.D.Set("service_type", s.Res.ServiceType)
+
+	if s.Res.SharedConnectionUuid != nil {
+		s.D.Set("shared_connection_uuid", *s.Res.SharedConnectionUuid)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 

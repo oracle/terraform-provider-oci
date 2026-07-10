@@ -66,6 +66,7 @@ resource "oci_core_virtual_circuit" "test_virtual_circuit" {
 	ip_mtu = var.virtual_circuit_ip_mtu
 	is_bfd_enabled = var.virtual_circuit_is_bfd_enabled
 	is_transport_mode = var.virtual_circuit_is_transport_mode
+	provider_remote_region = var.virtual_circuit_provider_remote_region
 	gateway_id = oci_core_gateway.test_gateway.id
 	provider_service_id = data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id
 	provider_service_key_name = var.virtual_circuit_provider_service_key_name
@@ -74,6 +75,7 @@ resource "oci_core_virtual_circuit" "test_virtual_circuit" {
 		cidr_block = var.virtual_circuit_public_prefixes_cidr_block
 	}
 	region = var.virtual_circuit_region
+	remote_account_id = oci_core_remote_account.test_remote_account.id
 	routing_policy = var.virtual_circuit_routing_policy
 	traffic_mode = var.virtual_circuit_traffic_mode
 }
@@ -123,11 +125,13 @@ The following arguments are supported:
 * `ip_mtu` - (Optional) (Updatable) The layer 3 IP MTU to use with this virtual circuit.
 * `is_bfd_enabled` - (Optional) (Updatable) Set to `true` to enable BFD for IPv4 BGP peering, or set to `false` to disable BFD. If this is not set, the default is `false`. 
 * `is_transport_mode` - (Optional) (Updatable) Set to `true` for the virtual circuit to carry only encrypted traffic, or set to `false` for the virtual circuit to carry unencrypted traffic. If this is not set, the default is `false`. 
+* `provider_remote_region` - (Optional) The OCI's FastConnect MultiCloud Provider/Partner remote region name associated with the Oracle Cloud Infrastructure region. To get the list of associated provider remote region use the ListProviderRemoteRegions operation 
 * `provider_service_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service offered by the provider (if you're connecting via a provider). To get a list of the available service offerings, see [ListFastConnectProviderServices](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/FastConnectProviderService/ListFastConnectProviderServices). 
 * `provider_service_key_name` - (Optional) (Updatable) The service key name or activation key offered by the provider (if the customer is connecting via a provider). 
 * `public_prefixes` - (Optional) (Updatable) For a public virtual circuit. The public IP prefixes (CIDRs) the customer wants to advertise across the connection. 
 	* `cidr_block` - (Required) (Updatable) An individual public IP prefix (CIDR) to add to the public virtual circuit. All prefix sizes are allowed. 
 * `region` - (Optional) The Oracle Cloud Infrastructure region where this virtual circuit is located. Example: `phx` 
+* `remote_account_id` - (Optional) Customer's account on Provider/Partner cloud (AWS, GCP or any other)
 * `routing_policy` - (Optional) (Updatable) The routing policy sets how routing information about the Oracle cloud is shared over a public virtual circuit. Policies available are: `ORACLE_SERVICE_NETWORK`, `REGIONAL`, `MARKET_LEVEL`, and `GLOBAL`. See [Route Filtering](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/routingonprem.htm#route_filtering) for details. By default, routing information is shared for all routes in the same market. 
 * `traffic_mode` - (Optional) (Updatable) The traffic mode to be set with this Virtual Circuit. This controls whether the traffic is to be drained for the associated Virtual Circuit or not. 
 * `type` - (Required) The type of IP addresses used in this virtual circuit. PRIVATE means [RFC 1918](https://tools.ietf.org/html/rfc1918) addresses (10.0.0.0/8, 172.16/12, and 192.168/16). 
@@ -185,14 +189,17 @@ The following attributes are exported:
 * `is_bfd_enabled` - Set to `true` to enable BFD for IPv4 BGP peering, or set to `false` to disable BFD. If this is not set, the default is `false`. 
 * `is_transport_mode` - Set to `true` for the virtual circuit to carry only encrypted traffic, or set to `false` for the virtual circuit to carry unencrypted traffic. If this is not set, the default is `false`. 
 * `oracle_bgp_asn` - The Oracle BGP ASN.
-* `provider_service_id` - The OCID of the service offered by the provider (if the customer is connecting via a provider). 
+* `provider_remote_region` - The OCI's FastConnect MultiCloud Provider/Partner remote region name associated with the Oracle Cloud Infrastructure region. To get the list of associated provider remote region use the ListProviderRemoteRegions operation 
+* `provider_service_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service offered by the provider (if the customer is connecting via a provider).
 * `provider_service_key_name` - The service key name offered by the provider (if the customer is connecting via a provider). 
 * `provider_state` - The provider's state in relation to this virtual circuit (if the customer is connecting via a provider). ACTIVE means the provider has provisioned the virtual circuit from their end. INACTIVE means the provider has not yet provisioned the virtual circuit, or has de-provisioned it. 
 * `public_prefixes` - For a public virtual circuit. The public IP prefixes (CIDRs) the customer wants to advertise across the connection. All prefix sizes are allowed. 
 * `reference_comment` - Provider-supplied reference information about this virtual circuit (if the customer is connecting via a provider). 
 * `region` - The Oracle Cloud Infrastructure region where this virtual circuit is located. 
+* `remote_account_id` - Customer's account on Provider/Partner cloud (AWS, GCP or any other)
 * `routing_policy` - The routing policy sets how routing information about the Oracle cloud is shared over a public virtual circuit. Policies available are: `ORACLE_SERVICE_NETWORK`, `REGIONAL`, `MARKET_LEVEL`, and `GLOBAL`. See [Route Filtering](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/routingonprem.htm#route_filtering) for details. By default, routing information is shared for all routes in the same market. 
 * `service_type` - Provider service type. 
+* `shared_connection_uuid` - The Shared unique identifier for the connection between the multicloud interconnect providers
 * `state` - The virtual circuit's current state. For information about the different states, see [FastConnect Overview](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm). 
 * `time_created` - The date and time the virtual circuit was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `traffic_mode` - The current traffic mode for the Virtual Circuit. This indicates whether the traffic is drained for the associated Virtual Circuit or not. 
