@@ -169,6 +169,10 @@ func (s *CoreVirtualCircuitsDataSourceCrud) SetData() error {
 			virtualCircuit["oracle_bgp_asn"] = *r.OracleBgpAsn
 		}
 
+		if r.ProviderRemoteRegion != nil {
+			virtualCircuit["provider_remote_region"] = *r.ProviderRemoteRegion
+		}
+
 		if r.ProviderServiceId != nil {
 			virtualCircuit["provider_service_id"] = *r.ProviderServiceId
 		}
@@ -193,9 +197,17 @@ func (s *CoreVirtualCircuitsDataSourceCrud) SetData() error {
 			virtualCircuit["region"] = *r.Region
 		}
 
+		if r.RemoteAccountId != nil {
+			virtualCircuit["remote_account_id"] = *r.RemoteAccountId
+		}
+
 		virtualCircuit["routing_policy"] = r.RoutingPolicy
 
 		virtualCircuit["service_type"] = r.ServiceType
+
+		if r.SharedConnectionUuid != nil {
+			virtualCircuit["shared_connection_uuid"] = *r.SharedConnectionUuid
+		}
 
 		virtualCircuit["state"] = r.LifecycleState
 
