@@ -64,6 +64,9 @@ type InstancePool struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// The type of resources managed by the pool.
+	PoolType InstancePoolPoolTypeEnum `mandatory:"false" json:"poolType,omitempty"`
+
 	// The load balancers attached to the instance pool.
 	LoadBalancers []InstancePoolLoadBalancerAttachment `mandatory:"false" json:"loadBalancers"`
 
@@ -94,10 +97,55 @@ func (m InstancePool) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetInstancePoolLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingInstancePoolPoolTypeEnum(string(m.PoolType)); !ok && m.PoolType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PoolType: %s. Supported values are: %s.", m.PoolType, strings.Join(GetInstancePoolPoolTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// InstancePoolPoolTypeEnum Enum with underlying type: string
+type InstancePoolPoolTypeEnum string
+
+// Set of constants representing the allowable values for InstancePoolPoolTypeEnum
+const (
+	InstancePoolPoolTypeInstance InstancePoolPoolTypeEnum = "INSTANCE"
+	InstancePoolPoolTypeGmc      InstancePoolPoolTypeEnum = "GMC"
+)
+
+var mappingInstancePoolPoolTypeEnum = map[string]InstancePoolPoolTypeEnum{
+	"INSTANCE": InstancePoolPoolTypeInstance,
+	"GMC":      InstancePoolPoolTypeGmc,
+}
+
+var mappingInstancePoolPoolTypeEnumLowerCase = map[string]InstancePoolPoolTypeEnum{
+	"instance": InstancePoolPoolTypeInstance,
+	"gmc":      InstancePoolPoolTypeGmc,
+}
+
+// GetInstancePoolPoolTypeEnumValues Enumerates the set of values for InstancePoolPoolTypeEnum
+func GetInstancePoolPoolTypeEnumValues() []InstancePoolPoolTypeEnum {
+	values := make([]InstancePoolPoolTypeEnum, 0)
+	for _, v := range mappingInstancePoolPoolTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetInstancePoolPoolTypeEnumStringValues Enumerates the set of values in String for InstancePoolPoolTypeEnum
+func GetInstancePoolPoolTypeEnumStringValues() []string {
+	return []string{
+		"INSTANCE",
+		"GMC",
+	}
+}
+
+// GetMappingInstancePoolPoolTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingInstancePoolPoolTypeEnum(val string) (InstancePoolPoolTypeEnum, bool) {
+	enum, ok := mappingInstancePoolPoolTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // InstancePoolLifecycleStateEnum Enum with underlying type: string

@@ -16,13 +16,18 @@
 package core
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// UpdateComputeClusterDetails The data to update a compute cluster. A compute cluster (https://docs.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm)
-// is a remote direct memory access (RDMA) network group.
+// UpdateComputeClusterDetails The data to update a compute cluster (https://docs.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm).
+// Use `COMPUTE_CLUSTER` type when using placementConstraintDetails.
+// `placementConstraintDetails.hpcIslandId` is create-only and cannot be part of this update request.
+// All other fields in `placementConstraintDetails` are optional, and only the fields provided will be updated.
+// If `placementConstraintDetails.targetNetworkBlockIds` or `placementConstraintDetails.targetMemoryFabricIds` is
+// provided, then the target compute cluster must already have `hpcIslandId` persisted.
 type UpdateComputeClusterDetails struct {
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
@@ -38,6 +43,8 @@ type UpdateComputeClusterDetails struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	PlacementConstraintDetails PlacementConstraintDetails `mandatory:"false" json:"placementConstraintDetails"`
 }
 
 func (m UpdateComputeClusterDetails) String() string {
@@ -54,4 +61,37 @@ func (m UpdateComputeClusterDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateComputeClusterDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName                *string                           `json:"displayName"`
+		DefinedTags                map[string]map[string]interface{} `json:"definedTags"`
+		FreeformTags               map[string]string                 `json:"freeformTags"`
+		PlacementConstraintDetails placementconstraintdetails        `json:"placementConstraintDetails"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.DefinedTags = model.DefinedTags
+
+	m.FreeformTags = model.FreeformTags
+
+	nn, e = model.PlacementConstraintDetails.UnmarshalPolymorphicJSON(model.PlacementConstraintDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PlacementConstraintDetails = nn.(PlacementConstraintDetails)
+	} else {
+		m.PlacementConstraintDetails = nil
+	}
+
+	return
 }

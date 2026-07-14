@@ -42,7 +42,7 @@ type TargetAlertPolicyAssociationSummary struct {
 	// The OCID of the alert policy.
 	PolicyId *string `mandatory:"false" json:"policyId"`
 
-	// The OCID of the target on which alert policy is to be applied.
+	// The OCID of the target or target database group on which alert policy is to be applied.
 	TargetId *string `mandatory:"false" json:"targetId"`
 
 	// Indicates if the target-alert policy association is enabled or disabled by user.
@@ -50,6 +50,9 @@ type TargetAlertPolicyAssociationSummary struct {
 
 	// Details about the current state of the target-alert policy association.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// The resource type that is represented by the target alert policy association.
+	TargetType TargetAlertPolicyAssociationTargetTypeEnum `mandatory:"false" json:"targetType,omitempty"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
@@ -73,6 +76,9 @@ func (m TargetAlertPolicyAssociationSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAlertPolicyLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingTargetAlertPolicyAssociationTargetTypeEnum(string(m.TargetType)); !ok && m.TargetType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", m.TargetType, strings.Join(GetTargetAlertPolicyAssociationTargetTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

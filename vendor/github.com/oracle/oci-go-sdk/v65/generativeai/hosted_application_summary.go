@@ -28,14 +28,7 @@ type HostedApplicationSummary struct {
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The current state of the hosted application.
-	// Allowed values are:
-	// - CREATING
-	// - ACTIVE
-	// - UPDATING
-	// - DELETING
-	// - DELETED
-	// - FAILED
-	LifecycleState HostedApplicationLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+	LifecycleState HostedApplicationBaseLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// An optional description of the hosted application.
 	Description *string `mandatory:"false" json:"description"`
@@ -73,8 +66,8 @@ func (m HostedApplicationSummary) String() string {
 // Not recommended for calling this function directly
 func (m HostedApplicationSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingHostedApplicationLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetHostedApplicationLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingHostedApplicationBaseLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetHostedApplicationBaseLifecycleStateEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {

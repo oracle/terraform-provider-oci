@@ -28,12 +28,12 @@ type CreateHostedApplicationDetails struct {
 	// The compartment OCID for the Hosted Application.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	InboundAuthConfig *InboundAuthConfig `mandatory:"true" json:"inboundAuthConfig"`
+
 	// The description for the Hosted Application.
 	Description *string `mandatory:"false" json:"description"`
 
 	ScalingConfig *ScalingConfig `mandatory:"false" json:"scalingConfig"`
-
-	InboundAuthConfig *InboundAuthConfig `mandatory:"false" json:"inboundAuthConfig"`
 
 	NetworkingConfig *NetworkingConfig `mandatory:"false" json:"networkingConfig"`
 

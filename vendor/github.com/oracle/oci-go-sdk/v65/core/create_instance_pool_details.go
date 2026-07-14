@@ -22,6 +22,8 @@ import (
 )
 
 // CreateInstancePoolDetails The data to create an instance pool.
+// For a GMC-enabled resource pool, the referenced instance configuration must be a GMC configuration and
+// the placement configuration must identify the availability domain and compute cluster for the pool.
 type CreateInstancePoolDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the instance pool.
@@ -40,6 +42,7 @@ type CreateInstancePoolDetails struct {
 	PlacementConfigurations []CreateInstancePoolPlacementConfigurationDetails `mandatory:"true" json:"placementConfigurations"`
 
 	// The number of instances that should be in the instance pool.
+	// For a GMC-enabled resource pool, this is the number of GMC resources that should be in the pool.
 	Size *int `mandatory:"true" json:"size"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

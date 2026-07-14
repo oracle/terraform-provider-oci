@@ -30,9 +30,6 @@ type HostedDeployment struct {
 	// The current state of the hosted deployment.
 	LifecycleState HostedDeploymentLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the application.
-	HostedApplicationId *string `mandatory:"true" json:"hostedApplicationId"`
-
 	ActiveArtifact Artifact `mandatory:"true" json:"activeArtifact"`
 
 	// array of Artifacts.
@@ -49,6 +46,9 @@ type HostedDeployment struct {
 
 	// The date and time the hosted deployment was updated, in the format defined by RFC 3339
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the HostedApplication parent.
+	HostedApplicationId *string `mandatory:"false" json:"hostedApplicationId"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -91,12 +91,12 @@ func (m *HostedDeployment) UnmarshalJSON(data []byte) (e error) {
 		CompartmentId       *string                            `json:"compartmentId"`
 		TimeCreated         *common.SDKTime                    `json:"timeCreated"`
 		TimeUpdated         *common.SDKTime                    `json:"timeUpdated"`
+		HostedApplicationId *string                            `json:"hostedApplicationId"`
 		FreeformTags        map[string]string                  `json:"freeformTags"`
 		DefinedTags         map[string]map[string]interface{}  `json:"definedTags"`
 		SystemTags          map[string]map[string]interface{}  `json:"systemTags"`
 		Id                  *string                            `json:"id"`
 		LifecycleState      HostedDeploymentLifecycleStateEnum `json:"lifecycleState"`
-		HostedApplicationId *string                            `json:"hostedApplicationId"`
 		ActiveArtifact      artifact                           `json:"activeArtifact"`
 		Artifacts           []artifact                         `json:"artifacts"`
 	}{}
@@ -114,6 +114,8 @@ func (m *HostedDeployment) UnmarshalJSON(data []byte) (e error) {
 
 	m.TimeUpdated = model.TimeUpdated
 
+	m.HostedApplicationId = model.HostedApplicationId
+
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
@@ -123,8 +125,6 @@ func (m *HostedDeployment) UnmarshalJSON(data []byte) (e error) {
 	m.Id = model.Id
 
 	m.LifecycleState = model.LifecycleState
-
-	m.HostedApplicationId = model.HostedApplicationId
 
 	nn, e = model.ActiveArtifact.UnmarshalPolymorphicJSON(model.ActiveArtifact.JsonData)
 	if e != nil {
@@ -156,33 +156,36 @@ type HostedDeploymentLifecycleStateEnum string
 
 // Set of constants representing the allowable values for HostedDeploymentLifecycleStateEnum
 const (
-	HostedDeploymentLifecycleStateCreating HostedDeploymentLifecycleStateEnum = "CREATING"
-	HostedDeploymentLifecycleStateActive   HostedDeploymentLifecycleStateEnum = "ACTIVE"
-	HostedDeploymentLifecycleStateInactive HostedDeploymentLifecycleStateEnum = "INACTIVE"
-	HostedDeploymentLifecycleStateUpdating HostedDeploymentLifecycleStateEnum = "UPDATING"
-	HostedDeploymentLifecycleStateDeleting HostedDeploymentLifecycleStateEnum = "DELETING"
-	HostedDeploymentLifecycleStateDeleted  HostedDeploymentLifecycleStateEnum = "DELETED"
-	HostedDeploymentLifecycleStateFailed   HostedDeploymentLifecycleStateEnum = "FAILED"
+	HostedDeploymentLifecycleStateCreating       HostedDeploymentLifecycleStateEnum = "CREATING"
+	HostedDeploymentLifecycleStateNeedsAttention HostedDeploymentLifecycleStateEnum = "NEEDS_ATTENTION"
+	HostedDeploymentLifecycleStateActive         HostedDeploymentLifecycleStateEnum = "ACTIVE"
+	HostedDeploymentLifecycleStateInactive       HostedDeploymentLifecycleStateEnum = "INACTIVE"
+	HostedDeploymentLifecycleStateUpdating       HostedDeploymentLifecycleStateEnum = "UPDATING"
+	HostedDeploymentLifecycleStateDeleting       HostedDeploymentLifecycleStateEnum = "DELETING"
+	HostedDeploymentLifecycleStateDeleted        HostedDeploymentLifecycleStateEnum = "DELETED"
+	HostedDeploymentLifecycleStateFailed         HostedDeploymentLifecycleStateEnum = "FAILED"
 )
 
 var mappingHostedDeploymentLifecycleStateEnum = map[string]HostedDeploymentLifecycleStateEnum{
-	"CREATING": HostedDeploymentLifecycleStateCreating,
-	"ACTIVE":   HostedDeploymentLifecycleStateActive,
-	"INACTIVE": HostedDeploymentLifecycleStateInactive,
-	"UPDATING": HostedDeploymentLifecycleStateUpdating,
-	"DELETING": HostedDeploymentLifecycleStateDeleting,
-	"DELETED":  HostedDeploymentLifecycleStateDeleted,
-	"FAILED":   HostedDeploymentLifecycleStateFailed,
+	"CREATING":        HostedDeploymentLifecycleStateCreating,
+	"NEEDS_ATTENTION": HostedDeploymentLifecycleStateNeedsAttention,
+	"ACTIVE":          HostedDeploymentLifecycleStateActive,
+	"INACTIVE":        HostedDeploymentLifecycleStateInactive,
+	"UPDATING":        HostedDeploymentLifecycleStateUpdating,
+	"DELETING":        HostedDeploymentLifecycleStateDeleting,
+	"DELETED":         HostedDeploymentLifecycleStateDeleted,
+	"FAILED":          HostedDeploymentLifecycleStateFailed,
 }
 
 var mappingHostedDeploymentLifecycleStateEnumLowerCase = map[string]HostedDeploymentLifecycleStateEnum{
-	"creating": HostedDeploymentLifecycleStateCreating,
-	"active":   HostedDeploymentLifecycleStateActive,
-	"inactive": HostedDeploymentLifecycleStateInactive,
-	"updating": HostedDeploymentLifecycleStateUpdating,
-	"deleting": HostedDeploymentLifecycleStateDeleting,
-	"deleted":  HostedDeploymentLifecycleStateDeleted,
-	"failed":   HostedDeploymentLifecycleStateFailed,
+	"creating":        HostedDeploymentLifecycleStateCreating,
+	"needs_attention": HostedDeploymentLifecycleStateNeedsAttention,
+	"active":          HostedDeploymentLifecycleStateActive,
+	"inactive":        HostedDeploymentLifecycleStateInactive,
+	"updating":        HostedDeploymentLifecycleStateUpdating,
+	"deleting":        HostedDeploymentLifecycleStateDeleting,
+	"deleted":         HostedDeploymentLifecycleStateDeleted,
+	"failed":          HostedDeploymentLifecycleStateFailed,
 }
 
 // GetHostedDeploymentLifecycleStateEnumValues Enumerates the set of values for HostedDeploymentLifecycleStateEnum
@@ -198,6 +201,7 @@ func GetHostedDeploymentLifecycleStateEnumValues() []HostedDeploymentLifecycleSt
 func GetHostedDeploymentLifecycleStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
+		"NEEDS_ATTENTION",
 		"ACTIVE",
 		"INACTIVE",
 		"UPDATING",

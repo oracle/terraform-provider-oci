@@ -4156,8 +4156,8 @@ func (client DataSafeClient) createSdmMaskingPolicyDifference(ctx context.Contex
 	return response, err
 }
 
-// CreateSecurityAssessment Creates a new saved security assessment for one or multiple targets in a compartment. When this operation is performed,
-// it will save the latest assessments in the specified compartment. If a schedule is passed, it will persist the latest assessments,
+// CreateSecurityAssessment Creates a new saved security assessment for a target database or target database group in a compartment. When this operation is performed,
+// it will save the latest assessment in the specified compartment. If a schedule is passed, it will persist the latest assessment,
 // at the defined date and time, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 //
 // # See also
@@ -5046,8 +5046,8 @@ func (client DataSafeClient) createUnifiedAuditPolicy(ctx context.Context, reque
 	return response, err
 }
 
-// CreateUserAssessment Creates a new saved user assessment for one or multiple targets in a compartment. It saves the latest assessments in the
-// specified compartment. If a scheduled is passed in, this operation persists the latest assessments that exist at the defined
+// CreateUserAssessment Creates a new saved user assessment for a target database or target database group in a compartment. It saves the latest assessment in the
+// specified compartment. If a schedule is passed in, this operation persists the latest assessment that exists at the defined
 // date and time, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 //
 // # See also
@@ -13339,6 +13339,7 @@ func (client DataSafeClient) listDatabaseTableAccessEntries(ctx context.Context,
 
 // ListDatabaseViewAccessEntries Retrieves a list of all database view access entries in Data Safe.
 // The ListDatabaseViewAccessEntries operation returns only the database view access objects for the specified security policy report.
+// If targetId is specified, it must match the target associated with the securityPolicyReportId path parameter; otherwise, the request is rejected.
 //
 // # See also
 //
@@ -17110,6 +17111,64 @@ func (client DataSafeClient) listTargetAlertPolicyAssociations(ctx context.Conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetAlertPolicyAssociationSummary/ListTargetAlertPolicyAssociations"
 		err = common.PostProcessServiceError(err, "DataSafe", "ListTargetAlertPolicyAssociations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListTargetAlertPolicyUnassociatedMembers Gets the details of target-alert policy association and its unassociated members by its ID.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListTargetAlertPolicyUnassociatedMembers.go.html to see an example of how to use ListTargetAlertPolicyUnassociatedMembers API.
+// A default retry strategy applies to this operation ListTargetAlertPolicyUnassociatedMembers()
+func (client DataSafeClient) ListTargetAlertPolicyUnassociatedMembers(ctx context.Context, request ListTargetAlertPolicyUnassociatedMembersRequest) (response ListTargetAlertPolicyUnassociatedMembersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listTargetAlertPolicyUnassociatedMembers, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListTargetAlertPolicyUnassociatedMembersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListTargetAlertPolicyUnassociatedMembersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListTargetAlertPolicyUnassociatedMembersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListTargetAlertPolicyUnassociatedMembersResponse")
+	}
+	return
+}
+
+// listTargetAlertPolicyUnassociatedMembers implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listTargetAlertPolicyUnassociatedMembers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/targetAlertPolicyAssociations/{targetAlertPolicyAssociationId}/unassociatedTargetMembers", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListTargetAlertPolicyUnassociatedMembersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListTargetAlertPolicyUnassociatedMembers")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetAlertPolicyAssociation/ListTargetAlertPolicyUnassociatedMembers"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListTargetAlertPolicyUnassociatedMembers", apiReferenceLink)
 		return response, err
 	}
 

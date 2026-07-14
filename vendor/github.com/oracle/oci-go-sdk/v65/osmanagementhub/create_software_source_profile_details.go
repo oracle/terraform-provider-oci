@@ -27,9 +27,6 @@ type CreateSoftwareSourceProfileDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the registration profile.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The list of software source OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that the registration profile will use.
-	SoftwareSourceIds []string `mandatory:"true" json:"softwareSourceIds"`
-
 	// User-specified description of the registration profile.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -49,6 +46,9 @@ type CreateSoftwareSourceProfileDetails struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The list of software source OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that the registration profile will use.
+	SoftwareSourceIds []string `mandatory:"false" json:"softwareSourceIds"`
 
 	// The type of instance to register.
 	RegistrationType ProfileRegistrationTypeEnum `mandatory:"false" json:"registrationType,omitempty"`
