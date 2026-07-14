@@ -25,6 +25,7 @@ data "oci_data_safe_security_assessment_findings" "test_security_assessment_find
 	category = var.security_assessment_finding_category
 	compartment_id = var.compartment_id
 	compartment_id_in_subtree = var.security_assessment_finding_compartment_id_in_subtree
+	contains_oracle_defined_severity = var.security_assessment_finding_contains_oracle_defined_severity
 	contains_references = var.security_assessment_finding_contains_references
 	contains_severity = var.security_assessment_finding_contains_severity
 	field = var.security_assessment_finding_field
@@ -48,6 +49,7 @@ The following arguments are supported:
 * `category` - (Optional) The category of the finding.
 * `compartment_id` - (Optional) A filter to return only resources that match the specified compartment OCID.
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
+* `contains_oracle_defined_severity` - (Optional) A filter to return only findings that match the specified risk level(s). Use containsOracleDefinedSeverity parameter if need to filter by one or multiple risk levels.
 * `contains_references` - (Optional) An optional filter to return only findings that match the specified references. Use containsReferences param if need to filter by multiple references.
 * `contains_severity` - (Optional) A filter to return only findings that match the specified risk level(s). Use containsSeverity parameter if need to filter by multiple risk levels.
 * `field` - (Optional) Specifies a subset of fields to be returned in the response.

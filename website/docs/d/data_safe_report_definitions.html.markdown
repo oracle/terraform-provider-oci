@@ -37,10 +37,10 @@ data "oci_data_safe_report_definitions" "test_report_definitions" {
 
 The following arguments are supported:
 
-* `access_level` - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed. 
+* `access_level` - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.
 * `category` - (Optional) An optional filter to return only resources that match the specified category.
 * `compartment_id` - (Required) A filter to return only resources that match the specified compartment OCID.
-* `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
+* `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting.
 * `data_source` - (Optional) Specifies the name of a resource that provides data for the report. For example  alerts, events.
 * `display_name` - (Optional) The name of the report definition to query.
 * `is_seeded` - (Optional) A boolean flag indicating to list seeded report definitions. Set this parameter to get list of seeded report definitions.
@@ -79,20 +79,21 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment containing the report definition.
 * `compliance_standards` - The list of the data protection regulations/standards used in the report that will help demonstrate compliance.
 * `data_source` - Specifies the name of a resource that provides data for the report. For example alerts, events.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}`
 * `description` - A description of the report definition.
 * `display_name` - Name of the report definition.
 * `display_order` - Specifies how the report definitions are ordered in the display.
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}`
 * `id` - The OCID of the report definition.
+* `is_schedule_pagination_enabled` - Indicates if the reports being generated should be paginated. If set to true, multiple reports can be generated and the details of next and previous report are present in Report. Values can either be 'true' or 'false'.
 * `is_seeded` - Signifies whether the definition is seeded or user defined. Values can either be 'true' or 'false'.
 * `lifecycle_details` - Details about the current state of the report definition in Data Safe.
 * `parent_id` - The OCID of the parent report definition. In the case of seeded report definition, this is same as definition OCID.
-* `record_time_span` - The time span for the records in the report to be scheduled. <period-value><period> Allowed period strings - "H","D","M","Y" Each of the above fields potentially introduce constraints. A workRequest is created only when period-value satisfies all the constraints. Constraints introduced: 1. period = H (The allowed range for period-value is [1, 23]) 2. period = D (The allowed range for period-value is [1, 30]) 3. period = M (The allowed range for period-value is [1, 11]) 4. period = Y (The minimum period-value is 1) 
+* `record_time_span` - The time span for the records in the report to be scheduled. <period-value><period> Allowed period strings - "H","D","M","Y" Each of the above fields potentially introduce constraints. A workRequest is created only when period-value satisfies all the constraints. Constraints introduced: 1. period = H (The allowed range for period-value is [1, 23]) 2. period = D (The allowed range for period-value is [1, 30]) 3. period = M (The allowed range for period-value is [1, 11]) 4. period = Y (The minimum period-value is 1)
 * `schedule` - The schedule to generate the report periodically in the specified format: <version-string>;<version-specific-schedule>
 
-	Allowed version strings - "v1" v1's version specific schedule -<ss> <mm> <hh> <day-of-week> <day-of-month> Each of the above fields potentially introduce constraints. A workrequest is created only when clock time satisfies all the constraints. Constraints introduced: 1. seconds = <ss> (So, the allowed range for <ss> is [0, 59]) 2. minutes = <mm> (So, the allowed range for <mm> is [0, 59]) 3. hours = <hh> (So, the allowed range for <hh> is [0, 23]) 4. <day-of-week> can be either '*' (without quotes or a number between 1(Monday) and 7(Sunday)) No constraint introduced when it is '*'. When not, day of week must equal the given value 5. <day-of-month> can be either '*' (without quotes or a number between 1 and 28) No constraint introduced when it is '*'. When not, day of month must equal the given value 
-* `scheduled_report_compartment_id` - The OCID of the compartment in which the scheduled resource will be created. 
+	Allowed version strings - "v1" v1's version specific schedule -<ss> <mm> <hh> <day-of-week> <day-of-month> Each of the above fields potentially introduce constraints. A workrequest is created only when clock time satisfies all the constraints. Constraints introduced: 1. seconds = <ss> (So, the allowed range for <ss> is [0, 59]) 2. minutes = <mm> (So, the allowed range for <mm> is [0, 59]) 3. hours = <hh> (So, the allowed range for <hh> is [0, 23]) 4. <day-of-week> can be either '*' (without quotes or a number between 1(Monday) and 7(Sunday)) No constraint introduced when it is '*'. When not, day of week must equal the given value 5. <day-of-month> can be either '*' (without quotes or a number between 1 and 28) No constraint introduced when it is '*'. When not, day of month must equal the given value
+* `scheduled_report_compartment_id` - The OCID of the compartment in which the scheduled resource will be created.
 * `scheduled_report_mime_type` - Specifies the format of the report ( either .xls or .pdf or .json)
 * `scheduled_report_name` - The name of the report to be scheduled.
 * `scheduled_report_row_limit` - Specifies the limit on the number of rows in the report.
@@ -105,7 +106,7 @@ The following attributes are exported:
 	* `is_hidden` - Indicates if the summary is hidden. Values can either be 'true' or 'false'.
 	* `name` - Name of the report summary.
 	* `scim_filter` - Additional scim filters used to get the specific summary.
-* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}`
 * `time_created` - Specifies the date and time the report definition was created.
 * `time_updated` - The date and time the report definition was updated.
 

@@ -48,6 +48,7 @@ import (
 	tf_database_tools "github.com/oracle/terraform-provider-oci/internal/service/database_tools"
 	tf_database_tools_runtime "github.com/oracle/terraform-provider-oci/internal/service/database_tools_runtime"
 	tf_datacatalog "github.com/oracle/terraform-provider-oci/internal/service/datacatalog"
+	tf_datacc "github.com/oracle/terraform-provider-oci/internal/service/datacc"
 	tf_dataflow "github.com/oracle/terraform-provider-oci/internal/service/dataflow"
 	tf_dataintegration "github.com/oracle/terraform-provider-oci/internal/service/dataintegration"
 	tf_datascience "github.com/oracle/terraform-provider-oci/internal/service/datascience"
@@ -277,6 +278,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("datacatalog") {
 		tf_datacatalog.RegisterResource()
+	}
+	if common.CheckForEnabledServices("datacc") {
+		tf_datacc.RegisterResource()
 	}
 	if common.CheckForEnabledServices("dataflow") {
 		tf_dataflow.RegisterResource()

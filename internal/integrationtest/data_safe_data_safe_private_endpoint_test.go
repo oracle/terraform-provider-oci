@@ -25,6 +25,20 @@ import (
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
+func getDataSafePrivateEndpointSecurityAttributes() map[string]string {
+	if utils.GetEnvSettingWithBlankDefault("create_security_attributes") == "true" {
+		return map[string]string{"Oracle-ZPR.MaxEgressCount.value": "42", "Oracle-ZPR.MaxEgressCount.mode": "enforce"}
+	}
+	return map[string]string{}
+}
+
+func getDataSafePrivateEndpointExpectedSecurityAttributesSize() string {
+	if utils.GetEnvSettingWithBlankDefault("create_security_attributes") == "true" {
+		return "2"
+	}
+	return "0"
+}
+
 var (
 	DataSafeDataSafePrivateEndpointRequiredOnlyResource = DataSafeDataSafePrivateEndpointResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", acctest.Required, acctest.Create, dataSafePrivateEndpointRepresentation)
@@ -50,20 +64,22 @@ var (
 	}
 
 	dataSafePrivateEndpointRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"nsg_ids":        acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":        acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"subnet_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"vcn_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"description":         acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"nsg_ids":             acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
+		"security_attributes": acctest.Representation{RepType: acctest.Optional, Create: getDataSafePrivateEndpointSecurityAttributes()},
 	}
 
 	DataSafeDataSafePrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-		DefinedTagsDependencies
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create,
+			acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
+				"prohibit_public_ip_on_vnic": acctest.Representation{RepType: acctest.Required, Create: `true`},
+			})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation)
 )
 
 // issue-routing-tag: data_safe/default
@@ -122,6 +138,7 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_ip"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", getDataSafePrivateEndpointExpectedSecurityAttributesSize()),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
@@ -153,6 +170,7 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_ip"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", getDataSafePrivateEndpointExpectedSecurityAttributesSize()),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
@@ -178,6 +196,7 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_ip"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", getDataSafePrivateEndpointExpectedSecurityAttributesSize()),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
@@ -207,12 +226,12 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.defined_tags.%", "0"),
 				resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.display_name", "displayName2"),
-				resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.freeform_tags.%", "0"),
+				resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "data_safe_private_endpoints.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "data_safe_private_endpoints.0.private_endpoint_id"),
+				resource.TestCheckResourceAttr(datasourceName, "data_safe_private_endpoints.0.security_attributes.%", getDataSafePrivateEndpointExpectedSecurityAttributesSize()),
 				resource.TestCheckResourceAttrSet(datasourceName, "data_safe_private_endpoints.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "data_safe_private_endpoints.0.subnet_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "data_safe_private_endpoints.0.time_created"),
@@ -234,6 +253,7 @@ func TestDataSafeDataSafePrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_ip"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "security_attributes.%", getDataSafePrivateEndpointExpectedSecurityAttributesSize()),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),

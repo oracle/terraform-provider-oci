@@ -16,19 +16,17 @@
 package core
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// ComputeCluster The data for creating a compute cluster (https://docs.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm). A compute cluster
-// is an empty remote direct memory access (RDMA) network group
-// After the compute cluster is created, you can use the compute cluster's OCID with the
-// LaunchInstance operation to create instances in the compute cluster.
-// The instances must be created in the same compartment and availability domain as the cluster.
-// Use compute clusters when you want to manage instances in the cluster individually in the RDMA network group.
-// For details about creating a cluster network that uses instance pools to manage groups of identical instances,
-// see CreateClusterNetworkDetails.
+// ComputeCluster The data for creating a compute cluster (https://docs.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm).
+// After the compute cluster is created, you can use the compute cluster's OCID to create Instance, GPU Memory
+// Cluster or Instance Pool resources within the compute cluster. These resources must be created in the same
+// compartment and availability domain as the cluster.
+// Use `COMPUTE_CLUSTER` type when using placementConstraintDetails.
 type ComputeCluster struct {
 
 	// The availability domain the compute cluster is running in.
@@ -62,6 +60,13 @@ type ComputeCluster struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	PlacementConstraintDetails PlacementConstraintDetails `mandatory:"false" json:"placementConstraintDetails"`
+
+	// The date and time the compute cluster was updated,
+	// in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// Example: `2016-08-25T21:10:29.600Z`
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 }
 
 func (m ComputeCluster) String() string {
@@ -81,6 +86,57 @@ func (m ComputeCluster) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *ComputeCluster) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName                *string                           `json:"displayName"`
+		DefinedTags                map[string]map[string]interface{} `json:"definedTags"`
+		FreeformTags               map[string]string                 `json:"freeformTags"`
+		PlacementConstraintDetails placementconstraintdetails        `json:"placementConstraintDetails"`
+		TimeUpdated                *common.SDKTime                   `json:"timeUpdated"`
+		AvailabilityDomain         *string                           `json:"availabilityDomain"`
+		CompartmentId              *string                           `json:"compartmentId"`
+		Id                         *string                           `json:"id"`
+		LifecycleState             ComputeClusterLifecycleStateEnum  `json:"lifecycleState"`
+		TimeCreated                *common.SDKTime                   `json:"timeCreated"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.DefinedTags = model.DefinedTags
+
+	m.FreeformTags = model.FreeformTags
+
+	nn, e = model.PlacementConstraintDetails.UnmarshalPolymorphicJSON(model.PlacementConstraintDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PlacementConstraintDetails = nn.(PlacementConstraintDetails)
+	} else {
+		m.PlacementConstraintDetails = nil
+	}
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.AvailabilityDomain = model.AvailabilityDomain
+
+	m.CompartmentId = model.CompartmentId
+
+	m.Id = model.Id
+
+	m.LifecycleState = model.LifecycleState
+
+	m.TimeCreated = model.TimeCreated
+
+	return
 }
 
 // ComputeClusterLifecycleStateEnum Enum with underlying type: string

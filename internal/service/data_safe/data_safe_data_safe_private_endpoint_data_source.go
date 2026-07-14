@@ -98,6 +98,8 @@ func (s *DataSafeDataSafePrivateEndpointDataSourceCrud) SetData() error {
 		s.D.Set("private_endpoint_ip", *s.Res.PrivateEndpointIp)
 	}
 
+	s.D.Set("security_attributes", s.Res.SecurityAttributes)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {

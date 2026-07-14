@@ -23,6 +23,10 @@ import (
 )
 
 // InstanceConfiguration An instance configuration is a template that defines the settings to use when creating Compute instances.
+// An instance configuration is a template that defines the settings to use when creating Compute instances
+// or GPU Memory Clusters.
+// For more information about instance configurations, see
+// Managing Compute Instances (https://docs.oracle.com/iaas/Content/Compute/Concepts/instancemanagement.htm).
 type InstanceConfiguration struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment
@@ -52,6 +56,15 @@ type InstanceConfiguration struct {
 
 	InstanceDetails InstanceConfigurationInstanceDetails `mandatory:"false" json:"instanceDetails"`
 
+	// The GPU Memory Cluster configuration entries for.
+	GmcConfigs []InstanceConfigurationGmcConfigDetail `mandatory:"false" json:"gmcConfigs"`
+
+	// Differentiator for instance configuration.
+	// Following values are supported:
+	// * INSTANCE : All details related to instance will be passed within instanceDetails.
+	// * GMC : All details related to gpu memory cluster will be passed within gmcConfigs.
+	Source InstanceConfigurationSourceEnum `mandatory:"false" json:"source,omitempty"`
+
 	// Parameters that were not specified when the instance configuration was created, but that
 	// are required to launch an instance from the instance configuration. See the
 	// LaunchInstanceConfiguration operation.
@@ -68,6 +81,9 @@ func (m InstanceConfiguration) String() string {
 func (m InstanceConfiguration) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingInstanceConfigurationSourceEnum(string(m.Source)); !ok && m.Source != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Source: %s. Supported values are: %s.", m.Source, strings.Join(GetInstanceConfigurationSourceEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -77,14 +93,16 @@ func (m InstanceConfiguration) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *InstanceConfiguration) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DefinedTags     map[string]map[string]interface{}    `json:"definedTags"`
-		DisplayName     *string                              `json:"displayName"`
-		FreeformTags    map[string]string                    `json:"freeformTags"`
-		InstanceDetails instanceconfigurationinstancedetails `json:"instanceDetails"`
-		DeferredFields  []string                             `json:"deferredFields"`
-		CompartmentId   *string                              `json:"compartmentId"`
-		Id              *string                              `json:"id"`
-		TimeCreated     *common.SDKTime                      `json:"timeCreated"`
+		DefinedTags     map[string]map[string]interface{}      `json:"definedTags"`
+		DisplayName     *string                                `json:"displayName"`
+		FreeformTags    map[string]string                      `json:"freeformTags"`
+		InstanceDetails instanceconfigurationinstancedetails   `json:"instanceDetails"`
+		GmcConfigs      []InstanceConfigurationGmcConfigDetail `json:"gmcConfigs"`
+		Source          InstanceConfigurationSourceEnum        `json:"source"`
+		DeferredFields  []string                               `json:"deferredFields"`
+		CompartmentId   *string                                `json:"compartmentId"`
+		Id              *string                                `json:"id"`
+		TimeCreated     *common.SDKTime                        `json:"timeCreated"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -108,6 +126,10 @@ func (m *InstanceConfiguration) UnmarshalJSON(data []byte) (e error) {
 		m.InstanceDetails = nil
 	}
 
+	m.GmcConfigs = make([]InstanceConfigurationGmcConfigDetail, len(model.GmcConfigs))
+	copy(m.GmcConfigs, model.GmcConfigs)
+	m.Source = model.Source
+
 	m.DeferredFields = make([]string, len(model.DeferredFields))
 	copy(m.DeferredFields, model.DeferredFields)
 	m.CompartmentId = model.CompartmentId
@@ -117,4 +139,46 @@ func (m *InstanceConfiguration) UnmarshalJSON(data []byte) (e error) {
 	m.TimeCreated = model.TimeCreated
 
 	return
+}
+
+// InstanceConfigurationSourceEnum Enum with underlying type: string
+type InstanceConfigurationSourceEnum string
+
+// Set of constants representing the allowable values for InstanceConfigurationSourceEnum
+const (
+	InstanceConfigurationSourceInstance InstanceConfigurationSourceEnum = "INSTANCE"
+	InstanceConfigurationSourceGmc      InstanceConfigurationSourceEnum = "GMC"
+)
+
+var mappingInstanceConfigurationSourceEnum = map[string]InstanceConfigurationSourceEnum{
+	"INSTANCE": InstanceConfigurationSourceInstance,
+	"GMC":      InstanceConfigurationSourceGmc,
+}
+
+var mappingInstanceConfigurationSourceEnumLowerCase = map[string]InstanceConfigurationSourceEnum{
+	"instance": InstanceConfigurationSourceInstance,
+	"gmc":      InstanceConfigurationSourceGmc,
+}
+
+// GetInstanceConfigurationSourceEnumValues Enumerates the set of values for InstanceConfigurationSourceEnum
+func GetInstanceConfigurationSourceEnumValues() []InstanceConfigurationSourceEnum {
+	values := make([]InstanceConfigurationSourceEnum, 0)
+	for _, v := range mappingInstanceConfigurationSourceEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetInstanceConfigurationSourceEnumStringValues Enumerates the set of values in String for InstanceConfigurationSourceEnum
+func GetInstanceConfigurationSourceEnumStringValues() []string {
+	return []string{
+		"INSTANCE",
+		"GMC",
+	}
+}
+
+// GetMappingInstanceConfigurationSourceEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingInstanceConfigurationSourceEnum(val string) (InstanceConfigurationSourceEnum, bool) {
+	enum, ok := mappingInstanceConfigurationSourceEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

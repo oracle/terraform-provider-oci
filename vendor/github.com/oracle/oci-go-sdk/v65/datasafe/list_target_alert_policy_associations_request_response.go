@@ -45,6 +45,9 @@ type ListTargetAlertPolicyAssociationsRequest struct {
 	// The field to sort by. Only one sort parameter may be provided.
 	SortBy ListTargetAlertPolicyAssociationsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
+	// A optional filter to return only resources that belong to the specified alert policy association type.
+	TargetType TargetAlertPolicyAssociationTargetTypeEnum `mandatory:"false" contributesTo:"query" name:"targetType" omitEmpty:"true"`
+
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
@@ -115,6 +118,9 @@ func (request ListTargetAlertPolicyAssociationsRequest) ValidateEnumValue() (boo
 	}
 	if _, ok := GetMappingListTargetAlertPolicyAssociationsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListTargetAlertPolicyAssociationsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingTargetAlertPolicyAssociationTargetTypeEnum(string(request.TargetType)); !ok && request.TargetType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", request.TargetType, strings.Join(GetTargetAlertPolicyAssociationTargetTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListTargetAlertPolicyAssociationsAccessLevelEnum(string(request.AccessLevel)); !ok && request.AccessLevel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListTargetAlertPolicyAssociationsAccessLevelEnumStringValues(), ",")))

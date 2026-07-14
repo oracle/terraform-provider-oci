@@ -45,6 +45,11 @@ type ScheduleReportDetails struct {
 
 	// The name of the report to be scheduled
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// Indicates if the reports being generated should be paginated.
+	// If set to true, multiple reports can be generated and the details of next and previous report are present in Report.
+	// Values can either be 'true' or 'false'.
+	IsPaginationEnabled *bool `mandatory:"false" json:"isPaginationEnabled"`
 }
 
 func (m ScheduleReportDetails) String() string {
@@ -69,11 +74,12 @@ func (m ScheduleReportDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ScheduleReportDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName   *string                           `json:"displayName"`
-		Schedule      *string                           `json:"schedule"`
-		MimeType      ScheduleReportDetailsMimeTypeEnum `json:"mimeType"`
-		CompartmentId *string                           `json:"compartmentId"`
-		ReportDetails reportdetails                     `json:"reportDetails"`
+		DisplayName         *string                           `json:"displayName"`
+		IsPaginationEnabled *bool                             `json:"isPaginationEnabled"`
+		Schedule            *string                           `json:"schedule"`
+		MimeType            ScheduleReportDetailsMimeTypeEnum `json:"mimeType"`
+		CompartmentId       *string                           `json:"compartmentId"`
+		ReportDetails       reportdetails                     `json:"reportDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -82,6 +88,8 @@ func (m *ScheduleReportDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.DisplayName = model.DisplayName
+
+	m.IsPaginationEnabled = model.IsPaginationEnabled
 
 	m.Schedule = model.Schedule
 

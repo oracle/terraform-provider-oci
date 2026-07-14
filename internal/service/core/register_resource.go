@@ -26,6 +26,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_core_cpe", CoreCpeResource())
 	tfresource.RegisterResource("oci_core_cross_connect", CoreCrossConnectResource())
 	tfresource.RegisterResource("oci_core_default_dhcp_options", DefaultCoreDhcpOptionsResource())
+	tfresource.RegisterResource("oci_core_default_drg_route_table", DefaultCoreDrgRouteTableResource())
 	tfresource.RegisterResource("oci_core_default_route_table", DefaultCoreRouteTableResource())
 	tfresource.RegisterResource("oci_core_default_security_list", CoreDefaultSecurityListResource())
 	tfresource.RegisterResource("oci_core_cross_connect_group", CoreCrossConnectGroupResource())

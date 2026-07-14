@@ -106,6 +106,8 @@ func (s *DataSafeTargetAlertPolicyAssociationDataSourceCrud) SetData() error {
 		s.D.Set("target_id", *s.Res.TargetId)
 	}
 
+	s.D.Set("target_type", s.Res.TargetType)
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}

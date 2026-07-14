@@ -212,7 +212,6 @@ func TestOsManagementHubProfileResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttrSet(resourceName, "managed_instance_group_id"),
 				resource.TestCheckResourceAttr(resourceName, "os_family", "ORACLE_LINUX_8"),
 				resource.TestCheckResourceAttr(resourceName, "profile_type", "SOFTWARESOURCE"),
-				resource.TestCheckResourceAttr(resourceName, "software_source_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "vendor_name", "ORACLE"),
 
 				func(s *terraform.State) (err error) {

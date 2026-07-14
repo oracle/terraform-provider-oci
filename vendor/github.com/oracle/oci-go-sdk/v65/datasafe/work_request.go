@@ -170,6 +170,7 @@ const (
 	WorkRequestOperationTypeChangeReportDefinitionCompartment             WorkRequestOperationTypeEnum = "CHANGE_REPORT_DEFINITION_COMPARTMENT"
 	WorkRequestOperationTypeDeleteReportDefinition                        WorkRequestOperationTypeEnum = "DELETE_REPORT_DEFINITION"
 	WorkRequestOperationTypeGenerateReport                                WorkRequestOperationTypeEnum = "GENERATE_REPORT"
+	WorkRequestOperationTypeGeneratePaginatedReport                       WorkRequestOperationTypeEnum = "GENERATE_PAGINATED_REPORT"
 	WorkRequestOperationTypeChangeReportCompartment                       WorkRequestOperationTypeEnum = "CHANGE_REPORT_COMPARTMENT"
 	WorkRequestOperationTypeDeleteArchiveRetrieval                        WorkRequestOperationTypeEnum = "DELETE_ARCHIVE_RETRIEVAL"
 	WorkRequestOperationTypeCreateArchiveRetrieval                        WorkRequestOperationTypeEnum = "CREATE_ARCHIVE_RETRIEVAL"
@@ -360,6 +361,7 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"CHANGE_REPORT_DEFINITION_COMPARTMENT":               WorkRequestOperationTypeChangeReportDefinitionCompartment,
 	"DELETE_REPORT_DEFINITION":                           WorkRequestOperationTypeDeleteReportDefinition,
 	"GENERATE_REPORT":                                    WorkRequestOperationTypeGenerateReport,
+	"GENERATE_PAGINATED_REPORT":                          WorkRequestOperationTypeGeneratePaginatedReport,
 	"CHANGE_REPORT_COMPARTMENT":                          WorkRequestOperationTypeChangeReportCompartment,
 	"DELETE_ARCHIVE_RETRIEVAL":                           WorkRequestOperationTypeDeleteArchiveRetrieval,
 	"CREATE_ARCHIVE_RETRIEVAL":                           WorkRequestOperationTypeCreateArchiveRetrieval,
@@ -550,6 +552,7 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"change_report_definition_compartment":               WorkRequestOperationTypeChangeReportDefinitionCompartment,
 	"delete_report_definition":                           WorkRequestOperationTypeDeleteReportDefinition,
 	"generate_report":                                    WorkRequestOperationTypeGenerateReport,
+	"generate_paginated_report":                          WorkRequestOperationTypeGeneratePaginatedReport,
 	"change_report_compartment":                          WorkRequestOperationTypeChangeReportCompartment,
 	"delete_archive_retrieval":                           WorkRequestOperationTypeDeleteArchiveRetrieval,
 	"create_archive_retrieval":                           WorkRequestOperationTypeCreateArchiveRetrieval,
@@ -751,6 +754,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"CHANGE_REPORT_DEFINITION_COMPARTMENT",
 		"DELETE_REPORT_DEFINITION",
 		"GENERATE_REPORT",
+		"GENERATE_PAGINATED_REPORT",
 		"CHANGE_REPORT_COMPARTMENT",
 		"DELETE_ARCHIVE_RETRIEVAL",
 		"CREATE_ARCHIVE_RETRIEVAL",

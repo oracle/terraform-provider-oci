@@ -85,6 +85,12 @@ func DataSafeDataSafePrivateEndpointResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"endpoint_fqdn": {
@@ -227,6 +233,10 @@ func (s *DataSafeDataSafePrivateEndpointResourceCrud) Create() error {
 	if privateEndpointIp, ok := s.D.GetOkExists("private_endpoint_ip"); ok {
 		tmp := privateEndpointIp.(string)
 		request.PrivateEndpointIp = &tmp
+	}
+
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
 
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
@@ -437,6 +447,10 @@ func (s *DataSafeDataSafePrivateEndpointResourceCrud) Update() error {
 		}
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
 	response, err := s.Client.UpdateDataSafePrivateEndpoint(context.Background(), request)
@@ -504,6 +518,8 @@ func (s *DataSafeDataSafePrivateEndpointResourceCrud) SetData() error {
 	if s.Res.PrivateEndpointIp != nil {
 		s.D.Set("private_endpoint_ip", *s.Res.PrivateEndpointIp)
 	}
+
+	s.D.Set("security_attributes", s.Res.SecurityAttributes)
 
 	s.D.Set("state", s.Res.LifecycleState)
 

@@ -1,3 +1,22 @@
+## 8.23.0 (July 14, 2026)
+
+### Added
+- FSS persistent volumes for Container Instances
+- Support for ZPR Security Attribute Onboarding for ODA Private endpoint
+- Support for datacc service
+- Support for Adding AI Agents features support in AIDP
+- Support for GPU Memory Cluster Support In Instance Pool
+- Support for OSMH: Endpoint Update for IPv6 GA
+- placement_constraint_details (optional parameter) to oci_core_compute_cluster resource
+- Support for Data Safe auditing usability enhancements
+- support for Default DRG RT Management resource
+- Support generic WorkloadIdentityFederation authentication for non-OKE kubernetes
+
+### Bug Fix
+- Fix IPv6 semantic diff suppression for core VNIC pair details
+- oci_psa_private_service_access resource discovery
+- Improve events rule condition and action schema
+
 ## 8.22.0 (July 8, 2026)
 
 ### Added

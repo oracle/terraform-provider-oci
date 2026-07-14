@@ -5,8 +5,12 @@ package core
 
 import (
 	"context"
+	"fmt"
+	"log"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
@@ -56,6 +60,52 @@ func CoreComputeClusterResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"placement_constraint_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"COMPUTE_CLUSTER",
+							}, true),
+						},
+
+						// Optional
+						"hpc_island_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+						"logical_placement_constraint": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"target_memory_fabric_ids": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"target_network_block_ids": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+					},
+				},
+			},
 
 			// Computed
 			"state": {
@@ -63,6 +113,10 @@ func CoreComputeClusterResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_updated": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -164,6 +218,17 @@ func (s *CoreComputeClusterResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if placementConstraintDetails, ok := s.D.GetOkExists("placement_constraint_details"); ok {
+		if tmpList := placementConstraintDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "placement_constraint_details", 0)
+			tmp, err := s.mapToPlacementConstraintDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.PlacementConstraintDetails = tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateComputeCluster(context.Background(), request)
@@ -224,6 +289,21 @@ func (s *CoreComputeClusterResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if placementConstraintDetails, ok := s.D.GetOkExists("placement_constraint_details"); ok && s.D.HasChange("placement_constraint_details") {
+		if tmpList := placementConstraintDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "placement_constraint_details", 0)
+			tmp, err := s.mapToPlacementConstraintDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			if computeClusterDetails, ok := tmp.(oci_core.ComputeClusterPlacementConstraintDetails); ok {
+				computeClusterDetails.HpcIslandId = nil
+				tmp = computeClusterDetails
+			}
+			request.PlacementConstraintDetails = tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.UpdateComputeCluster(context.Background(), request)
@@ -266,10 +346,24 @@ func (s *CoreComputeClusterResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.PlacementConstraintDetails != nil {
+		placementConstraintDetailsArray := []interface{}{}
+		if placementConstraintDetailsMap := ComputeClusterPlacementConstraintDetailsToMap(&s.Res.PlacementConstraintDetails); placementConstraintDetailsMap != nil {
+			placementConstraintDetailsArray = append(placementConstraintDetailsArray, placementConstraintDetailsMap)
+		}
+		s.D.Set("placement_constraint_details", placementConstraintDetailsArray)
+	} else {
+		s.D.Set("placement_constraint_details", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeUpdated != nil {
+		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
 	return nil
@@ -304,6 +398,80 @@ func ComputeClusterSummaryToMap(obj oci_core.ComputeClusterSummary) map[string]i
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	return result
+}
+
+func (s *CoreComputeClusterResourceCrud) mapToPlacementConstraintDetails(fieldKeyFormat string) (oci_core.PlacementConstraintDetails, error) {
+	var baseObject oci_core.PlacementConstraintDetails
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("COMPUTE_CLUSTER"):
+		details := oci_core.ComputeClusterPlacementConstraintDetails{}
+		if hpcIslandId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hpc_island_id")); ok {
+			tmp := hpcIslandId.(string)
+			details.HpcIslandId = &tmp
+		}
+		if logicalPlacementConstraint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "logical_placement_constraint")); ok {
+			details.LogicalPlacementConstraint = oci_core.ComputeClusterLogicalPlacementConstraintEnum(logicalPlacementConstraint.(string))
+		}
+		if targetMemoryFabricIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_memory_fabric_ids")); ok {
+			interfaces := targetMemoryFabricIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "target_memory_fabric_ids")) {
+				details.TargetMemoryFabricIds = tmp
+			}
+		}
+		if targetNetworkBlockIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_network_block_ids")); ok {
+			interfaces := targetNetworkBlockIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "target_network_block_ids")) {
+				details.TargetNetworkBlockIds = tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func ComputeClusterPlacementConstraintDetailsToMap(obj *oci_core.PlacementConstraintDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_core.ComputeClusterPlacementConstraintDetails:
+		result["type"] = "COMPUTE_CLUSTER"
+
+		if v.HpcIslandId != nil {
+			result["hpc_island_id"] = string(*v.HpcIslandId)
+		}
+
+		result["logical_placement_constraint"] = string(v.LogicalPlacementConstraint)
+
+		result["target_memory_fabric_ids"] = v.TargetMemoryFabricIds
+
+		result["target_network_block_ids"] = v.TargetNetworkBlockIds
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result

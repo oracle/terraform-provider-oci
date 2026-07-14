@@ -158,6 +158,8 @@ func (s *DataSafeDataSafePrivateEndpointsDataSourceCrud) SetData() error {
 			dataSafePrivateEndpoint["private_endpoint_id"] = *r.PrivateEndpointId
 		}
 
+		dataSafePrivateEndpoint["security_attributes"] = r.SecurityAttributes
+
 		dataSafePrivateEndpoint["state"] = r.LifecycleState
 
 		if r.SubnetId != nil {

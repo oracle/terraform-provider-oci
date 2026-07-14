@@ -21,11 +21,15 @@ import (
 
 // CreateArtifactDetails Artifact configuration input for the deployment.
 type CreateArtifactDetails interface {
+
+	// Optional flag that requires an OCI Vulnerability Scanning Service compliance report for this artifact before it can become active. When omitted, the value defaults to false.
+	GetIsVulnerabilityScanRequired() *bool
 }
 
 type createartifactdetails struct {
-	JsonData     []byte
-	ArtifactType string `json:"artifactType"`
+	JsonData                    []byte
+	IsVulnerabilityScanRequired *bool  `mandatory:"false" json:"isVulnerabilityScanRequired"`
+	ArtifactType                string `json:"artifactType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -39,6 +43,7 @@ func (m *createartifactdetails) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.IsVulnerabilityScanRequired = s.Model.IsVulnerabilityScanRequired
 	m.ArtifactType = s.Model.ArtifactType
 
 	return err
@@ -61,6 +66,11 @@ func (m *createartifactdetails) UnmarshalPolymorphicJSON(data []byte) (interface
 		common.Logf("Received unsupported enum value for CreateArtifactDetails: %s.", m.ArtifactType)
 		return *m, nil
 	}
+}
+
+// GetIsVulnerabilityScanRequired returns IsVulnerabilityScanRequired
+func (m createartifactdetails) GetIsVulnerabilityScanRequired() *bool {
+	return m.IsVulnerabilityScanRequired
 }
 
 func (m createartifactdetails) String() string {

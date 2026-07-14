@@ -113,6 +113,10 @@ func (s *DataSafeReportDefinitionDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsSchedulePaginationEnabled != nil {
+		s.D.Set("is_schedule_pagination_enabled", *s.Res.IsSchedulePaginationEnabled)
+	}
+
 	if s.Res.IsSeeded != nil {
 		s.D.Set("is_seeded", *s.Res.IsSeeded)
 	}

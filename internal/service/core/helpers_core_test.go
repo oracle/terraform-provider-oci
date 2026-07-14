@@ -11,6 +11,43 @@ import (
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 )
 
+func TestConvertToDefaultDrgRouteTableSchema(t *testing.T) {
+	resourceSchema := &schema.Resource{
+		Schema: map[string]*schema.Schema{
+			"drg_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+		},
+	}
+
+	converted := ConvertToDefaultDrgRouteTableSchema(resourceSchema)
+	if converted == nil {
+		t.Fatal("ConvertToDefaultDrgRouteTableSchema() returned nil")
+	}
+
+	if converted.Importer == nil || converted.Importer.State == nil {
+		t.Fatal("expected converted schema to define an importer")
+	}
+
+	if _, exists := converted.Schema["drg_id"]; exists {
+		t.Fatal("expected drg_id to be removed from the default DRG route table schema")
+	}
+
+	manageDefaultResourceID, exists := converted.Schema["manage_default_resource_id"]
+	if !exists {
+		t.Fatal("expected manage_default_resource_id to be added to the default DRG route table schema")
+	}
+
+	if !manageDefaultResourceID.Required || !manageDefaultResourceID.ForceNew {
+		t.Fatal("expected manage_default_resource_id to be required and force new")
+	}
+}
+
 func testByoipv6Detail(rangeID string, cidr string) oci_core.Byoipv6CidrDetails {
 	return oci_core.Byoipv6CidrDetails{
 		Byoipv6RangeId: &rangeID,
