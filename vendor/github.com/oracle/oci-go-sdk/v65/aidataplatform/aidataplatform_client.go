@@ -329,6 +329,69 @@ func (client AiDataPlatformClient) deleteAiDataPlatform(ctx context.Context, req
 	return response, err
 }
 
+// EnableAiFeature The AiDataPlatform will be enabled with AI features
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidataplatform/EnableAiFeature.go.html to see an example of how to use EnableAiFeature API.
+// A default retry strategy applies to this operation EnableAiFeature()
+func (client AiDataPlatformClient) EnableAiFeature(ctx context.Context, request EnableAiFeatureRequest) (response EnableAiFeatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableAiFeature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableAiFeatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableAiFeatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableAiFeatureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableAiFeatureResponse")
+	}
+	return
+}
+
+// enableAiFeature implements the OCIOperation interface (enables retrying operations)
+func (client AiDataPlatformClient) enableAiFeature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/aiDataPlatforms/{aiDataPlatformId}/actions/enableAiFeature", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableAiFeatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aiDataPlatform", "EnableAiFeature")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ai-data-platform/20240831/AiDataPlatform/EnableAiFeature"
+		err = common.PostProcessServiceError(err, "AiDataPlatform", "EnableAiFeature", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetAiDataPlatform Gets information about a AiDataPlatform.
 //
 // # See also

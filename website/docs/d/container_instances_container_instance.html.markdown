@@ -54,6 +54,10 @@ The following attributes are exported:
 	* `secret_id` - The OCID of the secret for registry credentials.
 	* `secret_type` - The type of ImagePullSecret.
 * `lifecycle_details` - A message that describes the current state of the container in more detail. Can be used to provide actionable information. 
+* `security_context` - Security context for all containers in a container instance.
+	* `fs_group` - A special supplemental group that applies to all containers in the container instance. Some volume types allow the container instance to change ownership of the volume. The owning GID will be the fsGroup, the setgid bit will be set (new files will be owned by the fsGroup), and the permission bits are OR'd with rw-rw----. If unset, the container instance will not modify the ownership and permissions of volumes. 
+	* `fs_group_change_policy` - Defines behavior of changing ownership and permission of the volume before being exposed inside the containers. This only applies to volumes which support fsGroup ownership and permissions, and will have no effect on ephemeral volumes. ON_ROOT_MISMATCH only changes permissions and ownership if the permission and ownership of the root directory does not match the expected permissions and ownership of the volume. This can improve container instance start times. ALWAYS  changes permission and ownership of the volume when it is mounted. If unset, ALWAYS is used. 
+	* `security_context_type` - The type of security context
 * `shape` - The shape of the container instance. The shape determines the number of OCPUs, amount of memory, and other resources that are allocated to a container instance.
 * `shape_config` - The shape configuration for a container instance. The shape configuration determines the resources thats are available to the container instance and its containers. 
 	* `memory_in_gbs` - The total amount of memory available to the container instance, in gigabytes. 
@@ -62,6 +66,7 @@ The following attributes are exported:
 	* `processor_description` - A short description of the container instance's processor (CPU). 
 * `state` - The current state of the container instance.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}`. 
+* `tenant_id` - TenantId id of the container instance.
 * `time_created` - The time the container instance was created, in the format defined by [RFC 3339](https://tools.ietf.org/rfc/rfc3339).
 * `time_updated` - The time the container instance was updated, in the format defined by [RFC 3339](https://tools.ietf.org/rfc/rfc3339).
 * `vnics` - The virtual networks available to the containers in the container instance.
@@ -73,6 +78,20 @@ The following attributes are exported:
 		* `data` - The base64 encoded contents of the file. The contents are decoded to plain text before mounted as a file to a container inside container instance. 
 		* `file_name` - The name of the file. The fileName should be unique across the volume. 
 		* `path` - (Optional) Relative path for this file inside the volume mount directory. By default, the file is presented at the root of the volume mount path. 
+	* `export` - An Oracle Cloud Infrastructure File Storage Service (FSS) Export. Check https://docs.oracle.com/en-us/iaas/api/#/en/filestorage/20171215/Export/ for more details. 
+		* `id` - The OCID of the Oracle Cloud Infrastructure File Storage Service (FSS) Export.
+		* `oci_fss_export_type` - Determines the mode for supplying the Oracle Cloud Infrastructure File Storage Service (FSS) Export details. The value must be an OCID unless your tenancy is allowed to use PATH as a value. 
+	* `mount_command` - Specifications for the mount command to mount the Oracle Cloud Infrastructure File Storage Service (FSS) File System to Containers. 
+		* `mount_options` - List of mount options to be used in the mount command. The order of this array will be maintained while preparing the mount command.
+			* `option` - A generic (https://man7.org/linux/man-pages/man8/mount.8.html) or nfs (https://man7.org/linux/man-pages/man5/nfs.5.html) mount option.
+			* `value` - The value of the mount option.
+	* `mount_target` - An Oracle Cloud Infrastructure File Storage Service (FSS) Mount Target.  Check https://docs.oracle.com/en-us/iaas/api/#/en/filestorage/20171215/MountTarget for more details. 
+		* `id` - The OCID of the Oracle Cloud Infrastructure File Storage Service (FSS) Mount Target.
+		* `oci_fss_mount_target_type` - Determines the mode for supplying the Oracle Cloud Infrastructure File Storage Service (FSS) Mount target details. The value must be an OCID unless your tenancy is allowed to use HOST as a value. 
 	* `name` - The name of the volume. This must be unique within a single container instance. 
+	* `security` - Security options for Oracle Cloud Infrastructure FSS File System.
+		* `auth` - NFS authentication type to be used. Currently, only auth type SYS is supported.
+		* `is_encrypted_in_transit` - Determines whether in-transit encryption needs to be enables.  Check https://docs.oracle.com/en-us/iaas/Content/File/Tasks/intransitencryption.htm#Using_Intransit_Encryption for more details. 
+	* `subnet_id` - Specifies the network interface to be used for the Oracle Cloud Infrastructure File Storage Service (FSS) volume. This is a required parameter when a Container Instance is attached to more than one subnets. 
 	* `volume_type` - The type of volume.
 

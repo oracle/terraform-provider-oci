@@ -63,15 +63,18 @@ type ColumnsInfoObjectTypeEnum string
 
 // Set of constants representing the allowable values for ColumnsInfoObjectTypeEnum
 const (
-	ColumnsInfoObjectTypeTable ColumnsInfoObjectTypeEnum = "TABLE"
+	ColumnsInfoObjectTypeTable          ColumnsInfoObjectTypeEnum = "TABLE"
+	ColumnsInfoObjectTypeEditioningView ColumnsInfoObjectTypeEnum = "EDITIONING_VIEW"
 )
 
 var mappingColumnsInfoObjectTypeEnum = map[string]ColumnsInfoObjectTypeEnum{
-	"TABLE": ColumnsInfoObjectTypeTable,
+	"TABLE":           ColumnsInfoObjectTypeTable,
+	"EDITIONING_VIEW": ColumnsInfoObjectTypeEditioningView,
 }
 
 var mappingColumnsInfoObjectTypeEnumLowerCase = map[string]ColumnsInfoObjectTypeEnum{
-	"table": ColumnsInfoObjectTypeTable,
+	"table":           ColumnsInfoObjectTypeTable,
+	"editioning_view": ColumnsInfoObjectTypeEditioningView,
 }
 
 // GetColumnsInfoObjectTypeEnumValues Enumerates the set of values for ColumnsInfoObjectTypeEnum
@@ -87,6 +90,7 @@ func GetColumnsInfoObjectTypeEnumValues() []ColumnsInfoObjectTypeEnum {
 func GetColumnsInfoObjectTypeEnumStringValues() []string {
 	return []string{
 		"TABLE",
+		"EDITIONING_VIEW",
 	}
 }
 

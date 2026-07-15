@@ -21,17 +21,10 @@ var (
 	}
 
 	DataSafereportDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.report_compartment_id}`},
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"data_source":               acctest.Representation{RepType: acctest.Optional, Create: `EVENTS`},
-		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
-		"mime_type":                 acctest.Representation{RepType: acctest.Optional, Create: `PDF`},
-		"report_definition_id":      acctest.Representation{RepType: acctest.Optional, Create: `${var.report_ocid}`},
-		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"time_generated_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `timeGeneratedGreaterThanOrEqualTo`},
-		"time_generated_less_than":                acctest.Representation{RepType: acctest.Optional, Create: `timeGeneratedLessThan`},
-		"type":                                    acctest.Representation{RepType: acctest.Optional, Create: `GENERATED`},
+		"report_definition_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.report_ocid}`},
 	}
 
 	DataSafeReportRepresentation = map[string]interface{}{
@@ -51,6 +44,9 @@ func TestDataSafeReportResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	reportCompartmentId := utils.GetEnvSettingWithDefault("report_compartment_ocid", compartmentId)
+	reportCompartmentIdVariableStr := fmt.Sprintf("variable \"report_compartment_id\" { default = \"%s\" }\n", reportCompartmentId)
+
 	reportDefId := utils.GetEnvSettingWithBlankDefault("report_ocid")
 	reportDefIdVariableStr := fmt.Sprintf("variable \"report_ocid\" { default = \"%s\" }\n", reportDefId)
 
@@ -67,9 +63,9 @@ func TestDataSafeReportResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_reports", "test_reports", acctest.Required, acctest.Create, DataSafereportDataSourceRepresentation) +
-				compartmentIdVariableStr + reportDefIdVariableStr + reportIdentifierStr,
+				reportCompartmentIdVariableStr + reportDefIdVariableStr + reportIdentifierStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", reportCompartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "report_collection.#"),
 			),
 		},
@@ -81,7 +77,7 @@ func TestDataSafeReportResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "report_id"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", reportCompartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "mime_type"),

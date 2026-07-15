@@ -51,7 +51,7 @@ type AuditTrailSummary struct {
 	// An audit trail location represents the source of audit records that provides documentary evidence of the sequence of activities in the target database.
 	TrailLocation *string `mandatory:"false" json:"trailLocation"`
 
-	// Details about the current state of the audit trail in Data Safe.
+	// Details about the current state of the audit trail in Data Safe. This attribute will be deprecated, but will still be available in GET audit trail response.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// Indicates if auto purge is enabled on the target database, which helps delete audit data in the

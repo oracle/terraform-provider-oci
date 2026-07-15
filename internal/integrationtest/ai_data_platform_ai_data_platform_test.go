@@ -53,17 +53,43 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_ai_data_platform_ai_data_platform.test_ai_data_platform.id}`}},
 	}
 
+	// AIDP Resource Representation with aifeature disabled
 	AiDataPlatformAiDataPlatformRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		//"ai_data_platform_type":  acctest.Representation{RepType: acctest.Optional, Create: `aiDataPlatformType`},
-		"default_workspace_name": acctest.Representation{RepType: acctest.Optional, Create: `test_workspace`},
-		//"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"ai_data_platform_type":  acctest.Representation{RepType: acctest.Optional, Create: `aiDataPlatformType`, Update: `aiDataPlatformType2`},
+		"default_workspace_name": acctest.Representation{RepType: acctest.Optional, Create: AiDataPlatformWorkspaceName},
+		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
+		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_enable_ai_feature":   acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"lifecycle":              acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreAIDPDefinednSystemTagsChangesRepresentation},
 	}
 
-	//AiDataPlatformAiDataPlatformResourceDependencies = DefinedTagsDependencies
-	AiDataPlatformAiDataPlatformResourceDependencies = ""
+	// Pre-requisites for AIDP Resource Representation with aifeature enabled
+	AiDataPlatformVectorDbAdminPassword = `BEstrO0ng_#11`
+
+	AiDataPlatformWorkspaceName = "aidpWorkspace" + utils.RandomString(8, utils.Charset)
+
+	AiDataPlatformDataintegrationWorkspaceRepresentation = acctest.RepresentationCopyWithNewProperties(
+		DataintegrationWorkspaceRepresentation,
+		map[string]interface{}{
+			"display_name": acctest.Representation{RepType: acctest.Required, Create: AiDataPlatformWorkspaceName},
+		})
+
+	// AIDP Resource Representation with aifeature enabled
+	AiDataPlatformAiDataPlatformWithAiFeatureRepresentation = acctest.RepresentationCopyWithNewProperties(
+		AiDataPlatformAiDataPlatformRepresentation, map[string]interface{}{
+			"is_enable_ai_feature": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+			"vector_db_admin_cred": acctest.Representation{RepType: acctest.Optional, Create: AiDataPlatformVectorDbAdminPassword, Update: AiDataPlatformVectorDbAdminPassword},
+		})
+
+	// need to ignore the defined tags created by the OCI service tenancy
+	ignoreAIDPDefinednSystemTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `system_tags`}},
+	}
+
+	// ResourceDependencies for aidp with aifeature disabled
+	AiDataPlatformAiDataPlatformResourceDependencies = DefinedTagsDependencies
 )
 
 // test
@@ -88,7 +114,7 @@ func TestAiDataPlatformAiDataPlatformResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+AiDataPlatformAiDataPlatformResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_ai_data_platform_ai_data_platform", "test_ai_data_platform", acctest.Optional, acctest.Create, AiDataPlatformAiDataPlatformRepresentation), "aidataplatform", "aiDataPlatform", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_ai_data_platform_ai_data_platform", "test_ai_data_platform", acctest.Optional, acctest.Create, AiDataPlatformAiDataPlatformWithAiFeatureRepresentation), "aidataplatform", "aiDataPlatform", t)
 
 	acctest.ResourceTest(t, testAccCheckAiDataPlatformAiDataPlatformDestroy, []resource.TestStep{
 		//verify Create
@@ -104,24 +130,25 @@ func TestAiDataPlatformAiDataPlatformResource_basic(t *testing.T) {
 				},
 			),
 		},
-
 		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + AiDataPlatformAiDataPlatformResourceDependencies,
 		},
-		// verify Create with optionals
+		// verify Create with optionals with aifeature status true
 		{
 			Config: config + compartmentIdVariableStr + AiDataPlatformAiDataPlatformResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ai_data_platform_ai_data_platform", "test_ai_data_platform", acctest.Optional, acctest.Create, AiDataPlatformAiDataPlatformRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_ai_data_platform_ai_data_platform", "test_ai_data_platform", acctest.Optional, acctest.Create, AiDataPlatformAiDataPlatformWithAiFeatureRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				//resource.TestCheckResourceAttr(resourceName, "ai_data_platform_type", "aiDataPlatformType"),
+				resource.TestCheckResourceAttr(resourceName, "ai_data_platform_type", "aiDataPlatformType"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "default_workspace_name"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_enable_ai_feature", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "vector_db_admin_cred", AiDataPlatformVectorDbAdminPassword),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -139,18 +166,20 @@ func TestAiDataPlatformAiDataPlatformResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + AiDataPlatformAiDataPlatformResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ai_data_platform_ai_data_platform", "test_ai_data_platform", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(AiDataPlatformAiDataPlatformRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(AiDataPlatformAiDataPlatformWithAiFeatureRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				//resource.TestCheckResourceAttr(resourceName, "ai_data_platform_type", "aiDataPlatformType"),
+				resource.TestCheckResourceAttr(resourceName, "ai_data_platform_type", "aiDataPlatformType"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttrSet(resourceName, "default_workspace_name"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_enable_ai_feature", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "vector_db_admin_cred", AiDataPlatformVectorDbAdminPassword),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -165,16 +194,18 @@ func TestAiDataPlatformAiDataPlatformResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + AiDataPlatformAiDataPlatformResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ai_data_platform_ai_data_platform", "test_ai_data_platform", acctest.Optional, acctest.Update, AiDataPlatformAiDataPlatformRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_ai_data_platform_ai_data_platform", "test_ai_data_platform", acctest.Optional, acctest.Update, AiDataPlatformAiDataPlatformWithAiFeatureRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				//resource.TestCheckResourceAttr(resourceName, "ai_data_platform_type", "aiDataPlatformType2"),
+				resource.TestCheckResourceAttr(resourceName, "ai_data_platform_type", "aiDataPlatformType2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "default_workspace_name"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_enable_ai_feature", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "vector_db_admin_cred", AiDataPlatformVectorDbAdminPassword),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -190,7 +221,7 @@ func TestAiDataPlatformAiDataPlatformResource_basic(t *testing.T) {
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_ai_data_platform_ai_data_platforms", "test_ai_data_platforms", acctest.Optional, acctest.Update, AiDataPlatformAiDataPlatformDataSourceRepresentation) +
 				compartmentIdVariableStr + AiDataPlatformAiDataPlatformResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_ai_data_platform_ai_data_platform", "test_ai_data_platform", acctest.Optional, acctest.Update, AiDataPlatformAiDataPlatformRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_ai_data_platform_ai_data_platform", "test_ai_data_platform", acctest.Optional, acctest.Update, AiDataPlatformAiDataPlatformWithAiFeatureRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -205,11 +236,13 @@ func TestAiDataPlatformAiDataPlatformResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_ai_data_platform_ai_data_platform", "test_ai_data_platform", acctest.Required, acctest.Create, AiDataPlatformAiDataPlatformSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + AiDataPlatformAiDataPlatformResourceConfig,
+				compartmentIdVariableStr + AiDataPlatformAiDataPlatformResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_ai_data_platform_ai_data_platform", "test_ai_data_platform", acctest.Optional, acctest.Update, AiDataPlatformAiDataPlatformWithAiFeatureRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ai_data_platform_id"),
 
-				//resource.TestCheckResourceAttr(singularDatasourceName, "ai_data_platform_type", "aiDataPlatformType2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ai_data_platform_type", "aiDataPlatformType2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "ai_feature_status"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "alias_key"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
@@ -227,6 +260,12 @@ func TestAiDataPlatformAiDataPlatformResource_basic(t *testing.T) {
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
 				"default_workspace_name",
+				"is_enable_ai_feature",
+				"ai_feature_status",
+				"time_updated",
+				"vector_db_admin_cred",
+				"vector_db_admin_secret_id",
+				"vector_db_id",
 			},
 			ResourceName: resourceName,
 		},

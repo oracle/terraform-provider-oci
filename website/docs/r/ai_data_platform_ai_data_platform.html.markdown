@@ -29,7 +29,11 @@ resource "oci_ai_data_platform_ai_data_platform" "test_ai_data_platform" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.ai_data_platform_display_name
 	freeform_tags = {"Department"= "Finance"}
+	is_enable_ai_feature = var.ai_data_platform_is_enable_ai_feature
 	system_tags = var.ai_data_platform_system_tags
+	vector_db_admin_cred = var.ai_data_platform_vector_db_admin_cred
+	vector_db_admin_secret_id = oci_vault_secret.test_secret.id
+	vector_db_id = oci_ai_data_platform_vector_db.test_vector_db.id
 }
 ```
 
@@ -43,7 +47,11 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `is_enable_ai_feature` - (Optional) The flag to enable/disable AiFeatures for the instance. 
 * `system_tags` - (Optional) (Updatable) System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `vector_db_admin_cred` - (Optional) (Updatable) The Vector DB Lakehouse 26ai ADMIN user password. 
+* `vector_db_admin_secret_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure Vault secret holding the vector db Lakehouse 26ai Admin user password. 
+* `vector_db_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vector db Lakehouse 26ai. 
 
 
 ** IMPORTANT **
@@ -54,6 +62,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `ai_data_platform_type` - The AiDataPlatform type.
+* `ai_feature_status` - The current aiFeatureStatus of the AiDataPlatform.
 * `alias_key` - The alias Id of the AiDataPlatform which is the short form of OCID.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `created_by` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IAM user.

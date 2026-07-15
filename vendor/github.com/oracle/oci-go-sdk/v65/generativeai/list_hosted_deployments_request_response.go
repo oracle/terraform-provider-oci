@@ -21,7 +21,7 @@ type ListHostedDeploymentsRequest struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the hosted application.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the HostedApplication parent.
 	ApplicationId *string `mandatory:"false" contributesTo:"query" name:"applicationId"`
 
 	// A filter to return only the hosted deployments that their lifecycle state matches the given lifecycle state.

@@ -92,6 +92,14 @@ func (s *DataSafeReportDataSourceCrud) SetData() error {
 
 	s.D.Set("mime_type", s.Res.MimeType)
 
+	if s.Res.NextReportId != nil {
+		s.D.Set("next_report_id", *s.Res.NextReportId)
+	}
+
+	if s.Res.PreviousReportId != nil {
+		s.D.Set("previous_report_id", *s.Res.PreviousReportId)
+	}
+
 	if s.Res.ReportDefinitionId != nil {
 		s.D.Set("report_definition_id", *s.Res.ReportDefinitionId)
 	}

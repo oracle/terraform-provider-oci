@@ -691,6 +691,45 @@ func ContainerInstancesContainerInstanceResource() *schema.Resource {
 					},
 				},
 			},
+			"security_context": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"fs_group": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"fs_group_change_policy": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"security_context_type": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"LINUX",
+							}, true),
+						},
+
+						// Computed
+					},
+				},
+			},
 			"state": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -722,6 +761,7 @@ func ContainerInstancesContainerInstanceResource() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{
 								"CONFIGFILE",
 								"EMPTYDIR",
+								"OCI_FSS_FILE_SYSTEM",
 							}, true),
 						},
 
@@ -765,6 +805,149 @@ func ContainerInstancesContainerInstanceResource() *schema.Resource {
 								},
 							},
 						},
+						"export": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"id": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+
+									// Optional
+									"oci_fss_export_type": {
+										Type:             schema.TypeString,
+										Optional:         true,
+										Computed:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"OCID",
+										}, true),
+									},
+
+									// Computed
+								},
+							},
+						},
+						"mount_command": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"mount_options": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"option": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"value": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
+						"mount_target": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"id": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+
+									// Optional
+									"oci_fss_mount_target_type": {
+										Type:             schema.TypeString,
+										Optional:         true,
+										Computed:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"OCID",
+										}, true),
+									},
+
+									// Computed
+								},
+							},
+						},
+						"security": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"auth": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"is_encrypted_in_transit": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 
 						// Computed
 					},
@@ -784,6 +967,10 @@ func ContainerInstancesContainerInstanceResource() *schema.Resource {
 				Type:     schema.TypeMap,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"tenant_id": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -1011,6 +1198,17 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) Create() error {
 		}
 		if len(tmp) != 0 || s.D.HasChange("image_pull_secrets") {
 			request.ImagePullSecrets = tmp
+		}
+	}
+
+	if securityContext, ok := s.D.GetOkExists("security_context"); ok {
+		if tmpList := securityContext.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "security_context", 0)
+			tmp, err := s.mapToCreateContainerInstanceSecurityContextDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.SecurityContext = tmp
 		}
 	}
 
@@ -1500,6 +1698,16 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.SecurityContext != nil {
+		securityContextArray := []interface{}{}
+		if securityContextMap := ContainerInstanceSecurityContextToMap(&s.Res.SecurityContext); securityContextMap != nil {
+			securityContextArray = append(securityContextArray, securityContextMap)
+		}
+		s.D.Set("security_context", securityContextArray)
+	} else {
+		s.D.Set("security_context", nil)
+	}
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}
@@ -1514,6 +1722,10 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) SetData() error {
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
+	if s.Res.TenantId != nil {
+		s.D.Set("tenant_id", *s.Res.TenantId)
 	}
 
 	if s.Res.TimeCreated != nil {
@@ -1665,6 +1877,25 @@ func ContainerConfigFileToMap(obj oci_container_instances.ContainerConfigFile, d
 	return result
 }
 
+func ContainerInstanceSecurityContextToMap(obj *oci_container_instances.ContainerInstanceSecurityContext) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_container_instances.LinuxContainerInstanceSecurityContext:
+		result["security_context_type"] = "LINUX"
+
+		if v.FsGroup != nil {
+			result["fs_group"] = int(*v.FsGroup)
+		}
+
+		result["fs_group_change_policy"] = string(v.FsGroupChangePolicy)
+	default:
+		log.Printf("[WARN] Received 'security_context_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
 func ContainerInstanceShapeConfigToMap(obj *oci_container_instances.ContainerInstanceShapeConfig) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -1728,6 +1959,14 @@ func ContainerInstanceSummaryToMap(obj oci_container_instances.ContainerInstance
 
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	if obj.SecurityContext != nil {
+		securityContextArray := []interface{}{}
+		if securityContextMap := ContainerInstanceSecurityContextToMap(&obj.SecurityContext); securityContextMap != nil {
+			securityContextArray = append(securityContextArray, securityContextMap)
+		}
+		result["security_context"] = securityContextArray
 	}
 
 	if obj.Shape != nil {
@@ -2142,6 +2381,33 @@ func ContainerHealthCheckToMap(obj oci_container_instances.ContainerHealthCheck)
 	return result
 }
 
+func (s *ContainerInstancesContainerInstanceResourceCrud) mapToCreateContainerInstanceSecurityContextDetails(fieldKeyFormat string) (oci_container_instances.CreateContainerInstanceSecurityContextDetails, error) {
+	var baseObject oci_container_instances.CreateContainerInstanceSecurityContextDetails
+	//discriminator
+	securityContextTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_context_type"))
+	var securityContextType string
+	if ok {
+		securityContextType = securityContextTypeRaw.(string)
+	} else {
+		securityContextType = "LINUX" // default value
+	}
+	switch strings.ToLower(securityContextType) {
+	case strings.ToLower("LINUX"):
+		details := oci_container_instances.CreateLinuxContainerInstanceSecurityContextDetails{}
+		if fsGroup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fs_group")); ok {
+			tmp := fsGroup.(int)
+			details.FsGroup = &tmp
+		}
+		if fsGroupChangePolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fs_group_change_policy")); ok {
+			details.FsGroupChangePolicy = oci_container_instances.ContainerFsGroupChangePolicyTypeEnum(fsGroupChangePolicy.(string))
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown security_context_type '%v' was specified", securityContextType)
+	}
+	return baseObject, nil
+}
+
 func (s *ContainerInstancesContainerInstanceResourceCrud) mapToCreateContainerInstanceShapeConfigDetails(fieldKeyFormat string) (oci_container_instances.CreateContainerInstanceShapeConfigDetails, error) {
 	result := oci_container_instances.CreateContainerInstanceShapeConfigDetails{}
 
@@ -2280,6 +2546,57 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) mapToCreateContainerVo
 			details.Name = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("OCI_FSS_FILE_SYSTEM"):
+		details := oci_container_instances.CreateContainerOciFssVolumeDetails{}
+		if export, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "export")); ok {
+			if tmpList := export.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "export"), 0)
+				tmp, err := s.mapToCreateOciFssExportDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert export, encountered error: %v", err)
+				}
+				details.Export = tmp
+			}
+		}
+		if mountCommand, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mount_command")); ok {
+			if tmpList := mountCommand.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "mount_command"), 0)
+				tmp, err := s.mapToCreateOciFssMountCommandDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert mount_command, encountered error: %v", err)
+				}
+				details.MountCommand = &tmp
+			}
+		}
+		if mountTarget, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mount_target")); ok {
+			if tmpList := mountTarget.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "mount_target"), 0)
+				tmp, err := s.mapToCreateOciFssMountTargetDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert mount_target, encountered error: %v", err)
+				}
+				details.MountTarget = tmp
+			}
+		}
+		if security, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security")); ok {
+			if tmpList := security.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "security"), 0)
+				tmp, err := s.mapToCreateOciFssSecurityDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert security, encountered error: %v", err)
+				}
+				details.Security = tmp
+			}
+		}
+		if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+			tmp := name.(string)
+			details.Name = &tmp
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown volume_type '%v' was specified", volumeType)
 	}
@@ -2305,6 +2622,44 @@ func ContainerVolumeToMap(obj oci_container_instances.ContainerVolume, d *schema
 		result["volume_type"] = "EMPTYDIR"
 
 		result["backing_store"] = string(v.BackingStore)
+
+		if v.Name != nil {
+			result["name"] = string(*v.Name)
+		}
+	case oci_container_instances.ContainerOciFssVolume:
+		result["volume_type"] = "OCI_FSS_FILE_SYSTEM"
+
+		if v.Export != nil {
+			exportArray := []interface{}{}
+			if exportMap := OciFssExportToMap(&v.Export); exportMap != nil {
+				exportArray = append(exportArray, exportMap)
+			}
+			result["export"] = exportArray
+		}
+
+		if v.MountCommand != nil {
+			result["mount_command"] = []interface{}{OciFssMountCommandToMap(v.MountCommand)}
+		}
+
+		if v.MountTarget != nil {
+			mountTargetArray := []interface{}{}
+			if mountTargetMap := OciFssMountTargetToMap(&v.MountTarget); mountTargetMap != nil {
+				mountTargetArray = append(mountTargetArray, mountTargetMap)
+			}
+			result["mount_target"] = mountTargetArray
+		}
+
+		if v.Security != nil {
+			securityArray := []interface{}{}
+			if securityMap := OciFssSecurityToMap(&v.Security); securityMap != nil {
+				securityArray = append(securityArray, securityMap)
+			}
+			result["security"] = securityArray
+		}
+
+		if v.SubnetId != nil {
+			result["subnet_id"] = string(*v.SubnetId)
+		}
 
 		if v.Name != nil {
 			result["name"] = string(*v.Name)
@@ -2396,6 +2751,269 @@ func ImagePullSecretToMap(obj oci_container_instances.ImagePullSecret, d *schema
 		}
 	default:
 		log.Printf("[WARN] Received 'secret_type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *ContainerInstancesContainerInstanceResourceCrud) mapToCreateOciFssExportDetails(fieldKeyFormat string) (oci_container_instances.CreateOciFssExportDetails, error) {
+	var baseObject oci_container_instances.CreateOciFssExportDetails
+	//discriminator
+	ociFssExportTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oci_fss_export_type"))
+	var ociFssExportType string
+	if ok {
+		ociFssExportType = ociFssExportTypeRaw.(string)
+	} else {
+		ociFssExportType = "OCID" // default value
+	}
+	switch strings.ToLower(ociFssExportType) {
+	case strings.ToLower("OCID"):
+		details := oci_container_instances.CreateOciFssExportIdDetails{}
+		if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
+			tmp := id.(string)
+			details.Id = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown oci_fss_export_type '%v' was specified", ociFssExportType)
+	}
+	return baseObject, nil
+}
+
+func CreateOciFssExportDetailsToMap(obj *oci_container_instances.CreateOciFssExportDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_container_instances.CreateOciFssExportIdDetails:
+		result["oci_fss_export_type"] = "OCID"
+
+		if v.Id != nil {
+			result["id"] = string(*v.Id)
+		}
+	default:
+		log.Printf("[WARN] Received 'oci_fss_export_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *ContainerInstancesContainerInstanceResourceCrud) mapToCreateOciFssMountCommandDetails(fieldKeyFormat string) (oci_container_instances.CreateOciFssMountCommandDetails, error) {
+	result := oci_container_instances.CreateOciFssMountCommandDetails{}
+
+	if mountOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mount_options")); ok {
+		interfaces := mountOptions.([]interface{})
+		tmp := make([]oci_container_instances.CreateOciFssMountOptionDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "mount_options"), stateDataIndex)
+			converted, err := s.mapToCreateOciFssMountOptionDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "mount_options")) {
+			result.MountOptions = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func CreateOciFssMountCommandDetailsToMap(obj *oci_container_instances.CreateOciFssMountCommandDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	mountOptions := []interface{}{}
+	for _, item := range obj.MountOptions {
+		mountOptions = append(mountOptions, CreateOciFssMountOptionDetailsToMap(item))
+	}
+	result["mount_options"] = mountOptions
+
+	return result
+}
+
+func (s *ContainerInstancesContainerInstanceResourceCrud) mapToCreateOciFssMountOptionDetails(fieldKeyFormat string) (oci_container_instances.CreateOciFssMountOptionDetails, error) {
+	result := oci_container_instances.CreateOciFssMountOptionDetails{}
+
+	if option, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "option")); ok {
+		tmp := option.(string)
+		result.Option = &tmp
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
+}
+
+func CreateOciFssMountOptionDetailsToMap(obj oci_container_instances.CreateOciFssMountOptionDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Option != nil {
+		result["option"] = string(*obj.Option)
+	}
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
+func (s *ContainerInstancesContainerInstanceResourceCrud) mapToCreateOciFssMountTargetDetails(fieldKeyFormat string) (oci_container_instances.CreateOciFssMountTargetDetails, error) {
+	var baseObject oci_container_instances.CreateOciFssMountTargetDetails
+	//discriminator
+	ociFssMountTargetTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oci_fss_mount_target_type"))
+	var ociFssMountTargetType string
+	if ok {
+		ociFssMountTargetType = ociFssMountTargetTypeRaw.(string)
+	} else {
+		ociFssMountTargetType = "OCID" // default value
+	}
+	switch strings.ToLower(ociFssMountTargetType) {
+	case strings.ToLower("OCID"):
+		details := oci_container_instances.CreateOciFssMountTargetIdDetails{}
+		if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
+			tmp := id.(string)
+			details.Id = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown oci_fss_mount_target_type '%v' was specified", ociFssMountTargetType)
+	}
+	return baseObject, nil
+}
+
+func CreateOciFssMountTargetDetailsToMap(obj *oci_container_instances.CreateOciFssMountTargetDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_container_instances.CreateOciFssMountTargetIdDetails:
+		result["oci_fss_mount_target_type"] = "OCID"
+
+		if v.Id != nil {
+			result["id"] = string(*v.Id)
+		}
+	default:
+		log.Printf("[WARN] Received 'oci_fss_mount_target_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *ContainerInstancesContainerInstanceResourceCrud) mapToCreateOciFssSecurityDetails(fieldKeyFormat string) (oci_container_instances.CreateOciFssSecurityDetails, error) {
+	var baseObject oci_container_instances.CreateOciFssSecurityDetails
+	//discriminator
+	authRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auth"))
+	var auth string
+	if ok {
+		auth = authRaw.(string)
+	} else {
+		auth = "SYS" // default value
+	}
+	switch strings.ToLower(auth) {
+	case strings.ToLower("SYS"):
+		details := oci_container_instances.CreateOciFssSysSecurityDetails{}
+		if isEncryptedInTransit, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_encrypted_in_transit")); ok {
+			tmp := isEncryptedInTransit.(bool)
+			details.IsEncryptedInTransit = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown auth '%v' was specified", auth)
+	}
+	return baseObject, nil
+}
+
+func CreateOciFssSecurityDetailsToMap(obj *oci_container_instances.CreateOciFssSecurityDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_container_instances.CreateOciFssSysSecurityDetails:
+		result["auth"] = "SYS"
+		if v.IsEncryptedInTransit != nil {
+			result["is_encrypted_in_transit"] = bool(*v.IsEncryptedInTransit)
+		}
+	default:
+		log.Printf("[WARN] Received 'auth' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func OciFssExportToMap(obj *oci_container_instances.OciFssExport) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_container_instances.OciFssExportId:
+		result["oci_fss_export_type"] = "OCID"
+
+		if v.Id != nil {
+			result["id"] = string(*v.Id)
+		}
+	default:
+		log.Printf("[WARN] Received 'oci_fss_export_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func OciFssMountCommandToMap(obj *oci_container_instances.OciFssMountCommand) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	mountOptions := []interface{}{}
+	for _, item := range obj.MountOptions {
+		mountOptions = append(mountOptions, OciFssMountOptionToMap(item))
+	}
+	result["mount_options"] = mountOptions
+
+	return result
+}
+
+func OciFssMountOptionToMap(obj oci_container_instances.OciFssMountOption) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Option != nil {
+		result["option"] = string(*obj.Option)
+	}
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
+func OciFssMountTargetToMap(obj *oci_container_instances.OciFssMountTarget) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_container_instances.OciFssMountTargetId:
+		result["oci_fss_mount_target_type"] = "OCID"
+
+		if v.Id != nil {
+			result["id"] = string(*v.Id)
+		}
+	default:
+		log.Printf("[WARN] Received 'oci_fss_mount_target_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func OciFssSecurityToMap(obj *oci_container_instances.OciFssSecurity) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_container_instances.OciFssSysSecurity:
+		result["auth"] = "SYS"
+		if v.IsEncryptedInTransit != nil {
+			result["is_encrypted_in_transit"] = bool(*v.IsEncryptedInTransit)
+		}
+	default:
+		log.Printf("[WARN] Received 'auth' of unknown type %v", *obj)
 		return nil
 	}
 

@@ -82,6 +82,12 @@ func (s *CoreInstanceConfigurationDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	gmcConfigs := []interface{}{}
+	for _, item := range s.Res.GmcConfigs {
+		gmcConfigs = append(gmcConfigs, InstanceConfigurationGmcConfigDetailToMap(item))
+	}
+	s.D.Set("gmc_configs", gmcConfigs)
+
 	if s.Res.InstanceDetails != nil {
 		instanceDetailsArray := []interface{}{}
 		if instanceDetailsMap := InstanceConfigurationInstanceDetailsToMap(&s.Res.InstanceDetails, true); instanceDetailsMap != nil {
@@ -91,6 +97,8 @@ func (s *CoreInstanceConfigurationDataSourceCrud) SetData() error {
 	} else {
 		s.D.Set("instance_details", nil)
 	}
+
+	s.D.Set("source", s.Res.Source)
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

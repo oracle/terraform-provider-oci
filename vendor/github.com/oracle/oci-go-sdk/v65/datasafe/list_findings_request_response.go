@@ -36,6 +36,9 @@ type ListFindingsRequest struct {
 	// The category of the finding.
 	Category *string `mandatory:"false" contributesTo:"query" name:"category"`
 
+	// A filter to return only findings that match the specified risk level(s). Use containsOracleDefinedSeverity parameter if need to filter by one or multiple risk levels.
+	ContainsOracleDefinedSeverity []ListFindingsContainsOracleDefinedSeverityEnum `contributesTo:"query" name:"containsOracleDefinedSeverity" omitEmpty:"true" collectionFormat:"multi"`
+
 	// A filter to return only the findings that match the specified lifecycle states.
 	LifecycleState ListFindingsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
@@ -148,6 +151,12 @@ func (request ListFindingsRequest) ValidateEnumValue() (bool, error) {
 	for _, val := range request.ContainsSeverity {
 		if _, ok := GetMappingListFindingsContainsSeverityEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ContainsSeverity: %s. Supported values are: %s.", val, strings.Join(GetListFindingsContainsSeverityEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.ContainsOracleDefinedSeverity {
+		if _, ok := GetMappingListFindingsContainsOracleDefinedSeverityEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ContainsOracleDefinedSeverity: %s. Supported values are: %s.", val, strings.Join(GetListFindingsContainsOracleDefinedSeverityEnumStringValues(), ",")))
 		}
 	}
 
@@ -335,6 +344,68 @@ func GetListFindingsContainsSeverityEnumStringValues() []string {
 // GetMappingListFindingsContainsSeverityEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListFindingsContainsSeverityEnum(val string) (ListFindingsContainsSeverityEnum, bool) {
 	enum, ok := mappingListFindingsContainsSeverityEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListFindingsContainsOracleDefinedSeverityEnum Enum with underlying type: string
+type ListFindingsContainsOracleDefinedSeverityEnum string
+
+// Set of constants representing the allowable values for ListFindingsContainsOracleDefinedSeverityEnum
+const (
+	ListFindingsContainsOracleDefinedSeverityHigh     ListFindingsContainsOracleDefinedSeverityEnum = "HIGH"
+	ListFindingsContainsOracleDefinedSeverityMedium   ListFindingsContainsOracleDefinedSeverityEnum = "MEDIUM"
+	ListFindingsContainsOracleDefinedSeverityLow      ListFindingsContainsOracleDefinedSeverityEnum = "LOW"
+	ListFindingsContainsOracleDefinedSeverityEvaluate ListFindingsContainsOracleDefinedSeverityEnum = "EVALUATE"
+	ListFindingsContainsOracleDefinedSeverityAdvisory ListFindingsContainsOracleDefinedSeverityEnum = "ADVISORY"
+	ListFindingsContainsOracleDefinedSeverityPass     ListFindingsContainsOracleDefinedSeverityEnum = "PASS"
+	ListFindingsContainsOracleDefinedSeverityDeferred ListFindingsContainsOracleDefinedSeverityEnum = "DEFERRED"
+)
+
+var mappingListFindingsContainsOracleDefinedSeverityEnum = map[string]ListFindingsContainsOracleDefinedSeverityEnum{
+	"HIGH":     ListFindingsContainsOracleDefinedSeverityHigh,
+	"MEDIUM":   ListFindingsContainsOracleDefinedSeverityMedium,
+	"LOW":      ListFindingsContainsOracleDefinedSeverityLow,
+	"EVALUATE": ListFindingsContainsOracleDefinedSeverityEvaluate,
+	"ADVISORY": ListFindingsContainsOracleDefinedSeverityAdvisory,
+	"PASS":     ListFindingsContainsOracleDefinedSeverityPass,
+	"DEFERRED": ListFindingsContainsOracleDefinedSeverityDeferred,
+}
+
+var mappingListFindingsContainsOracleDefinedSeverityEnumLowerCase = map[string]ListFindingsContainsOracleDefinedSeverityEnum{
+	"high":     ListFindingsContainsOracleDefinedSeverityHigh,
+	"medium":   ListFindingsContainsOracleDefinedSeverityMedium,
+	"low":      ListFindingsContainsOracleDefinedSeverityLow,
+	"evaluate": ListFindingsContainsOracleDefinedSeverityEvaluate,
+	"advisory": ListFindingsContainsOracleDefinedSeverityAdvisory,
+	"pass":     ListFindingsContainsOracleDefinedSeverityPass,
+	"deferred": ListFindingsContainsOracleDefinedSeverityDeferred,
+}
+
+// GetListFindingsContainsOracleDefinedSeverityEnumValues Enumerates the set of values for ListFindingsContainsOracleDefinedSeverityEnum
+func GetListFindingsContainsOracleDefinedSeverityEnumValues() []ListFindingsContainsOracleDefinedSeverityEnum {
+	values := make([]ListFindingsContainsOracleDefinedSeverityEnum, 0)
+	for _, v := range mappingListFindingsContainsOracleDefinedSeverityEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListFindingsContainsOracleDefinedSeverityEnumStringValues Enumerates the set of values in String for ListFindingsContainsOracleDefinedSeverityEnum
+func GetListFindingsContainsOracleDefinedSeverityEnumStringValues() []string {
+	return []string{
+		"HIGH",
+		"MEDIUM",
+		"LOW",
+		"EVALUATE",
+		"ADVISORY",
+		"PASS",
+		"DEFERRED",
+	}
+}
+
+// GetMappingListFindingsContainsOracleDefinedSeverityEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListFindingsContainsOracleDefinedSeverityEnum(val string) (ListFindingsContainsOracleDefinedSeverityEnum, bool) {
+	enum, ok := mappingListFindingsContainsOracleDefinedSeverityEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

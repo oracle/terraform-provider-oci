@@ -28,7 +28,7 @@ var (
 	CoreComputeClusterRequiredOnlyResource = CoreComputeClusterResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_compute_cluster", "test_compute_cluster", acctest.Required, acctest.Create, CoreComputeClusterRepresentation)
 
-	CoreComputeClusterResourceConfig = CoreComputeClusterResourceDependencies +
+	CoreComputeClusterResourceConfig = CoreComputeClusterResourceDependencies + CoreComputeClusterPlacementConstraintDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_compute_cluster", "test_compute_cluster", acctest.Optional, acctest.Update, CoreComputeClusterRepresentation)
 
 	CoreComputeClusterSingularDataSourceRepresentation = map[string]interface{}{
@@ -45,13 +45,45 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_compute_cluster.test_compute_cluster.id}`}},
 	}
 
-	CoreComputeClusterRepresentation = map[string]interface{}{
+	CoreComputeClusterComputeCapacityTopologiesDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
+
+	CoreComputeClusterComputeHpcIslandsDataSourceRepresentation = map[string]interface{}{
+		"compute_capacity_topology_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_compute_capacity_topologies.test_compute_capacity_topologies.compute_capacity_topology_collection.0.items.0.id}`},
+		"availability_domain":          acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+	}
+
+	CoreComputeClusterComputeNetworkBlocksDataSourceRepresentation = map[string]interface{}{
+		"compute_capacity_topology_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_compute_capacity_topologies.test_compute_capacity_topologies.compute_capacity_topology_collection.0.items.0.id}`},
+		"availability_domain":          acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"compute_hpc_island_id":        acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_compute_capacity_topology_compute_hpc_islands.test_compute_hpc_islands.compute_hpc_island_collection.0.items.0.id}`},
+	}
+
+	CoreComputeClusterRepresentation = map[string]interface{}{
+		"availability_domain":          acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
+		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreComputeClusterIgnoreChangesRepresentation},
+		"placement_constraint_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreComputeClusterPlacementConstraintDetailsRepresentation},
+	}
+	CoreComputeClusterIgnoreChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}, Update: []string{`defined_tags`}},
+	}
+	CoreComputeClusterPlacementConstraintDetailsRepresentation = map[string]interface{}{
+		"type":                     acctest.Representation{RepType: acctest.Required, Create: `COMPUTE_CLUSTER`},
+		"hpc_island_id":            acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_core_compute_capacity_topology_compute_hpc_islands.test_compute_hpc_islands.compute_hpc_island_collection.0.items.0.id}`},
+		"target_network_block_ids": acctest.Representation{RepType: acctest.Optional, Update: []string{`${data.oci_core_compute_capacity_topology_compute_network_blocks.test_compute_network_blocks.compute_network_block_collection.0.items.0.id}`}},
+	}
+
+	CoreComputeClusterPlacementConstraintDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_capacity_topologies", "test_compute_capacity_topologies", acctest.Required, acctest.Create, CoreComputeClusterComputeCapacityTopologiesDataSourceRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_capacity_topology_compute_hpc_islands", "test_compute_hpc_islands", acctest.Required, acctest.Create, CoreComputeClusterComputeHpcIslandsDataSourceRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_capacity_topology_compute_network_blocks", "test_compute_network_blocks", acctest.Required, acctest.Create, CoreComputeClusterComputeNetworkBlocksDataSourceRepresentation)
 
 	CoreComputeClusterResourceDependencies = AvailabilityDomainConfig +
 		DefinedTagsDependencies
@@ -76,7 +108,7 @@ func TestCoreComputeClusterResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreComputeClusterResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreComputeClusterResourceDependencies+CoreComputeClusterPlacementConstraintDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_core_compute_cluster", "test_compute_cluster", acctest.Optional, acctest.Create, CoreComputeClusterRepresentation), "core", "computeCluster", t)
 
 	acctest.ResourceTest(t, testAccCheckCoreComputeClusterDestroy, []resource.TestStep{
@@ -101,7 +133,7 @@ func TestCoreComputeClusterResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + CoreComputeClusterResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreComputeClusterResourceDependencies + CoreComputeClusterPlacementConstraintDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_cluster", "test_compute_cluster", acctest.Optional, acctest.Create, CoreComputeClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -109,6 +141,10 @@ func TestCoreComputeClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_constraint_details.0.hpc_island_id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.0.target_network_block_ids.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.0.type", "COMPUTE_CLUSTER"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -126,7 +162,7 @@ func TestCoreComputeClusterResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreComputeClusterResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreComputeClusterResourceDependencies + CoreComputeClusterPlacementConstraintDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_cluster", "test_compute_cluster", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(CoreComputeClusterRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -137,6 +173,10 @@ func TestCoreComputeClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_constraint_details.0.hpc_island_id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.0.target_network_block_ids.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.0.type", "COMPUTE_CLUSTER"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -152,7 +192,7 @@ func TestCoreComputeClusterResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + CoreComputeClusterResourceDependencies +
+			Config: config + compartmentIdVariableStr + CoreComputeClusterResourceDependencies + CoreComputeClusterPlacementConstraintDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_cluster", "test_compute_cluster", acctest.Optional, acctest.Update, CoreComputeClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -160,6 +200,11 @@ func TestCoreComputeClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_constraint_details.0.hpc_island_id"),
+				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.0.target_network_block_ids.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_constraint_details.0.target_network_block_ids.0"),
+				resource.TestCheckResourceAttr(resourceName, "placement_constraint_details.0.type", "COMPUTE_CLUSTER"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -176,7 +221,7 @@ func TestCoreComputeClusterResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_clusters", "test_compute_clusters", acctest.Optional, acctest.Update, CoreComputeClusterDataSourceRepresentation) +
-				compartmentIdVariableStr + CoreComputeClusterResourceDependencies +
+				compartmentIdVariableStr + CoreComputeClusterResourceDependencies + CoreComputeClusterPlacementConstraintDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_cluster", "test_compute_cluster", acctest.Optional, acctest.Update, CoreComputeClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
@@ -200,8 +245,14 @@ func TestCoreComputeClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placement_constraint_details.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "placement_constraint_details.0.hpc_island_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placement_constraint_details.0.target_network_block_ids.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "placement_constraint_details.0.target_network_block_ids.0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "placement_constraint_details.0.type", "COMPUTE_CLUSTER"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},
 		// verify resource import

@@ -168,6 +168,16 @@ func (s *ContainerInstancesContainerInstanceDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.SecurityContext != nil {
+		securityContextArray := []interface{}{}
+		if securityContextMap := ContainerInstanceSecurityContextToMap(&s.Res.SecurityContext); securityContextMap != nil {
+			securityContextArray = append(securityContextArray, securityContextMap)
+		}
+		s.D.Set("security_context", securityContextArray)
+	} else {
+		s.D.Set("security_context", nil)
+	}
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}
@@ -182,6 +192,10 @@ func (s *ContainerInstancesContainerInstanceDataSourceCrud) SetData() error {
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
+	if s.Res.TenantId != nil {
+		s.D.Set("tenant_id", *s.Res.TenantId)
 	}
 
 	if s.Res.TimeCreated != nil {

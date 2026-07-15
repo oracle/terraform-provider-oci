@@ -17,12 +17,13 @@ import (
 
 var (
 	DataSafeSecurityAssessmentFindingDataSourceRepresentation = map[string]interface{}{
-		"security_assessment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.security_assessment_id}`},
-		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
-		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"finding_key":               acctest.Representation{RepType: acctest.Optional, Create: `${var.key}`},
-		"severity":                  acctest.Representation{RepType: acctest.Optional, Create: `HIGH`},
-		"target_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.target_id}`},
+		"security_assessment_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.security_assessment_id}`},
+		"access_level":                     acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
+		"compartment_id_in_subtree":        acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"contains_oracle_defined_severity": acctest.Representation{RepType: acctest.Optional, Create: []string{`PASS`}},
+		"finding_key":                      acctest.Representation{RepType: acctest.Optional, Create: `${var.key}`},
+		"severity":                         acctest.Representation{RepType: acctest.Optional, Create: `EVALUATE`},
+		"target_id":                        acctest.Representation{RepType: acctest.Optional, Create: `${var.target_id}`},
 	}
 	DataSafeSecurityAssessmentFindingRepresentation = map[string]interface{}{
 		"security_assessment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.security_assessment_id}`},
@@ -64,8 +65,9 @@ func TestDataSafeSecurityAssessmentFindingResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "contains_oracle_defined_severity.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "finding_key", findingKey),
-				resource.TestCheckResourceAttr(datasourceName, "severity", "HIGH"),
+				resource.TestCheckResourceAttr(datasourceName, "severity", "EVALUATE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "target_id"),
 
 				resource.TestCheckResourceAttr(datasourceName, "findings.#", "1"),

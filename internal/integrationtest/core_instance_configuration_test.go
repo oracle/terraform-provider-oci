@@ -52,6 +52,13 @@ var (
 		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTags},
 	}
 
+	// Gpu Memory Cluster Instance configuration
+	CoreGMCInstanceConfigurationRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"source":         acctest.Representation{RepType: acctest.Required, Create: `GMC`},
+		"gmc_configs":    acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceConfigurationGmcConfigsRepresentation},
+	}
+
 	CoreInstanceConfigurationRepresentationWithOptions = map[string]interface{}{
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -161,9 +168,22 @@ var (
 		"instance_type":  acctest.Representation{RepType: acctest.Required, Create: `compute`},
 		"block_volumes ": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceConfigurationInstanceDetailsBlockVolumesRepresentation},
 	}
+	CoreInstanceConfigurationGmcConfigsRepresentation = map[string]interface{}{
+		"availability_domain":             acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":                    acctest.Representation{RepType: acctest.Optional, Create: `gmc-test`},
+		"gpu_memory_cluster_scale_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationGmcConfigsGpuMemoryClusterScaleConfigRepresentation},
+		"instance_configuration_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.gb200_instance_configuration_id}`}, // GB200 based IC
+		"size":                            acctest.Representation{RepType: acctest.Optional, Create: `1`},
+	}
 	CoreInstanceConfigurationInstanceDetailsRepresentation = map[string]interface{}{
 		"instance_type":   acctest.Representation{RepType: acctest.Required, Create: `compute`},
 		"secondary_vnics": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceConfigurationInstanceDetailsSecondaryVnicsRepresentation},
+	}
+	CoreInstanceConfigurationGmcConfigsGpuMemoryClusterScaleConfigRepresentation = map[string]interface{}{
+		"is_upsize_enabled":   acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"is_downsize_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"target_size":         acctest.Representation{RepType: acctest.Optional, Create: `1`},
 	}
 	CoreInstanceConfigurationInstanceDetailsWithOptionsRepresentation = map[string]interface{}{
 		"instance_type": acctest.Representation{RepType: acctest.Required, Create: `instance_options`},
@@ -558,7 +578,12 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 	availabilityDomain := utils.GetEnvSettingWithBlankDefault("availability_domain")
 	availabilityDomainVariableStr := fmt.Sprintf("variable \"availability_domain\" { default = \"%s\" }\n", availabilityDomain)
 
+	gb200InstanceConfigurationId := utils.GetEnvSettingWithBlankDefault("gb200_instance_configuration_id")
+	gb200InstanceConfigurationIdVariableStr := fmt.Sprintf("variable \"gb200_instance_configuration_id\" { default = \"%s\" }\n", gb200InstanceConfigurationId)
+
 	resourceName := "oci_core_instance_configuration.test_instance_configuration"
+	gmcResourceName := "oci_core_instance_configuration.gmc_test_instance_configuration"
+
 	datasourceName := "data.oci_core_instance_configurations.test_instance_configurations"
 	singularDatasourceName := "data.oci_core_instance_configuration.test_instance_configuration"
 
@@ -582,7 +607,30 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 				},
 			),
 		},
+		// verify GMC Instance Configuration Create
+		{
+			Config: config + gb200InstanceConfigurationIdVariableStr + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + availabilityDomainVariableStr + computeHostGroupIdVariableStr + CoreInstanceConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "gmc_test_instance_configuration", acctest.Optional, acctest.Create, CoreGMCInstanceConfigurationRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(gmcResourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(gmcResourceName, "source", "GMC"),
+				resource.TestCheckResourceAttr(gmcResourceName, "gmc_configs.#", "1"),
+				resource.TestCheckResourceAttrSet(gmcResourceName, "gmc_configs.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(gmcResourceName, "gmc_configs.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(gmcResourceName, "gmc_configs.0.instance_configuration_id"),
+				resource.TestCheckResourceAttr(gmcResourceName, "gmc_configs.0.size", "1"),
+				resource.TestCheckResourceAttr(gmcResourceName, "gmc_configs.0.display_name", "gmc-test"),
+				resource.TestCheckResourceAttr(gmcResourceName, "gmc_configs.0.gpu_memory_cluster_scale_config.#", "1"),
+				resource.TestCheckResourceAttr(gmcResourceName, "gmc_configs.0.gpu_memory_cluster_scale_config.0.is_upsize_enabled", "true"),
+				resource.TestCheckResourceAttr(gmcResourceName, "gmc_configs.0.gpu_memory_cluster_scale_config.0.is_downsize_enabled", "true"),
+				resource.TestCheckResourceAttr(gmcResourceName, "gmc_configs.0.gpu_memory_cluster_scale_config.0.target_size", "1"),
 
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, gmcResourceName, "id")
+					return err
+				},
+			),
+		},
 		// delete before next Create
 		{
 			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + compartmentIdVariableStr + availabilityDomainVariableStr + CoreInstanceConfigurationResourceDependencies,

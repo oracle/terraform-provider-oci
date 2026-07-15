@@ -54,6 +54,8 @@ The following attributes are exported:
 * `id` - The OCID of the report.
 * `lifecycle_details` - Details about the current state of the report in Data Safe.
 * `mime_type` - Specifies the format of report to be .xls or .pdf or .json
+* `next_report_id` - The OCID of the next report generated.
+* `previous_report_id` - The OCID of the previous report generated.
 * `report_definition_id` - The OCID of the report definition.
 * `state` - The current state of the audit report.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

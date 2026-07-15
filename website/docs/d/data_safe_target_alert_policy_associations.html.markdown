@@ -74,7 +74,7 @@ The following attributes are exported:
 * `policy_id` - The OCID of the alert policy.
 * `state` - The current state of the target-alert policy association.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `target_id` - The OCID of the target on which alert policy is to be applied.
+* `target_id` - The OCID of the target or target database group on which alert policy is to be applied.
 * `target_type` - The resource type that is represented by the target alert policy association.
 * `time_created` - Creation date and time of the alert policy, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `time_updated` - Last date and time the alert policy was updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
