@@ -5,6 +5,8 @@
 
 set -e
 
+export GOTOOLCHAIN="${GOTOOLCHAIN:-go1.26.5+auto}"
+
 shopt -s expand_aliases
 #
 # Put ourselves at the known project root location, and go back where

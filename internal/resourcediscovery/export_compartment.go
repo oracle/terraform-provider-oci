@@ -223,7 +223,7 @@ func RunListExportableServicesCommand(listExportServicesPath string) error {
 			utils.Logf("[INFO] Services written to json file at: %s", listExportServicesPath)
 		}
 	}
-	utils.Logf(string(servicesJson))
+	utils.Logf("%s", servicesJson)
 	return nil
 }
 

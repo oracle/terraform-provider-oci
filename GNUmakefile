@@ -1,6 +1,7 @@
 # Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 
 TEST?=./...
+export GOTOOLCHAIN ?= go1.26.5+auto
 GOFMT_FILES?=$(if $(SERVICE), $$(find . -name '$(SERVICE)*.go' |grep -v vendor), $$(find . -name '*.go' |grep -v vendor))
 PKG_NAME=oci
 TEST_PKG_NAME=internal/integrationtest
@@ -26,7 +27,7 @@ install_go_ol9: GOBIN = /usr/local/sbin
 install_go_ol9:
 	# Install Golang and required tool on build service instance
 	@echo "Installing Golang using command dnf install go-toolset"
-	dnf install go-toolset-1.25.*
+	dnf install go-toolset-1.26.*
 	go version
 	@if [ ! -d "$(GOBIN)" ]; then \
 		mkdir -p "$(GOBIN)"; \
@@ -36,8 +37,8 @@ install_go_ol9:
 	fi
 	@export GOBIN="$(GOBIN)"; export PATH="$(GOBIN):$$PATH"; \
 	GOFLAGS= go install github.com/jstemmer/go-junit-report/v2@v2.1.0; \
-	GOFLAGS= go install github.com/kisielk/errcheck@v1.7.0; \
-	GOFLAGS= go install golang.org/x/tools/cmd/goimports@v0.24.0
+	GOFLAGS= go install github.com/kisielk/errcheck@v1.20.0; \
+	GOFLAGS= go install golang.org/x/tools/cmd/goimports@v0.48.0
 	@echo "goimports and errcheck installed in $(GOBIN)"
 
 checkall: install_go_ol9 fmtcheck errcheck integrationtest-initcheck
