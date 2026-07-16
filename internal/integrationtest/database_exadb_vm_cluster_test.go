@@ -763,6 +763,52 @@ func init() {
 	}
 }
 
+func TestDatabaseExadbVmClusterResource_pkcs_register_unregister(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseExadbVmClusterResource_pkcs_register_unregister")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_exadb_vm_cluster.test_exadb_vm_cluster"
+
+	var DatabaseExadbVmClusterPkcsRegisterRepresentation = func() map[string]interface{} {
+		newRep := make(map[string]interface{}, len(DatabaseExadbVmClusterRepresentation)+3)
+		for k, v := range DatabaseExadbVmClusterRepresentation {
+			newRep[k] = v
+		}
+		newRep["tde_key_store_type"] = acctest.Representation{RepType: acctest.Optional, Update: `OCI`}
+		newRep["register_pkcs_trigger"] = acctest.Representation{RepType: acctest.Optional, Update: `1`}
+		newRep["unregister_pkcs_trigger"] = acctest.Representation{RepType: acctest.Optional, Update: `1`}
+		return newRep
+	}()
+
+	generatedResource := acctest.GenerateResourceFromRepresentationMap("oci_database_exadb_vm_cluster", "test_exadb_vm_cluster", acctest.Optional, acctest.Create, DatabaseExadbVmClusterPkcsRegisterRepresentation)
+	fullConfig := config + compartmentIdVariableStr + DatabaseExadbVmClusterResourceDependencies + generatedResource
+	acctest.SaveConfigContent(fullConfig, "database", "exadbVmClusterPkcsRegisterUnRegister", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseExadbVmClusterDestroy, []resource.TestStep{
+		{
+			Config: fullConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + DatabaseExadbVmClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_exadb_vm_cluster", "test_exadb_vm_cluster", acctest.Optional, acctest.Update, DatabaseExadbVmClusterPkcsRegisterRepresentation),
+			ExpectNonEmptyPlan: true,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+			),
+		},
+	})
+}
+
 func sweepDatabaseExadbVmClusterResource(compartment string) error {
 	databaseClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseClient()
 	exadbVmClusterIds, err := getDatabaseExadbVmClusterIds(compartment)

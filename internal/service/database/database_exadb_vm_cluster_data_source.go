@@ -148,6 +148,12 @@ func (s *DatabaseExadbVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("listener_port", strconv.FormatInt(*s.Res.ListenerPort, 10))
 	}
 
+	multiCloudIdentityConnectorConfigs := []interface{}{}
+	for _, item := range s.Res.MultiCloudIdentityConnectorConfigs {
+		multiCloudIdentityConnectorConfigs = append(multiCloudIdentityConnectorConfigs, IdentityConnectorDetailsToMap(item))
+	}
+	s.D.Set("multi_cloud_identity_connector_configs", multiCloudIdentityConnectorConfigs)
+
 	nodeConfig, nodeResourceList := getNodeConfigAndNodeListInResponse(s.Res.Id, s.Res.CompartmentId, s.Res.EnabledECpuCount, s.Res.TotalECpuCount, s.Res.VmFileSystemStorage, s.Res.MemorySizeInGBs, s.Res.SnapshotFileSystemStorage, s.Res.TotalFileSystemStorage, s.Client)
 	s.D.Set("node_config", []interface{}{nodeConfig})
 	s.D.Set("node_resource", nodeResourceList)
@@ -203,6 +209,8 @@ func (s *DatabaseExadbVmClusterDataSourceCrud) SetData() error {
 	if s.Res.SystemVersion != nil {
 		s.D.Set("system_version", *s.Res.SystemVersion)
 	}
+
+	s.D.Set("tde_key_store_type", s.Res.TdeKeyStoreType)
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
