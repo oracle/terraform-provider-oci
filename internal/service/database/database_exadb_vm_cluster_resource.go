@@ -15,6 +15,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
@@ -284,6 +285,14 @@ func DatabaseExadbVmClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"register_pkcs_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"unregister_pkcs_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 
 			// Computed
 			"cluster_placement_group_id": {
@@ -360,6 +369,27 @@ func DatabaseExadbVmClusterResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"multi_cloud_identity_connector_configs": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"cloud_provider": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"scan_dns_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -383,6 +413,17 @@ func DatabaseExadbVmClusterResource() *schema.Resource {
 				Type:     schema.TypeMap,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"tde_key_store_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					"OCI",
+					"AWS",
+					"AZURE",
+					"GCP",
+				}, true),
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -409,7 +450,25 @@ func createDatabaseExadbVmClusterWithContext(ctx context.Context, d *schema.Reso
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
+	}
+
+	if _, ok := sync.D.GetOkExists("register_pkcs_trigger"); ok {
+		err := sync.RegisterExadbVmClusterPkcs(ctx, sync.D.Get("tde_key_store_type").(string))
+		if err != nil {
+			return tfresource.HandleDiagError(m, err)
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("unregister_pkcs_trigger"); ok {
+		err := sync.UnregisterExadbVmClusterPkcs(ctx, sync.D.Get("tde_key_store_type").(string))
+		if err != nil {
+			return tfresource.HandleDiagError(m, err)
+		}
+	}
+	return nil
+
 }
 
 func readDatabaseExadbVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -426,7 +485,75 @@ func updateDatabaseExadbVmClusterWithContext(ctx context.Context, d *schema.Reso
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
+	tdeKeyStoreType := ""
+	if tdeKeyStoreTypeRaw, ok := sync.D.GetOkExists("tde_key_store_type"); ok {
+		tdeKeyStoreType = tdeKeyStoreTypeRaw.(string)
+	}
+	if sync.D.HasChange("tde_key_store_type") {
+		_, newRaw := sync.D.GetChange("tde_key_store_type")
+		tdeKeyStoreType = newRaw.(string)
+	}
+
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
+	}
+
+	registerPkcsTriggered := false
+	if _, ok := sync.D.GetOkExists("register_pkcs_trigger"); ok && sync.D.HasChange("register_pkcs_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("register_pkcs_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.RegisterExadbVmClusterPkcs(ctx, tdeKeyStoreType)
+
+			if err != nil {
+				return tfresource.HandleDiagError(m, err)
+			}
+			registerPkcsTriggered = true
+			if err := sync.D.Set("register_pkcs_trigger", newValue); err != nil {
+				return tfresource.HandleDiagError(m, err)
+			}
+		} else {
+			sync.D.Set("register_pkcs_trigger", oldRaw)
+			err := fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, err)
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("unregister_pkcs_trigger"); ok && sync.D.HasChange("unregister_pkcs_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("unregister_pkcs_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.UnregisterExadbVmClusterPkcs(ctx, tdeKeyStoreType)
+
+			if err != nil {
+				return tfresource.HandleDiagError(m, err)
+			}
+			if err := sync.D.Set("unregister_pkcs_trigger", newValue); err != nil {
+				return tfresource.HandleDiagError(m, err)
+			}
+		} else {
+			sync.D.Set("unregister_pkcs_trigger", oldRaw)
+			err := fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, err)
+		}
+	}
+
+	if sync.D.HasChange("tde_key_store_type") && !registerPkcsTriggered {
+		_, newRaw := sync.D.GetChange("tde_key_store_type")
+		newTdeKeyStoreType := newRaw.(string)
+		switch strings.ToLower(newTdeKeyStoreType) {
+		case strings.ToLower("AWS"), strings.ToLower("AZURE"), strings.ToLower("GCP"), strings.ToLower("OCI"):
+			if err := sync.RegisterExadbVmClusterPkcs(ctx, newRaw.(string)); err != nil {
+				return tfresource.HandleDiagError(m, err)
+			}
+		default:
+			return tfresource.HandleDiagError(m, fmt.Errorf("[ERROR] Unknown tde_key_store_type '%v' was specified", newTdeKeyStoreType))
+		}
+	}
+
+	return nil
 }
 
 func deleteDatabaseExadbVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -488,6 +615,10 @@ func (s *DatabaseExadbVmClusterResourceCrud) UpdateTarget() []string {
 }
 
 func (s *DatabaseExadbVmClusterResourceCrud) CreateWithContext(ctx context.Context) error {
+	if _, ok := s.D.GetOkExists("tde_key_store_type"); ok {
+		return fmt.Errorf("[ERROR] Unable to specify tde_key_store_type during create")
+	}
+
 	request := oci_database.CreateExadbVmClusterRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -1011,6 +1142,12 @@ func (s *DatabaseExadbVmClusterResourceCrud) SetData() error {
 		s.D.Set("listener_port", strconv.FormatInt(*s.Res.ListenerPort, 10))
 	}
 
+	multiCloudIdentityConnectorConfigs := []interface{}{}
+	for _, item := range s.Res.MultiCloudIdentityConnectorConfigs {
+		multiCloudIdentityConnectorConfigs = append(multiCloudIdentityConnectorConfigs, IdentityConnectorDetailsToMap(item))
+	}
+	s.D.Set("multi_cloud_identity_connector_configs", multiCloudIdentityConnectorConfigs)
+
 	nodeConfigInResponse, nodeListInResponse := getNodeConfigAndNodeListInResponse(s.Res.Id, s.Res.CompartmentId, s.Res.EnabledECpuCount, s.Res.TotalECpuCount, s.Res.VmFileSystemStorage, s.Res.MemorySizeInGBs, s.Res.SnapshotFileSystemStorage, s.Res.TotalFileSystemStorage, s.Client)
 	s.D.Set("node_config", []interface{}{nodeConfigInResponse})
 
@@ -1137,6 +1274,16 @@ func (s *DatabaseExadbVmClusterResourceCrud) SetData() error {
 		s.D.Set("system_version", *s.Res.SystemVersion)
 	}
 
+	s.D.Set("tde_key_store_type", s.Res.TdeKeyStoreType)
+
+	if registerPkcsTrigger, ok := s.D.GetOkExists("register_pkcs_trigger"); ok {
+		s.D.Set("register_pkcs_trigger", registerPkcsTrigger)
+	}
+
+	if unregisterPkcsTrigger, ok := s.D.GetOkExists("unregister_pkcs_trigger"); ok {
+		s.D.Set("unregister_pkcs_trigger", unregisterPkcsTrigger)
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -1150,6 +1297,90 @@ func (s *DatabaseExadbVmClusterResourceCrud) SetData() error {
 	if s.Res.ZoneId != nil {
 		s.D.Set("zone_id", *s.Res.ZoneId)
 	}
+
+	return nil
+}
+
+func (s *DatabaseExadbVmClusterResourceCrud) RegisterExadbVmClusterPkcs(ctx context.Context, tdeKeyStoreType string) error {
+	request := oci_database.RegisterExadbVmClusterPkcsRequest{}
+
+	idTmp := s.D.Id()
+	request.ExadbVmClusterId = &idTmp
+
+	if tdeKeyStoreType != "" {
+		request.TdeKeyStoreType = oci_database.RegisterExadbVmClusterPkcsDetailsTdeKeyStoreTypeEnum(tdeKeyStoreType)
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.RegisterExadbVmClusterPkcs(ctx, request)
+	if err != nil {
+		return err
+	}
+	var workRequestId *string
+	if response.RawResponse != nil {
+		if wr := response.RawResponse.Header.Get("opc-work-request-id"); wr != "" {
+			workRequestId = &wr
+		}
+	}
+	if workRequestId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workRequestId, "exadbvmcluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
+	if err := s.GetWithContext(ctx); err != nil {
+		return err
+	}
+	if err := s.SetData(); err != nil {
+		return err
+	}
+
+	val := s.D.Get("register_pkcs_trigger")
+	s.D.Set("register_pkcs_trigger", val)
+
+	return nil
+}
+
+func (s *DatabaseExadbVmClusterResourceCrud) UnregisterExadbVmClusterPkcs(ctx context.Context, tdeKeyStoreType string) error {
+	request := oci_database.UnregisterExadbVmClusterPkcsRequest{}
+
+	idTmp := s.D.Id()
+	request.ExadbVmClusterId = &idTmp
+
+	if tdeKeyStoreType != "" {
+		request.TdeKeyStoreType = oci_database.UnregisterExadbVmClusterPkcsDetailsTdeKeyStoreTypeEnum(tdeKeyStoreType)
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.UnregisterExadbVmClusterPkcs(ctx, request)
+	if err != nil {
+		return err
+	}
+	var workRequestId *string
+	if response.RawResponse != nil {
+		if wr := response.RawResponse.Header.Get("opc-work-request-id"); wr != "" {
+			workRequestId = &wr
+		}
+	}
+	if workRequestId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workRequestId, "exadbvmcluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
+	if err := s.GetWithContext(ctx); err != nil {
+		return err
+	}
+	if err := s.SetData(); err != nil {
+		return err
+	}
+
+	val := s.D.Get("unregister_pkcs_trigger")
+	s.D.Set("unregister_pkcs_trigger", val)
 
 	return nil
 }
@@ -1351,7 +1582,6 @@ func buildNodeNameToNodeResourceMap(nodeResourceList []interface{}) (map[string]
 }
 
 func getNodeIdFromNodeResource(nodeResource interface{}) string {
-
 	if nodeResourceMap, ok := nodeResource.(map[string]interface{}); ok {
 		if nodeId, nodeIdExist := nodeResourceMap["node_id"]; nodeIdExist {
 			return nodeId.(string)
