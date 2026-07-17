@@ -1741,10 +1741,10 @@ func createDatabaseAutonomousDatabaseWithContext(ctx context.Context, d *schema.
 		configDataSafeStatus = oci_database.AutonomousDatabaseDataSafeStatusEnum(strings.ToUpper(dataSafeStatus.(string)))
 	}
 
-	configOpenMode := oci_database.UpdateAutonomousDatabaseDetailsOpenModeWrite
-	if openMode, ok := sync.D.GetOkExists("open_mode"); ok {
-		configOpenMode = oci_database.UpdateAutonomousDatabaseDetailsOpenModeEnum(openMode.(string))
-	}
+	// configOpenMode := oci_database.UpdateAutonomousDatabaseDetailsOpenModeWrite
+	// if openMode, ok := sync.D.GetOkExists("open_mode"); ok {
+	// 	configOpenMode = oci_database.UpdateAutonomousDatabaseDetailsOpenModeEnum(openMode.(string))
+	// }
 
 	configPermissionLevel := oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelUnrestricted
 	if permissionLevel, ok := sync.D.GetOkExists("permission_level"); ok {
@@ -1801,17 +1801,17 @@ func createDatabaseAutonomousDatabaseWithContext(ctx context.Context, d *schema.
 		return tfresource.HandleDiagError(m, inactiveAutonomousDatabaseIfNeeded(ctx, sync))
 	}
 
-	if configOpenMode == oci_database.UpdateAutonomousDatabaseDetailsOpenModeOnly || configPermissionLevel == oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelRestricted {
-		if configOpenMode == oci_database.UpdateAutonomousDatabaseDetailsOpenModeOnly {
-			sync.D.Set("open_mode", configOpenMode)
-		}
+	if /*configOpenMode == oci_database.UpdateAutonomousDatabaseDetailsOpenModeOnly ||*/ configPermissionLevel == oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelRestricted {
+		// if configOpenMode == oci_database.UpdateAutonomousDatabaseDetailsOpenModeOnly {
+		// 	sync.D.Set("open_mode", configOpenMode)
+		// }
 		if configPermissionLevel == oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelRestricted {
 			sync.D.Set("permission_level", configPermissionLevel)
 		}
-		err := sync.updateOpenModeAndPermission(ctx, sync.D.Id(), configOpenMode, configPermissionLevel)
-		if err != nil {
-			return tfresource.HandleDiagError(m, err)
-		}
+		// err := sync.updateOpenModeAndPermission(ctx, sync.D.Id(), configOpenMode, configPermissionLevel)
+		// if err != nil {
+		// 	return tfresource.HandleDiagError(m, err)
+		// }
 	}
 
 	if configDataSafeStatus == oci_database.AutonomousDatabaseDataSafeStatusRegistered {
@@ -7270,7 +7270,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateOpenModeAndPermission(ctx
 	if openMode, ok := s.D.GetOkExists("open_mode"); ok {
 		oldVal, newVal := s.D.GetChange("open_mode")
 		if oldVal == "" {
-			newValFormatted := fmt.Sprintf("%v", oci_database.UpdateAutonomousDatabaseDetailsOpenModeOnly)
+			newValFormatted := "" //fmt.Sprintf("%v", oci_database.UpdateAutonomousDatabaseDetailsOpenModeOnly)
 			if oldVal != newVal && newVal == newValFormatted {
 				updateRequest.OpenMode = oci_database.UpdateAutonomousDatabaseDetailsOpenModeEnum(openMode.(string))
 			}

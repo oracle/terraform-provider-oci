@@ -951,9 +951,9 @@ func MeterToMap(obj oci_self.Meter) map[string]interface{} {
 func (s *SelfSubscriptionResourceCrud) mapToPricingPlan(fieldKeyFormat string) (oci_self.PricingPlan, error) {
 	result := oci_self.PricingPlan{}
 
-	if billingFrequency, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "billing_frequency")); ok {
-		result.BillingFrequency = oci_self.PricingPlanBillingFrequencyEnum(billingFrequency.(string))
-	}
+	// if billingFrequency, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "billing_frequency")); ok {
+	// 	result.BillingFrequency = oci_self.PricingPlanBillingFrequencyEnum(billingFrequency.(string))
+	// }
 
 	if planDescription, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "plan_description")); ok {
 		tmp := planDescription.(string)
@@ -1059,12 +1059,12 @@ func (s *SelfSubscriptionResourceCrud) mapToSubscriptionDetails(fieldKeyFormat s
 
 	if billingDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "billing_details")); ok {
 		if tmpList := billingDetails.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "billing_details"), 0)
-			tmp, err := s.mapToBillingDetails(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, fmt.Errorf("unable to convert billing_details, encountered error: %v", err)
-			}
-			result.BillingDetails = &tmp
+			// fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "billing_details"), 0)
+			// tmp, err := s.mapToBillingDetails(fieldKeyFormatNextLevel)
+			// if err != nil {
+			// 	return result, fmt.Errorf("unable to convert billing_details, encountered error: %v", err)
+			// }
+			// result.BillingDetails = &tmp
 		}
 	}
 
@@ -1104,9 +1104,9 @@ func SubscriptionDetailsToMap(obj *oci_self.SubscriptionDetails) map[string]inte
 		result["amount"] = float32(*obj.Amount)
 	}
 
-	if obj.BillingDetails != nil {
-		result["billing_details"] = []interface{}{BillingDetailsToMap(obj.BillingDetails)}
-	}
+	// if obj.BillingDetails != nil {
+	// 	result["billing_details"] = []interface{}{BillingDetailsToMap(obj.BillingDetails)}
+	// }
 
 	if obj.Currency != nil {
 		result["currency"] = string(*obj.Currency)
