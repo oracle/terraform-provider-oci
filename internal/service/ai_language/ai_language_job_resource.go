@@ -488,7 +488,7 @@ func (s *AiLanguageJobResourceCrud) Create() error {
 	}
 	// ---- Wait until job finishes ----
 	// utils.Logf("[Info] Dump createJob response id: %s,     workReqId: %s ", identifier, workId)
-	s.waitForJobCompletion(context.Background(), identifier, s.D.Timeout(schema.TimeoutCreate))
+	s.waitForJobCompletion(ctx, identifier, s.D.Timeout(schema.TimeoutCreate))
 	// utils.Logf("[Info] Dump createJob response id after wait: %s,     workReqId: %s ", identifier, workId)
 
 	s.D.SetId(*identifier)
