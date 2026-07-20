@@ -480,16 +480,17 @@ func (s *AiLanguageJobResourceCrud) CreateWithContext(ctx context.Context) error
 		return err
 	}
 
-	workId := response.OpcWorkRequestId
+	// Commented out as part of ticket - https://jira-sd.mc1.oracleiaas.com/browse/OCAS-24108
+	// workId := response.OpcWorkRequestId
 	var identifier *string
 	identifier = response.Id
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
 	// ---- Wait until job finishes ----
-	utils.Logf("[Info] Dump createJob response id: %s,     workReqId: %s ", identifier, workId)
+	// utils.Logf("[Info] Dump createJob response id: %s,     workReqId: %s ", identifier, workId)
 	s.waitForJobCompletion(ctx, identifier, s.D.Timeout(schema.TimeoutCreate))
-	utils.Logf("[Info] Dump createJob response id after wait: %s,     workReqId: %s ", identifier, workId)
+	// utils.Logf("[Info] Dump createJob response id after wait: %s,     workReqId: %s ", identifier, workId)
 
 	s.D.SetId(*identifier)
 	return s.GetWithContext(ctx)
