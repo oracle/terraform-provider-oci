@@ -86,6 +86,11 @@ type ExadbVmCluster struct {
 	// The port number configured for the listener on the Exadata VM cluster on Exascale Infrastructure.
 	ListenerPort *int64 `mandatory:"false" json:"listenerPort"`
 
+	LiveImageVersionDetails *ExadataLiveImageVersionDetails `mandatory:"false" json:"liveImageVersionDetails"`
+
+	// Oracle Linux version for the respective Exadata Image.
+	OracleLinuxVersion *string `mandatory:"false" json:"oracleLinuxVersion"`
+
 	// The date and time that the Exadata VM cluster on Exascale Infrastructure was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 

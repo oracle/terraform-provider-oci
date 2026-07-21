@@ -35,6 +35,12 @@ type LogAnalyticsExtendedField struct {
 
 	// The extended field unique identifier.
 	ExtendedFieldId *int64 `mandatory:"false" json:"extendedFieldId"`
+
+	// The field unit in the log entry.
+	LogUnit *string `mandatory:"false" json:"logUnit"`
+
+	// The field unit in storage.
+	StorageUnit *string `mandatory:"false" json:"storageUnit"`
 }
 
 func (m LogAnalyticsExtendedField) String() string {

@@ -96,11 +96,23 @@ type ExadataInfrastructureSummary struct {
 	// The IP address for the second control plane server.
 	CloudControlPlaneServer2 *string `mandatory:"false" json:"cloudControlPlaneServer2"`
 
+	// The IPv6 address for the first control plane server.
+	Ipv6CloudControlPlaneServer1 *string `mandatory:"false" json:"ipv6CloudControlPlaneServer1"`
+
+	// The IPv6 address for the second control plane server.
+	Ipv6CloudControlPlaneServer2 *string `mandatory:"false" json:"ipv6CloudControlPlaneServer2"`
+
 	// The netmask for the control plane network.
 	Netmask *string `mandatory:"false" json:"netmask"`
 
 	// The gateway for the control plane network.
 	Gateway *string `mandatory:"false" json:"gateway"`
+
+	// The IPv6 prefix, in CIDR notation, for the control plane network.
+	Ipv6Prefix *string `mandatory:"false" json:"ipv6Prefix"`
+
+	// The IPv6 gateway for the control plane network.
+	Ipv6Gateway *string `mandatory:"false" json:"ipv6Gateway"`
 
 	// The CIDR block for the Exadata administration network.
 	AdminNetworkCIDR *string `mandatory:"false" json:"adminNetworkCIDR"`
@@ -108,13 +120,13 @@ type ExadataInfrastructureSummary struct {
 	// The CIDR block for the Exadata InfiniBand interconnect.
 	InfiniBandNetworkCIDR *string `mandatory:"false" json:"infiniBandNetworkCIDR"`
 
-	// The corporate network proxy for access to the control plane network.
+	// The corporate network proxy, specified as an IPv4 address, IPv6 address, or hostname, for access to the control plane network.
 	CorporateProxy *string `mandatory:"false" json:"corporateProxy"`
 
-	// The list of DNS server IP addresses. Maximum of 3 allowed.
+	// The list of DNS server IPv4 or IPv6 addresses. Maximum of 3 allowed.
 	DnsServer []string `mandatory:"false" json:"dnsServer"`
 
-	// The list of NTP server IP addresses. Maximum of 3 allowed.
+	// The list of NTP server IPv4 or IPv6 addresses. Maximum of 3 allowed.
 	NtpServer []string `mandatory:"false" json:"ntpServer"`
 
 	// The date and time the Exadata infrastructure was created.

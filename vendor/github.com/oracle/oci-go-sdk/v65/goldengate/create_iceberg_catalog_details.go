@@ -50,6 +50,10 @@ func (m *createicebergcatalogdetails) UnmarshalPolymorphicJSON(data []byte) (int
 
 	var err error
 	switch m.CatalogType {
+	case "OADC":
+		mm := CreateOracleAiDataCatalogIcebergCatalogDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "POLARIS":
 		mm := CreatePolarisIcebergCatalogDetails{}
 		err = json.Unmarshal(data, &mm)

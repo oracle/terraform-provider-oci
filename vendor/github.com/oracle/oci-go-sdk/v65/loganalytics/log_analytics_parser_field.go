@@ -47,6 +47,15 @@ type LogAnalyticsParserField struct {
 
 	// List of actions/operations to be performed while fetching or parsing the logs.
 	Actions []ParserAction `mandatory:"false" json:"actions"`
+
+	// The field unit in the log entry.
+	LogUnit *string `mandatory:"false" json:"logUnit"`
+
+	// The field unit in storage.
+	StorageUnit *string `mandatory:"false" json:"storageUnit"`
+
+	// Flag indicating if this mapping is Oracle-defined (true) or user-defined (false).
+	IsSystem *bool `mandatory:"false" json:"isSystem"`
 }
 
 func (m LogAnalyticsParserField) String() string {

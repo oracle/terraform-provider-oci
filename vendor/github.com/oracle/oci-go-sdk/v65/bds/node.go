@@ -60,6 +60,9 @@ type Node struct {
 	// The OCID of the image from which the node was created.
 	ImageId *string `mandatory:"false" json:"imageId"`
 
+	// The OCID of the Compute capacity reservation used by this node.
+	ComputeCapacityReservationId *string `mandatory:"false" json:"computeCapacityReservationId"`
+
 	// The time the cluster was updated, shown as an RFC 3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 

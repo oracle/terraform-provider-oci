@@ -108,6 +108,9 @@ type ComputeCluster struct {
 	// The paths to init scripts that will be executed in the order of definition
 	InitScripts []string `mandatory:"false" json:"initScripts"`
 
+	// The YAML file paths to import into the Compute Cluster.
+	YamlPaths []string `mandatory:"false" json:"yamlPaths"`
+
 	// List of networkConfigurationIds for the cluster
 	NetworkConfigurationIds []string `mandatory:"false" json:"networkConfigurationIds"`
 

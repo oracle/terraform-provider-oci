@@ -342,6 +342,9 @@ const (
 	DedicatedAiClusterUnitShapeMetaB200X2      DedicatedAiClusterUnitShapeEnum = "META_B200_X2"
 	DedicatedAiClusterUnitShapeMetaB200X4      DedicatedAiClusterUnitShapeEnum = "META_B200_X4"
 	DedicatedAiClusterUnitShapeMetaB200X8      DedicatedAiClusterUnitShapeEnum = "META_B200_X8"
+	DedicatedAiClusterUnitShapeCohereB300X1    DedicatedAiClusterUnitShapeEnum = "COHERE_B300_X1"
+	DedicatedAiClusterUnitShapeMetaB300X1      DedicatedAiClusterUnitShapeEnum = "META_B300_X1"
+	DedicatedAiClusterUnitShapeOaiB300X1       DedicatedAiClusterUnitShapeEnum = "OAI_B300_X1"
 	DedicatedAiClusterUnitShapeLargeCohereV3   DedicatedAiClusterUnitShapeEnum = "LARGE_COHERE_V3"
 	DedicatedAiClusterUnitShapeRerankCohere    DedicatedAiClusterUnitShapeEnum = "RERANK_COHERE"
 	DedicatedAiClusterUnitShapeSmallGenericV1  DedicatedAiClusterUnitShapeEnum = "SMALL_GENERIC_V1"
@@ -445,6 +448,9 @@ var mappingDedicatedAiClusterUnitShapeEnum = map[string]DedicatedAiClusterUnitSh
 	"META_B200_X2":       DedicatedAiClusterUnitShapeMetaB200X2,
 	"META_B200_X4":       DedicatedAiClusterUnitShapeMetaB200X4,
 	"META_B200_X8":       DedicatedAiClusterUnitShapeMetaB200X8,
+	"COHERE_B300_X1":     DedicatedAiClusterUnitShapeCohereB300X1,
+	"META_B300_X1":       DedicatedAiClusterUnitShapeMetaB300X1,
+	"OAI_B300_X1":        DedicatedAiClusterUnitShapeOaiB300X1,
 	"LARGE_COHERE_V3":    DedicatedAiClusterUnitShapeLargeCohereV3,
 	"RERANK_COHERE":      DedicatedAiClusterUnitShapeRerankCohere,
 	"SMALL_GENERIC_V1":   DedicatedAiClusterUnitShapeSmallGenericV1,
@@ -548,6 +554,9 @@ var mappingDedicatedAiClusterUnitShapeEnumLowerCase = map[string]DedicatedAiClus
 	"meta_b200_x2":       DedicatedAiClusterUnitShapeMetaB200X2,
 	"meta_b200_x4":       DedicatedAiClusterUnitShapeMetaB200X4,
 	"meta_b200_x8":       DedicatedAiClusterUnitShapeMetaB200X8,
+	"cohere_b300_x1":     DedicatedAiClusterUnitShapeCohereB300X1,
+	"meta_b300_x1":       DedicatedAiClusterUnitShapeMetaB300X1,
+	"oai_b300_x1":        DedicatedAiClusterUnitShapeOaiB300X1,
 	"large_cohere_v3":    DedicatedAiClusterUnitShapeLargeCohereV3,
 	"rerank_cohere":      DedicatedAiClusterUnitShapeRerankCohere,
 	"small_generic_v1":   DedicatedAiClusterUnitShapeSmallGenericV1,
@@ -662,6 +671,9 @@ func GetDedicatedAiClusterUnitShapeEnumStringValues() []string {
 		"META_B200_X2",
 		"META_B200_X4",
 		"META_B200_X8",
+		"COHERE_B300_X1",
+		"META_B300_X1",
+		"OAI_B300_X1",
 		"LARGE_COHERE_V3",
 		"RERANK_COHERE",
 		"SMALL_GENERIC_V1",

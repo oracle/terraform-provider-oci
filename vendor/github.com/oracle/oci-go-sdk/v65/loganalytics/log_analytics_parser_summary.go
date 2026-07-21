@@ -116,6 +116,9 @@ type LogAnalyticsParserSummary struct {
 
 	// A flag indicating whether the parser is positionally aware.
 	IsPositionAware *bool `mandatory:"false" json:"isPositionAware"`
+
+	// Additional example content.
+	AdditionalExampleContent *string `mandatory:"false" json:"additionalExampleContent"`
 }
 
 func (m LogAnalyticsParserSummary) String() string {

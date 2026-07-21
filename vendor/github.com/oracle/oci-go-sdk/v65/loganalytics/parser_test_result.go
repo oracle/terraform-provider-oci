@@ -35,6 +35,9 @@ type ParserTestResult struct {
 
 	// The test violations.
 	Violations []Violation `mandatory:"false" json:"violations"`
+
+	// Additional example content.
+	AdditionalExampleContent *string `mandatory:"false" json:"additionalExampleContent"`
 }
 
 func (m ParserTestResult) String() string {

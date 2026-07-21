@@ -356,6 +356,7 @@ type AutonomousDatabase struct {
 	TimeOfNextRefresh *common.SDKTime `mandatory:"false" json:"timeOfNextRefresh"`
 
 	// Indicates the Autonomous AI Database mode. The database can be opened in `READ_ONLY` or `READ_WRITE` mode.
+	// By default, standby databases are in `STANDBY` mode, which does not allow read or write access.
 	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	OpenMode AutonomousDatabaseOpenModeEnum `mandatory:"false" json:"openMode,omitempty"`
 
@@ -1715,18 +1716,21 @@ type AutonomousDatabaseOpenModeEnum string
 
 // Set of constants representing the allowable values for AutonomousDatabaseOpenModeEnum
 const (
-	AutonomousDatabaseOpenModeOnly  AutonomousDatabaseOpenModeEnum = "READ_ONLY"
-	AutonomousDatabaseOpenModeWrite AutonomousDatabaseOpenModeEnum = "READ_WRITE"
+	AutonomousDatabaseOpenModeReadOnly  AutonomousDatabaseOpenModeEnum = "READ_ONLY"
+	AutonomousDatabaseOpenModeReadWrite AutonomousDatabaseOpenModeEnum = "READ_WRITE"
+	AutonomousDatabaseOpenModeStandby   AutonomousDatabaseOpenModeEnum = "STANDBY"
 )
 
 var mappingAutonomousDatabaseOpenModeEnum = map[string]AutonomousDatabaseOpenModeEnum{
-	"READ_ONLY":  AutonomousDatabaseOpenModeOnly,
-	"READ_WRITE": AutonomousDatabaseOpenModeWrite,
+	"READ_ONLY":  AutonomousDatabaseOpenModeReadOnly,
+	"READ_WRITE": AutonomousDatabaseOpenModeReadWrite,
+	"STANDBY":    AutonomousDatabaseOpenModeStandby,
 }
 
 var mappingAutonomousDatabaseOpenModeEnumLowerCase = map[string]AutonomousDatabaseOpenModeEnum{
-	"read_only":  AutonomousDatabaseOpenModeOnly,
-	"read_write": AutonomousDatabaseOpenModeWrite,
+	"read_only":  AutonomousDatabaseOpenModeReadOnly,
+	"read_write": AutonomousDatabaseOpenModeReadWrite,
+	"standby":    AutonomousDatabaseOpenModeStandby,
 }
 
 // GetAutonomousDatabaseOpenModeEnumValues Enumerates the set of values for AutonomousDatabaseOpenModeEnum
@@ -1743,6 +1747,7 @@ func GetAutonomousDatabaseOpenModeEnumStringValues() []string {
 	return []string{
 		"READ_ONLY",
 		"READ_WRITE",
+		"STANDBY",
 	}
 }
 

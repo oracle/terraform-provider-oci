@@ -91,6 +91,67 @@ func (client *SubscriptionClient) ConfigurationProvider() *common.ConfigurationP
 	return client.config
 }
 
+// CancelSubscription Requests cancellation of a Subscription. The subscription transitions to PendingCancellation
+// and remains active until the end of the current billing cycle, at which point it transitions
+// to Canceled. The subscription must be in the Active state to be canceled.
+// A default retry strategy applies to this operation CancelSubscription()
+func (client SubscriptionClient) CancelSubscription(ctx context.Context, request CancelSubscriptionRequest) (response CancelSubscriptionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.cancelSubscription, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CancelSubscriptionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CancelSubscriptionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CancelSubscriptionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CancelSubscriptionResponse")
+	}
+	return
+}
+
+// cancelSubscription implements the OCIOperation interface (enables retrying operations)
+func (client SubscriptionClient) cancelSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subscriptions/{subscriptionId}/actions/cancel", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CancelSubscriptionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "subscription", "CancelSubscription")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/Subscription/CancelSubscription"
+		err = common.PostProcessServiceError(err, "Subscription", "CancelSubscription", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CancelWorkRequest Cancels a work request.
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client SubscriptionClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {

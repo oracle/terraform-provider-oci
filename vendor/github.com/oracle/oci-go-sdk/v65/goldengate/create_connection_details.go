@@ -183,6 +183,10 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CreateAzureDataLakeStorageConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ORACLE_AI_DATA_CATALOG_STORAGE":
+		mm := CreateOracleAiDataCatalogStorageConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GOOGLE_PUBSUB":
 		mm := CreateGooglePubSubConnectionDetails{}
 		err = json.Unmarshal(data, &mm)

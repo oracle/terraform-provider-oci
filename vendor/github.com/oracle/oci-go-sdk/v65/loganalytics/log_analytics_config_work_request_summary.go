@@ -75,6 +75,7 @@ const (
 	LogAnalyticsConfigWorkRequestSummaryOperationTypeDeleteLookup          LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = "DELETE_LOOKUP"
 	LogAnalyticsConfigWorkRequestSummaryOperationTypeEnableIngestTimeRule  LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = "ENABLE_INGEST_TIME_RULE"
 	LogAnalyticsConfigWorkRequestSummaryOperationTypeDisableIngestTimeRule LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = "DISABLE_INGEST_TIME_RULE"
+	LogAnalyticsConfigWorkRequestSummaryOperationTypeGenerateAiContent     LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = "GENERATE_AI_CONTENT"
 )
 
 var mappingLogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = map[string]LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum{
@@ -85,6 +86,7 @@ var mappingLogAnalyticsConfigWorkRequestSummaryOperationTypeEnum = map[string]Lo
 	"DELETE_LOOKUP":            LogAnalyticsConfigWorkRequestSummaryOperationTypeDeleteLookup,
 	"ENABLE_INGEST_TIME_RULE":  LogAnalyticsConfigWorkRequestSummaryOperationTypeEnableIngestTimeRule,
 	"DISABLE_INGEST_TIME_RULE": LogAnalyticsConfigWorkRequestSummaryOperationTypeDisableIngestTimeRule,
+	"GENERATE_AI_CONTENT":      LogAnalyticsConfigWorkRequestSummaryOperationTypeGenerateAiContent,
 }
 
 var mappingLogAnalyticsConfigWorkRequestSummaryOperationTypeEnumLowerCase = map[string]LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum{
@@ -95,6 +97,7 @@ var mappingLogAnalyticsConfigWorkRequestSummaryOperationTypeEnumLowerCase = map[
 	"delete_lookup":            LogAnalyticsConfigWorkRequestSummaryOperationTypeDeleteLookup,
 	"enable_ingest_time_rule":  LogAnalyticsConfigWorkRequestSummaryOperationTypeEnableIngestTimeRule,
 	"disable_ingest_time_rule": LogAnalyticsConfigWorkRequestSummaryOperationTypeDisableIngestTimeRule,
+	"generate_ai_content":      LogAnalyticsConfigWorkRequestSummaryOperationTypeGenerateAiContent,
 }
 
 // GetLogAnalyticsConfigWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for LogAnalyticsConfigWorkRequestSummaryOperationTypeEnum
@@ -116,6 +119,7 @@ func GetLogAnalyticsConfigWorkRequestSummaryOperationTypeEnumStringValues() []st
 		"DELETE_LOOKUP",
 		"ENABLE_INGEST_TIME_RULE",
 		"DISABLE_INGEST_TIME_RULE",
+		"GENERATE_AI_CONTENT",
 	}
 }
 

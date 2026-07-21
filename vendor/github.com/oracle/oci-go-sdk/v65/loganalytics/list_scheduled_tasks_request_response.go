@@ -55,6 +55,19 @@ type ListScheduledTasksRequest struct {
 	// The target service to use for filtering.
 	TargetService *string `mandatory:"false" contributesTo:"query" name:"targetService"`
 
+	// A filter to return only resources that match the given log source name exactly.
+	LogSourceName *string `mandatory:"false" contributesTo:"query" name:"logSourceName"`
+
+	// A filter to return only resources whose log source name contains the substring.
+	LogSourceNameContains *string `mandatory:"false" contributesTo:"query" name:"logSourceNameContains"`
+
+	// A filter to return only resources that match the given status exactly.
+	LastExecutionStatus ListScheduledTasksLastExecutionStatusEnum `mandatory:"false" contributesTo:"query" name:"lastExecutionStatus" omitEmpty:"true"`
+
+	// The complex flag used for filtering.  Only items with the specified complex value
+	// will be returned.
+	IsComplex *bool `mandatory:"false" contributesTo:"query" name:"isComplex"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -99,6 +112,9 @@ func (request ListScheduledTasksRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListScheduledTasksSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListScheduledTasksSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListScheduledTasksLastExecutionStatusEnum(string(request.LastExecutionStatus)); !ok && request.LastExecutionStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LastExecutionStatus: %s. Supported values are: %s.", request.LastExecutionStatus, strings.Join(GetListScheduledTasksLastExecutionStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -269,5 +285,47 @@ func GetListScheduledTasksSortByEnumStringValues() []string {
 // GetMappingListScheduledTasksSortByEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListScheduledTasksSortByEnum(val string) (ListScheduledTasksSortByEnum, bool) {
 	enum, ok := mappingListScheduledTasksSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListScheduledTasksLastExecutionStatusEnum Enum with underlying type: string
+type ListScheduledTasksLastExecutionStatusEnum string
+
+// Set of constants representing the allowable values for ListScheduledTasksLastExecutionStatusEnum
+const (
+	ListScheduledTasksLastExecutionStatusFailed    ListScheduledTasksLastExecutionStatusEnum = "FAILED"
+	ListScheduledTasksLastExecutionStatusSucceeded ListScheduledTasksLastExecutionStatusEnum = "SUCCEEDED"
+)
+
+var mappingListScheduledTasksLastExecutionStatusEnum = map[string]ListScheduledTasksLastExecutionStatusEnum{
+	"FAILED":    ListScheduledTasksLastExecutionStatusFailed,
+	"SUCCEEDED": ListScheduledTasksLastExecutionStatusSucceeded,
+}
+
+var mappingListScheduledTasksLastExecutionStatusEnumLowerCase = map[string]ListScheduledTasksLastExecutionStatusEnum{
+	"failed":    ListScheduledTasksLastExecutionStatusFailed,
+	"succeeded": ListScheduledTasksLastExecutionStatusSucceeded,
+}
+
+// GetListScheduledTasksLastExecutionStatusEnumValues Enumerates the set of values for ListScheduledTasksLastExecutionStatusEnum
+func GetListScheduledTasksLastExecutionStatusEnumValues() []ListScheduledTasksLastExecutionStatusEnum {
+	values := make([]ListScheduledTasksLastExecutionStatusEnum, 0)
+	for _, v := range mappingListScheduledTasksLastExecutionStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListScheduledTasksLastExecutionStatusEnumStringValues Enumerates the set of values in String for ListScheduledTasksLastExecutionStatusEnum
+func GetListScheduledTasksLastExecutionStatusEnumStringValues() []string {
+	return []string{
+		"FAILED",
+		"SUCCEEDED",
+	}
+}
+
+// GetMappingListScheduledTasksLastExecutionStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListScheduledTasksLastExecutionStatusEnum(val string) (ListScheduledTasksLastExecutionStatusEnum, bool) {
+	enum, ok := mappingListScheduledTasksLastExecutionStatusEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

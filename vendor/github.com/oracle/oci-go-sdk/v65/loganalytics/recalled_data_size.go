@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// RecalledDataSize This is the recall related data size for the given timeframe
+// RecalledDataSize This is the recall related data size for the given timeframe. It is for LOG data only.
 type RecalledDataSize struct {
 
 	// This is the start of the time range of the archival data

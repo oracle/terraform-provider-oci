@@ -33,6 +33,12 @@ type VmNetworkDetails struct {
 	// The network gateway.
 	Gateway *string `mandatory:"false" json:"gateway"`
 
+	// The IPv6 prefix, in CIDR notation, for the network.
+	Ipv6Prefix *string `mandatory:"false" json:"ipv6Prefix"`
+
+	// The IPv6 gateway for the network.
+	Ipv6Gateway *string `mandatory:"false" json:"ipv6Gateway"`
+
 	// The network domain name.
 	DomainName *string `mandatory:"false" json:"domainName"`
 }

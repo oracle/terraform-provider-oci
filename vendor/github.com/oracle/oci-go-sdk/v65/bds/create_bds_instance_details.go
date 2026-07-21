@@ -53,6 +53,9 @@ type CreateBdsInstanceDetails struct {
 	// Pre-authenticated URL of the script in Object Store that is downloaded and executed.
 	BootstrapScriptUrl *string `mandatory:"false" json:"bootstrapScriptUrl"`
 
+	// Optional BDS capacity reservation configurations to associate with the cluster during creation.
+	BdsCapacityReservationConfigurations []CreateBdsCapacityReservationConfigurationDetails `mandatory:"false" json:"bdsCapacityReservationConfigurations"`
+
 	// The user-defined kerberos realm name.
 	KerberosRealmName *string `mandatory:"false" json:"kerberosRealmName"`
 

@@ -30,6 +30,12 @@ type NodeDetails struct {
 	// The node virtual IP (VIP) address.
 	Vip *string `mandatory:"false" json:"vip"`
 
+	// The node IPv6 address.
+	Ipv6Ip *string `mandatory:"false" json:"ipv6Ip"`
+
+	// The node virtual IPv6 (VIP) address.
+	Ipv6Vip *string `mandatory:"false" json:"ipv6Vip"`
+
 	// The current state of the VM cluster network nodes.
 	// CREATING - The resource is being created
 	// REQUIRES_VALIDATION - The resource is created and may not be usable until it is validated.

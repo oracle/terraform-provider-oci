@@ -178,6 +178,7 @@ const (
 	ListConnectionsAssignableDeploymentTypeDataTransforms             ListConnectionsAssignableDeploymentTypeEnum = "DATA_TRANSFORMS"
 	ListConnectionsAssignableDeploymentTypeVeridataServer             ListConnectionsAssignableDeploymentTypeEnum = "VERIDATA_SERVER"
 	ListConnectionsAssignableDeploymentTypeVeridataAgent              ListConnectionsAssignableDeploymentTypeEnum = "VERIDATA_AGENT"
+	ListConnectionsAssignableDeploymentTypeAiDataCatalog              ListConnectionsAssignableDeploymentTypeEnum = "AI_DATA_CATALOG"
 )
 
 var mappingListConnectionsAssignableDeploymentTypeEnum = map[string]ListConnectionsAssignableDeploymentTypeEnum{
@@ -193,6 +194,7 @@ var mappingListConnectionsAssignableDeploymentTypeEnum = map[string]ListConnecti
 	"DATA_TRANSFORMS":              ListConnectionsAssignableDeploymentTypeDataTransforms,
 	"VERIDATA_SERVER":              ListConnectionsAssignableDeploymentTypeVeridataServer,
 	"VERIDATA_AGENT":               ListConnectionsAssignableDeploymentTypeVeridataAgent,
+	"AI_DATA_CATALOG":              ListConnectionsAssignableDeploymentTypeAiDataCatalog,
 }
 
 var mappingListConnectionsAssignableDeploymentTypeEnumLowerCase = map[string]ListConnectionsAssignableDeploymentTypeEnum{
@@ -208,6 +210,7 @@ var mappingListConnectionsAssignableDeploymentTypeEnumLowerCase = map[string]Lis
 	"data_transforms":              ListConnectionsAssignableDeploymentTypeDataTransforms,
 	"veridata_server":              ListConnectionsAssignableDeploymentTypeVeridataServer,
 	"veridata_agent":               ListConnectionsAssignableDeploymentTypeVeridataAgent,
+	"ai_data_catalog":              ListConnectionsAssignableDeploymentTypeAiDataCatalog,
 }
 
 // GetListConnectionsAssignableDeploymentTypeEnumValues Enumerates the set of values for ListConnectionsAssignableDeploymentTypeEnum
@@ -234,6 +237,7 @@ func GetListConnectionsAssignableDeploymentTypeEnumStringValues() []string {
 		"DATA_TRANSFORMS",
 		"VERIDATA_SERVER",
 		"VERIDATA_AGENT",
+		"AI_DATA_CATALOG",
 	}
 }
 

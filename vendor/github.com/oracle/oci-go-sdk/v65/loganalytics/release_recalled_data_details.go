@@ -27,7 +27,7 @@ type ReleaseRecalledDataDetails struct {
 	// This is the start of the time interval
 	TimeDataStarted *common.SDKTime `mandatory:"true" json:"timeDataStarted"`
 
-	// This is the type of the recalled data to be released
+	// This is the type of the recalled data to be released. If datatype is not specified, the endpoint is for LOG datatype only.
 	DataType StorageDataTypeEnum `mandatory:"false" json:"dataType,omitempty"`
 
 	// This is the id for the recalled data collection to be released.

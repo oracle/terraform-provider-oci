@@ -274,7 +274,64 @@ func (client LogAnalyticsClient) appendLookupData(ctx context.Context, request c
 	return response, err
 }
 
+// ApplyCollectionRule Applies the collection rule on the specified input such as an entity.
+// A default retry strategy applies to this operation ApplyCollectionRule()
+func (client LogAnalyticsClient) ApplyCollectionRule(ctx context.Context, request ApplyCollectionRuleRequest) (response ApplyCollectionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.applyCollectionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ApplyCollectionRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ApplyCollectionRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ApplyCollectionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ApplyCollectionRuleResponse")
+	}
+	return
+}
+
+// applyCollectionRule implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) applyCollectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/collectionRules/{collectionRuleId}/actions/apply", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ApplyCollectionRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ApplyCollectionRule")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/CollectionRule/ApplyCollectionRule"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ApplyCollectionRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AssignEncryptionKey This API submits a work request to assign customer encryption key.
+// The API is applicable to all data for the tenancy.
 func (client LogAnalyticsClient) AssignEncryptionKey(ctx context.Context, request AssignEncryptionKeyRequest) (response AssignEncryptionKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -437,6 +494,67 @@ func (client LogAnalyticsClient) cancelQueryWorkRequest(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/QueryWorkRequest/CancelQueryWorkRequest"
 		err = common.PostProcessServiceError(err, "LogAnalytics", "CancelQueryWorkRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeCollectionRuleCompartment Moves the specified collection rule to a different compartment.
+// A default retry strategy applies to this operation ChangeCollectionRuleCompartment()
+func (client LogAnalyticsClient) ChangeCollectionRuleCompartment(ctx context.Context, request ChangeCollectionRuleCompartmentRequest) (response ChangeCollectionRuleCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeCollectionRuleCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeCollectionRuleCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeCollectionRuleCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeCollectionRuleCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeCollectionRuleCompartmentResponse")
+	}
+	return
+}
+
+// changeCollectionRuleCompartment implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) changeCollectionRuleCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/collectionRules/{collectionRuleId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeCollectionRuleCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ChangeCollectionRuleCompartment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/CollectionRule/ChangeCollectionRuleCompartment"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ChangeCollectionRuleCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -864,6 +982,67 @@ func (client LogAnalyticsClient) changeScheduledTaskCompartment(ctx context.Cont
 	return response, err
 }
 
+// ChangeTemplateCompartment Moves the specified template to a different compartment.
+// A default retry strategy applies to this operation ChangeTemplateCompartment()
+func (client LogAnalyticsClient) ChangeTemplateCompartment(ctx context.Context, request ChangeTemplateCompartmentRequest) (response ChangeTemplateCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeTemplateCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeTemplateCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeTemplateCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeTemplateCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeTemplateCompartmentResponse")
+	}
+	return
+}
+
+// changeTemplateCompartment implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) changeTemplateCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/templates/{templateId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeTemplateCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ChangeTemplateCompartment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsTemplate/ChangeTemplateCompartment"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ChangeTemplateCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // Clean Clean accumulated acceleration data stored for the accelerated saved search.
 // The ScheduledTask taskType must be ACCELERATION.
 // A default retry strategy applies to this operation Clean()
@@ -924,6 +1103,69 @@ func (client LogAnalyticsClient) clean(ctx context.Context, request common.OCIRe
 	return response, err
 }
 
+// CloseLogIndex Close or open log indexes for a specific dataType.
+// isLogIndexClosed indicates the desired state (true = closed, false = open).
+// items is a list of log‑index numbers that should be affected
+// A default retry strategy applies to this operation CloseLogIndex()
+func (client LogAnalyticsClient) CloseLogIndex(ctx context.Context, request CloseLogIndexRequest) (response CloseLogIndexResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.closeLogIndex, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CloseLogIndexResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CloseLogIndexResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CloseLogIndexResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CloseLogIndexResponse")
+	}
+	return
+}
+
+// closeLogIndex implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) closeLogIndex(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/actions/closeLogIndex", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CloseLogIndexResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "CloseLogIndex")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/CloseLogIndex"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "CloseLogIndex", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CompareContent Returns the difference between the two input payloads, including intraline differences.
 // A default retry strategy applies to this operation CompareContent()
 func (client LogAnalyticsClient) CompareContent(ctx context.Context, request CompareContentRequest) (response CompareContentResponse, err error) {
@@ -973,6 +1215,67 @@ func (client LogAnalyticsClient) compareContent(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/QueryDetails/CompareContent"
 		err = common.PostProcessServiceError(err, "LogAnalytics", "CompareContent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateCollectionRule Creates a collection rule with the specified metadata, and other information such as association and template details.
+// A default retry strategy applies to this operation CreateCollectionRule()
+func (client LogAnalyticsClient) CreateCollectionRule(ctx context.Context, request CreateCollectionRuleRequest) (response CreateCollectionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createCollectionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateCollectionRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateCollectionRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateCollectionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateCollectionRuleResponse")
+	}
+	return
+}
+
+// createCollectionRule implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) createCollectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/collectionRules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateCollectionRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "CreateCollectionRule")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/CollectionRule/CreateCollectionRule"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "CreateCollectionRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -1400,6 +1703,67 @@ func (client LogAnalyticsClient) createScheduledTask(ctx context.Context, reques
 	return response, err
 }
 
+// CreateTemplate Creates a template with the specified metadata and content.
+// A default retry strategy applies to this operation CreateTemplate()
+func (client LogAnalyticsClient) CreateTemplate(ctx context.Context, request CreateTemplateRequest) (response CreateTemplateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createTemplate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateTemplateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateTemplateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateTemplateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateTemplateResponse")
+	}
+	return
+}
+
+// createTemplate implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) createTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/templates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateTemplateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "CreateTemplate")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsTemplate/CreateTemplate"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "CreateTemplate", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteAssociations Deletes the associations between the sources and entities specified.
 // A default retry strategy applies to this operation DeleteAssociations()
 func (client LogAnalyticsClient) DeleteAssociations(ctx context.Context, request DeleteAssociationsRequest) (response DeleteAssociationsResponse, err error) {
@@ -1454,6 +1818,61 @@ func (client LogAnalyticsClient) deleteAssociations(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsAssociation/DeleteAssociations"
 		err = common.PostProcessServiceError(err, "LogAnalytics", "DeleteAssociations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteCollectionRule Deletes the specified collection rule. You may choose to cascade, which may result in actions
+// such as associations (that were created by the collection rule) getting deleted and/or log collections getting stopped.
+// A default retry strategy applies to this operation DeleteCollectionRule()
+func (client LogAnalyticsClient) DeleteCollectionRule(ctx context.Context, request DeleteCollectionRuleRequest) (response DeleteCollectionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteCollectionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteCollectionRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteCollectionRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteCollectionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteCollectionRuleResponse")
+	}
+	return
+}
+
+// deleteCollectionRule implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) deleteCollectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/collectionRules/{collectionRuleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteCollectionRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DeleteCollectionRule")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/CollectionRule/DeleteCollectionRule"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DeleteCollectionRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -2131,6 +2550,65 @@ func (client LogAnalyticsClient) deleteSource(ctx context.Context, request commo
 	return response, err
 }
 
+// DeleteTemplate Deletes the template with the specified ocid.
+// A default retry strategy applies to this operation DeleteTemplate()
+func (client LogAnalyticsClient) DeleteTemplate(ctx context.Context, request DeleteTemplateRequest) (response DeleteTemplateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteTemplate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteTemplateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteTemplateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteTemplateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteTemplateResponse")
+	}
+	return
+}
+
+// deleteTemplate implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) deleteTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namespaces/{namespaceName}/templates/{templateId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteTemplateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DeleteTemplate")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsTemplate/DeleteTemplate"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DeleteTemplate", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteUpload Deletes an Upload by its reference.
 // It deletes all the logs in storage asscoiated with the upload and the corresponding upload metadata.
 func (client LogAnalyticsClient) DeleteUpload(ctx context.Context, request DeleteUploadRequest) (response DeleteUploadResponse, err error) {
@@ -2292,7 +2770,7 @@ func (client LogAnalyticsClient) deleteUploadWarning(ctx context.Context, reques
 	return response, err
 }
 
-// DisableArchiving This API disables archiving.
+// DisableArchiving This API disables archiving for a specific data type (LOG, APM).
 // A default retry strategy applies to this operation DisableArchiving()
 func (client LogAnalyticsClient) DisableArchiving(ctx context.Context, request DisableArchivingRequest) (response DisableArchivingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2402,6 +2880,60 @@ func (client LogAnalyticsClient) disableAutoAssociation(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/DisableAutoAssociation"
 		err = common.PostProcessServiceError(err, "LogAnalytics", "DisableAutoAssociation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DisableCollectionRule Disables the specified collection rule.
+// A default retry strategy applies to this operation DisableCollectionRule()
+func (client LogAnalyticsClient) DisableCollectionRule(ctx context.Context, request DisableCollectionRuleRequest) (response DisableCollectionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.disableCollectionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableCollectionRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableCollectionRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableCollectionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableCollectionRuleResponse")
+	}
+	return
+}
+
+// disableCollectionRule implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) disableCollectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/collectionRules/{collectionRuleId}/actions/disable", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableCollectionRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "DisableCollectionRule")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/CollectionRule/DisableCollectionRule"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "DisableCollectionRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -2524,7 +3056,7 @@ func (client LogAnalyticsClient) disableSourceEventTypes(ctx context.Context, re
 	return response, err
 }
 
-// EnableArchiving THis API enables archiving.
+// EnableArchiving This API enables archiving for a specific data type (LOG, APM).
 // A default retry strategy applies to this operation EnableArchiving()
 func (client LogAnalyticsClient) EnableArchiving(ctx context.Context, request EnableArchivingRequest) (response EnableArchivingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2634,6 +3166,60 @@ func (client LogAnalyticsClient) enableAutoAssociation(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/EnableAutoAssociation"
 		err = common.PostProcessServiceError(err, "LogAnalytics", "EnableAutoAssociation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableCollectionRule Enables the specified collection rule.
+// A default retry strategy applies to this operation EnableCollectionRule()
+func (client LogAnalyticsClient) EnableCollectionRule(ctx context.Context, request EnableCollectionRuleRequest) (response EnableCollectionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.enableCollectionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableCollectionRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableCollectionRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableCollectionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableCollectionRuleResponse")
+	}
+	return
+}
+
+// enableCollectionRule implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) enableCollectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/collectionRules/{collectionRuleId}/actions/enable", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableCollectionRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "EnableCollectionRule")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/CollectionRule/EnableCollectionRule"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "EnableCollectionRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -3222,6 +3808,61 @@ func (client LogAnalyticsClient) filter(ctx context.Context, request common.OCIR
 	return response, err
 }
 
+// GenerateAIContent Generate the Log Analytics content, for example Eligible Insights or Dashboard metadata for a given Log Source.
+func (client LogAnalyticsClient) GenerateAIContent(ctx context.Context, request GenerateAIContentRequest) (response GenerateAIContentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.generateAIContent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GenerateAIContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GenerateAIContentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateAIContentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateAIContentResponse")
+	}
+	return
+}
+
+// generateAIContent implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) generateAIContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/genAI/actions/generateAIContent", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateAIContentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GenerateAIContent")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/GenAI/GenerateAIContent"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GenerateAIContent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetAssociationSummary Returns the count of source associations for entities in the specified compartment.
 // A default retry strategy applies to this operation GetAssociationSummary()
 func (client LogAnalyticsClient) GetAssociationSummary(ctx context.Context, request GetAssociationSummaryRequest) (response GetAssociationSummaryResponse, err error) {
@@ -3323,6 +3964,60 @@ func (client LogAnalyticsClient) getCategory(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsCategory/GetCategory"
 		err = common.PostProcessServiceError(err, "LogAnalytics", "GetCategory", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCollectionRule Gets detailed information about the specified collection rule.
+// A default retry strategy applies to this operation GetCollectionRule()
+func (client LogAnalyticsClient) GetCollectionRule(ctx context.Context, request GetCollectionRuleRequest) (response GetCollectionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCollectionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCollectionRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCollectionRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCollectionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCollectionRuleResponse")
+	}
+	return
+}
+
+// getCollectionRule implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) getCollectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/collectionRules/{collectionRuleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCollectionRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetCollectionRule")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/CollectionRule/GetCollectionRule"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetCollectionRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -3436,6 +4131,59 @@ func (client LogAnalyticsClient) getConfigWorkRequest(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsConfigWorkRequest/GetConfigWorkRequest"
 		err = common.PostProcessServiceError(err, "LogAnalytics", "GetConfigWorkRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetEntityWorkRequest Returns detailed information about the work request for the specified id.
+func (client LogAnalyticsClient) GetEntityWorkRequest(ctx context.Context, request GetEntityWorkRequestRequest) (response GetEntityWorkRequestResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getEntityWorkRequest, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetEntityWorkRequestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetEntityWorkRequestResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetEntityWorkRequestResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetEntityWorkRequestResponse")
+	}
+	return
+}
+
+// getEntityWorkRequest implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) getEntityWorkRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/entityWorkRequest/{workRequestId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetEntityWorkRequestResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetEntityWorkRequest")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEntityWorkRequest/GetEntityWorkRequest"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetEntityWorkRequest", apiReferenceLink)
 		return response, err
 	}
 
@@ -4735,7 +5483,7 @@ func (client LogAnalyticsClient) getRecallCount(ctx context.Context, request com
 	return response, err
 }
 
-// GetRecalledDataSize This API gets the datasize of recalls for a given timeframe
+// GetRecalledDataSize This API gets the datasize of recalls for a given timeframe. API only applicable to LOG datatype.
 // A default retry strategy applies to this operation GetRecalledDataSize()
 func (client LogAnalyticsClient) GetRecalledDataSize(ctx context.Context, request GetRecalledDataSizeRequest) (response GetRecalledDataSizeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5005,7 +5753,7 @@ func (client LogAnalyticsClient) getSourceSummary(ctx context.Context, request c
 	return response, err
 }
 
-// GetStorage This API gets the storage configuration of a tenancy
+// GetStorage This API gets the storage configuration of a tenancy. API only applicable to LOG datatype.
 // A default retry strategy applies to this operation GetStorage()
 func (client LogAnalyticsClient) GetStorage(ctx context.Context, request GetStorageRequest) (response GetStorageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5059,8 +5807,62 @@ func (client LogAnalyticsClient) getStorage(ctx context.Context, request common.
 	return response, err
 }
 
+// GetStorageConfiguration Returns the storage configuration, archiving policies by data type, log index settings for a tenancy.
+// A default retry strategy applies to this operation GetStorageConfiguration()
+func (client LogAnalyticsClient) GetStorageConfiguration(ctx context.Context, request GetStorageConfigurationRequest) (response GetStorageConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getStorageConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetStorageConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetStorageConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetStorageConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetStorageConfigurationResponse")
+	}
+	return
+}
+
+// getStorageConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) getStorageConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/storageConfiguration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetStorageConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "GetStorageConfiguration")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/StorageConfiguration/GetStorageConfiguration"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "GetStorageConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetStorageUsage This API gets storage usage information of a tenancy.  Storage usage information includes active, archived or recalled
-// data.  The unit of return data is in bytes.
+// data.  The unit of return data is in bytes. API only applicable to LOG datatype.
 // A default retry strategy applies to this operation GetStorageUsage()
 func (client LogAnalyticsClient) GetStorageUsage(ctx context.Context, request GetStorageUsageRequest) (response GetStorageUsageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5553,6 +6355,60 @@ func (client LogAnalyticsClient) listAssociatedEntities(ctx context.Context, req
 	return response, err
 }
 
+// ListAssociations Lists the associations satisfying the specified filters.
+// A default retry strategy applies to this operation ListAssociations()
+func (client LogAnalyticsClient) ListAssociations(ctx context.Context, request ListAssociationsRequest) (response ListAssociationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAssociations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAssociationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAssociationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAssociationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAssociationsResponse")
+	}
+	return
+}
+
+// listAssociations implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) listAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/associations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAssociationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListAssociations")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsAssociation/ListAssociations"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListAssociations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListAutoAssociations Gets information related to auto association for the source with the specified name.
 // A default retry strategy applies to this operation ListAutoAssociations()
 func (client LogAnalyticsClient) ListAutoAssociations(ctx context.Context, request ListAutoAssociationsRequest) (response ListAutoAssociationsResponse, err error) {
@@ -5654,6 +6510,60 @@ func (client LogAnalyticsClient) listCategories(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsCategory/ListCategories"
 		err = common.PostProcessServiceError(err, "LogAnalytics", "ListCategories", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCollectionRules Returns a list of collection rules in a compartment. You may limit the number of collection rules, provide sorting options, and filter the results.
+// A default retry strategy applies to this operation ListCollectionRules()
+func (client LogAnalyticsClient) ListCollectionRules(ctx context.Context, request ListCollectionRulesRequest) (response ListCollectionRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCollectionRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCollectionRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCollectionRulesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCollectionRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCollectionRulesResponse")
+	}
+	return
+}
+
+// listCollectionRules implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) listCollectionRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/collectionRules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCollectionRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListCollectionRules")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/CollectionRule/ListCollectionRules"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListCollectionRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -5769,7 +6679,7 @@ func (client LogAnalyticsClient) listEffectiveProperties(ctx context.Context, re
 	return response, err
 }
 
-// ListEncryptionKeyInfo This API returns the list of customer owned encryption key info.
+// ListEncryptionKeyInfo This API returns the list of customer owned encryption key info. The API is applicable to all data for the tenancy.
 // A default retry strategy applies to this operation ListEncryptionKeyInfo()
 func (client LogAnalyticsClient) ListEncryptionKeyInfo(ctx context.Context, request ListEncryptionKeyInfoRequest) (response ListEncryptionKeyInfoResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6520,7 +7430,63 @@ func (client LogAnalyticsClient) listLogAnalyticsObjectCollectionRules(ctx conte
 	return response, err
 }
 
-// ListLogSets This API returns a list of log sets.
+// ListLogIndexConfigurations Returns the log‑index configuration for each data type that is enabled for the tenancy.
+// The response contains an array of objects with the fields dataType, isLogIndexEnabled,
+// logIndexes, and mappingMechanism.
+// A default retry strategy applies to this operation ListLogIndexConfigurations()
+func (client LogAnalyticsClient) ListLogIndexConfigurations(ctx context.Context, request ListLogIndexConfigurationsRequest) (response ListLogIndexConfigurationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listLogIndexConfigurations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListLogIndexConfigurationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListLogIndexConfigurationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListLogIndexConfigurationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListLogIndexConfigurationsResponse")
+	}
+	return
+}
+
+// listLogIndexConfigurations implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) listLogIndexConfigurations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/storage/logIndexConfigurations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListLogIndexConfigurationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListLogIndexConfigurations")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogIndexConfigurationCollection/ListLogIndexConfigurations"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListLogIndexConfigurations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListLogSets This API returns a list of log sets. API only applicable to LOG datatype.
 // A default retry strategy applies to this operation ListLogSets()
 func (client LogAnalyticsClient) ListLogSets(ctx context.Context, request ListLogSetsRequest) (response ListLogSetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6737,7 +7703,7 @@ func (client LogAnalyticsClient) listNamespaces(ctx context.Context, request com
 	return response, err
 }
 
-// ListOverlappingRecalls This API gets the list of overlapping recalls made in the given timeframe
+// ListOverlappingRecalls This API gets the list of overlapping recalls made in the given timeframe. API only applicable to LOG datatype.
 // A default retry strategy applies to this operation ListOverlappingRecalls()
 func (client LogAnalyticsClient) ListOverlappingRecalls(ctx context.Context, request ListOverlappingRecallsRequest) (response ListOverlappingRecallsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7169,7 +8135,7 @@ func (client LogAnalyticsClient) listRecalledData(ctx context.Context, request c
 	return response, err
 }
 
-// ListRecalledInfo This API returns the list of recalled data of a tenancy.
+// ListRecalledInfo This API returns the list of recalled data of a tenancy. API only applicable to LOG datatype.
 // A default retry strategy applies to this operation ListRecalledInfo()
 func (client LogAnalyticsClient) ListRecalledInfo(ctx context.Context, request ListRecalledInfoRequest) (response ListRecalledInfoResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8034,6 +9000,60 @@ func (client LogAnalyticsClient) listTemplates(ctx context.Context, request comm
 	return response, err
 }
 
+// ListUnits Lists supported units and their types.
+// A default retry strategy applies to this operation ListUnits()
+func (client LogAnalyticsClient) ListUnits(ctx context.Context, request ListUnitsRequest) (response ListUnitsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listUnits, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListUnitsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListUnitsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListUnitsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListUnitsResponse")
+	}
+	return
+}
+
+// listUnits implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) listUnits(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/units", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListUnitsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ListUnits")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsField/ListUnits"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ListUnits", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListUploadFiles Gets list of files in an upload along with its processing state.
 // A default retry strategy applies to this operation ListUploadFiles()
 func (client LogAnalyticsClient) ListUploadFiles(ctx context.Context, request ListUploadFilesRequest) (response ListUploadFilesResponse, err error) {
@@ -8410,6 +9430,68 @@ func (client LogAnalyticsClient) listWorkRequests(ctx context.Context, request c
 	return response, err
 }
 
+// MapLogSetToLogIndex This API maps log sets to log indexes.  If log index is specified, that log index will be used.  Otherwise
+// the log set will be mapped to a random log index.
+// A default retry strategy applies to this operation MapLogSetToLogIndex()
+func (client LogAnalyticsClient) MapLogSetToLogIndex(ctx context.Context, request MapLogSetToLogIndexRequest) (response MapLogSetToLogIndexResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.mapLogSetToLogIndex, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = MapLogSetToLogIndexResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = MapLogSetToLogIndexResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(MapLogSetToLogIndexResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into MapLogSetToLogIndexResponse")
+	}
+	return
+}
+
+// mapLogSetToLogIndex implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) mapLogSetToLogIndex(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/mapLogSetToLogIndex", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response MapLogSetToLogIndexResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "MapLogSetToLogIndex")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/MapLogSetToLogIndex"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "MapLogSetToLogIndex", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // OffboardNamespace Off-boards a tenant from Log Analytics
 func (client LogAnalyticsClient) OffboardNamespace(ctx context.Context, request OffboardNamespaceRequest) (response OffboardNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8575,6 +9657,67 @@ func (client LogAnalyticsClient) parseQuery(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/QueryDetails/ParseQuery"
 		err = common.PostProcessServiceError(err, "LogAnalytics", "ParseQuery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PatchStorageConfiguration Partially updates the storage configuration, archiving policies by data type, and log index settings for a tenancy.
+// A default retry strategy applies to this operation PatchStorageConfiguration()
+func (client LogAnalyticsClient) PatchStorageConfiguration(ctx context.Context, request PatchStorageConfigurationRequest) (response PatchStorageConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.patchStorageConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PatchStorageConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PatchStorageConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PatchStorageConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PatchStorageConfigurationResponse")
+	}
+	return
+}
+
+// patchStorageConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) patchStorageConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/namespaces/{namespaceName}/storageConfiguration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PatchStorageConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "PatchStorageConfiguration")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/StorageConfiguration/PatchStorageConfiguration"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "PatchStorageConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -8799,6 +9942,250 @@ func (client LogAnalyticsClient) query(ctx context.Context, request common.OCIRe
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/QueryDetails/Query"
 		err = common.PostProcessServiceError(err, "LogAnalytics", "Query", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// QueryLogIndexes This API is the simplified version of queryLogIndexesLogSets.
+// It returns only the numeric log‑index identifiers – no log‑set names are included.
+// If logSet is omitted the call returns all log‑indexes that belong to the supplied dataType.
+// A default retry strategy applies to this operation QueryLogIndexes()
+func (client LogAnalyticsClient) QueryLogIndexes(ctx context.Context, request QueryLogIndexesRequest) (response QueryLogIndexesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.queryLogIndexes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = QueryLogIndexesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = QueryLogIndexesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(QueryLogIndexesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into QueryLogIndexesResponse")
+	}
+	return
+}
+
+// queryLogIndexes implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) queryLogIndexes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/queryLogIndexes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response QueryLogIndexesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "QueryLogIndexes")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/QueryLogIndexes"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "QueryLogIndexes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// QueryLogIndexesLogSets Returns the mapping between log indexes and log sets for a given data type.
+// Optional filters let you restrict the result to a specific log index
+// (logIndex) or a specific log set (logSet).
+// A default retry strategy applies to this operation QueryLogIndexesLogSets()
+func (client LogAnalyticsClient) QueryLogIndexesLogSets(ctx context.Context, request QueryLogIndexesLogSetsRequest) (response QueryLogIndexesLogSetsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.queryLogIndexesLogSets, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = QueryLogIndexesLogSetsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = QueryLogIndexesLogSetsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(QueryLogIndexesLogSetsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into QueryLogIndexesLogSetsResponse")
+	}
+	return
+}
+
+// queryLogIndexesLogSets implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) queryLogIndexesLogSets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/queryLogIndexesLogSets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response QueryLogIndexesLogSetsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "QueryLogIndexesLogSets")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/QueryLogIndexesLogSetsResult/QueryLogIndexesLogSets"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "QueryLogIndexesLogSets", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// QueryLogSets This API queries log sets based on the input filters.
+// A default retry strategy applies to this operation QueryLogSets()
+func (client LogAnalyticsClient) QueryLogSets(ctx context.Context, request QueryLogSetsRequest) (response QueryLogSetsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.queryLogSets, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = QueryLogSetsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = QueryLogSetsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(QueryLogSetsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into QueryLogSetsResponse")
+	}
+	return
+}
+
+// queryLogSets implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) queryLogSets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/queryLogSets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response QueryLogSetsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "QueryLogSets")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/QueryLogSets"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "QueryLogSets", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// QueryUsage Returns storage usage for the specified data type, or for all data types when dataType is ALL or not specified.
+// Storage usage information includes active, archived, and recalled data in bytes.
+// A default retry strategy applies to this operation QueryUsage()
+func (client LogAnalyticsClient) QueryUsage(ctx context.Context, request QueryUsageRequest) (response QueryUsageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.queryUsage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = QueryUsageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = QueryUsageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(QueryUsageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into QueryUsageResponse")
+	}
+	return
+}
+
+// queryUsage implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) queryUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/storage/actions/getUsage", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response QueryUsageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "QueryUsage")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/QueryUsage"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "QueryUsage", apiReferenceLink)
 		return response, err
 	}
 
@@ -9340,6 +10727,65 @@ func (client LogAnalyticsClient) run(ctx context.Context, request common.OCIRequ
 	return response, err
 }
 
+// ScheduleCascadingEntityDeletion Delete all the log analytics entities directly or indirectly related to the given entity id.
+// A default retry strategy applies to this operation ScheduleCascadingEntityDeletion()
+func (client LogAnalyticsClient) ScheduleCascadingEntityDeletion(ctx context.Context, request ScheduleCascadingEntityDeletionRequest) (response ScheduleCascadingEntityDeletionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.scheduleCascadingEntityDeletion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ScheduleCascadingEntityDeletionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ScheduleCascadingEntityDeletionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ScheduleCascadingEntityDeletionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ScheduleCascadingEntityDeletionResponse")
+	}
+	return
+}
+
+// scheduleCascadingEntityDeletion implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) scheduleCascadingEntityDeletion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/logAnalyticsEntities/{logAnalyticsEntityId}/actions/scheduleCascadingEntityDeletion", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ScheduleCascadingEntityDeletionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ScheduleCascadingEntityDeletion")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEntity/ScheduleCascadingEntityDeletion"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ScheduleCascadingEntityDeletion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SetUnprocessedDataBucket This API configures a bucket to store unprocessed payloads.
 // While processing there could be reasons a payload cannot be processed (mismatched structure, corrupted archive format, etc),
 // if configured the payload would be uploaded to the bucket for verification.
@@ -9573,6 +11019,63 @@ func (client LogAnalyticsClient) testParser(ctx context.Context, request common.
 	return response, err
 }
 
+// UnapplyCollectionRule Unapplies the collection rule on the specified input such as an entity. This may result in actions
+// such as associations (that were created by the collection rule) getting deleted and/or log collections getting stopped.
+// A default retry strategy applies to this operation UnapplyCollectionRule()
+func (client LogAnalyticsClient) UnapplyCollectionRule(ctx context.Context, request UnapplyCollectionRuleRequest) (response UnapplyCollectionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.unapplyCollectionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UnapplyCollectionRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UnapplyCollectionRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UnapplyCollectionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UnapplyCollectionRuleResponse")
+	}
+	return
+}
+
+// unapplyCollectionRule implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) unapplyCollectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/collectionRules/{collectionRuleId}/actions/unapply", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UnapplyCollectionRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UnapplyCollectionRule")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/CollectionRule/UnapplyCollectionRule"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UnapplyCollectionRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UnsuppressWarning Unsupresses a list of warnings. Any suppressed warnings in the input list would be unsuppressed. Warnings in the input list which are already unsuppressed will not be modified.
 // A default retry strategy applies to this operation UnsuppressWarning()
 func (client LogAnalyticsClient) UnsuppressWarning(ctx context.Context, request UnsuppressWarningRequest) (response UnsuppressWarningResponse, err error) {
@@ -9627,6 +11130,62 @@ func (client LogAnalyticsClient) unsuppressWarning(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsWarning/UnsuppressWarning"
 		err = common.PostProcessServiceError(err, "LogAnalytics", "UnsuppressWarning", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCollectionRule Updates information for the specified collection rule.
+// A default retry strategy applies to this operation UpdateCollectionRule()
+func (client LogAnalyticsClient) UpdateCollectionRule(ctx context.Context, request UpdateCollectionRuleRequest) (response UpdateCollectionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateCollectionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCollectionRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCollectionRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCollectionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCollectionRuleResponse")
+	}
+	return
+}
+
+// updateCollectionRule implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) updateCollectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/collectionRules/{collectionRuleId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCollectionRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UpdateCollectionRule")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/CollectionRule/UpdateCollectionRule"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UpdateCollectionRule", apiReferenceLink)
 		return response, err
 	}
 
@@ -10261,7 +11820,7 @@ func (client LogAnalyticsClient) updateScheduledTask(ctx context.Context, reques
 	return response, err
 }
 
-// UpdateStorage This API updates the archiving configuration
+// UpdateStorage This API updates the archiving configuration. API only applicable to LOG datatype.
 // A default retry strategy applies to this operation UpdateStorage()
 func (client LogAnalyticsClient) UpdateStorage(ctx context.Context, request UpdateStorageRequest) (response UpdateStorageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10310,6 +11869,128 @@ func (client LogAnalyticsClient) updateStorage(ctx context.Context, request comm
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Storage/UpdateStorage"
 		err = common.PostProcessServiceError(err, "LogAnalytics", "UpdateStorage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateStorageConfiguration This API updates the storage configuration including archiving policies by data type and log index settings for a tenancy.
+// A default retry strategy applies to this operation UpdateStorageConfiguration()
+func (client LogAnalyticsClient) UpdateStorageConfiguration(ctx context.Context, request UpdateStorageConfigurationRequest) (response UpdateStorageConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateStorageConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateStorageConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateStorageConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateStorageConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateStorageConfigurationResponse")
+	}
+	return
+}
+
+// updateStorageConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) updateStorageConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/storageConfiguration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateStorageConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UpdateStorageConfiguration")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/StorageConfiguration/UpdateStorageConfiguration"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UpdateStorageConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateTemplate Updates a template with the specified metadata and content.
+// A default retry strategy applies to this operation UpdateTemplate()
+func (client LogAnalyticsClient) UpdateTemplate(ctx context.Context, request UpdateTemplateRequest) (response UpdateTemplateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateTemplate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateTemplateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateTemplateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateTemplateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateTemplateResponse")
+	}
+	return
+}
+
+// updateTemplate implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) updateTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namespaces/{namespaceName}/templates/{templateId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateTemplateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "UpdateTemplate")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsTemplate/UpdateTemplate"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UpdateTemplate", apiReferenceLink)
 		return response, err
 	}
 
@@ -10967,6 +12648,128 @@ func (client LogAnalyticsClient) validateAssociationParameters(ctx context.Conte
 	return response, err
 }
 
+// ValidateCollectionRule Validates the specified collection rule details.
+// A default retry strategy applies to this operation ValidateCollectionRule()
+func (client LogAnalyticsClient) ValidateCollectionRule(ctx context.Context, request ValidateCollectionRuleRequest) (response ValidateCollectionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.validateCollectionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ValidateCollectionRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ValidateCollectionRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ValidateCollectionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ValidateCollectionRuleResponse")
+	}
+	return
+}
+
+// validateCollectionRule implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) validateCollectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/collectionRules/actions/validate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ValidateCollectionRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ValidateCollectionRule")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/CollectionRule/ValidateCollectionRule"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ValidateCollectionRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &collectionrulevalidationresult{})
+	return response, err
+}
+
+// ValidateDataFilter Checks if the specified input contains a valid data filter against the provided example content.
+// A default retry strategy applies to this operation ValidateDataFilter()
+func (client LogAnalyticsClient) ValidateDataFilter(ctx context.Context, request ValidateDataFilterRequest) (response ValidateDataFilterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.validateDataFilter, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ValidateDataFilterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ValidateDataFilterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ValidateDataFilterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ValidateDataFilterResponse")
+	}
+	return
+}
+
+// validateDataFilter implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) validateDataFilter(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/sources/actions/validateDataFilter", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ValidateDataFilterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ValidateDataFilter")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsSource/ValidateDataFilter"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ValidateDataFilter", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ValidateEndpoint Validates the REST endpoint configuration.
 // A default retry strategy applies to this operation ValidateEndpoint()
 func (client LogAnalyticsClient) ValidateEndpoint(ctx context.Context, request ValidateEndpointRequest) (response ValidateEndpointResponse, err error) {
@@ -11310,6 +13113,67 @@ func (client LogAnalyticsClient) validateSourceMapping(ctx context.Context, requ
 	}
 
 	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ValidateTemplate Validates the specified template.
+// A default retry strategy applies to this operation ValidateTemplate()
+func (client LogAnalyticsClient) ValidateTemplate(ctx context.Context, request ValidateTemplateRequest) (response ValidateTemplateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.validateTemplate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ValidateTemplateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ValidateTemplateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ValidateTemplateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ValidateTemplateResponse")
+	}
+	return
+}
+
+// validateTemplate implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) validateTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/templates/actions/validate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ValidateTemplateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "logAnalytics", "ValidateTemplate")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsTemplate/ValidateTemplate"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "ValidateTemplate", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &templatevalidationresult{})
 	return response, err
 }
 

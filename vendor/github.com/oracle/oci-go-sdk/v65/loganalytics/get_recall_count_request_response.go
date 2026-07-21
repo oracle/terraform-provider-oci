@@ -20,6 +20,9 @@ type GetRecallCountRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// The type of stored data.
+	DataType GetRecallCountDataTypeEnum `mandatory:"false" contributesTo:"query" name:"dataType" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -56,6 +59,9 @@ func (request GetRecallCountRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request GetRecallCountRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingGetRecallCountDataTypeEnum(string(request.DataType)); !ok && request.DataType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataType: %s. Supported values are: %s.", request.DataType, strings.Join(GetGetRecallCountDataTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -82,4 +88,50 @@ func (response GetRecallCountResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response GetRecallCountResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// GetRecallCountDataTypeEnum Enum with underlying type: string
+type GetRecallCountDataTypeEnum string
+
+// Set of constants representing the allowable values for GetRecallCountDataTypeEnum
+const (
+	GetRecallCountDataTypeLog    GetRecallCountDataTypeEnum = "LOG"
+	GetRecallCountDataTypeLookup GetRecallCountDataTypeEnum = "LOOKUP"
+	GetRecallCountDataTypeApm    GetRecallCountDataTypeEnum = "APM"
+)
+
+var mappingGetRecallCountDataTypeEnum = map[string]GetRecallCountDataTypeEnum{
+	"LOG":    GetRecallCountDataTypeLog,
+	"LOOKUP": GetRecallCountDataTypeLookup,
+	"APM":    GetRecallCountDataTypeApm,
+}
+
+var mappingGetRecallCountDataTypeEnumLowerCase = map[string]GetRecallCountDataTypeEnum{
+	"log":    GetRecallCountDataTypeLog,
+	"lookup": GetRecallCountDataTypeLookup,
+	"apm":    GetRecallCountDataTypeApm,
+}
+
+// GetGetRecallCountDataTypeEnumValues Enumerates the set of values for GetRecallCountDataTypeEnum
+func GetGetRecallCountDataTypeEnumValues() []GetRecallCountDataTypeEnum {
+	values := make([]GetRecallCountDataTypeEnum, 0)
+	for _, v := range mappingGetRecallCountDataTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetGetRecallCountDataTypeEnumStringValues Enumerates the set of values in String for GetRecallCountDataTypeEnum
+func GetGetRecallCountDataTypeEnumStringValues() []string {
+	return []string{
+		"LOG",
+		"LOOKUP",
+		"APM",
+	}
+}
+
+// GetMappingGetRecallCountDataTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingGetRecallCountDataTypeEnum(val string) (GetRecallCountDataTypeEnum, bool) {
+	enum, ok := mappingGetRecallCountDataTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

@@ -10,6 +10,7 @@
 package loganalytics
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -29,6 +30,9 @@ type LogAnalyticsConfigWorkRequest struct {
 
 	// The list of config work request responses.
 	Payload []LogAnalyticsConfigWorkRequestPayload `mandatory:"false" json:"payload"`
+
+	// The result of the config work request.
+	Result ConfigWorkRequestResult `mandatory:"false" json:"result"`
 
 	// The completion percentage.
 	PercentComplete *int64 `mandatory:"false" json:"percentComplete"`
@@ -69,6 +73,57 @@ func (m LogAnalyticsConfigWorkRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
+// UnmarshalJSON unmarshals from json
+func (m *LogAnalyticsConfigWorkRequest) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Id              *string                                         `json:"id"`
+		CompartmentId   *string                                         `json:"compartmentId"`
+		OperationType   LogAnalyticsConfigWorkRequestOperationTypeEnum  `json:"operationType"`
+		Payload         []LogAnalyticsConfigWorkRequestPayload          `json:"payload"`
+		Result          configworkrequestresult                         `json:"result"`
+		PercentComplete *int64                                          `json:"percentComplete"`
+		TimeStarted     *common.SDKTime                                 `json:"timeStarted"`
+		TimeAccepted    *common.SDKTime                                 `json:"timeAccepted"`
+		TimeFinished    *common.SDKTime                                 `json:"timeFinished"`
+		LifecycleState  LogAnalyticsConfigWorkRequestLifecycleStateEnum `json:"lifecycleState"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Id = model.Id
+
+	m.CompartmentId = model.CompartmentId
+
+	m.OperationType = model.OperationType
+
+	m.Payload = make([]LogAnalyticsConfigWorkRequestPayload, len(model.Payload))
+	copy(m.Payload, model.Payload)
+	nn, e = model.Result.UnmarshalPolymorphicJSON(model.Result.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.Result = nn.(ConfigWorkRequestResult)
+	} else {
+		m.Result = nil
+	}
+
+	m.PercentComplete = model.PercentComplete
+
+	m.TimeStarted = model.TimeStarted
+
+	m.TimeAccepted = model.TimeAccepted
+
+	m.TimeFinished = model.TimeFinished
+
+	m.LifecycleState = model.LifecycleState
+
+	return
+}
+
 // LogAnalyticsConfigWorkRequestOperationTypeEnum Enum with underlying type: string
 type LogAnalyticsConfigWorkRequestOperationTypeEnum string
 
@@ -81,6 +136,7 @@ const (
 	LogAnalyticsConfigWorkRequestOperationTypeDeleteLookup          LogAnalyticsConfigWorkRequestOperationTypeEnum = "DELETE_LOOKUP"
 	LogAnalyticsConfigWorkRequestOperationTypeEnableIngestTimeRule  LogAnalyticsConfigWorkRequestOperationTypeEnum = "ENABLE_INGEST_TIME_RULE"
 	LogAnalyticsConfigWorkRequestOperationTypeDisableIngestTimeRule LogAnalyticsConfigWorkRequestOperationTypeEnum = "DISABLE_INGEST_TIME_RULE"
+	LogAnalyticsConfigWorkRequestOperationTypeGenerateAiContent     LogAnalyticsConfigWorkRequestOperationTypeEnum = "GENERATE_AI_CONTENT"
 )
 
 var mappingLogAnalyticsConfigWorkRequestOperationTypeEnum = map[string]LogAnalyticsConfigWorkRequestOperationTypeEnum{
@@ -91,6 +147,7 @@ var mappingLogAnalyticsConfigWorkRequestOperationTypeEnum = map[string]LogAnalyt
 	"DELETE_LOOKUP":            LogAnalyticsConfigWorkRequestOperationTypeDeleteLookup,
 	"ENABLE_INGEST_TIME_RULE":  LogAnalyticsConfigWorkRequestOperationTypeEnableIngestTimeRule,
 	"DISABLE_INGEST_TIME_RULE": LogAnalyticsConfigWorkRequestOperationTypeDisableIngestTimeRule,
+	"GENERATE_AI_CONTENT":      LogAnalyticsConfigWorkRequestOperationTypeGenerateAiContent,
 }
 
 var mappingLogAnalyticsConfigWorkRequestOperationTypeEnumLowerCase = map[string]LogAnalyticsConfigWorkRequestOperationTypeEnum{
@@ -101,6 +158,7 @@ var mappingLogAnalyticsConfigWorkRequestOperationTypeEnumLowerCase = map[string]
 	"delete_lookup":            LogAnalyticsConfigWorkRequestOperationTypeDeleteLookup,
 	"enable_ingest_time_rule":  LogAnalyticsConfigWorkRequestOperationTypeEnableIngestTimeRule,
 	"disable_ingest_time_rule": LogAnalyticsConfigWorkRequestOperationTypeDisableIngestTimeRule,
+	"generate_ai_content":      LogAnalyticsConfigWorkRequestOperationTypeGenerateAiContent,
 }
 
 // GetLogAnalyticsConfigWorkRequestOperationTypeEnumValues Enumerates the set of values for LogAnalyticsConfigWorkRequestOperationTypeEnum
@@ -122,6 +180,7 @@ func GetLogAnalyticsConfigWorkRequestOperationTypeEnumStringValues() []string {
 		"DELETE_LOOKUP",
 		"ENABLE_INGEST_TIME_RULE",
 		"DISABLE_INGEST_TIME_RULE",
+		"GENERATE_AI_CONTENT",
 	}
 }
 

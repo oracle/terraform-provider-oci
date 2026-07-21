@@ -70,6 +70,10 @@ func (m *icebergcatalogsummary) UnmarshalPolymorphicJSON(data []byte) (interface
 		mm := HadoopIcebergCatalogSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OADC":
+		mm := OracleAiDataCatalogIcebergCatalogSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for IcebergCatalogSummary: %s.", m.CatalogType)
 		return *m, nil

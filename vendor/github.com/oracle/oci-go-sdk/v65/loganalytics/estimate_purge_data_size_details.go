@@ -30,7 +30,7 @@ type EstimatePurgeDataSizeDetails struct {
 	// This is the solr data filter query, '*' means all
 	PurgeQueryString *string `mandatory:"false" json:"purgeQueryString"`
 
-	// This is the type of the log data to be purged
+	// This is the type of the log data to be purged. If datatype is not specified, the endpoint is for LOG datatype only.
 	DataType StorageDataTypeEnum `mandatory:"false" json:"dataType,omitempty"`
 }
 

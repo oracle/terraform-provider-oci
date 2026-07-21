@@ -58,6 +58,10 @@ type ScheduleSummary struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeEnds *common.SDKTime `mandatory:"false" json:"timeEnds"`
 
+	// IANA timezone identifier (e.g., 'America/New_York', 'UTC', 'Europe/London').
+	// This determines the timezone context for evaluating the recurrence expression.
+	LocalTimeZone *string `mandatory:"false" json:"localTimeZone"`
+
 	// This is the date and time the schedule was created, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
@@ -128,6 +132,7 @@ func (m *ScheduleSummary) UnmarshalJSON(data []byte) (e error) {
 		Resources         []Resource                        `json:"resources"`
 		TimeStarts        *common.SDKTime                   `json:"timeStarts"`
 		TimeEnds          *common.SDKTime                   `json:"timeEnds"`
+		LocalTimeZone     *string                           `json:"localTimeZone"`
 		TimeCreated       *common.SDKTime                   `json:"timeCreated"`
 		TimeUpdated       *common.SDKTime                   `json:"timeUpdated"`
 		TimeLastRun       *common.SDKTime                   `json:"timeLastRun"`
@@ -169,6 +174,8 @@ func (m *ScheduleSummary) UnmarshalJSON(data []byte) (e error) {
 	m.TimeStarts = model.TimeStarts
 
 	m.TimeEnds = model.TimeEnds
+
+	m.LocalTimeZone = model.LocalTimeZone
 
 	m.TimeCreated = model.TimeCreated
 

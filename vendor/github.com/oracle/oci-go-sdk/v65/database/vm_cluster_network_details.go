@@ -30,10 +30,10 @@ type VmClusterNetworkDetails struct {
 	// Details of the client and backup networks.
 	VmNetworks []VmNetworkDetails `mandatory:"true" json:"vmNetworks"`
 
-	// The list of DNS server IP addresses. Maximum of 3 allowed.
+	// The list of DNS server IPv4 or IPv6 addresses. Maximum of 3 allowed.
 	Dns []string `mandatory:"false" json:"dns"`
 
-	// The list of NTP server IP addresses. Maximum of 3 allowed.
+	// The list of NTP server IPv4 or IPv6 addresses. Maximum of 3 allowed.
 	Ntp []string `mandatory:"false" json:"ntp"`
 
 	// The SCAN details for DR network

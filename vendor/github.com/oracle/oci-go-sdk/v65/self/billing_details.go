@@ -15,8 +15,14 @@ import (
 	"strings"
 )
 
-// BillingDetails Sku details for billing subscription.
+// BillingDetails Billing detail entry associated with a subscription.
 type BillingDetails struct {
+
+	// Unique key used to map this SKU to the pricing plan.
+	PricingPlanKey *string `mandatory:"true" json:"pricingPlanKey"`
+
+	// The billing model this billing detail applies to.
+	BillingModel BillingDetailsBillingModelEnum `mandatory:"true" json:"billingModel"`
 
 	// Sku for service.
 	Sku *string `mandatory:"true" json:"sku"`
@@ -43,6 +49,9 @@ func (m BillingDetails) String() string {
 // Not recommended for calling this function directly
 func (m BillingDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingBillingDetailsBillingModelEnum(string(m.BillingModel)); !ok && m.BillingModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BillingModel: %s. Supported values are: %s.", m.BillingModel, strings.Join(GetBillingDetailsBillingModelEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingMetricTypeEnum(string(m.MetricType)); !ok && m.MetricType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MetricType: %s. Supported values are: %s.", m.MetricType, strings.Join(GetMetricTypeEnumStringValues(), ",")))
 	}
@@ -51,4 +60,46 @@ func (m BillingDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// BillingDetailsBillingModelEnum Enum with underlying type: string
+type BillingDetailsBillingModelEnum string
+
+// Set of constants representing the allowable values for BillingDetailsBillingModelEnum
+const (
+	BillingDetailsBillingModelFlatRate   BillingDetailsBillingModelEnum = "FLAT_RATE"
+	BillingDetailsBillingModelUsageBased BillingDetailsBillingModelEnum = "USAGE_BASED"
+)
+
+var mappingBillingDetailsBillingModelEnum = map[string]BillingDetailsBillingModelEnum{
+	"FLAT_RATE":   BillingDetailsBillingModelFlatRate,
+	"USAGE_BASED": BillingDetailsBillingModelUsageBased,
+}
+
+var mappingBillingDetailsBillingModelEnumLowerCase = map[string]BillingDetailsBillingModelEnum{
+	"flat_rate":   BillingDetailsBillingModelFlatRate,
+	"usage_based": BillingDetailsBillingModelUsageBased,
+}
+
+// GetBillingDetailsBillingModelEnumValues Enumerates the set of values for BillingDetailsBillingModelEnum
+func GetBillingDetailsBillingModelEnumValues() []BillingDetailsBillingModelEnum {
+	values := make([]BillingDetailsBillingModelEnum, 0)
+	for _, v := range mappingBillingDetailsBillingModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetBillingDetailsBillingModelEnumStringValues Enumerates the set of values in String for BillingDetailsBillingModelEnum
+func GetBillingDetailsBillingModelEnumStringValues() []string {
+	return []string{
+		"FLAT_RATE",
+		"USAGE_BASED",
+	}
+}
+
+// GetMappingBillingDetailsBillingModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingBillingDetailsBillingModelEnum(val string) (BillingDetailsBillingModelEnum, bool) {
+	enum, ok := mappingBillingDetailsBillingModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

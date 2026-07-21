@@ -62,6 +62,10 @@ func (m *icebergcatalog) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := RestIcebergCatalog{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OADC":
+		mm := OracleAiDataCatalogIcebergCatalog{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "NESSIE":
 		mm := NessieIcebergCatalog{}
 		err = json.Unmarshal(data, &mm)

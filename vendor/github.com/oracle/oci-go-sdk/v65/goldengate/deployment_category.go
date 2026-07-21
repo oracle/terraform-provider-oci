@@ -22,6 +22,7 @@ const (
 	DeploymentCategoryStreamAnalytics  DeploymentCategoryEnum = "STREAM_ANALYTICS"
 	DeploymentCategoryDataTransforms   DeploymentCategoryEnum = "DATA_TRANSFORMS"
 	DeploymentCategoryDataVerification DeploymentCategoryEnum = "DATA_VERIFICATION"
+	DeploymentCategoryDataCatalog      DeploymentCategoryEnum = "DATA_CATALOG"
 )
 
 var mappingDeploymentCategoryEnum = map[string]DeploymentCategoryEnum{
@@ -29,6 +30,7 @@ var mappingDeploymentCategoryEnum = map[string]DeploymentCategoryEnum{
 	"STREAM_ANALYTICS":  DeploymentCategoryStreamAnalytics,
 	"DATA_TRANSFORMS":   DeploymentCategoryDataTransforms,
 	"DATA_VERIFICATION": DeploymentCategoryDataVerification,
+	"DATA_CATALOG":      DeploymentCategoryDataCatalog,
 }
 
 var mappingDeploymentCategoryEnumLowerCase = map[string]DeploymentCategoryEnum{
@@ -36,6 +38,7 @@ var mappingDeploymentCategoryEnumLowerCase = map[string]DeploymentCategoryEnum{
 	"stream_analytics":  DeploymentCategoryStreamAnalytics,
 	"data_transforms":   DeploymentCategoryDataTransforms,
 	"data_verification": DeploymentCategoryDataVerification,
+	"data_catalog":      DeploymentCategoryDataCatalog,
 }
 
 // GetDeploymentCategoryEnumValues Enumerates the set of values for DeploymentCategoryEnum
@@ -54,6 +57,7 @@ func GetDeploymentCategoryEnumStringValues() []string {
 		"STREAM_ANALYTICS",
 		"DATA_TRANSFORMS",
 		"DATA_VERIFICATION",
+		"DATA_CATALOG",
 	}
 }
 

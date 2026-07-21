@@ -33,6 +33,9 @@ type ScanDetails struct {
 
 	// The SCAN TCPIP SSL port. Default is 2484.
 	ScanListenerPortTcpSsl *int `mandatory:"false" json:"scanListenerPortTcpSsl"`
+
+	// The list of SCAN IPv6 addresses. Maximum of 3 allowed; Oracle recommends 3 for high availability and scalability.
+	Ipv6Ips []string `mandatory:"false" json:"ipv6Ips"`
 }
 
 func (m ScanDetails) String() string {

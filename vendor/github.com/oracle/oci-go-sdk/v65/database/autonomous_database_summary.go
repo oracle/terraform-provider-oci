@@ -358,6 +358,7 @@ type AutonomousDatabaseSummary struct {
 	TimeOfNextRefresh *common.SDKTime `mandatory:"false" json:"timeOfNextRefresh"`
 
 	// Indicates the Autonomous AI Database mode. The database can be opened in `READ_ONLY` or `READ_WRITE` mode.
+	// By default, standby databases are in `STANDBY` mode, which does not allow read or write access.
 	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	OpenMode AutonomousDatabaseSummaryOpenModeEnum `mandatory:"false" json:"openMode,omitempty"`
 
@@ -1683,18 +1684,21 @@ type AutonomousDatabaseSummaryOpenModeEnum string
 
 // Set of constants representing the allowable values for AutonomousDatabaseSummaryOpenModeEnum
 const (
-	AutonomousDatabaseSummaryOpenModeOnly  AutonomousDatabaseSummaryOpenModeEnum = "READ_ONLY"
-	AutonomousDatabaseSummaryOpenModeWrite AutonomousDatabaseSummaryOpenModeEnum = "READ_WRITE"
+	AutonomousDatabaseSummaryOpenModeReadOnly  AutonomousDatabaseSummaryOpenModeEnum = "READ_ONLY"
+	AutonomousDatabaseSummaryOpenModeReadWrite AutonomousDatabaseSummaryOpenModeEnum = "READ_WRITE"
+	AutonomousDatabaseSummaryOpenModeStandby   AutonomousDatabaseSummaryOpenModeEnum = "STANDBY"
 )
 
 var mappingAutonomousDatabaseSummaryOpenModeEnum = map[string]AutonomousDatabaseSummaryOpenModeEnum{
-	"READ_ONLY":  AutonomousDatabaseSummaryOpenModeOnly,
-	"READ_WRITE": AutonomousDatabaseSummaryOpenModeWrite,
+	"READ_ONLY":  AutonomousDatabaseSummaryOpenModeReadOnly,
+	"READ_WRITE": AutonomousDatabaseSummaryOpenModeReadWrite,
+	"STANDBY":    AutonomousDatabaseSummaryOpenModeStandby,
 }
 
 var mappingAutonomousDatabaseSummaryOpenModeEnumLowerCase = map[string]AutonomousDatabaseSummaryOpenModeEnum{
-	"read_only":  AutonomousDatabaseSummaryOpenModeOnly,
-	"read_write": AutonomousDatabaseSummaryOpenModeWrite,
+	"read_only":  AutonomousDatabaseSummaryOpenModeReadOnly,
+	"read_write": AutonomousDatabaseSummaryOpenModeReadWrite,
+	"standby":    AutonomousDatabaseSummaryOpenModeStandby,
 }
 
 // GetAutonomousDatabaseSummaryOpenModeEnumValues Enumerates the set of values for AutonomousDatabaseSummaryOpenModeEnum
@@ -1711,6 +1715,7 @@ func GetAutonomousDatabaseSummaryOpenModeEnumStringValues() []string {
 	return []string{
 		"READ_ONLY",
 		"READ_WRITE",
+		"STANDBY",
 	}
 }
 

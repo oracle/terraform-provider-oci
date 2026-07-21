@@ -122,21 +122,18 @@ type ListingSubscriptionsSortByEnum string
 const (
 	ListingSubscriptionsSortByTimecreated ListingSubscriptionsSortByEnum = "timeCreated"
 	ListingSubscriptionsSortByDisplayname ListingSubscriptionsSortByEnum = "displayName"
-	ListingSubscriptionsSortBySelftokenid ListingSubscriptionsSortByEnum = "selfTokenId"
 	ListingSubscriptionsSortByProductid   ListingSubscriptionsSortByEnum = "productId"
 )
 
 var mappingListingSubscriptionsSortByEnum = map[string]ListingSubscriptionsSortByEnum{
 	"timeCreated": ListingSubscriptionsSortByTimecreated,
 	"displayName": ListingSubscriptionsSortByDisplayname,
-	"selfTokenId": ListingSubscriptionsSortBySelftokenid,
 	"productId":   ListingSubscriptionsSortByProductid,
 }
 
 var mappingListingSubscriptionsSortByEnumLowerCase = map[string]ListingSubscriptionsSortByEnum{
 	"timecreated": ListingSubscriptionsSortByTimecreated,
 	"displayname": ListingSubscriptionsSortByDisplayname,
-	"selftokenid": ListingSubscriptionsSortBySelftokenid,
 	"productid":   ListingSubscriptionsSortByProductid,
 }
 
@@ -154,7 +151,6 @@ func GetListingSubscriptionsSortByEnumStringValues() []string {
 	return []string{
 		"timeCreated",
 		"displayName",
-		"selfTokenId",
 		"productId",
 	}
 }

@@ -35,6 +35,9 @@ type UpsertLogAnalyticsFieldDetails struct {
 
 	// A flag indicating whether duplicates should be retained while processing multi-valued fields.
 	IsKeepDuplicates *bool `mandatory:"false" json:"isKeepDuplicates"`
+
+	// The field unit type.
+	UnitType *string `mandatory:"false" json:"unitType"`
 }
 
 func (m UpsertLogAnalyticsFieldDetails) String() string {

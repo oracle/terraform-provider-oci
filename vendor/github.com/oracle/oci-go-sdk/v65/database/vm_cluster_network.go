@@ -36,10 +36,10 @@ type VmClusterNetwork struct {
 	// The SCAN details.
 	Scans []ScanDetails `mandatory:"false" json:"scans"`
 
-	// The list of DNS server IP addresses. Maximum of 3 allowed.
+	// The list of DNS server IPv4 or IPv6 addresses. Maximum of 3 allowed.
 	Dns []string `mandatory:"false" json:"dns"`
 
-	// The list of NTP server IP addresses. Maximum of 3 allowed.
+	// The list of NTP server IPv4 or IPv6 addresses. Maximum of 3 allowed.
 	Ntp []string `mandatory:"false" json:"ntp"`
 
 	// Details of the client and backup networks.

@@ -45,6 +45,12 @@ type StandardTask struct {
 	// Description for this resource.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The last known error message.
+	LastErrorMessage *string `mandatory:"false" json:"lastErrorMessage"`
+
+	// A flag indicating whether or not the query has been classified as complex.
+	IsComplex *bool `mandatory:"false" json:"isComplex"`
+
 	// most recent Work Request Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the asynchronous request.
 	WorkRequestId *string `mandatory:"false" json:"workRequestId"`
 
@@ -120,6 +126,16 @@ func (m StandardTask) GetTaskStatus() ScheduledTaskTaskStatusEnum {
 // GetPauseReason returns PauseReason
 func (m StandardTask) GetPauseReason() ScheduledTaskPauseReasonEnum {
 	return m.PauseReason
+}
+
+// GetLastErrorMessage returns LastErrorMessage
+func (m StandardTask) GetLastErrorMessage() *string {
+	return m.LastErrorMessage
+}
+
+// GetIsComplex returns IsComplex
+func (m StandardTask) GetIsComplex() *bool {
+	return m.IsComplex
 }
 
 // GetWorkRequestId returns WorkRequestId
@@ -218,6 +234,8 @@ func (m *StandardTask) UnmarshalJSON(data []byte) (e error) {
 		Description         *string                             `json:"description"`
 		TaskStatus          ScheduledTaskTaskStatusEnum         `json:"taskStatus"`
 		PauseReason         ScheduledTaskPauseReasonEnum        `json:"pauseReason"`
+		LastErrorMessage    *string                             `json:"lastErrorMessage"`
+		IsComplex           *bool                               `json:"isComplex"`
 		WorkRequestId       *string                             `json:"workRequestId"`
 		NumOccurrences      *int64                              `json:"numOccurrences"`
 		TimeOfNextExecution *common.SDKTime                     `json:"timeOfNextExecution"`
@@ -246,6 +264,10 @@ func (m *StandardTask) UnmarshalJSON(data []byte) (e error) {
 	m.TaskStatus = model.TaskStatus
 
 	m.PauseReason = model.PauseReason
+
+	m.LastErrorMessage = model.LastErrorMessage
+
+	m.IsComplex = model.IsComplex
 
 	m.WorkRequestId = model.WorkRequestId
 

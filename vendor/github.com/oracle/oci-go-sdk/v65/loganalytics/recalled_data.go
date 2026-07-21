@@ -63,6 +63,9 @@ type RecalledData struct {
 
 	// This is the current progress percentage for the recalled data
 	PercentageComplete *int `mandatory:"false" json:"percentageComplete"`
+
+	// The type of data whose usage is requested. Use LOG, APM.
+	DataType StorageDataTypeEnum `mandatory:"false" json:"dataType,omitempty"`
 }
 
 func (m RecalledData) String() string {
@@ -78,6 +81,9 @@ func (m RecalledData) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetRecalledDataStatusEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingStorageDataTypeEnum(string(m.DataType)); !ok && m.DataType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataType: %s. Supported values are: %s.", m.DataType, strings.Join(GetStorageDataTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

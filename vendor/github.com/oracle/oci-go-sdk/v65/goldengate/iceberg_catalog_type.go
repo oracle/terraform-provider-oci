@@ -23,6 +23,7 @@ const (
 	IcebergCatalogTypeNessie  IcebergCatalogTypeEnum = "NESSIE"
 	IcebergCatalogTypePolaris IcebergCatalogTypeEnum = "POLARIS"
 	IcebergCatalogTypeRest    IcebergCatalogTypeEnum = "REST"
+	IcebergCatalogTypeOadc    IcebergCatalogTypeEnum = "OADC"
 )
 
 var mappingIcebergCatalogTypeEnum = map[string]IcebergCatalogTypeEnum{
@@ -31,6 +32,7 @@ var mappingIcebergCatalogTypeEnum = map[string]IcebergCatalogTypeEnum{
 	"NESSIE":  IcebergCatalogTypeNessie,
 	"POLARIS": IcebergCatalogTypePolaris,
 	"REST":    IcebergCatalogTypeRest,
+	"OADC":    IcebergCatalogTypeOadc,
 }
 
 var mappingIcebergCatalogTypeEnumLowerCase = map[string]IcebergCatalogTypeEnum{
@@ -39,6 +41,7 @@ var mappingIcebergCatalogTypeEnumLowerCase = map[string]IcebergCatalogTypeEnum{
 	"nessie":  IcebergCatalogTypeNessie,
 	"polaris": IcebergCatalogTypePolaris,
 	"rest":    IcebergCatalogTypeRest,
+	"oadc":    IcebergCatalogTypeOadc,
 }
 
 // GetIcebergCatalogTypeEnumValues Enumerates the set of values for IcebergCatalogTypeEnum
@@ -58,6 +61,7 @@ func GetIcebergCatalogTypeEnumStringValues() []string {
 		"NESSIE",
 		"POLARIS",
 		"REST",
+		"OADC",
 	}
 }
 

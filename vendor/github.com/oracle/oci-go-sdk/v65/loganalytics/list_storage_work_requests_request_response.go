@@ -54,6 +54,9 @@ type ListStorageWorkRequestsRequest struct {
 	// This is the query parameter of purge policy ID
 	PolicyId *string `mandatory:"false" contributesTo:"query" name:"policyId"`
 
+	// Filter WorkRequest by data type. One of LOG, APM, or ALL.
+	DataType ListStorageWorkRequestsDataTypeEnum `mandatory:"false" contributesTo:"query" name:"dataType" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -101,6 +104,9 @@ func (request ListStorageWorkRequestsRequest) ValidateEnumValue() (bool, error) 
 	}
 	if _, ok := GetMappingListStorageWorkRequestsStatusEnum(string(request.Status)); !ok && request.Status != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", request.Status, strings.Join(GetListStorageWorkRequestsStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListStorageWorkRequestsDataTypeEnum(string(request.DataType)); !ok && request.DataType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataType: %s. Supported values are: %s.", request.DataType, strings.Join(GetListStorageWorkRequestsDataTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -353,5 +359,51 @@ func GetListStorageWorkRequestsStatusEnumStringValues() []string {
 // GetMappingListStorageWorkRequestsStatusEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListStorageWorkRequestsStatusEnum(val string) (ListStorageWorkRequestsStatusEnum, bool) {
 	enum, ok := mappingListStorageWorkRequestsStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListStorageWorkRequestsDataTypeEnum Enum with underlying type: string
+type ListStorageWorkRequestsDataTypeEnum string
+
+// Set of constants representing the allowable values for ListStorageWorkRequestsDataTypeEnum
+const (
+	ListStorageWorkRequestsDataTypeLog ListStorageWorkRequestsDataTypeEnum = "LOG"
+	ListStorageWorkRequestsDataTypeApm ListStorageWorkRequestsDataTypeEnum = "APM"
+	ListStorageWorkRequestsDataTypeAll ListStorageWorkRequestsDataTypeEnum = "ALL"
+)
+
+var mappingListStorageWorkRequestsDataTypeEnum = map[string]ListStorageWorkRequestsDataTypeEnum{
+	"LOG": ListStorageWorkRequestsDataTypeLog,
+	"APM": ListStorageWorkRequestsDataTypeApm,
+	"ALL": ListStorageWorkRequestsDataTypeAll,
+}
+
+var mappingListStorageWorkRequestsDataTypeEnumLowerCase = map[string]ListStorageWorkRequestsDataTypeEnum{
+	"log": ListStorageWorkRequestsDataTypeLog,
+	"apm": ListStorageWorkRequestsDataTypeApm,
+	"all": ListStorageWorkRequestsDataTypeAll,
+}
+
+// GetListStorageWorkRequestsDataTypeEnumValues Enumerates the set of values for ListStorageWorkRequestsDataTypeEnum
+func GetListStorageWorkRequestsDataTypeEnumValues() []ListStorageWorkRequestsDataTypeEnum {
+	values := make([]ListStorageWorkRequestsDataTypeEnum, 0)
+	for _, v := range mappingListStorageWorkRequestsDataTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListStorageWorkRequestsDataTypeEnumStringValues Enumerates the set of values in String for ListStorageWorkRequestsDataTypeEnum
+func GetListStorageWorkRequestsDataTypeEnumStringValues() []string {
+	return []string{
+		"LOG",
+		"APM",
+		"ALL",
+	}
+}
+
+// GetMappingListStorageWorkRequestsDataTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListStorageWorkRequestsDataTypeEnum(val string) (ListStorageWorkRequestsDataTypeEnum, bool) {
+	enum, ok := mappingListStorageWorkRequestsDataTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

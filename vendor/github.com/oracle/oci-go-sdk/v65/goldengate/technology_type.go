@@ -41,6 +41,7 @@ const (
 	TechnologyTypeOracleExadataDatabaseAtAws              TechnologyTypeEnum = "ORACLE_EXADATA_DATABASE_AT_AWS"
 	TechnologyTypeOracleAutonomousDatabaseAtAws           TechnologyTypeEnum = "ORACLE_AUTONOMOUS_DATABASE_AT_AWS"
 	TechnologyTypeOracleAiDataPlatform                    TechnologyTypeEnum = "ORACLE_AI_DATA_PLATFORM"
+	TechnologyTypeOracleAiDataCatalogStorage              TechnologyTypeEnum = "ORACLE_AI_DATA_CATALOG_STORAGE"
 	TechnologyTypeOracleNosql                             TechnologyTypeEnum = "ORACLE_NOSQL"
 	TechnologyTypeOracleRestDataServices                  TechnologyTypeEnum = "ORACLE_REST_DATA_SERVICES"
 	TechnologyTypeOracleWeblogicJms                       TechnologyTypeEnum = "ORACLE_WEBLOGIC_JMS"
@@ -124,6 +125,7 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"ORACLE_EXADATA_DATABASE_AT_AWS":                TechnologyTypeOracleExadataDatabaseAtAws,
 	"ORACLE_AUTONOMOUS_DATABASE_AT_AWS":             TechnologyTypeOracleAutonomousDatabaseAtAws,
 	"ORACLE_AI_DATA_PLATFORM":                       TechnologyTypeOracleAiDataPlatform,
+	"ORACLE_AI_DATA_CATALOG_STORAGE":                TechnologyTypeOracleAiDataCatalogStorage,
 	"ORACLE_NOSQL":                                  TechnologyTypeOracleNosql,
 	"ORACLE_REST_DATA_SERVICES":                     TechnologyTypeOracleRestDataServices,
 	"ORACLE_WEBLOGIC_JMS":                           TechnologyTypeOracleWeblogicJms,
@@ -207,6 +209,7 @@ var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"oracle_exadata_database_at_aws":                TechnologyTypeOracleExadataDatabaseAtAws,
 	"oracle_autonomous_database_at_aws":             TechnologyTypeOracleAutonomousDatabaseAtAws,
 	"oracle_ai_data_platform":                       TechnologyTypeOracleAiDataPlatform,
+	"oracle_ai_data_catalog_storage":                TechnologyTypeOracleAiDataCatalogStorage,
 	"oracle_nosql":                                  TechnologyTypeOracleNosql,
 	"oracle_rest_data_services":                     TechnologyTypeOracleRestDataServices,
 	"oracle_weblogic_jms":                           TechnologyTypeOracleWeblogicJms,
@@ -301,6 +304,7 @@ func GetTechnologyTypeEnumStringValues() []string {
 		"ORACLE_EXADATA_DATABASE_AT_AWS",
 		"ORACLE_AUTONOMOUS_DATABASE_AT_AWS",
 		"ORACLE_AI_DATA_PLATFORM",
+		"ORACLE_AI_DATA_CATALOG_STORAGE",
 		"ORACLE_NOSQL",
 		"ORACLE_REST_DATA_SERVICES",
 		"ORACLE_WEBLOGIC_JMS",

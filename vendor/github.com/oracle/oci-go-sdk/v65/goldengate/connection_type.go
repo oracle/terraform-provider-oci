@@ -18,102 +18,105 @@ type ConnectionTypeEnum string
 
 // Set of constants representing the allowable values for ConnectionTypeEnum
 const (
-	ConnectionTypeGoldengate            ConnectionTypeEnum = "GOLDENGATE"
-	ConnectionTypeKafka                 ConnectionTypeEnum = "KAFKA"
-	ConnectionTypeKafkaSchemaRegistry   ConnectionTypeEnum = "KAFKA_SCHEMA_REGISTRY"
-	ConnectionTypeMysql                 ConnectionTypeEnum = "MYSQL"
-	ConnectionTypeJavaMessageService    ConnectionTypeEnum = "JAVA_MESSAGE_SERVICE"
-	ConnectionTypeMicrosoftSqlserver    ConnectionTypeEnum = "MICROSOFT_SQLSERVER"
-	ConnectionTypeOciObjectStorage      ConnectionTypeEnum = "OCI_OBJECT_STORAGE"
-	ConnectionTypeOracle                ConnectionTypeEnum = "ORACLE"
-	ConnectionTypeAzureDataLakeStorage  ConnectionTypeEnum = "AZURE_DATA_LAKE_STORAGE"
-	ConnectionTypePostgresql            ConnectionTypeEnum = "POSTGRESQL"
-	ConnectionTypeAzureSynapseAnalytics ConnectionTypeEnum = "AZURE_SYNAPSE_ANALYTICS"
-	ConnectionTypeSnowflake             ConnectionTypeEnum = "SNOWFLAKE"
-	ConnectionTypeAmazonS3              ConnectionTypeEnum = "AMAZON_S3"
-	ConnectionTypeHdfs                  ConnectionTypeEnum = "HDFS"
-	ConnectionTypeOracleAiDataPlatform  ConnectionTypeEnum = "ORACLE_AI_DATA_PLATFORM"
-	ConnectionTypeOracleNosql           ConnectionTypeEnum = "ORACLE_NOSQL"
-	ConnectionTypeMongodb               ConnectionTypeEnum = "MONGODB"
-	ConnectionTypeAmazonKinesis         ConnectionTypeEnum = "AMAZON_KINESIS"
-	ConnectionTypeAmazonRedshift        ConnectionTypeEnum = "AMAZON_REDSHIFT"
-	ConnectionTypeDb2                   ConnectionTypeEnum = "DB2"
-	ConnectionTypeRedis                 ConnectionTypeEnum = "REDIS"
-	ConnectionTypeElasticsearch         ConnectionTypeEnum = "ELASTICSEARCH"
-	ConnectionTypeGeneric               ConnectionTypeEnum = "GENERIC"
-	ConnectionTypeGoogleCloudStorage    ConnectionTypeEnum = "GOOGLE_CLOUD_STORAGE"
-	ConnectionTypeGoogleBigquery        ConnectionTypeEnum = "GOOGLE_BIGQUERY"
-	ConnectionTypeDatabricks            ConnectionTypeEnum = "DATABRICKS"
-	ConnectionTypeGooglePubsub          ConnectionTypeEnum = "GOOGLE_PUBSUB"
-	ConnectionTypeMicrosoftFabric       ConnectionTypeEnum = "MICROSOFT_FABRIC"
-	ConnectionTypeIceberg               ConnectionTypeEnum = "ICEBERG"
-	ConnectionTypeAiModel               ConnectionTypeEnum = "AI_MODEL"
+	ConnectionTypeGoldengate                 ConnectionTypeEnum = "GOLDENGATE"
+	ConnectionTypeKafka                      ConnectionTypeEnum = "KAFKA"
+	ConnectionTypeKafkaSchemaRegistry        ConnectionTypeEnum = "KAFKA_SCHEMA_REGISTRY"
+	ConnectionTypeMysql                      ConnectionTypeEnum = "MYSQL"
+	ConnectionTypeJavaMessageService         ConnectionTypeEnum = "JAVA_MESSAGE_SERVICE"
+	ConnectionTypeMicrosoftSqlserver         ConnectionTypeEnum = "MICROSOFT_SQLSERVER"
+	ConnectionTypeOciObjectStorage           ConnectionTypeEnum = "OCI_OBJECT_STORAGE"
+	ConnectionTypeOracle                     ConnectionTypeEnum = "ORACLE"
+	ConnectionTypeAzureDataLakeStorage       ConnectionTypeEnum = "AZURE_DATA_LAKE_STORAGE"
+	ConnectionTypePostgresql                 ConnectionTypeEnum = "POSTGRESQL"
+	ConnectionTypeAzureSynapseAnalytics      ConnectionTypeEnum = "AZURE_SYNAPSE_ANALYTICS"
+	ConnectionTypeSnowflake                  ConnectionTypeEnum = "SNOWFLAKE"
+	ConnectionTypeAmazonS3                   ConnectionTypeEnum = "AMAZON_S3"
+	ConnectionTypeHdfs                       ConnectionTypeEnum = "HDFS"
+	ConnectionTypeOracleAiDataPlatform       ConnectionTypeEnum = "ORACLE_AI_DATA_PLATFORM"
+	ConnectionTypeOracleAiDataCatalogStorage ConnectionTypeEnum = "ORACLE_AI_DATA_CATALOG_STORAGE"
+	ConnectionTypeOracleNosql                ConnectionTypeEnum = "ORACLE_NOSQL"
+	ConnectionTypeMongodb                    ConnectionTypeEnum = "MONGODB"
+	ConnectionTypeAmazonKinesis              ConnectionTypeEnum = "AMAZON_KINESIS"
+	ConnectionTypeAmazonRedshift             ConnectionTypeEnum = "AMAZON_REDSHIFT"
+	ConnectionTypeDb2                        ConnectionTypeEnum = "DB2"
+	ConnectionTypeRedis                      ConnectionTypeEnum = "REDIS"
+	ConnectionTypeElasticsearch              ConnectionTypeEnum = "ELASTICSEARCH"
+	ConnectionTypeGeneric                    ConnectionTypeEnum = "GENERIC"
+	ConnectionTypeGoogleCloudStorage         ConnectionTypeEnum = "GOOGLE_CLOUD_STORAGE"
+	ConnectionTypeGoogleBigquery             ConnectionTypeEnum = "GOOGLE_BIGQUERY"
+	ConnectionTypeDatabricks                 ConnectionTypeEnum = "DATABRICKS"
+	ConnectionTypeGooglePubsub               ConnectionTypeEnum = "GOOGLE_PUBSUB"
+	ConnectionTypeMicrosoftFabric            ConnectionTypeEnum = "MICROSOFT_FABRIC"
+	ConnectionTypeIceberg                    ConnectionTypeEnum = "ICEBERG"
+	ConnectionTypeAiModel                    ConnectionTypeEnum = "AI_MODEL"
 )
 
 var mappingConnectionTypeEnum = map[string]ConnectionTypeEnum{
-	"GOLDENGATE":              ConnectionTypeGoldengate,
-	"KAFKA":                   ConnectionTypeKafka,
-	"KAFKA_SCHEMA_REGISTRY":   ConnectionTypeKafkaSchemaRegistry,
-	"MYSQL":                   ConnectionTypeMysql,
-	"JAVA_MESSAGE_SERVICE":    ConnectionTypeJavaMessageService,
-	"MICROSOFT_SQLSERVER":     ConnectionTypeMicrosoftSqlserver,
-	"OCI_OBJECT_STORAGE":      ConnectionTypeOciObjectStorage,
-	"ORACLE":                  ConnectionTypeOracle,
-	"AZURE_DATA_LAKE_STORAGE": ConnectionTypeAzureDataLakeStorage,
-	"POSTGRESQL":              ConnectionTypePostgresql,
-	"AZURE_SYNAPSE_ANALYTICS": ConnectionTypeAzureSynapseAnalytics,
-	"SNOWFLAKE":               ConnectionTypeSnowflake,
-	"AMAZON_S3":               ConnectionTypeAmazonS3,
-	"HDFS":                    ConnectionTypeHdfs,
-	"ORACLE_AI_DATA_PLATFORM": ConnectionTypeOracleAiDataPlatform,
-	"ORACLE_NOSQL":            ConnectionTypeOracleNosql,
-	"MONGODB":                 ConnectionTypeMongodb,
-	"AMAZON_KINESIS":          ConnectionTypeAmazonKinesis,
-	"AMAZON_REDSHIFT":         ConnectionTypeAmazonRedshift,
-	"DB2":                     ConnectionTypeDb2,
-	"REDIS":                   ConnectionTypeRedis,
-	"ELASTICSEARCH":           ConnectionTypeElasticsearch,
-	"GENERIC":                 ConnectionTypeGeneric,
-	"GOOGLE_CLOUD_STORAGE":    ConnectionTypeGoogleCloudStorage,
-	"GOOGLE_BIGQUERY":         ConnectionTypeGoogleBigquery,
-	"DATABRICKS":              ConnectionTypeDatabricks,
-	"GOOGLE_PUBSUB":           ConnectionTypeGooglePubsub,
-	"MICROSOFT_FABRIC":        ConnectionTypeMicrosoftFabric,
-	"ICEBERG":                 ConnectionTypeIceberg,
-	"AI_MODEL":                ConnectionTypeAiModel,
+	"GOLDENGATE":                     ConnectionTypeGoldengate,
+	"KAFKA":                          ConnectionTypeKafka,
+	"KAFKA_SCHEMA_REGISTRY":          ConnectionTypeKafkaSchemaRegistry,
+	"MYSQL":                          ConnectionTypeMysql,
+	"JAVA_MESSAGE_SERVICE":           ConnectionTypeJavaMessageService,
+	"MICROSOFT_SQLSERVER":            ConnectionTypeMicrosoftSqlserver,
+	"OCI_OBJECT_STORAGE":             ConnectionTypeOciObjectStorage,
+	"ORACLE":                         ConnectionTypeOracle,
+	"AZURE_DATA_LAKE_STORAGE":        ConnectionTypeAzureDataLakeStorage,
+	"POSTGRESQL":                     ConnectionTypePostgresql,
+	"AZURE_SYNAPSE_ANALYTICS":        ConnectionTypeAzureSynapseAnalytics,
+	"SNOWFLAKE":                      ConnectionTypeSnowflake,
+	"AMAZON_S3":                      ConnectionTypeAmazonS3,
+	"HDFS":                           ConnectionTypeHdfs,
+	"ORACLE_AI_DATA_PLATFORM":        ConnectionTypeOracleAiDataPlatform,
+	"ORACLE_AI_DATA_CATALOG_STORAGE": ConnectionTypeOracleAiDataCatalogStorage,
+	"ORACLE_NOSQL":                   ConnectionTypeOracleNosql,
+	"MONGODB":                        ConnectionTypeMongodb,
+	"AMAZON_KINESIS":                 ConnectionTypeAmazonKinesis,
+	"AMAZON_REDSHIFT":                ConnectionTypeAmazonRedshift,
+	"DB2":                            ConnectionTypeDb2,
+	"REDIS":                          ConnectionTypeRedis,
+	"ELASTICSEARCH":                  ConnectionTypeElasticsearch,
+	"GENERIC":                        ConnectionTypeGeneric,
+	"GOOGLE_CLOUD_STORAGE":           ConnectionTypeGoogleCloudStorage,
+	"GOOGLE_BIGQUERY":                ConnectionTypeGoogleBigquery,
+	"DATABRICKS":                     ConnectionTypeDatabricks,
+	"GOOGLE_PUBSUB":                  ConnectionTypeGooglePubsub,
+	"MICROSOFT_FABRIC":               ConnectionTypeMicrosoftFabric,
+	"ICEBERG":                        ConnectionTypeIceberg,
+	"AI_MODEL":                       ConnectionTypeAiModel,
 }
 
 var mappingConnectionTypeEnumLowerCase = map[string]ConnectionTypeEnum{
-	"goldengate":              ConnectionTypeGoldengate,
-	"kafka":                   ConnectionTypeKafka,
-	"kafka_schema_registry":   ConnectionTypeKafkaSchemaRegistry,
-	"mysql":                   ConnectionTypeMysql,
-	"java_message_service":    ConnectionTypeJavaMessageService,
-	"microsoft_sqlserver":     ConnectionTypeMicrosoftSqlserver,
-	"oci_object_storage":      ConnectionTypeOciObjectStorage,
-	"oracle":                  ConnectionTypeOracle,
-	"azure_data_lake_storage": ConnectionTypeAzureDataLakeStorage,
-	"postgresql":              ConnectionTypePostgresql,
-	"azure_synapse_analytics": ConnectionTypeAzureSynapseAnalytics,
-	"snowflake":               ConnectionTypeSnowflake,
-	"amazon_s3":               ConnectionTypeAmazonS3,
-	"hdfs":                    ConnectionTypeHdfs,
-	"oracle_ai_data_platform": ConnectionTypeOracleAiDataPlatform,
-	"oracle_nosql":            ConnectionTypeOracleNosql,
-	"mongodb":                 ConnectionTypeMongodb,
-	"amazon_kinesis":          ConnectionTypeAmazonKinesis,
-	"amazon_redshift":         ConnectionTypeAmazonRedshift,
-	"db2":                     ConnectionTypeDb2,
-	"redis":                   ConnectionTypeRedis,
-	"elasticsearch":           ConnectionTypeElasticsearch,
-	"generic":                 ConnectionTypeGeneric,
-	"google_cloud_storage":    ConnectionTypeGoogleCloudStorage,
-	"google_bigquery":         ConnectionTypeGoogleBigquery,
-	"databricks":              ConnectionTypeDatabricks,
-	"google_pubsub":           ConnectionTypeGooglePubsub,
-	"microsoft_fabric":        ConnectionTypeMicrosoftFabric,
-	"iceberg":                 ConnectionTypeIceberg,
-	"ai_model":                ConnectionTypeAiModel,
+	"goldengate":                     ConnectionTypeGoldengate,
+	"kafka":                          ConnectionTypeKafka,
+	"kafka_schema_registry":          ConnectionTypeKafkaSchemaRegistry,
+	"mysql":                          ConnectionTypeMysql,
+	"java_message_service":           ConnectionTypeJavaMessageService,
+	"microsoft_sqlserver":            ConnectionTypeMicrosoftSqlserver,
+	"oci_object_storage":             ConnectionTypeOciObjectStorage,
+	"oracle":                         ConnectionTypeOracle,
+	"azure_data_lake_storage":        ConnectionTypeAzureDataLakeStorage,
+	"postgresql":                     ConnectionTypePostgresql,
+	"azure_synapse_analytics":        ConnectionTypeAzureSynapseAnalytics,
+	"snowflake":                      ConnectionTypeSnowflake,
+	"amazon_s3":                      ConnectionTypeAmazonS3,
+	"hdfs":                           ConnectionTypeHdfs,
+	"oracle_ai_data_platform":        ConnectionTypeOracleAiDataPlatform,
+	"oracle_ai_data_catalog_storage": ConnectionTypeOracleAiDataCatalogStorage,
+	"oracle_nosql":                   ConnectionTypeOracleNosql,
+	"mongodb":                        ConnectionTypeMongodb,
+	"amazon_kinesis":                 ConnectionTypeAmazonKinesis,
+	"amazon_redshift":                ConnectionTypeAmazonRedshift,
+	"db2":                            ConnectionTypeDb2,
+	"redis":                          ConnectionTypeRedis,
+	"elasticsearch":                  ConnectionTypeElasticsearch,
+	"generic":                        ConnectionTypeGeneric,
+	"google_cloud_storage":           ConnectionTypeGoogleCloudStorage,
+	"google_bigquery":                ConnectionTypeGoogleBigquery,
+	"databricks":                     ConnectionTypeDatabricks,
+	"google_pubsub":                  ConnectionTypeGooglePubsub,
+	"microsoft_fabric":               ConnectionTypeMicrosoftFabric,
+	"iceberg":                        ConnectionTypeIceberg,
+	"ai_model":                       ConnectionTypeAiModel,
 }
 
 // GetConnectionTypeEnumValues Enumerates the set of values for ConnectionTypeEnum
@@ -143,6 +146,7 @@ func GetConnectionTypeEnumStringValues() []string {
 		"AMAZON_S3",
 		"HDFS",
 		"ORACLE_AI_DATA_PLATFORM",
+		"ORACLE_AI_DATA_CATALOG_STORAGE",
 		"ORACLE_NOSQL",
 		"MONGODB",
 		"AMAZON_KINESIS",

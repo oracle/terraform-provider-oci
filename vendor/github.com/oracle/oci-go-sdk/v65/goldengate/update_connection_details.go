@@ -197,6 +197,10 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := UpdateSnowflakeConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ORACLE_AI_DATA_CATALOG_STORAGE":
+		mm := UpdateOracleAiDataCatalogStorageConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "HDFS":
 		mm := UpdateHdfsConnectionDetails{}
 		err = json.Unmarshal(data, &mm)

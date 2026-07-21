@@ -27,6 +27,9 @@ type DisableArchivingRequest struct {
 	// provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
+	// The type of stored data.
+	DataType DisableArchivingDataTypeEnum `mandatory:"false" contributesTo:"query" name:"dataType" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -63,6 +66,9 @@ func (request DisableArchivingRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request DisableArchivingRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingDisableArchivingDataTypeEnum(string(request.DataType)); !ok && request.DataType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataType: %s. Supported values are: %s.", request.DataType, strings.Join(GetDisableArchivingDataTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -92,4 +98,50 @@ func (response DisableArchivingResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response DisableArchivingResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// DisableArchivingDataTypeEnum Enum with underlying type: string
+type DisableArchivingDataTypeEnum string
+
+// Set of constants representing the allowable values for DisableArchivingDataTypeEnum
+const (
+	DisableArchivingDataTypeLog    DisableArchivingDataTypeEnum = "LOG"
+	DisableArchivingDataTypeLookup DisableArchivingDataTypeEnum = "LOOKUP"
+	DisableArchivingDataTypeApm    DisableArchivingDataTypeEnum = "APM"
+)
+
+var mappingDisableArchivingDataTypeEnum = map[string]DisableArchivingDataTypeEnum{
+	"LOG":    DisableArchivingDataTypeLog,
+	"LOOKUP": DisableArchivingDataTypeLookup,
+	"APM":    DisableArchivingDataTypeApm,
+}
+
+var mappingDisableArchivingDataTypeEnumLowerCase = map[string]DisableArchivingDataTypeEnum{
+	"log":    DisableArchivingDataTypeLog,
+	"lookup": DisableArchivingDataTypeLookup,
+	"apm":    DisableArchivingDataTypeApm,
+}
+
+// GetDisableArchivingDataTypeEnumValues Enumerates the set of values for DisableArchivingDataTypeEnum
+func GetDisableArchivingDataTypeEnumValues() []DisableArchivingDataTypeEnum {
+	values := make([]DisableArchivingDataTypeEnum, 0)
+	for _, v := range mappingDisableArchivingDataTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDisableArchivingDataTypeEnumStringValues Enumerates the set of values in String for DisableArchivingDataTypeEnum
+func GetDisableArchivingDataTypeEnumStringValues() []string {
+	return []string{
+		"LOG",
+		"LOOKUP",
+		"APM",
+	}
+}
+
+// GetMappingDisableArchivingDataTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDisableArchivingDataTypeEnum(val string) (DisableArchivingDataTypeEnum, bool) {
+	enum, ok := mappingDisableArchivingDataTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

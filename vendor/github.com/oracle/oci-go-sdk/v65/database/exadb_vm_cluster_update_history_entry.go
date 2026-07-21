@@ -36,6 +36,9 @@ type ExadbVmClusterUpdateHistoryEntry struct {
 	// The update action.
 	UpdateAction ExadbVmClusterUpdateHistoryEntryUpdateActionEnum `mandatory:"false" json:"updateAction,omitempty"`
 
+	// The OS update mode performed using this maintenance update.
+	UpdateMode ExadbVmClusterUpdateHistoryEntryUpdateModeEnum `mandatory:"false" json:"updateMode,omitempty"`
+
 	// Descriptive text providing additional details about the lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -64,6 +67,9 @@ func (m ExadbVmClusterUpdateHistoryEntry) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingExadbVmClusterUpdateHistoryEntryUpdateActionEnum(string(m.UpdateAction)); !ok && m.UpdateAction != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateAction: %s. Supported values are: %s.", m.UpdateAction, strings.Join(GetExadbVmClusterUpdateHistoryEntryUpdateActionEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingExadbVmClusterUpdateHistoryEntryUpdateModeEnum(string(m.UpdateMode)); !ok && m.UpdateMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateMode: %s. Supported values are: %s.", m.UpdateMode, strings.Join(GetExadbVmClusterUpdateHistoryEntryUpdateModeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -118,6 +124,68 @@ func GetExadbVmClusterUpdateHistoryEntryUpdateActionEnumStringValues() []string 
 // GetMappingExadbVmClusterUpdateHistoryEntryUpdateActionEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingExadbVmClusterUpdateHistoryEntryUpdateActionEnum(val string) (ExadbVmClusterUpdateHistoryEntryUpdateActionEnum, bool) {
 	enum, ok := mappingExadbVmClusterUpdateHistoryEntryUpdateActionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ExadbVmClusterUpdateHistoryEntryUpdateModeEnum Enum with underlying type: string
+type ExadbVmClusterUpdateHistoryEntryUpdateModeEnum string
+
+// Set of constants representing the allowable values for ExadbVmClusterUpdateHistoryEntryUpdateModeEnum
+const (
+	ExadbVmClusterUpdateHistoryEntryUpdateModeOnlineHighcvss         ExadbVmClusterUpdateHistoryEntryUpdateModeEnum = "ONLINE_HIGHCVSS"
+	ExadbVmClusterUpdateHistoryEntryUpdateModeOnlineAllcvss          ExadbVmClusterUpdateHistoryEntryUpdateModeEnum = "ONLINE_ALLCVSS"
+	ExadbVmClusterUpdateHistoryEntryUpdateModeOnlineAllUpdates       ExadbVmClusterUpdateHistoryEntryUpdateModeEnum = "ONLINE_ALL_UPDATES"
+	ExadbVmClusterUpdateHistoryEntryUpdateModePendingUpdatesHighcvss ExadbVmClusterUpdateHistoryEntryUpdateModeEnum = "PENDING_UPDATES_HIGHCVSS"
+	ExadbVmClusterUpdateHistoryEntryUpdateModePendingUpdatesAllcvss  ExadbVmClusterUpdateHistoryEntryUpdateModeEnum = "PENDING_UPDATES_ALLCVSS"
+	ExadbVmClusterUpdateHistoryEntryUpdateModePendingAllUpdates      ExadbVmClusterUpdateHistoryEntryUpdateModeEnum = "PENDING_ALL_UPDATES"
+	ExadbVmClusterUpdateHistoryEntryUpdateModeFullUpdate             ExadbVmClusterUpdateHistoryEntryUpdateModeEnum = "FULL_UPDATE"
+)
+
+var mappingExadbVmClusterUpdateHistoryEntryUpdateModeEnum = map[string]ExadbVmClusterUpdateHistoryEntryUpdateModeEnum{
+	"ONLINE_HIGHCVSS":          ExadbVmClusterUpdateHistoryEntryUpdateModeOnlineHighcvss,
+	"ONLINE_ALLCVSS":           ExadbVmClusterUpdateHistoryEntryUpdateModeOnlineAllcvss,
+	"ONLINE_ALL_UPDATES":       ExadbVmClusterUpdateHistoryEntryUpdateModeOnlineAllUpdates,
+	"PENDING_UPDATES_HIGHCVSS": ExadbVmClusterUpdateHistoryEntryUpdateModePendingUpdatesHighcvss,
+	"PENDING_UPDATES_ALLCVSS":  ExadbVmClusterUpdateHistoryEntryUpdateModePendingUpdatesAllcvss,
+	"PENDING_ALL_UPDATES":      ExadbVmClusterUpdateHistoryEntryUpdateModePendingAllUpdates,
+	"FULL_UPDATE":              ExadbVmClusterUpdateHistoryEntryUpdateModeFullUpdate,
+}
+
+var mappingExadbVmClusterUpdateHistoryEntryUpdateModeEnumLowerCase = map[string]ExadbVmClusterUpdateHistoryEntryUpdateModeEnum{
+	"online_highcvss":          ExadbVmClusterUpdateHistoryEntryUpdateModeOnlineHighcvss,
+	"online_allcvss":           ExadbVmClusterUpdateHistoryEntryUpdateModeOnlineAllcvss,
+	"online_all_updates":       ExadbVmClusterUpdateHistoryEntryUpdateModeOnlineAllUpdates,
+	"pending_updates_highcvss": ExadbVmClusterUpdateHistoryEntryUpdateModePendingUpdatesHighcvss,
+	"pending_updates_allcvss":  ExadbVmClusterUpdateHistoryEntryUpdateModePendingUpdatesAllcvss,
+	"pending_all_updates":      ExadbVmClusterUpdateHistoryEntryUpdateModePendingAllUpdates,
+	"full_update":              ExadbVmClusterUpdateHistoryEntryUpdateModeFullUpdate,
+}
+
+// GetExadbVmClusterUpdateHistoryEntryUpdateModeEnumValues Enumerates the set of values for ExadbVmClusterUpdateHistoryEntryUpdateModeEnum
+func GetExadbVmClusterUpdateHistoryEntryUpdateModeEnumValues() []ExadbVmClusterUpdateHistoryEntryUpdateModeEnum {
+	values := make([]ExadbVmClusterUpdateHistoryEntryUpdateModeEnum, 0)
+	for _, v := range mappingExadbVmClusterUpdateHistoryEntryUpdateModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetExadbVmClusterUpdateHistoryEntryUpdateModeEnumStringValues Enumerates the set of values in String for ExadbVmClusterUpdateHistoryEntryUpdateModeEnum
+func GetExadbVmClusterUpdateHistoryEntryUpdateModeEnumStringValues() []string {
+	return []string{
+		"ONLINE_HIGHCVSS",
+		"ONLINE_ALLCVSS",
+		"ONLINE_ALL_UPDATES",
+		"PENDING_UPDATES_HIGHCVSS",
+		"PENDING_UPDATES_ALLCVSS",
+		"PENDING_ALL_UPDATES",
+		"FULL_UPDATE",
+	}
+}
+
+// GetMappingExadbVmClusterUpdateHistoryEntryUpdateModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingExadbVmClusterUpdateHistoryEntryUpdateModeEnum(val string) (ExadbVmClusterUpdateHistoryEntryUpdateModeEnum, bool) {
+	enum, ok := mappingExadbVmClusterUpdateHistoryEntryUpdateModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

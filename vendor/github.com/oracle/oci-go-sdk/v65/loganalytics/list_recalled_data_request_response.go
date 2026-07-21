@@ -39,6 +39,9 @@ type ListRecalledDataRequest struct {
 	// This is the end of the time range for recalled data
 	TimeDataEndedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeDataEndedLessThan"`
 
+	// Filter by recalled data type. One of LOG, APM, or ALL.
+	DataType ListRecalledDataDataTypeEnum `mandatory:"false" contributesTo:"query" name:"dataType" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -80,6 +83,9 @@ func (request ListRecalledDataRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListRecalledDataSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListRecalledDataSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListRecalledDataDataTypeEnum(string(request.DataType)); !ok && request.DataType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataType: %s. Supported values are: %s.", request.DataType, strings.Join(GetListRecalledDataDataTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -200,5 +206,51 @@ func GetListRecalledDataSortOrderEnumStringValues() []string {
 // GetMappingListRecalledDataSortOrderEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListRecalledDataSortOrderEnum(val string) (ListRecalledDataSortOrderEnum, bool) {
 	enum, ok := mappingListRecalledDataSortOrderEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListRecalledDataDataTypeEnum Enum with underlying type: string
+type ListRecalledDataDataTypeEnum string
+
+// Set of constants representing the allowable values for ListRecalledDataDataTypeEnum
+const (
+	ListRecalledDataDataTypeLog ListRecalledDataDataTypeEnum = "LOG"
+	ListRecalledDataDataTypeApm ListRecalledDataDataTypeEnum = "APM"
+	ListRecalledDataDataTypeAll ListRecalledDataDataTypeEnum = "ALL"
+)
+
+var mappingListRecalledDataDataTypeEnum = map[string]ListRecalledDataDataTypeEnum{
+	"LOG": ListRecalledDataDataTypeLog,
+	"APM": ListRecalledDataDataTypeApm,
+	"ALL": ListRecalledDataDataTypeAll,
+}
+
+var mappingListRecalledDataDataTypeEnumLowerCase = map[string]ListRecalledDataDataTypeEnum{
+	"log": ListRecalledDataDataTypeLog,
+	"apm": ListRecalledDataDataTypeApm,
+	"all": ListRecalledDataDataTypeAll,
+}
+
+// GetListRecalledDataDataTypeEnumValues Enumerates the set of values for ListRecalledDataDataTypeEnum
+func GetListRecalledDataDataTypeEnumValues() []ListRecalledDataDataTypeEnum {
+	values := make([]ListRecalledDataDataTypeEnum, 0)
+	for _, v := range mappingListRecalledDataDataTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListRecalledDataDataTypeEnumStringValues Enumerates the set of values in String for ListRecalledDataDataTypeEnum
+func GetListRecalledDataDataTypeEnumStringValues() []string {
+	return []string{
+		"LOG",
+		"APM",
+		"ALL",
+	}
+}
+
+// GetMappingListRecalledDataDataTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListRecalledDataDataTypeEnum(val string) (ListRecalledDataDataTypeEnum, bool) {
+	enum, ok := mappingListRecalledDataDataTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

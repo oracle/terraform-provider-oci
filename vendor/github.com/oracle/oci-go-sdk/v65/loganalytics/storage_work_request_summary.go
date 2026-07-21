@@ -54,7 +54,7 @@ type StorageWorkRequestSummary struct {
 	// This is the solr query used to filter data for purge, '*' means all
 	PurgeQueryString *string `mandatory:"false" json:"purgeQueryString"`
 
-	// Thie is the type of data to be purged
+	// This is the type of data to be purged
 	DataType StorageDataTypeEnum `mandatory:"false" json:"dataType,omitempty"`
 
 	// This provides more detailed status if applicable

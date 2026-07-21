@@ -45,6 +45,9 @@ type AutonomousVirtualMachineSummary struct {
 	// Client IP Address.
 	ClientIpAddress *string `mandatory:"false" json:"clientIpAddress"`
 
+	// Client IPv6 Address.
+	ClientIpv6Address *string `mandatory:"false" json:"clientIpv6Address"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 

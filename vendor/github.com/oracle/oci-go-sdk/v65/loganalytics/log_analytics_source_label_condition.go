@@ -77,6 +77,9 @@ type LogAnalyticsSourceLabelCondition struct {
 
 	// A flag indicating whether or not the inline label exists in the database.
 	IsInlineLabelExistingInDatabase *bool `mandatory:"false" json:"isInlineLabelExistingInDatabase"`
+
+	// The field unit in storage.
+	StorageUnit *string `mandatory:"false" json:"storageUnit"`
 }
 
 func (m LogAnalyticsSourceLabelCondition) String() string {

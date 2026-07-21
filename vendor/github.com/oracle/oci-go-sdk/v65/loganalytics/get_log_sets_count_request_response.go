@@ -20,6 +20,9 @@ type GetLogSetsCountRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// The type of stored data.
+	DataType GetLogSetsCountDataTypeEnum `mandatory:"false" contributesTo:"query" name:"dataType" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -56,6 +59,9 @@ func (request GetLogSetsCountRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request GetLogSetsCountRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingGetLogSetsCountDataTypeEnum(string(request.DataType)); !ok && request.DataType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataType: %s. Supported values are: %s.", request.DataType, strings.Join(GetGetLogSetsCountDataTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -82,4 +88,50 @@ func (response GetLogSetsCountResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response GetLogSetsCountResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// GetLogSetsCountDataTypeEnum Enum with underlying type: string
+type GetLogSetsCountDataTypeEnum string
+
+// Set of constants representing the allowable values for GetLogSetsCountDataTypeEnum
+const (
+	GetLogSetsCountDataTypeLog    GetLogSetsCountDataTypeEnum = "LOG"
+	GetLogSetsCountDataTypeLookup GetLogSetsCountDataTypeEnum = "LOOKUP"
+	GetLogSetsCountDataTypeApm    GetLogSetsCountDataTypeEnum = "APM"
+)
+
+var mappingGetLogSetsCountDataTypeEnum = map[string]GetLogSetsCountDataTypeEnum{
+	"LOG":    GetLogSetsCountDataTypeLog,
+	"LOOKUP": GetLogSetsCountDataTypeLookup,
+	"APM":    GetLogSetsCountDataTypeApm,
+}
+
+var mappingGetLogSetsCountDataTypeEnumLowerCase = map[string]GetLogSetsCountDataTypeEnum{
+	"log":    GetLogSetsCountDataTypeLog,
+	"lookup": GetLogSetsCountDataTypeLookup,
+	"apm":    GetLogSetsCountDataTypeApm,
+}
+
+// GetGetLogSetsCountDataTypeEnumValues Enumerates the set of values for GetLogSetsCountDataTypeEnum
+func GetGetLogSetsCountDataTypeEnumValues() []GetLogSetsCountDataTypeEnum {
+	values := make([]GetLogSetsCountDataTypeEnum, 0)
+	for _, v := range mappingGetLogSetsCountDataTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetGetLogSetsCountDataTypeEnumStringValues Enumerates the set of values in String for GetLogSetsCountDataTypeEnum
+func GetGetLogSetsCountDataTypeEnumStringValues() []string {
+	return []string{
+		"LOG",
+		"LOOKUP",
+		"APM",
+	}
+}
+
+// GetMappingGetLogSetsCountDataTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingGetLogSetsCountDataTypeEnum(val string) (GetLogSetsCountDataTypeEnum, bool) {
+	enum, ok := mappingGetLogSetsCountDataTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

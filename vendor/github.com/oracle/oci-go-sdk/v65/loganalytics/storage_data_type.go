@@ -20,16 +20,19 @@ type StorageDataTypeEnum string
 const (
 	StorageDataTypeLog    StorageDataTypeEnum = "LOG"
 	StorageDataTypeLookup StorageDataTypeEnum = "LOOKUP"
+	StorageDataTypeApm    StorageDataTypeEnum = "APM"
 )
 
 var mappingStorageDataTypeEnum = map[string]StorageDataTypeEnum{
 	"LOG":    StorageDataTypeLog,
 	"LOOKUP": StorageDataTypeLookup,
+	"APM":    StorageDataTypeApm,
 }
 
 var mappingStorageDataTypeEnumLowerCase = map[string]StorageDataTypeEnum{
 	"log":    StorageDataTypeLog,
 	"lookup": StorageDataTypeLookup,
+	"apm":    StorageDataTypeApm,
 }
 
 // GetStorageDataTypeEnumValues Enumerates the set of values for StorageDataTypeEnum
@@ -46,6 +49,7 @@ func GetStorageDataTypeEnumStringValues() []string {
 	return []string{
 		"LOG",
 		"LOOKUP",
+		"APM",
 	}
 }
 

@@ -620,6 +620,65 @@ func (client DataFlowClient) changeSqlEndpointCompartment(ctx context.Context, r
 	return response, err
 }
 
+// CloneComputeCluster Clones a dataflow compute cluster for a given `computeClusterId`.
+// A default retry strategy applies to this operation CloneComputeCluster()
+func (client DataFlowClient) CloneComputeCluster(ctx context.Context, request CloneComputeClusterRequest) (response CloneComputeClusterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.cloneComputeCluster, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CloneComputeClusterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CloneComputeClusterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CloneComputeClusterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CloneComputeClusterResponse")
+	}
+	return
+}
+
+// cloneComputeCluster implements the OCIOperation interface (enables retrying operations)
+func (client DataFlowClient) cloneComputeCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeClusters/{computeClusterId}/actions/clone", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CloneComputeClusterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "CloneComputeCluster")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/ComputeCluster/CloneComputeCluster"
+		err = common.PostProcessServiceError(err, "DataFlow", "CloneComputeCluster", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateApplication Creates an application.
 func (client DataFlowClient) CreateApplication(ctx context.Context, request CreateApplicationRequest) (response CreateApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2070,6 +2129,60 @@ func (client DataFlowClient) getComputeClusterCommand(ctx context.Context, reque
 	return response, err
 }
 
+// GetComputeClusterConfiguration Retrieves the configuration for a compute cluster using a `computeClusterId`.
+// A default retry strategy applies to this operation GetComputeClusterConfiguration()
+func (client DataFlowClient) GetComputeClusterConfiguration(ctx context.Context, request GetComputeClusterConfigurationRequest) (response GetComputeClusterConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getComputeClusterConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetComputeClusterConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetComputeClusterConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetComputeClusterConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetComputeClusterConfigurationResponse")
+	}
+	return
+}
+
+// getComputeClusterConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client DataFlowClient) getComputeClusterConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeClusters/{computeClusterId}/configuration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetComputeClusterConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "GetComputeClusterConfiguration")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/ComputeClusterConfiguration/GetComputeClusterConfiguration"
+		err = common.PostProcessServiceError(err, "DataFlow", "GetComputeClusterConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetComputeClusterContext Retrieves a compute cluster context using a `computeClusterId` and a `contextId`.
 // A default retry strategy applies to this operation GetComputeClusterContext()
 func (client DataFlowClient) GetComputeClusterContext(ctx context.Context, request GetComputeClusterContextRequest) (response GetComputeClusterContextResponse, err error) {
@@ -2229,6 +2342,60 @@ func (client DataFlowClient) getDeployment(ctx context.Context, request common.O
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Deployment/GetDeployment"
 		err = common.PostProcessServiceError(err, "DataFlow", "GetDeployment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetImportStatus Retrieves the status for a compute cluster configuration import operation using a `computeClusterId` and `workRequestId`.
+// A default retry strategy applies to this operation GetImportStatus()
+func (client DataFlowClient) GetImportStatus(ctx context.Context, request GetImportStatusRequest) (response GetImportStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getImportStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetImportStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetImportStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetImportStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetImportStatusResponse")
+	}
+	return
+}
+
+// getImportStatus implements the OCIOperation interface (enables retrying operations)
+func (client DataFlowClient) getImportStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeClusters/{computeClusterId}/configurationImports/{workRequestId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetImportStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "GetImportStatus")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/ComputeClusterConfigurationImportStatus/GetImportStatus"
+		err = common.PostProcessServiceError(err, "DataFlow", "GetImportStatus", apiReferenceLink)
 		return response, err
 	}
 
@@ -2660,6 +2827,59 @@ func (client DataFlowClient) getWorkRequest(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "DataFlow", "GetWorkRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ImportComputeClusterConfiguration Imports configuration YAML files into a dataflow compute cluster for a given `computeClusterId`.
+func (client DataFlowClient) ImportComputeClusterConfiguration(ctx context.Context, request ImportComputeClusterConfigurationRequest) (response ImportComputeClusterConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.importComputeClusterConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ImportComputeClusterConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ImportComputeClusterConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ImportComputeClusterConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ImportComputeClusterConfigurationResponse")
+	}
+	return
+}
+
+// importComputeClusterConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client DataFlowClient) importComputeClusterConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeClusters/{computeClusterId}/actions/importConfiguration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ImportComputeClusterConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataFlow", "ImportComputeClusterConfiguration")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/ComputeCluster/ImportComputeClusterConfiguration"
+		err = common.PostProcessServiceError(err, "DataFlow", "ImportComputeClusterConfiguration", apiReferenceLink)
 		return response, err
 	}
 

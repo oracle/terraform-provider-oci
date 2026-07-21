@@ -200,12 +200,21 @@ type UpdateAutonomousDatabaseDetails struct {
 	// This cannot be updated in parallel with any of the following: isMTLSRequired, dbWorkload, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	IsLocalDataGuardEnabled *bool `mandatory:"false" json:"isLocalDataGuardEnabled"`
 
+	// Indicates the Autonomous Data Guard standby database mode.
+	// The default mode is `STANDBY`, which does not allow read or write access.
+	// `READ_ONLY` mode allows read access.
+	// `READ_WRITE` mode is not supported for standby databases.
+	LocalStandbyOpenMode AutonomousDatabaseSummaryOpenModeEnum `mandatory:"false" json:"localStandbyOpenMode,omitempty"`
+
 	// ** Deprecated. ** Indicates whether the Autonomous AI Database has a local (in-region) standby database. Not applicable when creating a cross-region Autonomous Data Guard associations, or to
 	// Autonomous AI Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure.
 	// To create a local standby, set to `TRUE`. To delete a local standby, set to `FALSE`. For more information on using Autonomous Data Guard on an Autonomous AI Database Serverless instance (local and cross-region) , see About Standby Databases (https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/autonomous-data-guard-about.html#GUID-045AD017-8120-4BDC-AF58-7430FFE28D2B)
 	// To enable cross-region Autonomous Data Guard on an Autonomous AI Database Serverless instance, see Enable Autonomous Data Guard (https://docs-uat.us.oracle.com/en/cloud/paas/autonomous-database/adbsa/autonomous-data-guard-update-type.html#GUID-967ED737-4A05-4D6E-A7CA-C3F21ACF9BF0).
 	// To delete a cross-region standby database, provide the `peerDbId` for the standby database in a remote region, and set `isDataGuardEnabled` to `FALSE`.
 	IsDataGuardEnabled *bool `mandatory:"false" json:"isDataGuardEnabled"`
+
+	// The availability domain where the local Data Guard standby is created.
+	LocalStandbyAvailabilityDomain *string `mandatory:"false" json:"localStandbyAvailabilityDomain"`
 
 	// The database OCID(/Content/General/Concepts/identifiers.htm) of the Disaster Recovery peer (source Primary) database, which is located in a different (remote) region from the current peer database.
 	// To create or delete a local (in-region) standby, see the `isDataGuardEnabled` parameter.
@@ -220,6 +229,7 @@ type UpdateAutonomousDatabaseDetails struct {
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 
 	// Indicates the Autonomous AI Database mode. The database can be opened in `READ_ONLY` or `READ_WRITE` mode.
+	// By default, standby databases are in `STANDBY` mode, which does not allow read or write access.
 	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	OpenMode UpdateAutonomousDatabaseDetailsOpenModeEnum `mandatory:"false" json:"openMode,omitempty"`
 
@@ -389,6 +399,9 @@ func (m UpdateAutonomousDatabaseDetails) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingUpdateAutonomousDatabaseDetailsRefreshableModeEnum(string(m.RefreshableMode)); !ok && m.RefreshableMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RefreshableMode: %s. Supported values are: %s.", m.RefreshableMode, strings.Join(GetUpdateAutonomousDatabaseDetailsRefreshableModeEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingAutonomousDatabaseSummaryOpenModeEnum(string(m.LocalStandbyOpenMode)); !ok && m.LocalStandbyOpenMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LocalStandbyOpenMode: %s. Supported values are: %s.", m.LocalStandbyOpenMode, strings.Join(GetAutonomousDatabaseSummaryOpenModeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingUpdateAutonomousDatabaseDetailsOpenModeEnum(string(m.OpenMode)); !ok && m.OpenMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OpenMode: %s. Supported values are: %s.", m.OpenMode, strings.Join(GetUpdateAutonomousDatabaseDetailsOpenModeEnumStringValues(), ",")))
 	}
@@ -446,7 +459,9 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		IsRefreshableClone                   *bool                                                                `json:"isRefreshableClone"`
 		RefreshableMode                      UpdateAutonomousDatabaseDetailsRefreshableModeEnum                   `json:"refreshableMode"`
 		IsLocalDataGuardEnabled              *bool                                                                `json:"isLocalDataGuardEnabled"`
+		LocalStandbyOpenMode                 AutonomousDatabaseSummaryOpenModeEnum                                `json:"localStandbyOpenMode"`
 		IsDataGuardEnabled                   *bool                                                                `json:"isDataGuardEnabled"`
+		LocalStandbyAvailabilityDomain       *string                                                              `json:"localStandbyAvailabilityDomain"`
 		PeerDbId                             *string                                                              `json:"peerDbId"`
 		DbVersion                            *string                                                              `json:"dbVersion"`
 		OpenMode                             UpdateAutonomousDatabaseDetailsOpenModeEnum                          `json:"openMode"`
@@ -567,7 +582,11 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.IsLocalDataGuardEnabled = model.IsLocalDataGuardEnabled
 
+	m.LocalStandbyOpenMode = model.LocalStandbyOpenMode
+
 	m.IsDataGuardEnabled = model.IsDataGuardEnabled
+
+	m.LocalStandbyAvailabilityDomain = model.LocalStandbyAvailabilityDomain
 
 	m.PeerDbId = model.PeerDbId
 
@@ -871,18 +890,21 @@ type UpdateAutonomousDatabaseDetailsOpenModeEnum string
 
 // Set of constants representing the allowable values for UpdateAutonomousDatabaseDetailsOpenModeEnum
 const (
-	UpdateAutonomousDatabaseDetailsOpenModeOnly  UpdateAutonomousDatabaseDetailsOpenModeEnum = "READ_ONLY"
-	UpdateAutonomousDatabaseDetailsOpenModeWrite UpdateAutonomousDatabaseDetailsOpenModeEnum = "READ_WRITE"
+	UpdateAutonomousDatabaseDetailsOpenModeReadOnly  UpdateAutonomousDatabaseDetailsOpenModeEnum = "READ_ONLY"
+	UpdateAutonomousDatabaseDetailsOpenModeReadWrite UpdateAutonomousDatabaseDetailsOpenModeEnum = "READ_WRITE"
+	UpdateAutonomousDatabaseDetailsOpenModeStandby   UpdateAutonomousDatabaseDetailsOpenModeEnum = "STANDBY"
 )
 
 var mappingUpdateAutonomousDatabaseDetailsOpenModeEnum = map[string]UpdateAutonomousDatabaseDetailsOpenModeEnum{
-	"READ_ONLY":  UpdateAutonomousDatabaseDetailsOpenModeOnly,
-	"READ_WRITE": UpdateAutonomousDatabaseDetailsOpenModeWrite,
+	"READ_ONLY":  UpdateAutonomousDatabaseDetailsOpenModeReadOnly,
+	"READ_WRITE": UpdateAutonomousDatabaseDetailsOpenModeReadWrite,
+	"STANDBY":    UpdateAutonomousDatabaseDetailsOpenModeStandby,
 }
 
 var mappingUpdateAutonomousDatabaseDetailsOpenModeEnumLowerCase = map[string]UpdateAutonomousDatabaseDetailsOpenModeEnum{
-	"read_only":  UpdateAutonomousDatabaseDetailsOpenModeOnly,
-	"read_write": UpdateAutonomousDatabaseDetailsOpenModeWrite,
+	"read_only":  UpdateAutonomousDatabaseDetailsOpenModeReadOnly,
+	"read_write": UpdateAutonomousDatabaseDetailsOpenModeReadWrite,
+	"standby":    UpdateAutonomousDatabaseDetailsOpenModeStandby,
 }
 
 // GetUpdateAutonomousDatabaseDetailsOpenModeEnumValues Enumerates the set of values for UpdateAutonomousDatabaseDetailsOpenModeEnum
@@ -899,6 +921,7 @@ func GetUpdateAutonomousDatabaseDetailsOpenModeEnumStringValues() []string {
 	return []string{
 		"READ_ONLY",
 		"READ_WRITE",
+		"STANDBY",
 	}
 }
 

@@ -130,7 +130,7 @@ func (client PartnerIntegerationClient) ActivateSubscription(ctx context.Context
 // activateSubscription implements the OCIOperation interface (enables retrying operations)
 func (client PartnerIntegerationClient) activateSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/partner/subscriptions/{subscriptionId}/actions/activate", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/partners/subscriptions/{subscriptionId}/actions/activate", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -143,6 +143,60 @@ func (client PartnerIntegerationClient) activateSubscription(ctx context.Context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/PartnerSubscription/ActivateSubscription"
 		err = common.PostProcessServiceError(err, "PartnerIntegeration", "ActivateSubscription", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListPartners Lists marketplace publisher partner info for a compartment.
+// A default retry strategy applies to this operation ListPartners()
+func (client PartnerIntegerationClient) ListPartners(ctx context.Context, request ListPartnersRequest) (response ListPartnersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listPartners, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListPartnersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListPartnersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListPartnersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListPartnersResponse")
+	}
+	return
+}
+
+// listPartners implements the OCIOperation interface (enables retrying operations)
+func (client PartnerIntegerationClient) listPartners(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/partners", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListPartnersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "partnerIntegeration", "ListPartners")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/Partner/ListPartners"
+		err = common.PostProcessServiceError(err, "PartnerIntegeration", "ListPartners", apiReferenceLink)
 		return response, err
 	}
 
@@ -184,7 +238,7 @@ func (client PartnerIntegerationClient) ListingSubscriptions(ctx context.Context
 // listingSubscriptions implements the OCIOperation interface (enables retrying operations)
 func (client PartnerIntegerationClient) listingSubscriptions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/partner/subscriptions", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/partners/subscriptions", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -243,7 +297,7 @@ func (client PartnerIntegerationClient) ResolveSubscription(ctx context.Context,
 // resolveSubscription implements the OCIOperation interface (enables retrying operations)
 func (client PartnerIntegerationClient) resolveSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/partner/subscriptions/actions/resolve", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/partners/subscriptions/actions/resolve", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -256,6 +310,127 @@ func (client PartnerIntegerationClient) resolveSubscription(ctx context.Context,
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/PartnerSubscription/ResolveSubscription"
 		err = common.PostProcessServiceError(err, "PartnerIntegeration", "ResolveSubscription", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SubmitSubscriptionUsageBatch Asynchronously submits a UTF-8 CSV usage file for marketplace offers. The file
+// must not exceed 50 MB or 10,000 rows and must include required usage columns.
+// A default retry strategy applies to this operation SubmitSubscriptionUsageBatch()
+func (client PartnerIntegerationClient) SubmitSubscriptionUsageBatch(ctx context.Context, request SubmitSubscriptionUsageBatchRequest) (response SubmitSubscriptionUsageBatchResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.submitSubscriptionUsageBatch, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SubmitSubscriptionUsageBatchResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SubmitSubscriptionUsageBatchResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SubmitSubscriptionUsageBatchResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SubmitSubscriptionUsageBatchResponse")
+	}
+	return
+}
+
+// submitSubscriptionUsageBatch implements the OCIOperation interface (enables retrying operations)
+func (client PartnerIntegerationClient) submitSubscriptionUsageBatch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/partners/actions/batchUsageRecords", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SubmitSubscriptionUsageBatchResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "partnerIntegeration", "SubmitSubscriptionUsageBatch")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/CreateSubscriptionUsageRecordDetails/SubmitSubscriptionUsageBatch"
+		err = common.PostProcessServiceError(err, "PartnerIntegeration", "SubmitSubscriptionUsageBatch", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SubmitSubscriptionUsageRecords Synchronously submits usage records for marketplace offers. Each record must include
+// `id`, `marketplaceOfferId`, `amount`, `currencyCode`, `timeUsageStarted`,
+// `timeUsageEnded`, and `usageDimensionName`.
+// A default retry strategy applies to this operation SubmitSubscriptionUsageRecords()
+func (client PartnerIntegerationClient) SubmitSubscriptionUsageRecords(ctx context.Context, request SubmitSubscriptionUsageRecordsRequest) (response SubmitSubscriptionUsageRecordsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.submitSubscriptionUsageRecords, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SubmitSubscriptionUsageRecordsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SubmitSubscriptionUsageRecordsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SubmitSubscriptionUsageRecordsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SubmitSubscriptionUsageRecordsResponse")
+	}
+	return
+}
+
+// submitSubscriptionUsageRecords implements the OCIOperation interface (enables retrying operations)
+func (client PartnerIntegerationClient) submitSubscriptionUsageRecords(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/partners/actions/submitUsageRecords", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SubmitSubscriptionUsageRecordsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "partnerIntegeration", "SubmitSubscriptionUsageRecords")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/CreateSubscriptionUsageRecordDetails/SubmitSubscriptionUsageRecords"
+		err = common.PostProcessServiceError(err, "PartnerIntegeration", "SubmitSubscriptionUsageRecords", apiReferenceLink)
 		return response, err
 	}
 

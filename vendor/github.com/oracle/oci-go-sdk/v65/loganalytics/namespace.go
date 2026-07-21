@@ -27,13 +27,13 @@ type Namespace struct {
 	// This indicates if the tenancy is onboarded to Log Analytics
 	IsOnboarded *bool `mandatory:"true" json:"isOnboarded"`
 
-	// This indicates if the log set feature is enabled for the tenancy
+	// This indicates if the logIndex/logSet is enabled for LOG data type in the given tenancy.
 	IsLogSetEnabled *bool `mandatory:"false" json:"isLogSetEnabled"`
 
 	// This indicates if data has ever been ingested for the tenancy in Log Analytics
 	IsDataEverIngested *bool `mandatory:"false" json:"isDataEverIngested"`
 
-	// This indicates if old data can be archived for a tenancy
+	// This indicates if the archiving is enabled for LOG data type in the given tenancy.
 	IsArchivingEnabled *bool `mandatory:"false" json:"isArchivingEnabled"`
 
 	// The current state of the compartment.

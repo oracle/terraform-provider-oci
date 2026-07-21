@@ -49,13 +49,25 @@ type CreateExadataInfrastructureDetails struct {
 	// The CIDR block for the Exadata InfiniBand interconnect.
 	InfiniBandNetworkCIDR *string `mandatory:"true" json:"infiniBandNetworkCIDR"`
 
-	// The list of DNS server IP addresses. Maximum of 3 allowed.
+	// The list of DNS server IPv4 or IPv6 addresses. Maximum of 3 allowed.
 	DnsServer []string `mandatory:"true" json:"dnsServer"`
 
-	// The list of NTP server IP addresses. Maximum of 3 allowed.
+	// The list of NTP server IPv4 or IPv6 addresses. Maximum of 3 allowed.
 	NtpServer []string `mandatory:"true" json:"ntpServer"`
 
-	// The corporate network proxy for access to the control plane network. Oracle recommends using an HTTPS proxy when possible
+	// The IPv6 address for the first control plane server.
+	Ipv6CloudControlPlaneServer1 *string `mandatory:"false" json:"ipv6CloudControlPlaneServer1"`
+
+	// The IPv6 address for the second control plane server.
+	Ipv6CloudControlPlaneServer2 *string `mandatory:"false" json:"ipv6CloudControlPlaneServer2"`
+
+	// The IPv6 prefix, in CIDR notation, for the control plane network.
+	Ipv6Prefix *string `mandatory:"false" json:"ipv6Prefix"`
+
+	// The IPv6 gateway for the control plane network.
+	Ipv6Gateway *string `mandatory:"false" json:"ipv6Gateway"`
+
+	// The corporate network proxy, specified as an IPv4 address, IPv6 address, or hostname, for access to the control plane network. Oracle recommends using an HTTPS proxy when possible
 	// for enhanced security.
 	CorporateProxy *string `mandatory:"false" json:"corporateProxy"`
 

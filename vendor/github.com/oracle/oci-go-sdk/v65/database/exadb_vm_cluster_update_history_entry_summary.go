@@ -36,6 +36,9 @@ type ExadbVmClusterUpdateHistoryEntrySummary struct {
 	// The update action.
 	UpdateAction ExadbVmClusterUpdateHistoryEntrySummaryUpdateActionEnum `mandatory:"false" json:"updateAction,omitempty"`
 
+	// The OS update mode performed using this maintenance update.
+	UpdateMode ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum `mandatory:"false" json:"updateMode,omitempty"`
+
 	// Descriptive text providing additional details about the lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -64,6 +67,9 @@ func (m ExadbVmClusterUpdateHistoryEntrySummary) ValidateEnumValue() (bool, erro
 
 	if _, ok := GetMappingExadbVmClusterUpdateHistoryEntrySummaryUpdateActionEnum(string(m.UpdateAction)); !ok && m.UpdateAction != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateAction: %s. Supported values are: %s.", m.UpdateAction, strings.Join(GetExadbVmClusterUpdateHistoryEntrySummaryUpdateActionEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum(string(m.UpdateMode)); !ok && m.UpdateMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateMode: %s. Supported values are: %s.", m.UpdateMode, strings.Join(GetExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -118,6 +124,68 @@ func GetExadbVmClusterUpdateHistoryEntrySummaryUpdateActionEnumStringValues() []
 // GetMappingExadbVmClusterUpdateHistoryEntrySummaryUpdateActionEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingExadbVmClusterUpdateHistoryEntrySummaryUpdateActionEnum(val string) (ExadbVmClusterUpdateHistoryEntrySummaryUpdateActionEnum, bool) {
 	enum, ok := mappingExadbVmClusterUpdateHistoryEntrySummaryUpdateActionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum Enum with underlying type: string
+type ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum string
+
+// Set of constants representing the allowable values for ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum
+const (
+	ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeOnlineHighcvss         ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum = "ONLINE_HIGHCVSS"
+	ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeOnlineAllcvss          ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum = "ONLINE_ALLCVSS"
+	ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeOnlineAllUpdates       ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum = "ONLINE_ALL_UPDATES"
+	ExadbVmClusterUpdateHistoryEntrySummaryUpdateModePendingUpdatesHighcvss ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum = "PENDING_UPDATES_HIGHCVSS"
+	ExadbVmClusterUpdateHistoryEntrySummaryUpdateModePendingUpdatesAllcvss  ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum = "PENDING_UPDATES_ALLCVSS"
+	ExadbVmClusterUpdateHistoryEntrySummaryUpdateModePendingAllUpdates      ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum = "PENDING_ALL_UPDATES"
+	ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeFullUpdate             ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum = "FULL_UPDATE"
+)
+
+var mappingExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum = map[string]ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum{
+	"ONLINE_HIGHCVSS":          ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeOnlineHighcvss,
+	"ONLINE_ALLCVSS":           ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeOnlineAllcvss,
+	"ONLINE_ALL_UPDATES":       ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeOnlineAllUpdates,
+	"PENDING_UPDATES_HIGHCVSS": ExadbVmClusterUpdateHistoryEntrySummaryUpdateModePendingUpdatesHighcvss,
+	"PENDING_UPDATES_ALLCVSS":  ExadbVmClusterUpdateHistoryEntrySummaryUpdateModePendingUpdatesAllcvss,
+	"PENDING_ALL_UPDATES":      ExadbVmClusterUpdateHistoryEntrySummaryUpdateModePendingAllUpdates,
+	"FULL_UPDATE":              ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeFullUpdate,
+}
+
+var mappingExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnumLowerCase = map[string]ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum{
+	"online_highcvss":          ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeOnlineHighcvss,
+	"online_allcvss":           ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeOnlineAllcvss,
+	"online_all_updates":       ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeOnlineAllUpdates,
+	"pending_updates_highcvss": ExadbVmClusterUpdateHistoryEntrySummaryUpdateModePendingUpdatesHighcvss,
+	"pending_updates_allcvss":  ExadbVmClusterUpdateHistoryEntrySummaryUpdateModePendingUpdatesAllcvss,
+	"pending_all_updates":      ExadbVmClusterUpdateHistoryEntrySummaryUpdateModePendingAllUpdates,
+	"full_update":              ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeFullUpdate,
+}
+
+// GetExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnumValues Enumerates the set of values for ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum
+func GetExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnumValues() []ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum {
+	values := make([]ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum, 0)
+	for _, v := range mappingExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnumStringValues Enumerates the set of values in String for ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum
+func GetExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnumStringValues() []string {
+	return []string{
+		"ONLINE_HIGHCVSS",
+		"ONLINE_ALLCVSS",
+		"ONLINE_ALL_UPDATES",
+		"PENDING_UPDATES_HIGHCVSS",
+		"PENDING_UPDATES_ALLCVSS",
+		"PENDING_ALL_UPDATES",
+		"FULL_UPDATE",
+	}
+}
+
+// GetMappingExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum(val string) (ExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnum, bool) {
+	enum, ok := mappingExadbVmClusterUpdateHistoryEntrySummaryUpdateModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

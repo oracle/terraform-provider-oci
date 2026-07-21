@@ -126,6 +126,9 @@ type LogAnalyticsParser struct {
 
 	// A list of sub parsers used by this parser.
 	DependentParsers []DependentParser `mandatory:"false" json:"dependentParsers"`
+
+	// Additional example content.
+	AdditionalExampleContent *string `mandatory:"false" json:"additionalExampleContent"`
 }
 
 func (m LogAnalyticsParser) String() string {

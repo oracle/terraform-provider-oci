@@ -24,6 +24,9 @@ type EstimateReleaseDataSizeDetails struct {
 	// This is the end of the time range for the data to be released
 	TimeDataEnded *common.SDKTime `mandatory:"true" json:"timeDataEnded"`
 
+	// This is the type of the recalled data to be released (LOG or APM). If datatype is not specified, the endpoint is for LOG datatype only.
+	DataType StorageDataTypeEnum `mandatory:"false" json:"dataType,omitempty"`
+
 	// This is the id for the recalled data collection to be released.
 	// If specified, only this collection will be released
 	CollectionId *int64 `mandatory:"false" json:"collectionId"`
@@ -39,6 +42,9 @@ func (m EstimateReleaseDataSizeDetails) String() string {
 func (m EstimateReleaseDataSizeDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingStorageDataTypeEnum(string(m.DataType)); !ok && m.DataType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataType: %s. Supported values are: %s.", m.DataType, strings.Join(GetStorageDataTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

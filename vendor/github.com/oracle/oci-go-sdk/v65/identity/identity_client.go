@@ -5175,6 +5175,72 @@ func (client IdentityClient) deleteUser(ctx context.Context, request common.OCIR
 	return response, err
 }
 
+// EnableDenyPolicyFeature Enables IAM Deny feature for a given tenancy.The IAM Deny feature must be explicitly enabled by a default administrator
+// in the Console before any deny statements can be created. Upon enablement, a default deny policy is automatically seeded
+// in the root compartment. This policy ensures that only members of the default administrators group and the user who enabled
+// the feature have permission to manage deny statements, while all other users are restricted by default.
+// A default retry strategy applies to this operation EnableDenyPolicyFeature()
+func (client IdentityClient) EnableDenyPolicyFeature(ctx context.Context, request EnableDenyPolicyFeatureRequest) (response EnableDenyPolicyFeatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.enableDenyPolicyFeature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableDenyPolicyFeatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableDenyPolicyFeatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableDenyPolicyFeatureResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableDenyPolicyFeatureResponse")
+	}
+	return
+}
+
+// enableDenyPolicyFeature implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) enableDenyPolicyFeature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/tenancy/{tenantId}/actions/enableDenyPolicyFeature", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(EnableDenyPolicyFeatureRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response EnableDenyPolicyFeatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "EnableDenyPolicyFeature")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TenancyDenyPolicyFeatureDetails/EnableDenyPolicyFeature"
+		err = common.PostProcessServiceError(err, "Identity", "EnableDenyPolicyFeature", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // EnableReplicationToRegion (For tenancies that support identity domains) Replicates the identity domain to a new region (provided that the region is the
 // tenancy home region or other region that the tenancy subscribes to). You can only replicate identity domains that are in an ACTIVE
 // `lifecycleState` and not currently updating or already replicating. You also can only trigger the replication of secondary identity domains.
@@ -5561,6 +5627,68 @@ func (client IdentityClient) getCompartmentsServiceSetting(ctx context.Context, 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/CompartmentsServiceSetting/GetCompartmentsServiceSetting"
 		err = common.PostProcessServiceError(err, "Identity", "GetCompartmentsServiceSetting", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetDenyPolicyFeatureStatus Gets the status of the IAM Deny feature for the tenancy.
+// A default retry strategy applies to this operation GetDenyPolicyFeatureStatus()
+func (client IdentityClient) GetDenyPolicyFeatureStatus(ctx context.Context, request GetDenyPolicyFeatureStatusRequest) (response GetDenyPolicyFeatureStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDenyPolicyFeatureStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDenyPolicyFeatureStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDenyPolicyFeatureStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDenyPolicyFeatureStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDenyPolicyFeatureStatusResponse")
+	}
+	return
+}
+
+// getDenyPolicyFeatureStatus implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) getDenyPolicyFeatureStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tenancy/{tenantId}/denyPolicyFeatureStatus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(GetDenyPolicyFeatureStatusRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetDenyPolicyFeatureStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "identity", "GetDenyPolicyFeatureStatus")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TenancyDenyPolicyFeatureDetails/GetDenyPolicyFeatureStatus"
+		err = common.PostProcessServiceError(err, "Identity", "GetDenyPolicyFeatureStatus", apiReferenceLink)
 		return response, err
 	}
 

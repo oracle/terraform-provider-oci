@@ -282,6 +282,10 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := RedisConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ORACLE_AI_DATA_CATALOG_STORAGE":
+		mm := OracleAiDataCatalogStorageConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AZURE_DATA_LAKE_STORAGE":
 		mm := AzureDataLakeStorageConnectionSummary{}
 		err = json.Unmarshal(data, &mm)

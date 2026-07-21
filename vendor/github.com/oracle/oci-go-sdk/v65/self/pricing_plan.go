@@ -24,8 +24,8 @@ type PricingPlan struct {
 	// The name of the subscription plan used to identify the plan.
 	PlanName *string `mandatory:"true" json:"planName"`
 
-	// Specifies the interval at which billing occurs for the subscription plan.
-	BillingFrequency PricingPlanBillingFrequencyEnum `mandatory:"true" json:"billingFrequency"`
+	// Specifies the interval at which billing occurs for the subscription plan or usage dimension.
+	BillingFrequency BillingFrequencyEnum `mandatory:"true" json:"billingFrequency"`
 
 	// The pricing details of the subscription plan in various supported currencies.
 	Rates []PricingRate `mandatory:"true" json:"rates"`
@@ -33,8 +33,11 @@ type PricingPlan struct {
 	// A detailed explanation of the subscription plan.
 	PlanDescription *string `mandatory:"false" json:"planDescription"`
 
-	// Specifies the interval at which billing occurs for the subscription plan.
+	// Specifies the duration of the subscription plan.
 	PlanDuration PricingPlanPlanDurationEnum `mandatory:"false" json:"planDuration,omitempty"`
+
+	// Metered usage dimensions associated with the pricing plan.
+	Dimensions []UsageDimension `mandatory:"false" json:"dimensions"`
 }
 
 func (m PricingPlan) String() string {
@@ -49,8 +52,8 @@ func (m PricingPlan) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingPricingPlanPlanTypeEnum(string(m.PlanType)); !ok && m.PlanType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PlanType: %s. Supported values are: %s.", m.PlanType, strings.Join(GetPricingPlanPlanTypeEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingPricingPlanBillingFrequencyEnum(string(m.BillingFrequency)); !ok && m.BillingFrequency != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BillingFrequency: %s. Supported values are: %s.", m.BillingFrequency, strings.Join(GetPricingPlanBillingFrequencyEnumStringValues(), ",")))
+	if _, ok := GetMappingBillingFrequencyEnum(string(m.BillingFrequency)); !ok && m.BillingFrequency != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BillingFrequency: %s. Supported values are: %s.", m.BillingFrequency, strings.Join(GetBillingFrequencyEnumStringValues(), ",")))
 	}
 
 	if _, ok := GetMappingPricingPlanPlanDurationEnum(string(m.PlanDuration)); !ok && m.PlanDuration != "" {
@@ -67,15 +70,21 @@ type PricingPlanPlanTypeEnum string
 
 // Set of constants representing the allowable values for PricingPlanPlanTypeEnum
 const (
-	PricingPlanPlanTypeFixed PricingPlanPlanTypeEnum = "FIXED"
+	PricingPlanPlanTypeFixed      PricingPlanPlanTypeEnum = "FIXED"
+	PricingPlanPlanTypeUsageBased PricingPlanPlanTypeEnum = "USAGE_BASED"
+	PricingPlanPlanTypeHybrid     PricingPlanPlanTypeEnum = "HYBRID"
 )
 
 var mappingPricingPlanPlanTypeEnum = map[string]PricingPlanPlanTypeEnum{
-	"FIXED": PricingPlanPlanTypeFixed,
+	"FIXED":       PricingPlanPlanTypeFixed,
+	"USAGE_BASED": PricingPlanPlanTypeUsageBased,
+	"HYBRID":      PricingPlanPlanTypeHybrid,
 }
 
 var mappingPricingPlanPlanTypeEnumLowerCase = map[string]PricingPlanPlanTypeEnum{
-	"fixed": PricingPlanPlanTypeFixed,
+	"fixed":       PricingPlanPlanTypeFixed,
+	"usage_based": PricingPlanPlanTypeUsageBased,
+	"hybrid":      PricingPlanPlanTypeHybrid,
 }
 
 // GetPricingPlanPlanTypeEnumValues Enumerates the set of values for PricingPlanPlanTypeEnum
@@ -91,6 +100,8 @@ func GetPricingPlanPlanTypeEnumValues() []PricingPlanPlanTypeEnum {
 func GetPricingPlanPlanTypeEnumStringValues() []string {
 	return []string{
 		"FIXED",
+		"USAGE_BASED",
+		"HYBRID",
 	}
 }
 
@@ -100,58 +111,35 @@ func GetMappingPricingPlanPlanTypeEnum(val string) (PricingPlanPlanTypeEnum, boo
 	return enum, ok
 }
 
-// PricingPlanBillingFrequencyEnum Enum with underlying type: string
-type PricingPlanBillingFrequencyEnum string
-
-// Set of constants representing the allowable values for PricingPlanBillingFrequencyEnum
-const (
-	PricingPlanBillingFrequencyYearly PricingPlanBillingFrequencyEnum = "YEARLY"
-)
-
-var mappingPricingPlanBillingFrequencyEnum = map[string]PricingPlanBillingFrequencyEnum{
-	"YEARLY": PricingPlanBillingFrequencyYearly,
-}
-
-var mappingPricingPlanBillingFrequencyEnumLowerCase = map[string]PricingPlanBillingFrequencyEnum{
-	"yearly": PricingPlanBillingFrequencyYearly,
-}
-
-// GetPricingPlanBillingFrequencyEnumValues Enumerates the set of values for PricingPlanBillingFrequencyEnum
-func GetPricingPlanBillingFrequencyEnumValues() []PricingPlanBillingFrequencyEnum {
-	values := make([]PricingPlanBillingFrequencyEnum, 0)
-	for _, v := range mappingPricingPlanBillingFrequencyEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetPricingPlanBillingFrequencyEnumStringValues Enumerates the set of values in String for PricingPlanBillingFrequencyEnum
-func GetPricingPlanBillingFrequencyEnumStringValues() []string {
-	return []string{
-		"YEARLY",
-	}
-}
-
-// GetMappingPricingPlanBillingFrequencyEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingPricingPlanBillingFrequencyEnum(val string) (PricingPlanBillingFrequencyEnum, bool) {
-	enum, ok := mappingPricingPlanBillingFrequencyEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
 // PricingPlanPlanDurationEnum Enum with underlying type: string
 type PricingPlanPlanDurationEnum string
 
 // Set of constants representing the allowable values for PricingPlanPlanDurationEnum
 const (
-	PricingPlanPlanDurationAnnual PricingPlanPlanDurationEnum = "ANNUAL"
+	PricingPlanPlanDurationMonthly    PricingPlanPlanDurationEnum = "MONTHLY"
+	PricingPlanPlanDurationQuarterly  PricingPlanPlanDurationEnum = "QUARTERLY"
+	PricingPlanPlanDurationSemiAnnual PricingPlanPlanDurationEnum = "SEMI_ANNUAL"
+	PricingPlanPlanDurationAnnual     PricingPlanPlanDurationEnum = "ANNUAL"
+	PricingPlanPlanDurationBiennial   PricingPlanPlanDurationEnum = "BIENNIAL"
+	PricingPlanPlanDurationTriennial  PricingPlanPlanDurationEnum = "TRIENNIAL"
 )
 
 var mappingPricingPlanPlanDurationEnum = map[string]PricingPlanPlanDurationEnum{
-	"ANNUAL": PricingPlanPlanDurationAnnual,
+	"MONTHLY":     PricingPlanPlanDurationMonthly,
+	"QUARTERLY":   PricingPlanPlanDurationQuarterly,
+	"SEMI_ANNUAL": PricingPlanPlanDurationSemiAnnual,
+	"ANNUAL":      PricingPlanPlanDurationAnnual,
+	"BIENNIAL":    PricingPlanPlanDurationBiennial,
+	"TRIENNIAL":   PricingPlanPlanDurationTriennial,
 }
 
 var mappingPricingPlanPlanDurationEnumLowerCase = map[string]PricingPlanPlanDurationEnum{
-	"annual": PricingPlanPlanDurationAnnual,
+	"monthly":     PricingPlanPlanDurationMonthly,
+	"quarterly":   PricingPlanPlanDurationQuarterly,
+	"semi_annual": PricingPlanPlanDurationSemiAnnual,
+	"annual":      PricingPlanPlanDurationAnnual,
+	"biennial":    PricingPlanPlanDurationBiennial,
+	"triennial":   PricingPlanPlanDurationTriennial,
 }
 
 // GetPricingPlanPlanDurationEnumValues Enumerates the set of values for PricingPlanPlanDurationEnum
@@ -166,7 +154,12 @@ func GetPricingPlanPlanDurationEnumValues() []PricingPlanPlanDurationEnum {
 // GetPricingPlanPlanDurationEnumStringValues Enumerates the set of values in String for PricingPlanPlanDurationEnum
 func GetPricingPlanPlanDurationEnumStringValues() []string {
 	return []string{
+		"MONTHLY",
+		"QUARTERLY",
+		"SEMI_ANNUAL",
 		"ANNUAL",
+		"BIENNIAL",
+		"TRIENNIAL",
 	}
 }
 

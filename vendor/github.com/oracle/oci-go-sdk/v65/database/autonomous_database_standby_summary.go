@@ -50,6 +50,12 @@ type AutonomousDatabaseStandbySummary struct {
 
 	// The multicloud zone context for the Autonomous AI Database, for example the Azure subscription identifier required to interpret logical zones consistently.
 	ExternalLocationZoneContext *string `mandatory:"false" json:"externalLocationZoneContext"`
+
+	// Indicates the Autonomous Data Guard standby database mode.
+	// The default mode is `STANDBY`, which does not allow read or write access.
+	// `READ_ONLY` mode allows read access.
+	// `READ_WRITE` mode is not supported for standby databases.
+	OpenMode AutonomousDatabaseSummaryOpenModeEnum `mandatory:"false" json:"openMode,omitempty"`
 }
 
 func (m AutonomousDatabaseStandbySummary) String() string {
@@ -64,6 +70,9 @@ func (m AutonomousDatabaseStandbySummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingAutonomousDatabaseStandbySummaryLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAutonomousDatabaseStandbySummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAutonomousDatabaseSummaryOpenModeEnum(string(m.OpenMode)); !ok && m.OpenMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OpenMode: %s. Supported values are: %s.", m.OpenMode, strings.Join(GetAutonomousDatabaseSummaryOpenModeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

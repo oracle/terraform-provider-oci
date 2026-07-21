@@ -38,6 +38,12 @@ type InfoForNetworkGenDetails struct {
 
 	// The network domain name.
 	Prefix *string `mandatory:"true" json:"prefix"`
+
+	// The IPv6 prefix, in CIDR notation, for the network.
+	Ipv6Prefix *string `mandatory:"false" json:"ipv6Prefix"`
+
+	// The IPv6 gateway for the network.
+	Ipv6Gateway *string `mandatory:"false" json:"ipv6Gateway"`
 }
 
 func (m InfoForNetworkGenDetails) String() string {

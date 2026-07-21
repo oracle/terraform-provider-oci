@@ -26,6 +26,9 @@ type StreamAction struct {
 
 	MetricExtraction *MetricExtraction `mandatory:"false" json:"metricExtraction"`
 
+	// Collections to store.
+	Collections []DerivedStoreCollection `mandatory:"false" json:"collections"`
+
 	// The duration of data to be searched for SAVED_SEARCH tasks,
 	// used when the task fires to calculate the query time range.
 	// Duration in ISO 8601 extended format as described in

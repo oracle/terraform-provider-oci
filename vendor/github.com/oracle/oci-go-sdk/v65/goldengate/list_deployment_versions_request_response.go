@@ -139,6 +139,7 @@ const (
 	ListDeploymentVersionsDeploymentTypeDataTransforms             ListDeploymentVersionsDeploymentTypeEnum = "DATA_TRANSFORMS"
 	ListDeploymentVersionsDeploymentTypeVeridataServer             ListDeploymentVersionsDeploymentTypeEnum = "VERIDATA_SERVER"
 	ListDeploymentVersionsDeploymentTypeVeridataAgent              ListDeploymentVersionsDeploymentTypeEnum = "VERIDATA_AGENT"
+	ListDeploymentVersionsDeploymentTypeAiDataCatalog              ListDeploymentVersionsDeploymentTypeEnum = "AI_DATA_CATALOG"
 )
 
 var mappingListDeploymentVersionsDeploymentTypeEnum = map[string]ListDeploymentVersionsDeploymentTypeEnum{
@@ -154,6 +155,7 @@ var mappingListDeploymentVersionsDeploymentTypeEnum = map[string]ListDeploymentV
 	"DATA_TRANSFORMS":              ListDeploymentVersionsDeploymentTypeDataTransforms,
 	"VERIDATA_SERVER":              ListDeploymentVersionsDeploymentTypeVeridataServer,
 	"VERIDATA_AGENT":               ListDeploymentVersionsDeploymentTypeVeridataAgent,
+	"AI_DATA_CATALOG":              ListDeploymentVersionsDeploymentTypeAiDataCatalog,
 }
 
 var mappingListDeploymentVersionsDeploymentTypeEnumLowerCase = map[string]ListDeploymentVersionsDeploymentTypeEnum{
@@ -169,6 +171,7 @@ var mappingListDeploymentVersionsDeploymentTypeEnumLowerCase = map[string]ListDe
 	"data_transforms":              ListDeploymentVersionsDeploymentTypeDataTransforms,
 	"veridata_server":              ListDeploymentVersionsDeploymentTypeVeridataServer,
 	"veridata_agent":               ListDeploymentVersionsDeploymentTypeVeridataAgent,
+	"ai_data_catalog":              ListDeploymentVersionsDeploymentTypeAiDataCatalog,
 }
 
 // GetListDeploymentVersionsDeploymentTypeEnumValues Enumerates the set of values for ListDeploymentVersionsDeploymentTypeEnum
@@ -195,6 +198,7 @@ func GetListDeploymentVersionsDeploymentTypeEnumStringValues() []string {
 		"DATA_TRANSFORMS",
 		"VERIDATA_SERVER",
 		"VERIDATA_AGENT",
+		"AI_DATA_CATALOG",
 	}
 }
 

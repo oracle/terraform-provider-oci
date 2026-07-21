@@ -50,6 +50,10 @@ func (m *createicebergstoragedetails) UnmarshalPolymorphicJSON(data []byte) (int
 
 	var err error
 	switch m.StorageType {
+	case "ZFS":
+		mm := CreateZfsIcebergStorageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AZURE_DATA_LAKE_STORAGE":
 		mm := CreateAzureDataLakeStorageIcebergStorageDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -58,8 +62,16 @@ func (m *createicebergstoragedetails) UnmarshalPolymorphicJSON(data []byte) (int
 		mm := CreateNoIcebergStorageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AZURE_STORAGE":
+		mm := CreateAzureStorageIcebergStorageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GOOGLE_CLOUD_STORAGE":
 		mm := CreateGoogleCloudStorageIcebergStorageDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OCI_OBJECT_STORAGE_ACCESS_KEY":
+		mm := CreateOciObjectStorageAccessKeyIcebergStorageDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AMAZON_S3":

@@ -8,6 +8,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"regexp"
 	"strings"
@@ -49,31 +50,41 @@ type DefaultSDKLogger struct {
 var defaultLogger sdkLogger
 var loggerLock sync.Mutex
 var file *os.File
-var sensitiveLogRedactors = []struct {
-	pattern     *regexp.Regexp
-	replacement string
-}{
-	{
-		pattern:     regexp.MustCompile(`(?im)^(Authorization:\s*)(.+)$`),
-		replacement: `${1}<redacted>`,
-	},
-	{
-		pattern:     regexp.MustCompile(`(?im)^(X-Api-Key:\s*)(.+)$`),
-		replacement: `${1}<redacted>`,
-	},
-	{
-		pattern:     regexp.MustCompile(`(?im)^(opc-obo-token:\s*)(.+)$`),
-		replacement: `${1}<redacted>`,
-	},
-	{
-		pattern:     regexp.MustCompile(`(?i)("(?:token|access_token|refresh_token|id_token|delegationToken|delegation_token|securityToken|security_token|serviceAccountToken|service_account_token|client_secret|clientSecret|passphrase|password|privateKey|private_key|publicKey|public_key|podKey|pod_key)"\s*:\s*)"([^"]*)"`),
-		replacement: `${1}"<redacted>"`,
-	},
-	{
-		pattern:     regexp.MustCompile(`(?i)(^|[&\s])((?:token|access_token|refresh_token|id_token|delegationtoken|delegation_token|securitytoken|security_token|serviceaccounttoken|service_account_token|subject_token|client_secret|clientsecret|passphrase|password|privatekey|private_key|publickey|public_key|podkey|pod_key)=)([^&\s]*)`),
-		replacement: `${1}${2}<redacted>`,
-	},
+
+const (
+	sensitiveHeaderRedactionValue = "REDACTED"
+)
+
+var sensitiveExactHeaderNames = map[string]struct{}{
+	"authorization":       {},
+	"proxy-authorization": {},
+	"opc-obo-token":       {},
+	"x-api-key":           {},
+	"cookie":              {},
+	"set-cookie":          {},
+	"security-context":    {},
+	"password":            {},
+	"passphrase":          {},
 }
+
+var sensitiveCredentialHeaderSuffixes = []string{
+	"access-token",
+	"refresh-token",
+	"id-token",
+	"security-token",
+	"session-token",
+	"delegation-token",
+	"client-secret",
+	"private-key",
+}
+
+var (
+	headerDelimiterPattern      = regexp.MustCompile(`[-_]+`)
+	headerLinePattern           = regexp.MustCompile(`(?im)^(\s*)([^:\r\n]+)(\s*:\s*)(.*)$`)
+	jsonStringArrayFieldPattern = regexp.MustCompile(`"((?:[^"\\]|\\.)+)"(\s*:\s*)\[((?:"(?:[^"\\]|\\.)*"\s*,\s*)*"(?:[^"\\]|\\.)*"\s*)\]`)
+	jsonStringFieldPattern      = regexp.MustCompile(`"((?:[^"\\]|\\.)+)"(\s*:\s*)"((?:[^"\\]|\\.)*)"`)
+	jsonStringValuePattern      = regexp.MustCompile(`"((?:[^"\\]|\\.)*)"`)
+)
 
 // initializes the SDK defaultLogger as a defaultLogger
 func init() {
@@ -202,13 +213,102 @@ func CloseLogFile() error {
 	return file.Close()
 }
 
-// RedactSensitiveStringForLogs removes common credential-bearing fields before they are written to logs
-func RedactSensitiveStringForLogs(value string) string {
-	redacted := value
-	for _, redactor := range sensitiveLogRedactors {
-		redacted = redactor.pattern.ReplaceAllString(redacted, redactor.replacement)
+// Normalizes a header name before matching it against sensitive header rules
+func normalizeHeaderName(name string) string {
+	return headerDelimiterPattern.ReplaceAllString(strings.TrimSpace(strings.ToLower(name)), "-")
+}
+
+// Returns true when a header name matches the sensitive header rules
+func isSensitiveHeaderName(name string) bool {
+	normalized := normalizeHeaderName(name)
+	if normalized == "" {
+		return false
 	}
+
+	// Check against set of exact header names
+	if _, ok := sensitiveExactHeaderNames[normalized]; ok {
+		return true
+	}
+	if normalized == "x-token" || strings.HasPrefix(normalized, "x-token-") {
+		return true
+	}
+	if normalized == "x-authorization" || strings.HasPrefix(normalized, "x-authorization-") {
+		return true
+	}
+	if strings.HasPrefix(normalized, "x-key-") {
+		return true
+	}
+
+	// Check if header matches or ends with suffix
+	for _, suffix := range sensitiveCredentialHeaderSuffixes {
+		if normalized == suffix || strings.HasSuffix(normalized, "-"+suffix) {
+			return true
+		}
+	}
+
+	return false
+}
+
+// RedactSensitiveHeadersForLogs returns a copy of headers with sensitive values replaced for logging
+func RedactSensitiveHeadersForLogs(headers http.Header) http.Header {
+	if headers == nil {
+		return nil
+	}
+
+	redacted := make(http.Header, len(headers))
+	for name, values := range headers {
+		if values == nil {
+			redacted[name] = nil
+			continue
+		}
+
+		copiedValues := append([]string(nil), values...)
+		if isSensitiveHeaderName(name) {
+			for i := range copiedValues {
+				copiedValues[i] = sensitiveHeaderRedactionValue
+			}
+		}
+		redacted[name] = copiedValues
+	}
+
 	return redacted
+}
+
+// Redacts sensitive values from line-oriented header text
+func redactSensitiveHeaderLines(value string) string {
+	return headerLinePattern.ReplaceAllStringFunc(value, func(match string) string {
+		parts := headerLinePattern.FindStringSubmatch(match)
+		if len(parts) < 4 || !isSensitiveHeaderName(parts[2]) {
+			return match
+		}
+		return parts[1] + parts[2] + parts[3] + sensitiveHeaderRedactionValue
+	})
+}
+
+// Redacts sensitive header values from serialized JSON logger text
+func redactSensitiveJsonStringFields(value string) string {
+	redactedArrays := jsonStringArrayFieldPattern.ReplaceAllStringFunc(value, func(match string) string {
+		parts := jsonStringArrayFieldPattern.FindStringSubmatch(match)
+		if len(parts) < 4 || !isSensitiveHeaderName(parts[1]) {
+			return match
+		}
+		return `"` + parts[1] + `"` + parts[2] + `[` +
+			jsonStringValuePattern.ReplaceAllString(parts[3], `"`+sensitiveHeaderRedactionValue+`"`) +
+			`]`
+	})
+
+	return jsonStringFieldPattern.ReplaceAllStringFunc(redactedArrays, func(match string) string {
+		parts := jsonStringFieldPattern.FindStringSubmatch(match)
+		if len(parts) < 3 || !isSensitiveHeaderName(parts[1]) {
+			return match
+		}
+		return `"` + parts[1] + `"` + parts[2] + `"` + sensitiveHeaderRedactionValue + `"`
+	})
+}
+
+// RedactSensitiveStringForLogs redacts sensitive header values from logger text
+func RedactSensitiveStringForLogs(value string) string {
+	return redactSensitiveJsonStringFields(redactSensitiveHeaderLines(value))
 }
 
 // LogLevel returns the current debug level

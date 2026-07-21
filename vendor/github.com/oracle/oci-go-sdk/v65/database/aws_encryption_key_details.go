@@ -21,6 +21,9 @@ type AwsEncryptionKeyDetails struct {
 
 	// Provide the key OCID of a registered AWS key.
 	AwsEncryptionKeyId *string `mandatory:"true" json:"awsEncryptionKeyId"`
+
+	// Provide the key pool OCID of a registered AWS key.
+	AwsEncryptionKeyPoolId *string `mandatory:"false" json:"awsEncryptionKeyPoolId"`
 }
 
 func (m AwsEncryptionKeyDetails) String() string {

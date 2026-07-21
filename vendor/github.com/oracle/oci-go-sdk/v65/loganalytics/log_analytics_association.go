@@ -73,6 +73,12 @@ type LogAnalyticsAssociation struct {
 
 	// A list of association properties.
 	AssociationProperties []AssociationProperty `mandatory:"false" json:"associationProperties"`
+
+	// The entity compartment OCID.
+	EntityCompartmentId *string `mandatory:"false" json:"entityCompartmentId"`
+
+	// The collection rule OCID.
+	CollectionRuleId *string `mandatory:"false" json:"collectionRuleId"`
 }
 
 func (m LogAnalyticsAssociation) String() string {

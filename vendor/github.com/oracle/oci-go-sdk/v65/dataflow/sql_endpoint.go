@@ -91,6 +91,11 @@ type SqlEndpoint struct {
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "enforce"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// The Spark configuration passed to the running process.
 	// See https://spark.apache.org/docs/latest/configuration.html#available-properties.
 	// Example: { "spark.app.name" : "My App Name", "spark.shuffle.io.maxRetries" : "4" }
@@ -137,6 +142,7 @@ func (m *SqlEndpoint) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags                map[string]string                 `json:"freeformTags"`
 		DefinedTags                 map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags                  map[string]map[string]interface{} `json:"systemTags"`
+		SecurityAttributes          map[string]map[string]interface{} `json:"securityAttributes"`
 		SparkAdvancedConfigurations map[string]string                 `json:"sparkAdvancedConfigurations"`
 		BannerMessage               *string                           `json:"bannerMessage"`
 		NetworkConfiguration        sqlendpointnetworkconfiguration   `json:"networkConfiguration"`
@@ -180,6 +186,8 @@ func (m *SqlEndpoint) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.SystemTags = model.SystemTags
+
+	m.SecurityAttributes = model.SecurityAttributes
 
 	m.SparkAdvancedConfigurations = model.SparkAdvancedConfigurations
 

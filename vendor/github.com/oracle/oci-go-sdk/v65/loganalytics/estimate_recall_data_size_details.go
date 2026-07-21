@@ -24,6 +24,9 @@ type EstimateRecallDataSizeDetails struct {
 	// This is the end of the time range for the data to be recalled
 	TimeDataEnded *common.SDKTime `mandatory:"true" json:"timeDataEnded"`
 
+	// This is the type of the archival data to be recalled (LOG or APM). If datatype is not specified, the endpoint is for LOG datatype only.
+	DataType StorageDataTypeEnum `mandatory:"false" json:"dataType,omitempty"`
+
 	// This is the list of logsets to be accounted for in the recalled data
 	LogSets *string `mandatory:"false" json:"logSets"`
 
@@ -45,6 +48,9 @@ func (m EstimateRecallDataSizeDetails) String() string {
 func (m EstimateRecallDataSizeDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingStorageDataTypeEnum(string(m.DataType)); !ok && m.DataType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataType: %s. Supported values are: %s.", m.DataType, strings.Join(GetStorageDataTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

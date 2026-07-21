@@ -27,6 +27,9 @@ type DrScanDetails struct {
 	// The list of Disaster recovery SCAN IP addresses. Three addresses should be provided.
 	Ips []string `mandatory:"true" json:"ips"`
 
+	// The list of Disaster recovery SCAN IPv6 addresses. Maximum of 3 allowed; Oracle recommends 3 for high availability and scalability.
+	Ipv6Ips []string `mandatory:"false" json:"ipv6Ips"`
+
 	// The DR SCAN TCPIP SSL port. Default is 2484.
 	ScanListenerPortTcpSsl *int `mandatory:"false" json:"scanListenerPortTcpSsl"`
 }

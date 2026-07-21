@@ -42,6 +42,9 @@ type ExportDetails struct {
 	// The maximum number of results retrieved is the lesser of the maxTotalCount input provided and the applicable limit described above.
 	MaxTotalCount *int `mandatory:"false" json:"maxTotalCount"`
 
+	// List of variables to be prepended to the query string.
+	Variables []string `mandatory:"false" json:"variables"`
+
 	TimeFilter *TimeRange `mandatory:"false" json:"timeFilter"`
 
 	// Amount of time, in seconds, allowed for a query to execute. If this time expires before the query is complete, any partial results will be returned.

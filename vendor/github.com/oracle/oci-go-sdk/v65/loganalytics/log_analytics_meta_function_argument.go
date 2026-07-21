@@ -59,6 +59,9 @@ type LogAnalyticsMetaFunctionArgument struct {
 
 	// The argument unique identifier as a string.
 	ArgumentReference *string `mandatory:"false" json:"argumentReference"`
+
+	// The argument storage unit.
+	ArgumentStorageUnit *string `mandatory:"false" json:"argumentStorageUnit"`
 }
 
 func (m LogAnalyticsMetaFunctionArgument) String() string {

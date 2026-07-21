@@ -57,6 +57,12 @@ type ScheduledTask interface {
 	// reason for taskStatus PAUSED.
 	GetPauseReason() ScheduledTaskPauseReasonEnum
 
+	// The last known error message.
+	GetLastErrorMessage() *string
+
+	// A flag indicating whether or not the query has been classified as complex.
+	GetIsComplex() *bool
+
 	// most recent Work Request Identifier OCID  (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the asynchronous request.
 	GetWorkRequestId() *string
 
@@ -81,6 +87,8 @@ type scheduledtask struct {
 	Description         *string                           `mandatory:"false" json:"description"`
 	TaskStatus          ScheduledTaskTaskStatusEnum       `mandatory:"false" json:"taskStatus,omitempty"`
 	PauseReason         ScheduledTaskPauseReasonEnum      `mandatory:"false" json:"pauseReason,omitempty"`
+	LastErrorMessage    *string                           `mandatory:"false" json:"lastErrorMessage"`
+	IsComplex           *bool                             `mandatory:"false" json:"isComplex"`
 	WorkRequestId       *string                           `mandatory:"false" json:"workRequestId"`
 	NumOccurrences      *int64                            `mandatory:"false" json:"numOccurrences"`
 	TimeOfNextExecution *common.SDKTime                   `mandatory:"false" json:"timeOfNextExecution"`
@@ -121,6 +129,8 @@ func (m *scheduledtask) UnmarshalJSON(data []byte) error {
 	m.Description = s.Model.Description
 	m.TaskStatus = s.Model.TaskStatus
 	m.PauseReason = s.Model.PauseReason
+	m.LastErrorMessage = s.Model.LastErrorMessage
+	m.IsComplex = s.Model.IsComplex
 	m.WorkRequestId = s.Model.WorkRequestId
 	m.NumOccurrences = s.Model.NumOccurrences
 	m.TimeOfNextExecution = s.Model.TimeOfNextExecution
@@ -163,6 +173,16 @@ func (m scheduledtask) GetTaskStatus() ScheduledTaskTaskStatusEnum {
 // GetPauseReason returns PauseReason
 func (m scheduledtask) GetPauseReason() ScheduledTaskPauseReasonEnum {
 	return m.PauseReason
+}
+
+// GetLastErrorMessage returns LastErrorMessage
+func (m scheduledtask) GetLastErrorMessage() *string {
+	return m.LastErrorMessage
+}
+
+// GetIsComplex returns IsComplex
+func (m scheduledtask) GetIsComplex() *bool {
+	return m.IsComplex
 }
 
 // GetWorkRequestId returns WorkRequestId
@@ -318,36 +338,45 @@ type ScheduledTaskPauseReasonEnum string
 
 // Set of constants representing the allowable values for ScheduledTaskPauseReasonEnum
 const (
-	ScheduledTaskPauseReasonMetricExtractionNotValid ScheduledTaskPauseReasonEnum = "METRIC_EXTRACTION_NOT_VALID"
-	ScheduledTaskPauseReasonSavedSearchNotValid      ScheduledTaskPauseReasonEnum = "SAVED_SEARCH_NOT_VALID"
-	ScheduledTaskPauseReasonSavedSearchNotFound      ScheduledTaskPauseReasonEnum = "SAVED_SEARCH_NOT_FOUND"
-	ScheduledTaskPauseReasonQueryStringNotValid      ScheduledTaskPauseReasonEnum = "QUERY_STRING_NOT_VALID"
-	ScheduledTaskPauseReasonUserAction               ScheduledTaskPauseReasonEnum = "USER_ACTION"
-	ScheduledTaskPauseReasonTenancyLifecycle         ScheduledTaskPauseReasonEnum = "TENANCY_LIFECYCLE"
-	ScheduledTaskPauseReasonPurgeResourceNotFound    ScheduledTaskPauseReasonEnum = "PURGE_RESOURCE_NOT_FOUND"
-	ScheduledTaskPauseReasonLimitExceeded            ScheduledTaskPauseReasonEnum = "LIMIT_EXCEEDED"
+	ScheduledTaskPauseReasonMetricExtractionNotValid       ScheduledTaskPauseReasonEnum = "METRIC_EXTRACTION_NOT_VALID"
+	ScheduledTaskPauseReasonSavedSearchNotValid            ScheduledTaskPauseReasonEnum = "SAVED_SEARCH_NOT_VALID"
+	ScheduledTaskPauseReasonSavedSearchNotFound            ScheduledTaskPauseReasonEnum = "SAVED_SEARCH_NOT_FOUND"
+	ScheduledTaskPauseReasonQueryStringNotValid            ScheduledTaskPauseReasonEnum = "QUERY_STRING_NOT_VALID"
+	ScheduledTaskPauseReasonUserAction                     ScheduledTaskPauseReasonEnum = "USER_ACTION"
+	ScheduledTaskPauseReasonTenancyLifecycle               ScheduledTaskPauseReasonEnum = "TENANCY_LIFECYCLE"
+	ScheduledTaskPauseReasonPurgeResourceNotFound          ScheduledTaskPauseReasonEnum = "PURGE_RESOURCE_NOT_FOUND"
+	ScheduledTaskPauseReasonDerivedStoreDisabled           ScheduledTaskPauseReasonEnum = "DERIVED_STORE_DISABLED"
+	ScheduledTaskPauseReasonDerivedStoreCollectionNotValid ScheduledTaskPauseReasonEnum = "DERIVED_STORE_COLLECTION_NOT_VALID"
+	ScheduledTaskPauseReasonDerivedDataUploadException     ScheduledTaskPauseReasonEnum = "DERIVED_DATA_UPLOAD_EXCEPTION"
+	ScheduledTaskPauseReasonLimitExceeded                  ScheduledTaskPauseReasonEnum = "LIMIT_EXCEEDED"
 )
 
 var mappingScheduledTaskPauseReasonEnum = map[string]ScheduledTaskPauseReasonEnum{
-	"METRIC_EXTRACTION_NOT_VALID": ScheduledTaskPauseReasonMetricExtractionNotValid,
-	"SAVED_SEARCH_NOT_VALID":      ScheduledTaskPauseReasonSavedSearchNotValid,
-	"SAVED_SEARCH_NOT_FOUND":      ScheduledTaskPauseReasonSavedSearchNotFound,
-	"QUERY_STRING_NOT_VALID":      ScheduledTaskPauseReasonQueryStringNotValid,
-	"USER_ACTION":                 ScheduledTaskPauseReasonUserAction,
-	"TENANCY_LIFECYCLE":           ScheduledTaskPauseReasonTenancyLifecycle,
-	"PURGE_RESOURCE_NOT_FOUND":    ScheduledTaskPauseReasonPurgeResourceNotFound,
-	"LIMIT_EXCEEDED":              ScheduledTaskPauseReasonLimitExceeded,
+	"METRIC_EXTRACTION_NOT_VALID":        ScheduledTaskPauseReasonMetricExtractionNotValid,
+	"SAVED_SEARCH_NOT_VALID":             ScheduledTaskPauseReasonSavedSearchNotValid,
+	"SAVED_SEARCH_NOT_FOUND":             ScheduledTaskPauseReasonSavedSearchNotFound,
+	"QUERY_STRING_NOT_VALID":             ScheduledTaskPauseReasonQueryStringNotValid,
+	"USER_ACTION":                        ScheduledTaskPauseReasonUserAction,
+	"TENANCY_LIFECYCLE":                  ScheduledTaskPauseReasonTenancyLifecycle,
+	"PURGE_RESOURCE_NOT_FOUND":           ScheduledTaskPauseReasonPurgeResourceNotFound,
+	"DERIVED_STORE_DISABLED":             ScheduledTaskPauseReasonDerivedStoreDisabled,
+	"DERIVED_STORE_COLLECTION_NOT_VALID": ScheduledTaskPauseReasonDerivedStoreCollectionNotValid,
+	"DERIVED_DATA_UPLOAD_EXCEPTION":      ScheduledTaskPauseReasonDerivedDataUploadException,
+	"LIMIT_EXCEEDED":                     ScheduledTaskPauseReasonLimitExceeded,
 }
 
 var mappingScheduledTaskPauseReasonEnumLowerCase = map[string]ScheduledTaskPauseReasonEnum{
-	"metric_extraction_not_valid": ScheduledTaskPauseReasonMetricExtractionNotValid,
-	"saved_search_not_valid":      ScheduledTaskPauseReasonSavedSearchNotValid,
-	"saved_search_not_found":      ScheduledTaskPauseReasonSavedSearchNotFound,
-	"query_string_not_valid":      ScheduledTaskPauseReasonQueryStringNotValid,
-	"user_action":                 ScheduledTaskPauseReasonUserAction,
-	"tenancy_lifecycle":           ScheduledTaskPauseReasonTenancyLifecycle,
-	"purge_resource_not_found":    ScheduledTaskPauseReasonPurgeResourceNotFound,
-	"limit_exceeded":              ScheduledTaskPauseReasonLimitExceeded,
+	"metric_extraction_not_valid":        ScheduledTaskPauseReasonMetricExtractionNotValid,
+	"saved_search_not_valid":             ScheduledTaskPauseReasonSavedSearchNotValid,
+	"saved_search_not_found":             ScheduledTaskPauseReasonSavedSearchNotFound,
+	"query_string_not_valid":             ScheduledTaskPauseReasonQueryStringNotValid,
+	"user_action":                        ScheduledTaskPauseReasonUserAction,
+	"tenancy_lifecycle":                  ScheduledTaskPauseReasonTenancyLifecycle,
+	"purge_resource_not_found":           ScheduledTaskPauseReasonPurgeResourceNotFound,
+	"derived_store_disabled":             ScheduledTaskPauseReasonDerivedStoreDisabled,
+	"derived_store_collection_not_valid": ScheduledTaskPauseReasonDerivedStoreCollectionNotValid,
+	"derived_data_upload_exception":      ScheduledTaskPauseReasonDerivedDataUploadException,
+	"limit_exceeded":                     ScheduledTaskPauseReasonLimitExceeded,
 }
 
 // GetScheduledTaskPauseReasonEnumValues Enumerates the set of values for ScheduledTaskPauseReasonEnum
@@ -369,6 +398,9 @@ func GetScheduledTaskPauseReasonEnumStringValues() []string {
 		"USER_ACTION",
 		"TENANCY_LIFECYCLE",
 		"PURGE_RESOURCE_NOT_FOUND",
+		"DERIVED_STORE_DISABLED",
+		"DERIVED_STORE_COLLECTION_NOT_VALID",
+		"DERIVED_DATA_UPLOAD_EXCEPTION",
 		"LIMIT_EXCEEDED",
 	}
 }

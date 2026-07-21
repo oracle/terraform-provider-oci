@@ -27,7 +27,7 @@ type RecallArchivedDataDetails struct {
 	// This is the start of the time interval
 	TimeDataStarted *common.SDKTime `mandatory:"true" json:"timeDataStarted"`
 
-	// This is the type of the log data to be recalled
+	// This is the type of the log data to be recalled. If datatype is not specified, the endpoint is for LOG datatype only.
 	DataType StorageDataTypeEnum `mandatory:"false" json:"dataType,omitempty"`
 
 	// This is a list of comma-separated log sets that recalled data belongs to.

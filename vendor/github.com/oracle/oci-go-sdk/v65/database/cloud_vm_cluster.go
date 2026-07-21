@@ -308,6 +308,7 @@ const (
 	CloudVmClusterLifecycleStateTerminated            CloudVmClusterLifecycleStateEnum = "TERMINATED"
 	CloudVmClusterLifecycleStateFailed                CloudVmClusterLifecycleStateEnum = "FAILED"
 	CloudVmClusterLifecycleStateMaintenanceInProgress CloudVmClusterLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
+	CloudVmClusterLifecycleStateNeedsAttention        CloudVmClusterLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
 var mappingCloudVmClusterLifecycleStateEnum = map[string]CloudVmClusterLifecycleStateEnum{
@@ -318,6 +319,7 @@ var mappingCloudVmClusterLifecycleStateEnum = map[string]CloudVmClusterLifecycle
 	"TERMINATED":              CloudVmClusterLifecycleStateTerminated,
 	"FAILED":                  CloudVmClusterLifecycleStateFailed,
 	"MAINTENANCE_IN_PROGRESS": CloudVmClusterLifecycleStateMaintenanceInProgress,
+	"NEEDS_ATTENTION":         CloudVmClusterLifecycleStateNeedsAttention,
 }
 
 var mappingCloudVmClusterLifecycleStateEnumLowerCase = map[string]CloudVmClusterLifecycleStateEnum{
@@ -328,6 +330,7 @@ var mappingCloudVmClusterLifecycleStateEnumLowerCase = map[string]CloudVmCluster
 	"terminated":              CloudVmClusterLifecycleStateTerminated,
 	"failed":                  CloudVmClusterLifecycleStateFailed,
 	"maintenance_in_progress": CloudVmClusterLifecycleStateMaintenanceInProgress,
+	"needs_attention":         CloudVmClusterLifecycleStateNeedsAttention,
 }
 
 // GetCloudVmClusterLifecycleStateEnumValues Enumerates the set of values for CloudVmClusterLifecycleStateEnum
@@ -349,6 +352,7 @@ func GetCloudVmClusterLifecycleStateEnumStringValues() []string {
 		"TERMINATED",
 		"FAILED",
 		"MAINTENANCE_IN_PROGRESS",
+		"NEEDS_ATTENTION",
 	}
 }
 

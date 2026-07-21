@@ -42,10 +42,10 @@ type GenerateRecommendedNetworkDetails struct {
 	// The DR SCAN TCPIP SSL port. Default is 2484.
 	DrScanListenerPortTcpSsl *int `mandatory:"false" json:"drScanListenerPortTcpSsl"`
 
-	// The list of DNS server IP addresses. Maximum of 3 allowed.
+	// The list of DNS server IPv4 or IPv6 addresses. Maximum of 3 allowed.
 	Dns []string `mandatory:"false" json:"dns"`
 
-	// The list of NTP server IP addresses. Maximum of 3 allowed.
+	// The list of NTP server IPv4 or IPv6 addresses. Maximum of 3 allowed.
 	Ntp []string `mandatory:"false" json:"ntp"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

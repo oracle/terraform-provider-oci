@@ -61,6 +61,9 @@ type BdsInstance struct {
 
 	ClusterDetails *ClusterDetails `mandatory:"false" json:"clusterDetails"`
 
+	// The list of BDS capacity reservation configurations associated with the cluster.
+	BdsCapacityReservationConfigurations []BdsCapacityReservationConfiguration `mandatory:"false" json:"bdsCapacityReservationConfigurations"`
+
 	CloudSqlDetails *CloudSqlDetails `mandatory:"false" json:"cloudSqlDetails"`
 
 	// The user who created the cluster.

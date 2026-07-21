@@ -19,7 +19,7 @@ import (
 type BdsClusterVersionSummary struct {
 
 	// BDS version to be used for cluster creation
-	BdsVersion *string `mandatory:"true" json:"bdsVersion"`
+	BdsVersion *string `mandatory:"false" json:"bdsVersion"`
 
 	// ODH version to be used for cluster creation
 	OdhVersion *string `mandatory:"false" json:"odhVersion"`

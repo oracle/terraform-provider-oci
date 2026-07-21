@@ -267,6 +267,7 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	RefreshableMode CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum `mandatory:"false" json:"refreshableMode,omitempty"`
 
 	// Indicates the Autonomous AI Database mode. The database can be opened in `READ_ONLY` or `READ_WRITE` mode.
+	// By default, standby databases are in `STANDBY` mode, which does not allow read or write access.
 	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	OpenMode CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum `mandatory:"false" json:"openMode,omitempty"`
 
@@ -933,18 +934,21 @@ type CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum string
 
 // Set of constants representing the allowable values for CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum
 const (
-	CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeOnly  CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum = "READ_ONLY"
-	CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeWrite CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum = "READ_WRITE"
+	CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeReadOnly  CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum = "READ_ONLY"
+	CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeReadWrite CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum = "READ_WRITE"
+	CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeStandby   CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum = "STANDBY"
 )
 
 var mappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum{
-	"READ_ONLY":  CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeOnly,
-	"READ_WRITE": CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeWrite,
+	"READ_ONLY":  CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeReadOnly,
+	"READ_WRITE": CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeReadWrite,
+	"STANDBY":    CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeStandby,
 }
 
 var mappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumLowerCase = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum{
-	"read_only":  CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeOnly,
-	"read_write": CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeWrite,
+	"read_only":  CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeReadOnly,
+	"read_write": CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeReadWrite,
+	"standby":    CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeStandby,
 }
 
 // GetCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumValues Enumerates the set of values for CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum
@@ -961,6 +965,7 @@ func GetCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumStringValues(
 	return []string{
 		"READ_ONLY",
 		"READ_WRITE",
+		"STANDBY",
 	}
 }
 

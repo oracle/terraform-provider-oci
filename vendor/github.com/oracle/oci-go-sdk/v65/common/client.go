@@ -613,7 +613,11 @@ func logRequest(request *http.Request, fn func(format string, v ...interface{}),
 	}
 
 	dumpBody = dumpBody && defaultLogger.LogLevel() >= bodyLoggingLevel && bodyLoggingLevel != noLogging
-	if dump, e := httputil.DumpRequestOut(request, dumpBody); e == nil {
+	originalHeaders := request.Header
+	request.Header = RedactSensitiveHeadersForLogs(originalHeaders)
+	dump, e := httputil.DumpRequestOut(request, dumpBody)
+	request.Header = originalHeaders
+	if e == nil {
 		fn("Dump Request %s", RedactSensitiveStringForLogs(string(dump)))
 	} else {
 		fn("%v\n", e)
@@ -630,7 +634,11 @@ func logResponse(response *http.Response, fn func(format string, v ...interface{
 		dumpBody = false
 	}
 	dumpBody = dumpBody && defaultLogger.LogLevel() >= bodyLoggingLevel && bodyLoggingLevel != noLogging
-	if dump, e := httputil.DumpResponse(response, dumpBody); e == nil {
+	originalHeaders := response.Header
+	response.Header = RedactSensitiveHeadersForLogs(originalHeaders)
+	dump, e := httputil.DumpResponse(response, dumpBody)
+	response.Header = originalHeaders
+	if e == nil {
 		fn("Dump Response %s", RedactSensitiveStringForLogs(string(dump)))
 	} else {
 		fn("%v\n", e)
