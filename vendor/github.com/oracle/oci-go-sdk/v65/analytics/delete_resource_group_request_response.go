@@ -11,18 +11,23 @@ import (
 	"strings"
 )
 
-// CreatePrivateAccessChannelRequest wrapper for the CreatePrivateAccessChannel operation
+// DeleteResourceGroupRequest wrapper for the DeleteResourceGroup operation
 //
 // # See also
 //
-// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/CreatePrivateAccessChannel.go.html to see an example of how to use CreatePrivateAccessChannelRequest.
-type CreatePrivateAccessChannelRequest struct {
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/DeleteResourceGroup.go.html to see an example of how to use DeleteResourceGroupRequest.
+type DeleteResourceGroupRequest struct {
 
 	// The OCID of the Analytics instance.
 	AnalyticsInstanceId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceId"`
 
-	// Input payload for creating a private access channel for an Analytics instance.
-	CreatePrivateAccessChannelDetails `contributesTo:"body"`
+	// Specify unique id of a resource group within an Analytics instance.
+	AnalyticsInstanceResourceGroupId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceResourceGroupId"`
+
+	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
+	// parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
+	// will be updated or deleted only if the etag you provide matches the resource's current etag value.
+	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
 	// Unique identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
@@ -40,12 +45,12 @@ type CreatePrivateAccessChannelRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request CreatePrivateAccessChannelRequest) String() string {
+func (request DeleteResourceGroupRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request CreatePrivateAccessChannelRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request DeleteResourceGroupRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -55,21 +60,21 @@ func (request CreatePrivateAccessChannelRequest) HTTPRequest(method, path string
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request CreatePrivateAccessChannelRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request DeleteResourceGroupRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreatePrivateAccessChannelRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeleteResourceGroupRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request CreatePrivateAccessChannelRequest) ValidateEnumValue() (bool, error) {
+func (request DeleteResourceGroupRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -77,8 +82,8 @@ func (request CreatePrivateAccessChannelRequest) ValidateEnumValue() (bool, erro
 	return false, nil
 }
 
-// CreatePrivateAccessChannelResponse wrapper for the CreatePrivateAccessChannel operation
-type CreatePrivateAccessChannelResponse struct {
+// DeleteResourceGroupResponse wrapper for the DeleteResourceGroup operation
+type DeleteResourceGroupResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
@@ -90,13 +95,17 @@ type CreatePrivateAccessChannelResponse struct {
 	// The OCID of the work request. Use GetWorkRequest with this ID to track the status
 	// of the request.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
+
+	// The id of the child object being created.  Child objects are not top level objects, but
+	// exist as part of a larger object (usually instance).
+	ChildResourceId *string `presentIn:"header" name:"child-resource-id"`
 }
 
-func (response CreatePrivateAccessChannelResponse) String() string {
+func (response DeleteResourceGroupResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response CreatePrivateAccessChannelResponse) HTTPResponse() *http.Response {
+func (response DeleteResourceGroupResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

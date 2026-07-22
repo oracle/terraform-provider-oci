@@ -81,6 +81,10 @@ type UpdateVirtualCircuitDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// The traffic mode to be set with this Virtual Circuit. This controls whether the traffic is to be drained
+	// for the associated Virtual Circuit or not.
+	TrafficMode UpdateVirtualCircuitDetailsTrafficModeEnum `mandatory:"false" json:"trafficMode,omitempty"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Drg
 	// that this private virtual circuit uses.
 	// To be updated only by the customer who owns the virtual circuit.
@@ -124,6 +128,9 @@ func (m UpdateVirtualCircuitDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingUpdateVirtualCircuitDetailsBgpAdminStateEnum(string(m.BgpAdminState)); !ok && m.BgpAdminState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BgpAdminState: %s. Supported values are: %s.", m.BgpAdminState, strings.Join(GetUpdateVirtualCircuitDetailsBgpAdminStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingUpdateVirtualCircuitDetailsTrafficModeEnum(string(m.TrafficMode)); !ok && m.TrafficMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TrafficMode: %s. Supported values are: %s.", m.TrafficMode, strings.Join(GetUpdateVirtualCircuitDetailsTrafficModeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingUpdateVirtualCircuitDetailsProviderStateEnum(string(m.ProviderState)); !ok && m.ProviderState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProviderState: %s. Supported values are: %s.", m.ProviderState, strings.Join(GetUpdateVirtualCircuitDetailsProviderStateEnumStringValues(), ",")))
@@ -226,6 +233,48 @@ func GetUpdateVirtualCircuitDetailsBgpAdminStateEnumStringValues() []string {
 // GetMappingUpdateVirtualCircuitDetailsBgpAdminStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingUpdateVirtualCircuitDetailsBgpAdminStateEnum(val string) (UpdateVirtualCircuitDetailsBgpAdminStateEnum, bool) {
 	enum, ok := mappingUpdateVirtualCircuitDetailsBgpAdminStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// UpdateVirtualCircuitDetailsTrafficModeEnum Enum with underlying type: string
+type UpdateVirtualCircuitDetailsTrafficModeEnum string
+
+// Set of constants representing the allowable values for UpdateVirtualCircuitDetailsTrafficModeEnum
+const (
+	UpdateVirtualCircuitDetailsTrafficModeNormal UpdateVirtualCircuitDetailsTrafficModeEnum = "NORMAL"
+	UpdateVirtualCircuitDetailsTrafficModeDrain  UpdateVirtualCircuitDetailsTrafficModeEnum = "DRAIN"
+)
+
+var mappingUpdateVirtualCircuitDetailsTrafficModeEnum = map[string]UpdateVirtualCircuitDetailsTrafficModeEnum{
+	"NORMAL": UpdateVirtualCircuitDetailsTrafficModeNormal,
+	"DRAIN":  UpdateVirtualCircuitDetailsTrafficModeDrain,
+}
+
+var mappingUpdateVirtualCircuitDetailsTrafficModeEnumLowerCase = map[string]UpdateVirtualCircuitDetailsTrafficModeEnum{
+	"normal": UpdateVirtualCircuitDetailsTrafficModeNormal,
+	"drain":  UpdateVirtualCircuitDetailsTrafficModeDrain,
+}
+
+// GetUpdateVirtualCircuitDetailsTrafficModeEnumValues Enumerates the set of values for UpdateVirtualCircuitDetailsTrafficModeEnum
+func GetUpdateVirtualCircuitDetailsTrafficModeEnumValues() []UpdateVirtualCircuitDetailsTrafficModeEnum {
+	values := make([]UpdateVirtualCircuitDetailsTrafficModeEnum, 0)
+	for _, v := range mappingUpdateVirtualCircuitDetailsTrafficModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateVirtualCircuitDetailsTrafficModeEnumStringValues Enumerates the set of values in String for UpdateVirtualCircuitDetailsTrafficModeEnum
+func GetUpdateVirtualCircuitDetailsTrafficModeEnumStringValues() []string {
+	return []string{
+		"NORMAL",
+		"DRAIN",
+	}
+}
+
+// GetMappingUpdateVirtualCircuitDetailsTrafficModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateVirtualCircuitDetailsTrafficModeEnum(val string) (UpdateVirtualCircuitDetailsTrafficModeEnum, bool) {
+	enum, ok := mappingUpdateVirtualCircuitDetailsTrafficModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

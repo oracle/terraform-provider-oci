@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ChangeAnalyticsInstanceNetworkEndpointDetails Input payload to update an Analytics instance endpoint details.
+// ChangeAnalyticsInstanceNetworkEndpointDetails Input payload to update endpoint details for an Analytics instance.
 type ChangeAnalyticsInstanceNetworkEndpointDetails struct {
 	NetworkEndpointDetails NetworkEndpointDetails `mandatory:"true" json:"networkEndpointDetails"`
 }

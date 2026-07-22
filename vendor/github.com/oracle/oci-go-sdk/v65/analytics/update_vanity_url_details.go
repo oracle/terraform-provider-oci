@@ -15,19 +15,19 @@ import (
 	"strings"
 )
 
-// UpdateVanityUrlDetails Input payload to update a vanity url.
+// UpdateVanityUrlDetails Input payload to update a vanity URL.
 type UpdateVanityUrlDetails struct {
 
-	// PEM Private key for HTTPS connections.
+	// PEM private key for HTTPS connections.
 	PrivateKey *string `mandatory:"true" json:"privateKey"`
 
 	// PEM certificate for HTTPS connections.
 	PublicCertificate *string `mandatory:"true" json:"publicCertificate"`
 
-	// PEM CA certificate(s) for HTTPS connections. This may include multiple PEM certificates.
+	// PEM CA certificates for HTTPS connections. This may include multiple PEM certificates.
 	CaCertificate *string `mandatory:"true" json:"caCertificate"`
 
-	// Passphrase for the PEM Private key (if any).
+	// Passphrase for the PEM private key (if any).
 	Passphrase *string `mandatory:"false" json:"passphrase"`
 }
 

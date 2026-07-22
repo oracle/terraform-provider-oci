@@ -18,11 +18,11 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/UpdateAnalyticsInstance.go.html to see an example of how to use UpdateAnalyticsInstanceRequest.
 type UpdateAnalyticsInstanceRequest struct {
 
-	// The OCID of the AnalyticsInstance.
+	// The OCID of the Analytics instance.
 	AnalyticsInstanceId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceId"`
 
-	// The Analytics Instance fields to update. Fields that are not provided
-	// will not be updated.
+	// Update specified fields for an Analytics instance. Fields that aren't provided
+	//  won't be updated.
 	UpdateAnalyticsInstanceDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

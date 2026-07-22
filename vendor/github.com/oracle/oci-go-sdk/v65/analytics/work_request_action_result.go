@@ -32,6 +32,9 @@ const (
 	WorkRequestActionResultPrivateAccessChannelUpdated WorkRequestActionResultEnum = "PRIVATE_ACCESS_CHANNEL_UPDATED"
 	WorkRequestActionResultPrivateAccessChannelDeleted WorkRequestActionResultEnum = "PRIVATE_ACCESS_CHANNEL_DELETED"
 	WorkRequestActionResultNone                        WorkRequestActionResultEnum = "NONE"
+	WorkRequestActionResultResourceGroupCreated        WorkRequestActionResultEnum = "RESOURCE_GROUP_CREATED"
+	WorkRequestActionResultResourceGroupUpdated        WorkRequestActionResultEnum = "RESOURCE_GROUP_UPDATED"
+	WorkRequestActionResultResourceGroupDeleted        WorkRequestActionResultEnum = "RESOURCE_GROUP_DELETED"
 )
 
 var mappingWorkRequestActionResultEnum = map[string]WorkRequestActionResultEnum{
@@ -49,6 +52,9 @@ var mappingWorkRequestActionResultEnum = map[string]WorkRequestActionResultEnum{
 	"PRIVATE_ACCESS_CHANNEL_UPDATED": WorkRequestActionResultPrivateAccessChannelUpdated,
 	"PRIVATE_ACCESS_CHANNEL_DELETED": WorkRequestActionResultPrivateAccessChannelDeleted,
 	"NONE":                           WorkRequestActionResultNone,
+	"RESOURCE_GROUP_CREATED":         WorkRequestActionResultResourceGroupCreated,
+	"RESOURCE_GROUP_UPDATED":         WorkRequestActionResultResourceGroupUpdated,
+	"RESOURCE_GROUP_DELETED":         WorkRequestActionResultResourceGroupDeleted,
 }
 
 var mappingWorkRequestActionResultEnumLowerCase = map[string]WorkRequestActionResultEnum{
@@ -66,6 +72,9 @@ var mappingWorkRequestActionResultEnumLowerCase = map[string]WorkRequestActionRe
 	"private_access_channel_updated": WorkRequestActionResultPrivateAccessChannelUpdated,
 	"private_access_channel_deleted": WorkRequestActionResultPrivateAccessChannelDeleted,
 	"none":                           WorkRequestActionResultNone,
+	"resource_group_created":         WorkRequestActionResultResourceGroupCreated,
+	"resource_group_updated":         WorkRequestActionResultResourceGroupUpdated,
+	"resource_group_deleted":         WorkRequestActionResultResourceGroupDeleted,
 }
 
 // GetWorkRequestActionResultEnumValues Enumerates the set of values for WorkRequestActionResultEnum
@@ -94,6 +103,9 @@ func GetWorkRequestActionResultEnumStringValues() []string {
 		"PRIVATE_ACCESS_CHANNEL_UPDATED",
 		"PRIVATE_ACCESS_CHANNEL_DELETED",
 		"NONE",
+		"RESOURCE_GROUP_CREATED",
+		"RESOURCE_GROUP_UPDATED",
+		"RESOURCE_GROUP_DELETED",
 	}
 }
 

@@ -15,25 +15,33 @@ import (
 	"strings"
 )
 
-// WorkRequestLog Log entries related to a specific work request.
-type WorkRequestLog struct {
+// InstanceResourceGroup Resource Groups for Instance
+type InstanceResourceGroup struct {
 
-	// The description of the event that occurred.
-	Message *string `mandatory:"true" json:"message"`
+	// Unique identifier and name of resource group.  Must be unique within the instance
+	Id *string `mandatory:"true" json:"id"`
 
-	// The date and time the log entry occurred, in the format defined by RFC3339.
-	// Example: `2016-08-25T21:10:29.600Z`
-	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
+	// Meaningful name of resource group for end user
+	ResourceName *string `mandatory:"true" json:"resourceName"`
+
+	// The capacity (in OCPU's) to be allocated for this resource.
+	Capacity *int `mandatory:"true" json:"capacity"`
+
+	// Meaningful name of resource group for end user
+	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// Optional description of the resource group
+	Description *string `mandatory:"false" json:"description"`
 }
 
-func (m WorkRequestLog) String() string {
+func (m InstanceResourceGroup) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m WorkRequestLog) ValidateEnumValue() (bool, error) {
+func (m InstanceResourceGroup) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

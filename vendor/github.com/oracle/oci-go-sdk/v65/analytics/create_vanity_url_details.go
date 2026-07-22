@@ -15,25 +15,25 @@ import (
 	"strings"
 )
 
-// CreateVanityUrlDetails Input payload to create a vanity url.
+// CreateVanityUrlDetails Input payload to create a vanity URL.
 type CreateVanityUrlDetails struct {
 
-	// List of fully qualified hostnames supported by this vanity URL definition (max of 3).
+	// List of fully-qualified hostnames supported by this vanity URL definition (maximum of 3).
 	Hosts []string `mandatory:"true" json:"hosts"`
 
-	// PEM Private key for HTTPS connections.
+	// PEM private key for HTTPS connections.
 	PrivateKey *string `mandatory:"true" json:"privateKey"`
 
 	// PEM certificate for HTTPS connections.
 	PublicCertificate *string `mandatory:"true" json:"publicCertificate"`
 
-	// PEM CA certificate(s) for HTTPS connections. This may include multiple PEM certificates.
+	// PEM CA certificates for HTTPS connections. This may include multiple PEM certificates.
 	CaCertificate *string `mandatory:"true" json:"caCertificate"`
 
 	// Optional description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Passphrase for the PEM Private key (if any).
+	// Passphrase for the PEM private key (if any).
 	Passphrase *string `mandatory:"false" json:"passphrase"`
 }
 

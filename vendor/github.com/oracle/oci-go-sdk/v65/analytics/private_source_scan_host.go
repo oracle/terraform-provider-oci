@@ -15,16 +15,16 @@ import (
 	"strings"
 )
 
-// PrivateSourceScanHost Private source Scan Hostname model.
+// PrivateSourceScanHost Private source SCAN hostname model.
 type PrivateSourceScanHost struct {
 
-	// Private Source Scan hostname. Ex: db01-scan.corp.example.com, prd-db01-scan.mycompany.com.
+	// Private source SCAN hostname. For example: db01-scan.corp.example.com, prd-db01-scan.mycompany.com.
 	ScanHostname *string `mandatory:"true" json:"scanHostname"`
 
-	// Private Source Scan host port. This is the source port where SCAN protocol will get connected (e.g. 1521).
+	// Private source SCAN host port. This is the source port where the SCAN protocol connects (for example, 1521).
 	ScanPort *int `mandatory:"true" json:"scanPort"`
 
-	// Description of private source scan host zone.
+	// Description of private source SCAN host zone.
 	Description *string `mandatory:"false" json:"description"`
 }
 

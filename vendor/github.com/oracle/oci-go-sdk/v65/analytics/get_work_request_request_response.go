@@ -83,7 +83,7 @@ type GetWorkRequestResponse struct {
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// The number of seconds a client should wait before polling this endpoint again.
+	// The number of seconds a client waits before polling this endpoint again.
 	RetryAfter *int `presentIn:"header" name:"retry-after"`
 }
 

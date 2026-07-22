@@ -11,41 +11,34 @@ import (
 	"strings"
 )
 
-// CreatePrivateAccessChannelRequest wrapper for the CreatePrivateAccessChannel operation
+// GetResourceGroupRequest wrapper for the GetResourceGroup operation
 //
 // # See also
 //
-// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/CreatePrivateAccessChannel.go.html to see an example of how to use CreatePrivateAccessChannelRequest.
-type CreatePrivateAccessChannelRequest struct {
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/GetResourceGroup.go.html to see an example of how to use GetResourceGroupRequest.
+type GetResourceGroupRequest struct {
 
 	// The OCID of the Analytics instance.
 	AnalyticsInstanceId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceId"`
 
-	// Input payload for creating a private access channel for an Analytics instance.
-	CreatePrivateAccessChannelDetails `contributesTo:"body"`
+	// Specify unique id of a resource group within an Analytics instance.
+	AnalyticsInstanceResourceGroupId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceResourceGroupId"`
 
 	// Unique identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
-
-	// A token that uniquely identifies a request so it can be retried in case of a timeout or
-	// server error without risk of executing that same action again. Retry tokens expire after 24
-	// hours, but can be invalidated before then due to conflicting operations (for example, if a resource
-	// has been deleted and purged from the system, then a retry of the original creation request
-	// may be rejected).
-	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
 }
 
-func (request CreatePrivateAccessChannelRequest) String() string {
+func (request GetResourceGroupRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request CreatePrivateAccessChannelRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request GetResourceGroupRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -55,21 +48,21 @@ func (request CreatePrivateAccessChannelRequest) HTTPRequest(method, path string
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request CreatePrivateAccessChannelRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request GetResourceGroupRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CreatePrivateAccessChannelRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetResourceGroupRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request CreatePrivateAccessChannelRequest) ValidateEnumValue() (bool, error) {
+func (request GetResourceGroupRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -77,26 +70,28 @@ func (request CreatePrivateAccessChannelRequest) ValidateEnumValue() (bool, erro
 	return false, nil
 }
 
-// CreatePrivateAccessChannelResponse wrapper for the CreatePrivateAccessChannel operation
-type CreatePrivateAccessChannelResponse struct {
+// GetResourceGroupResponse wrapper for the GetResourceGroup operation
+type GetResourceGroupResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
+
+	// The InstanceResourceGroup instance
+	InstanceResourceGroup `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// The OCID of the work request. Use GetWorkRequest with this ID to track the status
-	// of the request.
-	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
+	// For optimistic concurrency control. See `if-match`.
+	Etag *string `presentIn:"header" name:"etag"`
 }
 
-func (response CreatePrivateAccessChannelResponse) String() string {
+func (response GetResourceGroupResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response CreatePrivateAccessChannelResponse) HTTPResponse() *http.Response {
+func (response GetResourceGroupResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

@@ -16372,6 +16372,71 @@ func (client VirtualNetworkClient) updateCrossConnectGroup(ctx context.Context, 
 	return response, err
 }
 
+// UpdateCrossConnectLetterOfAuthority Updates the Letter of Authority for the specified cross-connect.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateCrossConnectLetterOfAuthority.go.html to see an example of how to use UpdateCrossConnectLetterOfAuthority API.
+// A default retry strategy applies to this operation UpdateCrossConnectLetterOfAuthority()
+func (client VirtualNetworkClient) UpdateCrossConnectLetterOfAuthority(ctx context.Context, request UpdateCrossConnectLetterOfAuthorityRequest) (response UpdateCrossConnectLetterOfAuthorityResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateCrossConnectLetterOfAuthority, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCrossConnectLetterOfAuthorityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCrossConnectLetterOfAuthorityResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCrossConnectLetterOfAuthorityResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCrossConnectLetterOfAuthorityResponse")
+	}
+	return
+}
+
+// updateCrossConnectLetterOfAuthority implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateCrossConnectLetterOfAuthority(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/crossConnects/{crossConnectId}/letterOfAuthority", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UpdateCrossConnectLetterOfAuthorityResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "UpdateCrossConnectLetterOfAuthority")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/LetterOfAuthority/UpdateCrossConnectLetterOfAuthority"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateCrossConnectLetterOfAuthority", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateDhcpOptions Updates the specified set of DHCP options. You can update the display name or the options
 // themselves. Avoid entering confidential information.
 // Note that the `options` object you provide replaces the entire existing set of options.

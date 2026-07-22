@@ -18,10 +18,10 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/GetPrivateAccessChannel.go.html to see an example of how to use GetPrivateAccessChannelRequest.
 type GetPrivateAccessChannelRequest struct {
 
-	// The unique identifier key of the Private Access Channel.
+	// The unique identifier key of the private access channel.
 	PrivateAccessChannelKey *string `mandatory:"true" contributesTo:"path" name:"privateAccessChannelKey"`
 
-	// The OCID of the AnalyticsInstance.
+	// The OCID of the Analytics instance.
 	AnalyticsInstanceId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceId"`
 
 	// Unique identifier for the request.
