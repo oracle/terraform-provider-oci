@@ -1,3 +1,17 @@
+## 8.24.0 (July 22, 2026)
+
+### Added
+- Support for multiple semantic models in OAC PaaS instances
+- Support for Multiple Fastconnect Enhancements
+- Support for File Storage Service Compartment level quotas
+- Support Generative AI hosted application and deployment resources
+
+### Bug Fix
+- Clarify container repositories data source attributes
+- Fix Data Safe target database credential-only updates
+- Fix migration asset docs example
+- go vet fix for Logf call
+
 ## 8.23.0 (July 14, 2026)
 
 ### Added

@@ -22,7 +22,7 @@ Creates a migration asset.
 resource "oci_cloud_migrations_migration_asset" "test_migration_asset" {
 	#Required
 	availability_domain = var.migration_asset_availability_domain
-	inventory_asset_id = oci_cloud_migrations_inventory_asset.test_inventory_asset.id
+	inventory_asset_id = var.inventory_asset_id
 	migration_id = oci_cloud_migrations_migration.test_migration.id
 	replication_compartment_id = oci_identity_compartment.test_compartment.id
 	snap_shot_bucket_name = oci_objectstorage_bucket.test_bucket.name

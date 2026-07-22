@@ -20,6 +20,7 @@ type FeatureBundleEnum string
 const (
 	FeatureBundleFawPaid    FeatureBundleEnum = "FAW_PAID"
 	FeatureBundleFawFree    FeatureBundleEnum = "FAW_FREE"
+	FeatureBundleFdiBase    FeatureBundleEnum = "FDI_BASE"
 	FeatureBundleEeEmbedded FeatureBundleEnum = "EE_EMBEDDED"
 	FeatureBundleSeEmbedded FeatureBundleEnum = "SE_EMBEDDED"
 )
@@ -27,6 +28,7 @@ const (
 var mappingFeatureBundleEnum = map[string]FeatureBundleEnum{
 	"FAW_PAID":    FeatureBundleFawPaid,
 	"FAW_FREE":    FeatureBundleFawFree,
+	"FDI_BASE":    FeatureBundleFdiBase,
 	"EE_EMBEDDED": FeatureBundleEeEmbedded,
 	"SE_EMBEDDED": FeatureBundleSeEmbedded,
 }
@@ -34,6 +36,7 @@ var mappingFeatureBundleEnum = map[string]FeatureBundleEnum{
 var mappingFeatureBundleEnumLowerCase = map[string]FeatureBundleEnum{
 	"faw_paid":    FeatureBundleFawPaid,
 	"faw_free":    FeatureBundleFawFree,
+	"fdi_base":    FeatureBundleFdiBase,
 	"ee_embedded": FeatureBundleEeEmbedded,
 	"se_embedded": FeatureBundleSeEmbedded,
 }
@@ -52,6 +55,7 @@ func GetFeatureBundleEnumStringValues() []string {
 	return []string{
 		"FAW_PAID",
 		"FAW_FREE",
+		"FDI_BASE",
 		"EE_EMBEDDED",
 		"SE_EMBEDDED",
 	}

@@ -39,6 +39,10 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The cross-connect's Oracle ID (OCID).
+* `interface_down_timer_value_in_milliseconds` - The duration of the interface down timer in milliseconds between 0 and 3000 in multiples of 500.
+* `interface_name` - The name of the FastConnect interface where this cross-connect is installed. 
+* `is_interface_hold_timer_enabled` - The flag to enable or disable the down timer for the interface.
+* `is_qos_enabled` - The flag to enable or disable the Qos for the cross-connect.
 * `location_name` - The name of the FastConnect location where this cross-connect is installed. 
 * `macsec_properties` - Properties used for MACsec (if capable).
     * `encryption_cipher` - Type of encryption cipher suite to use for the MACsec connection.

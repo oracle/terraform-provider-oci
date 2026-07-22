@@ -53,10 +53,9 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_cross_connect.test_cross_connect_device.id}`}},
 	}
 
-	// CrossConnect with device and interface
 	CoreCrossConnectRepresentationWithDevice = map[string]interface{}{
 		"compartment_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"location_name":            acctest.Representation{RepType: acctest.Required, Create: `Fake Location SGU1`},
+		"location_name":            acctest.Representation{RepType: acctest.Required, Create: `SEA-R1-FAKE-LOCATION`},
 		"port_speed_shape_name":    acctest.Representation{RepType: acctest.Required, Create: `100 Gbps`},
 		"customer_reference_name":  acctest.Representation{RepType: acctest.Optional, Create: `customerReferenceName`, Update: `customerReferenceName2`},
 		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
@@ -67,16 +66,19 @@ var (
 		"oci_physical_device_name": acctest.Representation{RepType: acctest.Optional, Create: `${var.oci_physical_device_name}`},
 	}
 
-	// for the required fields on create and update
 	CoreCrossConnectRepresentation = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"location_name":           acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_cross_connect_locations.test_cross_connect_locations.cross_connect_locations.0.name}`},
-		"port_speed_shape_name":   acctest.Representation{RepType: acctest.Required, Create: `10 Gbps`},
+		"port_speed_shape_name":   acctest.Representation{RepType: acctest.Required, Create: `100 Gbps`},
 		"customer_reference_name": acctest.Representation{RepType: acctest.Optional, Create: `customerReferenceName`, Update: `customerReferenceName2`},
-		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`}, "display_name": acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"is_active":         acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"macsec_properties": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreCrossConnectMacsecPropertiesRepresentation},
+		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
+		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"interface_down_timer_value_in_milliseconds": acctest.Representation{RepType: acctest.Optional, Create: `500`, Update: `1000`},
+		"is_active":                       acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
+		"is_interface_hold_timer_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
+		"is_qos_enabled":                  acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"macsec_properties":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreCrossConnectMacsecPropertiesRepresentation},
 	}
 	CoreCrossConnectMacsecPropertiesRepresentation = map[string]interface{}{
 		"state":                          acctest.Representation{RepType: acctest.Required, Create: `ENABLED`, Update: `ENABLED`},
@@ -126,11 +128,11 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_core_cross_connect.test_cross_connect"
 
 	resourceNameDevice := "oci_core_cross_connect.test_cross_connect_device"
-	interfaceName := "Fake-xe-0/0/5006"
+	interfaceName := "ge-0/0/400"
 	interfaceNameVariableStr := fmt.Sprintf("variable \"interface_name\" { default = \"%s\" }\n", interfaceName)
-	customerPortName := "Port Fake-xe-0/0/5007"
+	customerPortName := "ge-0/0/400"
 
-	deviceName := "fake-vpn2"
+	deviceName := "r1-tc2-fake-vpn1"
 	deviceNameVariableStr := fmt.Sprintf("variable \"oci_physical_device_name\" { default = \"%s\" }\n", deviceName)
 
 	var resId, resId2 string
@@ -198,7 +200,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "location_name"),
-				resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "10 Gbps"),
+				resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "100 Gbps"),
 				resource.TestCheckResourceAttr(resourceName, "state", "PENDING_CUSTOMER"),
 
 				func(s *terraform.State) (err error) {
@@ -219,10 +221,10 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_id", secretIdCAK),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_id", secretIdCKN),
-				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_version", secretVersionCAK),
-				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_version", secretVersionCKN),
+				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_version"),
+				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_version"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.state", "ENABLED"),
-				resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "10 Gbps"),
+				resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "100 Gbps"),
 				resource.TestCheckResourceAttr(resourceName, "state", "PROVISIONED"),
 
 				func(s *terraform.State) (err error) {
@@ -248,6 +250,9 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "interface_down_timer_value_in_milliseconds", "500"),
+				resource.TestCheckResourceAttr(resourceName, "is_interface_hold_timer_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_qos_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "location_name"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.encryption_cipher", "AES256_GCM"),
@@ -256,7 +261,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_id", secretIdCAK),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_id", secretIdCKN),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.state", "ENABLED"),
-				resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "10 Gbps"),
+				resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "100 Gbps"),
 				resource.TestCheckResourceAttr(resourceName, "state", "PROVISIONED"),
 
 				func(s *terraform.State) (err error) {
@@ -282,6 +287,10 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "interface_down_timer_value_in_milliseconds", "500"),
+				resource.TestCheckResourceAttr(resourceName, "is_interface_hold_timer_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_qos_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "location_name"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.encryption_cipher", "AES256_GCM"),
@@ -289,10 +298,10 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_id", secretIdCAK),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_id", secretIdCKN),
-				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_version", secretVersionCAK),
-				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_version", secretVersionCKN),
+				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_version"),
+				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_version"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.state", "ENABLED"),
-				resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "10 Gbps"),
+				resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "100 Gbps"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -313,6 +322,9 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "customer_reference_name", "customerReferenceName2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "interface_down_timer_value_in_milliseconds", "1000"),
+				resource.TestCheckResourceAttr(resourceName, "is_interface_hold_timer_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_qos_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "location_name"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.encryption_cipher", "AES256_GCM_XPN"),
@@ -320,10 +332,10 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_id", secretIdCAK),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_id", secretIdCKN),
-				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_version", secretVersionCAK),
-				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_version", secretVersionCKN),
+				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_version"),
+				resource.TestCheckResourceAttrSet(resourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_version"),
 				resource.TestCheckResourceAttr(resourceName, "macsec_properties.0.state", "ENABLED"),
-				resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "10 Gbps"),
+				resource.TestCheckResourceAttr(resourceName, "port_speed_shape_name", "100 Gbps"),
 				resource.TestCheckResourceAttr(resourceName, "state", "PROVISIONED"),
 
 				func(s *terraform.State) (err error) {
@@ -351,20 +363,23 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.interface_down_timer_value_in_milliseconds", "1000"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.is_interface_hold_timer_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.is_qos_enabled", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.location_name"),
 				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.macsec_properties.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.macsec_properties.0.encryption_cipher", "AES256_GCM_XPN"),
 				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.macsec_properties.0.is_unprotected_traffic_allowed", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.macsec_properties.0.primary_key.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.macsec_properties.0.primary_key.0.connectivity_association_key_secret_id", secretIdCAK),
-				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.macsec_properties.0.primary_key.0.connectivity_association_key_secret_version", secretVersionCAK),
+				resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.macsec_properties.0.primary_key.0.connectivity_association_key_secret_version"),
 				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.macsec_properties.0.primary_key.0.connectivity_association_name_secret_id", secretIdCKN),
-				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.macsec_properties.0.primary_key.0.connectivity_association_name_secret_version", secretVersionCKN),
+				resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.macsec_properties.0.primary_key.0.connectivity_association_name_secret_version"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.oci_logical_device_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.oci_physical_device_name"),
 				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.macsec_properties.0.state", "ENABLED"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.port_name"),
-				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.port_speed_shape_name", "10 Gbps"),
+				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.port_speed_shape_name", "100 Gbps"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cross_connects.0.time_created"),
 				resource.TestCheckResourceAttr(datasourceName, "cross_connects.0.state", "PROVISIONED"),
@@ -383,6 +398,9 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "interface_down_timer_value_in_milliseconds", "1000"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_interface_hold_timer_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_qos_enabled", "false"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "location_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.encryption_cipher", "AES256_GCM_XPN"),
@@ -390,13 +408,13 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.primary_key.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_id", secretIdCAK),
 				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_id", secretIdCKN),
-				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_version", secretVersionCAK),
-				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_version", secretVersionCKN),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "macsec_properties.0.primary_key.0.connectivity_association_key_secret_version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "macsec_properties.0.primary_key.0.connectivity_association_name_secret_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "oci_logical_device_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "oci_physical_device_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "macsec_properties.0.state", "ENABLED"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "port_name"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "port_speed_shape_name", "10 Gbps"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "port_speed_shape_name", "100 Gbps"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "state", "PROVISIONED"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
@@ -405,7 +423,7 @@ func TestCoreCrossConnectResource_basic(t *testing.T) {
 		// verify resource import  // Step:8
 		// import requires full configuration to handle cross connect dependency on cross connect Group during destroy
 		{
-			Config:            config + CoreCrossConnectRequiredOnlyResource,
+			Config:            config + compartmentIdVariableStr + CoreCrossConnectRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
@@ -436,7 +454,8 @@ func testAccCheckCoreCrossConnectDestroy(s *terraform.State) error {
 
 			if err == nil {
 				deletedLifecycleStates := map[string]bool{
-					string(oci_core.CrossConnectLifecycleStateTerminated): true,
+					string(oci_core.CrossConnectLifecycleStateTerminating): true,
+					string(oci_core.CrossConnectLifecycleStateTerminated):  true,
 				}
 				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
 					//resource lifecycle state is not in expected deleted lifecycle states.

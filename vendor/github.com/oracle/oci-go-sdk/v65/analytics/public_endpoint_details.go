@@ -25,7 +25,7 @@ type PublicEndpointDetails struct {
 	// Virtual Cloud Networks allowed to access this network endpoint.
 	WhitelistedVcns []VirtualCloudNetwork `mandatory:"false" json:"whitelistedVcns"`
 
-	// Oracle Cloud Services that are allowed to access this Analytics instance.
+	// Oracle Cloud services that are allowed to access this Analytics instance.
 	WhitelistedServices []AccessControlServiceTypeEnum `mandatory:"false" json:"whitelistedServices,omitempty"`
 }
 

@@ -77,6 +77,20 @@ type CrossConnectGroup struct {
 	// The FastConnect device that terminates the logical connection.
 	// This device might be different than the device that terminates the physical connection.
 	OciLogicalDeviceName *string `mandatory:"false" json:"ociLogicalDeviceName"`
+
+	// Minimum number of active cross-connects required for the cross-connect group to be considered operational.
+	// If the number of active cross-connects falls below this value, the group is not considered operational.
+	// If this value was not explicitly set when the group was created or updated, it defaults to 1.
+	MinimumLinks *int `mandatory:"false" json:"minimumLinks"`
+
+	// The flag to enable or disable the down timer for the interface.
+	IsInterfaceHoldTimerEnabled *bool `mandatory:"false" json:"isInterfaceHoldTimerEnabled"`
+
+	// The duration of the interface down timer in milliseconds between 0 and 3000 in multiples of 500.
+	InterfaceDownTimerValueInMilliseconds *int `mandatory:"false" json:"interfaceDownTimerValueInMilliseconds"`
+
+	// The flag to enable or disable the Qos for the cross-connect-group.
+	IsQosEnabled *bool `mandatory:"false" json:"isQosEnabled"`
 }
 
 func (m CrossConnectGroup) String() string {

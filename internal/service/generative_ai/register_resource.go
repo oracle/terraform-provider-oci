@@ -8,6 +8,10 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterResource() {
 	tfresource.RegisterResource("oci_generative_ai_dedicated_ai_cluster", GenerativeAiDedicatedAiClusterResource())
 	tfresource.RegisterResource("oci_generative_ai_endpoint", GenerativeAiEndpointResource())
+	tfresource.RegisterResource("oci_generative_ai_generative_ai_private_endpoint", GenerativeAiGenerativeAiPrivateEndpointResource())
+	tfresource.RegisterResource("oci_generative_ai_hosted_application", GenerativeAiHostedApplicationResource())
+	tfresource.RegisterResource("oci_generative_ai_hosted_application_storage", GenerativeAiHostedApplicationStorageResource())
+	tfresource.RegisterResource("oci_generative_ai_hosted_deployment", GenerativeAiHostedDeploymentResource())
 	tfresource.RegisterResource("oci_generative_ai_imported_model", GenerativeAiImportedModelResource())
 	tfresource.RegisterResource("oci_generative_ai_model", GenerativeAiModelResource())
 	tfresource.RegisterResource("oci_generative_ai_project", GenerativeAiProjectResource())

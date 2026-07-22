@@ -165,6 +165,10 @@ type VirtualCircuit struct {
 	// The layer 3 IP MTU to use on this virtual circuit.
 	IpMtu VirtualCircuitIpMtuEnum `mandatory:"false" json:"ipMtu,omitempty"`
 
+	// The current traffic mode for the Virtual Circuit. This indicates whether the traffic is drained for the
+	// associated Virtual Circuit or not.
+	TrafficMode VirtualCircuitTrafficModeEnum `mandatory:"false" json:"trafficMode,omitempty"`
+
 	VirtualCircuitRedundancyMetadata *VirtualCircuitRedundancyMetadata `mandatory:"false" json:"virtualCircuitRedundancyMetadata"`
 }
 
@@ -210,6 +214,9 @@ func (m VirtualCircuit) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingVirtualCircuitIpMtuEnum(string(m.IpMtu)); !ok && m.IpMtu != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpMtu: %s. Supported values are: %s.", m.IpMtu, strings.Join(GetVirtualCircuitIpMtuEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingVirtualCircuitTrafficModeEnum(string(m.TrafficMode)); !ok && m.TrafficMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TrafficMode: %s. Supported values are: %s.", m.TrafficMode, strings.Join(GetVirtualCircuitTrafficModeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -632,5 +639,47 @@ func GetVirtualCircuitTypeEnumStringValues() []string {
 // GetMappingVirtualCircuitTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingVirtualCircuitTypeEnum(val string) (VirtualCircuitTypeEnum, bool) {
 	enum, ok := mappingVirtualCircuitTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// VirtualCircuitTrafficModeEnum Enum with underlying type: string
+type VirtualCircuitTrafficModeEnum string
+
+// Set of constants representing the allowable values for VirtualCircuitTrafficModeEnum
+const (
+	VirtualCircuitTrafficModeNormal VirtualCircuitTrafficModeEnum = "NORMAL"
+	VirtualCircuitTrafficModeDrain  VirtualCircuitTrafficModeEnum = "DRAIN"
+)
+
+var mappingVirtualCircuitTrafficModeEnum = map[string]VirtualCircuitTrafficModeEnum{
+	"NORMAL": VirtualCircuitTrafficModeNormal,
+	"DRAIN":  VirtualCircuitTrafficModeDrain,
+}
+
+var mappingVirtualCircuitTrafficModeEnumLowerCase = map[string]VirtualCircuitTrafficModeEnum{
+	"normal": VirtualCircuitTrafficModeNormal,
+	"drain":  VirtualCircuitTrafficModeDrain,
+}
+
+// GetVirtualCircuitTrafficModeEnumValues Enumerates the set of values for VirtualCircuitTrafficModeEnum
+func GetVirtualCircuitTrafficModeEnumValues() []VirtualCircuitTrafficModeEnum {
+	values := make([]VirtualCircuitTrafficModeEnum, 0)
+	for _, v := range mappingVirtualCircuitTrafficModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetVirtualCircuitTrafficModeEnumStringValues Enumerates the set of values in String for VirtualCircuitTrafficModeEnum
+func GetVirtualCircuitTrafficModeEnumStringValues() []string {
+	return []string{
+		"NORMAL",
+		"DRAIN",
+	}
+}
+
+// GetMappingVirtualCircuitTrafficModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingVirtualCircuitTrafficModeEnum(val string) (VirtualCircuitTrafficModeEnum, bool) {
+	enum, ok := mappingVirtualCircuitTrafficModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

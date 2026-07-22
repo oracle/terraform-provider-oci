@@ -13,8 +13,7 @@ Api doc link for the resource: https://docs.oracle.com/iaas/api/#/en/analytics/l
 
 Example terraform configs related to the resource : https://github.com/oracle/terraform-provider-oci/tree/master/examples/analytics
 
-Allows specifying a custom host name to be used to access the analytics instance.  This requires prior setup of DNS entry and certificate
-for this host.
+Allows you to specify a custom host name to be used to access the Analytics instance.  You must set up a DNS entry and certificate for this host in advance.
 
 
 ## Example Usage
@@ -38,12 +37,12 @@ resource "oci_analytics_analytics_instance_vanity_url" "test_analytics_instance_
 
 The following arguments are supported:
 
-* `analytics_instance_id` - (Required) The OCID of the AnalyticsInstance. 
-* `ca_certificate` - (Required) (Updatable) PEM CA certificate(s) for HTTPS connections. This may include multiple PEM certificates. 
+* `analytics_instance_id` - (Required) The OCID of the Analytics instance. 
+* `ca_certificate` - (Required) (Updatable) PEM CA certificates for HTTPS connections. This may include multiple PEM certificates. 
 * `description` - (Optional) Optional description. 
-* `hosts` - (Required) List of fully qualified hostnames supported by this vanity URL definition (max of 3). 
-* `passphrase` - (Optional) (Updatable) Passphrase for the PEM Private key (if any). 
-* `private_key` - (Required) (Updatable) PEM Private key for HTTPS connections. 
+* `hosts` - (Required) List of fully-qualified hostnames supported by this vanity URL definition (maximum of 3). 
+* `passphrase` - (Optional) (Updatable) Passphrase for the PEM private key (if any). 
+* `private_key` - (Required) (Updatable) PEM private key for HTTPS connections. 
 * `public_certificate` - (Required) (Updatable) PEM certificate for HTTPS connections. 
 
 

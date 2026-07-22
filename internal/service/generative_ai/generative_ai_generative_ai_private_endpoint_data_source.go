@@ -86,6 +86,8 @@ func (s *GenerativeAiGenerativeAiPrivateEndpointDataSourceCrud) SetData() error 
 		s.D.Set("private_endpoint_ip", *s.Res.PrivateEndpointIp)
 	}
 
+	s.D.Set("resource_type", s.Res.ResourceType)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	return nil

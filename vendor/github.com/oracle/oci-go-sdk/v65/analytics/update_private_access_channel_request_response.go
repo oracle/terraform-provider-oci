@@ -18,13 +18,13 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/UpdatePrivateAccessChannel.go.html to see an example of how to use UpdatePrivateAccessChannelRequest.
 type UpdatePrivateAccessChannelRequest struct {
 
-	// The unique identifier key of the Private Access Channel.
+	// The unique identifier key of the private access channel.
 	PrivateAccessChannelKey *string `mandatory:"true" contributesTo:"path" name:"privateAccessChannelKey"`
 
-	// The OCID of the AnalyticsInstance.
+	// The OCID of the Analytics instance.
 	AnalyticsInstanceId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceId"`
 
-	// Update the Private Access Channel with the given unique identifier key in the specified Analytics Instance.
+	// Update the private access channel with the given unique identifier key in the specified Analytics instance.
 	UpdatePrivateAccessChannelDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

@@ -50,7 +50,10 @@ resource "oci_core_cross_connect" "test_cross_connect" {
 	display_name = var.cross_connect_display_name
 	far_cross_connect_or_cross_connect_group_id = oci_core_cross_connect_group.test_cross_connect_group.id
 	freeform_tags = {"Department"= "Finance"}
+	interface_down_timer_value_in_milliseconds = var.cross_connect_interface_down_timer_value_in_milliseconds
 	interface_name = var.cross_connect_interface_name
+	is_interface_hold_timer_enabled = var.cross_connect_is_interface_hold_timer_enabled
+	is_qos_enabled = var.cross_connect_is_qos_enabled
 	macsec_properties {
 		#Required
 		state = var.cross_connect_macsec_properties_state
@@ -66,6 +69,11 @@ resource "oci_core_cross_connect" "test_cross_connect" {
 	}
 	near_cross_connect_or_cross_connect_group_id = oci_core_cross_connect_group.test_cross_connect_group.id
 	oci_physical_device_name = var.cross_connect_oci_physical_device_name
+	loa_properties {
+		authorized_agent = var.cross_connect_loa_properties_authorized_agent
+		# Increase by 1 from the current value to request one LOA expiry extension.
+		# expiry_extension_count = var.cross_connect_loa_properties_expiry_extension_count
+	}
 }
 ```
 
@@ -78,9 +86,15 @@ The following arguments are supported:
 * `customer_reference_name` - (Optional) (Updatable) A reference name or identifier for the physical fiber connection that this cross-connect uses. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-* `far_cross_connect_or_cross_connect_group_id` - (Optional) If you already have an existing cross-connect or cross-connect group at this FastConnect location, and you want this new cross-connect to be on a different router (for the purposes of redundancy), provide the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of that existing cross-connect or cross-connect group.
-* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
+* `far_cross_connect_or_cross_connect_group_id` - (Optional) If you already have an existing cross-connect or cross-connect group at this FastConnect location, and you want this new cross-connect to be on a different router (for the purposes of redundancy), provide the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of that existing cross-connect or cross-connect group. 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `interface_down_timer_value_in_milliseconds` - (Optional) (Updatable) The duration of the interface down timer in milliseconds between 0 and 3000 in multiples of 500.
 * `interface_name` - (Optional) The name of the FastConnect interface where this cross-connect is installed. Option will be provided only on request for select tenancies.
+* `is_interface_hold_timer_enabled` - (Optional) (Updatable) The flag to enable or disable the down timer for the interface.
+* `is_qos_enabled` - (Optional) When true, restricts placement so cross-connects lands only on QoS-capable devices. When false (default), placement may use any supported device. If no QoS-capable devices are available in the selected location, the request fails. 
+* `loa_properties` - (Optional) (Updatable) Properties used to manage the Letter of Authority associated with this cross-connect.
+	* `authorized_agent` - (Optional) (Updatable) Name of a customer authorized agent to append to the LOA as `Authorized Agent`. Set this to an empty string to remove the current authorized agent.
+	* `expiry_extension_count` - (Optional) (Updatable) Terraform-managed count of self-service expiry extensions requested for the LOA. Increase this value by 1 to request one additional expiry extension. This value cannot be decreased or increased by more than 1 in a single update. The service enforces the maximum number of allowed extensions.
 * `oci_physical_device_name` - (Optional) The name of the FastConnect device where this cross-connect is installed. Option will be provided only on request for select tenancies.
 * `is_active` - (Optional) (Updatable) Set to true to activate the cross-connect. You activate it after the physical cabling is complete, and you've confirmed the cross-connect's light levels are good and your side of the interface is up. Activation indicates to Oracle that the physical connection is ready.
 * `location_name` - (Required) The name of the FastConnect location where this cross-connect will be installed. To get a list of the available locations, see [ListCrossConnectLocations](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CrossConnectLocation/ListCrossConnectLocations).  Example: `CyrusOne, Chandler, AZ` 
@@ -115,6 +129,13 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The cross-connect's Oracle ID (OCID).
+* `interface_down_timer_value_in_milliseconds` - The duration of the interface down timer in milliseconds between 0 and 3000 in multiples of 500.
+* `interface_name` - The name of the FastConnect interface where this cross-connect is installed. 
+* `is_interface_hold_timer_enabled` - The flag to enable or disable the down timer for the interface.
+* `is_qos_enabled` - The flag to enable or disable the Qos for the cross-connect.
+* `loa_properties` - Properties for the Letter of Authority associated with this cross-connect.
+	* `authorized_agent` - Name of the customer authorized agent on the LOA.
+	* `expiry_extension_count` - Terraform-managed count of self-service expiry extensions requested for the LOA.
 * `location_name` - The name of the FastConnect location where this cross-connect is installed. 
 * `macsec_properties` - Properties used for MACsec (if capable).
 	* `encryption_cipher` - Type of encryption cipher suite to use for the MACsec connection.
@@ -147,4 +168,3 @@ CrossConnects can be imported using the `id`, e.g.
 ```
 $ terraform import oci_core_cross_connect.test_cross_connect "id"
 ```
-

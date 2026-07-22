@@ -30,6 +30,10 @@ func GenerativeAiGenerativeAiPrivateEndpointsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"resource_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -86,6 +90,10 @@ func (s *GenerativeAiGenerativeAiPrivateEndpointsDataSourceCrud) Get() error {
 	if id, ok := s.D.GetOkExists("id"); ok {
 		tmp := id.(string)
 		request.Id = &tmp
+	}
+
+	if resourceType, ok := s.D.GetOkExists("resource_type"); ok {
+		request.ResourceType = oci_generative_ai.GenerativeAiPrivateEndpointResourceTypeEnum(resourceType.(string))
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
