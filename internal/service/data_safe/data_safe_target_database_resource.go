@@ -911,16 +911,11 @@ func (s *DataSafeTargetDatabaseResourceCrud) Update() error {
 		}
 	}
 
-	if databaseDetails, ok := s.D.GetOkExists("database_details"); ok {
-		if tmpList := databaseDetails.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database_details", 0)
-			tmp, err := s.mapToDatabaseDetails(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.DatabaseDetails = tmp
-		}
+	databaseDetails, err := s.mapToDatabaseDetailsForUpdate()
+	if err != nil {
+		return err
 	}
+	request.DatabaseDetails = databaseDetails
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
@@ -967,6 +962,24 @@ func (s *DataSafeTargetDatabaseResourceCrud) Update() error {
 
 	workId := response.OpcWorkRequestId
 	return s.getTargetDatabaseFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *DataSafeTargetDatabaseResourceCrud) mapToDatabaseDetailsForUpdate() (oci_data_safe.DatabaseDetails, error) {
+	if !s.D.HasChange("database_details") {
+		return nil, nil
+	}
+
+	databaseDetails, ok := s.D.GetOkExists("database_details")
+	if !ok {
+		return nil, nil
+	}
+
+	if tmpList := databaseDetails.([]interface{}); len(tmpList) > 0 {
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database_details", 0)
+		return s.mapToDatabaseDetails(fieldKeyFormat)
+	}
+
+	return nil, nil
 }
 
 func (s *DataSafeTargetDatabaseResourceCrud) Delete() error {

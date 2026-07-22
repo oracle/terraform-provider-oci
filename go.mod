@@ -15,7 +15,7 @@ require (
 	github.com/hashicorp/terraform-plugin-mux v0.21.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.38.1
 	github.com/hashicorp/terraform-plugin-testing v1.13.3
-	github.com/oracle/oci-go-sdk/v65 v65.121.0
+	github.com/oracle/oci-go-sdk/v65 v65.121.1
 	github.com/stretchr/testify v1.11.1
 	golang.org/x/mod v0.36.0
 	gopkg.in/yaml.v2 v2.4.0
@@ -74,4 +74,4 @@ require (
 
 // replace github.com/oracle/oci-go-sdk/v65 v65.105.0 => ./vendor/github.com/oracle/oci-go-sdk
 
-go 1.25.0
+go 1.26.5

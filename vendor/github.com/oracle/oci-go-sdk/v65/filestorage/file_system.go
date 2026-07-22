@@ -120,6 +120,9 @@ type FileSystem struct {
 
 	// Specifies the total number of replications for which this file system is a source.
 	ReplicationSourceCount *int `mandatory:"false" json:"replicationSourceCount"`
+
+	// Displays the compartment-level quota enforcement state affecting this file system.
+	CompartmentQuotaEnforcementState FileSystemCompartmentQuotaEnforcementStateEnum `mandatory:"false" json:"compartmentQuotaEnforcementState,omitempty"`
 }
 
 func (m FileSystem) String() string {
@@ -140,6 +143,9 @@ func (m FileSystem) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingFileSystemQuotaEnforcementStateEnum(string(m.QuotaEnforcementState)); !ok && m.QuotaEnforcementState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for QuotaEnforcementState: %s. Supported values are: %s.", m.QuotaEnforcementState, strings.Join(GetFileSystemQuotaEnforcementStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingFileSystemCompartmentQuotaEnforcementStateEnum(string(m.CompartmentQuotaEnforcementState)); !ok && m.CompartmentQuotaEnforcementState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CompartmentQuotaEnforcementState: %s. Supported values are: %s.", m.CompartmentQuotaEnforcementState, strings.Join(GetFileSystemCompartmentQuotaEnforcementStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -306,5 +312,47 @@ func GetFileSystemQuotaEnforcementStateEnumStringValues() []string {
 // GetMappingFileSystemQuotaEnforcementStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingFileSystemQuotaEnforcementStateEnum(val string) (FileSystemQuotaEnforcementStateEnum, bool) {
 	enum, ok := mappingFileSystemQuotaEnforcementStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// FileSystemCompartmentQuotaEnforcementStateEnum Enum with underlying type: string
+type FileSystemCompartmentQuotaEnforcementStateEnum string
+
+// Set of constants representing the allowable values for FileSystemCompartmentQuotaEnforcementStateEnum
+const (
+	FileSystemCompartmentQuotaEnforcementStateNotBlocked FileSystemCompartmentQuotaEnforcementStateEnum = "NOT_BLOCKED"
+	FileSystemCompartmentQuotaEnforcementStateBlocked    FileSystemCompartmentQuotaEnforcementStateEnum = "BLOCKED"
+)
+
+var mappingFileSystemCompartmentQuotaEnforcementStateEnum = map[string]FileSystemCompartmentQuotaEnforcementStateEnum{
+	"NOT_BLOCKED": FileSystemCompartmentQuotaEnforcementStateNotBlocked,
+	"BLOCKED":     FileSystemCompartmentQuotaEnforcementStateBlocked,
+}
+
+var mappingFileSystemCompartmentQuotaEnforcementStateEnumLowerCase = map[string]FileSystemCompartmentQuotaEnforcementStateEnum{
+	"not_blocked": FileSystemCompartmentQuotaEnforcementStateNotBlocked,
+	"blocked":     FileSystemCompartmentQuotaEnforcementStateBlocked,
+}
+
+// GetFileSystemCompartmentQuotaEnforcementStateEnumValues Enumerates the set of values for FileSystemCompartmentQuotaEnforcementStateEnum
+func GetFileSystemCompartmentQuotaEnforcementStateEnumValues() []FileSystemCompartmentQuotaEnforcementStateEnum {
+	values := make([]FileSystemCompartmentQuotaEnforcementStateEnum, 0)
+	for _, v := range mappingFileSystemCompartmentQuotaEnforcementStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetFileSystemCompartmentQuotaEnforcementStateEnumStringValues Enumerates the set of values in String for FileSystemCompartmentQuotaEnforcementStateEnum
+func GetFileSystemCompartmentQuotaEnforcementStateEnumStringValues() []string {
+	return []string{
+		"NOT_BLOCKED",
+		"BLOCKED",
+	}
+}
+
+// GetMappingFileSystemCompartmentQuotaEnforcementStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingFileSystemCompartmentQuotaEnforcementStateEnum(val string) (FileSystemCompartmentQuotaEnforcementStateEnum, bool) {
+	enum, ok := mappingFileSystemCompartmentQuotaEnforcementStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

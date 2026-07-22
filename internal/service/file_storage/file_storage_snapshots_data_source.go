@@ -5,6 +5,7 @@ package file_storage
 
 import (
 	"context"
+	"strconv"
 	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -129,6 +130,10 @@ func (s *FileStorageSnapshotsDataSourceCrud) SetData() error {
 
 		if r.DefinedTags != nil {
 			snapshot["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
+		}
+
+		if r.ExclusiveBytes != nil {
+			snapshot["exclusive_bytes"] = strconv.FormatInt(*r.ExclusiveBytes, 10)
 		}
 
 		if r.ExpirationTime != nil {

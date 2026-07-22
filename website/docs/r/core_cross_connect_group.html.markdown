@@ -42,6 +42,9 @@ resource "oci_core_cross_connect_group" "test_cross_connect_group" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.cross_connect_group_display_name
 	freeform_tags = {"Department"= "Finance"}
+	interface_down_timer_value_in_milliseconds = var.cross_connect_group_interface_down_timer_value_in_milliseconds
+	is_interface_hold_timer_enabled = var.cross_connect_group_is_interface_hold_timer_enabled
+	is_qos_enabled = var.cross_connect_group_is_qos_enabled
 	macsec_properties {
 		#Required
 		state = var.cross_connect_group_macsec_properties_state
@@ -55,6 +58,7 @@ resource "oci_core_cross_connect_group" "test_cross_connect_group" {
 			connectivity_association_name_secret_id = oci_vault_secret.test_secret.id
 		}
 	}
+	minimum_links = var.cross_connect_group_minimum_links
 }
 ```
 
@@ -66,7 +70,10 @@ The following arguments are supported:
 * `customer_reference_name` - (Optional) (Updatable) A reference name or identifier for the physical fiber connection that this cross-connect group uses. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `interface_down_timer_value_in_milliseconds` - (Optional) (Updatable) The duration of the interface down timer in milliseconds between 0 and 3000 in multiples of 500.
+* `is_interface_hold_timer_enabled` - (Optional) (Updatable) The flag to enable or disable the down timer for the interface.
+* `is_qos_enabled` - (Optional) (Optional) When true, restricts placement so cross-connects lands only on QoS-capable devices. When false (default), placement may use any supported device. If no QoS-capable devices are available in the selected location, the request fails. 
 * `macsec_properties` - (Optional) (Updatable) Properties used to configure MACsec (if capable).
 	* `encryption_cipher` - (Optional) (Updatable) Type of encryption cipher suite to use for the MACsec connection.
 	* `is_unprotected_traffic_allowed` - (Optional) (Updatable) Indicates whether unencrypted traffic is allowed if MACsec Key Agreement protocol (MKA) fails.
@@ -80,6 +87,7 @@ The following arguments are supported:
 
 			NOTE: Only the latest secret version will be used. 
 	* `state` - (Required) (Updatable) Indicates whether or not MACsec is enabled.
+* `minimum_links` - (Optional) (Updatable) (Optional) Minimum number of active cross-connects required for the cross-connect group to be considered operational. During create cross-connect-group operation this value can only be set to 1 (If not specified, this value defaults to 1) and can be edited using the update cross-connect group operation. Value must not exceed the total number of cross-connects in the cross-connect group. 
 
 
 ** IMPORTANT **
@@ -95,6 +103,9 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The cross-connect group's Oracle ID (OCID).
+* `interface_down_timer_value_in_milliseconds` - The duration of the interface down timer in milliseconds between 0 and 3000 in multiples of 500.
+* `is_interface_hold_timer_enabled` - The flag to enable or disable the down timer for the interface.
+* `is_qos_enabled` - The flag to enable or disable the Qos for the cross-connect-group.
 * `macsec_properties` - Properties used for MACsec (if capable).
 	* `encryption_cipher` - Type of encryption cipher suite to use for the MACsec connection.
 	* `is_unprotected_traffic_allowed` - Indicates whether unencrypted traffic is allowed if MACsec Key Agreement protocol (MKA) fails.
@@ -104,6 +115,7 @@ The following attributes are exported:
 		* `connectivity_association_name_secret_id` - Secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) containing the Connectivity association Key Name (CKN) of this MACsec key.
 		* `connectivity_association_name_secret_version` - The secret version of the connectivity association name secret in Vault.
 	* `state` - Indicates whether or not MACsec is enabled.
+* `minimum_links` - Minimum number of active cross-connects required for the cross-connect group to be considered operational. If the number of active cross-connects falls below this value, the group is not considered operational. If this value was not explicitly set when the group was created or updated, it defaults to 1. 
 * `oci_logical_device_name` - The FastConnect device that terminates the logical connection. This device might be different than the device that terminates the physical connection. 
 * `oci_physical_device_name` - The FastConnect device that terminates the physical connection. 
 * `state` - The cross-connect group's current state.

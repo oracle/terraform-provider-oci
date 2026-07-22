@@ -201,6 +201,11 @@ func CoreVirtualCircuitResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"traffic_mode": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"bgp_ipv6session_state": {
@@ -489,6 +494,10 @@ func (s *CoreVirtualCircuitResourceCrud) Create() error {
 		}
 	}
 
+	if trafficMode, ok := s.D.GetOkExists("traffic_mode"); ok {
+		request.TrafficMode = oci_core.CreateVirtualCircuitDetailsTrafficModeEnum(trafficMode.(string))
+	}
+
 	if type_, ok := s.D.GetOkExists("type"); ok {
 		request.Type = oci_core.CreateVirtualCircuitDetailsTypeEnum(type_.(string))
 	}
@@ -664,6 +673,10 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 		if len(tmp) != 0 || s.D.HasChange("routing_policy") {
 			request.RoutingPolicy = tmp
 		}
+	}
+
+	if trafficMode, ok := s.D.GetOkExists("traffic_mode"); ok {
+		request.TrafficMode = oci_core.UpdateVirtualCircuitDetailsTrafficModeEnum(trafficMode.(string))
 	}
 
 	tmp := s.D.Id()
@@ -848,6 +861,8 @@ func (s *CoreVirtualCircuitResourceCrud) SetData() error {
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
+
+	s.D.Set("traffic_mode", s.Res.TrafficMode)
 
 	s.D.Set("type", s.Res.Type)
 

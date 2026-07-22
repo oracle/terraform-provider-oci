@@ -86,6 +86,9 @@ type SnapshotSummary struct {
 	// System tags for this resource.
 	// System tags are applied to resources by internal OCI services.
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Bytes referenced only by this snapshot; deducted from compartment usage immediately upon deletion.
+	ExclusiveBytes *int64 `mandatory:"false" json:"exclusiveBytes"`
 }
 
 func (m SnapshotSummary) String() string {

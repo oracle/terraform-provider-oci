@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/CreateAnalyticsInstance.go.html to see an example of how to use CreateAnalyticsInstanceRequest.
 type CreateAnalyticsInstanceRequest struct {
 
-	// Analytics Instance details.
+	// Analytics instance details.
 	CreateAnalyticsInstanceDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.

@@ -15,19 +15,19 @@ import (
 	"strings"
 )
 
-// VanityUrlDetails Vanity url configuration details.
+// VanityUrlDetails Vanity URL configuration details.
 type VanityUrlDetails struct {
 
-	// The vanity url unique identifier key.
+	// The vanity URL unique identifier key.
 	Key *string `mandatory:"false" json:"key"`
 
-	// Description of the vanity url.
+	// Description of the vanity URL.
 	Description *string `mandatory:"false" json:"description"`
 
-	// List of urls supported by this vanity URL definition (max of 3).
+	// List of URLs supported by this vanity URL definition (maximum of 3).
 	Urls []string `mandatory:"false" json:"urls"`
 
-	// List of fully qualified hostnames supported by this vanity URL definition (max of 3).
+	// List of fully-qualified hostnames supported by this vanity URL definition (maximum of 3).
 	Hosts []string `mandatory:"false" json:"hosts"`
 
 	// PEM certificate for HTTPS connections.

@@ -94,6 +94,9 @@ type Snapshot struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the file system snapshot policy that created this snapshot.
 	FilesystemSnapshotPolicyId *string `mandatory:"false" json:"filesystemSnapshotPolicyId"`
+
+	// Bytes referenced only by this snapshot; deducted from compartment usage immediately upon deletion.
+	ExclusiveBytes *int64 `mandatory:"false" json:"exclusiveBytes"`
 }
 
 func (m Snapshot) String() string {

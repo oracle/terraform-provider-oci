@@ -18,10 +18,10 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/ChangeAnalyticsInstanceNetworkEndpoint.go.html to see an example of how to use ChangeAnalyticsInstanceNetworkEndpointRequest.
 type ChangeAnalyticsInstanceNetworkEndpointRequest struct {
 
-	// The OCID of the AnalyticsInstance.
+	// The OCID of the Analytics instance.
 	AnalyticsInstanceId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceId"`
 
-	// Input payload for changing an Analytics instance network endpoint.
+	// Input payload for changing a network endpoint for an Analytics instance.
 	ChangeAnalyticsInstanceNetworkEndpointDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

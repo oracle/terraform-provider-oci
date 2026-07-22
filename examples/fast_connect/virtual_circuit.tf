@@ -114,10 +114,24 @@ data "oci_core_virtual_circuits" "virtual_circuits" {
   #Optional
   display_name = var.virtual_circuit_display_name
   state        = var.virtual_circuit_state
+
+  depends_on = [
+    oci_core_virtual_circuit.virtual_circuit_private,
+    oci_core_virtual_circuit.virtual_circuit_public,
+    oci_core_virtual_circuit.virtual_circuit_provider_private_layer2,
+    oci_core_virtual_circuit.virtual_circuit_provider_public_layer3,
+  ]
 }
 
 output "virtual_circuits" {
-  value = data.oci_core_virtual_circuits.virtual_circuits.virtual_circuits
+  value = [
+    for virtual_circuit in data.oci_core_virtual_circuits.virtual_circuits.virtual_circuits : {
+      id           = virtual_circuit.id
+      display_name = virtual_circuit.display_name
+      state        = virtual_circuit.state
+      type         = virtual_circuit.type
+    }
+  ]
 }
 
 data "oci_core_virtual_circuit" "virtual_circuit" {
@@ -131,4 +145,3 @@ output "virtual_circuit" {
     type  = data.oci_core_virtual_circuit.virtual_circuit.type
   }
 }
-

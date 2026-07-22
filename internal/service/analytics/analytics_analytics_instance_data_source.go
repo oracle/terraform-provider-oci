@@ -119,6 +119,16 @@ func (s *AnalyticsAnalyticsInstanceDataSourceCrud) SetData() error {
 		s.D.Set("network_endpoint_details", nil)
 	}
 
+	if s.Res.ResourceGroups != nil {
+		resourceGroups := []interface{}{}
+		for _, item := range s.Res.ResourceGroups {
+			resourceGroups = append(resourceGroups, InstanceResourceGroupToMap(item))
+		}
+		s.D.Set("resource_groups", resourceGroups)
+	} else {
+		s.D.Set("resource_groups", nil)
+	}
+
 	if s.Res.ServiceUrl != nil {
 		s.D.Set("service_url", *s.Res.ServiceUrl)
 	}

@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// PrivateSourceDnsZone Private source DNS Zone model.
+// PrivateSourceDnsZone Private source DNS zone model.
 type PrivateSourceDnsZone struct {
 
-	// Private Source DNS Zone. Ex: example-vcn.oraclevcn.com, corp.example.com.
+	// Private source DNS zone. For example: example-vcn.oraclevcn.com, corp.example.com.
 	DnsZone *string `mandatory:"true" json:"dnsZone"`
 
-	// Description of private source dns zone.
+	// Description of the private source DNS zone.
 	Description *string `mandatory:"false" json:"description"`
 }
 

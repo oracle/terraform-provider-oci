@@ -18,13 +18,13 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/UpdateVanityUrl.go.html to see an example of how to use UpdateVanityUrlRequest.
 type UpdateVanityUrlRequest struct {
 
-	// The OCID of the AnalyticsInstance.
+	// The OCID of the Analytics instance.
 	AnalyticsInstanceId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceId"`
 
-	// Specify unique identifier key of a vanity url to update or delete.
+	// Specify unique identifier key of a vanity URL to update or delete.
 	VanityUrlKey *string `mandatory:"true" contributesTo:"path" name:"vanityUrlKey"`
 
-	// Vanity url details to update (certificate).
+	// Vanity URL details to update (certificate).
 	UpdateVanityUrlDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

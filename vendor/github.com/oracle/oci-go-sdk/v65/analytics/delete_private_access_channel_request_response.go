@@ -18,10 +18,10 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/DeletePrivateAccessChannel.go.html to see an example of how to use DeletePrivateAccessChannelRequest.
 type DeletePrivateAccessChannelRequest struct {
 
-	// The unique identifier key of the Private Access Channel.
+	// The unique identifier key of the private access channel.
 	PrivateAccessChannelKey *string `mandatory:"true" contributesTo:"path" name:"privateAccessChannelKey"`
 
-	// The OCID of the AnalyticsInstance.
+	// The OCID of the Analytics instance.
 	AnalyticsInstanceId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

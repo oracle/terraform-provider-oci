@@ -18,10 +18,10 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/SetKmsKey.go.html to see an example of how to use SetKmsKeyRequest.
 type SetKmsKeyRequest struct {
 
-	// The OCID of the AnalyticsInstance.
+	// The OCID of the Analytics instance.
 	AnalyticsInstanceId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceId"`
 
-	// Input payload to reset the OCI Vault encryption key.
+	// Input payload to reset the OCI vault encryption key.
 	SetKmsKeyDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

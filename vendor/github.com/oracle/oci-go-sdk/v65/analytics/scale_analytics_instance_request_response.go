@@ -18,7 +18,7 @@ import (
 // Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/ScaleAnalyticsInstance.go.html to see an example of how to use ScaleAnalyticsInstanceRequest.
 type ScaleAnalyticsInstanceRequest struct {
 
-	// The OCID of the AnalyticsInstance.
+	// The OCID of the Analytics instance.
 	AnalyticsInstanceId *string `mandatory:"true" contributesTo:"path" name:"analyticsInstanceId"`
 
 	// Input payload for scaling an Analytics instance up or down.
