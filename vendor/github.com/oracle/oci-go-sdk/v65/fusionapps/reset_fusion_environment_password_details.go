@@ -19,7 +19,7 @@ import (
 type ResetFusionEnvironmentPasswordDetails struct {
 
 	// Admin password
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 }
 
 func (m ResetFusionEnvironmentPasswordDetails) String() string {

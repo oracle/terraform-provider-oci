@@ -26,7 +26,7 @@ type CreateCortanaChannelDetails struct {
 	MsaAppId *string `mandatory:"true" json:"msaAppId"`
 
 	// The client secret that you obtained from your bot registration.
-	MsaAppPassword *string `mandatory:"true" json:"msaAppPassword"`
+	MsaAppPassword *string `mandatory:"true" json:"msaAppPassword" sensitive:"true"`
 
 	// A short description of the Channel.
 	Description *string `mandatory:"false" json:"description"`

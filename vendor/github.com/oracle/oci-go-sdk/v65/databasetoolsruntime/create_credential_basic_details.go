@@ -26,7 +26,7 @@ type CreateCredentialBasicDetails struct {
 	UserName *string `mandatory:"true" json:"userName"`
 
 	// The password for the new credential.
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 }
 
 // GetKey returns Key

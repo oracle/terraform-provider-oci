@@ -71,9 +71,9 @@ type updateconnectiondetails struct {
 	SubnetId            *string                           `mandatory:"false" json:"subnetId"`
 	NsgIds              []string                          `mandatory:"false" json:"nsgIds"`
 	Username            *string                           `mandatory:"false" json:"username"`
-	Password            *string                           `mandatory:"false" json:"password"`
+	Password            *string                           `mandatory:"false" json:"password" sensitive:"true"`
 	ReplicationUsername *string                           `mandatory:"false" json:"replicationUsername"`
-	ReplicationPassword *string                           `mandatory:"false" json:"replicationPassword"`
+	ReplicationPassword *string                           `mandatory:"false" json:"replicationPassword" sensitive:"true"`
 	ConnectionType      string                            `json:"connectionType"`
 }
 

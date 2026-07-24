@@ -22,7 +22,7 @@ type AddMasterNodesDetails struct {
 	NumberOfMasterNodes *int `mandatory:"true" json:"numberOfMasterNodes"`
 
 	// Base-64 encoded Cluster Admin Password for cluster admin user.
-	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword" sensitive:"true"`
 
 	// The secretId for the clusterAdminPassword.
 	SecretId *string `mandatory:"false" json:"secretId"`

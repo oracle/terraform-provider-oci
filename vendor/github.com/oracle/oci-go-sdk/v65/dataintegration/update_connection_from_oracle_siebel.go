@@ -29,7 +29,7 @@ type UpdateConnectionFromOracleSiebel struct {
 	Username *string `mandatory:"true" json:"username"`
 
 	// The password for the connection.
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 
 	// The model version of an object.
 	ModelVersion *string `mandatory:"false" json:"modelVersion"`

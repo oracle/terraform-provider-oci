@@ -84,7 +84,7 @@ type CreateDbSystemDetails struct {
 	// between 8 and 32 characters long, and must contain at least 1
 	// numeric character, 1 lowercase character, 1 uppercase character, and
 	// 1 special (nonalphanumeric) character.
-	AdminPassword *string `mandatory:"false" json:"adminPassword"`
+	AdminPassword *string `mandatory:"false" json:"adminPassword" sensitive:"true"`
 
 	// Initial size of the data volume in GBs that will be created and attached.
 	// Keep in mind that this only specifies the size of the database data volume,

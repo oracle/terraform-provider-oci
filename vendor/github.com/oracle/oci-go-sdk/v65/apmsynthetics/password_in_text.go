@@ -20,7 +20,7 @@ import (
 type PasswordInText struct {
 
 	// Password.
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 }
 
 func (m PasswordInText) String() string {

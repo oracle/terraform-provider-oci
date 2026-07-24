@@ -46,10 +46,10 @@ type UpdateSlackChannelDetails struct {
 	AuthErrorUrl *string `mandatory:"false" json:"authErrorUrl"`
 
 	// The Signing Secret for the Slack App.
-	SigningSecret *string `mandatory:"false" json:"signingSecret"`
+	SigningSecret *string `mandatory:"false" json:"signingSecret" sensitive:"true"`
 
 	// The Client Secret for the Slack App.
-	ClientSecret *string `mandatory:"false" json:"clientSecret"`
+	ClientSecret *string `mandatory:"false" json:"clientSecret" sensitive:"true"`
 
 	// The ID of the Skill or Digital Assistant that the Channel is routed to.
 	BotId *string `mandatory:"false" json:"botId"`

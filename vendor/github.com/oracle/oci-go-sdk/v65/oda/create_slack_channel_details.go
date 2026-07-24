@@ -26,10 +26,10 @@ type CreateSlackChannelDetails struct {
 	ClientId *string `mandatory:"true" json:"clientId"`
 
 	// The Signing Secret for the Slack App.
-	SigningSecret *string `mandatory:"true" json:"signingSecret"`
+	SigningSecret *string `mandatory:"true" json:"signingSecret" sensitive:"true"`
 
 	// The Client Secret for the Slack App.
-	ClientSecret *string `mandatory:"true" json:"clientSecret"`
+	ClientSecret *string `mandatory:"true" json:"clientSecret" sensitive:"true"`
 
 	// A short description of the Channel.
 	Description *string `mandatory:"false" json:"description"`

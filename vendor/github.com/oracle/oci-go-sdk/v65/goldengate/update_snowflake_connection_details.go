@@ -91,7 +91,7 @@ type UpdateSnowflakeConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "passwordSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	Password *string `mandatory:"false" json:"password"`
+	Password *string `mandatory:"false" json:"password" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the password Oracle GoldenGate uses to connect to Snowflake platform.
 	// Note: When provided, 'password' field must not be provided.
@@ -101,7 +101,7 @@ type UpdateSnowflakeConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "privateKeyFileSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	PrivateKeyFile *string `mandatory:"false" json:"privateKeyFile"`
+	PrivateKeyFile *string `mandatory:"false" json:"privateKeyFile" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the private key file (PEM file) corresponding to the API key of the fingerprint.
 	// See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm
@@ -112,7 +112,7 @@ type UpdateSnowflakeConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "privateKeyPassphraseSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	PrivateKeyPassphrase *string `mandatory:"false" json:"privateKeyPassphrase"`
+	PrivateKeyPassphrase *string `mandatory:"false" json:"privateKeyPassphrase" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the password for the private key file.
 	// Note: When provided, 'privateKeyPassphrase' field must not be provided.

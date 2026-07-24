@@ -26,7 +26,7 @@ type CreateBasicImagePullSecretDetails struct {
 	Username *string `mandatory:"true" json:"username"`
 
 	// The password which should be used with the registry for authentication. The value is expected in base64 format.
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 }
 
 // GetRegistryEndpoint returns RegistryEndpoint

@@ -28,7 +28,7 @@ type CreateDbSystemSourceFromDbSystemChannelDetails struct {
 	// between 8 and 32 characters long, and must contain at least 1
 	// numeric character, 1 lowercase character, 1 uppercase character,
 	// and 1 special (nonalphanumeric) character.
-	SourcePassword *string `mandatory:"true" json:"sourcePassword"`
+	SourcePassword *string `mandatory:"true" json:"sourcePassword" sensitive:"true"`
 
 	// The SSL mode of the Channel.
 	SslMode SslModeEnum `mandatory:"true" json:"sslMode"`

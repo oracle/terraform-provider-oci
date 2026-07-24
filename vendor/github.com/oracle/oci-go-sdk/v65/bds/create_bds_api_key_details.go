@@ -22,7 +22,7 @@ type CreateBdsApiKeyDetails struct {
 	UserId *string `mandatory:"true" json:"userId"`
 
 	// Base64 passphrase used to secure the private key which will be created on user behalf.
-	Passphrase *string `mandatory:"true" json:"passphrase"`
+	Passphrase *string `mandatory:"true" json:"passphrase" sensitive:"true"`
 
 	// User friendly identifier used to uniquely differentiate between different API keys associated with this Big Data Service cluster.
 	// Only ASCII alphanumeric characters with no spaces allowed.

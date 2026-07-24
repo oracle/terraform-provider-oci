@@ -51,13 +51,13 @@ type UpdateOracleConnectionDetails struct {
 	Username *string `mandatory:"false" json:"username"`
 
 	// The password (credential) used when creating or updating this resource.
-	Password *string `mandatory:"false" json:"password"`
+	Password *string `mandatory:"false" json:"password" sensitive:"true"`
 
 	// The username (credential) used when creating or updating this resource.
 	ReplicationUsername *string `mandatory:"false" json:"replicationUsername"`
 
 	// The password (credential) used when creating or updating this resource.
-	ReplicationPassword *string `mandatory:"false" json:"replicationPassword"`
+	ReplicationPassword *string `mandatory:"false" json:"replicationPassword" sensitive:"true"`
 
 	// Connect descriptor or Easy Connect Naming method used to connect to a database.
 	ConnectionString *string `mandatory:"false" json:"connectionString"`

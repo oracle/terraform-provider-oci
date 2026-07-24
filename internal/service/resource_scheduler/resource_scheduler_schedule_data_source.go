@@ -89,6 +89,10 @@ func (s *ResourceSchedulerScheduleDataSourceCrud) SetData() error {
 
 	s.D.Set("last_run_status", s.Res.LastRunStatus)
 
+	if s.Res.LocalTimeZone != nil {
+		s.D.Set("local_time_zone", *s.Res.LocalTimeZone)
+	}
+
 	if s.Res.RecurrenceDetails != nil {
 		s.D.Set("recurrence_details", *s.Res.RecurrenceDetails)
 	}

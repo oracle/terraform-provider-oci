@@ -42,7 +42,7 @@ type OperationsInsightsWarehouseUserSummary struct {
 	LifecycleState OperationsInsightsWarehouseUserLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// User provided connection password for the AWR Data,  Enterprise Manager Data and Ops Insights OPSI Hub.
-	ConnectionPassword *string `mandatory:"false" json:"connectionPassword"`
+	ConnectionPassword *string `mandatory:"false" json:"connectionPassword" sensitive:"true"`
 
 	// Indicate whether user has access to EM data.
 	IsEmDataAccess *bool `mandatory:"false" json:"isEmDataAccess"`

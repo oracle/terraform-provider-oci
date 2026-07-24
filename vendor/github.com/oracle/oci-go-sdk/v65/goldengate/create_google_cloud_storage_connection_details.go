@@ -102,7 +102,7 @@ type CreateGoogleCloudStorageConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "serviceAccountKeyFileSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	ServiceAccountKeyFile *string `mandatory:"false" json:"serviceAccountKeyFile"`
+	ServiceAccountKeyFile *string `mandatory:"false" json:"serviceAccountKeyFile" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the content of the service account key file is stored,
 	// which contains the credentials required to use Google Cloud Storage.

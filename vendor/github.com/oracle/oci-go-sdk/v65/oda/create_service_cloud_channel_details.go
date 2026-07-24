@@ -46,7 +46,7 @@ type CreateServiceCloudChannelDetails struct {
 	UserName *string `mandatory:"true" json:"userName"`
 
 	// The password for the Oracle B2C Service staff member who has the necessary profile permissions.
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 
 	// A short description of the Channel.
 	Description *string `mandatory:"false" json:"description"`

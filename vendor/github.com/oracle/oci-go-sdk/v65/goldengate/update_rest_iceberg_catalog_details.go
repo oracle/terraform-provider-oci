@@ -29,7 +29,7 @@ type UpdateRestIcebergCatalogDetails struct {
 	PropertiesSecretId *string `mandatory:"false" json:"propertiesSecretId"`
 
 	// The base64 encoded content of the configuration file containing additional properties for the REST catalog.
-	Properties *string `mandatory:"false" json:"properties"`
+	Properties *string `mandatory:"false" json:"properties" sensitive:"true"`
 }
 
 func (m UpdateRestIcebergCatalogDetails) String() string {

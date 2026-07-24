@@ -23,7 +23,7 @@ type ConnectionFromOraclePeopleSoft struct {
 	Username *string `mandatory:"true" json:"username"`
 
 	// The password for the connection.
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 
 	// Generated key that can be used in API calls to identify connection. On scenarios where reference to the connection is needed, a value can be passed in create.
 	Key *string `mandatory:"false" json:"key"`

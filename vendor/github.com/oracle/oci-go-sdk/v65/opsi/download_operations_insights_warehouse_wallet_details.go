@@ -21,7 +21,7 @@ import (
 type DownloadOperationsInsightsWarehouseWalletDetails struct {
 
 	// User provided ADW wallet password for the Ops Insights Warehouse.
-	OperationsInsightsWarehouseWalletPassword *string `mandatory:"true" json:"operationsInsightsWarehouseWalletPassword"`
+	OperationsInsightsWarehouseWalletPassword *string `mandatory:"true" json:"operationsInsightsWarehouseWalletPassword" sensitive:"true"`
 }
 
 func (m DownloadOperationsInsightsWarehouseWalletDetails) String() string {

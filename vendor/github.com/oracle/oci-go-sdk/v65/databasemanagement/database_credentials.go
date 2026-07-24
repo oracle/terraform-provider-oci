@@ -26,7 +26,7 @@ type DatabaseCredentials struct {
 	UserName *string `mandatory:"false" json:"userName"`
 
 	// The password for the database user name.
-	Password *string `mandatory:"false" json:"password"`
+	Password *string `mandatory:"false" json:"password" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
 	SecretId *string `mandatory:"false" json:"secretId"`

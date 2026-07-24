@@ -22,7 +22,7 @@ type UpdateAdminCredentials struct {
 	Username *string `mandatory:"false" json:"username"`
 
 	// Administrator password
-	Password *string `mandatory:"false" json:"password"`
+	Password *string `mandatory:"false" json:"password" sensitive:"true"`
 }
 
 func (m UpdateAdminCredentials) String() string {

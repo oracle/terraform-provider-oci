@@ -87,7 +87,7 @@ type UpdateAmazonKinesisConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "secretAccessKeySecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	SecretAccessKey *string `mandatory:"false" json:"secretAccessKey"`
+	SecretAccessKey *string `mandatory:"false" json:"secretAccessKey" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the secret access key is stored.
 	// Note: When provided, 'secretAccessKey' field must not be provided.

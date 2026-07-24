@@ -26,7 +26,7 @@ type DynectMigrationDetails struct {
 	Username *string `mandatory:"true" json:"username"`
 
 	// DynECT API password for the provided username.
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 
 	// A map of fully-qualified domain names (FQDNs) to an array of `MigrationReplacement` objects.
 	HttpRedirectReplacements map[string][]MigrationReplacement `mandatory:"false" json:"httpRedirectReplacements"`

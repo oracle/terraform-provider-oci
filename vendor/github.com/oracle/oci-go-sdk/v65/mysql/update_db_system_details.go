@@ -97,7 +97,7 @@ type UpdateDbSystemDetails struct {
 	// between 8 and 32 characters long, and must contain at least 1
 	// numeric character, 1 lowercase character, 1 uppercase character, and
 	// 1 special (nonalphanumeric) character.
-	AdminPassword *string `mandatory:"false" json:"adminPassword"`
+	AdminPassword *string `mandatory:"false" json:"adminPassword" sensitive:"true"`
 
 	// Expands the DB System's storage to the specified value. Only supports values larger than the current DB System's
 	// storage size.

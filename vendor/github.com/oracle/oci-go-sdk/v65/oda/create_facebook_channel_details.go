@@ -23,10 +23,10 @@ type CreateFacebookChannelDetails struct {
 	Name *string `mandatory:"true" json:"name"`
 
 	// The app secret for your Facebook app.
-	AppSecret *string `mandatory:"true" json:"appSecret"`
+	AppSecret *string `mandatory:"true" json:"appSecret" sensitive:"true"`
 
 	// The page access token that you generated for your Facebook page.
-	PageAccessToken *string `mandatory:"true" json:"pageAccessToken"`
+	PageAccessToken *string `mandatory:"true" json:"pageAccessToken" sensitive:"true"`
 
 	// A short description of the Channel.
 	Description *string `mandatory:"false" json:"description"`

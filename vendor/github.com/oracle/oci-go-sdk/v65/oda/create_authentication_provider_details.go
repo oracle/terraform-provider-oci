@@ -36,7 +36,7 @@ type CreateAuthenticationProviderDetails struct {
 
 	// The client secret for the IDP application (OAuth Client) that was registered as described in Identity Provider
 	// Registration. With Microsoft identity platform, use the application secret.
-	ClientSecret *string `mandatory:"true" json:"clientSecret"`
+	ClientSecret *string `mandatory:"true" json:"clientSecret" sensitive:"true"`
 
 	// A space-separated list of the scopes that must be included when Digital Assistant requests an access token from
 	// the provider. Include all the scopes that are required to access the resources. If refresh tokens are enabled,

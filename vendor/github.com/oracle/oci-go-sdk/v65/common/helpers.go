@@ -75,7 +75,9 @@ func PointerString(datastruct interface{}) (representation string) {
 
 		sv := val.Field(i)
 		stringValue := ""
-		if isNil(sv) {
+		if sf.Tag.Get("sensitive") == "true" {
+			stringValue = fmt.Sprintf("%s=<redacted>", sf.Name)
+		} else if isNil(sv) {
 			stringValue = fmt.Sprintf("%s=<nil>", sf.Name)
 		} else {
 			if sv.Type().Kind() == reflect.Ptr {

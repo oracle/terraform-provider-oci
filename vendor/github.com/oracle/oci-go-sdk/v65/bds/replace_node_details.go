@@ -25,7 +25,7 @@ type ReplaceNodeDetails struct {
 	NodeBackupId *string `mandatory:"false" json:"nodeBackupId"`
 
 	// Base-64 encoded password for the cluster admin user.
-	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword" sensitive:"true"`
 
 	// Heterogeneous shape of the node if the default shape is not available.
 	HeterogeneousShapes []string `mandatory:"false" json:"heterogeneousShapes"`

@@ -22,10 +22,10 @@ type ConvertToRegularPluggableDatabaseDetails struct {
 	ShouldCreatePdbBackup *bool `mandatory:"false" json:"shouldCreatePdbBackup"`
 
 	// The DB system administrator password of the Container Database.
-	ContainerDatabaseAdminPassword *string `mandatory:"false" json:"containerDatabaseAdminPassword"`
+	ContainerDatabaseAdminPassword *string `mandatory:"false" json:"containerDatabaseAdminPassword" sensitive:"true"`
 
 	// The existing TDE wallet password of the Container Database.
-	TdeWalletPassword *string `mandatory:"false" json:"tdeWalletPassword"`
+	TdeWalletPassword *string `mandatory:"false" json:"tdeWalletPassword" sensitive:"true"`
 }
 
 func (m ConvertToRegularPluggableDatabaseDetails) String() string {

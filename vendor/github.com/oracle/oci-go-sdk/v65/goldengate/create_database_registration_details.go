@@ -37,7 +37,7 @@ type CreateDatabaseRegistrationDetails struct {
 	// Deprecated: This field is deprecated and replaced by "passwordSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 
 	// Credential store alias.
 	AliasName *string `mandatory:"true" json:"aliasName"`
@@ -78,7 +78,7 @@ type CreateDatabaseRegistrationDetails struct {
 	// Deprecated: This field is deprecated and replaced by "walletSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	Wallet *string `mandatory:"false" json:"wallet"`
+	Wallet *string `mandatory:"false" json:"wallet" sensitive:"true"`
 
 	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate

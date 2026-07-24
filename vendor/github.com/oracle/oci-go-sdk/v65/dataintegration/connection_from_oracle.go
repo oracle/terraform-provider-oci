@@ -59,7 +59,7 @@ type ConnectionFromOracle struct {
 	Username *string `mandatory:"false" json:"username"`
 
 	// The password for the connection.
-	Password *string `mandatory:"false" json:"password"`
+	Password *string `mandatory:"false" json:"password" sensitive:"true"`
 
 	PasswordSecret *SensitiveAttribute `mandatory:"false" json:"passwordSecret"`
 }

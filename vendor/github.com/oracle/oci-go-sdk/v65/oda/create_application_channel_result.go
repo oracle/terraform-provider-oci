@@ -33,7 +33,7 @@ type CreateApplicationChannelResult struct {
 
 	// The secret key used to verify the authenticity of received messages.
 	// This is only returned this once.  If it is lost the keys will need to be rotated to generate a new key.
-	SecretKey *string `mandatory:"true" json:"secretKey"`
+	SecretKey *string `mandatory:"true" json:"secretKey" sensitive:"true"`
 
 	// True if the user id in the AIC message should be treated as an authenticated user id.
 	IsAuthenticatedUserId *bool `mandatory:"true" json:"isAuthenticatedUserId"`
