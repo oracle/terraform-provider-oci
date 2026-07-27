@@ -7,6 +7,7 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_assigned_subscription", TenantmanagercontrolplaneAssignedSubscriptionDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_assigned_subscription_available_regions", TenantmanagercontrolplaneAssignedSubscriptionAvailableRegionsDataSource())
 	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_assigned_subscription_line_items", TenantmanagercontrolplaneAssignedSubscriptionLineItemsDataSource())
 	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_assigned_subscriptions", TenantmanagercontrolplaneAssignedSubscriptionsDataSource())
 	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_domain", TenantmanagercontrolplaneDomainDataSource())

@@ -23,16 +23,17 @@ func TenantmanagercontrolplaneAssignedSubscriptionDataSource() *schema.Resource 
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			// Computed
 			"classic_subscription_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"cloud_amount_currency": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -251,6 +252,11 @@ func (s *TenantmanagercontrolplaneAssignedSubscriptionDataSourceCrud) Get() erro
 	if assignedSubscriptionId, ok := s.D.GetOkExists("assigned_subscription_id"); ok {
 		tmp := assignedSubscriptionId.(string)
 		request.AssignedSubscriptionId = &tmp
+	}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "tenantmanagercontrolplane")

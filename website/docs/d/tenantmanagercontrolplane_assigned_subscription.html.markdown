@@ -17,7 +17,10 @@ Get the assigned subscription details by assigned subscription ID.
 ```hcl
 data "oci_tenantmanagercontrolplane_assigned_subscription" "test_assigned_subscription" {
 	#Required
-	assigned_subscription_id = oci_tenantmanagercontrolplane_assigned_subscription.test_assigned_subscription.id
+	assigned_subscription_id = var.assigned_subscription_id
+
+	#Optional
+	compartment_id = var.compartment_id
 }
 ```
 
@@ -26,6 +29,7 @@ data "oci_tenantmanagercontrolplane_assigned_subscription" "test_assigned_subscr
 The following arguments are supported:
 
 * `assigned_subscription_id` - (Required) OCID of the assigned Oracle Cloud Subscription.
+* `compartment_id` - (Optional) The ID of the compartment in which to list resources.
 
 
 ## Attributes Reference
@@ -77,4 +81,3 @@ The following attributes are exported:
 * `subscription_tier` - Tier for the subscription, whether a free promotion subscription or a paid subscription.
 * `time_created` - The date and time of creation, as described in [RFC 3339](https://tools.ietf.org/rfc/rfc3339), section 14.29. 
 * `time_updated` - The date and time of update, as described in [RFC 3339](https://tools.ietf.org/rfc/rfc3339), section 14.29. 
-

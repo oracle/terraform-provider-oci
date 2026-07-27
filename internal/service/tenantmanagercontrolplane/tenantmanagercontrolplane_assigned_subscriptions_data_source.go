@@ -396,6 +396,32 @@ func AssignedSubscriptionSummaryToMap(obj oci_tenantmanagercontrolplane.Assigned
 		return nil
 	}
 
+	if id := obj.GetId(); id != nil {
+		result["id"] = string(*id)
+	}
+
+	if compartmentId := obj.GetCompartmentId(); compartmentId != nil {
+		result["compartment_id"] = string(*compartmentId)
+	}
+
+	if serviceName := obj.GetServiceName(); serviceName != nil {
+		result["service_name"] = string(*serviceName)
+	}
+
+	if timeCreated := obj.GetTimeCreated(); timeCreated != nil {
+		result["time_created"] = timeCreated.String()
+	}
+
+	if timeUpdated := obj.GetTimeUpdated(); timeUpdated != nil {
+		result["time_updated"] = timeUpdated.String()
+	}
+
+	result["freeform_tags"] = obj.GetFreeformTags()
+
+	if definedTags := obj.GetDefinedTags(); definedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(definedTags)
+	}
+
 	return result
 }
 
