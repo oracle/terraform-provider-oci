@@ -33,7 +33,7 @@ type CreateDedicatedAiClusterDetails struct {
 	// The number of dedicated units in this AI cluster.
 	UnitCount *int `mandatory:"true" json:"unitCount"`
 
-	// The shape of dedicated unit in this AI cluster. The underlying hardware configuration is hidden from customers.
+	// The shape of dedicated unit in this AI cluster.
 	// Allowed values are:
 	// - LARGE_COHERE
 	// - LARGE_COHERE_V2

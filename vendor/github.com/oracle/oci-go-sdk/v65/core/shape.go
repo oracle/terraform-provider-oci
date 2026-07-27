@@ -98,6 +98,8 @@ type Shape struct {
 
 	PlatformConfigOptions *ShapePlatformConfigOptions `mandatory:"false" json:"platformConfigOptions"`
 
+	BsNvmeAttachmentsConfig *BsNvmeAttachmentsConfig `mandatory:"false" json:"bsNvmeAttachmentsConfig"`
+
 	// Whether billing continues when the instances that use this shape are in the stopped state.
 	IsBilledForStoppedInstance *bool `mandatory:"false" json:"isBilledForStoppedInstance"`
 

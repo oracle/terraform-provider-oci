@@ -46,6 +46,26 @@ const (
 	WorkRequestOperationTypeDeleteBackup                          WorkRequestOperationTypeEnum = "DELETE_BACKUP"
 	WorkRequestOperationTypeUpdateBackup                          WorkRequestOperationTypeEnum = "UPDATE_BACKUP"
 	WorkRequestOperationTypeExportBackup                          WorkRequestOperationTypeEnum = "EXPORT_BACKUP"
+	WorkRequestOperationTypeCreateBlueGreenDeployment             WorkRequestOperationTypeEnum = "CREATE_BLUE_GREEN_DEPLOYMENT"
+	WorkRequestOperationTypeUpdateBlueGreenDeployment             WorkRequestOperationTypeEnum = "UPDATE_BLUE_GREEN_DEPLOYMENT"
+	WorkRequestOperationTypeDeleteBlueGreenDeployment             WorkRequestOperationTypeEnum = "DELETE_BLUE_GREEN_DEPLOYMENT"
+	WorkRequestOperationTypeChangeBlueGreenDeploymentCompartment  WorkRequestOperationTypeEnum = "CHANGE_BLUE_GREEN_DEPLOYMENT_COMPARTMENT"
+	WorkRequestOperationTypeSwitchoverBlueGreenDeployment         WorkRequestOperationTypeEnum = "SWITCHOVER_BLUE_GREEN_DEPLOYMENT"
+	WorkRequestOperationTypeCreateDbcluster                       WorkRequestOperationTypeEnum = "CREATE_DBCLUSTER"
+	WorkRequestOperationTypeUpdateDbcluster                       WorkRequestOperationTypeEnum = "UPDATE_DBCLUSTER"
+	WorkRequestOperationTypeDeleteDbcluster                       WorkRequestOperationTypeEnum = "DELETE_DBCLUSTER"
+	WorkRequestOperationTypeChangeDbclusterCompartment            WorkRequestOperationTypeEnum = "CHANGE_DBCLUSTER_COMPARTMENT"
+	WorkRequestOperationTypeStartDbcluster                        WorkRequestOperationTypeEnum = "START_DBCLUSTER"
+	WorkRequestOperationTypeStopDbcluster                         WorkRequestOperationTypeEnum = "STOP_DBCLUSTER"
+	WorkRequestOperationTypeRestartDbcluster                      WorkRequestOperationTypeEnum = "RESTART_DBCLUSTER"
+	WorkRequestOperationTypeSwitchoverDbcluster                   WorkRequestOperationTypeEnum = "SWITCHOVER_DBCLUSTER"
+	WorkRequestOperationTypeCreateDbnode                          WorkRequestOperationTypeEnum = "CREATE_DBNODE"
+	WorkRequestOperationTypeUpdateDbnode                          WorkRequestOperationTypeEnum = "UPDATE_DBNODE"
+	WorkRequestOperationTypeDeleteDbnode                          WorkRequestOperationTypeEnum = "DELETE_DBNODE"
+	WorkRequestOperationTypeCreateDbclusterBackup                 WorkRequestOperationTypeEnum = "CREATE_DBCLUSTER_BACKUP"
+	WorkRequestOperationTypeUpdateDbclusterBackup                 WorkRequestOperationTypeEnum = "UPDATE_DBCLUSTER_BACKUP"
+	WorkRequestOperationTypeDeleteDbclusterBackup                 WorkRequestOperationTypeEnum = "DELETE_DBCLUSTER_BACKUP"
+	WorkRequestOperationTypeChangeDbclusterBackupCompartment      WorkRequestOperationTypeEnum = "CHANGE_DBCLUSTER_BACKUP_COMPARTMENT"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -77,6 +97,26 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"DELETE_BACKUP":                             WorkRequestOperationTypeDeleteBackup,
 	"UPDATE_BACKUP":                             WorkRequestOperationTypeUpdateBackup,
 	"EXPORT_BACKUP":                             WorkRequestOperationTypeExportBackup,
+	"CREATE_BLUE_GREEN_DEPLOYMENT":              WorkRequestOperationTypeCreateBlueGreenDeployment,
+	"UPDATE_BLUE_GREEN_DEPLOYMENT":              WorkRequestOperationTypeUpdateBlueGreenDeployment,
+	"DELETE_BLUE_GREEN_DEPLOYMENT":              WorkRequestOperationTypeDeleteBlueGreenDeployment,
+	"CHANGE_BLUE_GREEN_DEPLOYMENT_COMPARTMENT":  WorkRequestOperationTypeChangeBlueGreenDeploymentCompartment,
+	"SWITCHOVER_BLUE_GREEN_DEPLOYMENT":          WorkRequestOperationTypeSwitchoverBlueGreenDeployment,
+	"CREATE_DBCLUSTER":                          WorkRequestOperationTypeCreateDbcluster,
+	"UPDATE_DBCLUSTER":                          WorkRequestOperationTypeUpdateDbcluster,
+	"DELETE_DBCLUSTER":                          WorkRequestOperationTypeDeleteDbcluster,
+	"CHANGE_DBCLUSTER_COMPARTMENT":              WorkRequestOperationTypeChangeDbclusterCompartment,
+	"START_DBCLUSTER":                           WorkRequestOperationTypeStartDbcluster,
+	"STOP_DBCLUSTER":                            WorkRequestOperationTypeStopDbcluster,
+	"RESTART_DBCLUSTER":                         WorkRequestOperationTypeRestartDbcluster,
+	"SWITCHOVER_DBCLUSTER":                      WorkRequestOperationTypeSwitchoverDbcluster,
+	"CREATE_DBNODE":                             WorkRequestOperationTypeCreateDbnode,
+	"UPDATE_DBNODE":                             WorkRequestOperationTypeUpdateDbnode,
+	"DELETE_DBNODE":                             WorkRequestOperationTypeDeleteDbnode,
+	"CREATE_DBCLUSTER_BACKUP":                   WorkRequestOperationTypeCreateDbclusterBackup,
+	"UPDATE_DBCLUSTER_BACKUP":                   WorkRequestOperationTypeUpdateDbclusterBackup,
+	"DELETE_DBCLUSTER_BACKUP":                   WorkRequestOperationTypeDeleteDbclusterBackup,
+	"CHANGE_DBCLUSTER_BACKUP_COMPARTMENT":       WorkRequestOperationTypeChangeDbclusterBackupCompartment,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -108,6 +148,26 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"delete_backup":                             WorkRequestOperationTypeDeleteBackup,
 	"update_backup":                             WorkRequestOperationTypeUpdateBackup,
 	"export_backup":                             WorkRequestOperationTypeExportBackup,
+	"create_blue_green_deployment":              WorkRequestOperationTypeCreateBlueGreenDeployment,
+	"update_blue_green_deployment":              WorkRequestOperationTypeUpdateBlueGreenDeployment,
+	"delete_blue_green_deployment":              WorkRequestOperationTypeDeleteBlueGreenDeployment,
+	"change_blue_green_deployment_compartment":  WorkRequestOperationTypeChangeBlueGreenDeploymentCompartment,
+	"switchover_blue_green_deployment":          WorkRequestOperationTypeSwitchoverBlueGreenDeployment,
+	"create_dbcluster":                          WorkRequestOperationTypeCreateDbcluster,
+	"update_dbcluster":                          WorkRequestOperationTypeUpdateDbcluster,
+	"delete_dbcluster":                          WorkRequestOperationTypeDeleteDbcluster,
+	"change_dbcluster_compartment":              WorkRequestOperationTypeChangeDbclusterCompartment,
+	"start_dbcluster":                           WorkRequestOperationTypeStartDbcluster,
+	"stop_dbcluster":                            WorkRequestOperationTypeStopDbcluster,
+	"restart_dbcluster":                         WorkRequestOperationTypeRestartDbcluster,
+	"switchover_dbcluster":                      WorkRequestOperationTypeSwitchoverDbcluster,
+	"create_dbnode":                             WorkRequestOperationTypeCreateDbnode,
+	"update_dbnode":                             WorkRequestOperationTypeUpdateDbnode,
+	"delete_dbnode":                             WorkRequestOperationTypeDeleteDbnode,
+	"create_dbcluster_backup":                   WorkRequestOperationTypeCreateDbclusterBackup,
+	"update_dbcluster_backup":                   WorkRequestOperationTypeUpdateDbclusterBackup,
+	"delete_dbcluster_backup":                   WorkRequestOperationTypeDeleteDbclusterBackup,
+	"change_dbcluster_backup_compartment":       WorkRequestOperationTypeChangeDbclusterBackupCompartment,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -150,6 +210,26 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"DELETE_BACKUP",
 		"UPDATE_BACKUP",
 		"EXPORT_BACKUP",
+		"CREATE_BLUE_GREEN_DEPLOYMENT",
+		"UPDATE_BLUE_GREEN_DEPLOYMENT",
+		"DELETE_BLUE_GREEN_DEPLOYMENT",
+		"CHANGE_BLUE_GREEN_DEPLOYMENT_COMPARTMENT",
+		"SWITCHOVER_BLUE_GREEN_DEPLOYMENT",
+		"CREATE_DBCLUSTER",
+		"UPDATE_DBCLUSTER",
+		"DELETE_DBCLUSTER",
+		"CHANGE_DBCLUSTER_COMPARTMENT",
+		"START_DBCLUSTER",
+		"STOP_DBCLUSTER",
+		"RESTART_DBCLUSTER",
+		"SWITCHOVER_DBCLUSTER",
+		"CREATE_DBNODE",
+		"UPDATE_DBNODE",
+		"DELETE_DBNODE",
+		"CREATE_DBCLUSTER_BACKUP",
+		"UPDATE_DBCLUSTER_BACKUP",
+		"DELETE_DBCLUSTER_BACKUP",
+		"CHANGE_DBCLUSTER_BACKUP_COMPARTMENT",
 	}
 }
 

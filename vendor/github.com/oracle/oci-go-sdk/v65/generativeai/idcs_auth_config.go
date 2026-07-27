@@ -19,8 +19,10 @@ import (
 )
 
 // IdcsAuthConfig Oracle Identity Cloud Service (IDCS) configuration used
-// when inboundAuthConfigType is set to IDCS_AUTH_CONFIG.
-// This object must be specified when inboundAuthConfigType is IDCS_AUTH_CONFIG.
+// when inboundAuthConfigType is set to IDCS_AUTH_CONFIG or IDCS_SESSION_AUTH_CONFIG.
+// This object must be specified when inboundAuthConfigType is IDCS_AUTH_CONFIG or IDCS_SESSION_AUTH_CONFIG.
+// When inboundAuthConfigType is IDCS_SESSION_AUTH_CONFIG, this configuration supports
+// OAuth 2.1 Authorization Code flow with PKCE.
 type IdcsAuthConfig struct {
 
 	// Domain URL for IDCS.
@@ -31,6 +33,12 @@ type IdcsAuthConfig struct {
 
 	// Audience for IDCS.
 	Audience *string `mandatory:"false" json:"audience"`
+
+	// Optional OAuth client ID for the IDCS application. Applicable only when inboundAuthConfigType is IDCS_SESSION_AUTH_CONFIG.
+	ClientId *string `mandatory:"false" json:"clientId"`
+
+	// Optional OCI Vault secret OCID containing the OAuth client secret. Applicable only when inboundAuthConfigType is IDCS_SESSION_AUTH_CONFIG.
+	ClientSecretVaultId *string `mandatory:"false" json:"clientSecretVaultId"`
 }
 
 func (m IdcsAuthConfig) String() string {

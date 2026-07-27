@@ -313,65 +313,6 @@ func (client AiDataPlatformClient) deleteAiDataPlatform(ctx context.Context, req
 	return response, err
 }
 
-// DisableAiFeature The AiDataPlatform will be disabled with AI features
-// A default retry strategy applies to this operation DisableAiFeature()
-func (client AiDataPlatformClient) DisableAiFeature(ctx context.Context, request DisableAiFeatureRequest) (response DisableAiFeatureResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.disableAiFeature, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DisableAiFeatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DisableAiFeatureResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DisableAiFeatureResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DisableAiFeatureResponse")
-	}
-	return
-}
-
-// disableAiFeature implements the OCIOperation interface (enables retrying operations)
-func (client AiDataPlatformClient) disableAiFeature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/aiDataPlatforms/{aiDataPlatformId}/actions/disableAiFeature", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DisableAiFeatureResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aiDataPlatform", "DisableAiFeature")
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ai-data-platform/20240831/AiDataPlatform/DisableAiFeature"
-		err = common.PostProcessServiceError(err, "AiDataPlatform", "DisableAiFeature", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // EnableAiFeature The AiDataPlatform will be enabled with AI features
 // A default retry strategy applies to this operation EnableAiFeature()
 func (client AiDataPlatformClient) EnableAiFeature(ctx context.Context, request EnableAiFeatureRequest) (response EnableAiFeatureResponse, err error) {

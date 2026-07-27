@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// AiDataPlatform Control Plane API
+// Database Service API
 //
-// Use the AiDataPlatform Control Plane API to manage Data Lakes.
+// The API for the Database Service. Use this API to manage resources such as databases and DB Systems. For more information, see Overview of the Database Service (https://docs.oracle.com/iaas/Content/Database/Concepts/databaseoverview.htm).
 //
 
-package aidataplatform
+package database
 
 import (
 	"fmt"
@@ -15,21 +15,24 @@ import (
 	"strings"
 )
 
-// DisableAiFeatureDetails The data to disable Ai Feature for AiDataPlatform.
-type DisableAiFeatureDetails struct {
+// DatabaseNodeLevelDetails Database Node Level Details.
+type DatabaseNodeLevelDetails struct {
 
-	// When true, allows deletion of the AI Lakehouse. Default Value would be false.
-	IsForceDeleteAiLakehouse *bool `mandatory:"false" json:"isForceDeleteAiLakehouse"`
+	// The DB node OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	DbNodeId *string `mandatory:"true" json:"dbNodeId"`
+
+	// The Node name of the Database Instance.
+	NodeName *string `mandatory:"true" json:"nodeName"`
 }
 
-func (m DisableAiFeatureDetails) String() string {
+func (m DatabaseNodeLevelDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DisableAiFeatureDetails) ValidateEnumValue() (bool, error) {
+func (m DatabaseNodeLevelDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

@@ -28,7 +28,7 @@ type MavenSearchSummary struct {
 	LatestVersion *string `mandatory:"true" json:"latestVersion"`
 
 	// List of requested maven search artifact versions.
-	AllVersions map[string]string `mandatory:"true" json:"allVersions"`
+	AllVersions []string `mandatory:"true" json:"allVersions"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).

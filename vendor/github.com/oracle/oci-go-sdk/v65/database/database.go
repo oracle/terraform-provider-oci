@@ -152,6 +152,10 @@ type Database struct {
 	DataSafeState DatabaseDataSafeStateEnum `mandatory:"false" json:"dataSafeState,omitempty"`
 
 	DataSafeRegistrationDetails *DataSafeRegistrationDetails `mandatory:"false" json:"dataSafeRegistrationDetails"`
+
+	// Database Node Level Details.
+	// Example: [{"dbNodeId" : "ocid1.dbnode.oc1.phx.<unique_ID>", "nodeName" : "node1"}, {"dbNodeId" : "ocid1.dbnode.oc1.phx.<unique_ID>", "nodeName" : "node2"}]
+	DbNodeLevelDetails []DatabaseNodeLevelDetails `mandatory:"false" json:"dbNodeLevelDetails"`
 }
 
 func (m Database) String() string {
@@ -228,6 +232,7 @@ func (m *Database) UnmarshalJSON(data []byte) (e error) {
 		ManagedHaStatus                            DatabaseManagedHaStatusEnum         `json:"managedHaStatus"`
 		DataSafeState                              DatabaseDataSafeStateEnum           `json:"dataSafeState"`
 		DataSafeRegistrationDetails                *DataSafeRegistrationDetails        `json:"dataSafeRegistrationDetails"`
+		DbNodeLevelDetails                         []DatabaseNodeLevelDetails          `json:"dbNodeLevelDetails"`
 		Id                                         *string                             `json:"id"`
 		CompartmentId                              *string                             `json:"compartmentId"`
 		DbName                                     *string                             `json:"dbName"`
@@ -328,6 +333,8 @@ func (m *Database) UnmarshalJSON(data []byte) (e error) {
 
 	m.DataSafeRegistrationDetails = model.DataSafeRegistrationDetails
 
+	m.DbNodeLevelDetails = make([]DatabaseNodeLevelDetails, len(model.DbNodeLevelDetails))
+	copy(m.DbNodeLevelDetails, model.DbNodeLevelDetails)
 	m.Id = model.Id
 
 	m.CompartmentId = model.CompartmentId

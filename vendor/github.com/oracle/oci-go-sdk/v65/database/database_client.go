@@ -17966,6 +17966,8 @@ func (client DatabaseClient) listDatabaseUpgradeHistoryEntries(ctx context.Conte
 }
 
 // ListDatabases Gets a list of the databases in the specified Database Home.
+// Optionally filter by `dbNodeId` to return only databases hosted on the specified DB node.
+// The `dbNodeId` query parameter is a server-side selector and does not imply DB node identifiers are present in the list response model.
 func (client DatabaseClient) ListDatabases(ctx context.Context, request ListDatabasesRequest) (response ListDatabasesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

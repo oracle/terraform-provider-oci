@@ -35,13 +35,11 @@ type CreateSemanticStoreDetails struct {
 	// An optional description of the SemanticStore.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Controls which enrichment inputs are enabled for the semantic store.
-	// Allowed values are:
-	// - COMBINED
-	// - METADATA_ONLY
-	// - ANNOTATION_ONLY
-	// Defaults to COMBINED.
-	EnrichmentMode CreateSemanticStoreDetailsEnrichmentModeEnum `mandatory:"false" json:"enrichmentMode,omitempty"`
+	// Whether to include user-defined semantic inputs, such as annotations, comments, and synonyms, during semantic-store enrichment.
+	// When true, enrichment uses both metadata and user-defined semantics.
+	// When false, enrichment uses metadata only.
+	// When omitted, this value defaults to true.
+	IsUserDefinedSemanticsEnabled *bool `mandatory:"false" json:"isUserDefinedSemanticsEnabled"`
 
 	ModelSelection SemanticStoreModelSelection `mandatory:"false" json:"modelSelection"`
 
@@ -68,9 +66,6 @@ func (m CreateSemanticStoreDetails) String() string {
 func (m CreateSemanticStoreDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingCreateSemanticStoreDetailsEnrichmentModeEnum(string(m.EnrichmentMode)); !ok && m.EnrichmentMode != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnrichmentMode: %s. Supported values are: %s.", m.EnrichmentMode, strings.Join(GetCreateSemanticStoreDetailsEnrichmentModeEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -80,16 +75,16 @@ func (m CreateSemanticStoreDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateSemanticStoreDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description     *string                                      `json:"description"`
-		EnrichmentMode  CreateSemanticStoreDetailsEnrichmentModeEnum `json:"enrichmentMode"`
-		ModelSelection  semanticstoremodelselection                  `json:"modelSelection"`
-		RefreshSchedule refreshscheduledetails                       `json:"refreshSchedule"`
-		FreeformTags    map[string]string                            `json:"freeformTags"`
-		DefinedTags     map[string]map[string]interface{}            `json:"definedTags"`
-		CompartmentId   *string                                      `json:"compartmentId"`
-		DisplayName     *string                                      `json:"displayName"`
-		DataSource      createdatasourcedetails                      `json:"dataSource"`
-		Schemas         createschemasdetails                         `json:"schemas"`
+		Description                   *string                           `json:"description"`
+		IsUserDefinedSemanticsEnabled *bool                             `json:"isUserDefinedSemanticsEnabled"`
+		ModelSelection                semanticstoremodelselection       `json:"modelSelection"`
+		RefreshSchedule               refreshscheduledetails            `json:"refreshSchedule"`
+		FreeformTags                  map[string]string                 `json:"freeformTags"`
+		DefinedTags                   map[string]map[string]interface{} `json:"definedTags"`
+		CompartmentId                 *string                           `json:"compartmentId"`
+		DisplayName                   *string                           `json:"displayName"`
+		DataSource                    createdatasourcedetails           `json:"dataSource"`
+		Schemas                       createschemasdetails              `json:"schemas"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -99,7 +94,7 @@ func (m *CreateSemanticStoreDetails) UnmarshalJSON(data []byte) (e error) {
 	var nn interface{}
 	m.Description = model.Description
 
-	m.EnrichmentMode = model.EnrichmentMode
+	m.IsUserDefinedSemanticsEnabled = model.IsUserDefinedSemanticsEnabled
 
 	nn, e = model.ModelSelection.UnmarshalPolymorphicJSON(model.ModelSelection.JsonData)
 	if e != nil {
@@ -150,50 +145,4 @@ func (m *CreateSemanticStoreDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	return
-}
-
-// CreateSemanticStoreDetailsEnrichmentModeEnum Enum with underlying type: string
-type CreateSemanticStoreDetailsEnrichmentModeEnum string
-
-// Set of constants representing the allowable values for CreateSemanticStoreDetailsEnrichmentModeEnum
-const (
-	CreateSemanticStoreDetailsEnrichmentModeCombined       CreateSemanticStoreDetailsEnrichmentModeEnum = "COMBINED"
-	CreateSemanticStoreDetailsEnrichmentModeMetadataOnly   CreateSemanticStoreDetailsEnrichmentModeEnum = "METADATA_ONLY"
-	CreateSemanticStoreDetailsEnrichmentModeAnnotationOnly CreateSemanticStoreDetailsEnrichmentModeEnum = "ANNOTATION_ONLY"
-)
-
-var mappingCreateSemanticStoreDetailsEnrichmentModeEnum = map[string]CreateSemanticStoreDetailsEnrichmentModeEnum{
-	"COMBINED":        CreateSemanticStoreDetailsEnrichmentModeCombined,
-	"METADATA_ONLY":   CreateSemanticStoreDetailsEnrichmentModeMetadataOnly,
-	"ANNOTATION_ONLY": CreateSemanticStoreDetailsEnrichmentModeAnnotationOnly,
-}
-
-var mappingCreateSemanticStoreDetailsEnrichmentModeEnumLowerCase = map[string]CreateSemanticStoreDetailsEnrichmentModeEnum{
-	"combined":        CreateSemanticStoreDetailsEnrichmentModeCombined,
-	"metadata_only":   CreateSemanticStoreDetailsEnrichmentModeMetadataOnly,
-	"annotation_only": CreateSemanticStoreDetailsEnrichmentModeAnnotationOnly,
-}
-
-// GetCreateSemanticStoreDetailsEnrichmentModeEnumValues Enumerates the set of values for CreateSemanticStoreDetailsEnrichmentModeEnum
-func GetCreateSemanticStoreDetailsEnrichmentModeEnumValues() []CreateSemanticStoreDetailsEnrichmentModeEnum {
-	values := make([]CreateSemanticStoreDetailsEnrichmentModeEnum, 0)
-	for _, v := range mappingCreateSemanticStoreDetailsEnrichmentModeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetCreateSemanticStoreDetailsEnrichmentModeEnumStringValues Enumerates the set of values in String for CreateSemanticStoreDetailsEnrichmentModeEnum
-func GetCreateSemanticStoreDetailsEnrichmentModeEnumStringValues() []string {
-	return []string{
-		"COMBINED",
-		"METADATA_ONLY",
-		"ANNOTATION_ONLY",
-	}
-}
-
-// GetMappingCreateSemanticStoreDetailsEnrichmentModeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingCreateSemanticStoreDetailsEnrichmentModeEnum(val string) (CreateSemanticStoreDetailsEnrichmentModeEnum, bool) {
-	enum, ok := mappingCreateSemanticStoreDetailsEnrichmentModeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

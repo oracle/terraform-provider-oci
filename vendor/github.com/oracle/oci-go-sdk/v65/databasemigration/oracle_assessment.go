@@ -43,6 +43,8 @@ type OracleAssessment struct {
 	// The OCID of the resource being referenced.
 	MigrationId *string `mandatory:"false" json:"migrationId"`
 
+	ObjectStorageBucket *ObjectStoreBucket `mandatory:"false" json:"objectStorageBucket"`
+
 	// An RFC3339 formatted datetime string such as `2016-08-25T21:10:29.600Z`.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
@@ -144,6 +146,11 @@ func (m OracleAssessment) GetSourceDatabaseConnection() *SourceAssessmentConnect
 // GetTargetDatabaseConnection returns TargetDatabaseConnection
 func (m OracleAssessment) GetTargetDatabaseConnection() *TargetAssessmentConnection {
 	return m.TargetDatabaseConnection
+}
+
+// GetObjectStorageBucket returns ObjectStorageBucket
+func (m OracleAssessment) GetObjectStorageBucket() *ObjectStoreBucket {
+	return m.ObjectStorageBucket
 }
 
 // GetLifecycleState returns LifecycleState

@@ -32,6 +32,7 @@ const (
 	OperationTypeUpdateWorkspace      OperationTypeEnum = "UPDATE_WORKSPACE"
 	OperationTypeDeleteWorkspace      OperationTypeEnum = "DELETE_WORKSPACE"
 	OperationTypeEvaluateIamPolicies  OperationTypeEnum = "EVALUATE_IAM_POLICIES"
+	OperationTypeRotateMek            OperationTypeEnum = "ROTATE_MEK"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -49,6 +50,7 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"UPDATE_WORKSPACE":        OperationTypeUpdateWorkspace,
 	"DELETE_WORKSPACE":        OperationTypeDeleteWorkspace,
 	"EVALUATE_IAM_POLICIES":   OperationTypeEvaluateIamPolicies,
+	"ROTATE_MEK":              OperationTypeRotateMek,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -66,6 +68,7 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"update_workspace":        OperationTypeUpdateWorkspace,
 	"delete_workspace":        OperationTypeDeleteWorkspace,
 	"evaluate_iam_policies":   OperationTypeEvaluateIamPolicies,
+	"rotate_mek":              OperationTypeRotateMek,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -94,6 +97,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_WORKSPACE",
 		"DELETE_WORKSPACE",
 		"EVALUATE_IAM_POLICIES",
+		"ROTATE_MEK",
 	}
 }
 

@@ -75,13 +75,11 @@ type SemanticStoreSummary struct {
 	// A message describing the current state in more detail that can provide actionable information.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// Controls which enrichment inputs are applied to this semantic store.
-	// If not explicitly set when the semantic store is created, this defaults to COMBINED.
-	// Allowed values are:
-	// - COMBINED
-	// - METADATA_ONLY
-	// - ANNOTATION_ONLY
-	EnrichmentMode SemanticStoreEnrichmentModeEnum `mandatory:"false" json:"enrichmentMode,omitempty"`
+	// Whether user-defined semantic inputs, such as annotations, comments, and synonyms, are enabled for semantic-store enrichment.
+	// When true, enrichment uses both metadata and user-defined semantics.
+	// When false, enrichment uses metadata only.
+	// If not specified when the semantic store is created, this value defaults to true.
+	IsUserDefinedSemanticsEnabled *bool `mandatory:"false" json:"isUserDefinedSemanticsEnabled"`
 }
 
 func (m SemanticStoreSummary) String() string {
@@ -97,9 +95,6 @@ func (m SemanticStoreSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSemanticStoreLifecycleStateEnumStringValues(), ",")))
 	}
 
-	if _, ok := GetMappingSemanticStoreEnrichmentModeEnum(string(m.EnrichmentMode)); !ok && m.EnrichmentMode != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnrichmentMode: %s. Supported values are: %s.", m.EnrichmentMode, strings.Join(GetSemanticStoreEnrichmentModeEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -109,22 +104,22 @@ func (m SemanticStoreSummary) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *SemanticStoreSummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description      *string                           `json:"description"`
-		ModelSelection   semanticstoremodelselection       `json:"modelSelection"`
-		RefreshSchedule  refreshscheduledetails            `json:"refreshSchedule"`
-		LifecycleDetails *string                           `json:"lifecycleDetails"`
-		EnrichmentMode   SemanticStoreEnrichmentModeEnum   `json:"enrichmentMode"`
-		Id               *string                           `json:"id"`
-		DisplayName      *string                           `json:"displayName"`
-		CompartmentId    *string                           `json:"compartmentId"`
-		DataSource       datasourcedetails                 `json:"dataSource"`
-		Schemas          schemasdetails                    `json:"schemas"`
-		TimeCreated      *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated      *common.SDKTime                   `json:"timeUpdated"`
-		LifecycleState   SemanticStoreLifecycleStateEnum   `json:"lifecycleState"`
-		FreeformTags     map[string]string                 `json:"freeformTags"`
-		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags       map[string]map[string]interface{} `json:"systemTags"`
+		Description                   *string                           `json:"description"`
+		ModelSelection                semanticstoremodelselection       `json:"modelSelection"`
+		RefreshSchedule               refreshscheduledetails            `json:"refreshSchedule"`
+		LifecycleDetails              *string                           `json:"lifecycleDetails"`
+		IsUserDefinedSemanticsEnabled *bool                             `json:"isUserDefinedSemanticsEnabled"`
+		Id                            *string                           `json:"id"`
+		DisplayName                   *string                           `json:"displayName"`
+		CompartmentId                 *string                           `json:"compartmentId"`
+		DataSource                    datasourcedetails                 `json:"dataSource"`
+		Schemas                       schemasdetails                    `json:"schemas"`
+		TimeCreated                   *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated                   *common.SDKTime                   `json:"timeUpdated"`
+		LifecycleState                SemanticStoreLifecycleStateEnum   `json:"lifecycleState"`
+		FreeformTags                  map[string]string                 `json:"freeformTags"`
+		DefinedTags                   map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags                    map[string]map[string]interface{} `json:"systemTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -156,7 +151,7 @@ func (m *SemanticStoreSummary) UnmarshalJSON(data []byte) (e error) {
 
 	m.LifecycleDetails = model.LifecycleDetails
 
-	m.EnrichmentMode = model.EnrichmentMode
+	m.IsUserDefinedSemanticsEnabled = model.IsUserDefinedSemanticsEnabled
 
 	m.Id = model.Id
 

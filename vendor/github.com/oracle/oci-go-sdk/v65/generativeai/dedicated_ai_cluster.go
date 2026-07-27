@@ -42,7 +42,7 @@ type DedicatedAiCluster struct {
 	// The number of dedicated units in this AI cluster.
 	UnitCount *int `mandatory:"true" json:"unitCount"`
 
-	// The shape of dedicated unit in this AI cluster. The underlying hardware configuration is hidden from customers.
+	// The shape of dedicated unit in this AI cluster.
 	UnitShape DedicatedAiClusterUnitShapeEnum `mandatory:"true" json:"unitShape"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.

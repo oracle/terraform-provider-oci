@@ -49,6 +49,8 @@ type CreateAssessmentDetails interface {
 	// The type of assessment creation.
 	GetCreationType() CreationTypeEnum
 
+	GetObjectStorageBucket() *CreateObjectStoreBucket
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags. Example: {"Department": "Finance"}
 	GetFreeformTags() map[string]string
@@ -63,6 +65,7 @@ type createassessmentdetails struct {
 	Description                  *string                           `mandatory:"false" json:"description"`
 	DisplayName                  *string                           `mandatory:"false" json:"displayName"`
 	CreationType                 CreationTypeEnum                  `mandatory:"false" json:"creationType,omitempty"`
+	ObjectStorageBucket          *CreateObjectStoreBucket          `mandatory:"false" json:"objectStorageBucket"`
 	FreeformTags                 map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags                  map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	CompartmentId                *string                           `mandatory:"true" json:"compartmentId"`
@@ -96,6 +99,7 @@ func (m *createassessmentdetails) UnmarshalJSON(data []byte) error {
 	m.Description = s.Model.Description
 	m.DisplayName = s.Model.DisplayName
 	m.CreationType = s.Model.CreationType
+	m.ObjectStorageBucket = s.Model.ObjectStorageBucket
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.DatabaseCombination = s.Model.DatabaseCombination
@@ -139,6 +143,11 @@ func (m createassessmentdetails) GetDisplayName() *string {
 // GetCreationType returns CreationType
 func (m createassessmentdetails) GetCreationType() CreationTypeEnum {
 	return m.CreationType
+}
+
+// GetObjectStorageBucket returns ObjectStorageBucket
+func (m createassessmentdetails) GetObjectStorageBucket() *CreateObjectStoreBucket {
+	return m.ObjectStorageBucket
 }
 
 // GetFreeformTags returns FreeformTags

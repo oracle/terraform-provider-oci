@@ -31,6 +31,8 @@ type UpdateMySqlAssessmentDetails struct {
 
 	TargetDatabaseConnection *TargetAssessmentConnection `mandatory:"false" json:"targetDatabaseConnection"`
 
+	ObjectStorageBucket *UpdateObjectStoreBucket `mandatory:"false" json:"objectStorageBucket"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags. Example: {"Department": "Finance"}
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -101,6 +103,11 @@ func (m UpdateMySqlAssessmentDetails) GetSourceDatabaseConnection() *SourceAsses
 // GetTargetDatabaseConnection returns TargetDatabaseConnection
 func (m UpdateMySqlAssessmentDetails) GetTargetDatabaseConnection() *TargetAssessmentConnection {
 	return m.TargetDatabaseConnection
+}
+
+// GetObjectStorageBucket returns ObjectStorageBucket
+func (m UpdateMySqlAssessmentDetails) GetObjectStorageBucket() *UpdateObjectStoreBucket {
+	return m.ObjectStorageBucket
 }
 
 // GetFreeformTags returns FreeformTags

@@ -39,6 +39,12 @@ type CreateAiDataPlatformDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OCI Vault secret holding the vector db Lakehouse 26ai Admin user password.
 	VectorDbAdminSecretId *string `mandatory:"false" json:"vectorDbAdminSecretId"`
 
+	// The [OCID] of the user Master Encryption Key to create resources in user tenancy while provisioning AiDataPlatform.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// The [OCID] of the Vault Id to create resources in user tenancy while provisioning AiDataPlatform.
+	KmsVaultId *string `mandatory:"false" json:"kmsVaultId"`
+
 	// The name for the default workspace for the AiDataPlatform
 	DefaultWorkspaceName *string `mandatory:"false" json:"defaultWorkspaceName"`
 

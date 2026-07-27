@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// CreateMaintenanceDetails The Maintenance Policy for the DB System or Read Replica that this model is included in.
+// CreateMaintenanceDetails The Maintenance Policy defines how and when maintenance is performed by the service.
 type CreateMaintenanceDetails struct {
 
 	// The start of the 2 hour maintenance window.
@@ -26,7 +26,7 @@ type CreateMaintenanceDetails struct {
 	WindowStartTime *string `mandatory:"true" json:"windowStartTime"`
 
 	// The preferred version to target when performing an automatic MySQL upgrade. Defaults to OLDEST.
-	// OLDEST: Choose the oldest available MySQL version based on the current version of the DB System.
+	// OLDEST: Choose the oldest available MySQL version based on the current version.
 	// SECOND_NEWEST: Choose the MySQL version before the newest for auto-upgrade.
 	// NEWEST: Choose the latest and greatest MySQL version available for auto-upgrade.
 	VersionPreference VersionPreferenceEnum `mandatory:"false" json:"versionPreference,omitempty"`
@@ -37,8 +37,8 @@ type CreateMaintenanceDetails struct {
 	// FOLLOW:            Follows the track of the current MySQL version.
 	VersionTrackPreference VersionTrackPreferenceEnum `mandatory:"false" json:"versionTrackPreference,omitempty"`
 
-	// The maintenance schedule type of the DB system. Defaults to REGULAR.
-	// EARLY:   Maintenance schedule follows a cycle where upgrades are performed when versions become deprecated.
+	// The maintenance schedule type for the resource. Defaults to REGULAR.
+	// EARLY: Maintenance schedule follows a cycle where upgrades are performed when versions become deprecated.
 	// REGULAR: Maintenance schedule follows the normal cycle where upgrades are performed when versions become unavailable.
 	MaintenanceScheduleType MaintenanceScheduleTypeEnum `mandatory:"false" json:"maintenanceScheduleType,omitempty"`
 

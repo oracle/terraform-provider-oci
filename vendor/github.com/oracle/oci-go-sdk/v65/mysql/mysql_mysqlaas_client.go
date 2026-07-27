@@ -318,8 +318,8 @@ func (client MysqlaasClient) listConfigurations(ctx context.Context, request com
 	return response, err
 }
 
-// ListShapes Gets a list of the shapes you can use to create a new MySQL DB System.
-// The shape determines the resources allocated to the DB System:
+// ListShapes Gets a list of the shapes you can use for a DB System, HeatWave cluster, or shared-storage DB cluster.
+// The shape determines the resources allocated.
 // CPU cores and memory for VM shapes; CPU cores, memory and
 // storage for non-VM (or bare metal) shapes.
 // A default retry strategy applies to this operation ListShapes()

@@ -26,6 +26,12 @@ type EnableAiFeatureDetails struct {
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OCI Vault secret holding the vector db Lakehouse 26ai Admin user password.
 	VectorDbAdminSecretId *string `mandatory:"false" json:"vectorDbAdminSecretId"`
+
+	// The [OCID] of the user Master Encryption Key to create resources in user tenancy while provisioning AiDataPlatform.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// The [OCID] of the user VaultId to create resources in user tenancy while provisioning AiDataPlatform.
+	KmsVaultId *string `mandatory:"false" json:"kmsVaultId"`
 }
 
 func (m EnableAiFeatureDetails) String() string {

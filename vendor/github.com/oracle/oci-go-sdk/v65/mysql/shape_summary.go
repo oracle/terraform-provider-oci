@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// ShapeSummary The shape of the DB System. The shape determines resources to allocate
-// to the DB System - CPU cores and memory for VM shapes; CPU cores, memory
+// ShapeSummary The shape of the DB System, HeatWave cluster or shared-storage DB cluster. The shape determines
+// resources to allocate - CPU cores and memory for VM shapes; CPU cores, memory
 // and storage for non-VM (or bare metal) shapes.  For a description of
 // shapes, see DB System Shape Options (https://docs.oracle.com/iaas/mysql-database/doc/shapes.htm).
 type ShapeSummary struct {
 
-	// The name of the shape used for the DB System.
+	// The name of the shape used.
 	Name *string `mandatory:"true" json:"name"`
 
 	// The number of CPU Cores the Instance provides. These are "OCPU"s.
@@ -63,16 +63,19 @@ type ShapeSummaryIsSupportedForEnum string
 const (
 	ShapeSummaryIsSupportedForDbsystem        ShapeSummaryIsSupportedForEnum = "DBSYSTEM"
 	ShapeSummaryIsSupportedForHeatwavecluster ShapeSummaryIsSupportedForEnum = "HEATWAVECLUSTER"
+	ShapeSummaryIsSupportedForDbcluster       ShapeSummaryIsSupportedForEnum = "DBCLUSTER"
 )
 
 var mappingShapeSummaryIsSupportedForEnum = map[string]ShapeSummaryIsSupportedForEnum{
 	"DBSYSTEM":        ShapeSummaryIsSupportedForDbsystem,
 	"HEATWAVECLUSTER": ShapeSummaryIsSupportedForHeatwavecluster,
+	"DBCLUSTER":       ShapeSummaryIsSupportedForDbcluster,
 }
 
 var mappingShapeSummaryIsSupportedForEnumLowerCase = map[string]ShapeSummaryIsSupportedForEnum{
 	"dbsystem":        ShapeSummaryIsSupportedForDbsystem,
 	"heatwavecluster": ShapeSummaryIsSupportedForHeatwavecluster,
+	"dbcluster":       ShapeSummaryIsSupportedForDbcluster,
 }
 
 // GetShapeSummaryIsSupportedForEnumValues Enumerates the set of values for ShapeSummaryIsSupportedForEnum
@@ -89,6 +92,7 @@ func GetShapeSummaryIsSupportedForEnumStringValues() []string {
 	return []string{
 		"DBSYSTEM",
 		"HEATWAVECLUSTER",
+		"DBCLUSTER",
 	}
 }
 

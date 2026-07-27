@@ -2844,6 +2844,11 @@ func (client DataFlowClient) ImportComputeClusterConfiguration(ctx context.Conte
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.importComputeClusterConfiguration, policy)
 	if err != nil {
 		if ociResponse != nil {

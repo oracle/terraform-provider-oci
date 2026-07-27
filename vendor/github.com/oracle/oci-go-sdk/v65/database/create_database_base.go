@@ -32,15 +32,19 @@ type CreateDatabaseBase interface {
 
 	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous AI Database Serverless does not use key versions, hence is not applicable for Autonomous AI Database Serverless instances.
 	GetKmsKeyVersionId() *string
+
+	// The list of DB node OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) on which the database instance will be created.
+	GetDbNodeIds() []string
 }
 
 type createdatabasebase struct {
 	JsonData        []byte
-	DbHomeId        *string `mandatory:"false" json:"dbHomeId"`
-	DbVersion       *string `mandatory:"false" json:"dbVersion"`
-	KmsKeyId        *string `mandatory:"false" json:"kmsKeyId"`
-	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
-	Source          string  `json:"source"`
+	DbHomeId        *string  `mandatory:"false" json:"dbHomeId"`
+	DbVersion       *string  `mandatory:"false" json:"dbVersion"`
+	KmsKeyId        *string  `mandatory:"false" json:"kmsKeyId"`
+	KmsKeyVersionId *string  `mandatory:"false" json:"kmsKeyVersionId"`
+	DbNodeIds       []string `mandatory:"false" json:"dbNodeIds"`
+	Source          string   `json:"source"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -58,6 +62,7 @@ func (m *createdatabasebase) UnmarshalJSON(data []byte) error {
 	m.DbVersion = s.Model.DbVersion
 	m.KmsKeyId = s.Model.KmsKeyId
 	m.KmsKeyVersionId = s.Model.KmsKeyVersionId
+	m.DbNodeIds = s.Model.DbNodeIds
 	m.Source = s.Model.Source
 
 	return err
@@ -120,6 +125,11 @@ func (m createdatabasebase) GetKmsKeyId() *string {
 // GetKmsKeyVersionId returns KmsKeyVersionId
 func (m createdatabasebase) GetKmsKeyVersionId() *string {
 	return m.KmsKeyVersionId
+}
+
+// GetDbNodeIds returns DbNodeIds
+func (m createdatabasebase) GetDbNodeIds() []string {
+	return m.DbNodeIds
 }
 
 func (m createdatabasebase) String() string {

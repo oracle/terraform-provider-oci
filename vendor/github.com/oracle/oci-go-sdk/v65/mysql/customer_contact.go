@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// CustomerContact Customer contact information that will be used by Oracle to provide notifications needed by DB System administrators.
+// CustomerContact Customer contact information that will be used by Oracle to provide notifications.
 type CustomerContact struct {
 
-	// The email address used by Oracle to send notifications regarding the DB System.
+	// The email address used by Oracle to send notifications.
 	Email *string `mandatory:"true" json:"email"`
 }
 

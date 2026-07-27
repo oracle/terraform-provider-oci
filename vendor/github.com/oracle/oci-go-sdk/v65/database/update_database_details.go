@@ -72,6 +72,9 @@ type UpdateDatabaseDetails struct {
 	AutoFailoverConfiguration *AutoFailoverConfiguration `mandatory:"false" json:"autoFailoverConfiguration"`
 
 	DataSafeRegistrationDetails *DataSafeRegistrationRequestDetails `mandatory:"false" json:"dataSafeRegistrationDetails"`
+
+	// The final list of DB node OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) on which the database instance is needed.
+	DbNodeIds []string `mandatory:"false" json:"dbNodeIds"`
 }
 
 func (m UpdateDatabaseDetails) String() string {

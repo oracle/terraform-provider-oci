@@ -41,6 +41,8 @@ type AssessmentSummary interface {
 	// An RFC3339 formatted datetime string such as `2016-08-25T21:10:29.600Z`.
 	GetTimeUpdated() *common.SDKTime
 
+	GetObjectStorageBucket() *ObjectStoreBucket
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags. Example: {"Department": "Finance"}
 	GetFreeformTags() map[string]string
@@ -58,6 +60,7 @@ type assessmentsummary struct {
 	JsonData            []byte
 	MigrationId         *string                           `mandatory:"false" json:"migrationId"`
 	TimeUpdated         *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
+	ObjectStorageBucket *ObjectStoreBucket                `mandatory:"false" json:"objectStorageBucket"`
 	FreeformTags        map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags         map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags          map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
@@ -87,6 +90,7 @@ func (m *assessmentsummary) UnmarshalJSON(data []byte) error {
 	m.LifecycleState = s.Model.LifecycleState
 	m.MigrationId = s.Model.MigrationId
 	m.TimeUpdated = s.Model.TimeUpdated
+	m.ObjectStorageBucket = s.Model.ObjectStorageBucket
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
@@ -126,6 +130,11 @@ func (m assessmentsummary) GetMigrationId() *string {
 // GetTimeUpdated returns TimeUpdated
 func (m assessmentsummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
+}
+
+// GetObjectStorageBucket returns ObjectStorageBucket
+func (m assessmentsummary) GetObjectStorageBucket() *ObjectStoreBucket {
+	return m.ObjectStorageBucket
 }
 
 // GetFreeformTags returns FreeformTags

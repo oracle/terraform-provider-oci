@@ -61,6 +61,8 @@ type Assessment interface {
 	// The OCID of the resource being referenced.
 	GetMigrationId() *string
 
+	GetObjectStorageBucket() *ObjectStoreBucket
+
 	// The migration type of the migration to be performed.
 	GetAssessmentMigrationType() AssessmentMigrationTypesEnum
 
@@ -84,6 +86,7 @@ type assessment struct {
 	JsonData                     []byte
 	Description                  *string                           `mandatory:"false" json:"description"`
 	MigrationId                  *string                           `mandatory:"false" json:"migrationId"`
+	ObjectStorageBucket          *ObjectStoreBucket                `mandatory:"false" json:"objectStorageBucket"`
 	AssessmentMigrationType      AssessmentMigrationTypesEnum      `mandatory:"false" json:"assessmentMigrationType,omitempty"`
 	TimeUpdated                  *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
 	FreeformTags                 map[string]string                 `mandatory:"false" json:"freeformTags"`
@@ -129,6 +132,7 @@ func (m *assessment) UnmarshalJSON(data []byte) error {
 	m.TimeCreated = s.Model.TimeCreated
 	m.Description = s.Model.Description
 	m.MigrationId = s.Model.MigrationId
+	m.ObjectStorageBucket = s.Model.ObjectStorageBucket
 	m.AssessmentMigrationType = s.Model.AssessmentMigrationType
 	m.TimeUpdated = s.Model.TimeUpdated
 	m.FreeformTags = s.Model.FreeformTags
@@ -170,6 +174,11 @@ func (m assessment) GetDescription() *string {
 // GetMigrationId returns MigrationId
 func (m assessment) GetMigrationId() *string {
 	return m.MigrationId
+}
+
+// GetObjectStorageBucket returns ObjectStorageBucket
+func (m assessment) GetObjectStorageBucket() *ObjectStoreBucket {
+	return m.ObjectStorageBucket
 }
 
 // GetAssessmentMigrationType returns AssessmentMigrationType

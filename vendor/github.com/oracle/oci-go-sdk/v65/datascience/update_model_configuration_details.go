@@ -22,6 +22,9 @@ type UpdateModelConfigurationDetails struct {
 	// The OCID of the model you want to update.
 	ModelId *string `mandatory:"true" json:"modelId"`
 
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a model artifact signature.
+	ModelArtifactSignatureId *string `mandatory:"false" json:"modelArtifactSignatureId"`
+
 	InstanceConfiguration *InstanceConfiguration `mandatory:"false" json:"instanceConfiguration"`
 
 	ScalingPolicy ScalingPolicy `mandatory:"false" json:"scalingPolicy"`
@@ -52,11 +55,12 @@ func (m UpdateModelConfigurationDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateModelConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		InstanceConfiguration *InstanceConfiguration `json:"instanceConfiguration"`
-		ScalingPolicy         scalingpolicy          `json:"scalingPolicy"`
-		BandwidthMbps         *int                   `json:"bandwidthMbps"`
-		MaximumBandwidthMbps  *int                   `json:"maximumBandwidthMbps"`
-		ModelId               *string                `json:"modelId"`
+		ModelArtifactSignatureId *string                `json:"modelArtifactSignatureId"`
+		InstanceConfiguration    *InstanceConfiguration `json:"instanceConfiguration"`
+		ScalingPolicy            scalingpolicy          `json:"scalingPolicy"`
+		BandwidthMbps            *int                   `json:"bandwidthMbps"`
+		MaximumBandwidthMbps     *int                   `json:"maximumBandwidthMbps"`
+		ModelId                  *string                `json:"modelId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -64,6 +68,8 @@ func (m *UpdateModelConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.ModelArtifactSignatureId = model.ModelArtifactSignatureId
+
 	m.InstanceConfiguration = model.InstanceConfiguration
 
 	nn, e = model.ScalingPolicy.UnmarshalPolymorphicJSON(model.ScalingPolicy.JsonData)

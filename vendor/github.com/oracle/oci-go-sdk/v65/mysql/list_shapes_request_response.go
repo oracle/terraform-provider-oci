@@ -109,16 +109,19 @@ type ListShapesIsSupportedForEnum string
 const (
 	ListShapesIsSupportedForDbsystem        ListShapesIsSupportedForEnum = "DBSYSTEM"
 	ListShapesIsSupportedForHeatwavecluster ListShapesIsSupportedForEnum = "HEATWAVECLUSTER"
+	ListShapesIsSupportedForDbcluster       ListShapesIsSupportedForEnum = "DBCLUSTER"
 )
 
 var mappingListShapesIsSupportedForEnum = map[string]ListShapesIsSupportedForEnum{
 	"DBSYSTEM":        ListShapesIsSupportedForDbsystem,
 	"HEATWAVECLUSTER": ListShapesIsSupportedForHeatwavecluster,
+	"DBCLUSTER":       ListShapesIsSupportedForDbcluster,
 }
 
 var mappingListShapesIsSupportedForEnumLowerCase = map[string]ListShapesIsSupportedForEnum{
 	"dbsystem":        ListShapesIsSupportedForDbsystem,
 	"heatwavecluster": ListShapesIsSupportedForHeatwavecluster,
+	"dbcluster":       ListShapesIsSupportedForDbcluster,
 }
 
 // GetListShapesIsSupportedForEnumValues Enumerates the set of values for ListShapesIsSupportedForEnum
@@ -135,6 +138,7 @@ func GetListShapesIsSupportedForEnumStringValues() []string {
 	return []string{
 		"DBSYSTEM",
 		"HEATWAVECLUSTER",
+		"DBCLUSTER",
 	}
 }
 

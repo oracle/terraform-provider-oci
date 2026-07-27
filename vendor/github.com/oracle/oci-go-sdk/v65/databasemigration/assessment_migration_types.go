@@ -18,21 +18,24 @@ type AssessmentMigrationTypesEnum string
 
 // Set of constants representing the allowable values for AssessmentMigrationTypesEnum
 const (
-	AssessmentMigrationTypesOnline        AssessmentMigrationTypesEnum = "ONLINE"
-	AssessmentMigrationTypesOnlineStandby AssessmentMigrationTypesEnum = "ONLINE_STANDBY"
-	AssessmentMigrationTypesOffline       AssessmentMigrationTypesEnum = "OFFLINE"
+	AssessmentMigrationTypesOnline         AssessmentMigrationTypesEnum = "ONLINE"
+	AssessmentMigrationTypesOnlineStandby  AssessmentMigrationTypesEnum = "ONLINE_STANDBY"
+	AssessmentMigrationTypesOffline        AssessmentMigrationTypesEnum = "OFFLINE"
+	AssessmentMigrationTypesOnlinePhysical AssessmentMigrationTypesEnum = "ONLINE_PHYSICAL"
 )
 
 var mappingAssessmentMigrationTypesEnum = map[string]AssessmentMigrationTypesEnum{
-	"ONLINE":         AssessmentMigrationTypesOnline,
-	"ONLINE_STANDBY": AssessmentMigrationTypesOnlineStandby,
-	"OFFLINE":        AssessmentMigrationTypesOffline,
+	"ONLINE":          AssessmentMigrationTypesOnline,
+	"ONLINE_STANDBY":  AssessmentMigrationTypesOnlineStandby,
+	"OFFLINE":         AssessmentMigrationTypesOffline,
+	"ONLINE_PHYSICAL": AssessmentMigrationTypesOnlinePhysical,
 }
 
 var mappingAssessmentMigrationTypesEnumLowerCase = map[string]AssessmentMigrationTypesEnum{
-	"online":         AssessmentMigrationTypesOnline,
-	"online_standby": AssessmentMigrationTypesOnlineStandby,
-	"offline":        AssessmentMigrationTypesOffline,
+	"online":          AssessmentMigrationTypesOnline,
+	"online_standby":  AssessmentMigrationTypesOnlineStandby,
+	"offline":         AssessmentMigrationTypesOffline,
+	"online_physical": AssessmentMigrationTypesOnlinePhysical,
 }
 
 // GetAssessmentMigrationTypesEnumValues Enumerates the set of values for AssessmentMigrationTypesEnum
@@ -50,6 +53,7 @@ func GetAssessmentMigrationTypesEnumStringValues() []string {
 		"ONLINE",
 		"ONLINE_STANDBY",
 		"OFFLINE",
+		"ONLINE_PHYSICAL",
 	}
 }
 

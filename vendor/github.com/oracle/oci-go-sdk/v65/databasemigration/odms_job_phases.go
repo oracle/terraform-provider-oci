@@ -31,6 +31,7 @@ const (
 	OdmsJobPhasesOdmsFetchMetadataTgt                    OdmsJobPhasesEnum = "ODMS_FETCH_METADATA_TGT"
 	OdmsJobPhasesOdmsValidate                            OdmsJobPhasesEnum = "ODMS_VALIDATE"
 	OdmsJobPhasesOdmsPrepare                             OdmsJobPhasesEnum = "ODMS_PREPARE"
+	OdmsJobPhasesOdmsTransferInitialData                 OdmsJobPhasesEnum = "ODMS_TRANSFER_INITIAL_DATA"
 	OdmsJobPhasesOdmsInitializeReplicationInfrastructure OdmsJobPhasesEnum = "ODMS_INITIALIZE_REPLICATION_INFRASTRUCTURE"
 	OdmsJobPhasesOdmsInitialLoadExport                   OdmsJobPhasesEnum = "ODMS_INITIAL_LOAD_EXPORT"
 	OdmsJobPhasesOdmsDataUpload                          OdmsJobPhasesEnum = "ODMS_DATA_UPLOAD"
@@ -38,6 +39,7 @@ const (
 	OdmsJobPhasesOdmsInitialLoadExportDataUpload         OdmsJobPhasesEnum = "ODMS_INITIAL_LOAD_EXPORT_DATA_UPLOAD"
 	OdmsJobPhasesOdmsInitialLoadImport                   OdmsJobPhasesEnum = "ODMS_INITIAL_LOAD_IMPORT"
 	OdmsJobPhasesOdmsPostInitialLoad                     OdmsJobPhasesEnum = "ODMS_POST_INITIAL_LOAD"
+	OdmsJobPhasesOdmsMonitorSynchronizationLag           OdmsJobPhasesEnum = "ODMS_MONITOR_SYNCHRONIZATION_LAG"
 	OdmsJobPhasesOdmsPrepareReplicationTarget            OdmsJobPhasesEnum = "ODMS_PREPARE_REPLICATION_TARGET"
 	OdmsJobPhasesOdmsMonitorReplicationLag               OdmsJobPhasesEnum = "ODMS_MONITOR_REPLICATION_LAG"
 	OdmsJobPhasesOdmsSwitchover                          OdmsJobPhasesEnum = "ODMS_SWITCHOVER"
@@ -58,6 +60,7 @@ var mappingOdmsJobPhasesEnum = map[string]OdmsJobPhasesEnum{
 	"ODMS_FETCH_METADATA_TGT":                    OdmsJobPhasesOdmsFetchMetadataTgt,
 	"ODMS_VALIDATE":                              OdmsJobPhasesOdmsValidate,
 	"ODMS_PREPARE":                               OdmsJobPhasesOdmsPrepare,
+	"ODMS_TRANSFER_INITIAL_DATA":                 OdmsJobPhasesOdmsTransferInitialData,
 	"ODMS_INITIALIZE_REPLICATION_INFRASTRUCTURE": OdmsJobPhasesOdmsInitializeReplicationInfrastructure,
 	"ODMS_INITIAL_LOAD_EXPORT":                   OdmsJobPhasesOdmsInitialLoadExport,
 	"ODMS_DATA_UPLOAD":                           OdmsJobPhasesOdmsDataUpload,
@@ -65,6 +68,7 @@ var mappingOdmsJobPhasesEnum = map[string]OdmsJobPhasesEnum{
 	"ODMS_INITIAL_LOAD_EXPORT_DATA_UPLOAD":       OdmsJobPhasesOdmsInitialLoadExportDataUpload,
 	"ODMS_INITIAL_LOAD_IMPORT":                   OdmsJobPhasesOdmsInitialLoadImport,
 	"ODMS_POST_INITIAL_LOAD":                     OdmsJobPhasesOdmsPostInitialLoad,
+	"ODMS_MONITOR_SYNCHRONIZATION_LAG":           OdmsJobPhasesOdmsMonitorSynchronizationLag,
 	"ODMS_PREPARE_REPLICATION_TARGET":            OdmsJobPhasesOdmsPrepareReplicationTarget,
 	"ODMS_MONITOR_REPLICATION_LAG":               OdmsJobPhasesOdmsMonitorReplicationLag,
 	"ODMS_SWITCHOVER":                            OdmsJobPhasesOdmsSwitchover,
@@ -85,6 +89,7 @@ var mappingOdmsJobPhasesEnumLowerCase = map[string]OdmsJobPhasesEnum{
 	"odms_fetch_metadata_tgt":                    OdmsJobPhasesOdmsFetchMetadataTgt,
 	"odms_validate":                              OdmsJobPhasesOdmsValidate,
 	"odms_prepare":                               OdmsJobPhasesOdmsPrepare,
+	"odms_transfer_initial_data":                 OdmsJobPhasesOdmsTransferInitialData,
 	"odms_initialize_replication_infrastructure": OdmsJobPhasesOdmsInitializeReplicationInfrastructure,
 	"odms_initial_load_export":                   OdmsJobPhasesOdmsInitialLoadExport,
 	"odms_data_upload":                           OdmsJobPhasesOdmsDataUpload,
@@ -92,6 +97,7 @@ var mappingOdmsJobPhasesEnumLowerCase = map[string]OdmsJobPhasesEnum{
 	"odms_initial_load_export_data_upload":       OdmsJobPhasesOdmsInitialLoadExportDataUpload,
 	"odms_initial_load_import":                   OdmsJobPhasesOdmsInitialLoadImport,
 	"odms_post_initial_load":                     OdmsJobPhasesOdmsPostInitialLoad,
+	"odms_monitor_synchronization_lag":           OdmsJobPhasesOdmsMonitorSynchronizationLag,
 	"odms_prepare_replication_target":            OdmsJobPhasesOdmsPrepareReplicationTarget,
 	"odms_monitor_replication_lag":               OdmsJobPhasesOdmsMonitorReplicationLag,
 	"odms_switchover":                            OdmsJobPhasesOdmsSwitchover,
@@ -123,6 +129,7 @@ func GetOdmsJobPhasesEnumStringValues() []string {
 		"ODMS_FETCH_METADATA_TGT",
 		"ODMS_VALIDATE",
 		"ODMS_PREPARE",
+		"ODMS_TRANSFER_INITIAL_DATA",
 		"ODMS_INITIALIZE_REPLICATION_INFRASTRUCTURE",
 		"ODMS_INITIAL_LOAD_EXPORT",
 		"ODMS_DATA_UPLOAD",
@@ -130,6 +137,7 @@ func GetOdmsJobPhasesEnumStringValues() []string {
 		"ODMS_INITIAL_LOAD_EXPORT_DATA_UPLOAD",
 		"ODMS_INITIAL_LOAD_IMPORT",
 		"ODMS_POST_INITIAL_LOAD",
+		"ODMS_MONITOR_SYNCHRONIZATION_LAG",
 		"ODMS_PREPARE_REPLICATION_TARGET",
 		"ODMS_MONITOR_REPLICATION_LAG",
 		"ODMS_SWITCHOVER",

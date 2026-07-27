@@ -30,12 +30,11 @@ type UpdateSemanticStoreDetails struct {
 
 	ModelSelection SemanticStoreModelSelection `mandatory:"false" json:"modelSelection"`
 
-	// Updates which enrichment inputs are enabled for the semantic store.
-	// Allowed values are:
-	// - COMBINED
-	// - METADATA_ONLY
-	// - ANNOTATION_ONLY
-	EnrichmentMode UpdateSemanticStoreDetailsEnrichmentModeEnum `mandatory:"false" json:"enrichmentMode,omitempty"`
+	// Whether to include user-defined semantic inputs, such as annotations, comments, and synonyms, during semantic-store enrichment.
+	// When true, enrichment uses both metadata and user-defined semantics.
+	// When false, enrichment uses metadata only.
+	// If omitted, the existing setting is unchanged.
+	IsUserDefinedSemanticsEnabled *bool `mandatory:"false" json:"isUserDefinedSemanticsEnabled"`
 
 	RefreshSchedule RefreshScheduleDetails `mandatory:"false" json:"refreshSchedule"`
 
@@ -62,9 +61,6 @@ func (m UpdateSemanticStoreDetails) String() string {
 func (m UpdateSemanticStoreDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingUpdateSemanticStoreDetailsEnrichmentModeEnum(string(m.EnrichmentMode)); !ok && m.EnrichmentMode != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnrichmentMode: %s. Supported values are: %s.", m.EnrichmentMode, strings.Join(GetUpdateSemanticStoreDetailsEnrichmentModeEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
@@ -74,14 +70,14 @@ func (m UpdateSemanticStoreDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateSemanticStoreDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description     *string                                      `json:"description"`
-		DisplayName     *string                                      `json:"displayName"`
-		ModelSelection  semanticstoremodelselection                  `json:"modelSelection"`
-		EnrichmentMode  UpdateSemanticStoreDetailsEnrichmentModeEnum `json:"enrichmentMode"`
-		RefreshSchedule refreshscheduledetails                       `json:"refreshSchedule"`
-		Schemas         createschemasdetails                         `json:"schemas"`
-		FreeformTags    map[string]string                            `json:"freeformTags"`
-		DefinedTags     map[string]map[string]interface{}            `json:"definedTags"`
+		Description                   *string                           `json:"description"`
+		DisplayName                   *string                           `json:"displayName"`
+		ModelSelection                semanticstoremodelselection       `json:"modelSelection"`
+		IsUserDefinedSemanticsEnabled *bool                             `json:"isUserDefinedSemanticsEnabled"`
+		RefreshSchedule               refreshscheduledetails            `json:"refreshSchedule"`
+		Schemas                       createschemasdetails              `json:"schemas"`
+		FreeformTags                  map[string]string                 `json:"freeformTags"`
+		DefinedTags                   map[string]map[string]interface{} `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -103,7 +99,7 @@ func (m *UpdateSemanticStoreDetails) UnmarshalJSON(data []byte) (e error) {
 		m.ModelSelection = nil
 	}
 
-	m.EnrichmentMode = model.EnrichmentMode
+	m.IsUserDefinedSemanticsEnabled = model.IsUserDefinedSemanticsEnabled
 
 	nn, e = model.RefreshSchedule.UnmarshalPolymorphicJSON(model.RefreshSchedule.JsonData)
 	if e != nil {
@@ -130,50 +126,4 @@ func (m *UpdateSemanticStoreDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	return
-}
-
-// UpdateSemanticStoreDetailsEnrichmentModeEnum Enum with underlying type: string
-type UpdateSemanticStoreDetailsEnrichmentModeEnum string
-
-// Set of constants representing the allowable values for UpdateSemanticStoreDetailsEnrichmentModeEnum
-const (
-	UpdateSemanticStoreDetailsEnrichmentModeCombined       UpdateSemanticStoreDetailsEnrichmentModeEnum = "COMBINED"
-	UpdateSemanticStoreDetailsEnrichmentModeMetadataOnly   UpdateSemanticStoreDetailsEnrichmentModeEnum = "METADATA_ONLY"
-	UpdateSemanticStoreDetailsEnrichmentModeAnnotationOnly UpdateSemanticStoreDetailsEnrichmentModeEnum = "ANNOTATION_ONLY"
-)
-
-var mappingUpdateSemanticStoreDetailsEnrichmentModeEnum = map[string]UpdateSemanticStoreDetailsEnrichmentModeEnum{
-	"COMBINED":        UpdateSemanticStoreDetailsEnrichmentModeCombined,
-	"METADATA_ONLY":   UpdateSemanticStoreDetailsEnrichmentModeMetadataOnly,
-	"ANNOTATION_ONLY": UpdateSemanticStoreDetailsEnrichmentModeAnnotationOnly,
-}
-
-var mappingUpdateSemanticStoreDetailsEnrichmentModeEnumLowerCase = map[string]UpdateSemanticStoreDetailsEnrichmentModeEnum{
-	"combined":        UpdateSemanticStoreDetailsEnrichmentModeCombined,
-	"metadata_only":   UpdateSemanticStoreDetailsEnrichmentModeMetadataOnly,
-	"annotation_only": UpdateSemanticStoreDetailsEnrichmentModeAnnotationOnly,
-}
-
-// GetUpdateSemanticStoreDetailsEnrichmentModeEnumValues Enumerates the set of values for UpdateSemanticStoreDetailsEnrichmentModeEnum
-func GetUpdateSemanticStoreDetailsEnrichmentModeEnumValues() []UpdateSemanticStoreDetailsEnrichmentModeEnum {
-	values := make([]UpdateSemanticStoreDetailsEnrichmentModeEnum, 0)
-	for _, v := range mappingUpdateSemanticStoreDetailsEnrichmentModeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetUpdateSemanticStoreDetailsEnrichmentModeEnumStringValues Enumerates the set of values in String for UpdateSemanticStoreDetailsEnrichmentModeEnum
-func GetUpdateSemanticStoreDetailsEnrichmentModeEnumStringValues() []string {
-	return []string{
-		"COMBINED",
-		"METADATA_ONLY",
-		"ANNOTATION_ONLY",
-	}
-}
-
-// GetMappingUpdateSemanticStoreDetailsEnrichmentModeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingUpdateSemanticStoreDetailsEnrichmentModeEnum(val string) (UpdateSemanticStoreDetailsEnrichmentModeEnum, bool) {
-	enum, ok := mappingUpdateSemanticStoreDetailsEnrichmentModeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

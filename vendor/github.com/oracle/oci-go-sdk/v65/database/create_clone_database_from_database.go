@@ -33,6 +33,9 @@ type CreateCloneDatabaseFromDatabase struct {
 
 	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous AI Database Serverless does not use key versions, hence is not applicable for Autonomous AI Database Serverless instances.
 	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
+
+	// The list of DB node OCIDs (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) on which the database instance will be created.
+	DbNodeIds []string `mandatory:"false" json:"dbNodeIds"`
 }
 
 // GetDbHomeId returns DbHomeId
@@ -53,6 +56,11 @@ func (m CreateCloneDatabaseFromDatabase) GetKmsKeyId() *string {
 // GetKmsKeyVersionId returns KmsKeyVersionId
 func (m CreateCloneDatabaseFromDatabase) GetKmsKeyVersionId() *string {
 	return m.KmsKeyVersionId
+}
+
+// GetDbNodeIds returns DbNodeIds
+func (m CreateCloneDatabaseFromDatabase) GetDbNodeIds() []string {
+	return m.DbNodeIds
 }
 
 func (m CreateCloneDatabaseFromDatabase) String() string {

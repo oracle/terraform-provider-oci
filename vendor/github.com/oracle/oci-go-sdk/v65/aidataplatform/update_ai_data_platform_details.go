@@ -21,6 +21,12 @@ type UpdateAiDataPlatformDetails struct {
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// The [OCID] of the user Master Encryption Key to create resources in user tenancy while provisioning AiDataPlatform.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// The [OCID] of the user VaultId to create resources in user tenancy while provisioning AiDataPlatform.
+	KmsVaultId *string `mandatory:"false" json:"kmsVaultId"`
+
 	// The AiDataPlatform type.
 	AiDataPlatformType *string `mandatory:"false" json:"aiDataPlatformType"`
 

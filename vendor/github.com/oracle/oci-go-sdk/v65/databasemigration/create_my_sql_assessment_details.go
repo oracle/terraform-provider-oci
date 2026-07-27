@@ -34,6 +34,8 @@ type CreateMySqlAssessmentDetails struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	ObjectStorageBucket *CreateObjectStoreBucket `mandatory:"false" json:"objectStorageBucket"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags. Example: {"Department": "Finance"}
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -120,6 +122,11 @@ func (m CreateMySqlAssessmentDetails) GetSourceDatabaseConnection() *SourceAsses
 // GetTargetDatabaseConnection returns TargetDatabaseConnection
 func (m CreateMySqlAssessmentDetails) GetTargetDatabaseConnection() *TargetAssessmentConnection {
 	return m.TargetDatabaseConnection
+}
+
+// GetObjectStorageBucket returns ObjectStorageBucket
+func (m CreateMySqlAssessmentDetails) GetObjectStorageBucket() *CreateObjectStoreBucket {
+	return m.ObjectStorageBucket
 }
 
 // GetFreeformTags returns FreeformTags

@@ -41,6 +41,9 @@ type ListDatabasesRequest struct {
 	// A filter to return only resources that match the entire database name given. The match is not case sensitive.
 	DbName *string `mandatory:"false" contributesTo:"query" name:"dbName"`
 
+	// Filter the databases by DB node OCID.
+	DbNodeId *string `mandatory:"false" contributesTo:"query" name:"dbNodeId"`
+
 	// Filter the databases by managed auto failover param.
 	ManagedAutoFailover ListDatabasesManagedAutoFailoverEnum `mandatory:"false" contributesTo:"query" name:"managedAutoFailover" omitEmpty:"true"`
 

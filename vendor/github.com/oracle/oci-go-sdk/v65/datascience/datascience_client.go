@@ -990,6 +990,65 @@ func (client DataScienceClient) changeMlApplicationInstanceViewCompartment(ctx c
 	return response, err
 }
 
+// ChangeModelArtifactSignatureCompartment Moves a model artifact signature into a different compartment
+// A default retry strategy applies to this operation ChangeModelArtifactSignatureCompartment()
+func (client DataScienceClient) ChangeModelArtifactSignatureCompartment(ctx context.Context, request ChangeModelArtifactSignatureCompartmentRequest) (response ChangeModelArtifactSignatureCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeModelArtifactSignatureCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeModelArtifactSignatureCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeModelArtifactSignatureCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeModelArtifactSignatureCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeModelArtifactSignatureCompartmentResponse")
+	}
+	return
+}
+
+// changeModelArtifactSignatureCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) changeModelArtifactSignatureCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/artifactSignatures/{artifactSignatureId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeModelArtifactSignatureCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ChangeModelArtifactSignatureCompartment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelArtifactSignature/ChangeModelArtifactSignatureCompartment"
+		err = common.PostProcessServiceError(err, "DataScience", "ChangeModelArtifactSignatureCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeModelCompartment Moves a model resource into a different compartment.
 func (client DataScienceClient) ChangeModelCompartment(ctx context.Context, request ChangeModelCompartmentRequest) (response ChangeModelCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1556,61 +1615,6 @@ func (client DataScienceClient) changeScheduleCompartment(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Schedule/ChangeScheduleCompartment"
 		err = common.PostProcessServiceError(err, "DataScience", "ChangeScheduleCompartment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ComputeTargetCustomNetworkingPermissionVerification Internal-only endpoint to validate future-state compute target vRP-style permissions for
-// customer subnet/VNIC custom networking operations before invoking privileged
-// Service Principal-based compute and virtual network APIs.
-func (client DataScienceClient) ComputeTargetCustomNetworkingPermissionVerification(ctx context.Context, request ComputeTargetCustomNetworkingPermissionVerificationRequest) (response ComputeTargetCustomNetworkingPermissionVerificationResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.computeTargetCustomNetworkingPermissionVerification, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ComputeTargetCustomNetworkingPermissionVerificationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ComputeTargetCustomNetworkingPermissionVerificationResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ComputeTargetCustomNetworkingPermissionVerificationResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ComputeTargetCustomNetworkingPermissionVerificationResponse")
-	}
-	return
-}
-
-// computeTargetCustomNetworkingPermissionVerification implements the OCIOperation interface (enables retrying operations)
-func (client DataScienceClient) computeTargetCustomNetworkingPermissionVerification(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeTargets/{computeTargetId}/actions/verifyCustomNetworkingOperation", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ComputeTargetCustomNetworkingPermissionVerificationResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ComputeTargetCustomNetworkingPermissionVerification")
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ComputeTargetCustomNetworkingPermissionVerificationDetails/ComputeTargetCustomNetworkingPermissionVerification"
-		err = common.PostProcessServiceError(err, "DataScience", "ComputeTargetCustomNetworkingPermissionVerification", apiReferenceLink)
 		return response, err
 	}
 
@@ -2220,6 +2224,65 @@ func (client DataScienceClient) createModelArtifact(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/CreateModelArtifact"
 		err = common.PostProcessServiceError(err, "DataScience", "CreateModelArtifact", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateModelArtifactSignature Create model artifact signature for the specified model
+// A default retry strategy applies to this operation CreateModelArtifactSignature()
+func (client DataScienceClient) CreateModelArtifactSignature(ctx context.Context, request CreateModelArtifactSignatureRequest) (response CreateModelArtifactSignatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createModelArtifactSignature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateModelArtifactSignatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateModelArtifactSignatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateModelArtifactSignatureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateModelArtifactSignatureResponse")
+	}
+	return
+}
+
+// createModelArtifactSignature implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) createModelArtifactSignature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/artifactSignatures", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateModelArtifactSignatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "CreateModelArtifactSignature")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelArtifactSignature/CreateModelArtifactSignature"
+		err = common.PostProcessServiceError(err, "DataScience", "CreateModelArtifactSignature", apiReferenceLink)
 		return response, err
 	}
 
@@ -3784,6 +3847,60 @@ func (client DataScienceClient) deleteModel(ctx context.Context, request common.
 	return response, err
 }
 
+// DeleteModelArtifactSignature Deletes the specified artifact signature for a model
+// A default retry strategy applies to this operation DeleteModelArtifactSignature()
+func (client DataScienceClient) DeleteModelArtifactSignature(ctx context.Context, request DeleteModelArtifactSignatureRequest) (response DeleteModelArtifactSignatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteModelArtifactSignature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteModelArtifactSignatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteModelArtifactSignatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteModelArtifactSignatureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteModelArtifactSignatureResponse")
+	}
+	return
+}
+
+// deleteModelArtifactSignature implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) deleteModelArtifactSignature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/models/{modelId}/artifactSignatures/{artifactSignatureId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteModelArtifactSignatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "DeleteModelArtifactSignature")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelArtifactSignature/DeleteModelArtifactSignature"
+		err = common.PostProcessServiceError(err, "DataScience", "DeleteModelArtifactSignature", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteModelCustomMetadatumArtifact Deletes model custom metadata artifact for specified model metadata key.
 // A default retry strategy applies to this operation DeleteModelCustomMetadatumArtifact()
 func (client DataScienceClient) DeleteModelCustomMetadatumArtifact(ctx context.Context, request DeleteModelCustomMetadatumArtifactRequest) (response DeleteModelCustomMetadatumArtifactResponse, err error) {
@@ -5295,6 +5412,65 @@ func (client DataScienceClient) getModelArtifactContent(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/GetModelArtifactContent"
 		err = common.PostProcessServiceError(err, "DataScience", "GetModelArtifactContent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetModelArtifactSignature Gets the specified artifact signature for a model
+// A default retry strategy applies to this operation GetModelArtifactSignature()
+func (client DataScienceClient) GetModelArtifactSignature(ctx context.Context, request GetModelArtifactSignatureRequest) (response GetModelArtifactSignatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getModelArtifactSignature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetModelArtifactSignatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetModelArtifactSignatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetModelArtifactSignatureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetModelArtifactSignatureResponse")
+	}
+	return
+}
+
+// getModelArtifactSignature implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) getModelArtifactSignature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/models/{modelId}/artifactSignatures/{artifactSignatureId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetModelArtifactSignatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "GetModelArtifactSignature")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelArtifactSignature/GetModelArtifactSignature"
+		err = common.PostProcessServiceError(err, "DataScience", "GetModelArtifactSignature", apiReferenceLink)
 		return response, err
 	}
 
@@ -7197,6 +7373,60 @@ func (client DataScienceClient) listMlApplications(ctx context.Context, request 
 	return response, err
 }
 
+// ListModelArtifactSignatures List model artifact signatures of a model in the specified compartment
+// A default retry strategy applies to this operation ListModelArtifactSignatures()
+func (client DataScienceClient) ListModelArtifactSignatures(ctx context.Context, request ListModelArtifactSignaturesRequest) (response ListModelArtifactSignaturesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listModelArtifactSignatures, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListModelArtifactSignaturesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListModelArtifactSignaturesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListModelArtifactSignaturesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListModelArtifactSignaturesResponse")
+	}
+	return
+}
+
+// listModelArtifactSignatures implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) listModelArtifactSignatures(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/models/{modelId}/artifactSignatures", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListModelArtifactSignaturesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "ListModelArtifactSignatures")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelArtifactSignatureSummary/ListModelArtifactSignatures"
+		err = common.PostProcessServiceError(err, "DataScience", "ListModelArtifactSignatures", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListModelDeploymentModelStates Lists the status of models in a model group deployment.
 // A default retry strategy applies to this operation ListModelDeploymentModelStates()
 func (client DataScienceClient) ListModelDeploymentModelStates(ctx context.Context, request ListModelDeploymentModelStatesRequest) (response ListModelDeploymentModelStatesResponse, err error) {
@@ -9015,6 +9245,60 @@ func (client DataScienceClient) updateModel(ctx context.Context, request common.
 	return response, err
 }
 
+// UpdateModelArtifactSignature Update model artifact signature for the specified model
+// A default retry strategy applies to this operation UpdateModelArtifactSignature()
+func (client DataScienceClient) UpdateModelArtifactSignature(ctx context.Context, request UpdateModelArtifactSignatureRequest) (response UpdateModelArtifactSignatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateModelArtifactSignature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateModelArtifactSignatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateModelArtifactSignatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateModelArtifactSignatureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateModelArtifactSignatureResponse")
+	}
+	return
+}
+
+// updateModelArtifactSignature implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) updateModelArtifactSignature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/models/{modelId}/artifactSignatures/{artifactSignatureId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateModelArtifactSignatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "UpdateModelArtifactSignature")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelArtifactSignature/UpdateModelArtifactSignature"
+		err = common.PostProcessServiceError(err, "DataScience", "UpdateModelArtifactSignature", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateModelCustomMetadatumArtifact Updates model custom metadata artifact for specified model metadata key.
 // A default retry strategy applies to this operation UpdateModelCustomMetadatumArtifact()
 func (client DataScienceClient) UpdateModelCustomMetadatumArtifact(ctx context.Context, request UpdateModelCustomMetadatumArtifactRequest) (response UpdateModelCustomMetadatumArtifactResponse, err error) {
@@ -9676,6 +9960,65 @@ func (client DataScienceClient) updateSchedule(ctx context.Context, request comm
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Schedule/UpdateSchedule"
 		err = common.PostProcessServiceError(err, "DataScience", "UpdateSchedule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// VerifyModelArtifactSignature Verifies the specified artifact signature for a model
+// A default retry strategy applies to this operation VerifyModelArtifactSignature()
+func (client DataScienceClient) VerifyModelArtifactSignature(ctx context.Context, request VerifyModelArtifactSignatureRequest) (response VerifyModelArtifactSignatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.verifyModelArtifactSignature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = VerifyModelArtifactSignatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = VerifyModelArtifactSignatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(VerifyModelArtifactSignatureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into VerifyModelArtifactSignatureResponse")
+	}
+	return
+}
+
+// verifyModelArtifactSignature implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) verifyModelArtifactSignature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/artifactSignatures/{artifactSignatureId}/actions/verify", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response VerifyModelArtifactSignatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataScience", "VerifyModelArtifactSignature")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ModelArtifactSignature/VerifyModelArtifactSignature"
+		err = common.PostProcessServiceError(err, "DataScience", "VerifyModelArtifactSignature", apiReferenceLink)
 		return response, err
 	}
 

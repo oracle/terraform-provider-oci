@@ -46,6 +46,8 @@ type UpdateAssessmentDetails interface {
 
 	GetTargetDatabaseConnection() *TargetAssessmentConnection
 
+	GetObjectStorageBucket() *UpdateObjectStoreBucket
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags. Example: {"Department": "Finance"}
 	GetFreeformTags() map[string]string
@@ -66,6 +68,7 @@ type updateassessmentdetails struct {
 	CreationType                 CreationTypeEnum                  `mandatory:"false" json:"creationType,omitempty"`
 	SourceDatabaseConnection     *SourceAssessmentConnection       `mandatory:"false" json:"sourceDatabaseConnection"`
 	TargetDatabaseConnection     *TargetAssessmentConnection       `mandatory:"false" json:"targetDatabaseConnection"`
+	ObjectStorageBucket          *UpdateObjectStoreBucket          `mandatory:"false" json:"objectStorageBucket"`
 	FreeformTags                 map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags                  map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	DatabaseCombination          string                            `json:"databaseCombination"`
@@ -91,6 +94,7 @@ func (m *updateassessmentdetails) UnmarshalJSON(data []byte) error {
 	m.CreationType = s.Model.CreationType
 	m.SourceDatabaseConnection = s.Model.SourceDatabaseConnection
 	m.TargetDatabaseConnection = s.Model.TargetDatabaseConnection
+	m.ObjectStorageBucket = s.Model.ObjectStorageBucket
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.DatabaseCombination = s.Model.DatabaseCombination
@@ -164,6 +168,11 @@ func (m updateassessmentdetails) GetSourceDatabaseConnection() *SourceAssessment
 // GetTargetDatabaseConnection returns TargetDatabaseConnection
 func (m updateassessmentdetails) GetTargetDatabaseConnection() *TargetAssessmentConnection {
 	return m.TargetDatabaseConnection
+}
+
+// GetObjectStorageBucket returns ObjectStorageBucket
+func (m updateassessmentdetails) GetObjectStorageBucket() *UpdateObjectStoreBucket {
+	return m.ObjectStorageBucket
 }
 
 // GetFreeformTags returns FreeformTags

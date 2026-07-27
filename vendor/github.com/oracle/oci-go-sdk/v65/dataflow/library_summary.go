@@ -56,14 +56,17 @@ type LibrarySummary struct {
 	// The coordinate for referenced Library.
 	Coordinate *string `mandatory:"false" json:"coordinate"`
 
-	// List of exclusions for library installation.
-	Exclusions map[string]string `mandatory:"false" json:"exclusions"`
+	// Maven exclusions for library installation. Each value uses the groupId:artifactId format.
+	Exclusions []string `mandatory:"false" json:"exclusions"`
 
 	// The pipIndexUrl for referenced Library.
 	PipIndexUrl *string `mandatory:"false" json:"pipIndexUrl"`
 
 	// The pythonPackage for referenced Library.
 	PythonPackage *string `mandatory:"false" json:"pythonPackage"`
+
+	// The version for a referenced Python package.
+	Version *string `mandatory:"false" json:"version"`
 
 	// The path for referenced Library.
 	Path *string `mandatory:"false" json:"path"`

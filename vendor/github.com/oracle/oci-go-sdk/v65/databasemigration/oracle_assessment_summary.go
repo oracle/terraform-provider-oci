@@ -38,6 +38,8 @@ type OracleAssessmentSummary struct {
 	// An RFC3339 formatted datetime string such as `2016-08-25T21:10:29.600Z`.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	ObjectStorageBucket *ObjectStoreBucket `mandatory:"false" json:"objectStorageBucket"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags. Example: {"Department": "Finance"}
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -93,6 +95,11 @@ func (m OracleAssessmentSummary) GetTimeUpdated() *common.SDKTime {
 // GetLifecycleState returns LifecycleState
 func (m OracleAssessmentSummary) GetLifecycleState() AssessmentLifecycleStatesEnum {
 	return m.LifecycleState
+}
+
+// GetObjectStorageBucket returns ObjectStorageBucket
+func (m OracleAssessmentSummary) GetObjectStorageBucket() *ObjectStoreBucket {
+	return m.ObjectStorageBucket
 }
 
 // GetFreeformTags returns FreeformTags
