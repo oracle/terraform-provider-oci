@@ -79,6 +79,8 @@ func (s *GoldenGateConnectionAssignmentDataSourceCrud) SetData() error {
 		s.D.Set("connection_id", *s.Res.ConnectionId)
 	}
 
+	s.D.Set("connection_type", s.Res.ConnectionType)
+
 	if s.Res.DeploymentId != nil {
 		s.D.Set("deployment_id", *s.Res.DeploymentId)
 	}

@@ -6,6 +6,8 @@ package golden_gate
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_golden_gate_ai_models", GoldenGateAiModelsDataSource())
+	tfresource.RegisterDatasource("oci_golden_gate_ai_providers", GoldenGateAiProvidersDataSource())
 	tfresource.RegisterDatasource("oci_golden_gate_connection", GoldenGateConnectionDataSource())
 	tfresource.RegisterDatasource("oci_golden_gate_connection_assignment", GoldenGateConnectionAssignmentDataSource())
 	tfresource.RegisterDatasource("oci_golden_gate_connection_assignments", GoldenGateConnectionAssignmentsDataSource())

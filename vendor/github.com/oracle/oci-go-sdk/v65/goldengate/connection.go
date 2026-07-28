@@ -65,13 +65,24 @@ type Connection interface {
 	// Locks associated with this resource.
 	GetLocks() []ResourceLock
 
-	// Refers to the customer's vault OCID.
-	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
-	// to manage secrets contained within this vault.
+	// References the OCI Vault that contains the customer-managed encryption key identified by `keyId`.
+	// Deprecated: This field is deprecated for GoldenGate connections. Sensitive attributes should be provided using the
+	// corresponding Secret OCID attributes of the connection (for example, `passwordSecretId`) instead of plain-text
+	// attributes encrypted with `vaultId` and `keyId`. This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
+	// This field is applicable only when `doesUseSecretIds` is set to `false`.
+	// If `vaultId` is provided, `keyId` must also be provided.
 	GetVaultId() *string
 
-	// Refers to the customer's master key OCID.
-	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
+	// References the OCI Vault key in the OCI Vault identified by `vaultId`.
+	// Deprecated: This field is deprecated for GoldenGate connections. Sensitive attributes should be provided using the
+	// corresponding Secret OCID attributes of the connection (for example, `passwordSecretId`) instead of plain-text
+	// attributes encrypted with `vaultId` and `keyId`. This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
+	// The GoldenGate service uses this key to encrypt sensitive information (for example, `password`) that is provided in plain-text connection attributes through the API.
+	// This field is applicable only when `doesUseSecretIds` is set to `false`. If both `vaultId` and `keyId` are provided,
+	// the GoldenGate service uses the specified customer-managed key to encrypt the sensitive data.
+	// If neither `vaultId` nor `keyId` is provided, the GoldenGate service uses Oracle-managed encryption keys.
 	GetKeyId() *string
 
 	// List of ingress IP addresses from where the GoldenGate deployment connects to this connection's privateIp.
@@ -85,12 +96,26 @@ type Connection interface {
 	GetSubnetId() *string
 
 	// Controls the network traffic direction to the target:
-	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
 	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
 	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
+	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
+	// Deprecated: SHARED_SERVICE_ENDPOINT is deprecated. Use another supported routingMethod value, or update existing connections to use a supported routing method.
+	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
 	GetRoutingMethod() RoutingMethodEnum
 
 	// Indicates that sensitive attributes are provided via Secrets.
+	// Deprecated: This field is deprecated. Sensitive attributes should be provided using the corresponding Secret OCID
+	// attributes of the connection (for example, `passwordSecretId`) instead of plain-text attributes. This change follows
+	// the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
+	// When set to `true`, all sensitive information must be provided as OCI Vault secrets using the corresponding
+	// `*SecretId` attributes of the connection (for example, `passwordSecretId`). Plain-text sensitive attributes (for example, `password`) must not be used.
+	// This ensures that sensitive information remains stored and managed in the customer's OCI Vault rather than by the GoldenGate service.
+	// When set to false, sensitive information must be provided in the corresponding plain-text attributes (for example, `password`) rather than in secret OCID attributes.
+	// In this mode, the sensitive information is stored by the GoldenGate service. If `vaultId` and `keyId` are not specified,
+	// the GoldenGate service uses Oracle-managed encryption keys to encrypt the stored data.
+	// If `vaultId` and `keyId` are provided, the specified customer-managed key is used.
 	GetDoesUseSecretIds() *bool
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
@@ -199,6 +224,10 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		return mm, err
 	case "AMAZON_REDSHIFT":
 		mm := AmazonRedshiftConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AI_MODEL":
+		mm := AiModelConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AMAZON_S3":
@@ -440,30 +469,33 @@ type ConnectionLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ConnectionLifecycleStateEnum
 const (
-	ConnectionLifecycleStateCreating ConnectionLifecycleStateEnum = "CREATING"
-	ConnectionLifecycleStateUpdating ConnectionLifecycleStateEnum = "UPDATING"
-	ConnectionLifecycleStateActive   ConnectionLifecycleStateEnum = "ACTIVE"
-	ConnectionLifecycleStateDeleting ConnectionLifecycleStateEnum = "DELETING"
-	ConnectionLifecycleStateDeleted  ConnectionLifecycleStateEnum = "DELETED"
-	ConnectionLifecycleStateFailed   ConnectionLifecycleStateEnum = "FAILED"
+	ConnectionLifecycleStateCreating       ConnectionLifecycleStateEnum = "CREATING"
+	ConnectionLifecycleStateUpdating       ConnectionLifecycleStateEnum = "UPDATING"
+	ConnectionLifecycleStateActive         ConnectionLifecycleStateEnum = "ACTIVE"
+	ConnectionLifecycleStateDeleting       ConnectionLifecycleStateEnum = "DELETING"
+	ConnectionLifecycleStateDeleted        ConnectionLifecycleStateEnum = "DELETED"
+	ConnectionLifecycleStateFailed         ConnectionLifecycleStateEnum = "FAILED"
+	ConnectionLifecycleStateNeedsAttention ConnectionLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
 var mappingConnectionLifecycleStateEnum = map[string]ConnectionLifecycleStateEnum{
-	"CREATING": ConnectionLifecycleStateCreating,
-	"UPDATING": ConnectionLifecycleStateUpdating,
-	"ACTIVE":   ConnectionLifecycleStateActive,
-	"DELETING": ConnectionLifecycleStateDeleting,
-	"DELETED":  ConnectionLifecycleStateDeleted,
-	"FAILED":   ConnectionLifecycleStateFailed,
+	"CREATING":        ConnectionLifecycleStateCreating,
+	"UPDATING":        ConnectionLifecycleStateUpdating,
+	"ACTIVE":          ConnectionLifecycleStateActive,
+	"DELETING":        ConnectionLifecycleStateDeleting,
+	"DELETED":         ConnectionLifecycleStateDeleted,
+	"FAILED":          ConnectionLifecycleStateFailed,
+	"NEEDS_ATTENTION": ConnectionLifecycleStateNeedsAttention,
 }
 
 var mappingConnectionLifecycleStateEnumLowerCase = map[string]ConnectionLifecycleStateEnum{
-	"creating": ConnectionLifecycleStateCreating,
-	"updating": ConnectionLifecycleStateUpdating,
-	"active":   ConnectionLifecycleStateActive,
-	"deleting": ConnectionLifecycleStateDeleting,
-	"deleted":  ConnectionLifecycleStateDeleted,
-	"failed":   ConnectionLifecycleStateFailed,
+	"creating":        ConnectionLifecycleStateCreating,
+	"updating":        ConnectionLifecycleStateUpdating,
+	"active":          ConnectionLifecycleStateActive,
+	"deleting":        ConnectionLifecycleStateDeleting,
+	"deleted":         ConnectionLifecycleStateDeleted,
+	"failed":          ConnectionLifecycleStateFailed,
+	"needs_attention": ConnectionLifecycleStateNeedsAttention,
 }
 
 // GetConnectionLifecycleStateEnumValues Enumerates the set of values for ConnectionLifecycleStateEnum
@@ -484,6 +516,7 @@ func GetConnectionLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"NEEDS_ATTENTION",
 	}
 }
 

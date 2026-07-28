@@ -87,6 +87,9 @@ The following attributes are exported:
 * `license_model` - The Oracle license model that applies to the Exadata VM cluster on Exascale Infrastructure. The default is BRING_YOUR_OWN_LICENSE. 
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `listener_port` - The port number configured for the listener on the Exadata VM cluster on Exascale Infrastructure.
+* `multi_cloud_identity_connector_configs` - Details of the multi cloud identity connectors of the VM cluster.
+	* `cloud_provider` - Cloud provider
+	* `id` - The OCID of the identity connector
 * `node_config` - The configuration of each node in the Exadata VM cluster on Exascale Infrastructure.
 	* `enabled_cpu_count_per_node` - The number of ECPU to enable for each node.
 	* `memory_size_in_gbs_per_node` - The memory that you want to be allocated in GBs to each node. Memory is calculated based on 11 GB per VM core reserved.
@@ -117,8 +120,8 @@ The following attributes are exported:
 * `subscription_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `system_version` - Operating system version of the image.
+* `tde_key_store_type` - TDE keystore type
 * `time_created` - The date and time that the Exadata VM cluster on Exascale Infrastructure was created.
 * `time_zone` - The time zone to use for the Exadata VM cluster on Exascale Infrastructure. For details, see [Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm). 
 * `vip_ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual IP (VIP) addresses associated with the Exadata VM cluster on Exascale Infrastructure.  The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the Exadata Cloud Service instance to  enable failover. If one node fails, then the VIP is reassigned to another active node in the cluster. 
 * `zone_id` - The OCID of the zone with which the Exadata VM cluster on Exascale Infrastructure is associated. 
-

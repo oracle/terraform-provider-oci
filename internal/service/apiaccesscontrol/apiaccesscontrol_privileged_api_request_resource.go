@@ -31,6 +31,11 @@ func ApiaccesscontrolPrivilegedApiRequestResource() *schema.Resource {
 		DeleteContext: deleteApiaccesscontrolPrivilegedApiRequestWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
 			"privileged_operation_list": {
 				Type:     schema.TypeList,
 				Required: true,
@@ -71,12 +76,6 @@ func ApiaccesscontrolPrivilegedApiRequestResource() *schema.Resource {
 			},
 
 			// Optional
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
-			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -159,6 +158,10 @@ func ApiaccesscontrolPrivilegedApiRequestResource() *schema.Resource {
 						},
 						"approval_comment": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"approver_group_level": {
+							Type:     schema.TypeInt,
 							Computed: true,
 						},
 						"approver_id": {
@@ -688,6 +691,10 @@ func ApproverDetailToMap(obj oci_apiaccesscontrol.ApproverDetail) map[string]int
 
 	if obj.ApprovalComment != nil {
 		result["approval_comment"] = string(*obj.ApprovalComment)
+	}
+
+	if obj.ApproverGroupLevel != nil {
+		result["approver_group_level"] = int(*obj.ApproverGroupLevel)
 	}
 
 	if obj.ApproverId != nil {

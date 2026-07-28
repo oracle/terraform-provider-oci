@@ -36,3 +36,18 @@ variable "autoscale_limit_in_gbs" {
 variable "is_autoscale_enabled" {
   default = null
 }
+Support for Azure & GCP KMS Integration for ExaDB-XS -1
+# Set to "register" or "unregister" only after the ExaDB-XS cluster exists.
+# Leave unset during initial provisioning. Increment pkcs_trigger to run the
+# selected PKCS SPECIAL_UPDATE action again. Azure and GCP keystore setup is
+# performed outside Terraform; the service reports the active type through the
+# resource's tde_key_store_type attribute.
+variable "pkcs_operation" {
+  type    = string
+  default = null
+}
+
+variable "pkcs_trigger" {
+  type    = number
+  default = 1
+}

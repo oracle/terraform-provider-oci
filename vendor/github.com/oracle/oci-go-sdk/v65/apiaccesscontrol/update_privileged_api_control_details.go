@@ -35,11 +35,14 @@ type UpdatePrivilegedApiControlDetails struct {
 	// contains Resource details
 	Resources []string `mandatory:"false" json:"resources"`
 
-	// The OCID of the OCI Notification topic to publish messages related to this Delegation Control.
+	// The OCID of the OCI Notification topic to publish messages related to this Privileged Api Control.
 	NotificationTopicId *string `mandatory:"false" json:"notificationTopicId"`
 
 	// List of user IAM group ids who can approve an privilegedApi request associated with a target resource under the governance of this privilegedApi control.
 	ApproverGroupIdList []string `mandatory:"false" json:"approverGroupIdList"`
+
+	// List of Group containing the levels at which the users belonging to the group can authorize.
+	ApproverGroupLevelList []ApproverGroupLevel `mandatory:"false" json:"approverGroupLevelList"`
 
 	// List of privileged operator operations. If Privileged API Managment is enabled for a resource it will be validated whether the operation done by the operator is a part of privileged operation.
 	PrivilegedOperationList []PrivilegedApiDetails `mandatory:"false" json:"privilegedOperationList"`

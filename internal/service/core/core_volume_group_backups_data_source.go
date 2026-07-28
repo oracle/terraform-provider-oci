@@ -130,6 +130,24 @@ func (s *CoreVolumeGroupBackupsDataSourceCrud) SetData() error {
 			volumeGroupBackup["id"] = *r.Id
 		}
 
+		if r.IsIndefiniteRetentionEnabled != nil {
+			volumeGroupBackup["is_indefinite_retention_enabled"] = *r.IsIndefiniteRetentionEnabled
+		}
+
+		if r.IsPreventDeletionEnabled != nil {
+			volumeGroupBackup["is_prevent_deletion_enabled"] = *r.IsPreventDeletionEnabled
+		}
+
+		if r.IsRetentionLockEnabled != nil {
+			volumeGroupBackup["is_retention_lock_enabled"] = *r.IsRetentionLockEnabled
+		}
+
+		if r.RetentionPeriod != nil {
+			volumeGroupBackup["retention_period"] = []interface{}{RetentionDurationToMap(r.RetentionPeriod)}
+		} else {
+			volumeGroupBackup["retention_period"] = nil
+		}
+
 		if r.SizeInGBs != nil {
 			volumeGroupBackup["size_in_gbs"] = strconv.FormatInt(*r.SizeInGBs, 10)
 		}
@@ -152,6 +170,10 @@ func (s *CoreVolumeGroupBackupsDataSourceCrud) SetData() error {
 
 		if r.TimeRequestReceived != nil {
 			volumeGroupBackup["time_request_received"] = r.TimeRequestReceived.String()
+		}
+
+		if r.TimeRetentionExpiresAt != nil {
+			volumeGroupBackup["time_retention_expires_at"] = r.TimeRetentionExpiresAt.String()
 		}
 
 		volumeGroupBackup["type"] = r.Type

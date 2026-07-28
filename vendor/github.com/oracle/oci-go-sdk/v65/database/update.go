@@ -39,6 +39,15 @@ type Update struct {
 	// The possible actions performed by the update operation on the infrastructure components.
 	AvailableActions []UpdateAvailableActionsEnum `mandatory:"false" json:"availableActions,omitempty"`
 
+	// The previous update mode performed (only valid for OS Updates).
+	LastUpdateMode UpdateLastUpdateModeEnum `mandatory:"false" json:"lastUpdateMode,omitempty"`
+
+	// The possible update options available (only valid for OS Update).
+	AvailableUpdateModes []UpdateAvailableUpdateModesEnum `mandatory:"false" json:"availableUpdateModes,omitempty"`
+
+	// Oracle Linux version for the respective Exadata Image.
+	OracleLinuxVersion *string `mandatory:"false" json:"oracleLinuxVersion"`
+
 	// Descriptive text providing additional details about the lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -65,6 +74,15 @@ func (m Update) ValidateEnumValue() (bool, error) {
 	for _, val := range m.AvailableActions {
 		if _, ok := GetMappingUpdateAvailableActionsEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailableActions: %s. Supported values are: %s.", val, strings.Join(GetUpdateAvailableActionsEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := GetMappingUpdateLastUpdateModeEnum(string(m.LastUpdateMode)); !ok && m.LastUpdateMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LastUpdateMode: %s. Supported values are: %s.", m.LastUpdateMode, strings.Join(GetUpdateLastUpdateModeEnumStringValues(), ",")))
+	}
+	for _, val := range m.AvailableUpdateModes {
+		if _, ok := GetMappingUpdateAvailableUpdateModesEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailableUpdateModes: %s. Supported values are: %s.", val, strings.Join(GetUpdateAvailableUpdateModesEnumStringValues(), ",")))
 		}
 	}
 
@@ -174,6 +192,114 @@ func GetUpdateAvailableActionsEnumStringValues() []string {
 // GetMappingUpdateAvailableActionsEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingUpdateAvailableActionsEnum(val string) (UpdateAvailableActionsEnum, bool) {
 	enum, ok := mappingUpdateAvailableActionsEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// UpdateLastUpdateModeEnum Enum with underlying type: string
+type UpdateLastUpdateModeEnum string
+
+// Set of constants representing the allowable values for UpdateLastUpdateModeEnum
+const (
+	UpdateLastUpdateModeOnlineHighcvss   UpdateLastUpdateModeEnum = "ONLINE_HIGHCVSS"
+	UpdateLastUpdateModeOnlineAllcvss    UpdateLastUpdateModeEnum = "ONLINE_ALLCVSS"
+	UpdateLastUpdateModeOnlineAllUpdates UpdateLastUpdateModeEnum = "ONLINE_ALL_UPDATES"
+	UpdateLastUpdateModePendingUpdates   UpdateLastUpdateModeEnum = "PENDING_UPDATES"
+	UpdateLastUpdateModeFullUpdate       UpdateLastUpdateModeEnum = "FULL_UPDATE"
+)
+
+var mappingUpdateLastUpdateModeEnum = map[string]UpdateLastUpdateModeEnum{
+	"ONLINE_HIGHCVSS":    UpdateLastUpdateModeOnlineHighcvss,
+	"ONLINE_ALLCVSS":     UpdateLastUpdateModeOnlineAllcvss,
+	"ONLINE_ALL_UPDATES": UpdateLastUpdateModeOnlineAllUpdates,
+	"PENDING_UPDATES":    UpdateLastUpdateModePendingUpdates,
+	"FULL_UPDATE":        UpdateLastUpdateModeFullUpdate,
+}
+
+var mappingUpdateLastUpdateModeEnumLowerCase = map[string]UpdateLastUpdateModeEnum{
+	"online_highcvss":    UpdateLastUpdateModeOnlineHighcvss,
+	"online_allcvss":     UpdateLastUpdateModeOnlineAllcvss,
+	"online_all_updates": UpdateLastUpdateModeOnlineAllUpdates,
+	"pending_updates":    UpdateLastUpdateModePendingUpdates,
+	"full_update":        UpdateLastUpdateModeFullUpdate,
+}
+
+// GetUpdateLastUpdateModeEnumValues Enumerates the set of values for UpdateLastUpdateModeEnum
+func GetUpdateLastUpdateModeEnumValues() []UpdateLastUpdateModeEnum {
+	values := make([]UpdateLastUpdateModeEnum, 0)
+	for _, v := range mappingUpdateLastUpdateModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateLastUpdateModeEnumStringValues Enumerates the set of values in String for UpdateLastUpdateModeEnum
+func GetUpdateLastUpdateModeEnumStringValues() []string {
+	return []string{
+		"ONLINE_HIGHCVSS",
+		"ONLINE_ALLCVSS",
+		"ONLINE_ALL_UPDATES",
+		"PENDING_UPDATES",
+		"FULL_UPDATE",
+	}
+}
+
+// GetMappingUpdateLastUpdateModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateLastUpdateModeEnum(val string) (UpdateLastUpdateModeEnum, bool) {
+	enum, ok := mappingUpdateLastUpdateModeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// UpdateAvailableUpdateModesEnum Enum with underlying type: string
+type UpdateAvailableUpdateModesEnum string
+
+// Set of constants representing the allowable values for UpdateAvailableUpdateModesEnum
+const (
+	UpdateAvailableUpdateModesOnlineHighcvss   UpdateAvailableUpdateModesEnum = "ONLINE_HIGHCVSS"
+	UpdateAvailableUpdateModesOnlineAllcvss    UpdateAvailableUpdateModesEnum = "ONLINE_ALLCVSS"
+	UpdateAvailableUpdateModesOnlineAllUpdates UpdateAvailableUpdateModesEnum = "ONLINE_ALL_UPDATES"
+	UpdateAvailableUpdateModesPendingUpdates   UpdateAvailableUpdateModesEnum = "PENDING_UPDATES"
+	UpdateAvailableUpdateModesFullUpdate       UpdateAvailableUpdateModesEnum = "FULL_UPDATE"
+)
+
+var mappingUpdateAvailableUpdateModesEnum = map[string]UpdateAvailableUpdateModesEnum{
+	"ONLINE_HIGHCVSS":    UpdateAvailableUpdateModesOnlineHighcvss,
+	"ONLINE_ALLCVSS":     UpdateAvailableUpdateModesOnlineAllcvss,
+	"ONLINE_ALL_UPDATES": UpdateAvailableUpdateModesOnlineAllUpdates,
+	"PENDING_UPDATES":    UpdateAvailableUpdateModesPendingUpdates,
+	"FULL_UPDATE":        UpdateAvailableUpdateModesFullUpdate,
+}
+
+var mappingUpdateAvailableUpdateModesEnumLowerCase = map[string]UpdateAvailableUpdateModesEnum{
+	"online_highcvss":    UpdateAvailableUpdateModesOnlineHighcvss,
+	"online_allcvss":     UpdateAvailableUpdateModesOnlineAllcvss,
+	"online_all_updates": UpdateAvailableUpdateModesOnlineAllUpdates,
+	"pending_updates":    UpdateAvailableUpdateModesPendingUpdates,
+	"full_update":        UpdateAvailableUpdateModesFullUpdate,
+}
+
+// GetUpdateAvailableUpdateModesEnumValues Enumerates the set of values for UpdateAvailableUpdateModesEnum
+func GetUpdateAvailableUpdateModesEnumValues() []UpdateAvailableUpdateModesEnum {
+	values := make([]UpdateAvailableUpdateModesEnum, 0)
+	for _, v := range mappingUpdateAvailableUpdateModesEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateAvailableUpdateModesEnumStringValues Enumerates the set of values in String for UpdateAvailableUpdateModesEnum
+func GetUpdateAvailableUpdateModesEnumStringValues() []string {
+	return []string{
+		"ONLINE_HIGHCVSS",
+		"ONLINE_ALLCVSS",
+		"ONLINE_ALL_UPDATES",
+		"PENDING_UPDATES",
+		"FULL_UPDATE",
+	}
+}
+
+// GetMappingUpdateAvailableUpdateModesEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateAvailableUpdateModesEnum(val string) (UpdateAvailableUpdateModesEnum, bool) {
+	enum, ok := mappingUpdateAvailableUpdateModesEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

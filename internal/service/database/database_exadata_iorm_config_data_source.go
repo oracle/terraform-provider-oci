@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
@@ -19,15 +20,15 @@ func DatabaseExadataIormConfigDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseExadataIormConfigResource(), fieldMap, readSingularDatabaseExadataIormConfig)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseExadataIormConfigResource(), fieldMap, readSingularDatabaseExadataIormConfigWithContext)
 }
 
-func readSingularDatabaseExadataIormConfig(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseExadataIormConfigWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExadataIormConfigDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseExadataIormConfigDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseExadataIormConfigDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseExadataIormConfigDataSourceCrud) Get() error {
+func (s *DatabaseExadataIormConfigDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetExadataIormConfigRequest{}
 
 	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseExadataIormConfigDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetExadataIormConfig(context.Background(), request)
+	response, err := s.Client.GetExadataIormConfig(ctx, request)
 	if err != nil {
 		return err
 	}

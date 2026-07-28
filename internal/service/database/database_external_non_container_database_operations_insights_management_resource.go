@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -17,11 +18,11 @@ import (
 
 func DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseExternalNonContainerDatabaseOperationsInsightsManagement,
-		Update:   updateDatabaseExternalNonContainerDatabaseOperationsInsightsManagement,
-		Read:     readDatabaseExternalNonContainerDatabaseOperationsInsightsManagement,
-		Delete:   deleteDatabaseExternalNonContainerDatabaseOperationsInsightsManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseExternalNonContainerDatabaseOperationsInsightsManagementWithContext,
+		UpdateContext: updateDatabaseExternalNonContainerDatabaseOperationsInsightsManagementWithContext,
+		ReadContext:   readDatabaseExternalNonContainerDatabaseOperationsInsightsManagementWithContext,
+		DeleteContext: deleteDatabaseExternalNonContainerDatabaseOperationsInsightsManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"external_database_connector_id": {
@@ -47,30 +48,30 @@ func DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResource() 
 	}
 }
 
-func createDatabaseExternalNonContainerDatabaseOperationsInsightsManagement(d *schema.ResourceData, m interface{}) error {
+func createDatabaseExternalNonContainerDatabaseOperationsInsightsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.Res = &DatabaseExternalNonContainerDatabaseOperationsInsightsResponse{}
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func updateDatabaseExternalNonContainerDatabaseOperationsInsightsManagement(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseExternalNonContainerDatabaseOperationsInsightsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.Res = &DatabaseExternalNonContainerDatabaseOperationsInsightsResponse{}
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseExternalNonContainerDatabaseOperationsInsightsManagement(d *schema.ResourceData, m interface{}) error {
+func readDatabaseExternalNonContainerDatabaseOperationsInsightsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteDatabaseExternalNonContainerDatabaseOperationsInsightsManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseExternalNonContainerDatabaseOperationsInsightsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
@@ -78,7 +79,7 @@ func deleteDatabaseExternalNonContainerDatabaseOperationsInsightsManagement(d *s
 	sync.Res = &DatabaseExternalNonContainerDatabaseOperationsInsightsResponse{}
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseExternalNonContainerDatabaseOperationsInsightsResponse struct {
@@ -98,7 +99,7 @@ func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 	return tfresource.GenerateDataSourceHashID("DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResource-", DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResource(), s.D)
 }
 
-func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourceCrud) Create() error {
+func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperationsInsights, ok := s.D.GetOkExists("enable_operations_insights"); ok {
 		operation = enableOperationsInsights.(bool)
@@ -120,14 +121,14 @@ func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-		response, err := s.Client.EnableExternalNonContainerDatabaseOperationsInsights(context.Background(), request)
+		response, err := s.Client.EnableExternalNonContainerDatabaseOperationsInsights(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
 		if workId != nil {
-			_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+			_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 			if err != nil {
 				return err
 			}
@@ -146,14 +147,14 @@ func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DisableExternalNonContainerDatabaseOperationsInsights(context.Background(), request)
+	response, err := s.Client.DisableExternalNonContainerDatabaseOperationsInsights(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err := tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err := tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -162,7 +163,7 @@ func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 	return nil
 }
 
-func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourceCrud) Update() error {
+func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 
 	var operation bool
 	if enableOperationsInsights, ok := s.D.GetOkExists("enable_operations_insights"); ok {
@@ -185,14 +186,14 @@ func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-		response, err := s.Client.EnableExternalNonContainerDatabaseOperationsInsights(context.Background(), request)
+		response, err := s.Client.EnableExternalNonContainerDatabaseOperationsInsights(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
 		if workId != nil {
-			_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+			_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 			if err != nil {
 				return err
 			}
@@ -211,14 +212,14 @@ func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DisableExternalNonContainerDatabaseOperationsInsights(context.Background(), request)
+	response, err := s.Client.DisableExternalNonContainerDatabaseOperationsInsights(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -227,7 +228,7 @@ func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 	return nil
 }
 
-func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourceCrud) Delete() error {
+func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOpsi, ok := s.D.GetOkExists("enable_operations_insights"); ok {
 		operation = enableOpsi.(bool)
@@ -246,14 +247,14 @@ func (s *DatabaseExternalNonContainerDatabaseOperationsInsightsManagementResourc
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.DisableExternalNonContainerDatabaseOperationsInsights(context.Background(), request)
+	response, err := s.Client.DisableExternalNonContainerDatabaseOperationsInsights(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "externalNonContainerDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

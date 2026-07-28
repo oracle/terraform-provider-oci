@@ -25,7 +25,15 @@ resource "oci_core_virtual_circuit" "virtual_circuit_private" {
   display_name = var.virtual_circuit_display_name
   gateway_id   = oci_core_drg.drg_private.id
 
-  #provider_service_id = oci_core_provider_service.provider_service.id
+  # Required when creating provider VC
+  # provider_service_id       = oci_core_provider_service.provider_service.id
+  # provider_service_key_name = var.virtual_circuit_provider_service_key_name
+
+  # Required when creating OCI First MultiCloud VC
+  # provider_remote_region = var.virtual_circuit_provider_remote_region
+  # remote_account_id      = var.virtual_circuit_remote_account_id
+  # Replace remote_account_id with provider_service_key_name when creating provider first MultiCloud VC
+
   region = var.virtual_circuit_region
 }
 

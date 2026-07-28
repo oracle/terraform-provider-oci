@@ -276,8 +276,17 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 
 	drgTransportMode := utils.GetEnvSettingWithBlankDefault("drg_ocid_transport_mode")
 	drgTransportModeStr := fmt.Sprintf("variable \"drg_ocid_transport_mode\" { default = \"%s\" }\n", drgTransportMode)
+	providerServiceId := utils.GetEnvSettingWithBlankDefault("virtual_circuit_provider_service_ocid")
+	providerRemoteRegion := utils.GetEnvSettingWithBlankDefault("virtual_circuit_provider_remote_region")
+	remoteAccountId := utils.GetEnvSettingWithBlankDefault("virtual_circuit_remote_account_id")
+	virtualCircuitRegion := utils.GetEnvSettingWithDefault("virtual_circuit_region", "us-phoenix-1")
+	providerServiceIdVariableStr := fmt.Sprintf("variable \"virtual_circuit_provider_service_id\" { default = \"%s\" }\n", providerServiceId)
+	providerRemoteRegionVariableStr := fmt.Sprintf("variable \"virtual_circuit_provider_remote_region\" { default = \"%s\" }\n", providerRemoteRegion)
+	remoteAccountIdVariableStr := fmt.Sprintf("variable \"virtual_circuit_remote_account_id\" { default = \"%s\" }\n", remoteAccountId)
+	virtualCircuitRegionVariableStr := fmt.Sprintf("variable \"virtual_circuit_region\" { default = \"%s\" }\n", virtualCircuitRegion)
 
 	resourceName := "oci_core_virtual_circuit.test_virtual_circuit"
+	multicloudResourceName := "oci_core_virtual_circuit.test_multicloud_virtual_circuit"
 	datasourceName := "data.oci_core_virtual_circuits.test_virtual_circuits"
 	singularDatasourceName := "data.oci_core_virtual_circuit.test_virtual_circuit"
 
@@ -286,7 +295,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreVirtualCircuitResourceDependencies+VirtualCircuitPublicPropertyVariables+secretIdVariableStrCKN+secretIdVariableStrCAK+secretVersionStrCAK+secretVersionStrCKN+secretVersionStrCAKU+
 		acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Create, CoreVirtualCircuitPublicRequiredOnlyRepresentation), "core", "virtualCircuit", t)
 
-	acctest.ResourceTest(t, testAccCheckCoreVirtualCircuitDestroy, []resource.TestStep{
+	testSteps := []resource.TestStep{
 		// verify Create - PUBLIC Virtual Circuit
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependenciesCopyForVC + VirtualCircuitPublicPropertyVariables + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN + secretVersionStrCAKU +
@@ -723,7 +732,48 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 			},
 			ResourceName: resourceName,
 		},
-	})
+	}
+
+	if providerServiceId != "" && providerRemoteRegion != "" && remoteAccountId != "" {
+		testSteps = append(testSteps, resource.TestStep{
+			// verify Create - PRIVATE Virtual Circuit with a multicloud provider remote region
+			Config: config +
+				compartmentIdVariableStr +
+				providerServiceIdVariableStr +
+				providerRemoteRegionVariableStr +
+				remoteAccountIdVariableStr +
+				virtualCircuitRegionVariableStr +
+				CoreDrgRequiredOnlyResource + `
+data "oci_core_virtual_circuit_bandwidth_shapes" "test_multicloud_virtual_circuit_bandwidth_shapes" {
+	provider_service_id = var.virtual_circuit_provider_service_id
+}
+
+resource "oci_core_virtual_circuit" "test_multicloud_virtual_circuit" {
+	compartment_id = var.compartment_id
+	type           = "PRIVATE"
+
+	bandwidth_shape_name = data.oci_core_virtual_circuit_bandwidth_shapes.test_multicloud_virtual_circuit_bandwidth_shapes.virtual_circuit_bandwidth_shapes.0.name
+	customer_asn         = "10"
+	gateway_id           = oci_core_drg.test_drg.id
+	provider_remote_region = var.virtual_circuit_provider_remote_region
+	provider_service_id    = var.virtual_circuit_provider_service_id
+	region                 = var.virtual_circuit_region
+	remote_account_id      = var.virtual_circuit_remote_account_id
+}
+`,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(multicloudResourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(multicloudResourceName, "gateway_id"),
+				resource.TestCheckResourceAttr(multicloudResourceName, "provider_remote_region", providerRemoteRegion),
+				resource.TestCheckResourceAttr(multicloudResourceName, "provider_service_id", providerServiceId),
+				resource.TestCheckResourceAttr(multicloudResourceName, "region", virtualCircuitRegion),
+				resource.TestCheckResourceAttr(multicloudResourceName, "remote_account_id", remoteAccountId),
+				resource.TestCheckResourceAttr(multicloudResourceName, "type", "PRIVATE"),
+			),
+		})
+	}
+
+	acctest.ResourceTest(t, testAccCheckCoreVirtualCircuitDestroy, testSteps)
 }
 
 func testAccCheckCoreVirtualCircuitDestroy(s *terraform.State) error {

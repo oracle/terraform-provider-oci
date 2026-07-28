@@ -180,6 +180,12 @@ type ExadbVmCluster struct {
 	// The type of Exascale storage used for Exadata VM cluster. The default is SMART_STORAGE which supports Oracle Database 23ai and later
 	ShapeAttribute ExadbVmClusterShapeAttributeEnum `mandatory:"false" json:"shapeAttribute,omitempty"`
 
+	// Details of the multi cloud identity connectors of the VM cluster.
+	MultiCloudIdentityConnectorConfigs []IdentityConnectorDetails `mandatory:"false" json:"multiCloudIdentityConnectorConfigs"`
+
+	// TDE keystore type
+	TdeKeyStoreType ExadbVmClusterTdeKeyStoreTypeEnum `mandatory:"false" json:"tdeKeyStoreType,omitempty"`
+
 	IormConfigCache *ExadataIormConfig `mandatory:"false" json:"iormConfigCache"`
 }
 
@@ -204,6 +210,9 @@ func (m ExadbVmCluster) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingExadbVmClusterShapeAttributeEnum(string(m.ShapeAttribute)); !ok && m.ShapeAttribute != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ShapeAttribute: %s. Supported values are: %s.", m.ShapeAttribute, strings.Join(GetExadbVmClusterShapeAttributeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingExadbVmClusterTdeKeyStoreTypeEnum(string(m.TdeKeyStoreType)); !ok && m.TdeKeyStoreType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TdeKeyStoreType: %s. Supported values are: %s.", m.TdeKeyStoreType, strings.Join(GetExadbVmClusterTdeKeyStoreTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -396,5 +405,55 @@ func GetExadbVmClusterShapeAttributeEnumStringValues() []string {
 // GetMappingExadbVmClusterShapeAttributeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingExadbVmClusterShapeAttributeEnum(val string) (ExadbVmClusterShapeAttributeEnum, bool) {
 	enum, ok := mappingExadbVmClusterShapeAttributeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ExadbVmClusterTdeKeyStoreTypeEnum Enum with underlying type: string
+type ExadbVmClusterTdeKeyStoreTypeEnum string
+
+// Set of constants representing the allowable values for ExadbVmClusterTdeKeyStoreTypeEnum
+const (
+	ExadbVmClusterTdeKeyStoreTypeAzure ExadbVmClusterTdeKeyStoreTypeEnum = "AZURE"
+	ExadbVmClusterTdeKeyStoreTypeOci   ExadbVmClusterTdeKeyStoreTypeEnum = "OCI"
+	ExadbVmClusterTdeKeyStoreTypeGcp   ExadbVmClusterTdeKeyStoreTypeEnum = "GCP"
+	ExadbVmClusterTdeKeyStoreTypeAws   ExadbVmClusterTdeKeyStoreTypeEnum = "AWS"
+)
+
+var mappingExadbVmClusterTdeKeyStoreTypeEnum = map[string]ExadbVmClusterTdeKeyStoreTypeEnum{
+	"AZURE": ExadbVmClusterTdeKeyStoreTypeAzure,
+	"OCI":   ExadbVmClusterTdeKeyStoreTypeOci,
+	"GCP":   ExadbVmClusterTdeKeyStoreTypeGcp,
+	"AWS":   ExadbVmClusterTdeKeyStoreTypeAws,
+}
+
+var mappingExadbVmClusterTdeKeyStoreTypeEnumLowerCase = map[string]ExadbVmClusterTdeKeyStoreTypeEnum{
+	"azure": ExadbVmClusterTdeKeyStoreTypeAzure,
+	"oci":   ExadbVmClusterTdeKeyStoreTypeOci,
+	"gcp":   ExadbVmClusterTdeKeyStoreTypeGcp,
+	"aws":   ExadbVmClusterTdeKeyStoreTypeAws,
+}
+
+// GetExadbVmClusterTdeKeyStoreTypeEnumValues Enumerates the set of values for ExadbVmClusterTdeKeyStoreTypeEnum
+func GetExadbVmClusterTdeKeyStoreTypeEnumValues() []ExadbVmClusterTdeKeyStoreTypeEnum {
+	values := make([]ExadbVmClusterTdeKeyStoreTypeEnum, 0)
+	for _, v := range mappingExadbVmClusterTdeKeyStoreTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetExadbVmClusterTdeKeyStoreTypeEnumStringValues Enumerates the set of values in String for ExadbVmClusterTdeKeyStoreTypeEnum
+func GetExadbVmClusterTdeKeyStoreTypeEnumStringValues() []string {
+	return []string{
+		"AZURE",
+		"OCI",
+		"GCP",
+		"AWS",
+	}
+}
+
+// GetMappingExadbVmClusterTdeKeyStoreTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingExadbVmClusterTdeKeyStoreTypeEnum(val string) (ExadbVmClusterTdeKeyStoreTypeEnum, bool) {
+	enum, ok := mappingExadbVmClusterTdeKeyStoreTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

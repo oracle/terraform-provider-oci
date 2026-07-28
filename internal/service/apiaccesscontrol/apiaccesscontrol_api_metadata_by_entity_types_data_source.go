@@ -125,6 +125,10 @@ func ApiaccesscontrolApiMetadataByEntityTypesDataSource() *schema.Resource {
 											},
 										},
 									},
+									"compartment_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"defined_tags": {
 										Type:     schema.TypeMap,
 										Computed: true,
@@ -253,6 +257,10 @@ func ApiMetadataByEntityTypeSummaryToMap(obj oci_apiaccesscontrol.ApiMetadataByE
 		apiMetadatas = append(apiMetadatas, ApiMetadataSummaryToMap(item))
 	}
 	result["api_metadatas"] = apiMetadatas
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
 
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)

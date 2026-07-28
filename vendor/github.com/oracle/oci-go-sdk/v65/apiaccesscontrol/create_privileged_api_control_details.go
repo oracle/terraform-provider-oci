@@ -26,7 +26,7 @@ type CreatePrivilegedApiControlDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to create the PrivilegedApiControl in.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the OCI Notification topic to publish messages related to this Delegation Control.
+	// The OCID of the OCI Notification topic to publish messages related to this Privileged Api Control.
 	NotificationTopicId *string `mandatory:"true" json:"notificationTopicId"`
 
 	// List of user IAM group ids who can approve an privilegedApi request associated with a resource governed by this operator control.
@@ -38,14 +38,17 @@ type CreatePrivilegedApiControlDetails struct {
 	// resourceType for which the PrivilegedApiControl is applicable
 	ResourceType *string `mandatory:"true" json:"resourceType"`
 
-	// contains Resource details
-	Resources []string `mandatory:"true" json:"resources"`
-
 	// Name of the privilegedApi control It has to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Description of the privilegedApi control.
 	Description *string `mandatory:"false" json:"description"`
+
+	// List of Group containing the levels at which the users belonging to the group can authorize.
+	ApproverGroupLevelList []ApproverGroupLevel `mandatory:"false" json:"approverGroupLevelList"`
+
+	// contains Resource details
+	Resources []string `mandatory:"false" json:"resources"`
 
 	// Number of approvers required to approve an privilegedApi request.
 	NumberOfApprovers *int `mandatory:"false" json:"numberOfApprovers"`

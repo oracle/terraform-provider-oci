@@ -94,6 +94,16 @@ func CoreVolumeBackupPolicyResource() *schema.Resource {
 							Optional: true,
 							Default:  -1,
 						},
+						"is_prevent_deletion_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_retention_lock_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"month": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -105,6 +115,30 @@ func CoreVolumeBackupPolicyResource() *schema.Resource {
 						"offset_type": {
 							Type:     schema.TypeString,
 							Optional: true,
+						},
+						"retention_period": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"retention_time_amount": {
+										Type:     schema.TypeInt,
+										Required: true,
+									},
+									"retention_time_unit": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
 						},
 						"time_zone": {
 							Type:     schema.TypeString,
@@ -347,6 +381,21 @@ func (s *CoreVolumeBackupPolicyResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *CoreVolumeBackupPolicyResourceCrud) mapToRetentionDuration(fieldKeyFormat string) (oci_core.RetentionDuration, error) {
+	result := oci_core.RetentionDuration{}
+
+	if retentionTimeAmount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "retention_time_amount")); ok {
+		tmp := retentionTimeAmount.(int)
+		result.RetentionTimeAmount = &tmp
+	}
+
+	if retentionTimeUnit, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "retention_time_unit")); ok {
+		result.RetentionTimeUnit = oci_core.RetentionDurationRetentionTimeUnitEnum(retentionTimeUnit.(string))
+	}
+
+	return result, nil
+}
+
 func (s *CoreVolumeBackupPolicyResourceCrud) mapToVolumeBackupSchedule(fieldKeyFormat string) (oci_core.VolumeBackupSchedule, error) {
 	result := oci_core.VolumeBackupSchedule{}
 
@@ -372,6 +421,16 @@ func (s *CoreVolumeBackupPolicyResourceCrud) mapToVolumeBackupSchedule(fieldKeyF
 		}
 	}
 
+	if isPreventDeletionEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_prevent_deletion_enabled")); ok {
+		tmp := isPreventDeletionEnabled.(bool)
+		result.IsPreventDeletionEnabled = &tmp
+	}
+
+	if isRetentionLockEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_retention_lock_enabled")); ok {
+		tmp := isRetentionLockEnabled.(bool)
+		result.IsRetentionLockEnabled = &tmp
+	}
+
 	if month, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "month")); ok {
 		result.Month = oci_core.VolumeBackupScheduleMonthEnum(month.(string))
 	}
@@ -387,6 +446,17 @@ func (s *CoreVolumeBackupPolicyResourceCrud) mapToVolumeBackupSchedule(fieldKeyF
 
 	if period, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "period")); ok {
 		result.Period = oci_core.VolumeBackupSchedulePeriodEnum(period.(string))
+	}
+
+	if retentionPeriod, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "retention_period")); ok {
+		if tmpList := retentionPeriod.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "retention_period"), 0)
+			tmp, err := s.mapToRetentionDuration(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert retention_period, encountered error: %v", err)
+			}
+			result.RetentionPeriod = &tmp
+		}
 	}
 
 	if retentionSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "retention_seconds")); ok {
@@ -420,6 +490,14 @@ func VolumeBackupScheduleToMap(obj oci_core.VolumeBackupSchedule) map[string]int
 		result["hour_of_day"] = -1
 	}
 
+	if obj.IsPreventDeletionEnabled != nil {
+		result["is_prevent_deletion_enabled"] = bool(*obj.IsPreventDeletionEnabled)
+	}
+
+	if obj.IsRetentionLockEnabled != nil {
+		result["is_retention_lock_enabled"] = bool(*obj.IsRetentionLockEnabled)
+	}
+
 	result["month"] = string(obj.Month)
 
 	if obj.OffsetSeconds != nil {
@@ -429,6 +507,10 @@ func VolumeBackupScheduleToMap(obj oci_core.VolumeBackupSchedule) map[string]int
 	result["offset_type"] = string(obj.OffsetType)
 
 	result["period"] = string(obj.Period)
+
+	if obj.RetentionPeriod != nil {
+		result["retention_period"] = []interface{}{RetentionDurationToMap(obj.RetentionPeriod)}
+	}
 
 	if obj.RetentionSeconds != nil {
 		result["retention_seconds"] = int(*obj.RetentionSeconds)
@@ -454,6 +536,12 @@ func schedulesHashCodeForSets(v interface{}) int {
 	if hourOfDay, ok := m["hour_of_day"]; ok {
 		buf.WriteString(fmt.Sprintf("%v-", hourOfDay))
 	}
+	if isPreventDeletionEnabled, ok := m["is_prevent_deletion_enabled"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", isPreventDeletionEnabled))
+	}
+	if isRetentionLockEnabled, ok := m["is_retention_lock_enabled"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", isRetentionLockEnabled))
+	}
 	if month, ok := m["month"]; ok && month != "" {
 		buf.WriteString(fmt.Sprintf("%v-", month))
 	}
@@ -465,6 +553,18 @@ func schedulesHashCodeForSets(v interface{}) int {
 	}
 	if period, ok := m["period"]; ok && period != "" {
 		buf.WriteString(fmt.Sprintf("%v-", period))
+	}
+	if retentionPeriod, ok := m["retention_period"]; ok {
+		if tmpList := retentionPeriod.([]interface{}); len(tmpList) > 0 {
+			buf.WriteString("retention_period-")
+			retentionPeriodRaw := tmpList[0].(map[string]interface{})
+			if retentionTimeAmount, ok := retentionPeriodRaw["retention_time_amount"]; ok {
+				buf.WriteString(fmt.Sprintf("%v-", retentionTimeAmount))
+			}
+			if retentionTimeUnit, ok := retentionPeriodRaw["retention_time_unit"]; ok && retentionTimeUnit != "" {
+				buf.WriteString(fmt.Sprintf("%v-", retentionTimeUnit))
+			}
+		}
 	}
 	if retentionSeconds, ok := m["retention_seconds"]; ok {
 		buf.WriteString(fmt.Sprintf("%v-", retentionSeconds))

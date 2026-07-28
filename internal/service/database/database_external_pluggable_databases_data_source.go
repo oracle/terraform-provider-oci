@@ -9,13 +9,15 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
 func DatabaseExternalPluggableDatabasesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseExternalPluggableDatabases,
+		ReadContext: readDatabaseExternalPluggableDatabasesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -43,12 +45,12 @@ func DatabaseExternalPluggableDatabasesDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseExternalPluggableDatabases(d *schema.ResourceData, m interface{}) error {
+func readDatabaseExternalPluggableDatabasesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalPluggableDatabasesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseExternalPluggableDatabasesDataSourceCrud struct {
@@ -61,7 +63,7 @@ func (s *DatabaseExternalPluggableDatabasesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseExternalPluggableDatabasesDataSourceCrud) Get() error {
+func (s *DatabaseExternalPluggableDatabasesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListExternalPluggableDatabasesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -85,7 +87,7 @@ func (s *DatabaseExternalPluggableDatabasesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListExternalPluggableDatabases(context.Background(), request)
+	response, err := s.Client.ListExternalPluggableDatabases(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -94,7 +96,7 @@ func (s *DatabaseExternalPluggableDatabasesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListExternalPluggableDatabases(context.Background(), request)
+		listResponse, err := s.Client.ListExternalPluggableDatabases(ctx, request)
 		if err != nil {
 			return err
 		}

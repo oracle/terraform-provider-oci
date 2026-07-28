@@ -18,6 +18,13 @@ resource "oci_database_exadb_vm_cluster" "test_exadb_vm_cluster" {
   backup_subnet_id             = oci_core_subnet.exadbxs_backup_subnet.id
   shape_attribute              = local.shape_attribute
 
+  # PKCS management is opt-in. After the cluster is created (or imported), set
+  # pkcs_operation to "register" or "unregister" and increment pkcs_trigger
+  # for each subsequent SPECIAL_UPDATE request. The keystore type is returned
+  # by the service as tde_key_store_type; it is not configured in this resource.
+  register_pkcs_trigger   = var.pkcs_operation == "register" ? var.pkcs_trigger : null
+  unregister_pkcs_trigger = var.pkcs_operation == "unregister" ? var.pkcs_trigger : null
+
   node_config {
     enabled_ecpu_count_per_node              = "8"
     total_ecpu_count_per_node                = "16"
@@ -48,4 +55,9 @@ data "oci_database_exadb_vm_clusters" "test_exadb_vm_clusters" {
 data "oci_database_exadb_vm_cluster" "test_exadb_vm_cluster" {
   #Required
   exadb_vm_cluster_id = oci_database_exadb_vm_cluster.test_exadb_vm_cluster.id
+}
+
+# The service returns any configured multi-cloud identity connectors.
+output "exadb_vm_cluster_multi_cloud_identity_connector_configs" {
+  value = oci_database_exadb_vm_cluster.test_exadb_vm_cluster.multi_cloud_identity_connector_configs
 }

@@ -9,13 +9,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
 func DatabaseExadataInfrastructuresDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseExadataInfrastructures,
+		ReadContext: readDatabaseExadataInfrastructuresWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -39,12 +40,12 @@ func DatabaseExadataInfrastructuresDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseExadataInfrastructures(d *schema.ResourceData, m interface{}) error {
+func readDatabaseExadataInfrastructuresWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExadataInfrastructuresDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseExadataInfrastructuresDataSourceCrud struct {
@@ -57,7 +58,7 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseExadataInfrastructuresDataSourceCrud) Get() error {
+func (s *DatabaseExadataInfrastructuresDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListExadataInfrastructuresRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -78,7 +79,7 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListExadataInfrastructures(context.Background(), request)
+	response, err := s.Client.ListExadataInfrastructures(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -87,7 +88,7 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListExadataInfrastructures(context.Background(), request)
+		listResponse, err := s.Client.ListExadataInfrastructures(ctx, request)
 		if err != nil {
 			return err
 		}

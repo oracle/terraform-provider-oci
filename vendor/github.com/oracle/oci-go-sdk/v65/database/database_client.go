@@ -1216,6 +1216,68 @@ func (client DatabaseClient) changeBackupDestinationCompartment(ctx context.Cont
 	return response, err
 }
 
+// ChangeBaseccVmClusterCompartment Moves a BaseDB-C@C VM cluster and its dependent resources to another compartment. Applies to Base Database Service on Cloud@Customer instances only.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeBaseccVmClusterCompartment.go.html to see an example of how to use ChangeBaseccVmClusterCompartment API.
+func (client DatabaseClient) ChangeBaseccVmClusterCompartment(ctx context.Context, request ChangeBaseccVmClusterCompartmentRequest) (response ChangeBaseccVmClusterCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeBaseccVmClusterCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeBaseccVmClusterCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeBaseccVmClusterCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeBaseccVmClusterCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeBaseccVmClusterCompartmentResponse")
+	}
+	return
+}
+
+// changeBaseccVmClusterCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) changeBaseccVmClusterCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/baseccVmClusters/{baseccVmClusterId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeBaseccVmClusterCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "ChangeBaseccVmClusterCompartment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/BaseccVmCluster/ChangeBaseccVmClusterCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeBaseccVmClusterCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeCloudAutonomousVmClusterCompartment Moves an Autonomous Exadata VM cluster in the Oracle cloud and its dependent resources to another compartment. For Exadata Cloud@Customer systems, see ChangeAutonomousVmClusterCompartment.
 //
 // # See also
@@ -4205,6 +4267,68 @@ func (client DatabaseClient) createBackupDestination(ctx context.Context, reques
 	return response, err
 }
 
+// CreateBaseccVmCluster Creates a BaseDB-C@C VM cluster.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateBaseccVmCluster.go.html to see an example of how to use CreateBaseccVmCluster API.
+func (client DatabaseClient) CreateBaseccVmCluster(ctx context.Context, request CreateBaseccVmClusterRequest) (response CreateBaseccVmClusterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createBaseccVmCluster, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateBaseccVmClusterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateBaseccVmClusterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateBaseccVmClusterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateBaseccVmClusterResponse")
+	}
+	return
+}
+
+// createBaseccVmCluster implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) createBaseccVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/baseccVmClusters", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateBaseccVmClusterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "CreateBaseccVmCluster")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/BaseccVmCluster/CreateBaseccVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "CreateBaseccVmCluster", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateCloudAutonomousVmCluster Creates an Autonomous Exadata VM cluster in the Oracle cloud. For Exadata Cloud@Customer systems, see CreateAutonomousVmCluster.
 //
 // # See also
@@ -6606,6 +6730,63 @@ func (client DatabaseClient) deleteBackupDestination(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/BackupDestination/DeleteBackupDestination"
 		err = common.PostProcessServiceError(err, "Database", "DeleteBackupDestination", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteBaseccVmCluster Deletes the specified BaseDB-C@C VM cluster. Applies to Base Database Service on Cloud@Customer instances only.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DeleteBaseccVmCluster.go.html to see an example of how to use DeleteBaseccVmCluster API.
+func (client DatabaseClient) DeleteBaseccVmCluster(ctx context.Context, request DeleteBaseccVmClusterRequest) (response DeleteBaseccVmClusterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteBaseccVmCluster, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteBaseccVmClusterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteBaseccVmClusterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteBaseccVmClusterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteBaseccVmClusterResponse")
+	}
+	return
+}
+
+// deleteBaseccVmCluster implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) deleteBaseccVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/baseccVmClusters/{baseccVmClusterId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteBaseccVmClusterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "DeleteBaseccVmCluster")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/BaseccVmCluster/DeleteBaseccVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "DeleteBaseccVmCluster", apiReferenceLink)
 		return response, err
 	}
 
@@ -11642,6 +11823,177 @@ func (client DatabaseClient) getBackupDestination(ctx context.Context, request c
 	return response, err
 }
 
+// GetBaseccVmCluster Gets information about the BaseDB-C@C VM cluster. Applies to Base Database Service on Cloud@Customer instances only.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetBaseccVmCluster.go.html to see an example of how to use GetBaseccVmCluster API.
+func (client DatabaseClient) GetBaseccVmCluster(ctx context.Context, request GetBaseccVmClusterRequest) (response GetBaseccVmClusterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getBaseccVmCluster, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetBaseccVmClusterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetBaseccVmClusterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetBaseccVmClusterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetBaseccVmClusterResponse")
+	}
+	return
+}
+
+// getBaseccVmCluster implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getBaseccVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/baseccVmClusters/{baseccVmClusterId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetBaseccVmClusterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "GetBaseccVmCluster")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/BaseccVmCluster/GetBaseccVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "GetBaseccVmCluster", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetBaseccVmClusterUpdate Gets information about a specified maintenance update package for a BaseDB-C@C VM cluster. Applies to Base Database Service on Cloud@Customer instances only.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetBaseccVmClusterUpdate.go.html to see an example of how to use GetBaseccVmClusterUpdate API.
+func (client DatabaseClient) GetBaseccVmClusterUpdate(ctx context.Context, request GetBaseccVmClusterUpdateRequest) (response GetBaseccVmClusterUpdateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getBaseccVmClusterUpdate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetBaseccVmClusterUpdateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetBaseccVmClusterUpdateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetBaseccVmClusterUpdateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetBaseccVmClusterUpdateResponse")
+	}
+	return
+}
+
+// getBaseccVmClusterUpdate implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getBaseccVmClusterUpdate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/baseccVmClusters/{baseccVmClusterId}/updates/{updateId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetBaseccVmClusterUpdateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "GetBaseccVmClusterUpdate")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/BaseccVmClusterUpdate/GetBaseccVmClusterUpdate"
+		err = common.PostProcessServiceError(err, "Database", "GetBaseccVmClusterUpdate", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetBaseccVmClusterUpdateHistoryEntry Gets the maintenance update history details for the specified update history entry. Applies to Base Database Service on Cloud@Customer instances only.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetBaseccVmClusterUpdateHistoryEntry.go.html to see an example of how to use GetBaseccVmClusterUpdateHistoryEntry API.
+func (client DatabaseClient) GetBaseccVmClusterUpdateHistoryEntry(ctx context.Context, request GetBaseccVmClusterUpdateHistoryEntryRequest) (response GetBaseccVmClusterUpdateHistoryEntryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getBaseccVmClusterUpdateHistoryEntry, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetBaseccVmClusterUpdateHistoryEntryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetBaseccVmClusterUpdateHistoryEntryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetBaseccVmClusterUpdateHistoryEntryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetBaseccVmClusterUpdateHistoryEntryResponse")
+	}
+	return
+}
+
+// getBaseccVmClusterUpdateHistoryEntry implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getBaseccVmClusterUpdateHistoryEntry(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/baseccVmClusters/{baseccVmClusterId}/updateHistoryEntries/{updateHistoryEntryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetBaseccVmClusterUpdateHistoryEntryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "GetBaseccVmClusterUpdateHistoryEntry")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/BaseccVmClusterUpdateHistoryEntry/GetBaseccVmClusterUpdateHistoryEntry"
+		err = common.PostProcessServiceError(err, "Database", "GetBaseccVmClusterUpdateHistoryEntry", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetCloudAutonomousVmCluster Gets information about the specified Autonomous Exadata VM cluster in the Oracle cloud. For Exadata Cloud@Custustomer systems, see GetAutonomousVmCluster.
 //
 // # See also
@@ -16578,6 +16930,177 @@ func (client DatabaseClient) listBackups(ctx context.Context, request common.OCI
 	return response, err
 }
 
+// ListBaseccVmClusterUpdateHistoryEntries Gets the history of the maintenance update actions performed on the specified BaseDB-C@C VM cluster. Applies to Base Database Service on Cloud@Customer instances only.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListBaseccVmClusterUpdateHistoryEntries.go.html to see an example of how to use ListBaseccVmClusterUpdateHistoryEntries API.
+func (client DatabaseClient) ListBaseccVmClusterUpdateHistoryEntries(ctx context.Context, request ListBaseccVmClusterUpdateHistoryEntriesRequest) (response ListBaseccVmClusterUpdateHistoryEntriesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listBaseccVmClusterUpdateHistoryEntries, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListBaseccVmClusterUpdateHistoryEntriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListBaseccVmClusterUpdateHistoryEntriesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListBaseccVmClusterUpdateHistoryEntriesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListBaseccVmClusterUpdateHistoryEntriesResponse")
+	}
+	return
+}
+
+// listBaseccVmClusterUpdateHistoryEntries implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listBaseccVmClusterUpdateHistoryEntries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/baseccVmClusters/{baseccVmClusterId}/updateHistoryEntries", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListBaseccVmClusterUpdateHistoryEntriesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "ListBaseccVmClusterUpdateHistoryEntries")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/BaseccVmClusterUpdateHistoryEntry/ListBaseccVmClusterUpdateHistoryEntries"
+		err = common.PostProcessServiceError(err, "Database", "ListBaseccVmClusterUpdateHistoryEntries", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListBaseccVmClusterUpdates Lists the maintenance updates that can be applied to the specified BaseDB-C@C VM cluster. Applies to Base Database Service on Cloud@Customer instances only.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListBaseccVmClusterUpdates.go.html to see an example of how to use ListBaseccVmClusterUpdates API.
+func (client DatabaseClient) ListBaseccVmClusterUpdates(ctx context.Context, request ListBaseccVmClusterUpdatesRequest) (response ListBaseccVmClusterUpdatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listBaseccVmClusterUpdates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListBaseccVmClusterUpdatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListBaseccVmClusterUpdatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListBaseccVmClusterUpdatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListBaseccVmClusterUpdatesResponse")
+	}
+	return
+}
+
+// listBaseccVmClusterUpdates implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listBaseccVmClusterUpdates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/baseccVmClusters/{baseccVmClusterId}/updates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListBaseccVmClusterUpdatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "ListBaseccVmClusterUpdates")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/BaseccVmClusterUpdate/ListBaseccVmClusterUpdates"
+		err = common.PostProcessServiceError(err, "Database", "ListBaseccVmClusterUpdates", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListBaseccVmClusters Lists the BaseDB-C@C VM clusters in the specified compartment. Applies to Base Database Service on Cloud@Customer instances only.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListBaseccVmClusters.go.html to see an example of how to use ListBaseccVmClusters API.
+func (client DatabaseClient) ListBaseccVmClusters(ctx context.Context, request ListBaseccVmClustersRequest) (response ListBaseccVmClustersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listBaseccVmClusters, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListBaseccVmClustersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListBaseccVmClustersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListBaseccVmClustersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListBaseccVmClustersResponse")
+	}
+	return
+}
+
+// listBaseccVmClusters implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listBaseccVmClusters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/baseccVmClusters", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListBaseccVmClustersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "ListBaseccVmClusters")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/BaseccVmCluster/ListBaseccVmClusters"
+		err = common.PostProcessServiceError(err, "Database", "ListBaseccVmClusters", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListCloudAutonomousVmClusterAcdResourceUsage Gets the list of resource usage details for all the Cloud Autonomous Container Database
 // in the specified Cloud Autonomous Exadata VM cluster.
 //
@@ -21342,6 +21865,68 @@ func (client DatabaseClient) registerCloudVmClusterPkcs(ctx context.Context, req
 	return response, err
 }
 
+// RegisterExadbVmClusterPkcs Install the PKCS11 driver for given keystore type
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RegisterExadbVmClusterPkcs.go.html to see an example of how to use RegisterExadbVmClusterPkcs API.
+func (client DatabaseClient) RegisterExadbVmClusterPkcs(ctx context.Context, request RegisterExadbVmClusterPkcsRequest) (response RegisterExadbVmClusterPkcsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.registerExadbVmClusterPkcs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RegisterExadbVmClusterPkcsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RegisterExadbVmClusterPkcsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RegisterExadbVmClusterPkcsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RegisterExadbVmClusterPkcsResponse")
+	}
+	return
+}
+
+// registerExadbVmClusterPkcs implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) registerExadbVmClusterPkcs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadbVmClusters/{exadbVmClusterId}/actions/registerPkcs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RegisterExadbVmClusterPkcsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "RegisterExadbVmClusterPkcs")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadbVmCluster/RegisterExadbVmClusterPkcs"
+		err = common.PostProcessServiceError(err, "Database", "RegisterExadbVmClusterPkcs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ReinstateAutonomousContainerDatabaseDataguard Reinstates a disabled standby Autonomous Container Database (ACD), identified by the autonomousContainerDatabaseId parameter to an active standby ACD. For more information, see
 // Reinstate the Disabled Standby in an Autonomous Data Guard Configuration (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-B5C6A90D-72E3-4F32-988D-8AECC0A2D947).
 //
@@ -24439,6 +25024,68 @@ func (client DatabaseClient) unregisterCloudVmClusterPkcs(ctx context.Context, r
 	return response, err
 }
 
+// UnregisterExadbVmClusterPkcs Uninstall the PKCS11 driver for given keystore type
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UnregisterExadbVmClusterPkcs.go.html to see an example of how to use UnregisterExadbVmClusterPkcs API.
+func (client DatabaseClient) UnregisterExadbVmClusterPkcs(ctx context.Context, request UnregisterExadbVmClusterPkcsRequest) (response UnregisterExadbVmClusterPkcsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.unregisterExadbVmClusterPkcs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UnregisterExadbVmClusterPkcsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UnregisterExadbVmClusterPkcsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UnregisterExadbVmClusterPkcsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UnregisterExadbVmClusterPkcsResponse")
+	}
+	return
+}
+
+// unregisterExadbVmClusterPkcs implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) unregisterExadbVmClusterPkcs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadbVmClusters/{exadbVmClusterId}/actions/unregisterPkcs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UnregisterExadbVmClusterPkcsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "UnregisterExadbVmClusterPkcs")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadbVmCluster/UnregisterExadbVmClusterPkcs"
+		err = common.PostProcessServiceError(err, "Database", "UnregisterExadbVmClusterPkcs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateAdvancedClusterFileSystem Updates the advanced cluster file system resource.
 //
 // # See also
@@ -25118,6 +25765,63 @@ func (client DatabaseClient) updateBackupDestination(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/BackupDestination/UpdateBackupDestination"
 		err = common.PostProcessServiceError(err, "Database", "UpdateBackupDestination", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateBaseccVmCluster Updates the specified BaseDB-C@C VM cluster. Applies to Base Database Service on Cloud@Customer instances only.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateBaseccVmCluster.go.html to see an example of how to use UpdateBaseccVmCluster API.
+func (client DatabaseClient) UpdateBaseccVmCluster(ctx context.Context, request UpdateBaseccVmClusterRequest) (response UpdateBaseccVmClusterResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateBaseccVmCluster, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateBaseccVmClusterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateBaseccVmClusterResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateBaseccVmClusterResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateBaseccVmClusterResponse")
+	}
+	return
+}
+
+// updateBaseccVmCluster implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) updateBaseccVmCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/baseccVmClusters/{baseccVmClusterId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateBaseccVmClusterResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "UpdateBaseccVmCluster")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/BaseccVmCluster/UpdateBaseccVmCluster"
+		err = common.PostProcessServiceError(err, "Database", "UpdateBaseccVmCluster", apiReferenceLink)
 		return response, err
 	}
 
