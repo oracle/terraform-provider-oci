@@ -1,3 +1,16 @@
+## 8.25.0 (July 28, 2026)
+
+### Added
+- Support for Azure & GCP KMS Integration for ExaDB-XS
+- context propagation for subset of resources in database service.
+- Support for OCI-AWS interconnect virtual circuit fields
+- Support for OCI GoldenGate Release 11 connections
+- Support for Tasks for ORM : Tracking Ticket API Access Control for ADB-D and ADB-C@C
+- Support Retention Lock for Block Backups
+
+### Bug Fix
+- Database Tools - MCP Server, DB API Gateway Config, IAM Auth (Data Plane)
+
 ## 8.24.0 (July 22, 2026)
 
 ### Added
