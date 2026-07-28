@@ -39,6 +39,15 @@ type VmClusterUpdate struct {
 	// The update action performed most recently using this maintenance update.
 	LastAction VmClusterUpdateLastActionEnum `mandatory:"false" json:"lastAction,omitempty"`
 
+	// The update mode performed most recently using this maintenance update (only valid for OS Update).
+	LastUpdateMode VmClusterUpdateLastUpdateModeEnum `mandatory:"false" json:"lastUpdateMode,omitempty"`
+
+	// The possible update options that can be performed using this maintenance update (only valid for OS Update).
+	AvailableUpdateModes []VmClusterUpdateAvailableUpdateModesEnum `mandatory:"false" json:"availableUpdateModes,omitempty"`
+
+	// Oracle Linux version for the respective Exadata Image.
+	OracleLinuxVersion *string `mandatory:"false" json:"oracleLinuxVersion"`
+
 	// The possible actions that can be performed using this maintenance update.
 	AvailableActions []VmClusterUpdateAvailableActionsEnum `mandatory:"false" json:"availableActions,omitempty"`
 
@@ -65,6 +74,15 @@ func (m VmClusterUpdate) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingVmClusterUpdateLastActionEnum(string(m.LastAction)); !ok && m.LastAction != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LastAction: %s. Supported values are: %s.", m.LastAction, strings.Join(GetVmClusterUpdateLastActionEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingVmClusterUpdateLastUpdateModeEnum(string(m.LastUpdateMode)); !ok && m.LastUpdateMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LastUpdateMode: %s. Supported values are: %s.", m.LastUpdateMode, strings.Join(GetVmClusterUpdateLastUpdateModeEnumStringValues(), ",")))
+	}
+	for _, val := range m.AvailableUpdateModes {
+		if _, ok := GetMappingVmClusterUpdateAvailableUpdateModesEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailableUpdateModes: %s. Supported values are: %s.", val, strings.Join(GetVmClusterUpdateAvailableUpdateModesEnumStringValues(), ",")))
+		}
+	}
+
 	for _, val := range m.AvailableActions {
 		if _, ok := GetMappingVmClusterUpdateAvailableActionsEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailableActions: %s. Supported values are: %s.", val, strings.Join(GetVmClusterUpdateAvailableActionsEnumStringValues(), ",")))
@@ -123,6 +141,114 @@ func GetVmClusterUpdateLastActionEnumStringValues() []string {
 // GetMappingVmClusterUpdateLastActionEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingVmClusterUpdateLastActionEnum(val string) (VmClusterUpdateLastActionEnum, bool) {
 	enum, ok := mappingVmClusterUpdateLastActionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// VmClusterUpdateLastUpdateModeEnum Enum with underlying type: string
+type VmClusterUpdateLastUpdateModeEnum string
+
+// Set of constants representing the allowable values for VmClusterUpdateLastUpdateModeEnum
+const (
+	VmClusterUpdateLastUpdateModeOnlineHighcvss   VmClusterUpdateLastUpdateModeEnum = "ONLINE_HIGHCVSS"
+	VmClusterUpdateLastUpdateModeOnlineAllcvss    VmClusterUpdateLastUpdateModeEnum = "ONLINE_ALLCVSS"
+	VmClusterUpdateLastUpdateModeOnlineAllUpdates VmClusterUpdateLastUpdateModeEnum = "ONLINE_ALL_UPDATES"
+	VmClusterUpdateLastUpdateModePendingUpdates   VmClusterUpdateLastUpdateModeEnum = "PENDING_UPDATES"
+	VmClusterUpdateLastUpdateModeFullUpdate       VmClusterUpdateLastUpdateModeEnum = "FULL_UPDATE"
+)
+
+var mappingVmClusterUpdateLastUpdateModeEnum = map[string]VmClusterUpdateLastUpdateModeEnum{
+	"ONLINE_HIGHCVSS":    VmClusterUpdateLastUpdateModeOnlineHighcvss,
+	"ONLINE_ALLCVSS":     VmClusterUpdateLastUpdateModeOnlineAllcvss,
+	"ONLINE_ALL_UPDATES": VmClusterUpdateLastUpdateModeOnlineAllUpdates,
+	"PENDING_UPDATES":    VmClusterUpdateLastUpdateModePendingUpdates,
+	"FULL_UPDATE":        VmClusterUpdateLastUpdateModeFullUpdate,
+}
+
+var mappingVmClusterUpdateLastUpdateModeEnumLowerCase = map[string]VmClusterUpdateLastUpdateModeEnum{
+	"online_highcvss":    VmClusterUpdateLastUpdateModeOnlineHighcvss,
+	"online_allcvss":     VmClusterUpdateLastUpdateModeOnlineAllcvss,
+	"online_all_updates": VmClusterUpdateLastUpdateModeOnlineAllUpdates,
+	"pending_updates":    VmClusterUpdateLastUpdateModePendingUpdates,
+	"full_update":        VmClusterUpdateLastUpdateModeFullUpdate,
+}
+
+// GetVmClusterUpdateLastUpdateModeEnumValues Enumerates the set of values for VmClusterUpdateLastUpdateModeEnum
+func GetVmClusterUpdateLastUpdateModeEnumValues() []VmClusterUpdateLastUpdateModeEnum {
+	values := make([]VmClusterUpdateLastUpdateModeEnum, 0)
+	for _, v := range mappingVmClusterUpdateLastUpdateModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetVmClusterUpdateLastUpdateModeEnumStringValues Enumerates the set of values in String for VmClusterUpdateLastUpdateModeEnum
+func GetVmClusterUpdateLastUpdateModeEnumStringValues() []string {
+	return []string{
+		"ONLINE_HIGHCVSS",
+		"ONLINE_ALLCVSS",
+		"ONLINE_ALL_UPDATES",
+		"PENDING_UPDATES",
+		"FULL_UPDATE",
+	}
+}
+
+// GetMappingVmClusterUpdateLastUpdateModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingVmClusterUpdateLastUpdateModeEnum(val string) (VmClusterUpdateLastUpdateModeEnum, bool) {
+	enum, ok := mappingVmClusterUpdateLastUpdateModeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// VmClusterUpdateAvailableUpdateModesEnum Enum with underlying type: string
+type VmClusterUpdateAvailableUpdateModesEnum string
+
+// Set of constants representing the allowable values for VmClusterUpdateAvailableUpdateModesEnum
+const (
+	VmClusterUpdateAvailableUpdateModesOnlineHighcvss   VmClusterUpdateAvailableUpdateModesEnum = "ONLINE_HIGHCVSS"
+	VmClusterUpdateAvailableUpdateModesOnlineAllcvss    VmClusterUpdateAvailableUpdateModesEnum = "ONLINE_ALLCVSS"
+	VmClusterUpdateAvailableUpdateModesOnlineAllUpdates VmClusterUpdateAvailableUpdateModesEnum = "ONLINE_ALL_UPDATES"
+	VmClusterUpdateAvailableUpdateModesPendingUpdates   VmClusterUpdateAvailableUpdateModesEnum = "PENDING_UPDATES"
+	VmClusterUpdateAvailableUpdateModesFullUpdate       VmClusterUpdateAvailableUpdateModesEnum = "FULL_UPDATE"
+)
+
+var mappingVmClusterUpdateAvailableUpdateModesEnum = map[string]VmClusterUpdateAvailableUpdateModesEnum{
+	"ONLINE_HIGHCVSS":    VmClusterUpdateAvailableUpdateModesOnlineHighcvss,
+	"ONLINE_ALLCVSS":     VmClusterUpdateAvailableUpdateModesOnlineAllcvss,
+	"ONLINE_ALL_UPDATES": VmClusterUpdateAvailableUpdateModesOnlineAllUpdates,
+	"PENDING_UPDATES":    VmClusterUpdateAvailableUpdateModesPendingUpdates,
+	"FULL_UPDATE":        VmClusterUpdateAvailableUpdateModesFullUpdate,
+}
+
+var mappingVmClusterUpdateAvailableUpdateModesEnumLowerCase = map[string]VmClusterUpdateAvailableUpdateModesEnum{
+	"online_highcvss":    VmClusterUpdateAvailableUpdateModesOnlineHighcvss,
+	"online_allcvss":     VmClusterUpdateAvailableUpdateModesOnlineAllcvss,
+	"online_all_updates": VmClusterUpdateAvailableUpdateModesOnlineAllUpdates,
+	"pending_updates":    VmClusterUpdateAvailableUpdateModesPendingUpdates,
+	"full_update":        VmClusterUpdateAvailableUpdateModesFullUpdate,
+}
+
+// GetVmClusterUpdateAvailableUpdateModesEnumValues Enumerates the set of values for VmClusterUpdateAvailableUpdateModesEnum
+func GetVmClusterUpdateAvailableUpdateModesEnumValues() []VmClusterUpdateAvailableUpdateModesEnum {
+	values := make([]VmClusterUpdateAvailableUpdateModesEnum, 0)
+	for _, v := range mappingVmClusterUpdateAvailableUpdateModesEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetVmClusterUpdateAvailableUpdateModesEnumStringValues Enumerates the set of values in String for VmClusterUpdateAvailableUpdateModesEnum
+func GetVmClusterUpdateAvailableUpdateModesEnumStringValues() []string {
+	return []string{
+		"ONLINE_HIGHCVSS",
+		"ONLINE_ALLCVSS",
+		"ONLINE_ALL_UPDATES",
+		"PENDING_UPDATES",
+		"FULL_UPDATE",
+	}
+}
+
+// GetMappingVmClusterUpdateAvailableUpdateModesEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingVmClusterUpdateAvailableUpdateModesEnum(val string) (VmClusterUpdateAvailableUpdateModesEnum, bool) {
+	enum, ok := mappingVmClusterUpdateAvailableUpdateModesEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

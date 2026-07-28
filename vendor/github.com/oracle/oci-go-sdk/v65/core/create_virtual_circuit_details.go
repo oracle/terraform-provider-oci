@@ -116,6 +116,13 @@ type CreateVirtualCircuitDetails struct {
 	// The layer 3 IP MTU to use with this virtual circuit.
 	IpMtu VirtualCircuitIpMtuEnum `mandatory:"false" json:"ipMtu,omitempty"`
 
+	// The OCI's FastConnect MultiCloud Provider/Partner remote region name associated with the OCI region.
+	// To get the list of associated provider remote region use the ListProviderRemoteRegions operation
+	ProviderRemoteRegion *string `mandatory:"false" json:"providerRemoteRegion"`
+
+	// Customer's account on Provider/Partner cloud (AWS, GCP or any other)
+	RemoteAccountId *string `mandatory:"false" json:"remoteAccountId"`
+
 	// The traffic mode to be set with this Virtual Circuit. This controls whether the traffic is to be drained
 	// for the associated Virtual Circuit or not.
 	TrafficMode CreateVirtualCircuitDetailsTrafficModeEnum `mandatory:"false" json:"trafficMode,omitempty"`

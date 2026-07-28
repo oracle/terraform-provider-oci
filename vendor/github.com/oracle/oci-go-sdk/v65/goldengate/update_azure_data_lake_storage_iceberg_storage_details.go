@@ -30,7 +30,9 @@ type UpdateAzureDataLakeStorageIcebergStorageDetails struct {
 
 	// Azure storage account key. This property is required when 'authenticationType' is set to 'SHARED_KEY'.
 	// e.g.: pa3WbhVATzj56xD4DH1VjOUhApRGEGHvOo58eQJVWIzX+j8j4CUVFcTjpIqDSRaSa1Wo2LbWY5at+AStEgLOIQ==
-	// Deprecated: This field is deprecated and replaced by "accountKeySecretId". This field will be removed after February 15 2026.
+	// Deprecated: This field is deprecated and replaced by "accountKeySecretId".
+	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
 	AccountKey *string `mandatory:"false" json:"accountKey"`
 
 	// The Azure Blob Storage endpoint where Iceberg data is stored.
