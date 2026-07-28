@@ -67,13 +67,24 @@ type OracleConnection struct {
 	// Locks associated with this resource.
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
-	// Refers to the customer's vault OCID.
-	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
-	// to manage secrets contained within this vault.
+	// References the OCI Vault that contains the customer-managed encryption key identified by `keyId`.
+	// Deprecated: This field is deprecated for GoldenGate connections. Sensitive attributes should be provided using the
+	// corresponding Secret OCID attributes of the connection (for example, `passwordSecretId`) instead of plain-text
+	// attributes encrypted with `vaultId` and `keyId`. This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
+	// This field is applicable only when `doesUseSecretIds` is set to `false`.
+	// If `vaultId` is provided, `keyId` must also be provided.
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
-	// Refers to the customer's master key OCID.
-	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
+	// References the OCI Vault key in the OCI Vault identified by `vaultId`.
+	// Deprecated: This field is deprecated for GoldenGate connections. Sensitive attributes should be provided using the
+	// corresponding Secret OCID attributes of the connection (for example, `passwordSecretId`) instead of plain-text
+	// attributes encrypted with `vaultId` and `keyId`. This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
+	// The GoldenGate service uses this key to encrypt sensitive information (for example, `password`) that is provided in plain-text connection attributes through the API.
+	// This field is applicable only when `doesUseSecretIds` is set to `false`. If both `vaultId` and `keyId` are provided,
+	// the GoldenGate service uses the specified customer-managed key to encrypt the sensitive data.
+	// If neither `vaultId` nor `keyId` is provided, the GoldenGate service uses Oracle-managed encryption keys.
 	KeyId *string `mandatory:"false" json:"keyId"`
 
 	// List of ingress IP addresses from where the GoldenGate deployment connects to this connection's privateIp.
@@ -87,6 +98,17 @@ type OracleConnection struct {
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// Indicates that sensitive attributes are provided via Secrets.
+	// Deprecated: This field is deprecated. Sensitive attributes should be provided using the corresponding Secret OCID
+	// attributes of the connection (for example, `passwordSecretId`) instead of plain-text attributes. This change follows
+	// the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
+	// When set to `true`, all sensitive information must be provided as OCI Vault secrets using the corresponding
+	// `*SecretId` attributes of the connection (for example, `passwordSecretId`). Plain-text sensitive attributes (for example, `password`) must not be used.
+	// This ensures that sensitive information remains stored and managed in the customer's OCI Vault rather than by the GoldenGate service.
+	// When set to false, sensitive information must be provided in the corresponding plain-text attributes (for example, `password`) rather than in secret OCID attributes.
+	// In this mode, the sensitive information is stored by the GoldenGate service. If `vaultId` and `keyId` are not specified,
+	// the GoldenGate service uses Oracle-managed encryption keys to encrypt the stored data.
+	// If `vaultId` and `keyId` are provided, the specified customer-managed key is used.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
@@ -138,16 +160,19 @@ type OracleConnection struct {
 	// It is recommended to configure RAC with FQDN-based SCAN listeners.
 	// The default is DIRECT, except when databaseId is provided and the discovered database relies on the SCAN listener.
 	// In this case, the default is REDIRECT.
-	// Deprecated: Defaulting to the REDIRECT session mode will be removed after March 1, 2027.
+	// Deprecated: Defaulting to the REDIRECT session mode will be removed after April 21, 2027.
 	SessionMode OracleConnectionSessionModeEnum `mandatory:"false" json:"sessionMode,omitempty"`
 
 	// Possible lifecycle states for connection.
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Controls the network traffic direction to the target:
-	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
 	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
 	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
+	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
+	// Deprecated: SHARED_SERVICE_ENDPOINT is deprecated. Use another supported routingMethod value, or update existing connections to use a supported routing method.
+	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
 	RoutingMethod RoutingMethodEnum `mandatory:"false" json:"routingMethod,omitempty"`
 }
 
@@ -315,9 +340,12 @@ const (
 	OracleConnectionTechnologyTypeOciAutonomousDatabase                 OracleConnectionTechnologyTypeEnum = "OCI_AUTONOMOUS_DATABASE"
 	OracleConnectionTechnologyTypeOracleDatabase                        OracleConnectionTechnologyTypeEnum = "ORACLE_DATABASE"
 	OracleConnectionTechnologyTypeOracleExadata                         OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA"
+	OracleConnectionTechnologyTypeOracleExadataExascale                 OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_EXASCALE"
 	OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure          OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_DATABASE_AT_AZURE"
+	OracleConnectionTechnologyTypeOracleExadataExascaleAtAzure          OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_EXASCALE_AT_AZURE"
 	OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAzure       OracleConnectionTechnologyTypeEnum = "ORACLE_AUTONOMOUS_DATABASE_AT_AZURE"
 	OracleConnectionTechnologyTypeOracleExadataDatabaseAtGoogleCloud    OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_DATABASE_AT_GOOGLE_CLOUD"
+	OracleConnectionTechnologyTypeOracleExadataExascaleAtGoogleCloud    OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_EXASCALE_AT_GOOGLE_CLOUD"
 	OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtGoogleCloud OracleConnectionTechnologyTypeEnum = "ORACLE_AUTONOMOUS_DATABASE_AT_GOOGLE_CLOUD"
 	OracleConnectionTechnologyTypeOracleExadataDatabaseAtAws            OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_DATABASE_AT_AWS"
 	OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAws         OracleConnectionTechnologyTypeEnum = "ORACLE_AUTONOMOUS_DATABASE_AT_AWS"
@@ -328,9 +356,12 @@ var mappingOracleConnectionTechnologyTypeEnum = map[string]OracleConnectionTechn
 	"OCI_AUTONOMOUS_DATABASE":                    OracleConnectionTechnologyTypeOciAutonomousDatabase,
 	"ORACLE_DATABASE":                            OracleConnectionTechnologyTypeOracleDatabase,
 	"ORACLE_EXADATA":                             OracleConnectionTechnologyTypeOracleExadata,
+	"ORACLE_EXADATA_EXASCALE":                    OracleConnectionTechnologyTypeOracleExadataExascale,
 	"ORACLE_EXADATA_DATABASE_AT_AZURE":           OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure,
+	"ORACLE_EXADATA_EXASCALE_AT_AZURE":           OracleConnectionTechnologyTypeOracleExadataExascaleAtAzure,
 	"ORACLE_AUTONOMOUS_DATABASE_AT_AZURE":        OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAzure,
 	"ORACLE_EXADATA_DATABASE_AT_GOOGLE_CLOUD":    OracleConnectionTechnologyTypeOracleExadataDatabaseAtGoogleCloud,
+	"ORACLE_EXADATA_EXASCALE_AT_GOOGLE_CLOUD":    OracleConnectionTechnologyTypeOracleExadataExascaleAtGoogleCloud,
 	"ORACLE_AUTONOMOUS_DATABASE_AT_GOOGLE_CLOUD": OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtGoogleCloud,
 	"ORACLE_EXADATA_DATABASE_AT_AWS":             OracleConnectionTechnologyTypeOracleExadataDatabaseAtAws,
 	"ORACLE_AUTONOMOUS_DATABASE_AT_AWS":          OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAws,
@@ -341,9 +372,12 @@ var mappingOracleConnectionTechnologyTypeEnumLowerCase = map[string]OracleConnec
 	"oci_autonomous_database":                    OracleConnectionTechnologyTypeOciAutonomousDatabase,
 	"oracle_database":                            OracleConnectionTechnologyTypeOracleDatabase,
 	"oracle_exadata":                             OracleConnectionTechnologyTypeOracleExadata,
+	"oracle_exadata_exascale":                    OracleConnectionTechnologyTypeOracleExadataExascale,
 	"oracle_exadata_database_at_azure":           OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure,
+	"oracle_exadata_exascale_at_azure":           OracleConnectionTechnologyTypeOracleExadataExascaleAtAzure,
 	"oracle_autonomous_database_at_azure":        OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAzure,
 	"oracle_exadata_database_at_google_cloud":    OracleConnectionTechnologyTypeOracleExadataDatabaseAtGoogleCloud,
+	"oracle_exadata_exascale_at_google_cloud":    OracleConnectionTechnologyTypeOracleExadataExascaleAtGoogleCloud,
 	"oracle_autonomous_database_at_google_cloud": OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtGoogleCloud,
 	"oracle_exadata_database_at_aws":             OracleConnectionTechnologyTypeOracleExadataDatabaseAtAws,
 	"oracle_autonomous_database_at_aws":          OracleConnectionTechnologyTypeOracleAutonomousDatabaseAtAws,
@@ -365,9 +399,12 @@ func GetOracleConnectionTechnologyTypeEnumStringValues() []string {
 		"OCI_AUTONOMOUS_DATABASE",
 		"ORACLE_DATABASE",
 		"ORACLE_EXADATA",
+		"ORACLE_EXADATA_EXASCALE",
 		"ORACLE_EXADATA_DATABASE_AT_AZURE",
+		"ORACLE_EXADATA_EXASCALE_AT_AZURE",
 		"ORACLE_AUTONOMOUS_DATABASE_AT_AZURE",
 		"ORACLE_EXADATA_DATABASE_AT_GOOGLE_CLOUD",
+		"ORACLE_EXADATA_EXASCALE_AT_GOOGLE_CLOUD",
 		"ORACLE_AUTONOMOUS_DATABASE_AT_GOOGLE_CLOUD",
 		"ORACLE_EXADATA_DATABASE_AT_AWS",
 		"ORACLE_AUTONOMOUS_DATABASE_AT_AWS",

@@ -53,6 +53,13 @@ func ApiaccesscontrolApiMetadatasDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"attributes": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"defined_tags": {
 										Type:     schema.TypeMap,
 										Computed: true,

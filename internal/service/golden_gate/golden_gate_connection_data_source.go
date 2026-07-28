@@ -68,6 +68,114 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.GetId())
 	switch v := (s.Res.Connection).(type) {
+	case oci_golden_gate.AiModelConnection:
+		s.D.Set("connection_type", "AI_MODEL")
+
+		if v.AuthDetails != nil {
+			authDetailsArray := []interface{}{}
+			if authDetailsMap := AiModelAuthDetailsToMap(&v.AuthDetails); authDetailsMap != nil {
+				authDetailsArray = append(authDetailsArray, authDetailsMap)
+			}
+			s.D.Set("auth_details", authDetailsArray)
+		} else {
+			s.D.Set("auth_details", nil)
+		}
+
+		if v.MaxInputChars != nil {
+			s.D.Set("max_input_chars", *v.MaxInputChars)
+		}
+
+		if v.ModelKey != nil {
+			s.D.Set("model_key", *v.ModelKey)
+		}
+
+		s.D.Set("provider_type", v.ProviderType)
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.ClusterPlacementGroupId != nil {
+			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		if v.DoesUseSecretIds != nil {
+			s.D.Set("does_use_secret_ids", *v.DoesUseSecretIds)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
+
+		if v.SecurityAttributes != nil {
+			s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(v.SecurityAttributes))
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SubscriptionId != nil {
+			s.D.Set("subscription_id", *v.SubscriptionId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
 	case oci_golden_gate.AmazonKinesisConnection:
 		s.D.Set("connection_type", "AMAZON_KINESIS")
 
@@ -486,8 +594,6 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
-
-		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
@@ -2773,8 +2879,6 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
 
-		s.D.Set("technology_type", v.TechnologyType)
-
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
 		}
@@ -2895,8 +2999,6 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
 
-		s.D.Set("technology_type", v.TechnologyType)
-
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
 		}
@@ -3013,8 +3115,6 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
 
-		s.D.Set("technology_type", v.TechnologyType)
-
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
 		}
@@ -3082,6 +3182,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.Username != nil {
 			s.D.Set("username", *v.Username)
 		}
+
+		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.ClusterPlacementGroupId != nil {
 			s.D.Set("cluster_placement_group_id", *v.ClusterPlacementGroupId)
@@ -3154,8 +3256,6 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
-
-		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
@@ -3279,8 +3379,6 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
 
-		s.D.Set("technology_type", v.TechnologyType)
-
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())
 		}
@@ -3369,7 +3467,7 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
 		}
-		s.D.Set("nsg_ids", nsgIds)
+		s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
@@ -3390,8 +3488,6 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
-
-		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())

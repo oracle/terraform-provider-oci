@@ -13802,6 +13802,71 @@ func (client VirtualNetworkClient) listPrivateIps(ctx context.Context, request c
 	return response, err
 }
 
+// ListProviderRemoteRegions The operation lists available OCI's FastConnect MultiCloud Provider/Partner remote region names associated with an OCI region.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListProviderRemoteRegions.go.html to see an example of how to use ListProviderRemoteRegions API.
+// A default retry strategy applies to this operation ListProviderRemoteRegions()
+func (client VirtualNetworkClient) ListProviderRemoteRegions(ctx context.Context, request ListProviderRemoteRegionsRequest) (response ListProviderRemoteRegionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listProviderRemoteRegions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListProviderRemoteRegionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListProviderRemoteRegionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListProviderRemoteRegionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListProviderRemoteRegionsResponse")
+	}
+	return
+}
+
+// listProviderRemoteRegions implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listProviderRemoteRegions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fastConnectProviderServices/{providerServiceId}/providerRemoteRegions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListProviderRemoteRegionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "virtualNetwork", "ListProviderRemoteRegions")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ProviderRemoteRegionName/ListProviderRemoteRegions"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListProviderRemoteRegions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListPublicIpPools Lists the public IP pools in the specified compartment.
 // You can filter the list using query parameters.
 //

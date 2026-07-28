@@ -9,13 +9,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
 func DatabaseDbSystemsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseDbSystems,
+		ReadContext: readDatabaseDbSystemsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"availability_domain": {
@@ -47,12 +48,12 @@ func DatabaseDbSystemsDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseDbSystems(d *schema.ResourceData, m interface{}) error {
+func readDatabaseDbSystemsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbSystemsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseDbSystemsDataSourceCrud struct {
@@ -65,7 +66,7 @@ func (s *DatabaseDbSystemsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseDbSystemsDataSourceCrud) Get() error {
+func (s *DatabaseDbSystemsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListDbSystemsRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -94,7 +95,7 @@ func (s *DatabaseDbSystemsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListDbSystems(context.Background(), request)
+	response, err := s.Client.ListDbSystems(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *DatabaseDbSystemsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDbSystems(context.Background(), request)
+		listResponse, err := s.Client.ListDbSystems(ctx, request)
 		if err != nil {
 			return err
 		}

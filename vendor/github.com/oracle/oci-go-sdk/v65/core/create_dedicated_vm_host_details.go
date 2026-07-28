@@ -67,6 +67,9 @@ type CreateDedicatedVmHostDetails struct {
 
 	// Specifies if the Dedicated Virtual Machine Host (DVMH) is restricted to running only Confidential VMs. If `true`, only Confidential VMs can be launched. If `false`, Confidential VMs cannot be launched.
 	IsMemoryEncryptionEnabled *bool `mandatory:"false" json:"isMemoryEncryptionEnabled"`
+
+	// Specifies if the Dedicated Virtual Machine Host (DVMH) is restricted to running only Burstable VMs. If `true`, only Burstable VMs can be launched. If `false`, Burstable VMs cannot be launched.
+	IsBurstable *bool `mandatory:"false" json:"isBurstable"`
 }
 
 func (m CreateDedicatedVmHostDetails) String() string {
@@ -95,6 +98,7 @@ func (m *CreateDedicatedVmHostDetails) UnmarshalJSON(data []byte) (e error) {
 		PlacementConstraintDetails placementconstraintdetails        `json:"placementConstraintDetails"`
 		CapacityConfig             *string                           `json:"capacityConfig"`
 		IsMemoryEncryptionEnabled  *bool                             `json:"isMemoryEncryptionEnabled"`
+		IsBurstable                *bool                             `json:"isBurstable"`
 		AvailabilityDomain         *string                           `json:"availabilityDomain"`
 		CompartmentId              *string                           `json:"compartmentId"`
 		DedicatedVmHostShape       *string                           `json:"dedicatedVmHostShape"`
@@ -126,6 +130,8 @@ func (m *CreateDedicatedVmHostDetails) UnmarshalJSON(data []byte) (e error) {
 	m.CapacityConfig = model.CapacityConfig
 
 	m.IsMemoryEncryptionEnabled = model.IsMemoryEncryptionEnabled
+
+	m.IsBurstable = model.IsBurstable
 
 	m.AvailabilityDomain = model.AvailabilityDomain
 

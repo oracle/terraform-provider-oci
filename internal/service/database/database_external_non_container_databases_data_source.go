@@ -9,13 +9,15 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
 func DatabaseExternalNonContainerDatabasesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseExternalNonContainerDatabases,
+		ReadContext: readDatabaseExternalNonContainerDatabasesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -39,12 +41,12 @@ func DatabaseExternalNonContainerDatabasesDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseExternalNonContainerDatabases(d *schema.ResourceData, m interface{}) error {
+func readDatabaseExternalNonContainerDatabasesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalNonContainerDatabasesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseExternalNonContainerDatabasesDataSourceCrud struct {
@@ -57,7 +59,7 @@ func (s *DatabaseExternalNonContainerDatabasesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseExternalNonContainerDatabasesDataSourceCrud) Get() error {
+func (s *DatabaseExternalNonContainerDatabasesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListExternalNonContainerDatabasesRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -76,7 +78,7 @@ func (s *DatabaseExternalNonContainerDatabasesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListExternalNonContainerDatabases(context.Background(), request)
+	response, err := s.Client.ListExternalNonContainerDatabases(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -85,7 +87,7 @@ func (s *DatabaseExternalNonContainerDatabasesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListExternalNonContainerDatabases(context.Background(), request)
+		listResponse, err := s.Client.ListExternalNonContainerDatabases(ctx, request)
 		if err != nil {
 			return err
 		}

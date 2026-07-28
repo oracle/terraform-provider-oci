@@ -26,6 +26,9 @@ type SupportedCapabilities struct {
 
 	// Whether the DVMH shape could support confidential VMs or the VM instance shape could be confidential.
 	IsMemoryEncryptionSupported *bool `mandatory:"true" json:"isMemoryEncryptionSupported"`
+
+	// Specifies if the Dedicated Virtual Machine Host (DVMH) is to running only Burstable VMs. If `true`, only Burstable VMs can be launched. If `false`, Burstable VMs cannot be launched.
+	IsBurstableSupported *bool `mandatory:"false" json:"isBurstableSupported"`
 }
 
 func (m SupportedCapabilities) String() string {

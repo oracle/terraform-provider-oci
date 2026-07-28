@@ -34,13 +34,24 @@ type UpdateMongoDbConnectionDetails struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Refers to the customer's vault OCID.
-	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
-	// to manage secrets contained within this vault.
+	// References the OCI Vault that contains the customer-managed encryption key identified by `keyId`.
+	// Deprecated: This field is deprecated for GoldenGate connections. Sensitive attributes should be provided using the
+	// corresponding Secret OCID attributes of the connection (for example, `passwordSecretId`) instead of plain-text
+	// attributes encrypted with `vaultId` and `keyId`. This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
+	// This field is applicable only when `doesUseSecretIds` is set to `false`.
+	// If `vaultId` is provided, `keyId` must also be provided.
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
-	// Refers to the customer's master key OCID.
-	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
+	// References the OCI Vault key in the OCI Vault identified by `vaultId`.
+	// Deprecated: This field is deprecated for GoldenGate connections. Sensitive attributes should be provided using the
+	// corresponding Secret OCID attributes of the connection (for example, `passwordSecretId`) instead of plain-text
+	// attributes encrypted with `vaultId` and `keyId`. This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
+	// The GoldenGate service uses this key to encrypt sensitive information (for example, `password`) that is provided in plain-text connection attributes through the API.
+	// This field is applicable only when `doesUseSecretIds` is set to `false`. If both `vaultId` and `keyId` are provided,
+	// the GoldenGate service uses the specified customer-managed key to encrypt the sensitive data.
+	// If neither `vaultId` nor `keyId` is provided, the GoldenGate service uses Oracle-managed encryption keys.
 	KeyId *string `mandatory:"false" json:"keyId"`
 
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
@@ -50,6 +61,17 @@ type UpdateMongoDbConnectionDetails struct {
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// Indicates that sensitive attributes are provided via Secrets.
+	// Deprecated: This field is deprecated. Sensitive attributes should be provided using the corresponding Secret OCID
+	// attributes of the connection (for example, `passwordSecretId`) instead of plain-text attributes. This change follows
+	// the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
+	// When set to `true`, all sensitive information must be provided as OCI Vault secrets using the corresponding
+	// `*SecretId` attributes of the connection (for example, `passwordSecretId`). Plain-text sensitive attributes (for example, `password`) must not be used.
+	// This ensures that sensitive information remains stored and managed in the customer's OCI Vault rather than by the GoldenGate service.
+	// When set to false, sensitive information must be provided in the corresponding plain-text attributes (for example, `password`) rather than in secret OCID attributes.
+	// In this mode, the sensitive information is stored by the GoldenGate service. If `vaultId` and `keyId` are not specified,
+	// the GoldenGate service uses Oracle-managed encryption keys to encrypt the stored data.
+	// If `vaultId` and `keyId` are provided, the specified customer-managed key is used.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
 	// Security attributes for this resource. Each key is predefined and scoped to a namespace.
@@ -66,7 +88,9 @@ type UpdateMongoDbConnectionDetails struct {
 	Username *string `mandatory:"false" json:"username"`
 
 	// The password Oracle GoldenGate uses to connect the associated database.
-	// Deprecated: This field is deprecated and replaced by "passwordSecretId". This field will be removed after February 15 2026.
+	// Deprecated: This field is deprecated and replaced by "passwordSecretId".
+	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
 	Password *string `mandatory:"false" json:"password"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the password Oracle GoldenGate uses to connect the associated database.
@@ -81,7 +105,9 @@ type UpdateMongoDbConnectionDetails struct {
 	TlsCaFile *string `mandatory:"false" json:"tlsCaFile"`
 
 	// Client Certificate - The base64 encoded content of a .pem file, containing the client public key (for 2-way SSL).
-	// Deprecated: This field is deprecated and replaced by "tlsCertificateKeyFileSecretId". This field will be removed after February 15 2026.
+	// Deprecated: This field is deprecated and replaced by "tlsCertificateKeyFileSecretId".
+	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
 	TlsCertificateKeyFile *string `mandatory:"false" json:"tlsCertificateKeyFile"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the certificate key file of the mtls connection.
@@ -90,7 +116,9 @@ type UpdateMongoDbConnectionDetails struct {
 	TlsCertificateKeyFileSecretId *string `mandatory:"false" json:"tlsCertificateKeyFileSecretId"`
 
 	// Client Certificate key file password.
-	// Deprecated: This field is deprecated and replaced by "tlsCertificateKeyFilePasswordSecretId". This field will be removed after February 15 2026.
+	// Deprecated: This field is deprecated and replaced by "tlsCertificateKeyFilePasswordSecretId".
+	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
 	TlsCertificateKeyFilePassword *string `mandatory:"false" json:"tlsCertificateKeyFilePassword"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the password of the tls certificate key file.
@@ -98,9 +126,12 @@ type UpdateMongoDbConnectionDetails struct {
 	TlsCertificateKeyFilePasswordSecretId *string `mandatory:"false" json:"tlsCertificateKeyFilePasswordSecretId"`
 
 	// Controls the network traffic direction to the target:
-	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
 	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
 	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
+	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
+	// Deprecated: SHARED_SERVICE_ENDPOINT is deprecated. Use another supported routingMethod value, or update existing connections to use a supported routing method.
+	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
 	RoutingMethod RoutingMethodEnum `mandatory:"false" json:"routingMethod,omitempty"`
 
 	// Security Type for MongoDB.

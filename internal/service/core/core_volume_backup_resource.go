@@ -91,10 +91,49 @@ func CoreVolumeBackupResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_indefinite_retention_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"is_prevent_deletion_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"is_retention_lock_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"kms_key_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"retention_period": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"retention_time_amount": {
+							Type:     schema.TypeInt,
+							Required: true,
+						},
+						"retention_time_unit": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
 			},
 			"type": {
 				Type:     schema.TypeString,
@@ -142,6 +181,10 @@ func CoreVolumeBackupResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_retention_expires_at": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"unique_size_in_gbs": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -150,6 +193,10 @@ func CoreVolumeBackupResource() *schema.Resource {
 				Type:       schema.TypeString,
 				Computed:   true,
 				Deprecated: tfresource.FieldDeprecatedForAnother("unique_size_in_mbs", "unique_size_in_gbs"),
+			},
+			"volume_group_backup_id": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 		},
 	}
@@ -358,9 +405,35 @@ func (s *CoreVolumeBackupResourceCrud) CreateVolumeBackup() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isIndefiniteRetentionEnabled, ok := s.D.GetOkExists("is_indefinite_retention_enabled"); ok {
+		tmp := isIndefiniteRetentionEnabled.(bool)
+		request.IsIndefiniteRetentionEnabled = &tmp
+	}
+
+	if isPreventDeletionEnabled, ok := s.D.GetOkExists("is_prevent_deletion_enabled"); ok {
+		tmp := isPreventDeletionEnabled.(bool)
+		request.IsPreventDeletionEnabled = &tmp
+	}
+
+	if isRetentionLockEnabled, ok := s.D.GetOkExists("is_retention_lock_enabled"); ok {
+		tmp := isRetentionLockEnabled.(bool)
+		request.IsRetentionLockEnabled = &tmp
+	}
+
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 		tmp := kmsKeyId.(string)
 		request.KmsKeyId = &tmp
+	}
+
+	if retentionPeriod, ok := s.D.GetOkExists("retention_period"); ok {
+		if tmpList := retentionPeriod.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "retention_period", 0)
+			tmp, err := s.mapToRetentionDuration(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.RetentionPeriod = &tmp
+		}
 	}
 
 	if type_, ok := s.D.GetOkExists("type"); ok {
@@ -429,9 +502,35 @@ func (s *CoreVolumeBackupResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isIndefiniteRetentionEnabled, ok := s.D.GetOkExists("is_indefinite_retention_enabled"); ok {
+		tmp := isIndefiniteRetentionEnabled.(bool)
+		request.IsIndefiniteRetentionEnabled = &tmp
+	}
+
+	if isPreventDeletionEnabled, ok := s.D.GetOkExists("is_prevent_deletion_enabled"); ok {
+		tmp := isPreventDeletionEnabled.(bool)
+		request.IsPreventDeletionEnabled = &tmp
+	}
+
+	if isRetentionLockEnabled, ok := s.D.GetOkExists("is_retention_lock_enabled"); ok {
+		tmp := isRetentionLockEnabled.(bool)
+		request.IsRetentionLockEnabled = &tmp
+	}
+
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 		tmp := kmsKeyId.(string)
 		request.KmsKeyId = &tmp
+	}
+
+	if retentionPeriod, ok := s.D.GetOkExists("retention_period"); ok {
+		if tmpList := retentionPeriod.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "retention_period", 0)
+			tmp, err := s.mapToRetentionDuration(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.RetentionPeriod = &tmp
+		}
 	}
 
 	tmp := s.D.Id()
@@ -479,8 +578,26 @@ func (s *CoreVolumeBackupResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsIndefiniteRetentionEnabled != nil {
+		s.D.Set("is_indefinite_retention_enabled", *s.Res.IsIndefiniteRetentionEnabled)
+	}
+
+	if s.Res.IsPreventDeletionEnabled != nil {
+		s.D.Set("is_prevent_deletion_enabled", *s.Res.IsPreventDeletionEnabled)
+	}
+
+	if s.Res.IsRetentionLockEnabled != nil {
+		s.D.Set("is_retention_lock_enabled", *s.Res.IsRetentionLockEnabled)
+	}
+
 	if s.Res.KmsKeyId != nil {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
+	}
+
+	if s.Res.RetentionPeriod != nil {
+		s.D.Set("retention_period", []interface{}{RetentionDurationToMap(s.Res.RetentionPeriod)})
+	} else {
+		s.D.Set("retention_period", nil)
 	}
 
 	if s.Res.SizeInGBs != nil {
@@ -511,6 +628,10 @@ func (s *CoreVolumeBackupResourceCrud) SetData() error {
 		s.D.Set("time_request_received", s.Res.TimeRequestReceived.String())
 	}
 
+	if s.Res.TimeRetentionExpiresAt != nil {
+		s.D.Set("time_retention_expires_at", s.Res.TimeRetentionExpiresAt.String())
+	}
+
 	s.D.Set("type", s.Res.Type)
 
 	if s.Res.UniqueSizeInGBs != nil {
@@ -521,11 +642,30 @@ func (s *CoreVolumeBackupResourceCrud) SetData() error {
 		s.D.Set("unique_size_in_mbs", strconv.FormatInt(*s.Res.UniqueSizeInMbs, 10))
 	}
 
+	if s.Res.VolumeGroupBackupId != nil {
+		s.D.Set("volume_group_backup_id", *s.Res.VolumeGroupBackupId)
+	}
+
 	if s.Res.VolumeId != nil {
 		s.D.Set("volume_id", *s.Res.VolumeId)
 	}
 
 	return nil
+}
+
+func (s *CoreVolumeBackupResourceCrud) mapToRetentionDuration(fieldKeyFormat string) (oci_core.RetentionDuration, error) {
+	result := oci_core.RetentionDuration{}
+
+	if retentionTimeAmount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "retention_time_amount")); ok {
+		tmp := retentionTimeAmount.(int)
+		result.RetentionTimeAmount = &tmp
+	}
+
+	if retentionTimeUnit, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "retention_time_unit")); ok {
+		result.RetentionTimeUnit = oci_core.RetentionDurationRetentionTimeUnitEnum(retentionTimeUnit.(string))
+	}
+
+	return result, nil
 }
 
 func (s *CoreVolumeBackupResourceCrud) updateCompartment(compartment interface{}) error {

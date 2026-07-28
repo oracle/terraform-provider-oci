@@ -9,7 +9,9 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
@@ -19,15 +21,15 @@ func DatabaseExternalPluggableDatabaseDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseExternalPluggableDatabaseResource(), fieldMap, readSingularDatabaseExternalPluggableDatabase)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseExternalPluggableDatabaseResource(), fieldMap, readSingularDatabaseExternalPluggableDatabaseWithContext)
 }
 
-func readSingularDatabaseExternalPluggableDatabase(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseExternalPluggableDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseExternalPluggableDatabaseDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseExternalPluggableDatabaseDataSourceCrud struct {
@@ -40,7 +42,7 @@ func (s *DatabaseExternalPluggableDatabaseDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseExternalPluggableDatabaseDataSourceCrud) Get() error {
+func (s *DatabaseExternalPluggableDatabaseDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetExternalPluggableDatabaseRequest{}
 
 	if externalPluggableDatabaseId, ok := s.D.GetOkExists("external_pluggable_database_id"); ok {
@@ -50,7 +52,7 @@ func (s *DatabaseExternalPluggableDatabaseDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.GetExternalPluggableDatabase(context.Background(), request)
+	response, err := s.Client.GetExternalPluggableDatabase(ctx, request)
 	if err != nil {
 		return err
 	}

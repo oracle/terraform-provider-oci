@@ -20,6 +20,7 @@ import (
 type AmazonS3IcebergStorage struct {
 
 	// Access key ID to access the Amazon S3 bucket.
+	// Note: Despite the "Id" suffix, this value is not an OCI OCID.
 	AccessKeyId *string `mandatory:"true" json:"accessKeyId"`
 
 	// The AMAZON region where the S3 bucket is hosted.

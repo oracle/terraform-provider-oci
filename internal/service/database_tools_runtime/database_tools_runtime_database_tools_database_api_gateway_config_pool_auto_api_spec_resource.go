@@ -5,6 +5,7 @@ package database_tools_runtime
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/url"
@@ -154,6 +155,48 @@ type DatabaseToolsRuntimeDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpecRes
 	Client                 *oci_database_tools_runtime.DatabaseToolsRuntimeClient
 	Res                    *oci_database_tools_runtime.DatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpec
 	DisableNotFoundRetries bool
+}
+
+type updateDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpecDefaultDetails struct {
+	oci_database_tools_runtime.UpdateDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpecDefaultDetails
+}
+
+func (m updateDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpecDefaultDetails) MarshalJSON() ([]byte, error) {
+	var operations *[]oci_database_tools_runtime.UpdateDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpecDetailsOperationsEnum
+	if m.Operations != nil {
+		operations = &m.Operations
+	}
+
+	var securitySchemes *[]oci_database_tools_runtime.UpdateDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpecDetailsSecuritySchemesEnum
+	if m.SecuritySchemes != nil {
+		securitySchemes = &m.SecuritySchemes
+	}
+
+	s := struct {
+		Type               string                                                                                                             `json:"type"`
+		DisplayName        *string                                                                                                            `json:"displayName"`
+		DatabaseObjectName *string                                                                                                            `json:"databaseObjectName"`
+		Description        *string                                                                                                            `json:"description"`
+		Alias              *string                                                                                                            `json:"alias"`
+		Scope              *string                                                                                                            `json:"scope"`
+		Roles              []string                                                                                                           `json:"roles"`
+		DatabaseObjectType oci_database_tools_runtime.UpdateDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpecDetailsDatabaseObjectTypeEnum `json:"databaseObjectType,omitempty"`
+		Operations         *[]oci_database_tools_runtime.UpdateDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpecDetailsOperationsEnum      `json:"operations,omitempty"`
+		SecuritySchemes    *[]oci_database_tools_runtime.UpdateDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpecDetailsSecuritySchemesEnum `json:"securitySchemes,omitempty"`
+	}{
+		Type:               "DEFAULT",
+		DisplayName:        m.DisplayName,
+		DatabaseObjectName: m.DatabaseObjectName,
+		Description:        m.Description,
+		Alias:              m.Alias,
+		Scope:              m.Scope,
+		Roles:              m.Roles,
+		DatabaseObjectType: m.DatabaseObjectType,
+		Operations:         operations,
+		SecuritySchemes:    securitySchemes,
+	}
+
+	return json.Marshal(&s)
 }
 
 func (s *DatabaseToolsRuntimeDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpecResourceCrud) ID() string {
@@ -467,7 +510,7 @@ func (s *DatabaseToolsRuntimeDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpe
 	}
 	switch strings.ToLower(type_) {
 	case strings.ToLower("DEFAULT"):
-		details := oci_database_tools_runtime.UpdateDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpecDefaultDetails{}
+		details := updateDatabaseToolsDatabaseApiGatewayConfigPoolAutoApiSpecDefaultDetails{}
 		if alias, ok := s.D.GetOkExists("alias"); ok {
 			tmp := alias.(string)
 			details.Alias = &tmp

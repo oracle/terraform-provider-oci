@@ -6,12 +6,14 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "authz_compartment_id" {
+variable "apictl_control_id" {}
+
+variable "compartment_ocid" {
 }
 variable "privileged_api_control_privileged_operation_list_api_name" {
+  default = "UpdateVmCluster"
 }
-variable "notification_topic_id" {
-}
+
 variable "resource_id" {
 }
 
@@ -19,9 +21,6 @@ variable "privileged_api_request_defined_tags_value" {
   default = "value"
 }
 
-variable "privileged_api_request_display_name" {
-  default = "displayName"
-}
 
 variable "privileged_api_request_duration_in_hrs" {
   default = 1
@@ -31,12 +30,8 @@ variable "privileged_api_request_freeform_tags" {
   default = { "Department" = "db" }
 }
 
-variable "privileged_api_request_id" {
-  default = "id"
-}
-
 variable "privileged_api_request_privileged_operation_list_attribute_names" {
-  default = []
+  default = ["cpuCoreCount"]
 }
 
 variable "privileged_api_request_reason_detail" {
@@ -55,16 +50,13 @@ variable "privileged_api_request_severity" {
   default = "SEV_3"
 }
 
-variable "privileged_api_request_state" {
-  default = "APPROVED"
-}
 
 variable "privileged_api_request_sub_resource_name_list" {
   default = []
 }
 
 variable "privileged_api_request_ticket_numbers" {
-  default = []
+  default = ["JIRA-001`"]
 }
 
 variable "privileged_api_request_time_requested_for_future_access" {
@@ -82,7 +74,7 @@ provider "oci" {
 
 resource "oci_apiaccesscontrol_privileged_api_request" "test_privileged_api_request" {
   #Required
-  compartment_id                   = var.authz_compartment_id
+  compartment_id                   = var.compartment_ocid
   privileged_operation_list {
     #Required
     api_name = var.privileged_api_control_privileged_operation_list_api_name
@@ -91,12 +83,11 @@ resource "oci_apiaccesscontrol_privileged_api_request" "test_privileged_api_requ
     attribute_names = var.privileged_api_request_privileged_operation_list_attribute_names
   }
   reason_summary = var.privileged_api_request_reason_summary
-  resource_id    = var.resource_id
+  resource_id    = var.apictl_control_id
 
   #Optional
   duration_in_hrs                  = var.privileged_api_request_duration_in_hrs
   freeform_tags                    = var.privileged_api_request_freeform_tags
-  notification_topic_id            = var.notification_topic_id
   reason_detail                    = var.privileged_api_request_reason_detail
   severity                         = var.privileged_api_request_severity
   sub_resource_name_list           = var.privileged_api_request_sub_resource_name_list
@@ -105,12 +96,9 @@ resource "oci_apiaccesscontrol_privileged_api_request" "test_privileged_api_requ
 }
 
 data "oci_apiaccesscontrol_privileged_api_requests" "test_privileged_api_requests" {
-  compartment_id = var.authz_compartment_id
+  compartment_id = var.compartment_ocid
   #Optional
-  display_name   = var.privileged_api_request_display_name
-  id             = var.privileged_api_request_id
   resource_id    = var.resource_id
   resource_type  = var.privileged_api_request_resource_type
-  state          = var.privileged_api_request_state
 }
 

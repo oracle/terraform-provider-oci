@@ -6,6 +6,7 @@ package database
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 
@@ -15,7 +16,7 @@ import (
 
 func DatabaseDbNodeSnapshotsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseDbNodeSnapshots,
+		ReadContext: readDatabaseDbNodeSnapshotsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"cluster_id": {
@@ -47,12 +48,12 @@ func DatabaseDbNodeSnapshotsDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseDbNodeSnapshots(d *schema.ResourceData, m interface{}) error {
+func readDatabaseDbNodeSnapshotsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseDbNodeSnapshotsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseDbNodeSnapshotsDataSourceCrud struct {
@@ -65,7 +66,7 @@ func (s *DatabaseDbNodeSnapshotsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseDbNodeSnapshotsDataSourceCrud) Get() error {
+func (s *DatabaseDbNodeSnapshotsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.ListDbnodeSnapshotsRequest{}
 
 	if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
@@ -94,7 +95,7 @@ func (s *DatabaseDbNodeSnapshotsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListDbnodeSnapshots(context.Background(), request)
+	response, err := s.Client.ListDbnodeSnapshots(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (s *DatabaseDbNodeSnapshotsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDbnodeSnapshots(context.Background(), request)
+		listResponse, err := s.Client.ListDbnodeSnapshots(ctx, request)
 		if err != nil {
 			return err
 		}

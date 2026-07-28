@@ -43,13 +43,24 @@ type CreateAzureDataLakeStorageConnectionDetails struct {
 	// Locks associated with this resource.
 	Locks []AddResourceLockDetails `mandatory:"false" json:"locks"`
 
-	// Refers to the customer's vault OCID.
-	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
-	// to manage secrets contained within this vault.
+	// References the OCI Vault that contains the customer-managed encryption key identified by `keyId`.
+	// Deprecated: This field is deprecated for GoldenGate connections. Sensitive attributes should be provided using the
+	// corresponding Secret OCID attributes of the connection (for example, `passwordSecretId`) instead of plain-text
+	// attributes encrypted with `vaultId` and `keyId`. This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
+	// This field is applicable only when `doesUseSecretIds` is set to `false`.
+	// If `vaultId` is provided, `keyId` must also be provided.
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
-	// Refers to the customer's master key OCID.
-	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
+	// References the OCI Vault key in the OCI Vault identified by `vaultId`.
+	// Deprecated: This field is deprecated for GoldenGate connections. Sensitive attributes should be provided using the
+	// corresponding Secret OCID attributes of the connection (for example, `passwordSecretId`) instead of plain-text
+	// attributes encrypted with `vaultId` and `keyId`. This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
+	// The GoldenGate service uses this key to encrypt sensitive information (for example, `password`) that is provided in plain-text connection attributes through the API.
+	// This field is applicable only when `doesUseSecretIds` is set to `false`. If both `vaultId` and `keyId` are provided,
+	// the GoldenGate service uses the specified customer-managed key to encrypt the sensitive data.
+	// If neither `vaultId` nor `keyId` is provided, the GoldenGate service uses Oracle-managed encryption keys.
 	KeyId *string `mandatory:"false" json:"keyId"`
 
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
@@ -59,6 +70,17 @@ type CreateAzureDataLakeStorageConnectionDetails struct {
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// Indicates that sensitive attributes are provided via Secrets.
+	// Deprecated: This field is deprecated. Sensitive attributes should be provided using the corresponding Secret OCID
+	// attributes of the connection (for example, `passwordSecretId`) instead of plain-text attributes. This change follows
+	// the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
+	// When set to `true`, all sensitive information must be provided as OCI Vault secrets using the corresponding
+	// `*SecretId` attributes of the connection (for example, `passwordSecretId`). Plain-text sensitive attributes (for example, `password`) must not be used.
+	// This ensures that sensitive information remains stored and managed in the customer's OCI Vault rather than by the GoldenGate service.
+	// When set to false, sensitive information must be provided in the corresponding plain-text attributes (for example, `password`) rather than in secret OCID attributes.
+	// In this mode, the sensitive information is stored by the GoldenGate service. If `vaultId` and `keyId` are not specified,
+	// the GoldenGate service uses Oracle-managed encryption keys to encrypt the stored data.
+	// If `vaultId` and `keyId` are provided, the specified customer-managed key is used.
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
@@ -76,7 +98,9 @@ type CreateAzureDataLakeStorageConnectionDetails struct {
 
 	// Azure storage account key. This property is required when 'authenticationType' is set to 'SHARED_KEY'.
 	// e.g.: pa3WbhVATzj56xD4DH1VjOUhApRGEGHvOo58eQJVWIzX+j8j4CUVFcTjpIqDSRaSa1Wo2LbWY5at+AStEgLOIQ==
-	// Deprecated: This field is deprecated and replaced by "accountKeySecretId". This field will be removed after February 15 2026.
+	// Deprecated: This field is deprecated and replaced by "accountKeySecretId".
+	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
 	AccountKey *string `mandatory:"false" json:"accountKey"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the account key is stored.
@@ -86,7 +110,9 @@ type CreateAzureDataLakeStorageConnectionDetails struct {
 	// Credential that uses a shared access signature (SAS) to authenticate to an Azure Service. This property is
 	// required when 'authenticationType' is set to 'SHARED_ACCESS_SIGNATURE'.
 	// e.g.: ?sv=2020-06-08&ss=bfqt&srt=sco&sp=rwdlacupyx&se=2020-09-10T20:27:28Z&st=2022-08-05T12:27:28Z&spr=https&sig=C1IgHsiLBmTSStYkXXGLTP8it0xBrArcgCqOsZbXwIQ%3D
-	// Deprecated: This field is deprecated and replaced by "sasTokenSecretId". This field will be removed after February 15 2026.
+	// Deprecated: This field is deprecated and replaced by "sasTokenSecretId".
+	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
 	SasToken *string `mandatory:"false" json:"sasToken"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the sas token is stored.
@@ -103,7 +129,9 @@ type CreateAzureDataLakeStorageConnectionDetails struct {
 
 	// Azure client secret (aka application password) for authentication. This property is required when 'authenticationType' is set to 'AZURE_ACTIVE_DIRECTORY'.
 	// e.g.: dO29Q~F5-VwnA.lZdd11xFF_t5NAXCaGwDl9NbT1
-	// Deprecated: This field is deprecated and replaced by "clientSecretSecretId". This field will be removed after February 15 2026.
+	// Deprecated: This field is deprecated and replaced by "clientSecretSecretId".
+	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
 	ClientSecret *string `mandatory:"false" json:"clientSecret"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the client secret is stored.
@@ -122,9 +150,12 @@ type CreateAzureDataLakeStorageConnectionDetails struct {
 	AzureAuthorityHost *string `mandatory:"false" json:"azureAuthorityHost"`
 
 	// Controls the network traffic direction to the target:
-	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
 	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
 	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
+	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
+	// Deprecated: SHARED_SERVICE_ENDPOINT is deprecated. Use another supported routingMethod value, or update existing connections to use a supported routing method.
+	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
+	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
 	RoutingMethod RoutingMethodEnum `mandatory:"false" json:"routingMethod,omitempty"`
 
 	// The Azure Data Lake Storage technology type.

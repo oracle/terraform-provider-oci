@@ -60,6 +60,11 @@ type VmCluster struct {
 	// The percentage assigned to SPARSE storage (Exadata snapshots). See Storage Configuration (https://docs.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm#Exadata) in the Exadata documentation for details on the impact of the configuration settings on storage.
 	SparseStoragePercentage *int `mandatory:"false" json:"sparseStoragePercentage"`
 
+	LiveImageVersionDetails *ExadataLiveImageVersionDetails `mandatory:"false" json:"liveImageVersionDetails"`
+
+	// Oracle Linux version for the respective Exadata Image.
+	OracleLinuxVersion *string `mandatory:"false" json:"oracleLinuxVersion"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster network.
 	VmClusterNetworkId *string `mandatory:"false" json:"vmClusterNetworkId"`
 
