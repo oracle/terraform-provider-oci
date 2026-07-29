@@ -146,7 +146,6 @@ func DatabaseManagementManagedMySqlDatabasesDataSource() *schema.Resource {
 			},
 		},
 	}
-
 }
 
 func readDatabaseManagementManagedMySqlDatabases(d *schema.ResourceData, m interface{}) error {

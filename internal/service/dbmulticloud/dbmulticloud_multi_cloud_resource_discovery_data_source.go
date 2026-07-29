@@ -94,8 +94,6 @@ func (s *DbmulticloudMultiCloudResourceDiscoveryDataSourceCrud) SetData() error 
 
 	s.D.Set("resource_type", s.Res.ResourceType)
 
-	// s.D.Set("oracle_db_azure_vault_id", s.Res.OracleDbAzureVaultId)
-
 	resources := []interface{}{}
 	for _, item := range s.Res.Resources {
 		resources = append(resources, ResourcesToMap(item))

@@ -371,6 +371,7 @@ func (s *DataSafeSensitiveDataModelResourceCrud) getSensitiveDataModelFromWorkRe
 	// Wait until it finishes
 	sensitiveDataModelId, err := sensitiveDataModelWaitForWorkRequest(workId, "sensitivedatamodel",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
+
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, sensitiveDataModelId)
