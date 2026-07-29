@@ -86,6 +86,7 @@ func RecoveryRecoveryServiceSubnetResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+
 			// Computed
 			"lifecycle_details": {
 				Type:     schema.TypeString,

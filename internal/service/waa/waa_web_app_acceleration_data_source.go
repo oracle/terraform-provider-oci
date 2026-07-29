@@ -67,7 +67,6 @@ func (s *WaaWebAppAccelerationDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(*s.Res.GetId())
-
 	switch v := (s.Res.WebAppAcceleration).(type) {
 	case oci_waa.WebAppAccelerationLoadBalancer:
 		s.D.Set("backend_type", "LOAD_BALANCER")

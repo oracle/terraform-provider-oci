@@ -103,6 +103,7 @@ func (s *ResourceSchedulerSchedulesDataSourceCrud) GetWithContext(ctx context.Co
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "resource_scheduler")
+
 	response, err := s.Client.ListSchedules(ctx, request)
 	if err != nil {
 		return err
