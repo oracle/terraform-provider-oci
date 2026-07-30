@@ -231,6 +231,65 @@ func (client DbMulticloudAwsProviderClient) changeOracleDbAwsKeyCompartment(ctx 
 	return response, err
 }
 
+// ChangeOracleDbAwsKeyPoolCompartment Moves the AWS Key Pool resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
+// A default retry strategy applies to this operation ChangeOracleDbAwsKeyPoolCompartment()
+func (client DbMulticloudAwsProviderClient) ChangeOracleDbAwsKeyPoolCompartment(ctx context.Context, request ChangeOracleDbAwsKeyPoolCompartmentRequest) (response ChangeOracleDbAwsKeyPoolCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeOracleDbAwsKeyPoolCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeOracleDbAwsKeyPoolCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeOracleDbAwsKeyPoolCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeOracleDbAwsKeyPoolCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeOracleDbAwsKeyPoolCompartmentResponse")
+	}
+	return
+}
+
+// changeOracleDbAwsKeyPoolCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DbMulticloudAwsProviderClient) changeOracleDbAwsKeyPoolCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/oracleDbAwsKeyPool/{oracleDbAwsKeyPoolId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeOracleDbAwsKeyPoolCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbMulticloudAwsProvider", "ChangeOracleDbAwsKeyPoolCompartment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsKeyPool/ChangeOracleDbAwsKeyPoolCompartment"
+		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "ChangeOracleDbAwsKeyPoolCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateOracleDbAwsIdentityConnector Creates Oracle DB AWS Identity Connector resource.
 // A default retry strategy applies to this operation CreateOracleDbAwsIdentityConnector()
 func (client DbMulticloudAwsProviderClient) CreateOracleDbAwsIdentityConnector(ctx context.Context, request CreateOracleDbAwsIdentityConnectorRequest) (response CreateOracleDbAwsIdentityConnectorResponse, err error) {
@@ -349,6 +408,65 @@ func (client DbMulticloudAwsProviderClient) createOracleDbAwsKey(ctx context.Con
 	return response, err
 }
 
+// CreateOracleDbAwsKeyPool Create DB AWS Key Pool resource.
+// A default retry strategy applies to this operation CreateOracleDbAwsKeyPool()
+func (client DbMulticloudAwsProviderClient) CreateOracleDbAwsKeyPool(ctx context.Context, request CreateOracleDbAwsKeyPoolRequest) (response CreateOracleDbAwsKeyPoolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createOracleDbAwsKeyPool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateOracleDbAwsKeyPoolResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateOracleDbAwsKeyPoolResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateOracleDbAwsKeyPoolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateOracleDbAwsKeyPoolResponse")
+	}
+	return
+}
+
+// createOracleDbAwsKeyPool implements the OCIOperation interface (enables retrying operations)
+func (client DbMulticloudAwsProviderClient) createOracleDbAwsKeyPool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/oracleDbAwsKeyPool", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateOracleDbAwsKeyPoolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbMulticloudAwsProvider", "CreateOracleDbAwsKeyPool")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsKeyPool/CreateOracleDbAwsKeyPool"
+		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "CreateOracleDbAwsKeyPool", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteOracleDbAwsIdentityConnector Deletes a Oracle DB AWS Identity Connector resource.
 // A default retry strategy applies to this operation DeleteOracleDbAwsIdentityConnector()
 func (client DbMulticloudAwsProviderClient) DeleteOracleDbAwsIdentityConnector(ctx context.Context, request DeleteOracleDbAwsIdentityConnectorRequest) (response DeleteOracleDbAwsIdentityConnectorResponse, err error) {
@@ -450,6 +568,60 @@ func (client DbMulticloudAwsProviderClient) deleteOracleDbAwsKey(ctx context.Con
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsKey/DeleteOracleDbAwsKey"
 		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "DeleteOracleDbAwsKey", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteOracleDbAwsKeyPool Delete AWS Key Pool resource.
+// A default retry strategy applies to this operation DeleteOracleDbAwsKeyPool()
+func (client DbMulticloudAwsProviderClient) DeleteOracleDbAwsKeyPool(ctx context.Context, request DeleteOracleDbAwsKeyPoolRequest) (response DeleteOracleDbAwsKeyPoolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteOracleDbAwsKeyPool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteOracleDbAwsKeyPoolResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteOracleDbAwsKeyPoolResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteOracleDbAwsKeyPoolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteOracleDbAwsKeyPoolResponse")
+	}
+	return
+}
+
+// deleteOracleDbAwsKeyPool implements the OCIOperation interface (enables retrying operations)
+func (client DbMulticloudAwsProviderClient) deleteOracleDbAwsKeyPool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/oracleDbAwsKeyPool/{oracleDbAwsKeyPoolId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteOracleDbAwsKeyPoolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbMulticloudAwsProvider", "DeleteOracleDbAwsKeyPool")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsKeyPool/DeleteOracleDbAwsKeyPool"
+		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "DeleteOracleDbAwsKeyPool", apiReferenceLink)
 		return response, err
 	}
 
@@ -565,6 +737,60 @@ func (client DbMulticloudAwsProviderClient) getOracleDbAwsKey(ctx context.Contex
 	return response, err
 }
 
+// GetOracleDbAwsKeyPool Retrieves detailed information about a Oracle AWS Key Pool resource by specifying its unique resource OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// A default retry strategy applies to this operation GetOracleDbAwsKeyPool()
+func (client DbMulticloudAwsProviderClient) GetOracleDbAwsKeyPool(ctx context.Context, request GetOracleDbAwsKeyPoolRequest) (response GetOracleDbAwsKeyPoolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getOracleDbAwsKeyPool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetOracleDbAwsKeyPoolResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetOracleDbAwsKeyPoolResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetOracleDbAwsKeyPoolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetOracleDbAwsKeyPoolResponse")
+	}
+	return
+}
+
+// getOracleDbAwsKeyPool implements the OCIOperation interface (enables retrying operations)
+func (client DbMulticloudAwsProviderClient) getOracleDbAwsKeyPool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/oracleDbAwsKeyPool/{oracleDbAwsKeyPoolId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetOracleDbAwsKeyPoolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbMulticloudAwsProvider", "GetOracleDbAwsKeyPool")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsKeyPool/GetOracleDbAwsKeyPool"
+		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "GetOracleDbAwsKeyPool", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListOracleDbAwsIdentityConnectors Lists all Oracle DB AWS Identity Connectors based on the specified filters.
 // A default retry strategy applies to this operation ListOracleDbAwsIdentityConnectors()
 func (client DbMulticloudAwsProviderClient) ListOracleDbAwsIdentityConnectors(ctx context.Context, request ListOracleDbAwsIdentityConnectorsRequest) (response ListOracleDbAwsIdentityConnectorsResponse, err error) {
@@ -612,6 +838,60 @@ func (client DbMulticloudAwsProviderClient) listOracleDbAwsIdentityConnectors(ct
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsIdentityConnector/ListOracleDbAwsIdentityConnectors"
 		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "ListOracleDbAwsIdentityConnectors", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListOracleDbAwsKeyPools Lists all DB AWS Key Pools based on the specified filters.
+// A default retry strategy applies to this operation ListOracleDbAwsKeyPools()
+func (client DbMulticloudAwsProviderClient) ListOracleDbAwsKeyPools(ctx context.Context, request ListOracleDbAwsKeyPoolsRequest) (response ListOracleDbAwsKeyPoolsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOracleDbAwsKeyPools, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOracleDbAwsKeyPoolsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOracleDbAwsKeyPoolsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOracleDbAwsKeyPoolsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOracleDbAwsKeyPoolsResponse")
+	}
+	return
+}
+
+// listOracleDbAwsKeyPools implements the OCIOperation interface (enables retrying operations)
+func (client DbMulticloudAwsProviderClient) listOracleDbAwsKeyPools(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/oracleDbAwsKeyPool", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOracleDbAwsKeyPoolsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbMulticloudAwsProvider", "ListOracleDbAwsKeyPools")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsKeyPool/ListOracleDbAwsKeyPools"
+		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "ListOracleDbAwsKeyPools", apiReferenceLink)
 		return response, err
 	}
 
@@ -850,6 +1130,65 @@ func (client DbMulticloudAwsProviderClient) replicateOracleDbAwsKey(ctx context.
 	return response, err
 }
 
+// ReplicateOracleDbAwsKeyPool Replicate Oracle AWS Key Pool resource to target region.
+// A default retry strategy applies to this operation ReplicateOracleDbAwsKeyPool()
+func (client DbMulticloudAwsProviderClient) ReplicateOracleDbAwsKeyPool(ctx context.Context, request ReplicateOracleDbAwsKeyPoolRequest) (response ReplicateOracleDbAwsKeyPoolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.replicateOracleDbAwsKeyPool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ReplicateOracleDbAwsKeyPoolResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ReplicateOracleDbAwsKeyPoolResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ReplicateOracleDbAwsKeyPoolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ReplicateOracleDbAwsKeyPoolResponse")
+	}
+	return
+}
+
+// replicateOracleDbAwsKeyPool implements the OCIOperation interface (enables retrying operations)
+func (client DbMulticloudAwsProviderClient) replicateOracleDbAwsKeyPool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/oracleDbAwsKeyPool/{oracleDbAwsKeyPoolId}/actions/replicate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ReplicateOracleDbAwsKeyPoolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbMulticloudAwsProvider", "ReplicateOracleDbAwsKeyPool")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsKeyPool/ReplicateOracleDbAwsKeyPool"
+		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "ReplicateOracleDbAwsKeyPool", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateOracleDbAwsIdentityConnector Modifies the existing Oracle DB AWS Identity Connector resource for a given OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation UpdateOracleDbAwsIdentityConnector()
 func (client DbMulticloudAwsProviderClient) UpdateOracleDbAwsIdentityConnector(ctx context.Context, request UpdateOracleDbAwsIdentityConnectorRequest) (response UpdateOracleDbAwsIdentityConnectorResponse, err error) {
@@ -951,6 +1290,60 @@ func (client DbMulticloudAwsProviderClient) updateOracleDbAwsKey(ctx context.Con
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsKey/UpdateOracleDbAwsKey"
 		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "UpdateOracleDbAwsKey", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateOracleDbAwsKeyPool Modifies the existing Oracle AWS Key Pool Details for a given OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// A default retry strategy applies to this operation UpdateOracleDbAwsKeyPool()
+func (client DbMulticloudAwsProviderClient) UpdateOracleDbAwsKeyPool(ctx context.Context, request UpdateOracleDbAwsKeyPoolRequest) (response UpdateOracleDbAwsKeyPoolResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateOracleDbAwsKeyPool, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateOracleDbAwsKeyPoolResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateOracleDbAwsKeyPoolResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateOracleDbAwsKeyPoolResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateOracleDbAwsKeyPoolResponse")
+	}
+	return
+}
+
+// updateOracleDbAwsKeyPool implements the OCIOperation interface (enables retrying operations)
+func (client DbMulticloudAwsProviderClient) updateOracleDbAwsKeyPool(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/oracleDbAwsKeyPool/{oracleDbAwsKeyPoolId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateOracleDbAwsKeyPoolResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dbMulticloudAwsProvider", "UpdateOracleDbAwsKeyPool")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-multicloud-integrations/20240501/OracleDbAwsKeyPool/UpdateOracleDbAwsKeyPool"
+		err = common.PostProcessServiceError(err, "DbMulticloudAwsProvider", "UpdateOracleDbAwsKeyPool", apiReferenceLink)
 		return response, err
 	}
 

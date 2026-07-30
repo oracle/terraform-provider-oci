@@ -91,6 +91,65 @@ func (client *AiDataPlatformClient) ConfigurationProvider() *common.Configuratio
 	return client.config
 }
 
+// AttachAnalytics Attaches an Oracle Analytics Cloud (OAC) instance to an AiDataPlatform.
+// A default retry strategy applies to this operation AttachAnalytics()
+func (client AiDataPlatformClient) AttachAnalytics(ctx context.Context, request AttachAnalyticsRequest) (response AttachAnalyticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.attachAnalytics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AttachAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AttachAnalyticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AttachAnalyticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AttachAnalyticsResponse")
+	}
+	return
+}
+
+// attachAnalytics implements the OCIOperation interface (enables retrying operations)
+func (client AiDataPlatformClient) attachAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/aiDataPlatforms/{aiDataPlatformId}/actions/attachAnalytics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AttachAnalyticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aiDataPlatform", "AttachAnalytics")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ai-data-platform/20240831/AiDataPlatform/AttachAnalytics"
+		err = common.PostProcessServiceError(err, "AiDataPlatform", "AttachAnalytics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CancelWorkRequest Cancels a work request.
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client AiDataPlatformClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
@@ -306,6 +365,65 @@ func (client AiDataPlatformClient) deleteAiDataPlatform(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ai-data-platform/20240831/AiDataPlatform/DeleteAiDataPlatform"
 		err = common.PostProcessServiceError(err, "AiDataPlatform", "DeleteAiDataPlatform", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DetachAnalytics Detaches an Oracle Analytics Cloud (OAC) instance from an AiDataPlatform.
+// A default retry strategy applies to this operation DetachAnalytics()
+func (client AiDataPlatformClient) DetachAnalytics(ctx context.Context, request DetachAnalyticsRequest) (response DetachAnalyticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.detachAnalytics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DetachAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DetachAnalyticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DetachAnalyticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DetachAnalyticsResponse")
+	}
+	return
+}
+
+// detachAnalytics implements the OCIOperation interface (enables retrying operations)
+func (client AiDataPlatformClient) detachAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/aiDataPlatforms/{aiDataPlatformId}/actions/detachAnalytics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DetachAnalyticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "aiDataPlatform", "DetachAnalytics")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ai-data-platform/20240831/AiDataPlatform/DetachAnalytics"
+		err = common.PostProcessServiceError(err, "AiDataPlatform", "DetachAnalytics", apiReferenceLink)
 		return response, err
 	}
 

@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Data Safe API
+// AiDataPlatform Control Plane API
 //
-// APIs for using Oracle Data Safe.
+// Use the AiDataPlatform Control Plane API to manage Data Lakes.
 //
 
-package datasafe
+package aidataplatform
 
 import (
 	"fmt"
@@ -15,19 +15,18 @@ import (
 	"strings"
 )
 
-// ActivateTargetDatabaseDetails The details required to reactivate a previously deactived target database in Data Safe.
-type ActivateTargetDatabaseDetails struct {
-	Credentials *Credentials `mandatory:"false" json:"credentials"`
+// DetachAnalyticsDetails The data to detach Analytics for AiDataPlatform.
+type DetachAnalyticsDetails struct {
 }
 
-func (m ActivateTargetDatabaseDetails) String() string {
+func (m DetachAnalyticsDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ActivateTargetDatabaseDetails) ValidateEnumValue() (bool, error) {
+func (m DetachAnalyticsDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

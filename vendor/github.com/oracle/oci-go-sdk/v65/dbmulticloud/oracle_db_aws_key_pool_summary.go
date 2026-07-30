@@ -37,14 +37,37 @@ import (
 	"strings"
 )
 
-// UpdateOracleDbAwsKeyDetails Update Oracle DB AWS Key resource object.
-type UpdateOracleDbAwsKeyDetails struct {
+// OracleDbAwsKeyPoolSummary Summary information for an Oracle DB AWS key pool resource.
+type OracleDbAwsKeyPoolSummary struct {
 
-	// Oracle DB AWS Key resource name.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB AWS Key Pool resource.
+	Id *string `mandatory:"false" json:"id"`
+
+	// The display name of the Oracle DB AWS key pool resource.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB AWS Key Pool resource.
-	OracleDbAwsKeyPoolId *string `mandatory:"false" json:"oracleDbAwsKeyPoolId"`
+	// The Compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that contains this Oracle DB AWS Pool resource.
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
+	// Indicates whether AWS KMS keys in this key pool can be reused.
+	IsReuseAllowed *bool `mandatory:"false" json:"isReuseAllowed"`
+
+	// Indicates whether this key pool accepts only multi-region AWS KMS keys. When false, the key pool accepts only single-region AWS KMS keys.
+	IsMultiRegionKeyPool *bool `mandatory:"false" json:"isMultiRegionKeyPool"`
+
+	// The current lifecycle state of the Oracle DB AWS Key Pool resource.
+	LifecycleState OracleDbAwsKeyPoolLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// Description of the current lifecycle state in more detail.
+	LifecycleStateDetails *string `mandatory:"false" json:"lifecycleStateDetails"`
+
+	ReplicationMetadata *ReplicationMetadata `mandatory:"false" json:"replicationMetadata"`
+
+	// Time when the DB AWS Key Pool resource was created in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format, e.g. '2020-05-23T21:10:29.600Z'.
+	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// Time when the DB AWS Key Pool resource was last modified, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format, e.g. '2020-05-23T21:10:29.600Z'.
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -55,18 +78,25 @@ type UpdateOracleDbAwsKeyDetails struct {
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
-func (m UpdateOracleDbAwsKeyDetails) String() string {
+func (m OracleDbAwsKeyPoolSummary) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UpdateOracleDbAwsKeyDetails) ValidateEnumValue() (bool, error) {
+func (m OracleDbAwsKeyPoolSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingOracleDbAwsKeyPoolLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetOracleDbAwsKeyPoolLifecycleStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

@@ -27,6 +27,8 @@ const (
 	OperationTypeDeleteAiDataPlatform OperationTypeEnum = "DELETE_AI_DATA_PLATFORM"
 	OperationTypeMoveAiDataPlatform   OperationTypeEnum = "MOVE_AI_DATA_PLATFORM"
 	OperationTypeEnableAiFeatures     OperationTypeEnum = "ENABLE_AI_FEATURES"
+	OperationTypeAttachAnalytics      OperationTypeEnum = "ATTACH_ANALYTICS"
+	OperationTypeDetachAnalytics      OperationTypeEnum = "DETACH_ANALYTICS"
 	OperationTypeDisableAiFeatures    OperationTypeEnum = "DISABLE_AI_FEATURES"
 	OperationTypeCreateWorkspace      OperationTypeEnum = "CREATE_WORKSPACE"
 	OperationTypeUpdateWorkspace      OperationTypeEnum = "UPDATE_WORKSPACE"
@@ -45,6 +47,8 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"DELETE_AI_DATA_PLATFORM": OperationTypeDeleteAiDataPlatform,
 	"MOVE_AI_DATA_PLATFORM":   OperationTypeMoveAiDataPlatform,
 	"ENABLE_AI_FEATURES":      OperationTypeEnableAiFeatures,
+	"ATTACH_ANALYTICS":        OperationTypeAttachAnalytics,
+	"DETACH_ANALYTICS":        OperationTypeDetachAnalytics,
 	"DISABLE_AI_FEATURES":     OperationTypeDisableAiFeatures,
 	"CREATE_WORKSPACE":        OperationTypeCreateWorkspace,
 	"UPDATE_WORKSPACE":        OperationTypeUpdateWorkspace,
@@ -63,6 +67,8 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"delete_ai_data_platform": OperationTypeDeleteAiDataPlatform,
 	"move_ai_data_platform":   OperationTypeMoveAiDataPlatform,
 	"enable_ai_features":      OperationTypeEnableAiFeatures,
+	"attach_analytics":        OperationTypeAttachAnalytics,
+	"detach_analytics":        OperationTypeDetachAnalytics,
 	"disable_ai_features":     OperationTypeDisableAiFeatures,
 	"create_workspace":        OperationTypeCreateWorkspace,
 	"update_workspace":        OperationTypeUpdateWorkspace,
@@ -92,6 +98,8 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_AI_DATA_PLATFORM",
 		"MOVE_AI_DATA_PLATFORM",
 		"ENABLE_AI_FEATURES",
+		"ATTACH_ANALYTICS",
+		"DETACH_ANALYTICS",
 		"DISABLE_AI_FEATURES",
 		"CREATE_WORKSPACE",
 		"UPDATE_WORKSPACE",

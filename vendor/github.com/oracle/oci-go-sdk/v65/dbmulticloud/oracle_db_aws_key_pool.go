@@ -37,60 +37,37 @@ import (
 	"strings"
 )
 
-// OracleDbAwsKey Oracle DB AWS Key Resource object.
-type OracleDbAwsKey struct {
+// OracleDbAwsKeyPool Oracle DB AWS Key Pool is a resource that represents a collection of AWS KMS keys.
+// These keys are used for Oracle Database Transparent Data Encryption (TDE) operations.
+type OracleDbAwsKeyPool struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB AWS Key Ring resource.
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DB AWS Key Pool resource.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The Compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that contains this Oracle DB AWS Key resource.
+	// The Compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that contains this Oracle DB AWS Pool resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB Connector resource.
-	OracleDbConnectorId *string `mandatory:"false" json:"oracleDbConnectorId"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB AWS Key Pool resource.
-	OracleDbAwsKeyPoolId *string `mandatory:"false" json:"oracleDbAwsKeyPoolId"`
-
-	// Indicates whether the Oracle AWS Key resource is currently in use.
-	IsOracleAwsKeyUsed *bool `mandatory:"false" json:"isOracleAwsKeyUsed"`
-
-	// The number of active references to the Oracle AWS Key resource.
-	RefCount *int `mandatory:"false" json:"refCount"`
-
-	// Oracle DB AWS Key Ring resource name.
+	// The display name of the Oracle DB AWS key pool resource.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Amazon resource name of AWS Key.
-	AwsKeyArn *string `mandatory:"false" json:"awsKeyArn"`
+	// Indicates whether AWS KMS keys in this key pool can be reused.
+	IsReuseAllowed *bool `mandatory:"false" json:"isReuseAllowed"`
 
-	// AWS Account ID.
-	AwsAccountId *string `mandatory:"false" json:"awsAccountId"`
+	// Indicates whether this key pool accepts only multi-region AWS KMS keys. When false, the key pool accepts only single-region AWS KMS keys.
+	IsMultiRegionKeyPool *bool `mandatory:"false" json:"isMultiRegionKeyPool"`
 
-	// Key resource type.
-	Type *string `mandatory:"false" json:"type"`
-
-	// The Oracle AWS Key resource is enabled or disabled at AWS.
-	IsAwsKeyEnabled *bool `mandatory:"false" json:"isAwsKeyEnabled"`
-
-	// AWS Key resource location.
-	Location *string `mandatory:"false" json:"location"`
-
-	// AWS Key resource's properties.
-	Properties map[string]string `mandatory:"false" json:"properties"`
-
-	ReplicationMetadata *ReplicationMetadata `mandatory:"false" json:"replicationMetadata"`
-
-	// The lifecycle state of the Oracle DB AWS Key resource.
-	LifecycleState OracleDbAwsKeyLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+	// The lifecycle state of the Oracle DB AWS Key Pool resource.
+	LifecycleState OracleDbAwsKeyPoolLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// Description of the current lifecycle state in more detail.
 	LifecycleStateDetails *string `mandatory:"false" json:"lifecycleStateDetails"`
 
-	// Time when the DB AWS Key resource was created in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format, e.g. '2020-05-23T21:10:29.600Z'.
+	ReplicationMetadata *ReplicationMetadata `mandatory:"false" json:"replicationMetadata"`
+
+	// Time when the DB AWS Key Pool resource was created in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format, e.g. '2020-05-23T21:10:29.600Z'.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// Time when the DB AWS Key resource was last modified, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format, e.g. '2020-05-23T21:10:29.600Z'.
+	// Time when the DB AWS Key Pool resource was last modified, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format, e.g. '2020-05-23T21:10:29.600Z'.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -108,18 +85,18 @@ type OracleDbAwsKey struct {
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
-func (m OracleDbAwsKey) String() string {
+func (m OracleDbAwsKeyPool) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m OracleDbAwsKey) ValidateEnumValue() (bool, error) {
+func (m OracleDbAwsKeyPool) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingOracleDbAwsKeyLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetOracleDbAwsKeyLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingOracleDbAwsKeyPoolLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetOracleDbAwsKeyPoolLifecycleStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -127,48 +104,48 @@ func (m OracleDbAwsKey) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// OracleDbAwsKeyLifecycleStateEnum Enum with underlying type: string
-type OracleDbAwsKeyLifecycleStateEnum string
+// OracleDbAwsKeyPoolLifecycleStateEnum Enum with underlying type: string
+type OracleDbAwsKeyPoolLifecycleStateEnum string
 
-// Set of constants representing the allowable values for OracleDbAwsKeyLifecycleStateEnum
+// Set of constants representing the allowable values for OracleDbAwsKeyPoolLifecycleStateEnum
 const (
-	OracleDbAwsKeyLifecycleStateCreating OracleDbAwsKeyLifecycleStateEnum = "CREATING"
-	OracleDbAwsKeyLifecycleStateActive   OracleDbAwsKeyLifecycleStateEnum = "ACTIVE"
-	OracleDbAwsKeyLifecycleStateUpdating OracleDbAwsKeyLifecycleStateEnum = "UPDATING"
-	OracleDbAwsKeyLifecycleStateDeleting OracleDbAwsKeyLifecycleStateEnum = "DELETING"
-	OracleDbAwsKeyLifecycleStateDeleted  OracleDbAwsKeyLifecycleStateEnum = "DELETED"
-	OracleDbAwsKeyLifecycleStateFailed   OracleDbAwsKeyLifecycleStateEnum = "FAILED"
+	OracleDbAwsKeyPoolLifecycleStateCreating OracleDbAwsKeyPoolLifecycleStateEnum = "CREATING"
+	OracleDbAwsKeyPoolLifecycleStateActive   OracleDbAwsKeyPoolLifecycleStateEnum = "ACTIVE"
+	OracleDbAwsKeyPoolLifecycleStateUpdating OracleDbAwsKeyPoolLifecycleStateEnum = "UPDATING"
+	OracleDbAwsKeyPoolLifecycleStateDeleting OracleDbAwsKeyPoolLifecycleStateEnum = "DELETING"
+	OracleDbAwsKeyPoolLifecycleStateDeleted  OracleDbAwsKeyPoolLifecycleStateEnum = "DELETED"
+	OracleDbAwsKeyPoolLifecycleStateFailed   OracleDbAwsKeyPoolLifecycleStateEnum = "FAILED"
 )
 
-var mappingOracleDbAwsKeyLifecycleStateEnum = map[string]OracleDbAwsKeyLifecycleStateEnum{
-	"CREATING": OracleDbAwsKeyLifecycleStateCreating,
-	"ACTIVE":   OracleDbAwsKeyLifecycleStateActive,
-	"UPDATING": OracleDbAwsKeyLifecycleStateUpdating,
-	"DELETING": OracleDbAwsKeyLifecycleStateDeleting,
-	"DELETED":  OracleDbAwsKeyLifecycleStateDeleted,
-	"FAILED":   OracleDbAwsKeyLifecycleStateFailed,
+var mappingOracleDbAwsKeyPoolLifecycleStateEnum = map[string]OracleDbAwsKeyPoolLifecycleStateEnum{
+	"CREATING": OracleDbAwsKeyPoolLifecycleStateCreating,
+	"ACTIVE":   OracleDbAwsKeyPoolLifecycleStateActive,
+	"UPDATING": OracleDbAwsKeyPoolLifecycleStateUpdating,
+	"DELETING": OracleDbAwsKeyPoolLifecycleStateDeleting,
+	"DELETED":  OracleDbAwsKeyPoolLifecycleStateDeleted,
+	"FAILED":   OracleDbAwsKeyPoolLifecycleStateFailed,
 }
 
-var mappingOracleDbAwsKeyLifecycleStateEnumLowerCase = map[string]OracleDbAwsKeyLifecycleStateEnum{
-	"creating": OracleDbAwsKeyLifecycleStateCreating,
-	"active":   OracleDbAwsKeyLifecycleStateActive,
-	"updating": OracleDbAwsKeyLifecycleStateUpdating,
-	"deleting": OracleDbAwsKeyLifecycleStateDeleting,
-	"deleted":  OracleDbAwsKeyLifecycleStateDeleted,
-	"failed":   OracleDbAwsKeyLifecycleStateFailed,
+var mappingOracleDbAwsKeyPoolLifecycleStateEnumLowerCase = map[string]OracleDbAwsKeyPoolLifecycleStateEnum{
+	"creating": OracleDbAwsKeyPoolLifecycleStateCreating,
+	"active":   OracleDbAwsKeyPoolLifecycleStateActive,
+	"updating": OracleDbAwsKeyPoolLifecycleStateUpdating,
+	"deleting": OracleDbAwsKeyPoolLifecycleStateDeleting,
+	"deleted":  OracleDbAwsKeyPoolLifecycleStateDeleted,
+	"failed":   OracleDbAwsKeyPoolLifecycleStateFailed,
 }
 
-// GetOracleDbAwsKeyLifecycleStateEnumValues Enumerates the set of values for OracleDbAwsKeyLifecycleStateEnum
-func GetOracleDbAwsKeyLifecycleStateEnumValues() []OracleDbAwsKeyLifecycleStateEnum {
-	values := make([]OracleDbAwsKeyLifecycleStateEnum, 0)
-	for _, v := range mappingOracleDbAwsKeyLifecycleStateEnum {
+// GetOracleDbAwsKeyPoolLifecycleStateEnumValues Enumerates the set of values for OracleDbAwsKeyPoolLifecycleStateEnum
+func GetOracleDbAwsKeyPoolLifecycleStateEnumValues() []OracleDbAwsKeyPoolLifecycleStateEnum {
+	values := make([]OracleDbAwsKeyPoolLifecycleStateEnum, 0)
+	for _, v := range mappingOracleDbAwsKeyPoolLifecycleStateEnum {
 		values = append(values, v)
 	}
 	return values
 }
 
-// GetOracleDbAwsKeyLifecycleStateEnumStringValues Enumerates the set of values in String for OracleDbAwsKeyLifecycleStateEnum
-func GetOracleDbAwsKeyLifecycleStateEnumStringValues() []string {
+// GetOracleDbAwsKeyPoolLifecycleStateEnumStringValues Enumerates the set of values in String for OracleDbAwsKeyPoolLifecycleStateEnum
+func GetOracleDbAwsKeyPoolLifecycleStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"ACTIVE",
@@ -179,8 +156,8 @@ func GetOracleDbAwsKeyLifecycleStateEnumStringValues() []string {
 	}
 }
 
-// GetMappingOracleDbAwsKeyLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingOracleDbAwsKeyLifecycleStateEnum(val string) (OracleDbAwsKeyLifecycleStateEnum, bool) {
-	enum, ok := mappingOracleDbAwsKeyLifecycleStateEnumLowerCase[strings.ToLower(val)]
+// GetMappingOracleDbAwsKeyPoolLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingOracleDbAwsKeyPoolLifecycleStateEnum(val string) (OracleDbAwsKeyPoolLifecycleStateEnum, bool) {
+	enum, ok := mappingOracleDbAwsKeyPoolLifecycleStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

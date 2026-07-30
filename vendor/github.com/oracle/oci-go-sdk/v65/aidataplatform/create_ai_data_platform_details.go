@@ -10,6 +10,7 @@
 package aidataplatform
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -26,6 +27,8 @@ type CreateAiDataPlatformDetails struct {
 
 	// The AiDataPlatform type.
 	AiDataPlatformType *string `mandatory:"false" json:"aiDataPlatformType"`
+
+	AttachAnalyticsDetails AttachAnalyticsDetails `mandatory:"false" json:"attachAnalyticsDetails"`
 
 	// The flag to enable/disable AiFeatures for the instance.
 	IsEnableAiFeature *bool `mandatory:"false" json:"isEnableAiFeature"`
@@ -77,4 +80,67 @@ func (m CreateAiDataPlatformDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateAiDataPlatformDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName            *string                           `json:"displayName"`
+		AiDataPlatformType     *string                           `json:"aiDataPlatformType"`
+		AttachAnalyticsDetails attachanalyticsdetails            `json:"attachAnalyticsDetails"`
+		IsEnableAiFeature      *bool                             `json:"isEnableAiFeature"`
+		VectorDbId             *string                           `json:"vectorDbId"`
+		VectorDbAdminCred      *string                           `json:"vectorDbAdminCred"`
+		VectorDbAdminSecretId  *string                           `json:"vectorDbAdminSecretId"`
+		KmsKeyId               *string                           `json:"kmsKeyId"`
+		KmsVaultId             *string                           `json:"kmsVaultId"`
+		DefaultWorkspaceName   *string                           `json:"defaultWorkspaceName"`
+		FreeformTags           map[string]string                 `json:"freeformTags"`
+		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags             map[string]map[string]interface{} `json:"systemTags"`
+		CompartmentId          *string                           `json:"compartmentId"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.AiDataPlatformType = model.AiDataPlatformType
+
+	nn, e = model.AttachAnalyticsDetails.UnmarshalPolymorphicJSON(model.AttachAnalyticsDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.AttachAnalyticsDetails = nn.(AttachAnalyticsDetails)
+	} else {
+		m.AttachAnalyticsDetails = nil
+	}
+
+	m.IsEnableAiFeature = model.IsEnableAiFeature
+
+	m.VectorDbId = model.VectorDbId
+
+	m.VectorDbAdminCred = model.VectorDbAdminCred
+
+	m.VectorDbAdminSecretId = model.VectorDbAdminSecretId
+
+	m.KmsKeyId = model.KmsKeyId
+
+	m.KmsVaultId = model.KmsVaultId
+
+	m.DefaultWorkspaceName = model.DefaultWorkspaceName
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
+
+	m.CompartmentId = model.CompartmentId
+
+	return
 }

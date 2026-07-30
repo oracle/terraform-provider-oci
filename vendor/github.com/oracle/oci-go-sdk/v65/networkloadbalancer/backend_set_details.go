@@ -26,6 +26,12 @@ type BackendSetDetails struct {
 	// Example: `FIVE_TUPLE`
 	Policy NetworkLoadBalancingPolicyEnum `mandatory:"false" json:"policy,omitempty"`
 
+	// When enabled, the NLB will accept dynamic weight information included in the
+	// response headers of HTTP/HTTPS health check probes, and static weights will be ignored.
+	// This enhancement enables the NLB to process real-time weight updates from backend servers,
+	// allowing more adaptive load distribution and improving application performance and availability.
+	IsDynamicBackendWeightEnabled *bool `mandatory:"false" json:"isDynamicBackendWeightEnabled"`
+
 	// IP version associated with the backend set.
 	IpVersion IpVersionEnum `mandatory:"false" json:"ipVersion,omitempty"`
 

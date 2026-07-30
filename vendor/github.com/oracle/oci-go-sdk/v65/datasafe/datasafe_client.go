@@ -7091,6 +7091,60 @@ func (client DataSafeClient) deploySecurityPolicyDeployment(ctx context.Context,
 	return response, err
 }
 
+// DeregisterDataSafeTarget Deregisters the Autonomous Database identified by the target OCID.
+// A default retry strategy applies to this operation DeregisterDataSafeTarget()
+func (client DataSafeClient) DeregisterDataSafeTarget(ctx context.Context, request DeregisterDataSafeTargetRequest) (response DeregisterDataSafeTargetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deregisterDataSafeTarget, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeregisterDataSafeTargetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeregisterDataSafeTargetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeregisterDataSafeTargetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeregisterDataSafeTargetResponse")
+	}
+	return
+}
+
+// deregisterDataSafeTarget implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deregisterDataSafeTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dataSafeTargets/{dataSafeTargetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeregisterDataSafeTargetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeregisterDataSafeTarget")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/RegisterDataSafeTargetDetails/DeregisterDataSafeTarget"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeregisterDataSafeTarget", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DiscoverAuditTrails Updates the list of audit trails created under audit profile.The
 // operation can be used to create new audit trails for target database
 // when they become available for audit collection because of change of database version
@@ -12569,6 +12623,60 @@ func (client DataSafeClient) listDataSafePrivateEndpoints(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DataSafePrivateEndpointSummary/ListDataSafePrivateEndpoints"
 		err = common.PostProcessServiceError(err, "DataSafe", "ListDataSafePrivateEndpoints", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDataSafeTargets Returns a list of Autonomous Database targets registered in Data Safe.
+// A default retry strategy applies to this operation ListDataSafeTargets()
+func (client DataSafeClient) ListDataSafeTargets(ctx context.Context, request ListDataSafeTargetsRequest) (response ListDataSafeTargetsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDataSafeTargets, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDataSafeTargetsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDataSafeTargetsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDataSafeTargetsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDataSafeTargetsResponse")
+	}
+	return
+}
+
+// listDataSafeTargets implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listDataSafeTargets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dataSafeTargets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDataSafeTargetsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListDataSafeTargets")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DataSafeTargetSummary/ListDataSafeTargets"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListDataSafeTargets", apiReferenceLink)
 		return response, err
 	}
 
@@ -18361,6 +18469,65 @@ func (client DataSafeClient) refreshUserAssessment(ctx context.Context, request 
 	return response, err
 }
 
+// RegisterDataSafeTarget Registers an Autonomous Database in Data Safe.
+// A default retry strategy applies to this operation RegisterDataSafeTarget()
+func (client DataSafeClient) RegisterDataSafeTarget(ctx context.Context, request RegisterDataSafeTargetRequest) (response RegisterDataSafeTargetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.registerDataSafeTarget, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RegisterDataSafeTargetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RegisterDataSafeTargetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RegisterDataSafeTargetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RegisterDataSafeTargetResponse")
+	}
+	return
+}
+
+// registerDataSafeTarget implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) registerDataSafeTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dataSafeTargets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RegisterDataSafeTargetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "RegisterDataSafeTarget")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/RegisterDataSafeTargetDetails/RegisterDataSafeTarget"
+		err = common.PostProcessServiceError(err, "DataSafe", "RegisterDataSafeTarget", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RemoveScheduleReport Deletes the schedule of a .xls or .pdf report.
 // A default retry strategy applies to this operation RemoveScheduleReport()
 func (client DataSafeClient) RemoveScheduleReport(ctx context.Context, request RemoveScheduleReportRequest) (response RemoveScheduleReportResponse, err error) {
@@ -19719,6 +19886,60 @@ func (client DataSafeClient) updateDataSafePrivateEndpoint(ctx context.Context, 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DataSafePrivateEndpoint/UpdateDataSafePrivateEndpoint"
 		err = common.PostProcessServiceError(err, "DataSafe", "UpdateDataSafePrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateDataSafeTarget Updates one or more attributes of the Data Safe target database.
+// A default retry strategy applies to this operation UpdateDataSafeTarget()
+func (client DataSafeClient) UpdateDataSafeTarget(ctx context.Context, request UpdateDataSafeTargetRequest) (response UpdateDataSafeTargetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateDataSafeTarget, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDataSafeTargetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDataSafeTargetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDataSafeTargetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDataSafeTargetResponse")
+	}
+	return
+}
+
+// updateDataSafeTarget implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updateDataSafeTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dataSafeTargets/{dataSafeTargetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDataSafeTargetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateDataSafeTarget")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/RegisterDataSafeTargetDetails/UpdateDataSafeTarget"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateDataSafeTarget", apiReferenceLink)
 		return response, err
 	}
 

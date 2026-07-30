@@ -37,14 +37,17 @@ import (
 	"strings"
 )
 
-// UpdateOracleDbAwsKeyDetails Update Oracle DB AWS Key resource object.
-type UpdateOracleDbAwsKeyDetails struct {
+// UpdateOracleDbAwsKeyPoolDetails Details for updating an Oracle DB AWS key pool resource.
+type UpdateOracleDbAwsKeyPoolDetails struct {
 
-	// Oracle DB AWS Key resource name.
+	// The display name of the Oracle DB AWS key pool resource.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB AWS Key Pool resource.
-	OracleDbAwsKeyPoolId *string `mandatory:"false" json:"oracleDbAwsKeyPoolId"`
+	// Indicates whether AWS KMS keys in this key pool can be reused.
+	IsReuseAllowed *bool `mandatory:"false" json:"isReuseAllowed"`
+
+	// Indicates whether this key pool accepts only multi-region AWS KMS keys. When false, the key pool accepts only single-region AWS KMS keys.
+	IsMultiRegionKeyPool *bool `mandatory:"false" json:"isMultiRegionKeyPool"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -57,14 +60,14 @@ type UpdateOracleDbAwsKeyDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-func (m UpdateOracleDbAwsKeyDetails) String() string {
+func (m UpdateOracleDbAwsKeyPoolDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UpdateOracleDbAwsKeyDetails) ValidateEnumValue() (bool, error) {
+func (m UpdateOracleDbAwsKeyPoolDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

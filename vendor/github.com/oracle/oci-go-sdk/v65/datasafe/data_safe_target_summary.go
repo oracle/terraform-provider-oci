@@ -15,19 +15,36 @@ import (
 	"strings"
 )
 
-// ActivateTargetDatabaseDetails The details required to reactivate a previously deactived target database in Data Safe.
-type ActivateTargetDatabaseDetails struct {
-	Credentials *Credentials `mandatory:"false" json:"credentials"`
+// DataSafeTargetSummary Summary of the targets.
+type DataSafeTargetSummary struct {
+
+	// The OCID of the target database.
+	DbId *string `mandatory:"true" json:"dbId"`
+
+	// The name of the target database.
+	DbName *string `mandatory:"true" json:"dbName"`
+
+	// The date and time the target was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+
+	// Data Safe Private Endpoint OCID.
+	DataSafePrivateEndpointId *string `mandatory:"false" json:"dataSafePrivateEndpointId"`
+
+	// Data Safe Agent OCID.
+	DataSafeAgentId *string `mandatory:"false" json:"dataSafeAgentId"`
+
+	// The OCID of the on-premises connector.
+	OnPremConnectorId *string `mandatory:"false" json:"onPremConnectorId"`
 }
 
-func (m ActivateTargetDatabaseDetails) String() string {
+func (m DataSafeTargetSummary) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ActivateTargetDatabaseDetails) ValidateEnumValue() (bool, error) {
+func (m DataSafeTargetSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

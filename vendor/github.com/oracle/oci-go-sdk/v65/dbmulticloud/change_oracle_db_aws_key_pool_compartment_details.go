@@ -37,34 +37,21 @@ import (
 	"strings"
 )
 
-// UpdateOracleDbAwsKeyDetails Update Oracle DB AWS Key resource object.
-type UpdateOracleDbAwsKeyDetails struct {
+// ChangeOracleDbAwsKeyPoolCompartmentDetails Details for moving the Oracle DB AWS key pool resource to a different compartment.
+type ChangeOracleDbAwsKeyPoolCompartmentDetails struct {
 
-	// Oracle DB AWS Key resource name.
-	DisplayName *string `mandatory:"false" json:"displayName"`
-
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB AWS Key Pool resource.
-	OracleDbAwsKeyPoolId *string `mandatory:"false" json:"oracleDbAwsKeyPoolId"`
-
-	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Department": "Finance"}`
-	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
-
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Operations": {"CostCenter": "42"}}`
-	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the new compartment to contain the Oracle DB AWS Key Pool resource.
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 }
 
-func (m UpdateOracleDbAwsKeyDetails) String() string {
+func (m ChangeOracleDbAwsKeyPoolCompartmentDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UpdateOracleDbAwsKeyDetails) ValidateEnumValue() (bool, error) {
+func (m ChangeOracleDbAwsKeyPoolCompartmentDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

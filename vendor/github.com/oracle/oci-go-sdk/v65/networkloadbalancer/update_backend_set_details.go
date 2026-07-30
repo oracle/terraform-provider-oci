@@ -31,6 +31,12 @@ type UpdateBackendSetDetails struct {
 	// The value is true by default.
 	IsPreserveSource *bool `mandatory:"false" json:"isPreserveSource"`
 
+	// When enabled, the NLB will accept dynamic weight information included in the
+	// response headers of HTTP/HTTPS health check probes, and static weights will be ignored.
+	// This enhancement enables the NLB to process real-time weight updates from backend servers,
+	// allowing more adaptive load distribution and improving application performance and availability.
+	IsDynamicBackendWeightEnabled *bool `mandatory:"false" json:"isDynamicBackendWeightEnabled"`
+
 	// If enabled, the network load balancer will continue to distribute traffic in the configured distribution in the event all backends are unhealthy.
 	// The value is false by default.
 	IsFailOpen *bool `mandatory:"false" json:"isFailOpen"`

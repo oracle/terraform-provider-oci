@@ -37,35 +37,28 @@ import (
 	"strings"
 )
 
-// UpdateOracleDbAwsKeyDetails Update Oracle DB AWS Key resource object.
-type UpdateOracleDbAwsKeyDetails struct {
+// ReplicateOracleDbAwsKeyPoolDetails Details for replicating an Oracle DB AWS key pool resource to another region.
+type ReplicateOracleDbAwsKeyPoolDetails struct {
 
-	// Oracle DB AWS Key resource name.
-	DisplayName *string `mandatory:"false" json:"displayName"`
+	// The destination OCI public region name (e.g., us-phoenix-1 or us-ashburn-1) where the Oracle DB AWS Key Pool resource will be replicated.
+	TargetRegion *string `mandatory:"true" json:"targetRegion"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB AWS Key Pool resource.
-	OracleDbAwsKeyPoolId *string `mandatory:"false" json:"oracleDbAwsKeyPoolId"`
-
-	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Department": "Finance"}`
-	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
-
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Operations": {"CostCenter": "42"}}`
-	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	// The replication action to perform for the Oracle DB AWS key pool resource.
+	Action ReplicationActionsEnum `mandatory:"true" json:"action"`
 }
 
-func (m UpdateOracleDbAwsKeyDetails) String() string {
+func (m ReplicateOracleDbAwsKeyPoolDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UpdateOracleDbAwsKeyDetails) ValidateEnumValue() (bool, error) {
+func (m ReplicateOracleDbAwsKeyPoolDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingReplicationActionsEnum(string(m.Action)); !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetReplicationActionsEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

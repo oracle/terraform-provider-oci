@@ -91,6 +91,7 @@ const (
 	WorkRequestSummaryOperationTypeUpdateTargetDatabase                          WorkRequestSummaryOperationTypeEnum = "UPDATE_TARGET_DATABASE"
 	WorkRequestSummaryOperationTypeActivateTargetDatabase                        WorkRequestSummaryOperationTypeEnum = "ACTIVATE_TARGET_DATABASE"
 	WorkRequestSummaryOperationTypeDeactivateTargetDatabase                      WorkRequestSummaryOperationTypeEnum = "DEACTIVATE_TARGET_DATABASE"
+	WorkRequestSummaryOperationTypeUpdateTargetDatabasePrivilege                 WorkRequestSummaryOperationTypeEnum = "UPDATE_TARGET_DATABASE_PRIVILEGE"
 	WorkRequestSummaryOperationTypeDeleteTargetDatabase                          WorkRequestSummaryOperationTypeEnum = "DELETE_TARGET_DATABASE"
 	WorkRequestSummaryOperationTypeChangeTargetDatabaseCompartment               WorkRequestSummaryOperationTypeEnum = "CHANGE_TARGET_DATABASE_COMPARTMENT"
 	WorkRequestSummaryOperationTypeCreatePeerTargetDatabase                      WorkRequestSummaryOperationTypeEnum = "CREATE_PEER_TARGET_DATABASE"
@@ -285,6 +286,7 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"UPDATE_TARGET_DATABASE":                             WorkRequestSummaryOperationTypeUpdateTargetDatabase,
 	"ACTIVATE_TARGET_DATABASE":                           WorkRequestSummaryOperationTypeActivateTargetDatabase,
 	"DEACTIVATE_TARGET_DATABASE":                         WorkRequestSummaryOperationTypeDeactivateTargetDatabase,
+	"UPDATE_TARGET_DATABASE_PRIVILEGE":                   WorkRequestSummaryOperationTypeUpdateTargetDatabasePrivilege,
 	"DELETE_TARGET_DATABASE":                             WorkRequestSummaryOperationTypeDeleteTargetDatabase,
 	"CHANGE_TARGET_DATABASE_COMPARTMENT":                 WorkRequestSummaryOperationTypeChangeTargetDatabaseCompartment,
 	"CREATE_PEER_TARGET_DATABASE":                        WorkRequestSummaryOperationTypeCreatePeerTargetDatabase,
@@ -479,6 +481,7 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"update_target_database":                             WorkRequestSummaryOperationTypeUpdateTargetDatabase,
 	"activate_target_database":                           WorkRequestSummaryOperationTypeActivateTargetDatabase,
 	"deactivate_target_database":                         WorkRequestSummaryOperationTypeDeactivateTargetDatabase,
+	"update_target_database_privilege":                   WorkRequestSummaryOperationTypeUpdateTargetDatabasePrivilege,
 	"delete_target_database":                             WorkRequestSummaryOperationTypeDeleteTargetDatabase,
 	"change_target_database_compartment":                 WorkRequestSummaryOperationTypeChangeTargetDatabaseCompartment,
 	"create_peer_target_database":                        WorkRequestSummaryOperationTypeCreatePeerTargetDatabase,
@@ -684,6 +687,7 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"UPDATE_TARGET_DATABASE",
 		"ACTIVATE_TARGET_DATABASE",
 		"DEACTIVATE_TARGET_DATABASE",
+		"UPDATE_TARGET_DATABASE_PRIVILEGE",
 		"DELETE_TARGET_DATABASE",
 		"CHANGE_TARGET_DATABASE_COMPARTMENT",
 		"CREATE_PEER_TARGET_DATABASE",

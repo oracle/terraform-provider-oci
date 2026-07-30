@@ -66,6 +66,9 @@ type AiDataPlatform struct {
 	// The current aiFeatureStatus of the AiDataPlatform.
 	AiFeatureStatus AiDataPlatformAiFeatureStatusEnum `mandatory:"false" json:"aiFeatureStatus,omitempty"`
 
+	// The current Oracle Analytics Cloud association status of the AiDataPlatform.
+	OacAssociationStatus AiDataPlatformOacAssociationStatusEnum `mandatory:"false" json:"oacAssociationStatus,omitempty"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of user Master Encryption Key
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
@@ -102,6 +105,9 @@ func (m AiDataPlatform) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingAiDataPlatformAiFeatureStatusEnum(string(m.AiFeatureStatus)); !ok && m.AiFeatureStatus != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AiFeatureStatus: %s. Supported values are: %s.", m.AiFeatureStatus, strings.Join(GetAiDataPlatformAiFeatureStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAiDataPlatformOacAssociationStatusEnum(string(m.OacAssociationStatus)); !ok && m.OacAssociationStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OacAssociationStatus: %s. Supported values are: %s.", m.OacAssociationStatus, strings.Join(GetAiDataPlatformOacAssociationStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -218,5 +224,59 @@ func GetAiDataPlatformAiFeatureStatusEnumStringValues() []string {
 // GetMappingAiDataPlatformAiFeatureStatusEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAiDataPlatformAiFeatureStatusEnum(val string) (AiDataPlatformAiFeatureStatusEnum, bool) {
 	enum, ok := mappingAiDataPlatformAiFeatureStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// AiDataPlatformOacAssociationStatusEnum Enum with underlying type: string
+type AiDataPlatformOacAssociationStatusEnum string
+
+// Set of constants representing the allowable values for AiDataPlatformOacAssociationStatusEnum
+const (
+	AiDataPlatformOacAssociationStatusDisabling AiDataPlatformOacAssociationStatusEnum = "DISABLING"
+	AiDataPlatformOacAssociationStatusDisabled  AiDataPlatformOacAssociationStatusEnum = "DISABLED"
+	AiDataPlatformOacAssociationStatusEnabling  AiDataPlatformOacAssociationStatusEnum = "ENABLING"
+	AiDataPlatformOacAssociationStatusReady     AiDataPlatformOacAssociationStatusEnum = "READY"
+	AiDataPlatformOacAssociationStatusFailed    AiDataPlatformOacAssociationStatusEnum = "FAILED"
+)
+
+var mappingAiDataPlatformOacAssociationStatusEnum = map[string]AiDataPlatformOacAssociationStatusEnum{
+	"DISABLING": AiDataPlatformOacAssociationStatusDisabling,
+	"DISABLED":  AiDataPlatformOacAssociationStatusDisabled,
+	"ENABLING":  AiDataPlatformOacAssociationStatusEnabling,
+	"READY":     AiDataPlatformOacAssociationStatusReady,
+	"FAILED":    AiDataPlatformOacAssociationStatusFailed,
+}
+
+var mappingAiDataPlatformOacAssociationStatusEnumLowerCase = map[string]AiDataPlatformOacAssociationStatusEnum{
+	"disabling": AiDataPlatformOacAssociationStatusDisabling,
+	"disabled":  AiDataPlatformOacAssociationStatusDisabled,
+	"enabling":  AiDataPlatformOacAssociationStatusEnabling,
+	"ready":     AiDataPlatformOacAssociationStatusReady,
+	"failed":    AiDataPlatformOacAssociationStatusFailed,
+}
+
+// GetAiDataPlatformOacAssociationStatusEnumValues Enumerates the set of values for AiDataPlatformOacAssociationStatusEnum
+func GetAiDataPlatformOacAssociationStatusEnumValues() []AiDataPlatformOacAssociationStatusEnum {
+	values := make([]AiDataPlatformOacAssociationStatusEnum, 0)
+	for _, v := range mappingAiDataPlatformOacAssociationStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAiDataPlatformOacAssociationStatusEnumStringValues Enumerates the set of values in String for AiDataPlatformOacAssociationStatusEnum
+func GetAiDataPlatformOacAssociationStatusEnumStringValues() []string {
+	return []string{
+		"DISABLING",
+		"DISABLED",
+		"ENABLING",
+		"READY",
+		"FAILED",
+	}
+}
+
+// GetMappingAiDataPlatformOacAssociationStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAiDataPlatformOacAssociationStatusEnum(val string) (AiDataPlatformOacAssociationStatusEnum, bool) {
+	enum, ok := mappingAiDataPlatformOacAssociationStatusEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

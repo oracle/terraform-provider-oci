@@ -11,14 +11,19 @@ import (
 	"strings"
 )
 
-// UpdateOracleDbAwsKeyRequest wrapper for the UpdateOracleDbAwsKey operation
-type UpdateOracleDbAwsKeyRequest struct {
+// ChangeOracleDbAwsKeyPoolCompartmentRequest wrapper for the ChangeOracleDbAwsKeyPoolCompartment operation
+type ChangeOracleDbAwsKeyPoolCompartmentRequest struct {
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB AWS Key resource.
-	OracleDbAwsKeyId *string `mandatory:"true" contributesTo:"path" name:"oracleDbAwsKeyId"`
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB AWS Key Pool resource.
+	OracleDbAwsKeyPoolId *string `mandatory:"true" contributesTo:"path" name:"oracleDbAwsKeyPoolId"`
 
-	// Details for to update OracleDbAwsKey.
-	UpdateOracleDbAwsKeyDetails `contributesTo:"body"`
+	// Moves the AWS Key Pool resource into a different compartment.
+	ChangeOracleDbAwsKeyPoolCompartmentDetails `contributesTo:"body"`
+
+	// A token that uniquely identifies a request, allowing it to be safely retried in the event of a timeout or server error without the risk of the action being executed more than once.
+	// Retry tokens expire after 24 hours but can be invalidated sooner if conflicting operations occur.
+	// For example, if a resource has been deleted and permanently purged from the system, a retry of the original creation request may be rejected.
+	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
 	// for a resource, set the `if-match` parameter to the value of the
@@ -30,20 +35,17 @@ type UpdateOracleDbAwsKeyRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// If true, removes the key from its key pool even when it is currently in use; otherwise the request is rejected.
-	IsForceDeleteFromKeyPool *bool `mandatory:"false" contributesTo:"query" name:"isForceDeleteFromKeyPool"`
-
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
 }
 
-func (request UpdateOracleDbAwsKeyRequest) String() string {
+func (request ChangeOracleDbAwsKeyPoolCompartmentRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request UpdateOracleDbAwsKeyRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request ChangeOracleDbAwsKeyPoolCompartmentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -53,21 +55,21 @@ func (request UpdateOracleDbAwsKeyRequest) HTTPRequest(method, path string, bina
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request UpdateOracleDbAwsKeyRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request ChangeOracleDbAwsKeyPoolCompartmentRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request UpdateOracleDbAwsKeyRequest) RetryPolicy() *common.RetryPolicy {
+func (request ChangeOracleDbAwsKeyPoolCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request UpdateOracleDbAwsKeyRequest) ValidateEnumValue() (bool, error) {
+func (request ChangeOracleDbAwsKeyPoolCompartmentRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -75,26 +77,26 @@ func (request UpdateOracleDbAwsKeyRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// UpdateOracleDbAwsKeyResponse wrapper for the UpdateOracleDbAwsKey operation
-type UpdateOracleDbAwsKeyResponse struct {
+// ChangeOracleDbAwsKeyPoolCompartmentResponse wrapper for the ChangeOracleDbAwsKeyPoolCompartment operation
+type ChangeOracleDbAwsKeyPoolCompartmentResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
-	// Use GetWorkRequest with this ID to track the status of the request.
-	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
-
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the asynchronous work request.
+	// Use GetWorkRequest with this ID to track the status of the request.
+	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 
-func (response UpdateOracleDbAwsKeyResponse) String() string {
+func (response ChangeOracleDbAwsKeyPoolCompartmentResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response UpdateOracleDbAwsKeyResponse) HTTPResponse() *http.Response {
+func (response ChangeOracleDbAwsKeyPoolCompartmentResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

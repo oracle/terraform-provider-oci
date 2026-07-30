@@ -29,6 +29,9 @@ type ListOracleDbAwsKeysRequest struct {
 	// A filter to return Oracle DB AWS Identity Connector resources that match the specified OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB AWS Identity Connector resource.
 	OracleDbAwsConnectorId *string `mandatory:"false" contributesTo:"query" name:"oracleDbAwsConnectorId"`
 
+	// A filter to return only resources that match the given OCID](/Content/General/Concepts/identifiers.htm) of the Oracle DB AWS Key Pool resource.
+	OracleDbAwsKeyPoolId *string `mandatory:"false" contributesTo:"query" name:"oracleDbAwsKeyPoolId"`
+
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 

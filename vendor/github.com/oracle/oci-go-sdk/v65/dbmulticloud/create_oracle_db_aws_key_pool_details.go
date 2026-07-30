@@ -37,14 +37,20 @@ import (
 	"strings"
 )
 
-// UpdateOracleDbAwsKeyDetails Update Oracle DB AWS Key resource object.
-type UpdateOracleDbAwsKeyDetails struct {
+// CreateOracleDbAwsKeyPoolDetails Details for creating an Oracle DB AWS key pool resource.
+type CreateOracleDbAwsKeyPoolDetails struct {
 
-	// Oracle DB AWS Key resource name.
-	DisplayName *string `mandatory:"false" json:"displayName"`
+	// The Compartment OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that contains this Oracle DB AWS Pool resource.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle DB AWS Key Pool resource.
-	OracleDbAwsKeyPoolId *string `mandatory:"false" json:"oracleDbAwsKeyPoolId"`
+	// The display name of the Oracle DB AWS key pool resource.
+	DisplayName *string `mandatory:"true" json:"displayName"`
+
+	// Indicates whether AWS KMS keys in this key pool can be reused.
+	IsReuseAllowed *bool `mandatory:"false" json:"isReuseAllowed"`
+
+	// Indicates whether this key pool accepts only multi-region AWS KMS keys. When false, the key pool accepts only single-region AWS KMS keys.
+	IsMultiRegionKeyPool *bool `mandatory:"false" json:"isMultiRegionKeyPool"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -57,14 +63,14 @@ type UpdateOracleDbAwsKeyDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-func (m UpdateOracleDbAwsKeyDetails) String() string {
+func (m CreateOracleDbAwsKeyPoolDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UpdateOracleDbAwsKeyDetails) ValidateEnumValue() (bool, error) {
+func (m CreateOracleDbAwsKeyPoolDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

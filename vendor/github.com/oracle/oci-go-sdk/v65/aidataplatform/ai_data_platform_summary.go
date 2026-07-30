@@ -60,6 +60,9 @@ type AiDataPlatformSummary struct {
 	// The current aiFeatureStatus of the AiDataPlatform.
 	AiFeatureStatus AiDataPlatformAiFeatureStatusEnum `mandatory:"false" json:"aiFeatureStatus,omitempty"`
 
+	// The current Oracle Analytics Cloud association status of the AiDataPlatform.
+	OacAssociationStatus AiDataPlatformOacAssociationStatusEnum `mandatory:"false" json:"oacAssociationStatus,omitempty"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of user Master Encryption Key
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
@@ -96,6 +99,9 @@ func (m AiDataPlatformSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingAiDataPlatformAiFeatureStatusEnum(string(m.AiFeatureStatus)); !ok && m.AiFeatureStatus != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AiFeatureStatus: %s. Supported values are: %s.", m.AiFeatureStatus, strings.Join(GetAiDataPlatformAiFeatureStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAiDataPlatformOacAssociationStatusEnum(string(m.OacAssociationStatus)); !ok && m.OacAssociationStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OacAssociationStatus: %s. Supported values are: %s.", m.OacAssociationStatus, strings.Join(GetAiDataPlatformOacAssociationStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))

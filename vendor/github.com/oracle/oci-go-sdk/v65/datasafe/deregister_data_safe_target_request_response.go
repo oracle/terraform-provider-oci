@@ -11,20 +11,11 @@ import (
 	"strings"
 )
 
-// ActivateTargetDatabaseRequest wrapper for the ActivateTargetDatabase operation
-type ActivateTargetDatabaseRequest struct {
+// DeregisterDataSafeTargetRequest wrapper for the DeregisterDataSafeTarget operation
+type DeregisterDataSafeTargetRequest struct {
 
-	// The OCID of the Data Safe target database.
-	TargetDatabaseId *string `mandatory:"true" contributesTo:"path" name:"targetDatabaseId"`
-
-	// The details used to reactivate a target database in Data Safe.
-	ActivateTargetDatabaseDetails `contributesTo:"body"`
-
-	// A token that uniquely identifies a request so it can be retried in case of a timeout or
-	// server error without risk of executing that same action again. Retry tokens expire after 24
-	// hours, but can be invalidated before then due to conflicting operations. For example, if a resource
-	// has been deleted and purged from the system, then a retry of the original creation request might be rejected.
-	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
+	// The OCID of the target database.
+	DataSafeTargetId *string `mandatory:"true" contributesTo:"path" name:"dataSafeTargetId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
 	// for a resource, set the if-match parameter to the value of the
@@ -41,12 +32,12 @@ type ActivateTargetDatabaseRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request ActivateTargetDatabaseRequest) String() string {
+func (request DeregisterDataSafeTargetRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ActivateTargetDatabaseRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request DeregisterDataSafeTargetRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -56,21 +47,21 @@ func (request ActivateTargetDatabaseRequest) HTTPRequest(method, path string, bi
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request ActivateTargetDatabaseRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request DeregisterDataSafeTargetRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ActivateTargetDatabaseRequest) RetryPolicy() *common.RetryPolicy {
+func (request DeregisterDataSafeTargetRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request ActivateTargetDatabaseRequest) ValidateEnumValue() (bool, error) {
+func (request DeregisterDataSafeTargetRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -78,8 +69,8 @@ func (request ActivateTargetDatabaseRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// ActivateTargetDatabaseResponse wrapper for the ActivateTargetDatabase operation
-type ActivateTargetDatabaseResponse struct {
+// DeregisterDataSafeTargetResponse wrapper for the DeregisterDataSafeTarget operation
+type DeregisterDataSafeTargetResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
@@ -91,11 +82,11 @@ type ActivateTargetDatabaseResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response ActivateTargetDatabaseResponse) String() string {
+func (response DeregisterDataSafeTargetResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response ActivateTargetDatabaseResponse) HTTPResponse() *http.Response {
+func (response DeregisterDataSafeTargetResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
