@@ -15,34 +15,21 @@ import (
 	"strings"
 )
 
-// SubscriptionDetails The details of a subscription
-type SubscriptionDetails struct {
-	PricingPlan *PricingPlan `mandatory:"true" json:"pricingPlan"`
+// CancelSubscriptionDetails The data to cancel a Subscription.
+type CancelSubscriptionDetails struct {
 
-	// The activation link given by the partner.
-	PartnerRegistrationUrl *string `mandatory:"true" json:"partnerRegistrationUrl"`
-
-	// Billing details associated with the subscription plan and its usage dimensions.
-	BillingDetails []BillingDetails `mandatory:"true" json:"billingDetails"`
-
-	// The currency supported, in the format specified by ISO-4217
-	Currency *string `mandatory:"false" json:"currency"`
-
-	// Tha amount for the currency type.
-	Amount *float32 `mandatory:"false" json:"amount"`
-
-	// Whether subscription should be auto-renewed at the end of cycle.
-	IsAutoRenew *bool `mandatory:"false" json:"isAutoRenew"`
+	// Optional reason provided by the customer for the cancellation.
+	Reason *string `mandatory:"false" json:"reason"`
 }
 
-func (m SubscriptionDetails) String() string {
+func (m CancelSubscriptionDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m SubscriptionDetails) ValidateEnumValue() (bool, error) {
+func (m CancelSubscriptionDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

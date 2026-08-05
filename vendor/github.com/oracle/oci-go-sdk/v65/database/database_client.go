@@ -10968,6 +10968,63 @@ func (client DatabaseClient) getAutonomousContainerDatabase(ctx context.Context,
 	return response, err
 }
 
+// GetAutonomousContainerDatabaseBackup Gets information about the specified Autonomous Container Database backup.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetAutonomousContainerDatabaseBackup.go.html to see an example of how to use GetAutonomousContainerDatabaseBackup API.
+func (client DatabaseClient) GetAutonomousContainerDatabaseBackup(ctx context.Context, request GetAutonomousContainerDatabaseBackupRequest) (response GetAutonomousContainerDatabaseBackupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAutonomousContainerDatabaseBackup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAutonomousContainerDatabaseBackupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAutonomousContainerDatabaseBackupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAutonomousContainerDatabaseBackupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAutonomousContainerDatabaseBackupResponse")
+	}
+	return
+}
+
+// getAutonomousContainerDatabaseBackup implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getAutonomousContainerDatabaseBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousContainerDatabaseBackups/{autonomousContainerDatabaseBackupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAutonomousContainerDatabaseBackupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "GetAutonomousContainerDatabaseBackup")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabaseBackup/GetAutonomousContainerDatabaseBackup"
+		err = common.PostProcessServiceError(err, "Database", "GetAutonomousContainerDatabaseBackup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetAutonomousContainerDatabaseDataguardAssociation **Deprecated.** Use the GetAutonomousContainerDatabase operation to get the details of an Autonomous Container Database (ACD) enabled with Autonomous Data Guard associated with the specified ACD.
 //
 // # See also
@@ -16409,6 +16466,63 @@ func (client DatabaseClient) listAutonomousDatabases(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/ListAutonomousDatabases"
 		err = common.PostProcessServiceError(err, "Database", "ListAutonomousDatabases", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAutonomousDatabasesInAutonomousContainerDatabaseBackup Gets a list of Autonomous Databases associated with backups at the given timestamp for the specified Autonomous Container Database. If `compartmentId` is provided, filters to that compartment; otherwise, uses the container's compartment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListAutonomousDatabasesInAutonomousContainerDatabaseBackup.go.html to see an example of how to use ListAutonomousDatabasesInAutonomousContainerDatabaseBackup API.
+func (client DatabaseClient) ListAutonomousDatabasesInAutonomousContainerDatabaseBackup(ctx context.Context, request ListAutonomousDatabasesInAutonomousContainerDatabaseBackupRequest) (response ListAutonomousDatabasesInAutonomousContainerDatabaseBackupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAutonomousDatabasesInAutonomousContainerDatabaseBackup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAutonomousDatabasesInAutonomousContainerDatabaseBackupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAutonomousDatabasesInAutonomousContainerDatabaseBackupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAutonomousDatabasesInAutonomousContainerDatabaseBackupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAutonomousDatabasesInAutonomousContainerDatabaseBackupResponse")
+	}
+	return
+}
+
+// listAutonomousDatabasesInAutonomousContainerDatabaseBackup implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listAutonomousDatabasesInAutonomousContainerDatabaseBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousContainerDatabaseBackups/listAutonomousDatabasesInBackup", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAutonomousDatabasesInAutonomousContainerDatabaseBackupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "database", "ListAutonomousDatabasesInAutonomousContainerDatabaseBackup")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabaseInBackup/ListAutonomousDatabasesInAutonomousContainerDatabaseBackup"
+		err = common.PostProcessServiceError(err, "Database", "ListAutonomousDatabasesInAutonomousContainerDatabaseBackup", apiReferenceLink)
 		return response, err
 	}
 

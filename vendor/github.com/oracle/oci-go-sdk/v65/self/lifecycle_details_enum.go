@@ -30,6 +30,9 @@ const (
 	LifecycleDetailsEnumDeleting              LifecycleDetailsEnumEnum = "DELETING"
 	LifecycleDetailsEnumUpdating              LifecycleDetailsEnumEnum = "UPDATING"
 	LifecycleDetailsEnumDeleted               LifecycleDetailsEnumEnum = "DELETED"
+	LifecycleDetailsEnumPendingCancellation   LifecycleDetailsEnumEnum = "PENDING_CANCELLATION"
+	LifecycleDetailsEnumSuspended             LifecycleDetailsEnumEnum = "SUSPENDED"
+	LifecycleDetailsEnumCanceled              LifecycleDetailsEnumEnum = "CANCELED"
 )
 
 var mappingLifecycleDetailsEnumEnum = map[string]LifecycleDetailsEnumEnum{
@@ -45,6 +48,9 @@ var mappingLifecycleDetailsEnumEnum = map[string]LifecycleDetailsEnumEnum{
 	"DELETING":               LifecycleDetailsEnumDeleting,
 	"UPDATING":               LifecycleDetailsEnumUpdating,
 	"DELETED":                LifecycleDetailsEnumDeleted,
+	"PENDING_CANCELLATION":   LifecycleDetailsEnumPendingCancellation,
+	"SUSPENDED":              LifecycleDetailsEnumSuspended,
+	"CANCELED":               LifecycleDetailsEnumCanceled,
 }
 
 var mappingLifecycleDetailsEnumEnumLowerCase = map[string]LifecycleDetailsEnumEnum{
@@ -60,6 +66,9 @@ var mappingLifecycleDetailsEnumEnumLowerCase = map[string]LifecycleDetailsEnumEn
 	"deleting":               LifecycleDetailsEnumDeleting,
 	"updating":               LifecycleDetailsEnumUpdating,
 	"deleted":                LifecycleDetailsEnumDeleted,
+	"pending_cancellation":   LifecycleDetailsEnumPendingCancellation,
+	"suspended":              LifecycleDetailsEnumSuspended,
+	"canceled":               LifecycleDetailsEnumCanceled,
 }
 
 // GetLifecycleDetailsEnumEnumValues Enumerates the set of values for LifecycleDetailsEnumEnum
@@ -86,6 +95,9 @@ func GetLifecycleDetailsEnumEnumStringValues() []string {
 		"DELETING",
 		"UPDATING",
 		"DELETED",
+		"PENDING_CANCELLATION",
+		"SUSPENDED",
+		"CANCELED",
 	}
 }
 

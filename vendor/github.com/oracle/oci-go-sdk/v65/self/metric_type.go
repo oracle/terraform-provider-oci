@@ -21,18 +21,21 @@ const (
 	MetricTypeOcpuHours     MetricTypeEnum = "OCPU_HOURS"
 	MetricTypeInstanceHours MetricTypeEnum = "INSTANCE_HOURS"
 	MetricTypeCoreHours     MetricTypeEnum = "CORE_HOURS"
+	MetricTypeEach          MetricTypeEnum = "EACH"
 )
 
 var mappingMetricTypeEnum = map[string]MetricTypeEnum{
 	"OCPU_HOURS":     MetricTypeOcpuHours,
 	"INSTANCE_HOURS": MetricTypeInstanceHours,
 	"CORE_HOURS":     MetricTypeCoreHours,
+	"EACH":           MetricTypeEach,
 }
 
 var mappingMetricTypeEnumLowerCase = map[string]MetricTypeEnum{
 	"ocpu_hours":     MetricTypeOcpuHours,
 	"instance_hours": MetricTypeInstanceHours,
 	"core_hours":     MetricTypeCoreHours,
+	"each":           MetricTypeEach,
 }
 
 // GetMetricTypeEnumValues Enumerates the set of values for MetricTypeEnum
@@ -50,6 +53,7 @@ func GetMetricTypeEnumStringValues() []string {
 		"OCPU_HOURS",
 		"INSTANCE_HOURS",
 		"CORE_HOURS",
+		"EACH",
 	}
 }
 
