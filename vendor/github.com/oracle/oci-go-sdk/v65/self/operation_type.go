@@ -18,24 +18,27 @@ type OperationTypeEnum string
 
 // Set of constants representing the allowable values for OperationTypeEnum
 const (
-	OperationTypeCreateSubscription OperationTypeEnum = "CREATE_SUBSCRIPTION"
-	OperationTypeUpdateSubscription OperationTypeEnum = "UPDATE_SUBSCRIPTION"
-	OperationTypeDeleteSubscription OperationTypeEnum = "DELETE_SUBSCRIPTION"
-	OperationTypeMoveSubscription   OperationTypeEnum = "MOVE_SUBSCRIPTION"
+	OperationTypeCreateSubscription           OperationTypeEnum = "CREATE_SUBSCRIPTION"
+	OperationTypeUpdateSubscription           OperationTypeEnum = "UPDATE_SUBSCRIPTION"
+	OperationTypeDeleteSubscription           OperationTypeEnum = "DELETE_SUBSCRIPTION"
+	OperationTypeMoveSubscription             OperationTypeEnum = "MOVE_SUBSCRIPTION"
+	OperationTypeSubmitSubscriptionUsageBatch OperationTypeEnum = "SUBMIT_SUBSCRIPTION_USAGE_BATCH"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
-	"CREATE_SUBSCRIPTION": OperationTypeCreateSubscription,
-	"UPDATE_SUBSCRIPTION": OperationTypeUpdateSubscription,
-	"DELETE_SUBSCRIPTION": OperationTypeDeleteSubscription,
-	"MOVE_SUBSCRIPTION":   OperationTypeMoveSubscription,
+	"CREATE_SUBSCRIPTION":             OperationTypeCreateSubscription,
+	"UPDATE_SUBSCRIPTION":             OperationTypeUpdateSubscription,
+	"DELETE_SUBSCRIPTION":             OperationTypeDeleteSubscription,
+	"MOVE_SUBSCRIPTION":               OperationTypeMoveSubscription,
+	"SUBMIT_SUBSCRIPTION_USAGE_BATCH": OperationTypeSubmitSubscriptionUsageBatch,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
-	"create_subscription": OperationTypeCreateSubscription,
-	"update_subscription": OperationTypeUpdateSubscription,
-	"delete_subscription": OperationTypeDeleteSubscription,
-	"move_subscription":   OperationTypeMoveSubscription,
+	"create_subscription":             OperationTypeCreateSubscription,
+	"update_subscription":             OperationTypeUpdateSubscription,
+	"delete_subscription":             OperationTypeDeleteSubscription,
+	"move_subscription":               OperationTypeMoveSubscription,
+	"submit_subscription_usage_batch": OperationTypeSubmitSubscriptionUsageBatch,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -54,6 +57,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_SUBSCRIPTION",
 		"DELETE_SUBSCRIPTION",
 		"MOVE_SUBSCRIPTION",
+		"SUBMIT_SUBSCRIPTION_USAGE_BATCH",
 	}
 }
 

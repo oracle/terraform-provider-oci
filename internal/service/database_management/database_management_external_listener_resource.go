@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -25,11 +25,11 @@ func DatabaseManagementExternalListenerResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseManagementExternalListener,
-		Read:     readDatabaseManagementExternalListener,
-		Update:   updateDatabaseManagementExternalListener,
-		Delete:   deleteDatabaseManagementExternalListener,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseManagementExternalListenerWithContext,
+		ReadContext:   readDatabaseManagementExternalListenerWithContext,
+		UpdateContext: updateDatabaseManagementExternalListenerWithContext,
+		DeleteContext: deleteDatabaseManagementExternalListenerWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"external_listener_id": {
@@ -251,31 +251,31 @@ func DatabaseManagementExternalListenerResource() *schema.Resource {
 	}
 }
 
-func createDatabaseManagementExternalListener(d *schema.ResourceData, m interface{}) error {
+func createDatabaseManagementExternalListenerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalListenerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseManagementExternalListener(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementExternalListenerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalListenerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseManagementExternalListener(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseManagementExternalListenerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalListenerResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseManagementExternalListener(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseManagementExternalListenerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -315,7 +315,7 @@ func (s *DatabaseManagementExternalListenerResourceCrud) DeletedTarget() []strin
 	}
 }
 
-func (s *DatabaseManagementExternalListenerResourceCrud) Create() error {
+func (s *DatabaseManagementExternalListenerResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database_management.UpdateExternalListenerRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -342,14 +342,14 @@ func (s *DatabaseManagementExternalListenerResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.UpdateExternalListener(context.Background(), request)
+	response, err := s.Client.UpdateExternalListener(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_database_management.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_database_management.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -365,14 +365,14 @@ func (s *DatabaseManagementExternalListenerResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getExternalListenerFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getExternalListenerFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatabaseManagementExternalListenerResourceCrud) getExternalListenerFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseManagementExternalListenerResourceCrud) getExternalListenerFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	externalListenerId, err := externalListenerWaitForWorkRequest(workId, "listener",
+	externalListenerId, err := externalListenerWaitForWorkRequest(ctx, workId, "listener",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -380,7 +380,7 @@ func (s *DatabaseManagementExternalListenerResourceCrud) getExternalListenerFrom
 	}
 	s.D.SetId(*externalListenerId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func externalListenerWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -406,7 +406,7 @@ func externalListenerWorkRequestShouldRetryFunc(timeout time.Duration) func(resp
 	}
 }
 
-func externalListenerWaitForWorkRequest(wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
+func externalListenerWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_management.DbManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_management")
 	retryPolicy.ShouldRetryOperation = externalListenerWorkRequestShouldRetryFunc(timeout)
@@ -425,7 +425,7 @@ func externalListenerWaitForWorkRequest(wId *string, entityType string, action o
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -452,14 +452,14 @@ func externalListenerWaitForWorkRequest(wId *string, entityType string, action o
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_database_management.WorkRequestStatusFailed || response.Status == oci_database_management.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatabaseManagementExternalListenerWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatabaseManagementExternalListenerWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseManagementExternalListenerWorkRequest(client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseManagementExternalListenerWorkRequest(ctx context.Context, client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -481,7 +481,7 @@ func getErrorFromDatabaseManagementExternalListenerWorkRequest(client *oci_datab
 	return workRequestErr
 }
 
-func (s *DatabaseManagementExternalListenerResourceCrud) Get() error {
+func (s *DatabaseManagementExternalListenerResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetExternalListenerRequest{}
 
 	tmp := s.D.Id()
@@ -489,7 +489,7 @@ func (s *DatabaseManagementExternalListenerResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.GetExternalListener(context.Background(), request)
+	response, err := s.Client.GetExternalListener(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -498,7 +498,7 @@ func (s *DatabaseManagementExternalListenerResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseManagementExternalListenerResourceCrud) Update() error {
+func (s *DatabaseManagementExternalListenerResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database_management.UpdateExternalListenerRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -523,13 +523,13 @@ func (s *DatabaseManagementExternalListenerResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.UpdateExternalListener(context.Background(), request)
+	response, err := s.Client.UpdateExternalListener(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getExternalListenerFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getExternalListenerFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DatabaseManagementExternalListenerResourceCrud) SetData() error {

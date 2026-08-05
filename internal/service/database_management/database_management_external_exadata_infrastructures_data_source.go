@@ -6,6 +6,7 @@ package database_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -15,7 +16,7 @@ import (
 
 func DatabaseManagementExternalExadataInfrastructuresDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseManagementExternalExadataInfrastructures,
+		ReadContext: readDatabaseManagementExternalExadataInfrastructuresWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -44,12 +45,12 @@ func DatabaseManagementExternalExadataInfrastructuresDataSource() *schema.Resour
 	}
 }
 
-func readDatabaseManagementExternalExadataInfrastructures(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementExternalExadataInfrastructuresWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalExadataInfrastructuresDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseManagementExternalExadataInfrastructuresDataSourceCrud struct {
@@ -62,7 +63,7 @@ func (s *DatabaseManagementExternalExadataInfrastructuresDataSourceCrud) VoidSta
 	s.D.SetId("")
 }
 
-func (s *DatabaseManagementExternalExadataInfrastructuresDataSourceCrud) Get() error {
+func (s *DatabaseManagementExternalExadataInfrastructuresDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.ListExternalExadataInfrastructuresRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -77,7 +78,7 @@ func (s *DatabaseManagementExternalExadataInfrastructuresDataSourceCrud) Get() e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
 
-	response, err := s.Client.ListExternalExadataInfrastructures(context.Background(), request)
+	response, err := s.Client.ListExternalExadataInfrastructures(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -86,7 +87,7 @@ func (s *DatabaseManagementExternalExadataInfrastructuresDataSourceCrud) Get() e
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListExternalExadataInfrastructures(context.Background(), request)
+		listResponse, err := s.Client.ListExternalExadataInfrastructures(ctx, request)
 		if err != nil {
 			return err
 		}

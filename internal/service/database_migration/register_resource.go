@@ -9,10 +9,6 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_database_migration_assessment", DatabaseMigrationAssessmentResource())
 	tfresource.RegisterResource("oci_database_migration_assessment_assessor_action", DatabaseMigrationAssessmentAssessorActionResource())
 	tfresource.RegisterResource("oci_database_migration_connection", DatabaseMigrationConnectionResource())
-
-	//tfresource.RegisterResource("oci_database_migration_agent", DatabaseMigrationAgentResource())
-	//tfresource.RegisterResource("oci_database_migration_connection", DatabaseMigrationConnectionResource())
-
 	tfresource.RegisterResource("oci_database_migration_job", DatabaseMigrationJobResource())
 	tfresource.RegisterResource("oci_database_migration_job_advisor_report_check", DatabaseMigrationJobAdvisorReportCheckResource())
 	tfresource.RegisterResource("oci_database_migration_migration", DatabaseMigrationMigrationResource())

@@ -325,10 +325,9 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 				Computed: true,
 			},
 			"nsg_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Optional:         true,
+				DiffSuppressFunc: suppressNsgIdDiffWhenNotConfigured,
 			},
 			"opendashboard_node_host_shape": {
 				Type:     schema.TypeString,
@@ -1266,6 +1265,7 @@ func (s *OpensearchOpensearchClusterResourceCrud) UpdateConditionMet() (result b
 		"freeform_tags",
 		"load_balancer_config",
 		"maintenance_details",
+		"nsg_id",
 		"outbound_cluster_config",
 		"reverse_connection_endpoint_customer_ips",
 		"security_attributes",
@@ -1281,6 +1281,28 @@ func (s *OpensearchOpensearchClusterResourceCrud) UpdateConditionMet() (result b
 			return true
 		}
 	}
+	return false
+}
+
+func suppressNsgIdDiffWhenNotConfigured(_ string, _ string, _ string, d *schema.ResourceData) bool {
+	rawConfig := d.GetRawConfig()
+	if !rawConfig.IsKnown() ||
+		rawConfig.IsNull() ||
+		!rawConfig.Type().IsObjectType() ||
+		!rawConfig.Type().HasAttribute("nsg_id") {
+		return false
+	}
+
+	rawNsgId := rawConfig.GetAttr("nsg_id")
+	if !rawNsgId.IsKnown() {
+		return false
+	}
+
+	if rawNsgId.IsNull() {
+		log.Printf("[DEBUG] suppressing nsg_id difference because nsg_id is null or omitted")
+		return true
+	}
+
 	return false
 }
 
@@ -1361,6 +1383,17 @@ func (s *OpensearchOpensearchClusterResourceCrud) Update() error {
 
 	tmp := s.D.Id()
 	request.OpensearchClusterId = &tmp
+
+	if s.D.HasChange("nsg_id") {
+		_, newNsgId := s.D.GetChange("nsg_id")
+		tmp := newNsgId.(string)
+		if tmp == "" {
+			log.Printf("[DEBUG] nsg_id was explicitly configured as empty; removing NSG")
+		} else {
+			log.Printf("[DEBUG] updating nsg_id to %q", tmp)
+		}
+		request.NsgId = &tmp
+	}
 
 	if outboundClusterConfig, ok := s.D.GetOkExists("outbound_cluster_config"); ok {
 		if tmpList := outboundClusterConfig.([]interface{}); len(tmpList) > 0 {
@@ -1590,6 +1623,9 @@ func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 
 	if s.Res.NsgId != nil {
 		s.D.Set("nsg_id", *s.Res.NsgId)
+	} else {
+		// Persist detachment so Terraform does not report a diff.
+		s.D.Set("nsg_id", "")
 	}
 
 	if s.Res.OpendashboardFqdn != nil {

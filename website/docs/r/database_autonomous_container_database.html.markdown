@@ -26,6 +26,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 
 	#Optional
 	autonomous_container_database_backup_id = oci_database_autonomous_container_database_backup.test_autonomous_container_database_backup.id
+	autonomous_databases_to_clone = var.autonomous_container_database_autonomous_databases_to_clone
 	autonomous_exadata_infrastructure_id = oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id
 	autonomous_vm_cluster_id = oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id
 	backup_config {
@@ -48,6 +49,8 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 		}
 		recovery_window_in_days = var.autonomous_container_database_backup_config_recovery_window_in_days
 	}
+	clone_band_width = var.autonomous_container_database_clone_band_width
+	clone_type = var.autonomous_container_database_clone_type
 	cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
 	compartment_id = var.compartment_id
 	customer_contacts {
@@ -127,8 +130,11 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 	peer_db_unique_name = var.autonomous_container_database_peer_db_unique_name
 	protection_mode = var.autonomous_container_database_protection_mode
 	service_level_agreement_type = var.autonomous_container_database_service_level_agreement_type
+	should_use_latest_available_backup_time_stamp = var.autonomous_container_database_should_use_latest_available_backup_time_stamp
 	source = var.autonomous_container_database_source
+	source_autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
 	standby_maintenance_buffer_in_days = var.autonomous_container_database_standby_maintenance_buffer_in_days
+	time_stamp_to_use_for_cloning = var.autonomous_container_database_time_stamp_to_use_for_cloning
 	vault_id = oci_kms_vault.test_vault.id
 	version_preference = var.autonomous_container_database_version_preference
 	vm_failover_reservation = var.autonomous_container_database_vm_failover_reservation
@@ -140,6 +146,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 The following arguments are supported:
 
 * `autonomous_container_database_backup_id` - (Required when source=BACKUP_FROM_ID) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source ACD backup that you will clone to create a new ACD.
+* `autonomous_databases_to_clone` - (Applicable when source=BACKUP_FROM_ID | BACKUP_FROM_TIMESTAMP) A list of Autonomous Databases ( display name of the ADB in specific ) to be cloned from backup of the source Autonomous Container Database.
 * `autonomous_exadata_infrastructure_id` - (Optional) **No longer used.** This parameter is no longer used for Autonomous AI Database on dedicated Exadata infrasture. Specify a `cloudAutonomousVmClusterId` instead. Using this parameter will cause the operation to fail.
 * `autonomous_vm_cluster_id` - (Optional) The OCID of the Autonomous VM Cluster.
 * `backup_config` - (Optional) (Updatable) Backup options for the Autonomous Container Database. 
@@ -155,6 +162,8 @@ The following arguments are supported:
 		* `vpc_password` - (Optional) (Updatable) For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
 		* `vpc_user` - (Optional) (Updatable) For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.
 	* `recovery_window_in_days` - (Optional) (Updatable) Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. If the number of specified days is 0 then there will be no backups. 
+* `clone_band_width` - (Applicable when source=BACKUP_FROM_ID | BACKUP_FROM_TIMESTAMP) The speed at which the Autonomous Container Database Clone from backup operation to be performed by OCI.
+* `clone_type` - (Required when source=BACKUP_FROM_ID | BACKUP_FROM_TIMESTAMP) The Autonomous AI Database clone type.
 * `cloud_autonomous_vm_cluster_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Autonomous Exadata VM Cluster.
 * `compartment_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Autonomous Container Database.
 * `customer_contacts` - (Optional) (Updatable) Customer Contacts. Setting this to an empty list removes all customer contacts. 
@@ -219,8 +228,11 @@ The following arguments are supported:
 * `peer_db_unique_name` - (Optional) **Deprecated.** The `DB_UNIQUE_NAME` of the peer Autonomous Container Database in a Data Guard association is set by Oracle Cloud Infrastructure.  Do not specify a value for this parameter. Specifying a value for this field will cause Terraform operations to fail. 
 * `protection_mode` - (Optional) (Updatable) The protection mode of this Autonomous Data Guard association. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation. 
 * `service_level_agreement_type` - (Optional) The service level agreement type of the Autonomous Container Database. The default is STANDARD. For an autonomous dataguard Autonomous Container Database, the specified Autonomous Exadata Infrastructure must be associated with a remote Autonomous Exadata Infrastructure.
+* `should_use_latest_available_backup_time_stamp` - (Applicable when source=BACKUP_FROM_TIMESTAMP) If set to true, Oracle Cloud Infrastructure shall attempt to create a point in time to the latest available backup of the source Autonomous Container Database. 
 * `source` - (Optional) The source of the database. Use `NONE` to create a new Autonomous Container Database (ACD). Use `BACKUP_FROM_ID` to create a new ACD from a specified backup. 
+* `source_autonomous_container_database_id` - (Required when source=BACKUP_FROM_TIMESTAMP) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source ACD that you will clone to create a new ACD.
 * `standby_maintenance_buffer_in_days` - (Optional) (Updatable) The scheduling detail for the quarterly maintenance window of the standby Autonomous Container Database. This value represents the number of days before scheduled maintenance of the primary database. 
+* `time_stamp_to_use_for_cloning` - (Applicable when source=BACKUP_FROM_TIMESTAMP) The time stamp representing the point in time to which the Autonomous Container Database should be cloned from backup. And the requested timeStamp should be in the past. 
 * `vault_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 * `version_preference` - (Optional) (Updatable) The next maintenance version preference. 
 * `vm_failover_reservation` - (Optional) (Updatable) The percentage of CPUs reserved across nodes to support node failover. Allowed values are 0%, 25%, 50%, 75%, and 100%, with 50% being the default option.

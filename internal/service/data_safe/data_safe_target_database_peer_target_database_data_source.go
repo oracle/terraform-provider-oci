@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -23,15 +24,15 @@ func DataSafeTargetDatabasePeerTargetDatabaseDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeTargetDatabasePeerTargetDatabaseResource(), fieldMap, readSingularDataSafeTargetDatabasePeerTargetDatabase)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeTargetDatabasePeerTargetDatabaseResource(), fieldMap, readSingularDataSafeTargetDatabasePeerTargetDatabaseWithContext)
 }
 
-func readSingularDataSafeTargetDatabasePeerTargetDatabase(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeTargetDatabasePeerTargetDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeTargetDatabasePeerTargetDatabaseDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeTargetDatabasePeerTargetDatabaseDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *DataSafeTargetDatabasePeerTargetDatabaseDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeTargetDatabasePeerTargetDatabaseDataSourceCrud) Get() error {
+func (s *DataSafeTargetDatabasePeerTargetDatabaseDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetPeerTargetDatabaseRequest{}
 
 	if peerTargetDatabaseId, ok := s.D.GetOkExists("peer_target_database_id"); ok {
@@ -59,7 +60,7 @@ func (s *DataSafeTargetDatabasePeerTargetDatabaseDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetPeerTargetDatabase(context.Background(), request)
+	response, err := s.Client.GetPeerTargetDatabase(ctx, request)
 	if err != nil {
 		return err
 	}

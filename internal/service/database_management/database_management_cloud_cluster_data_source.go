@@ -6,6 +6,7 @@ package database_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -19,15 +20,15 @@ func DatabaseManagementCloudClusterDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseManagementCloudClusterResource(), fieldMap, readSingularDatabaseManagementCloudCluster)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseManagementCloudClusterResource(), fieldMap, readSingularDatabaseManagementCloudClusterWithContext)
 }
 
-func readSingularDatabaseManagementCloudCluster(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseManagementCloudClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudClusterDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseManagementCloudClusterDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseManagementCloudClusterDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseManagementCloudClusterDataSourceCrud) Get() error {
+func (s *DatabaseManagementCloudClusterDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetCloudClusterRequest{}
 
 	if cloudClusterId, ok := s.D.GetOkExists("cloud_cluster_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseManagementCloudClusterDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
 
-	response, err := s.Client.GetCloudCluster(context.Background(), request)
+	response, err := s.Client.GetCloudCluster(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -19,15 +20,15 @@ func DataSafeTargetAlertPolicyAssociationDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeTargetAlertPolicyAssociationResource(), fieldMap, readSingularDataSafeTargetAlertPolicyAssociation)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeTargetAlertPolicyAssociationResource(), fieldMap, readSingularDataSafeTargetAlertPolicyAssociationWithContext)
 }
 
-func readSingularDataSafeTargetAlertPolicyAssociation(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeTargetAlertPolicyAssociationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeTargetAlertPolicyAssociationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeTargetAlertPolicyAssociationDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DataSafeTargetAlertPolicyAssociationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeTargetAlertPolicyAssociationDataSourceCrud) Get() error {
+func (s *DataSafeTargetAlertPolicyAssociationDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetTargetAlertPolicyAssociationRequest{}
 
 	if targetAlertPolicyAssociationId, ok := s.D.GetOkExists("target_alert_policy_association_id"); ok {
@@ -50,7 +51,7 @@ func (s *DataSafeTargetAlertPolicyAssociationDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetTargetAlertPolicyAssociation(context.Background(), request)
+	response, err := s.Client.GetTargetAlertPolicyAssociation(ctx, request)
 	if err != nil {
 		return err
 	}

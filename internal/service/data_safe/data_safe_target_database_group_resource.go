@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -25,11 +25,11 @@ func DataSafeTargetDatabaseGroupResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeTargetDatabaseGroup,
-		Read:     readDataSafeTargetDatabaseGroup,
-		Update:   updateDataSafeTargetDatabaseGroup,
-		Delete:   deleteDataSafeTargetDatabaseGroup,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeTargetDatabaseGroupWithContext,
+		ReadContext:   readDataSafeTargetDatabaseGroupWithContext,
+		UpdateContext: updateDataSafeTargetDatabaseGroupWithContext,
+		DeleteContext: deleteDataSafeTargetDatabaseGroupWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -192,37 +192,37 @@ func DataSafeTargetDatabaseGroupResource() *schema.Resource {
 	}
 }
 
-func createDataSafeTargetDatabaseGroup(d *schema.ResourceData, m interface{}) error {
+func createDataSafeTargetDatabaseGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeTargetDatabaseGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDataSafeTargetDatabaseGroup(d *schema.ResourceData, m interface{}) error {
+func readDataSafeTargetDatabaseGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeTargetDatabaseGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeTargetDatabaseGroup(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeTargetDatabaseGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeTargetDatabaseGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDataSafeTargetDatabaseGroup(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeTargetDatabaseGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeTargetDatabaseGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataSafeTargetDatabaseGroupResourceCrud struct {
@@ -261,7 +261,7 @@ func (s *DataSafeTargetDatabaseGroupResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DataSafeTargetDatabaseGroupResourceCrud) Create() error {
+func (s *DataSafeTargetDatabaseGroupResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.CreateTargetDatabaseGroupRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -304,7 +304,7 @@ func (s *DataSafeTargetDatabaseGroupResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.CreateTargetDatabaseGroup(context.Background(), request)
+	response, err := s.Client.CreateTargetDatabaseGroup(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -315,20 +315,20 @@ func (s *DataSafeTargetDatabaseGroupResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getTargetDatabaseGroupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getTargetDatabaseGroupFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeTargetDatabaseGroupResourceCrud) getTargetDatabaseGroupFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeTargetDatabaseGroupResourceCrud) getTargetDatabaseGroupFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	targetDatabaseGroupId, err := targetDatabaseGroupWaitForWorkRequest(workId, "targetdatabasegroup",
+	targetDatabaseGroupId, err := targetDatabaseGroupWaitForWorkRequest(ctx, workId, "targetdatabasegroup",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, targetDatabaseGroupId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_data_safe.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -342,7 +342,7 @@ func (s *DataSafeTargetDatabaseGroupResourceCrud) getTargetDatabaseGroupFromWork
 	}
 	s.D.SetId(*targetDatabaseGroupId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func targetDatabaseGroupWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -368,7 +368,7 @@ func targetDatabaseGroupWorkRequestShouldRetryFunc(timeout time.Duration) func(r
 	}
 }
 
-func targetDatabaseGroupWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func targetDatabaseGroupWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = targetDatabaseGroupWorkRequestShouldRetryFunc(timeout)
@@ -387,7 +387,7 @@ func targetDatabaseGroupWaitForWorkRequest(wId *string, entityType string, actio
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -399,7 +399,7 @@ func targetDatabaseGroupWaitForWorkRequest(wId *string, entityType string, actio
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -416,14 +416,14 @@ func targetDatabaseGroupWaitForWorkRequest(wId *string, entityType string, actio
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed || response.Status == oci_data_safe.WorkRequestStatusCanceled {
-		return nil, getErrorFromDataSafeTargetDatabaseGroupWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeTargetDatabaseGroupWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeTargetDatabaseGroupWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeTargetDatabaseGroupWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -445,7 +445,7 @@ func getErrorFromDataSafeTargetDatabaseGroupWorkRequest(client *oci_data_safe.Da
 	return workRequestErr
 }
 
-func (s *DataSafeTargetDatabaseGroupResourceCrud) Get() error {
+func (s *DataSafeTargetDatabaseGroupResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetTargetDatabaseGroupRequest{}
 
 	tmp := s.D.Id()
@@ -453,7 +453,7 @@ func (s *DataSafeTargetDatabaseGroupResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetTargetDatabaseGroup(context.Background(), request)
+	response, err := s.Client.GetTargetDatabaseGroup(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -462,11 +462,11 @@ func (s *DataSafeTargetDatabaseGroupResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeTargetDatabaseGroupResourceCrud) Update() error {
+func (s *DataSafeTargetDatabaseGroupResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -512,16 +512,16 @@ func (s *DataSafeTargetDatabaseGroupResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateTargetDatabaseGroup(context.Background(), request)
+	response, err := s.Client.UpdateTargetDatabaseGroup(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getTargetDatabaseGroupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getTargetDatabaseGroupFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeTargetDatabaseGroupResourceCrud) Delete() error {
+func (s *DataSafeTargetDatabaseGroupResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_data_safe.DeleteTargetDatabaseGroupRequest{}
 
 	tmp := s.D.Id()
@@ -529,14 +529,14 @@ func (s *DataSafeTargetDatabaseGroupResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.DeleteTargetDatabaseGroup(context.Background(), request)
+	response, err := s.Client.DeleteTargetDatabaseGroup(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := targetDatabaseGroupWaitForWorkRequest(workId, "targetdatabasegroup",
+	_, delWorkRequestErr := targetDatabaseGroupWaitForWorkRequest(ctx, workId, "targetdatabasegroup",
 		oci_data_safe.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -816,7 +816,7 @@ func TargetDatabaseGroupSummaryToMap(obj oci_data_safe.TargetDatabaseGroupSummar
 	return result
 }
 
-func (s *DataSafeTargetDatabaseGroupResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataSafeTargetDatabaseGroupResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_data_safe.ChangeTargetDatabaseGroupCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -827,11 +827,11 @@ func (s *DataSafeTargetDatabaseGroupResourceCrud) updateCompartment(compartment 
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.ChangeTargetDatabaseGroupCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeTargetDatabaseGroupCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getTargetDatabaseGroupFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getTargetDatabaseGroupFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

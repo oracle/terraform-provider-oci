@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -27,10 +28,10 @@ func DataSafeSensitiveDataModelReferentialRelationResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeSensitiveDataModelReferentialRelation,
-		Read:     readDataSafeSensitiveDataModelReferentialRelation,
-		Delete:   deleteDataSafeSensitiveDataModelReferentialRelation,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeSensitiveDataModelReferentialRelationWithContext,
+		ReadContext:   readDataSafeSensitiveDataModelReferentialRelationWithContext,
+		DeleteContext: deleteDataSafeSensitiveDataModelReferentialRelationWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"child": {
@@ -171,29 +172,29 @@ func DataSafeSensitiveDataModelReferentialRelationResource() *schema.Resource {
 	}
 }
 
-func createDataSafeSensitiveDataModelReferentialRelation(d *schema.ResourceData, m interface{}) error {
+func createDataSafeSensitiveDataModelReferentialRelationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveDataModelReferentialRelationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDataSafeSensitiveDataModelReferentialRelation(d *schema.ResourceData, m interface{}) error {
+func readDataSafeSensitiveDataModelReferentialRelationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveDataModelReferentialRelationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func deleteDataSafeSensitiveDataModelReferentialRelation(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeSensitiveDataModelReferentialRelationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveDataModelReferentialRelationResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataSafeSensitiveDataModelReferentialRelationResourceCrud struct {
@@ -229,12 +230,12 @@ func (s *DataSafeSensitiveDataModelReferentialRelationResourceCrud) DeletedPendi
 func (s *DataSafeSensitiveDataModelReferentialRelationResourceCrud) DeletedTarget() []string {
 	return []string{}
 }
-func (s *DataSafeSensitiveDataModelReferentialRelationResourceCrud) setIdFromWorkRequest(workId *string) {
+func (s *DataSafeSensitiveDataModelReferentialRelationResourceCrud) setIdFromWorkRequest(ctx context.Context, workId *string) {
 	var identifier *string
 	var err error
 
 	workRequestResponse := oci_data_safe.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_data_safe.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -255,7 +256,7 @@ func (s *DataSafeSensitiveDataModelReferentialRelationResourceCrud) setIdFromWor
 	}
 }
 
-func (s *DataSafeSensitiveDataModelReferentialRelationResourceCrud) Create() error {
+func (s *DataSafeSensitiveDataModelReferentialRelationResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.CreateReferentialRelationRequest{}
 
 	if child, ok := s.D.GetOkExists("child"); ok {
@@ -296,27 +297,27 @@ func (s *DataSafeSensitiveDataModelReferentialRelationResourceCrud) Create() err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.CreateReferentialRelation(context.Background(), request)
+	response, err := s.Client.CreateReferentialRelation(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	s.setIdFromWorkRequest(workId)
-	return s.getSensitiveDataModelReferentialRelationFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	s.setIdFromWorkRequest(ctx, workId)
+	return s.getSensitiveDataModelReferentialRelationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeSensitiveDataModelReferentialRelationResourceCrud) getSensitiveDataModelReferentialRelationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeSensitiveDataModelReferentialRelationResourceCrud) getSensitiveDataModelReferentialRelationFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	sensitiveDataModelReferentialRelationId, err := sensitiveDataModelReferentialRelationWaitForWorkRequest(workId, "referentialrelation",
+	sensitiveDataModelReferentialRelationId, err := sensitiveDataModelReferentialRelationWaitForWorkRequest(ctx, workId, "referentialrelation",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, sensitiveDataModelReferentialRelationId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_data_safe.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -330,7 +331,7 @@ func (s *DataSafeSensitiveDataModelReferentialRelationResourceCrud) getSensitive
 	}
 	s.D.SetId(*sensitiveDataModelReferentialRelationId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func sensitiveDataModelReferentialRelationWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -356,7 +357,7 @@ func sensitiveDataModelReferentialRelationWorkRequestShouldRetryFunc(timeout tim
 	}
 }
 
-func sensitiveDataModelReferentialRelationWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func sensitiveDataModelReferentialRelationWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = sensitiveDataModelReferentialRelationWorkRequestShouldRetryFunc(timeout)
@@ -375,7 +376,7 @@ func sensitiveDataModelReferentialRelationWaitForWorkRequest(wId *string, entity
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -387,7 +388,7 @@ func sensitiveDataModelReferentialRelationWaitForWorkRequest(wId *string, entity
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -404,14 +405,14 @@ func sensitiveDataModelReferentialRelationWaitForWorkRequest(wId *string, entity
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed || response.Status == oci_data_safe.WorkRequestStatusCanceled {
-		return nil, getErrorFromDataSafeSensitiveDataModelReferentialRelationWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeSensitiveDataModelReferentialRelationWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeSensitiveDataModelReferentialRelationWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeSensitiveDataModelReferentialRelationWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -433,7 +434,7 @@ func getErrorFromDataSafeSensitiveDataModelReferentialRelationWorkRequest(client
 	return workRequestErr
 }
 
-func (s *DataSafeSensitiveDataModelReferentialRelationResourceCrud) Get() error {
+func (s *DataSafeSensitiveDataModelReferentialRelationResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetReferentialRelationRequest{}
 
 	referentialRelationKey, sensitiveDataModelId, err := parseSensitiveDataModelReferentialRelationCompositeId(s.D.Id())
@@ -446,7 +447,7 @@ func (s *DataSafeSensitiveDataModelReferentialRelationResourceCrud) Get() error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetReferentialRelation(context.Background(), request)
+	response, err := s.Client.GetReferentialRelation(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -455,7 +456,7 @@ func (s *DataSafeSensitiveDataModelReferentialRelationResourceCrud) Get() error 
 	return nil
 }
 
-func (s *DataSafeSensitiveDataModelReferentialRelationResourceCrud) Delete() error {
+func (s *DataSafeSensitiveDataModelReferentialRelationResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_data_safe.DeleteReferentialRelationRequest{}
 
 	if referentialRelationKey, ok := s.D.GetOkExists("key"); ok {
@@ -470,7 +471,7 @@ func (s *DataSafeSensitiveDataModelReferentialRelationResourceCrud) Delete() err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	_, err := s.Client.DeleteReferentialRelation(context.Background(), request)
+	_, err := s.Client.DeleteReferentialRelation(ctx, request)
 	return err
 }
 

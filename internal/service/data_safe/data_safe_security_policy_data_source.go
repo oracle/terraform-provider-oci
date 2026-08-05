@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -19,15 +20,15 @@ func DataSafeSecurityPolicyDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeSecurityPolicyResource(), fieldMap, readSingularDataSafeSecurityPolicy)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeSecurityPolicyResource(), fieldMap, readSingularDataSafeSecurityPolicyWithContext)
 }
 
-func readSingularDataSafeSecurityPolicy(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeSecurityPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSecurityPolicyDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeSecurityPolicyDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DataSafeSecurityPolicyDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeSecurityPolicyDataSourceCrud) Get() error {
+func (s *DataSafeSecurityPolicyDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetSecurityPolicyRequest{}
 
 	if securityPolicyId, ok := s.D.GetOkExists("security_policy_id"); ok {
@@ -50,7 +51,7 @@ func (s *DataSafeSecurityPolicyDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetSecurityPolicy(context.Background(), request)
+	response, err := s.Client.GetSecurityPolicy(ctx, request)
 	if err != nil {
 		return err
 	}

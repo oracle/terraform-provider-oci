@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -26,11 +27,11 @@ func DataSafeMaskingPolicyResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeMaskingPolicy,
-		Read:     readDataSafeMaskingPolicy,
-		Update:   updateDataSafeMaskingPolicy,
-		Delete:   deleteDataSafeMaskingPolicy,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeMaskingPolicyWithContext,
+		ReadContext:   readDataSafeMaskingPolicyWithContext,
+		UpdateContext: updateDataSafeMaskingPolicyWithContext,
+		DeleteContext: deleteDataSafeMaskingPolicyWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"column_source": {
@@ -159,41 +160,41 @@ func DataSafeMaskingPolicyResource() *schema.Resource {
 	}
 }
 
-func createDataSafeMaskingPolicy(d *schema.ResourceData, m interface{}) error {
+func createDataSafeMaskingPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeMaskingPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
+	if e := tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync)); e != nil {
 		return e
 	}
 
 	if _, ok := sync.D.GetOkExists("add_masking_columns_from_sdm_trigger"); ok {
-		err := sync.AddMaskingColumnsFromSdm()
+		err := sync.AddMaskingColumnsFromSdm(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
 	if _, ok := sync.D.GetOkExists("generate_health_report_trigger"); ok {
-		err := sync.GenerateHealthReport()
+		err := sync.GenerateHealthReport(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 	return nil
 
 }
 
-func readDataSafeMaskingPolicy(d *schema.ResourceData, m interface{}) error {
+func readDataSafeMaskingPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeMaskingPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeMaskingPolicy(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeMaskingPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeMaskingPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
@@ -203,14 +204,14 @@ func updateDataSafeMaskingPolicy(d *schema.ResourceData, m interface{}) error {
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.AddMaskingColumnsFromSdm()
+			err := sync.AddMaskingColumnsFromSdm(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("add_masking_columns_from_sdm_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
@@ -219,31 +220,31 @@ func updateDataSafeMaskingPolicy(d *schema.ResourceData, m interface{}) error {
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.GenerateHealthReport()
+			err := sync.GenerateHealthReport(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("generate_health_report_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
+	if err := tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync)); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func deleteDataSafeMaskingPolicy(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeMaskingPolicyWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeMaskingPolicyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataSafeMaskingPolicyResourceCrud struct {
@@ -282,7 +283,7 @@ func (s *DataSafeMaskingPolicyResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DataSafeMaskingPolicyResourceCrud) Create() error {
+func (s *DataSafeMaskingPolicyResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.CreateMaskingPolicyRequest{}
 
 	if columnSource, ok := s.D.GetOkExists("column_source"); ok {
@@ -359,7 +360,7 @@ func (s *DataSafeMaskingPolicyResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.CreateMaskingPolicy(context.Background(), request)
+	response, err := s.Client.CreateMaskingPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -370,20 +371,20 @@ func (s *DataSafeMaskingPolicyResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getMaskingPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getMaskingPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeMaskingPolicyResourceCrud) getMaskingPolicyFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeMaskingPolicyResourceCrud) getMaskingPolicyFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	maskingPolicyId, err := maskingPolicyWaitForWorkRequest(workId, "masking_policy",
+	maskingPolicyId, err := maskingPolicyWaitForWorkRequest(ctx, workId, "masking_policy",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
 		log.Printf("[DEBUG] creation failed, attempting to cancel the workrequest: %v for identifier: %v\n", workId, maskingPolicyId)
-		_, cancelErr := s.Client.CancelWorkRequest(context.Background(),
+		_, cancelErr := s.Client.CancelWorkRequest(ctx,
 			oci_data_safe.CancelWorkRequestRequest{
 				WorkRequestId: workId,
 				RequestMetadata: oci_common.RequestMetadata{
@@ -397,7 +398,7 @@ func (s *DataSafeMaskingPolicyResourceCrud) getMaskingPolicyFromWorkRequest(work
 	}
 	s.D.SetId(*maskingPolicyId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func maskingPolicyWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -423,7 +424,7 @@ func maskingPolicyWorkRequestShouldRetryFunc(timeout time.Duration) func(respons
 	}
 }
 
-func maskingPolicyWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func maskingPolicyWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = maskingPolicyWorkRequestShouldRetryFunc(timeout)
@@ -442,7 +443,7 @@ func maskingPolicyWaitForWorkRequest(wId *string, entityType string, action oci_
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -454,7 +455,7 @@ func maskingPolicyWaitForWorkRequest(wId *string, entityType string, action oci_
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -471,14 +472,14 @@ func maskingPolicyWaitForWorkRequest(wId *string, entityType string, action oci_
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed || response.Status == oci_data_safe.WorkRequestStatusCanceled {
-		return nil, getErrorFromDataSafeMaskingPolicyWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeMaskingPolicyWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeMaskingPolicyWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeMaskingPolicyWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -500,7 +501,7 @@ func getErrorFromDataSafeMaskingPolicyWorkRequest(client *oci_data_safe.DataSafe
 	return workRequestErr
 }
 
-func (s *DataSafeMaskingPolicyResourceCrud) Get() error {
+func (s *DataSafeMaskingPolicyResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetMaskingPolicyRequest{}
 
 	tmp := s.D.Id()
@@ -508,7 +509,7 @@ func (s *DataSafeMaskingPolicyResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetMaskingPolicy(context.Background(), request)
+	response, err := s.Client.GetMaskingPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -517,11 +518,11 @@ func (s *DataSafeMaskingPolicyResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeMaskingPolicyResourceCrud) Update() error {
+func (s *DataSafeMaskingPolicyResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -601,16 +602,16 @@ func (s *DataSafeMaskingPolicyResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateMaskingPolicy(context.Background(), request)
+	response, err := s.Client.UpdateMaskingPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getMaskingPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getMaskingPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeMaskingPolicyResourceCrud) Delete() error {
+func (s *DataSafeMaskingPolicyResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_data_safe.DeleteMaskingPolicyRequest{}
 
 	tmp := s.D.Id()
@@ -618,14 +619,14 @@ func (s *DataSafeMaskingPolicyResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.DeleteMaskingPolicy(context.Background(), request)
+	response, err := s.Client.DeleteMaskingPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := maskingPolicyWaitForWorkRequest(workId, "masking_policy",
+	_, delWorkRequestErr := maskingPolicyWaitForWorkRequest(ctx, workId, "masking_policy",
 		oci_data_safe.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -702,11 +703,11 @@ func (s *DataSafeMaskingPolicyResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DataSafeMaskingPolicyResourceCrud) AddMaskingColumnsFromSdm() error {
+func (s *DataSafeMaskingPolicyResourceCrud) AddMaskingColumnsFromSdm(ctx context.Context) error {
 	return nil
 }
 
-func (s *DataSafeMaskingPolicyResourceCrud) GenerateHealthReport() error {
+func (s *DataSafeMaskingPolicyResourceCrud) GenerateHealthReport(ctx context.Context) error {
 	request := oci_data_safe.GenerateHealthReportRequest{}
 
 	if checkType, ok := s.D.GetOkExists("check_type"); ok {
@@ -756,12 +757,12 @@ func (s *DataSafeMaskingPolicyResourceCrud) GenerateHealthReport() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GenerateHealthReport(context.Background(), request)
+	response, err := s.Client.GenerateHealthReport(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -769,7 +770,7 @@ func (s *DataSafeMaskingPolicyResourceCrud) GenerateHealthReport() error {
 	s.D.Set("generate_health_report_trigger", val)
 
 	workId := response.OpcWorkRequestId
-	return s.getMaskingPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getMaskingPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func ColumnSourceDetailsToMap(obj *oci_data_safe.ColumnSourceDetails) map[string]interface{} {
@@ -926,7 +927,7 @@ func MaskingPolicySummaryToMap(obj oci_data_safe.MaskingPolicySummary) map[strin
 	return result
 }
 
-func (s *DataSafeMaskingPolicyResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataSafeMaskingPolicyResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_data_safe.ChangeMaskingPolicyCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -937,12 +938,12 @@ func (s *DataSafeMaskingPolicyResourceCrud) updateCompartment(compartment interf
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	_, err := s.Client.ChangeMaskingPolicyCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeMaskingPolicyCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 

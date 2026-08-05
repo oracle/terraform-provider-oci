@@ -57,7 +57,7 @@ var (
 
 	autonomousDatabaseDedicatedRepresentation = acctest.RepresentationCopyWithNewProperties(
 		acctest.RepresentationCopyWithRemovedProperties(acctest.GetUpdatedRepresentationCopy("db_name", acctest.Representation{RepType: acctest.Required, Create: adbDedicatedName}, DatabaseAutonomousDatabaseRepresentation),
-			[]string{"db_tools_details", "license_model", "whitelisted_ips", "db_version", "is_auto_scaling_enabled", "customer_contacts", "kms_key_id", "vault_id", "autonomous_maintenance_schedule_type", "scheduled_operations", "character_set", "ncharacter_set", "ocpu_count", "cpu_core_count"}),
+			[]string{"db_tools_details", "license_model", "whitelisted_ips", "db_version", "is_auto_scaling_enabled", "customer_contacts", "kms_key_id", "vault_id", "autonomous_maintenance_schedule_type", "scheduled_operations", "character_set", "ncharacter_set", "ocpu_count", "cpu_core_count", "defined_tags"}),
 		map[string]interface{}{
 			"autonomous_container_database_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
 			"is_dedicated":                     acctest.Representation{RepType: acctest.Optional, Create: `true`},
@@ -67,7 +67,7 @@ var (
 			"character_set":                    acctest.Representation{RepType: acctest.Optional, Create: `AR8ADOS710`},
 			"ncharacter_set":                   acctest.Representation{RepType: acctest.Optional, Create: `UTF8`},
 			"compute_model":                    acctest.Representation{RepType: acctest.Optional, Create: `ECPU`},
-			"compute_count":                    acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithDefault("pdb_compute_count_create", "8.0"), Update: utils.GetEnvSettingWithDefault("pdb_compute_count_update", "10.0")},
+			"compute_count":                    acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithDefault("pdb_compute_count_create", "18.0"), Update: utils.GetEnvSettingWithDefault("pdb_compute_count_update", "20.0")},
 			"in_memory_percentage":             acctest.Representation{RepType: acctest.Optional, Create: `50`, Update: `60`},
 		})
 

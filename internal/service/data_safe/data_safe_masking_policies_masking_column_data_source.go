@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -23,15 +24,15 @@ func DataSafeMaskingPoliciesMaskingColumnDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeMaskingPoliciesMaskingColumnResource(), fieldMap, readSingularDataSafeMaskingPoliciesMaskingColumn)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeMaskingPoliciesMaskingColumnResource(), fieldMap, readSingularDataSafeMaskingPoliciesMaskingColumnWithContext)
 }
 
-func readSingularDataSafeMaskingPoliciesMaskingColumn(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeMaskingPoliciesMaskingColumnWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeMaskingPoliciesMaskingColumnDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeMaskingPoliciesMaskingColumnDataSourceCrud struct {
@@ -44,7 +45,7 @@ func (s *DataSafeMaskingPoliciesMaskingColumnDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeMaskingPoliciesMaskingColumnDataSourceCrud) Get() error {
+func (s *DataSafeMaskingPoliciesMaskingColumnDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetMaskingColumnRequest{}
 
 	if maskingColumnKey, ok := s.D.GetOkExists("masking_column_key"); ok {
@@ -59,7 +60,7 @@ func (s *DataSafeMaskingPoliciesMaskingColumnDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetMaskingColumn(context.Background(), request)
+	response, err := s.Client.GetMaskingColumn(ctx, request)
 	if err != nil {
 		return err
 	}

@@ -9,13 +9,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 )
 
 func DataSafeDataSafePrivateEndpointsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDataSafeDataSafePrivateEndpoints,
+		ReadContext: readDataSafeDataSafePrivateEndpointsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"access_level": {
@@ -51,12 +52,12 @@ func DataSafeDataSafePrivateEndpointsDataSource() *schema.Resource {
 	}
 }
 
-func readDataSafeDataSafePrivateEndpoints(d *schema.ResourceData, m interface{}) error {
+func readDataSafeDataSafePrivateEndpointsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeDataSafePrivateEndpointsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeDataSafePrivateEndpointsDataSourceCrud struct {
@@ -69,7 +70,7 @@ func (s *DataSafeDataSafePrivateEndpointsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeDataSafePrivateEndpointsDataSourceCrud) Get() error {
+func (s *DataSafeDataSafePrivateEndpointsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.ListDataSafePrivateEndpointsRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
@@ -102,7 +103,7 @@ func (s *DataSafeDataSafePrivateEndpointsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.ListDataSafePrivateEndpoints(context.Background(), request)
+	response, err := s.Client.ListDataSafePrivateEndpoints(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -111,7 +112,7 @@ func (s *DataSafeDataSafePrivateEndpointsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDataSafePrivateEndpoints(context.Background(), request)
+		listResponse, err := s.Client.ListDataSafePrivateEndpoints(ctx, request)
 		if err != nil {
 			return err
 		}

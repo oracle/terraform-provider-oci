@@ -6,6 +6,7 @@ package os_management_hub
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_os_management_hub "github.com/oracle/oci-go-sdk/v65/osmanagementhub"
 
@@ -15,7 +16,7 @@ import (
 
 func OsManagementHubManagedInstancesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readOsManagementHubManagedInstances,
+		ReadContext: readOsManagementHubManagedInstancesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"advisory_name": {
@@ -177,12 +178,12 @@ func OsManagementHubManagedInstancesDataSource() *schema.Resource {
 	}
 }
 
-func readOsManagementHubManagedInstances(d *schema.ResourceData, m interface{}) error {
+func readOsManagementHubManagedInstancesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubManagedInstancesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagedInstanceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OsManagementHubManagedInstancesDataSourceCrud struct {
@@ -195,7 +196,7 @@ func (s *OsManagementHubManagedInstancesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OsManagementHubManagedInstancesDataSourceCrud) Get() error {
+func (s *OsManagementHubManagedInstancesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.ListManagedInstancesRequest{}
 
 	if advisoryName, ok := s.D.GetOkExists("advisory_name"); ok {
@@ -424,7 +425,7 @@ func (s *OsManagementHubManagedInstancesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "os_management_hub")
 
-	response, err := s.Client.ListManagedInstances(context.Background(), request)
+	response, err := s.Client.ListManagedInstances(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -433,7 +434,7 @@ func (s *OsManagementHubManagedInstancesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListManagedInstances(context.Background(), request)
+		listResponse, err := s.Client.ListManagedInstances(ctx, request)
 		if err != nil {
 			return err
 		}

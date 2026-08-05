@@ -6,6 +6,7 @@ package database_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -15,7 +16,7 @@ import (
 
 func DatabaseManagementCloudClustersDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseManagementCloudClusters,
+		ReadContext: readDatabaseManagementCloudClustersWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"cloud_db_system_id": {
@@ -48,12 +49,12 @@ func DatabaseManagementCloudClustersDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseManagementCloudClusters(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementCloudClustersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudClustersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseManagementCloudClustersDataSourceCrud struct {
@@ -66,7 +67,7 @@ func (s *DatabaseManagementCloudClustersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseManagementCloudClustersDataSourceCrud) Get() error {
+func (s *DatabaseManagementCloudClustersDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.ListCloudClustersRequest{}
 
 	if cloudDbSystemId, ok := s.D.GetOkExists("cloud_db_system_id"); ok {
@@ -86,7 +87,7 @@ func (s *DatabaseManagementCloudClustersDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
 
-	response, err := s.Client.ListCloudClusters(context.Background(), request)
+	response, err := s.Client.ListCloudClusters(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -95,7 +96,7 @@ func (s *DatabaseManagementCloudClustersDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListCloudClusters(context.Background(), request)
+		listResponse, err := s.Client.ListCloudClusters(ctx, request)
 		if err != nil {
 			return err
 		}

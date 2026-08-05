@@ -26,6 +26,9 @@ type DataGuardGroup struct {
 	// Oracle Data Guard Protection Modes (http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000)
 	// in the Oracle Data Guard documentation.
 	ProtectionMode DataGuardGroupProtectionModeEnum `mandatory:"false" json:"protectionMode,omitempty"`
+
+	// Specifies readiness of Managed Automatic failover.
+	ManagedAutoFailOverReadiness DataGuardGroupManagedAutoFailOverReadinessEnum `mandatory:"false" json:"managedAutoFailOverReadiness,omitempty"`
 }
 
 func (m DataGuardGroup) String() string {
@@ -40,6 +43,9 @@ func (m DataGuardGroup) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingDataGuardGroupProtectionModeEnum(string(m.ProtectionMode)); !ok && m.ProtectionMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProtectionMode: %s. Supported values are: %s.", m.ProtectionMode, strings.Join(GetDataGuardGroupProtectionModeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDataGuardGroupManagedAutoFailOverReadinessEnum(string(m.ManagedAutoFailOverReadiness)); !ok && m.ManagedAutoFailOverReadiness != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagedAutoFailOverReadiness: %s. Supported values are: %s.", m.ManagedAutoFailOverReadiness, strings.Join(GetDataGuardGroupManagedAutoFailOverReadinessEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -90,5 +96,47 @@ func GetDataGuardGroupProtectionModeEnumStringValues() []string {
 // GetMappingDataGuardGroupProtectionModeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDataGuardGroupProtectionModeEnum(val string) (DataGuardGroupProtectionModeEnum, bool) {
 	enum, ok := mappingDataGuardGroupProtectionModeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DataGuardGroupManagedAutoFailOverReadinessEnum Enum with underlying type: string
+type DataGuardGroupManagedAutoFailOverReadinessEnum string
+
+// Set of constants representing the allowable values for DataGuardGroupManagedAutoFailOverReadinessEnum
+const (
+	DataGuardGroupManagedAutoFailOverReadinessHealthy  DataGuardGroupManagedAutoFailOverReadinessEnum = "HEALTHY"
+	DataGuardGroupManagedAutoFailOverReadinessCritical DataGuardGroupManagedAutoFailOverReadinessEnum = "CRITICAL"
+)
+
+var mappingDataGuardGroupManagedAutoFailOverReadinessEnum = map[string]DataGuardGroupManagedAutoFailOverReadinessEnum{
+	"HEALTHY":  DataGuardGroupManagedAutoFailOverReadinessHealthy,
+	"CRITICAL": DataGuardGroupManagedAutoFailOverReadinessCritical,
+}
+
+var mappingDataGuardGroupManagedAutoFailOverReadinessEnumLowerCase = map[string]DataGuardGroupManagedAutoFailOverReadinessEnum{
+	"healthy":  DataGuardGroupManagedAutoFailOverReadinessHealthy,
+	"critical": DataGuardGroupManagedAutoFailOverReadinessCritical,
+}
+
+// GetDataGuardGroupManagedAutoFailOverReadinessEnumValues Enumerates the set of values for DataGuardGroupManagedAutoFailOverReadinessEnum
+func GetDataGuardGroupManagedAutoFailOverReadinessEnumValues() []DataGuardGroupManagedAutoFailOverReadinessEnum {
+	values := make([]DataGuardGroupManagedAutoFailOverReadinessEnum, 0)
+	for _, v := range mappingDataGuardGroupManagedAutoFailOverReadinessEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDataGuardGroupManagedAutoFailOverReadinessEnumStringValues Enumerates the set of values in String for DataGuardGroupManagedAutoFailOverReadinessEnum
+func GetDataGuardGroupManagedAutoFailOverReadinessEnumStringValues() []string {
+	return []string{
+		"HEALTHY",
+		"CRITICAL",
+	}
+}
+
+// GetMappingDataGuardGroupManagedAutoFailOverReadinessEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDataGuardGroupManagedAutoFailOverReadinessEnum(val string) (DataGuardGroupManagedAutoFailOverReadinessEnum, bool) {
+	enum, ok := mappingDataGuardGroupManagedAutoFailOverReadinessEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

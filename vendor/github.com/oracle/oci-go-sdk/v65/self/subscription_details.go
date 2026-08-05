@@ -22,7 +22,8 @@ type SubscriptionDetails struct {
 	// The activation link given by the partner.
 	PartnerRegistrationUrl *string `mandatory:"true" json:"partnerRegistrationUrl"`
 
-	BillingDetails *BillingDetails `mandatory:"true" json:"billingDetails"`
+	// Billing details associated with the subscription plan and its usage dimensions.
+	BillingDetails []BillingDetails `mandatory:"true" json:"billingDetails"`
 
 	// The currency supported, in the format specified by ISO-4217
 	Currency *string `mandatory:"false" json:"currency"`

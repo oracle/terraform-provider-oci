@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -15,7 +16,7 @@ import (
 
 func DataSafeAlertPolicyRulesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDataSafeAlertPolicyRules,
+		ReadContext: readDataSafeAlertPolicyRulesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"alert_policy_id": {
@@ -39,12 +40,12 @@ func DataSafeAlertPolicyRulesDataSource() *schema.Resource {
 	}
 }
 
-func readDataSafeAlertPolicyRules(d *schema.ResourceData, m interface{}) error {
+func readDataSafeAlertPolicyRulesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAlertPolicyRulesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeAlertPolicyRulesDataSourceCrud struct {
@@ -57,7 +58,7 @@ func (s *DataSafeAlertPolicyRulesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeAlertPolicyRulesDataSourceCrud) Get() error {
+func (s *DataSafeAlertPolicyRulesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.ListAlertPolicyRulesRequest{}
 
 	if alertPolicyId, ok := s.D.GetOkExists("alert_policy_id"); ok {
@@ -67,7 +68,7 @@ func (s *DataSafeAlertPolicyRulesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.ListAlertPolicyRules(context.Background(), request)
+	response, err := s.Client.ListAlertPolicyRules(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -76,7 +77,7 @@ func (s *DataSafeAlertPolicyRulesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListAlertPolicyRules(context.Background(), request)
+		listResponse, err := s.Client.ListAlertPolicyRules(ctx, request)
 		if err != nil {
 			return err
 		}

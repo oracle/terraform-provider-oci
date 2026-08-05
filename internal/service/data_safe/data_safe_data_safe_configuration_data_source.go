@@ -9,6 +9,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 )
@@ -19,15 +20,15 @@ func DataSafeDataSafeConfigurationDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeDataSafeConfigurationResource(), fieldMap, readSingularDataSafeDataSafeConfiguration)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeDataSafeConfigurationResource(), fieldMap, readSingularDataSafeDataSafeConfigurationWithContext)
 }
 
-func readSingularDataSafeDataSafeConfiguration(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeDataSafeConfigurationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeDataSafeConfigurationDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeDataSafeConfigurationDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DataSafeDataSafeConfigurationDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeDataSafeConfigurationDataSourceCrud) Get() error {
+func (s *DataSafeDataSafeConfigurationDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetDataSafeConfigurationRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -50,7 +51,7 @@ func (s *DataSafeDataSafeConfigurationDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetDataSafeConfiguration(context.Background(), request)
+	response, err := s.Client.GetDataSafeConfiguration(ctx, request)
 	if err != nil {
 		return err
 	}

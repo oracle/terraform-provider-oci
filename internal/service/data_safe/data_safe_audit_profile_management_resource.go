@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
@@ -19,11 +20,11 @@ import (
 
 func DataSafeAuditProfileManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeAuditProfileManagement,
-		Read:     readDataSafeAuditProfileManagement,
-		Update:   updateDataSafeAuditProfileManagement,
-		Delete:   deleteDataSafeAuditProfileManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeAuditProfileManagementWithContext,
+		ReadContext:   readDataSafeAuditProfileManagementWithContext,
+		UpdateContext: updateDataSafeAuditProfileManagementWithContext,
+		DeleteContext: deleteDataSafeAuditProfileManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -253,26 +254,26 @@ func DataSafeAuditProfileManagementResource() *schema.Resource {
 	}
 }
 
-func createDataSafeAuditProfileManagement(d *schema.ResourceData, m interface{}) error {
+func createDataSafeAuditProfileManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAuditProfileManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
+	if e := tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync)); e != nil {
 		return e
 	}
 	return nil
 }
 
-func readDataSafeAuditProfileManagement(d *schema.ResourceData, m interface{}) error {
+func readDataSafeAuditProfileManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAuditProfileManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeAuditProfileManagement(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeAuditProfileManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAuditProfileManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
@@ -281,9 +282,9 @@ func updateDataSafeAuditProfileManagement(d *schema.ResourceData, m interface{})
 	onlineMonths, _ := sync.D.GetOk("online_months")
 	isOverrideGlobalRetentionSetting, _ := sync.D.GetOk("is_override_global_retention_setting")
 	if sync.D.Get("target_type") == string(oci_data_safe.AuditProfileTargetTypeTargetDatabase) && sync.D.Id() == "" {
-		id, err := sync.fetchAuditProfileIdByTargetId()
+		id, err := sync.fetchAuditProfileIdByTargetId(ctx)
 		if err != nil {
-			return fmt.Errorf("failed to fetch audit profile ID: %v", err)
+			return tfresource.HandleDiagError(m, fmt.Errorf("failed to fetch audit profile ID: %v", err))
 		}
 		sync.D.SetId(id)
 	}
@@ -292,25 +293,25 @@ func updateDataSafeAuditProfileManagement(d *schema.ResourceData, m interface{})
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.ChangeRetention(offlineMonths.(int), onlineMonths.(int), isOverrideGlobalRetentionSetting.(bool))
+			err := sync.ChangeRetention(ctx, offlineMonths.(int), onlineMonths.(int), isOverrideGlobalRetentionSetting.(bool))
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("change_retention_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, fmt.Errorf("new value of trigger should be greater than the old value"))
 		}
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
+	if err := tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync)); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func deleteDataSafeAuditProfileManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeAuditProfileManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAuditProfileManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
@@ -318,7 +319,7 @@ func deleteDataSafeAuditProfileManagement(d *schema.ResourceData, m interface{})
 	if sync.D.Get("target_type") == string(oci_data_safe.AuditProfileTargetTypeTargetDatabase) {
 		return nil
 	}
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataSafeAuditProfileManagementResourceCrud struct {
@@ -364,10 +365,10 @@ func (s *DataSafeAuditProfileManagementResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DataSafeAuditProfileManagementResourceCrud) Create() error {
+func (s *DataSafeAuditProfileManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	if s.D.Get("target_type") == string(oci_data_safe.AuditProfileTargetTypeTargetDatabase) {
 
-		err := s.GetAuditProfileWorkReq()
+		err := s.GetAuditProfileWorkReq(ctx)
 		if err != nil {
 			return fmt.Errorf("failed to fetch audit profile ID: %v", err)
 		}
@@ -433,7 +434,7 @@ func (s *DataSafeAuditProfileManagementResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.CreateAuditProfile(context.Background(), request)
+	response, err := s.Client.CreateAuditProfile(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -444,10 +445,10 @@ func (s *DataSafeAuditProfileManagementResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getAuditProfileFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getAuditProfileFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeAuditProfileManagementResourceCrud) GetAuditProfileWorkReq() error {
+func (s *DataSafeAuditProfileManagementResourceCrud) GetAuditProfileWorkReq(ctx context.Context) error {
 	listWorkRequestsRequest := oci_data_safe.ListWorkRequestsRequest{SortBy: oci_data_safe.ListWorkRequestsSortByEnum("ACCEPTEDTIME"), SortOrder: oci_data_safe.ListWorkRequestsSortOrderEnum("DESC")}
 	var workId *string
 	tmp := "CREATE_AUDIT_PROFILE"
@@ -463,7 +464,7 @@ func (s *DataSafeAuditProfileManagementResourceCrud) GetAuditProfileWorkReq() er
 		listWorkRequestsRequest.TargetDatabaseId = &tmp
 	}
 
-	listWorkRequestsResponse, err := s.Client.ListWorkRequests(context.Background(), listWorkRequestsRequest)
+	listWorkRequestsResponse, err := s.Client.ListWorkRequests(ctx, listWorkRequestsRequest)
 	if len(listWorkRequestsResponse.Items) > 0 {
 		var tmp1 = &listWorkRequestsResponse.Items[0]
 		workId = tmp1.Id
@@ -474,13 +475,13 @@ func (s *DataSafeAuditProfileManagementResourceCrud) GetAuditProfileWorkReq() er
 	}
 
 	if workId != nil {
-		return s.getAuditProfileFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate))
+		return s.getAuditProfileFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate))
 	} else {
-		return s.GetAuditProfileList()
+		return s.GetAuditProfileList(ctx)
 	}
 }
 
-func (s *DataSafeAuditProfileManagementResourceCrud) GetAuditProfileList() error {
+func (s *DataSafeAuditProfileManagementResourceCrud) GetAuditProfileList(ctx context.Context) error {
 	request := oci_data_safe.ListAuditProfilesRequest{}
 	var auditProfile = new(oci_data_safe.AuditProfile)
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -494,7 +495,7 @@ func (s *DataSafeAuditProfileManagementResourceCrud) GetAuditProfileList() error
 	}
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.ListAuditProfiles(context.Background(), request)
+	response, err := s.Client.ListAuditProfiles(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -512,7 +513,7 @@ func (s *DataSafeAuditProfileManagementResourceCrud) GetAuditProfileList() error
 	return nil
 }
 
-func (s *DataSafeAuditProfileManagementResourceCrud) Get() error {
+func (s *DataSafeAuditProfileManagementResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetAuditProfileRequest{}
 
 	tmp := s.D.Id()
@@ -520,7 +521,7 @@ func (s *DataSafeAuditProfileManagementResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetAuditProfile(context.Background(), request)
+	response, err := s.Client.GetAuditProfile(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -529,11 +530,11 @@ func (s *DataSafeAuditProfileManagementResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeAuditProfileManagementResourceCrud) Update() error {
+func (s *DataSafeAuditProfileManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -573,16 +574,16 @@ func (s *DataSafeAuditProfileManagementResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateAuditProfile(context.Background(), request)
+	response, err := s.Client.UpdateAuditProfile(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAuditProfileFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAuditProfileFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeAuditProfileManagementResourceCrud) Delete() error {
+func (s *DataSafeAuditProfileManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	if s.D.Get("target_type").(string) == string(oci_data_safe.AuditProfileTargetTypeTargetDatabase) {
 		return fmt.Errorf("audit profile for a target database cannot be deleted")
 	}
@@ -593,14 +594,14 @@ func (s *DataSafeAuditProfileManagementResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.DeleteAuditProfile(context.Background(), request)
+	response, err := s.Client.DeleteAuditProfile(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := auditProfileWaitForWorkRequest(workId, "auditprofile",
+	_, delWorkRequestErr := auditProfileWaitForWorkRequest(ctx, workId, "auditprofile",
 		oci_data_safe.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -693,21 +694,21 @@ func (s *DataSafeAuditProfileManagementResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DataSafeAuditProfileManagementResourceCrud) getAuditProfileFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeAuditProfileManagementResourceCrud) getAuditProfileFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	auditProfileId, err := auditProfileWaitForWorkRequest(workId, "auditprofile",
+	auditProfileId, err := auditProfileWaitForWorkRequest(ctx, workId, "auditprofile",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		return err
 	}
 	s.D.SetId(*auditProfileId)
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DataSafeAuditProfileManagementResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataSafeAuditProfileManagementResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_data_safe.ChangeAuditProfileCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -718,17 +719,17 @@ func (s *DataSafeAuditProfileManagementResourceCrud) updateCompartment(compartme
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.ChangeAuditProfileCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeAuditProfileCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAuditProfileFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAuditProfileFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 
 }
 
-func (s *DataSafeAuditProfileManagementResourceCrud) fetchAuditProfileIdByTargetId() (string, error) {
+func (s *DataSafeAuditProfileManagementResourceCrud) fetchAuditProfileIdByTargetId(ctx context.Context) (string, error) {
 	request := oci_data_safe.ListAuditProfilesRequest{}
 	var auditProfile = new(oci_data_safe.AuditProfile)
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -742,7 +743,7 @@ func (s *DataSafeAuditProfileManagementResourceCrud) fetchAuditProfileIdByTarget
 	}
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.ListAuditProfiles(context.Background(), request)
+	response, err := s.Client.ListAuditProfiles(ctx, request)
 	if err != nil {
 		return "", err
 	}
@@ -759,7 +760,7 @@ func (s *DataSafeAuditProfileManagementResourceCrud) fetchAuditProfileIdByTarget
 	return *auditProfile.Id, nil
 }
 
-func (s *DataSafeAuditProfileManagementResourceCrud) ChangeRetention(offlineMonths int, onlineMonths int, isOverrideGlobalRetentionSetting bool) error {
+func (s *DataSafeAuditProfileManagementResourceCrud) ChangeRetention(ctx context.Context, offlineMonths int, onlineMonths int, isOverrideGlobalRetentionSetting bool) error {
 	request := oci_data_safe.ChangeRetentionRequest{}
 
 	idTmp := s.D.Id()
@@ -768,12 +769,12 @@ func (s *DataSafeAuditProfileManagementResourceCrud) ChangeRetention(offlineMont
 	request.OnlineMonths = &onlineMonths
 	request.IsOverrideGlobalRetentionSetting = &isOverrideGlobalRetentionSetting
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
-	response, err := s.Client.ChangeRetention(context.Background(), request)
+	response, err := s.Client.ChangeRetention(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -781,6 +782,6 @@ func (s *DataSafeAuditProfileManagementResourceCrud) ChangeRetention(offlineMont
 	s.D.Set("change_retention_trigger", val)
 
 	workId := response.OpcWorkRequestId
-	return s.getAuditProfileFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAuditProfileFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 
 }

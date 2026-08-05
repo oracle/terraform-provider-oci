@@ -178,7 +178,6 @@ func (s *HealthChecksHttpProbeResourceCrud) Create() error {
 		request.TimeoutInSeconds = &tmp
 	}
 
-	// need to remove it otherwise it will throw error
 	if vantagePointNames, ok := s.D.GetOkExists("vantage_point_names"); ok {
 		interfaces := vantagePointNames.([]interface{})
 		tmp := make([]string, len(interfaces))

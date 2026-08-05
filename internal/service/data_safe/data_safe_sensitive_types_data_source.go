@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
@@ -17,7 +18,7 @@ import (
 
 func DataSafeSensitiveTypesDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDataSafeSensitiveTypes,
+		ReadContext: readDataSafeSensitiveTypesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"access_level": {
@@ -90,12 +91,12 @@ func DataSafeSensitiveTypesDataSource() *schema.Resource {
 	}
 }
 
-func readDataSafeSensitiveTypes(d *schema.ResourceData, m interface{}) error {
+func readDataSafeSensitiveTypesWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveTypesDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeSensitiveTypesDataSourceCrud struct {
@@ -108,7 +109,7 @@ func (s *DataSafeSensitiveTypesDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeSensitiveTypesDataSourceCrud) Get() error {
+func (s *DataSafeSensitiveTypesDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.ListSensitiveTypesRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
@@ -180,7 +181,7 @@ func (s *DataSafeSensitiveTypesDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.ListSensitiveTypes(context.Background(), request)
+	response, err := s.Client.ListSensitiveTypes(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -189,7 +190,7 @@ func (s *DataSafeSensitiveTypesDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListSensitiveTypes(context.Background(), request)
+		listResponse, err := s.Client.ListSensitiveTypes(ctx, request)
 		if err != nil {
 			return err
 		}

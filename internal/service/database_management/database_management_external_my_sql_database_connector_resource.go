@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -24,11 +24,11 @@ func DatabaseManagementExternalMySqlDatabaseConnectorResource() *schema.Resource
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseManagementExternalMySqlDatabaseConnector,
-		Read:     readDatabaseManagementExternalMySqlDatabaseConnector,
-		Update:   updateDatabaseManagementExternalMySqlDatabaseConnector,
-		Delete:   deleteDatabaseManagementExternalMySqlDatabaseConnector,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseManagementExternalMySqlDatabaseConnectorWithContext,
+		ReadContext:   readDatabaseManagementExternalMySqlDatabaseConnectorWithContext,
+		UpdateContext: updateDatabaseManagementExternalMySqlDatabaseConnectorWithContext,
+		DeleteContext: deleteDatabaseManagementExternalMySqlDatabaseConnectorWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -171,34 +171,34 @@ func DatabaseManagementExternalMySqlDatabaseConnectorResource() *schema.Resource
 	}
 }
 
-func createDatabaseManagementExternalMySqlDatabaseConnector(d *schema.ResourceData, m interface{}) error {
+func createDatabaseManagementExternalMySqlDatabaseConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	if e := tfresource.CreateResource(d, sync); e != nil {
-		return e
+	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
+		return tfresource.HandleDiagError(m, e)
 	}
 
 	if _, ok := sync.D.GetOkExists("check_connection_status_trigger"); ok {
-		err := sync.CheckExternalMySqlDatabaseConnectorConnectionStatus()
+		err := sync.CheckExternalMySqlDatabaseConnectorConnectionStatus(ctx)
 		if err != nil {
-			return err
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 	return nil
 
 }
 
-func readDatabaseManagementExternalMySqlDatabaseConnector(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementExternalMySqlDatabaseConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseManagementExternalMySqlDatabaseConnector(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseManagementExternalMySqlDatabaseConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
@@ -208,31 +208,32 @@ func updateDatabaseManagementExternalMySqlDatabaseConnector(d *schema.ResourceDa
 		oldValue := oldRaw.(int)
 		newValue := newRaw.(int)
 		if oldValue < newValue {
-			err := sync.CheckExternalMySqlDatabaseConnectorConnectionStatus()
+			err := sync.CheckExternalMySqlDatabaseConnectorConnectionStatus(ctx)
 
 			if err != nil {
-				return err
+				return tfresource.HandleDiagError(m, err)
 			}
 		} else {
 			sync.D.Set("check_connection_status_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
+			err := fmt.Errorf("new value of trigger should be greater than the old value")
+			return tfresource.HandleDiagError(m, err)
 		}
 	}
 
-	if err := tfresource.UpdateResource(d, sync); err != nil {
-		return err
+	if err := tfresource.UpdateResourceWithContext(ctx, d, sync); err != nil {
+		return tfresource.HandleDiagError(m, err)
 	}
 
 	return nil
 }
 
-func deleteDatabaseManagementExternalMySqlDatabaseConnector(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseManagementExternalMySqlDatabaseConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud struct {
@@ -270,7 +271,7 @@ func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) DeletedTa
 	}
 }
 
-func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) Create() error {
+func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database_management.CreateExternalMySqlDatabaseConnectorRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -296,7 +297,7 @@ func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) Create() 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.CreateExternalMySqlDatabaseConnector(context.Background(), request)
+	response, err := s.Client.CreateExternalMySqlDatabaseConnector(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -305,11 +306,11 @@ func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) Create() 
 	return nil
 }
 
-func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) getExternalMySqlDatabaseConnectorFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) getExternalMySqlDatabaseConnectorFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	externalMySqlDatabaseConnectorId, err := externalMySqlDatabaseConnectorWaitForWorkRequest(workId, "connector",
+	externalMySqlDatabaseConnectorId, err := externalMySqlDatabaseConnectorWaitForWorkRequest(ctx, workId, "connector",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -317,7 +318,7 @@ func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) getExtern
 	}
 	s.D.SetId(*externalMySqlDatabaseConnectorId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func externalMySqlDatabaseConnectorWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -343,7 +344,7 @@ func externalMySqlDatabaseConnectorWorkRequestShouldRetryFunc(timeout time.Durat
 	}
 }
 
-func externalMySqlDatabaseConnectorWaitForWorkRequest(wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
+func externalMySqlDatabaseConnectorWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_management.DbManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_management")
 	retryPolicy.ShouldRetryOperation = externalMySqlDatabaseConnectorWorkRequestShouldRetryFunc(timeout)
@@ -362,7 +363,7 @@ func externalMySqlDatabaseConnectorWaitForWorkRequest(wId *string, entityType st
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -391,14 +392,14 @@ func externalMySqlDatabaseConnectorWaitForWorkRequest(wId *string, entityType st
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_database_management.WorkRequestStatusFailed || response.Status == oci_database_management.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatabaseManagementExternalMySqlDatabaseConnectorWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatabaseManagementExternalMySqlDatabaseConnectorWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseManagementExternalMySqlDatabaseConnectorWorkRequest(client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseManagementExternalMySqlDatabaseConnectorWorkRequest(ctx context.Context, client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -420,7 +421,7 @@ func getErrorFromDatabaseManagementExternalMySqlDatabaseConnectorWorkRequest(cli
 	return workRequestErr
 }
 
-func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) Get() error {
+func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetExternalMySqlDatabaseConnectorRequest{}
 
 	tmp := s.D.Id()
@@ -428,7 +429,7 @@ func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) Get() err
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.GetExternalMySqlDatabaseConnector(context.Background(), request)
+	response, err := s.Client.GetExternalMySqlDatabaseConnector(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -437,7 +438,7 @@ func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) Get() err
 	return nil
 }
 
-func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) Update() error {
+func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database_management.UpdateExternalMysqlDatabaseConnectorRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -461,16 +462,16 @@ func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) Update() 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.UpdateExternalMysqlDatabaseConnector(context.Background(), request)
+	response, err := s.Client.UpdateExternalMysqlDatabaseConnector(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getExternalMySqlDatabaseConnectorFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getExternalMySqlDatabaseConnectorFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) Delete() error {
+func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database_management.DeleteExternalMySqlDatabaseConnectorRequest{}
 
 	tmp := s.D.Id()
@@ -478,14 +479,14 @@ func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) Delete() 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.DeleteExternalMySqlDatabaseConnector(context.Background(), request)
+	response, err := s.Client.DeleteExternalMySqlDatabaseConnector(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := externalMySqlDatabaseConnectorWaitForWorkRequest(workId, "connector",
+	_, delWorkRequestErr := externalMySqlDatabaseConnectorWaitForWorkRequest(ctx, workId, "connector",
 		oci_database_management.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -560,7 +561,7 @@ func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) SetData()
 	return nil
 }
 
-func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) CheckExternalMySqlDatabaseConnectorConnectionStatus() error {
+func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) CheckExternalMySqlDatabaseConnectorConnectionStatus(ctx context.Context) error {
 	request := oci_database_management.CheckExternalMySqlDatabaseConnectorConnectionStatusRequest{}
 
 	idTmp := s.D.Id()
@@ -568,12 +569,12 @@ func (s *DatabaseManagementExternalMySqlDatabaseConnectorResourceCrud) CheckExte
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	_, err := s.Client.CheckExternalMySqlDatabaseConnectorConnectionStatus(context.Background(), request)
+	_, err := s.Client.CheckExternalMySqlDatabaseConnectorConnectionStatus(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
