@@ -6,6 +6,7 @@ package database_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -19,15 +20,15 @@ func DatabaseManagementCloudListenerDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseManagementCloudListenerResource(), fieldMap, readSingularDatabaseManagementCloudListener)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseManagementCloudListenerResource(), fieldMap, readSingularDatabaseManagementCloudListenerWithContext)
 }
 
-func readSingularDatabaseManagementCloudListener(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseManagementCloudListenerWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudListenerDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseManagementCloudListenerDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseManagementCloudListenerDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseManagementCloudListenerDataSourceCrud) Get() error {
+func (s *DatabaseManagementCloudListenerDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetCloudListenerRequest{}
 
 	if cloudListenerId, ok := s.D.GetOkExists("cloud_listener_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseManagementCloudListenerDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
 
-	response, err := s.Client.GetCloudListener(context.Background(), request)
+	response, err := s.Client.GetCloudListener(ctx, request)
 	if err != nil {
 		return err
 	}

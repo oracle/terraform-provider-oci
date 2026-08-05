@@ -39,6 +39,11 @@ func OptimizerProfileLevelsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -47,6 +52,8 @@ func OptimizerProfileLevelsDataSource() *schema.Resource {
 									// Required
 
 									// Optional
+
+									// Computed
 									"default_interval": {
 										Type:     schema.TypeInt,
 										Computed: true,

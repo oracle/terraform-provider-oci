@@ -65,6 +65,8 @@ type CreateStandbyDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	AutoFailoverConfiguration *AutoFailoverConfiguration `mandatory:"false" json:"autoFailoverConfiguration"`
 }
 
 func (m CreateStandbyDetails) String() string {
@@ -99,6 +101,7 @@ func (m *CreateStandbyDetails) UnmarshalJSON(data []byte) (e error) {
 		StorageSizeDetails                 *DatabaseStorageSizeDetails            `json:"storageSizeDetails"`
 		FreeformTags                       map[string]string                      `json:"freeformTags"`
 		DefinedTags                        map[string]map[string]interface{}      `json:"definedTags"`
+		AutoFailoverConfiguration          *AutoFailoverConfiguration             `json:"autoFailoverConfiguration"`
 		SourceDatabaseId                   *string                                `json:"sourceDatabaseId"`
 		DatabaseAdminPassword              *string                                `json:"databaseAdminPassword"`
 		SourceTdeWalletPassword            *string                                `json:"sourceTdeWalletPassword"`
@@ -132,6 +135,8 @@ func (m *CreateStandbyDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.AutoFailoverConfiguration = model.AutoFailoverConfiguration
 
 	m.SourceDatabaseId = model.SourceDatabaseId
 

@@ -6,6 +6,7 @@ package database_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -19,15 +20,15 @@ func DatabaseManagementExternalClusterInstanceDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseManagementExternalClusterInstanceResource(), fieldMap, readSingularDatabaseManagementExternalClusterInstance)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseManagementExternalClusterInstanceResource(), fieldMap, readSingularDatabaseManagementExternalClusterInstanceWithContext)
 }
 
-func readSingularDatabaseManagementExternalClusterInstance(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseManagementExternalClusterInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalClusterInstanceDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseManagementExternalClusterInstanceDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseManagementExternalClusterInstanceDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseManagementExternalClusterInstanceDataSourceCrud) Get() error {
+func (s *DatabaseManagementExternalClusterInstanceDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetExternalClusterInstanceRequest{}
 
 	if externalClusterInstanceId, ok := s.D.GetOkExists("external_cluster_instance_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseManagementExternalClusterInstanceDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
 
-	response, err := s.Client.GetExternalClusterInstance(context.Background(), request)
+	response, err := s.Client.GetExternalClusterInstance(ctx, request)
 	if err != nil {
 		return err
 	}

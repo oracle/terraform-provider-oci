@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -26,11 +27,11 @@ func OsManagementHubManagedInstanceResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOsManagementHubManagedInstance,
-		Read:     readOsManagementHubManagedInstance,
-		Update:   updateOsManagementHubManagedInstance,
-		Delete:   deleteOsManagementHubManagedInstance,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOsManagementHubManagedInstanceWithContext,
+		ReadContext:   readOsManagementHubManagedInstanceWithContext,
+		UpdateContext: updateOsManagementHubManagedInstanceWithContext,
+		DeleteContext: deleteOsManagementHubManagedInstanceWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"managed_instance_id": {
@@ -315,40 +316,40 @@ func OsManagementHubManagedInstanceResource() *schema.Resource {
 	}
 }
 
-func createOsManagementHubManagedInstance(d *schema.ResourceData, m interface{}) error {
+func createOsManagementHubManagedInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubManagedInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagedInstanceClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOsManagementHubManagedInstance(d *schema.ResourceData, m interface{}) error {
+func readOsManagementHubManagedInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubManagedInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagedInstanceClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateOsManagementHubManagedInstance(d *schema.ResourceData, m interface{}) error {
+func updateOsManagementHubManagedInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubManagedInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagedInstanceClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteOsManagementHubManagedInstance(d *schema.ResourceData, m interface{}) error {
+func deleteOsManagementHubManagedInstanceWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubManagedInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagedInstanceClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type OsManagementHubManagedInstanceResourceCrud struct {
@@ -363,7 +364,7 @@ func (s *OsManagementHubManagedInstanceResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *OsManagementHubManagedInstanceResourceCrud) Create() error {
+func (s *OsManagementHubManagedInstanceResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.UpdateManagedInstanceRequest{}
 
 	if autonomousSettings, ok := s.D.GetOkExists("autonomous_settings"); ok {
@@ -404,7 +405,7 @@ func (s *OsManagementHubManagedInstanceResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.UpdateManagedInstance(context.Background(), request)
+	response, err := s.Client.UpdateManagedInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -436,7 +437,7 @@ func managedInstanceWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 	}
 }
 
-func managedInstanceWaitForWorkRequest(wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
+func managedInstanceWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_os_management_hub.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "os_management_hub")
 	retryPolicy.ShouldRetryOperation = managedInstanceWorkRequestShouldRetryFunc(timeout)
@@ -455,7 +456,7 @@ func managedInstanceWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_os_management_hub.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -467,7 +468,7 @@ func managedInstanceWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -484,14 +485,14 @@ func managedInstanceWaitForWorkRequest(wId *string, entityType string, action oc
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_os_management_hub.OperationStatusFailed || response.Status == oci_os_management_hub.OperationStatusCanceled {
-		return nil, getErrorFromOsManagementHubManagedInstanceWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOsManagementHubManagedInstanceWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOsManagementHubManagedInstanceWorkRequest(client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOsManagementHubManagedInstanceWorkRequest(ctx context.Context, client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_os_management_hub.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -513,7 +514,7 @@ func getErrorFromOsManagementHubManagedInstanceWorkRequest(client *oci_os_manage
 	return workRequestErr
 }
 
-func (s *OsManagementHubManagedInstanceResourceCrud) Get() error {
+func (s *OsManagementHubManagedInstanceResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.GetManagedInstanceRequest{}
 
 	tmp := s.D.Id()
@@ -521,7 +522,7 @@ func (s *OsManagementHubManagedInstanceResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.GetManagedInstance(context.Background(), request)
+	response, err := s.Client.GetManagedInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -530,7 +531,7 @@ func (s *OsManagementHubManagedInstanceResourceCrud) Get() error {
 	return nil
 }
 
-func (s *OsManagementHubManagedInstanceResourceCrud) Update() error {
+func (s *OsManagementHubManagedInstanceResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.UpdateManagedInstanceRequest{}
 
 	if autonomousSettings, ok := s.D.GetOkExists("autonomous_settings"); ok {
@@ -569,7 +570,7 @@ func (s *OsManagementHubManagedInstanceResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.UpdateManagedInstance(context.Background(), request)
+	response, err := s.Client.UpdateManagedInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -578,7 +579,7 @@ func (s *OsManagementHubManagedInstanceResourceCrud) Update() error {
 	return nil
 }
 
-func (s *OsManagementHubManagedInstanceResourceCrud) Delete() error {
+func (s *OsManagementHubManagedInstanceResourceCrud) DeleteWithContext(ctx context.Context) error {
 	if utils.GetEnvSettingWithBlankDefault("osmh_skip_managed_instance_deletion") == "true" {
 		log.Printf("[INFO] Skipping deletion of managed instance: %s", s.D.Id())
 		return nil
@@ -591,14 +592,14 @@ func (s *OsManagementHubManagedInstanceResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.DeleteManagedInstance(context.Background(), request)
+	response, err := s.Client.DeleteManagedInstance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := managedInstanceWaitForWorkRequest(workId, "instance",
+	_, delWorkRequestErr := managedInstanceWaitForWorkRequest(ctx, workId, "instance",
 		oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.WorkRequestClient)
 	return delWorkRequestErr
 }

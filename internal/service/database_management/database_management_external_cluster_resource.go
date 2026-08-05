@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -24,11 +24,11 @@ func DatabaseManagementExternalClusterResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseManagementExternalCluster,
-		Read:     readDatabaseManagementExternalCluster,
-		Update:   updateDatabaseManagementExternalCluster,
-		Delete:   deleteDatabaseManagementExternalCluster,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseManagementExternalClusterWithContext,
+		ReadContext:   readDatabaseManagementExternalClusterWithContext,
+		UpdateContext: updateDatabaseManagementExternalClusterWithContext,
+		DeleteContext: deleteDatabaseManagementExternalClusterWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"external_cluster_id": {
@@ -199,31 +199,31 @@ func DatabaseManagementExternalClusterResource() *schema.Resource {
 	}
 }
 
-func createDatabaseManagementExternalCluster(d *schema.ResourceData, m interface{}) error {
+func createDatabaseManagementExternalClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseManagementExternalCluster(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementExternalClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseManagementExternalCluster(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseManagementExternalClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseManagementExternalCluster(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseManagementExternalClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -263,7 +263,7 @@ func (s *DatabaseManagementExternalClusterResourceCrud) DeletedTarget() []string
 	}
 }
 
-func (s *DatabaseManagementExternalClusterResourceCrud) Create() error {
+func (s *DatabaseManagementExternalClusterResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database_management.UpdateExternalClusterRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -290,14 +290,14 @@ func (s *DatabaseManagementExternalClusterResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.UpdateExternalCluster(context.Background(), request)
+	response, err := s.Client.UpdateExternalCluster(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_database_management.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_database_management.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -313,14 +313,14 @@ func (s *DatabaseManagementExternalClusterResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getExternalClusterFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getExternalClusterFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatabaseManagementExternalClusterResourceCrud) getExternalClusterFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseManagementExternalClusterResourceCrud) getExternalClusterFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	externalClusterId, err := externalClusterWaitForWorkRequest(workId, "cluster",
+	externalClusterId, err := externalClusterWaitForWorkRequest(ctx, workId, "cluster",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -328,7 +328,7 @@ func (s *DatabaseManagementExternalClusterResourceCrud) getExternalClusterFromWo
 	}
 	s.D.SetId(*externalClusterId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func externalClusterWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -354,7 +354,7 @@ func externalClusterWorkRequestShouldRetryFunc(timeout time.Duration) func(respo
 	}
 }
 
-func externalClusterWaitForWorkRequest(wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
+func externalClusterWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_management.DbManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_management")
 	retryPolicy.ShouldRetryOperation = externalClusterWorkRequestShouldRetryFunc(timeout)
@@ -373,7 +373,7 @@ func externalClusterWaitForWorkRequest(wId *string, entityType string, action oc
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -400,14 +400,14 @@ func externalClusterWaitForWorkRequest(wId *string, entityType string, action oc
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_database_management.WorkRequestStatusFailed || response.Status == oci_database_management.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatabaseManagementExternalClusterWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatabaseManagementExternalClusterWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseManagementExternalClusterWorkRequest(client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseManagementExternalClusterWorkRequest(ctx context.Context, client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -429,7 +429,7 @@ func getErrorFromDatabaseManagementExternalClusterWorkRequest(client *oci_databa
 	return workRequestErr
 }
 
-func (s *DatabaseManagementExternalClusterResourceCrud) Get() error {
+func (s *DatabaseManagementExternalClusterResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetExternalClusterRequest{}
 
 	tmp := s.D.Id()
@@ -437,7 +437,7 @@ func (s *DatabaseManagementExternalClusterResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.GetExternalCluster(context.Background(), request)
+	response, err := s.Client.GetExternalCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -446,7 +446,7 @@ func (s *DatabaseManagementExternalClusterResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseManagementExternalClusterResourceCrud) Update() error {
+func (s *DatabaseManagementExternalClusterResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database_management.UpdateExternalClusterRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -471,13 +471,13 @@ func (s *DatabaseManagementExternalClusterResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.UpdateExternalCluster(context.Background(), request)
+	response, err := s.Client.UpdateExternalCluster(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getExternalClusterFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getExternalClusterFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DatabaseManagementExternalClusterResourceCrud) SetData() error {

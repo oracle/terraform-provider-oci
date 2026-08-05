@@ -581,6 +581,56 @@ var (
 		"lifecycle":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreOpenSearchSystemTagsChangesRep},
 	}
 
+	// Reuse the minimal non-CCS cluster shape so this test does not exercise
+	// unrelated search, ML, coordinator, tag, or security updates.
+	OpensearchOpensearchClusterNsgIdRepresentation = acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(OpensearchOpensearchClusterRepresentationRemoveCCS, []string{"freeform_tags", "system_tags"}),
+		map[string]interface{}{
+			"nsg_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_network_security_group.test_network_security_group1.id}`, Update: `${oci_core_network_security_group.test_network_security_group1.id}`},
+		},
+	)
+	OpensearchOpensearchClusterOmittedNsgIdRepresentation = acctest.RepresentationCopyWithRemovedProperties(
+		OpensearchOpensearchClusterNsgIdRepresentation,
+		[]string{"nsg_id"},
+	)
+	OpensearchOpensearchClusterEmptyNsgIdRepresentation = acctest.GetUpdatedRepresentationCopy(
+		"nsg_id",
+		acctest.Representation{RepType: acctest.Optional, Create: ``, Update: ``},
+		OpensearchOpensearchClusterNsgIdRepresentation,
+	)
+	OpensearchOpensearchClusterNsg1Representation = acctest.RepresentationCopyWithNewProperties(
+		CoreNetworkSecurityGroupRepresentation,
+		map[string]interface{}{
+			"display_name": acctest.Representation{RepType: acctest.Optional, Create: `tfOpensearchNsgCreate`},
+		},
+	)
+	OpensearchOpensearchClusterNsg2Representation = acctest.RepresentationCopyWithNewProperties(
+		CoreNetworkSecurityGroupRepresentation,
+		map[string]interface{}{
+			"display_name": acctest.Representation{RepType: acctest.Optional, Create: `tfOpensearchNsgUpdate`},
+		},
+	)
+	OpensearchOpensearchClusterNsgIdUpdatedRepresentation = acctest.GetUpdatedRepresentationCopy(
+		"nsg_id",
+		acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_network_security_group.test_network_security_group1.id}`, Update: `${oci_core_network_security_group.test_network_security_group2.id}`},
+		OpensearchOpensearchClusterNsgIdRepresentation,
+	)
+
+	// Use an OpenSearch-specific user name so live acceptance-test runs do not
+	// collide with the shared identity test user. Keep replay runs deterministic.
+	OpensearchIdentityUserRepresentation = acctest.GetUpdatedRepresentationCopy(
+		"name",
+		acctest.Representation{
+			RepType: acctest.Required,
+			Create: `opensearch-` + utils.RandomStringOrHttpReplayValue(
+				8,
+				utils.CharsetLowerCaseWithoutDigits,
+				"testuser",
+			) + `@example.com`,
+		},
+		IdentityUserRepresentation,
+	)
+
 	OpensearchOpensearchClusterLoadBalancerConfigRepresentationUpdateLBaaS = map[string]interface{}{
 		"load_balancer_service_type":          acctest.Representation{RepType: acctest.Required, Update: `LOAD_BALANCER`},
 		"load_balancer_min_bandwidth_in_mbps": acctest.Representation{RepType: acctest.Optional, Update: `50`},
@@ -670,18 +720,18 @@ var (
 
 	OpensearchOpensearchClusterResourceDependencies4 = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, OpensearchIdentityUserRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster_inbound", acctest.Optional, acctest.Update, OpensearchOpensearchClusterRepresentationRemoveCCS)
 
 	OpensearchOpensearchClusterResourceDependenciesForCCS = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, OpensearchIdentityUserRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster_inbound", acctest.Optional, acctest.Create, OpensearchOpensearchClusterRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster_outbound", acctest.Optional, acctest.Create, OpensearchOpensearchClusterRepresentation)
 
 	OpensearchOpensearchClusterResourceDependenciesForByoc = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, OpensearchIdentityUserRepresentation) +
 		acctest.GenerateDataSourceFromRepresentationMap(
 			"oci_certificates_management_certificates", "existing",
 			acctest.Required, acctest.Create,
@@ -694,16 +744,22 @@ var (
 	OpensearchOpensearchClusterResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, OpensearchIdentityUserRepresentation)
+
+	// Provisions the NSGs required by the nsg_id lifecycle test.
+	OpensearchOpensearchClusterResourceDependenciesNsgId = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group1", acctest.Required, acctest.Create, OpensearchOpensearchClusterNsg1Representation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group2", acctest.Required, acctest.Create, OpensearchOpensearchClusterNsg2Representation)
 
 	OpensearchOpensearchClusterResourceDependencies2 = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, OpensearchIdentityUserRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster_inbound", acctest.Optional, acctest.Create, OpensearchOpensearchClusterRepresentation)
 
 	OpensearchOpensearchClusterResourceDependencies3 = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, OpensearchIdentityUserRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster_inbound", acctest.Optional, acctest.Update, OpensearchOpensearchClusterRepresentation3) +
 		acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster_outbound", acctest.Optional, acctest.Update, OpensearchOpensearchClusterRepresentation4)
 )
@@ -1091,6 +1147,126 @@ func TestOpensearchOpensearchClusterResource_securityAttributesUpdate_1(t *testi
 }
 
 // issue-routing-tag: opensearch/default
+func TestOpensearchOpensearchClusterResource_nsgIdUpdate(t *testing.T) {
+	httpreplay.SetScenario("TestOpensearchOpensearchClusterResource_nsgIdUpdate")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	resourceName := "oci_opensearch_opensearch_cluster.test_opensearch_cluster"
+	createNsgResourceName := "oci_core_network_security_group.test_network_security_group1"
+	updatedNsgResourceName := "oci_core_network_security_group.test_network_security_group2"
+
+	var resId string
+	clusterConfig := func(representation map[string]interface{}, mode acctest.RepresentationMode) string {
+		return config + compartmentIdVariableStr + OpensearchOpensearchClusterResourceDependenciesNsgId +
+			acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster", acctest.Optional, mode, representation)
+	}
+	assertClusterIDUnchanged := func(s *terraform.State) error {
+		id, err := acctest.FromInstanceState(s, resourceName, "id")
+		if err != nil {
+			return err
+		}
+		if resId != id {
+			return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+		}
+		return nil
+	}
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OpensearchOpensearchClusterResourceDependenciesNsgId+
+		acctest.GenerateResourceFromRepresentationMap("oci_opensearch_opensearch_cluster", "test_opensearch_cluster", acctest.Optional, acctest.Create, OpensearchOpensearchClusterNsgIdRepresentation), "opensearch", "opensearchCluster", t)
+
+	acctest.ResourceTest(t, testAccCheckOpensearchOpensearchClusterDestroy, []resource.TestStep{
+		// verify Create with nsg_id
+		{
+			Config: clusterConfig(OpensearchOpensearchClusterNsgIdRepresentation, acctest.Create),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "data_node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_memory_gb", "20"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_ocpu_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_host_type", "FLEX"),
+				resource.TestCheckResourceAttr(resourceName, "data_node_storage_gb", "50"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "tf_provider_cluster_updated"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_host_memory_gb", "20"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_host_ocpu_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "master_node_host_type", "FLEX"),
+				resource.TestCheckResourceAttrPair(resourceName, "nsg_id", createNsgResourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_host_memory_gb", "10"),
+				resource.TestCheckResourceAttr(resourceName, "opendashboard_node_host_ocpu_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "software_version", "2.11.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// Verify through the full plan/apply/refresh lifecycle that omitting nsg_id
+		// preserves the existing NSG without recreating the cluster.
+		{
+			Config: clusterConfig(OpensearchOpensearchClusterOmittedNsgIdRepresentation, acctest.Update),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrPair(resourceName, "nsg_id", createNsgResourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "software_version", "2.11.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				assertClusterIDUnchanged,
+			),
+		},
+		// Remove the NSG from the cluster with an explicit empty nsg_id.
+		{
+			Config: clusterConfig(OpensearchOpensearchClusterEmptyNsgIdRepresentation, acctest.Update),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "nsg_id", ""),
+				resource.TestCheckResourceAttr(resourceName, "software_version", "2.11.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				assertClusterIDUnchanged,
+			),
+		},
+		// Add the original NSG back to the existing cluster.
+		{
+			Config: clusterConfig(OpensearchOpensearchClusterNsgIdRepresentation, acctest.Update),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrPair(resourceName, "nsg_id", createNsgResourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "software_version", "2.11.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				assertClusterIDUnchanged,
+			),
+		},
+		// Replace the original NSG with a different NSG.
+		{
+			Config: clusterConfig(OpensearchOpensearchClusterNsgIdUpdatedRepresentation, acctest.Update),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrPair(resourceName, "nsg_id", updatedNsgResourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "software_version", "2.11.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				assertClusterIDUnchanged,
+			),
+		},
+		// Remove the replacement NSG from the cluster.
+		{
+			Config: clusterConfig(OpensearchOpensearchClusterEmptyNsgIdRepresentation, acctest.Update),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "nsg_id", ""),
+				resource.TestCheckResourceAttr(resourceName, "software_version", "2.11.0"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				assertClusterIDUnchanged,
+			),
+		},
+	})
+}
+
+// issue-routing-tag: opensearch/default
+
 func TestOpensearchOpensearchClusterResource_custom_certificate(t *testing.T) {
 	httpreplay.SetScenario("TestOpensearchOpensearchClusterResource_basic")
 	defer httpreplay.SaveScenario()

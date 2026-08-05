@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -25,11 +26,11 @@ func DataSafeAuditArchiveRetrievalResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeAuditArchiveRetrieval,
-		Read:     readDataSafeAuditArchiveRetrieval,
-		Update:   updateDataSafeAuditArchiveRetrieval,
-		Delete:   deleteDataSafeAuditArchiveRetrieval,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeAuditArchiveRetrievalWithContext,
+		ReadContext:   readDataSafeAuditArchiveRetrievalWithContext,
+		UpdateContext: updateDataSafeAuditArchiveRetrievalWithContext,
+		DeleteContext: deleteDataSafeAuditArchiveRetrievalWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -117,37 +118,37 @@ func DataSafeAuditArchiveRetrievalResource() *schema.Resource {
 	}
 }
 
-func createDataSafeAuditArchiveRetrieval(d *schema.ResourceData, m interface{}) error {
+func createDataSafeAuditArchiveRetrievalWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAuditArchiveRetrievalResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDataSafeAuditArchiveRetrieval(d *schema.ResourceData, m interface{}) error {
+func readDataSafeAuditArchiveRetrievalWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAuditArchiveRetrievalResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeAuditArchiveRetrieval(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeAuditArchiveRetrievalWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAuditArchiveRetrievalResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDataSafeAuditArchiveRetrieval(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeAuditArchiveRetrievalWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAuditArchiveRetrievalResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataSafeAuditArchiveRetrievalResourceCrud struct {
@@ -186,7 +187,7 @@ func (s *DataSafeAuditArchiveRetrievalResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DataSafeAuditArchiveRetrievalResourceCrud) Create() error {
+func (s *DataSafeAuditArchiveRetrievalResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_data_safe.CreateAuditArchiveRetrievalRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -239,7 +240,7 @@ func (s *DataSafeAuditArchiveRetrievalResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.CreateAuditArchiveRetrieval(context.Background(), request)
+	response, err := s.Client.CreateAuditArchiveRetrieval(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -250,14 +251,14 @@ func (s *DataSafeAuditArchiveRetrievalResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getAuditArchiveRetrievalFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getAuditArchiveRetrievalFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DataSafeAuditArchiveRetrievalResourceCrud) getAuditArchiveRetrievalFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeAuditArchiveRetrievalResourceCrud) getAuditArchiveRetrievalFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	auditArchiveRetrievalId, err := auditArchiveRetrievalWaitForWorkRequest(workId, "auditarchiveretrievals",
+	auditArchiveRetrievalId, err := auditArchiveRetrievalWaitForWorkRequest(ctx, workId, "auditarchiveretrievals",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -265,7 +266,7 @@ func (s *DataSafeAuditArchiveRetrievalResourceCrud) getAuditArchiveRetrievalFrom
 	}
 	s.D.SetId(*auditArchiveRetrievalId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func auditArchiveRetrievalWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -291,7 +292,7 @@ func auditArchiveRetrievalWorkRequestShouldRetryFunc(timeout time.Duration) func
 	}
 }
 
-func auditArchiveRetrievalWaitForWorkRequest(wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
+func auditArchiveRetrievalWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_data_safe.DataSafeClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "data_safe")
 	retryPolicy.ShouldRetryOperation = auditArchiveRetrievalWorkRequestShouldRetryFunc(timeout)
@@ -310,7 +311,7 @@ func auditArchiveRetrievalWaitForWorkRequest(wId *string, entityType string, act
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_data_safe.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -322,7 +323,7 @@ func auditArchiveRetrievalWaitForWorkRequest(wId *string, entityType string, act
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -339,14 +340,14 @@ func auditArchiveRetrievalWaitForWorkRequest(wId *string, entityType string, act
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_data_safe.WorkRequestStatusFailed || response.Status == oci_data_safe.WorkRequestStatusCanceled {
-		return nil, getErrorFromDataSafeAuditArchiveRetrievalWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDataSafeAuditArchiveRetrievalWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDataSafeAuditArchiveRetrievalWorkRequest(client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDataSafeAuditArchiveRetrievalWorkRequest(ctx context.Context, client *oci_data_safe.DataSafeClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_data_safe.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_data_safe.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -368,7 +369,7 @@ func getErrorFromDataSafeAuditArchiveRetrievalWorkRequest(client *oci_data_safe.
 	return workRequestErr
 }
 
-func (s *DataSafeAuditArchiveRetrievalResourceCrud) Get() error {
+func (s *DataSafeAuditArchiveRetrievalResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetAuditArchiveRetrievalRequest{}
 
 	tmp := s.D.Id()
@@ -376,7 +377,7 @@ func (s *DataSafeAuditArchiveRetrievalResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetAuditArchiveRetrieval(context.Background(), request)
+	response, err := s.Client.GetAuditArchiveRetrieval(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -385,11 +386,11 @@ func (s *DataSafeAuditArchiveRetrievalResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeAuditArchiveRetrievalResourceCrud) Update() error {
+func (s *DataSafeAuditArchiveRetrievalResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -424,16 +425,16 @@ func (s *DataSafeAuditArchiveRetrievalResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateAuditArchiveRetrieval(context.Background(), request)
+	response, err := s.Client.UpdateAuditArchiveRetrieval(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAuditArchiveRetrievalFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAuditArchiveRetrievalFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeAuditArchiveRetrievalResourceCrud) Delete() error {
+func (s *DataSafeAuditArchiveRetrievalResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_data_safe.DeleteAuditArchiveRetrievalRequest{}
 
 	tmp := s.D.Id()
@@ -441,14 +442,14 @@ func (s *DataSafeAuditArchiveRetrievalResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.DeleteAuditArchiveRetrieval(context.Background(), request)
+	response, err := s.Client.DeleteAuditArchiveRetrieval(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := auditArchiveRetrievalWaitForWorkRequest(workId, "auditarchiveretrievals",
+	_, delWorkRequestErr := auditArchiveRetrievalWaitForWorkRequest(ctx, workId, "auditarchiveretrievals",
 		oci_data_safe.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -583,7 +584,7 @@ func AuditArchiveRetrievalSummaryToMap(obj oci_data_safe.AuditArchiveRetrievalSu
 	return result
 }
 
-func (s *DataSafeAuditArchiveRetrievalResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataSafeAuditArchiveRetrievalResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_data_safe.ChangeAuditArchiveRetrievalCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -594,11 +595,11 @@ func (s *DataSafeAuditArchiveRetrievalResourceCrud) updateCompartment(compartmen
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.ChangeAuditArchiveRetrievalCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeAuditArchiveRetrievalCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getAuditArchiveRetrievalFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getAuditArchiveRetrievalFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

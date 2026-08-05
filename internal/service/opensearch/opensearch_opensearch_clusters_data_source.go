@@ -10,7 +10,6 @@ import (
 	oci_opensearch "github.com/oracle/oci-go-sdk/v65/opensearch"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
-
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 

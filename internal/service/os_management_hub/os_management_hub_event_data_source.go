@@ -7,6 +7,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_os_management_hub "github.com/oracle/oci-go-sdk/v65/osmanagementhub"
 
@@ -20,15 +21,15 @@ func OsManagementHubEventDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(OsManagementHubEventResource(), fieldMap, readSingularOsManagementHubEvent)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(OsManagementHubEventResource(), fieldMap, readSingularOsManagementHubEventWithContext)
 }
 
-func readSingularOsManagementHubEvent(d *schema.ResourceData, m interface{}) error {
+func readSingularOsManagementHubEventWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubEventDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EventClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type OsManagementHubEventDataSourceCrud struct {
@@ -41,7 +42,7 @@ func (s *OsManagementHubEventDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OsManagementHubEventDataSourceCrud) Get() error {
+func (s *OsManagementHubEventDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.GetEventRequest{}
 
 	if eventId, ok := s.D.GetOkExists("event_id"); ok {
@@ -51,7 +52,7 @@ func (s *OsManagementHubEventDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "os_management_hub")
 
-	response, err := s.Client.GetEvent(context.Background(), request)
+	response, err := s.Client.GetEvent(ctx, request)
 	if err != nil {
 		return err
 	}

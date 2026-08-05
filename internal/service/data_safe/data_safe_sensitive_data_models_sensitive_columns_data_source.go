@@ -7,6 +7,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
@@ -17,7 +18,7 @@ import (
 
 func DataSafeSensitiveDataModelsSensitiveColumnsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDataSafeSensitiveDataModelsSensitiveColumns,
+		ReadContext: readDataSafeSensitiveDataModelsSensitiveColumnsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"column_data_count_filter": {
@@ -144,12 +145,12 @@ func DataSafeSensitiveDataModelsSensitiveColumnsDataSource() *schema.Resource {
 	}
 }
 
-func readDataSafeSensitiveDataModelsSensitiveColumns(d *schema.ResourceData, m interface{}) error {
+func readDataSafeSensitiveDataModelsSensitiveColumnsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveDataModelsSensitiveColumnsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeSensitiveDataModelsSensitiveColumnsDataSourceCrud struct {
@@ -162,7 +163,7 @@ func (s *DataSafeSensitiveDataModelsSensitiveColumnsDataSourceCrud) VoidState() 
 	s.D.SetId("")
 }
 
-func (s *DataSafeSensitiveDataModelsSensitiveColumnsDataSourceCrud) Get() error {
+func (s *DataSafeSensitiveDataModelsSensitiveColumnsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.ListSensitiveColumnsRequest{}
 
 	if columnDataCountFilter, ok := s.D.GetOkExists("column_data_count_filter"); ok {
@@ -333,7 +334,7 @@ func (s *DataSafeSensitiveDataModelsSensitiveColumnsDataSourceCrud) Get() error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.ListSensitiveColumns(context.Background(), request)
+	response, err := s.Client.ListSensitiveColumns(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -342,7 +343,7 @@ func (s *DataSafeSensitiveDataModelsSensitiveColumnsDataSourceCrud) Get() error 
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListSensitiveColumns(context.Background(), request)
+		listResponse, err := s.Client.ListSensitiveColumns(ctx, request)
 		if err != nil {
 			return err
 		}

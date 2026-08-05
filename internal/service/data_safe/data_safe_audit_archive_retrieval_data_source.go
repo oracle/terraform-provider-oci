@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -21,15 +22,15 @@ func DataSafeAuditArchiveRetrievalDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeAuditArchiveRetrievalResource(), fieldMap, readSingularDataSafeAuditArchiveRetrieval)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeAuditArchiveRetrievalResource(), fieldMap, readSingularDataSafeAuditArchiveRetrievalWithContext)
 }
 
-func readSingularDataSafeAuditArchiveRetrieval(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeAuditArchiveRetrievalWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeAuditArchiveRetrievalDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeAuditArchiveRetrievalDataSourceCrud struct {
@@ -42,7 +43,7 @@ func (s *DataSafeAuditArchiveRetrievalDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeAuditArchiveRetrievalDataSourceCrud) Get() error {
+func (s *DataSafeAuditArchiveRetrievalDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetAuditArchiveRetrievalRequest{}
 
 	if auditArchiveRetrievalId, ok := s.D.GetOkExists("audit_archive_retrieval_id"); ok {
@@ -52,7 +53,7 @@ func (s *DataSafeAuditArchiveRetrievalDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetAuditArchiveRetrieval(context.Background(), request)
+	response, err := s.Client.GetAuditArchiveRetrieval(ctx, request)
 	if err != nil {
 		return err
 	}

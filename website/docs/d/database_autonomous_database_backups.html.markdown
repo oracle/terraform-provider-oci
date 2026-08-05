@@ -24,6 +24,7 @@ data "oci_database_autonomous_database_backups" "test_autonomous_database_backup
 	compartment_id = var.compartment_id
 	display_name = var.autonomous_database_backup_display_name
 	infrastructure_type = var.autonomous_database_backup_infrastructure_type
+	is_pitr_eligible = var.autonomous_database_backup_is_pitr_eligible
 	key_store_id = oci_database_key_store.test_key_store.id
 	state = var.autonomous_database_backup_state
 	type = var.autonomous_database_backup_type
@@ -39,6 +40,7 @@ The following arguments are supported:
 * `compartment_id` - (Optional) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
 * `infrastructure_type` - (Optional) A filter to return only resources that match the given Infrastructure Type.
+* `is_pitr_eligible` - (Optional) Filters backups based on the current Autonomous AI Database configuration; returns only those relevant for point-in-time recovery (PITR). Does not guarantee exclusion of backups in orphan ranges. 
 * `key_store_id` - (Optional) A filter to return only resources that have the given key store id.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 * `type` - (Optional) A filter to return only backups that matches with the given type of Backup.

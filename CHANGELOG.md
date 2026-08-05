@@ -1,3 +1,18 @@
+## 8.26.0 (August 5, 2026)
+
+### Added
+- context propagation for management resources in database_management service
+- context propagation for resources in database_management - part 3
+- context support into database_management resources - part 1
+- Support for ACD Backup info and Cloning Phase 2 (Timestamp, CPU parameter, subsetting) | ADB-D & ADB-CC
+- Support for Automatic failover with FSFO
+- Support for OpenSearch cluster network security groups
+- Upgrading packages to fix vulnerabilities
+
+### Bug Fix
+- resolve no-op patches
+- Disable DevOps pipeline commit triggers after Merino migration
+
 ## 8.25.0 (July 28, 2026)
 
 ### Added

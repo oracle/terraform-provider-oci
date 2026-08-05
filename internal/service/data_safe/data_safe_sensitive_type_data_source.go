@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -19,15 +20,15 @@ func DataSafeSensitiveTypeDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DataSafeSensitiveTypeResource(), fieldMap, readSingularDataSafeSensitiveType)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DataSafeSensitiveTypeResource(), fieldMap, readSingularDataSafeSensitiveTypeWithContext)
 }
 
-func readSingularDataSafeSensitiveType(d *schema.ResourceData, m interface{}) error {
+func readSingularDataSafeSensitiveTypeWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSensitiveTypeDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeSensitiveTypeDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DataSafeSensitiveTypeDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeSensitiveTypeDataSourceCrud) Get() error {
+func (s *DataSafeSensitiveTypeDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetSensitiveTypeRequest{}
 
 	if sensitiveTypeId, ok := s.D.GetOkExists("sensitive_type_id"); ok {
@@ -50,7 +51,7 @@ func (s *DataSafeSensitiveTypeDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.GetSensitiveType(context.Background(), request)
+	response, err := s.Client.GetSensitiveType(ctx, request)
 	if err != nil {
 		return err
 	}

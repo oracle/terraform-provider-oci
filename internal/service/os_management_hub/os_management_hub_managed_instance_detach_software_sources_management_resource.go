@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -24,10 +25,10 @@ func OsManagementHubManagedInstanceDetachSoftwareSourcesManagementResource() *sc
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createOsManagementHubManagedInstanceDetachSoftwareSourcesManagement,
-		Read:     readOsManagementHubManagedInstanceDetachSoftwareSourcesManagement,
-		Delete:   deleteOsManagementHubManagedInstanceDetachSoftwareSourcesManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createOsManagementHubManagedInstanceDetachSoftwareSourcesManagementWithContext,
+		ReadContext:   readOsManagementHubManagedInstanceDetachSoftwareSourcesManagementWithContext,
+		DeleteContext: deleteOsManagementHubManagedInstanceDetachSoftwareSourcesManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"managed_instance_id": {
@@ -80,20 +81,20 @@ func OsManagementHubManagedInstanceDetachSoftwareSourcesManagementResource() *sc
 	}
 }
 
-func createOsManagementHubManagedInstanceDetachSoftwareSourcesManagement(d *schema.ResourceData, m interface{}) error {
+func createOsManagementHubManagedInstanceDetachSoftwareSourcesManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &OsManagementHubManagedInstanceDetachSoftwareSourcesManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagedInstanceClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OsManagementHubWorkRequestClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readOsManagementHubManagedInstanceDetachSoftwareSourcesManagement(d *schema.ResourceData, m interface{}) error {
+func readOsManagementHubManagedInstanceDetachSoftwareSourcesManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func deleteOsManagementHubManagedInstanceDetachSoftwareSourcesManagement(d *schema.ResourceData, m interface{}) error {
+func deleteOsManagementHubManagedInstanceDetachSoftwareSourcesManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -109,7 +110,7 @@ func (s *OsManagementHubManagedInstanceDetachSoftwareSourcesManagementResourceCr
 	return *s.Res.Id
 }
 
-func (s *OsManagementHubManagedInstanceDetachSoftwareSourcesManagementResourceCrud) Get() error {
+func (s *OsManagementHubManagedInstanceDetachSoftwareSourcesManagementResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.GetManagedInstanceRequest{}
 
 	if managedInstanceId, ok := s.D.GetOkExists("managed_instance_id"); ok {
@@ -119,7 +120,7 @@ func (s *OsManagementHubManagedInstanceDetachSoftwareSourcesManagementResourceCr
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "os_management_hub")
 
-	response, err := s.Client.GetManagedInstance(context.Background(), request)
+	response, err := s.Client.GetManagedInstance(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -128,7 +129,7 @@ func (s *OsManagementHubManagedInstanceDetachSoftwareSourcesManagementResourceCr
 	return nil
 }
 
-func (s *OsManagementHubManagedInstanceDetachSoftwareSourcesManagementResourceCrud) Create() error {
+func (s *OsManagementHubManagedInstanceDetachSoftwareSourcesManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_os_management_hub.DetachSoftwareSourcesFromManagedInstanceRequest{}
 
 	if managedInstanceId, ok := s.D.GetOkExists("managed_instance_id"); ok {
@@ -162,20 +163,20 @@ func (s *OsManagementHubManagedInstanceDetachSoftwareSourcesManagementResourceCr
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
-	response, err := s.Client.DetachSoftwareSourcesFromManagedInstance(context.Background(), request)
+	response, err := s.Client.DetachSoftwareSourcesFromManagedInstance(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getManagedInstanceDetachSoftwareSourcesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getManagedInstanceDetachSoftwareSourcesManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub"), oci_os_management_hub.ActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *OsManagementHubManagedInstanceDetachSoftwareSourcesManagementResourceCrud) getManagedInstanceDetachSoftwareSourcesManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *OsManagementHubManagedInstanceDetachSoftwareSourcesManagementResourceCrud) getManagedInstanceDetachSoftwareSourcesManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_os_management_hub.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	managedInstanceDetachSoftwareSourcesManagementId, err := managedInstanceDetachSoftwareSourcesManagementWaitForWorkRequest(workId, "instance",
+	managedInstanceDetachSoftwareSourcesManagementId, err := managedInstanceDetachSoftwareSourcesManagementWaitForWorkRequest(ctx, workId, "instance",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.WorkRequestClient)
 
 	if err != nil {
@@ -183,7 +184,7 @@ func (s *OsManagementHubManagedInstanceDetachSoftwareSourcesManagementResourceCr
 	}
 	s.D.SetId(*managedInstanceDetachSoftwareSourcesManagementId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func managedInstanceDetachSoftwareSourcesManagementWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -209,7 +210,7 @@ func managedInstanceDetachSoftwareSourcesManagementWorkRequestShouldRetryFunc(ti
 	}
 }
 
-func managedInstanceDetachSoftwareSourcesManagementWaitForWorkRequest(wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
+func managedInstanceDetachSoftwareSourcesManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_os_management_hub.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_os_management_hub.WorkRequestClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "os_management_hub")
 	retryPolicy.ShouldRetryOperation = managedInstanceDetachSoftwareSourcesManagementWorkRequestShouldRetryFunc(timeout)
@@ -228,7 +229,7 @@ func managedInstanceDetachSoftwareSourcesManagementWaitForWorkRequest(wId *strin
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_os_management_hub.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -240,7 +241,7 @@ func managedInstanceDetachSoftwareSourcesManagementWaitForWorkRequest(wId *strin
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -257,14 +258,14 @@ func managedInstanceDetachSoftwareSourcesManagementWaitForWorkRequest(wId *strin
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_os_management_hub.OperationStatusFailed || response.Status == oci_os_management_hub.OperationStatusCanceled {
-		return nil, getErrorFromOsManagementHubManagedInstanceDetachSoftwareSourcesManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromOsManagementHubManagedInstanceDetachSoftwareSourcesManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromOsManagementHubManagedInstanceDetachSoftwareSourcesManagementWorkRequest(client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromOsManagementHubManagedInstanceDetachSoftwareSourcesManagementWorkRequest(ctx context.Context, client *oci_os_management_hub.WorkRequestClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_os_management_hub.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_os_management_hub.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{

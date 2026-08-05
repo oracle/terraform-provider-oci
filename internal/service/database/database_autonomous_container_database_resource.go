@@ -9,17 +9,16 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-
+	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
-	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
-
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
 )
 
@@ -52,8 +51,15 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 			"autonomous_container_database_backup_id": {
 				Type:     schema.TypeString,
 				Optional: true,
-				Computed: true,
 				ForceNew: true,
+			},
+			"autonomous_databases_to_clone": {
+				Type:     schema.TypeList,
+				Optional: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"autonomous_exadata_infrastructure_id": {
 				Type:     schema.TypeString,
@@ -165,6 +171,16 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"clone_band_width": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
+			"clone_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
 			},
 			"cloud_autonomous_vm_cluster_id": {
 				Type:     schema.TypeString,
@@ -575,16 +591,26 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"should_use_latest_available_backup_time_stamp": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				ForceNew: true,
+			},
 			"source": {
 				Type:             schema.TypeString,
 				Optional:         true,
-				Computed:         true,
 				ForceNew:         true,
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
 					"BACKUP_FROM_ID",
+					"BACKUP_FROM_TIMESTAMP",
 					"NONE",
 				}, true),
+			},
+			"source_autonomous_container_database_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
 			},
 			"standby_maintenance_buffer_in_days": {
 				Type:     schema.TypeInt,
@@ -595,7 +621,12 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
-
+			"time_stamp_to_use_for_cloning": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+			},
 			"vault_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -2572,6 +2603,248 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) populateTopLevelPolymo
 		if autonomousContainerDatabaseBackupId, ok := s.D.GetOkExists("autonomous_container_database_backup_id"); ok {
 			tmp := autonomousContainerDatabaseBackupId.(string)
 			details.AutonomousContainerDatabaseBackupId = &tmp
+		}
+		if autonomousDatabasesToClone, ok := s.D.GetOkExists("autonomous_databases_to_clone"); ok {
+			interfaces := autonomousDatabasesToClone.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("autonomous_databases_to_clone") {
+				details.AutonomousDatabasesToClone = tmp
+			}
+		}
+		if cloneBandWidth, ok := s.D.GetOkExists("clone_band_width"); ok {
+			details.CloneBandWidth = oci_database.CreateAutonomousContainerDatabaseFromBackupDetailsCloneBandWidthEnum(cloneBandWidth.(string))
+		}
+		if cloneType, ok := s.D.GetOkExists("clone_type"); ok {
+			details.CloneType = oci_database.CreateAutonomousContainerDatabaseFromBackupDetailsCloneTypeEnum(cloneType.(string))
+		}
+		if autonomousExadataInfrastructureId, ok := s.D.GetOkExists("autonomous_exadata_infrastructure_id"); ok {
+			tmp := autonomousExadataInfrastructureId.(string)
+			details.AutonomousExadataInfrastructureId = &tmp
+		}
+		if autonomousVmClusterId, ok := s.D.GetOkExists("autonomous_vm_cluster_id"); ok {
+			tmp := autonomousVmClusterId.(string)
+			details.AutonomousVmClusterId = &tmp
+		}
+		if backupConfig, ok := s.D.GetOkExists("backup_config"); ok {
+			if tmpList := backupConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backup_config", 0)
+				tmp, err := s.mapToAutonomousContainerDatabaseBackupConfig(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.BackupConfig = &tmp
+			}
+		}
+		if cloudAutonomousVmClusterId, ok := s.D.GetOkExists("cloud_autonomous_vm_cluster_id"); ok {
+			tmp := cloudAutonomousVmClusterId.(string)
+			details.CloudAutonomousVmClusterId = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if customerContacts, ok := s.D.GetOkExists("customer_contacts"); ok {
+			interfaces := customerContacts.([]interface{})
+			tmp := make([]oci_database.CustomerContact, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "customer_contacts", stateDataIndex)
+				converted, err := s.mapToCustomerContact(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("customer_contacts") {
+				details.CustomerContacts = tmp
+			}
+		}
+		if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
+			tmp := databaseSoftwareImageId.(string)
+			details.DatabaseSoftwareImageId = &tmp
+		}
+		if dbName, ok := s.D.GetOkExists("db_name"); ok {
+			tmp := dbName.(string)
+			details.DbName = &tmp
+		}
+		if dbSplitThreshold, ok := s.D.GetOkExists("db_split_threshold"); ok {
+			tmp := dbSplitThreshold.(int)
+			details.DbSplitThreshold = &tmp
+		}
+		if dbUniqueName, ok := s.D.GetOkExists("db_unique_name"); ok {
+			tmp := dbUniqueName.(string)
+			details.DbUniqueName = &tmp
+		}
+		if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+			tmp := dbVersion.(string)
+			details.DbVersion = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if distributionAffinity, ok := s.D.GetOkExists("distribution_affinity"); ok {
+			details.DistributionAffinity = oci_database.CreateAutonomousContainerDatabaseBaseDistributionAffinityEnum(distributionAffinity.(string))
+		}
+		if encryptionKeyLocationDetails, ok := s.D.GetOkExists("encryption_key_location_details"); ok {
+			if tmpList := encryptionKeyLocationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "encryption_key_location_details", 0)
+				tmp, err := s.mapToEncryptionKeyLocationDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.EncryptionKeyLocationDetails = tmp
+			}
+		}
+		if fastStartFailOverLagLimitInSeconds, ok := s.D.GetOkExists("fast_start_fail_over_lag_limit_in_seconds"); ok {
+			tmp := fastStartFailOverLagLimitInSeconds.(int)
+			details.FastStartFailOverLagLimitInSeconds = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isAutomaticFailoverEnabled, ok := s.D.GetOkExists("is_automatic_failover_enabled"); ok {
+			tmp := isAutomaticFailoverEnabled.(bool)
+			details.IsAutomaticFailoverEnabled = &tmp
+		}
+		if isDstFileUpdateEnabled, ok := s.D.GetOkExists("is_dst_file_update_enabled"); ok {
+			tmp := isDstFileUpdateEnabled.(bool)
+			details.IsDstFileUpdateEnabled = &tmp
+		}
+		if keyStoreId, ok := s.D.GetOkExists("key_store_id"); ok {
+			tmp := keyStoreId.(string)
+			details.KeyStoreId = &tmp
+		}
+		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
+		if kmsKeyVersionId, ok := s.D.GetOkExists("kms_key_version_id"); ok {
+			tmp := kmsKeyVersionId.(string)
+			details.KmsKeyVersionId = &tmp
+		}
+		if maintenanceWindowDetails, ok := s.D.GetOkExists("maintenance_window_details"); ok {
+			if tmpList := maintenanceWindowDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window_details", 0)
+				tmp, err := s.mapToMaintenanceWindow(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.MaintenanceWindowDetails = &tmp
+			}
+		}
+		if netServicesArchitecture, ok := s.D.GetOkExists("net_services_architecture"); ok {
+			details.NetServicesArchitecture = oci_database.CreateAutonomousContainerDatabaseBaseNetServicesArchitectureEnum(netServicesArchitecture.(string))
+		}
+		if okvEndPointGroupName, ok := s.D.GetOkExists("okv_end_point_group_name"); ok {
+			tmp := okvEndPointGroupName.(string)
+			details.OkvEndPointGroupName = &tmp
+		}
+		if patchModel, ok := s.D.GetOkExists("patch_model"); ok {
+			details.PatchModel = oci_database.CreateAutonomousContainerDatabaseBasePatchModelEnum(patchModel.(string))
+		}
+		if peerAutonomousContainerDatabaseBackupConfig, ok := s.D.GetOkExists("peer_autonomous_container_database_backup_config"); ok {
+			if tmpList := peerAutonomousContainerDatabaseBackupConfig.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "peer_autonomous_container_database_backup_config", 0)
+				tmp, err := s.mapToPeerAutonomousContainerDatabaseBackupConfig(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.PeerAutonomousContainerDatabaseBackupConfig = &tmp
+			}
+		}
+		if peerAutonomousContainerDatabaseCompartmentId, ok := s.D.GetOkExists("peer_autonomous_container_database_compartment_id"); ok {
+			tmp := peerAutonomousContainerDatabaseCompartmentId.(string)
+			details.PeerAutonomousContainerDatabaseCompartmentId = &tmp
+		}
+		if peerAutonomousContainerDatabaseDisplayName, ok := s.D.GetOkExists("peer_autonomous_container_database_display_name"); ok {
+			tmp := peerAutonomousContainerDatabaseDisplayName.(string)
+			details.PeerAutonomousContainerDatabaseDisplayName = &tmp
+		}
+		if peerAutonomousExadataInfrastructureId, ok := s.D.GetOkExists("peer_autonomous_exadata_infrastructure_id"); ok {
+			tmp := peerAutonomousExadataInfrastructureId.(string)
+			details.PeerAutonomousExadataInfrastructureId = &tmp
+		}
+		if peerAutonomousVmClusterId, ok := s.D.GetOkExists("peer_autonomous_vm_cluster_id"); ok {
+			tmp := peerAutonomousVmClusterId.(string)
+			details.PeerAutonomousVmClusterId = &tmp
+		}
+		if peerCloudAutonomousVmClusterId, ok := s.D.GetOkExists("peer_cloud_autonomous_vm_cluster_id"); ok {
+			tmp := peerCloudAutonomousVmClusterId.(string)
+			details.PeerCloudAutonomousVmClusterId = &tmp
+		}
+		if peerDbUniqueName, ok := s.D.GetOkExists("peer_db_unique_name"); ok {
+			tmp := peerDbUniqueName.(string)
+			details.PeerDbUniqueName = &tmp
+		}
+		if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
+			details.ProtectionMode = oci_database.CreateAutonomousContainerDatabaseBaseProtectionModeEnum(protectionMode.(string))
+		}
+		if serviceLevelAgreementType, ok := s.D.GetOkExists("service_level_agreement_type"); ok {
+			details.ServiceLevelAgreementType = oci_database.CreateAutonomousContainerDatabaseBaseServiceLevelAgreementTypeEnum(serviceLevelAgreementType.(string))
+		}
+		if standbyMaintenanceBufferInDays, ok := s.D.GetOkExists("standby_maintenance_buffer_in_days"); ok {
+			tmp := standbyMaintenanceBufferInDays.(int)
+			details.StandbyMaintenanceBufferInDays = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		if versionPreference, ok := s.D.GetOkExists("version_preference"); ok {
+			details.VersionPreference = oci_database.CreateAutonomousContainerDatabaseBaseVersionPreferenceEnum(versionPreference.(string))
+		}
+		if vmFailoverReservation, ok := s.D.GetOkExists("vm_failover_reservation"); ok {
+			tmp := vmFailoverReservation.(int)
+			details.VmFailoverReservation = &tmp
+		}
+		request.CreateAutonomousContainerDatabaseDetails = details
+	case strings.ToLower("BACKUP_FROM_TIMESTAMP"):
+		details := oci_database.CreateAutonomousContainerDatabaseFromBackupTimestampDetails{}
+		if autonomousDatabasesToClone, ok := s.D.GetOkExists("autonomous_databases_to_clone"); ok {
+			interfaces := autonomousDatabasesToClone.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("autonomous_databases_to_clone") {
+				details.AutonomousDatabasesToClone = tmp
+			}
+		}
+		if cloneBandWidth, ok := s.D.GetOkExists("clone_band_width"); ok {
+			details.CloneBandWidth = oci_database.CreateAutonomousContainerDatabaseFromBackupTimestampDetailsCloneBandWidthEnum(cloneBandWidth.(string))
+		}
+		if cloneType, ok := s.D.GetOkExists("clone_type"); ok {
+			details.CloneType = oci_database.CreateAutonomousContainerDatabaseFromBackupTimestampDetailsCloneTypeEnum(cloneType.(string))
+		}
+		if shouldUseLatestAvailableBackupTimeStamp, ok := s.D.GetOkExists("should_use_latest_available_backup_time_stamp"); ok {
+			tmp := shouldUseLatestAvailableBackupTimeStamp.(bool)
+			details.ShouldUseLatestAvailableBackupTimeStamp = &tmp
+		}
+		if sourceAutonomousContainerDatabaseId, ok := s.D.GetOkExists("source_autonomous_container_database_id"); ok {
+			tmp := sourceAutonomousContainerDatabaseId.(string)
+			details.SourceAutonomousContainerDatabaseId = &tmp
+		}
+		if timeStampToUseForCloning, ok := s.D.GetOkExists("time_stamp_to_use_for_cloning"); ok {
+			tmp, err := time.Parse(time.RFC3339, timeStampToUseForCloning.(string))
+			if err != nil {
+				return err
+			}
+			details.TimeStampToUseForCloning = &oci_common.SDKTime{Time: tmp}
 		}
 		if autonomousExadataInfrastructureId, ok := s.D.GetOkExists("autonomous_exadata_infrastructure_id"); ok {
 			tmp := autonomousExadataInfrastructureId.(string)

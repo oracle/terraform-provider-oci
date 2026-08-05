@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
@@ -18,11 +19,11 @@ import (
 
 func DataSafeSqlFirewallPolicyManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDataSafeSqlFirewallPolicyManagement,
-		Read:     readDataSafeSqlFirewallPolicyManagement,
-		Update:   updateDataSafeSqlFirewallPolicyManagement,
-		Delete:   deleteDataSafeSqlFirewallPolicyManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDataSafeSqlFirewallPolicyManagementWithContext,
+		ReadContext:   readDataSafeSqlFirewallPolicyManagementWithContext,
+		UpdateContext: updateDataSafeSqlFirewallPolicyManagementWithContext,
+		DeleteContext: deleteDataSafeSqlFirewallPolicyManagementWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"sql_firewall_policy_id": {
@@ -150,44 +151,44 @@ func DataSafeSqlFirewallPolicyManagementResource() *schema.Resource {
 	}
 }
 
-func createDataSafeSqlFirewallPolicyManagement(d *schema.ResourceData, m interface{}) error {
+func createDataSafeSqlFirewallPolicyManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSqlFirewallPolicyManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	err := sync.GetSqlFirewallPolicyWorkReq()
-	err1 := sync.Get()
+	err := sync.GetSqlFirewallPolicyWorkReq(ctx)
+	err1 := sync.GetWithContext(ctx)
 	if err != nil {
-		return err
+		return tfresource.HandleDiagError(m, err)
 	}
 	if err1 != nil {
-		return err1
+		return tfresource.HandleDiagError(m, err1)
 	}
-	return updateDataSafeSqlFirewallPolicyManagement(d, m)
+	return updateDataSafeSqlFirewallPolicyManagementWithContext(ctx, d, m)
 }
 
-func readDataSafeSqlFirewallPolicyManagement(d *schema.ResourceData, m interface{}) error {
+func readDataSafeSqlFirewallPolicyManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSqlFirewallPolicyManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDataSafeSqlFirewallPolicyManagement(d *schema.ResourceData, m interface{}) error {
+func updateDataSafeSqlFirewallPolicyManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSqlFirewallPolicyManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDataSafeSqlFirewallPolicyManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDataSafeSqlFirewallPolicyManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSqlFirewallPolicyManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 	sync.DisableNotFoundRetries = true
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DataSafeSqlFirewallPolicyManagementResourceCrud struct {
@@ -201,7 +202,7 @@ func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) GetSqlFirewallPolicyWorkReq() error {
+func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) GetSqlFirewallPolicyWorkReq(ctx context.Context) error {
 	listWorkRequestsRequest := oci_data_safe.ListWorkRequestsRequest{SortBy: oci_data_safe.ListWorkRequestsSortByEnum("ACCEPTEDTIME"), SortOrder: oci_data_safe.ListWorkRequestsSortOrderEnum("DESC")}
 	var workId *string
 	var sqlfwpId *string
@@ -227,7 +228,7 @@ func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) GetSqlFirewallPolicyWo
 		databaseUserNm = &tmp
 	}
 
-	listWorkRequestsResponse, err := s.Client.ListWorkRequests(context.Background(), listWorkRequestsRequest)
+	listWorkRequestsResponse, err := s.Client.ListWorkRequests(ctx, listWorkRequestsRequest)
 	if listWorkRequestsResponse.Items != nil && len(listWorkRequestsResponse.Items) > 0 {
 		// Get the latest work request
 		var tmp1 = &listWorkRequestsResponse.Items[0]
@@ -245,7 +246,7 @@ func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) GetSqlFirewallPolicyWo
 
 		if sqlfwpId != nil {
 			response := oci_data_safe.GetSqlFirewallPolicyResponse{}
-			response, _ = s.Client.GetSqlFirewallPolicy(context.Background(),
+			response, _ = s.Client.GetSqlFirewallPolicy(ctx,
 				oci_data_safe.GetSqlFirewallPolicyRequest{
 					SqlFirewallPolicyId: sqlfwpId,
 				})
@@ -262,13 +263,13 @@ func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) GetSqlFirewallPolicyWo
 	}
 
 	if workId != nil {
-		return s.getSqlFirewallPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate))
+		return s.getSqlFirewallPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutUpdate))
 	} else {
-		return s.GetSqlFirewallPolicyList()
+		return s.GetSqlFirewallPolicyList(ctx)
 	}
 }
 
-func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) GetSqlFirewallPolicyList() error {
+func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) GetSqlFirewallPolicyList(ctx context.Context) error {
 
 	// Filter Policy Deployment for the given targetId to fetch securityPolicyId
 	pdRequest := oci_data_safe.ListSecurityPolicyDeploymentsRequest{}
@@ -284,7 +285,7 @@ func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) GetSqlFirewallPolicyLi
 		tmp := targetId.(string)
 		pdRequest.TargetId = &tmp
 	}
-	pdResponse, err := s.Client.ListSecurityPolicyDeployments(context.Background(), pdRequest)
+	pdResponse, err := s.Client.ListSecurityPolicyDeployments(ctx, pdRequest)
 	if err != nil {
 		return err
 	}
@@ -314,7 +315,7 @@ func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) GetSqlFirewallPolicyLi
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.ListSqlFirewallPolicies(context.Background(), request)
+	response, err := s.Client.ListSqlFirewallPolicies(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -324,7 +325,7 @@ func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) GetSqlFirewallPolicyLi
 		fmt.Println("Active SQL Firewall policy found")
 	} else {
 		request.LifecycleState = oci_data_safe.ListSqlFirewallPoliciesLifecycleStateInactive
-		response, err := s.Client.ListSqlFirewallPolicies(context.Background(), request)
+		response, err := s.Client.ListSqlFirewallPolicies(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -334,7 +335,7 @@ func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) GetSqlFirewallPolicyLi
 			fmt.Println("Inactive SQL Firewall policy found")
 		} else {
 			request.LifecycleState = oci_data_safe.ListSqlFirewallPoliciesLifecycleStateFailed
-			response, err := s.Client.ListSqlFirewallPolicies(context.Background(), request)
+			response, err := s.Client.ListSqlFirewallPolicies(ctx, request)
 			if err != nil {
 				return err
 			}
@@ -354,7 +355,7 @@ func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) GetSqlFirewallPolicyLi
 	return nil
 }
 
-func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) Get() error {
+func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.GetSqlFirewallPolicyRequest{}
 
 	tmp := s.D.Id()
@@ -362,7 +363,7 @@ func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.GetSqlFirewallPolicy(context.Background(), request)
+	response, err := s.Client.GetSqlFirewallPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -371,11 +372,11 @@ func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) Update() error {
+func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -465,13 +466,13 @@ func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.UpdateSqlFirewallPolicy(context.Background(), request)
+	response, err := s.Client.UpdateSqlFirewallPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getSqlFirewallPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getSqlFirewallPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) SetData() error {
@@ -539,11 +540,11 @@ func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) getSqlFirewallPolicyFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) getSqlFirewallPolicyFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	sqlFirewallPolicyId, err := sqlFirewallPolicyWaitForWorkRequest(workId, "sqlfirewallpolicy",
+	sqlFirewallPolicyId, err := sqlFirewallPolicyWaitForWorkRequest(ctx, workId, "sqlfirewallpolicy",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -551,10 +552,10 @@ func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) getSqlFirewallPolicyFr
 	}
 	s.D.SetId(*sqlFirewallPolicyId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_data_safe.ChangeSqlFirewallPolicyCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -565,16 +566,16 @@ func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) updateCompartment(comp
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.ChangeSqlFirewallPolicyCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeSqlFirewallPolicyCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getSqlFirewallPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getSqlFirewallPolicyFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) Delete() error {
+func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_data_safe.DeleteSqlFirewallPolicyRequest{}
 
 	tmp := s.D.Id()
@@ -582,14 +583,14 @@ func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
 
-	response, err := s.Client.DeleteSqlFirewallPolicy(context.Background(), request)
+	response, err := s.Client.DeleteSqlFirewallPolicy(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := sqlFirewallPolicyWaitForWorkRequest(workId, "sqlfirewallpolicy",
+	_, delWorkRequestErr := sqlFirewallPolicyWaitForWorkRequest(ctx, workId, "sqlfirewallpolicy",
 		oci_data_safe.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

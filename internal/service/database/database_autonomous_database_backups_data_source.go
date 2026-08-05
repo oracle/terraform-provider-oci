@@ -40,6 +40,10 @@ func DatabaseAutonomousDatabaseBackupsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"is_pitr_eligible": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"key_store_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -104,6 +108,11 @@ func (s *DatabaseAutonomousDatabaseBackupsDataSourceCrud) GetWithContext(ctx con
 
 	if infrastructureType, ok := s.D.GetOkExists("infrastructure_type"); ok {
 		request.InfrastructureType = oci_database.AutonomousDatabaseBackupSummaryInfrastructureTypeEnum(infrastructureType.(string))
+	}
+
+	if isPitrEligible, ok := s.D.GetOkExists("is_pitr_eligible"); ok {
+		tmp := isPitrEligible.(bool)
+		request.IsPitrEligible = &tmp
 	}
 
 	if keyStoreId, ok := s.D.GetOkExists("key_store_id"); ok {

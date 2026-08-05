@@ -37,6 +37,9 @@ type UpdateOpensearchClusterDetails struct {
 
 	BackupPolicy *BackupPolicy `mandatory:"false" json:"backupPolicy"`
 
+	// The OCID of the NSG where the private endpoint vnic will be attached.
+	NsgId *string `mandatory:"false" json:"nsgId"`
+
 	// The customer IP addresses of the endpoint in customer VCN
 	ReverseConnectionEndpointCustomerIps []string `mandatory:"false" json:"reverseConnectionEndpointCustomerIps"`
 

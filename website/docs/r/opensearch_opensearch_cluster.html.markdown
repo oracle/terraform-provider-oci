@@ -169,7 +169,7 @@ The following arguments are supported:
 * `ml_node_host_shape` - (Optional) (Updatable) The node shape for the cluster's ML nodes.
 * `ml_node_host_type` - (Optional) The instance type for the cluster's ML nodes.
 * `ml_node_storage_gb` - (Optional) (Updatable) The amount of storage in GB, to configure per node for the cluster's ML nodes.
-* `nsg_id` - (Optional) The OCID of the NSG where the private endpoint vnic will be attached.
+* `nsg_id` - (Optional) (Updatable) The OCID of the NSG where the private endpoint vnic will be attached. Set this value to an empty string to detach the cluster from the NSG. Set this value to `null` to leave the existing NSG unchanged.
 * `opendashboard_node_count` - (Required) (Updatable) The number of OpenSearch Dashboard nodes to configure for the cluster.
 * `opendashboard_node_host_memory_gb` - (Required) (Updatable) The amount of memory in GB, to configure for the cluster's OpenSearch Dashboard nodes.
 * `opendashboard_node_host_ocpu_count` - (Required) (Updatable) The number of OCPUs to configure for the cluster's OpenSearch Dashboard nodes.

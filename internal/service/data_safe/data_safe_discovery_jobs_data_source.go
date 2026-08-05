@@ -6,6 +6,7 @@ package data_safe
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -15,7 +16,7 @@ import (
 
 func DataSafeDiscoveryJobsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDataSafeDiscoveryJobs,
+		ReadContext: readDataSafeDiscoveryJobsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"access_level": {
@@ -68,12 +69,12 @@ func DataSafeDiscoveryJobsDataSource() *schema.Resource {
 	}
 }
 
-func readDataSafeDiscoveryJobs(d *schema.ResourceData, m interface{}) error {
+func readDataSafeDiscoveryJobsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeDiscoveryJobsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeDiscoveryJobsDataSourceCrud struct {
@@ -86,7 +87,7 @@ func (s *DataSafeDiscoveryJobsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeDiscoveryJobsDataSourceCrud) Get() error {
+func (s *DataSafeDiscoveryJobsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.ListDiscoveryJobsRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
@@ -129,7 +130,7 @@ func (s *DataSafeDiscoveryJobsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.ListDiscoveryJobs(context.Background(), request)
+	response, err := s.Client.ListDiscoveryJobs(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -138,7 +139,7 @@ func (s *DataSafeDiscoveryJobsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListDiscoveryJobs(context.Background(), request)
+		listResponse, err := s.Client.ListDiscoveryJobs(ctx, request)
 		if err != nil {
 			return err
 		}

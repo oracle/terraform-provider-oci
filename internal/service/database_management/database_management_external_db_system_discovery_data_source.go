@@ -6,6 +6,7 @@ package database_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -19,15 +20,15 @@ func DatabaseManagementExternalDbSystemDiscoveryDataSource() *schema.Resource {
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseManagementExternalDbSystemDiscoveryResource(), fieldMap, readSingularDatabaseManagementExternalDbSystemDiscovery)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseManagementExternalDbSystemDiscoveryResource(), fieldMap, readSingularDatabaseManagementExternalDbSystemDiscoveryWithContext)
 }
 
-func readSingularDatabaseManagementExternalDbSystemDiscovery(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseManagementExternalDbSystemDiscoveryWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalDbSystemDiscoveryDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseManagementExternalDbSystemDiscoveryDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseManagementExternalDbSystemDiscoveryDataSourceCrud) VoidState() 
 	s.D.SetId("")
 }
 
-func (s *DatabaseManagementExternalDbSystemDiscoveryDataSourceCrud) Get() error {
+func (s *DatabaseManagementExternalDbSystemDiscoveryDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetExternalDbSystemDiscoveryRequest{}
 
 	if externalDbSystemDiscoveryId, ok := s.D.GetOkExists("external_db_system_discovery_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseManagementExternalDbSystemDiscoveryDataSourceCrud) Get() error 
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
 
-	response, err := s.Client.GetExternalDbSystemDiscovery(context.Background(), request)
+	response, err := s.Client.GetExternalDbSystemDiscovery(ctx, request)
 	if err != nil {
 		return err
 	}

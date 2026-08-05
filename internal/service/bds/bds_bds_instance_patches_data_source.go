@@ -27,6 +27,10 @@ func BdsBdsInstancePatchesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
 						// Computed
 						"time_released": {
 							Type:     schema.TypeString,

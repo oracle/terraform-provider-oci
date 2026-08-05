@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -24,11 +24,11 @@ func DatabaseManagementCloudClusterResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseManagementCloudCluster,
-		Read:     readDatabaseManagementCloudCluster,
-		Update:   updateDatabaseManagementCloudCluster,
-		Delete:   deleteDatabaseManagementCloudCluster,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseManagementCloudClusterWithContext,
+		ReadContext:   readDatabaseManagementCloudClusterWithContext,
+		UpdateContext: updateDatabaseManagementCloudClusterWithContext,
+		DeleteContext: deleteDatabaseManagementCloudClusterWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"cloud_cluster_id": {
@@ -203,31 +203,31 @@ func DatabaseManagementCloudClusterResource() *schema.Resource {
 	}
 }
 
-func createDatabaseManagementCloudCluster(d *schema.ResourceData, m interface{}) error {
+func createDatabaseManagementCloudClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseManagementCloudCluster(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementCloudClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseManagementCloudCluster(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseManagementCloudClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementCloudClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseManagementCloudCluster(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseManagementCloudClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
@@ -267,7 +267,7 @@ func (s *DatabaseManagementCloudClusterResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *DatabaseManagementCloudClusterResourceCrud) Create() error {
+func (s *DatabaseManagementCloudClusterResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_database_management.UpdateCloudClusterRequest{}
 
 	if cloudClusterId, ok := s.D.GetOkExists("cloud_cluster_id"); ok {
@@ -294,14 +294,14 @@ func (s *DatabaseManagementCloudClusterResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.UpdateCloudCluster(context.Background(), request)
+	response, err := s.Client.UpdateCloudCluster(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	workRequestResponse := oci_database_management.GetWorkRequestResponse{}
-	workRequestResponse, err = s.Client.GetWorkRequest(context.Background(),
+	workRequestResponse, err = s.Client.GetWorkRequest(ctx,
 		oci_database_management.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -317,14 +317,14 @@ func (s *DatabaseManagementCloudClusterResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getCloudClusterFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getCloudClusterFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *DatabaseManagementCloudClusterResourceCrud) getCloudClusterFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseManagementCloudClusterResourceCrud) getCloudClusterFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	cloudClusterId, err := cloudClusterWaitForWorkRequest(workId, "cluster",
+	cloudClusterId, err := cloudClusterWaitForWorkRequest(ctx, workId, "cluster",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -332,7 +332,7 @@ func (s *DatabaseManagementCloudClusterResourceCrud) getCloudClusterFromWorkRequ
 	}
 	s.D.SetId(*cloudClusterId)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
 func cloudClusterWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
@@ -358,7 +358,7 @@ func cloudClusterWorkRequestShouldRetryFunc(timeout time.Duration) func(response
 	}
 }
 
-func cloudClusterWaitForWorkRequest(wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
+func cloudClusterWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_management.DbManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_management")
 	retryPolicy.ShouldRetryOperation = cloudClusterWorkRequestShouldRetryFunc(timeout)
@@ -377,7 +377,7 @@ func cloudClusterWaitForWorkRequest(wId *string, entityType string, action oci_d
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -404,14 +404,14 @@ func cloudClusterWaitForWorkRequest(wId *string, entityType string, action oci_d
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_database_management.WorkRequestStatusFailed || response.Status == oci_database_management.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatabaseManagementCloudClusterWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatabaseManagementCloudClusterWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseManagementCloudClusterWorkRequest(client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseManagementCloudClusterWorkRequest(ctx context.Context, client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -433,7 +433,7 @@ func getErrorFromDatabaseManagementCloudClusterWorkRequest(client *oci_database_
 	return workRequestErr
 }
 
-func (s *DatabaseManagementCloudClusterResourceCrud) Get() error {
+func (s *DatabaseManagementCloudClusterResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetCloudClusterRequest{}
 
 	tmp := s.D.Id()
@@ -441,7 +441,7 @@ func (s *DatabaseManagementCloudClusterResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.GetCloudCluster(context.Background(), request)
+	response, err := s.Client.GetCloudCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -450,7 +450,7 @@ func (s *DatabaseManagementCloudClusterResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseManagementCloudClusterResourceCrud) Update() error {
+func (s *DatabaseManagementCloudClusterResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_database_management.UpdateCloudClusterRequest{}
 
 	tmp := s.D.Id()
@@ -475,13 +475,13 @@ func (s *DatabaseManagementCloudClusterResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.UpdateCloudCluster(context.Background(), request)
+	response, err := s.Client.UpdateCloudCluster(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getCloudClusterFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getCloudClusterFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DatabaseManagementCloudClusterResourceCrud) SetData() error {

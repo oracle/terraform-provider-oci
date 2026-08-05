@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -21,11 +22,11 @@ import (
 
 func DatabaseManagementExternalDbSystemStackMonitoringsManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseManagementExternalDbSystemStackMonitoringsManagement,
-		Read:     readDatabaseManagementExternalDbSystemStackMonitoringsManagement,
-		Update:   updateDatabaseManagementExternalDbSystemStackMonitoringsManagement,
-		Delete:   deleteDatabaseManagementExternalDbSystemStackMonitoringsManagement,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createDatabaseManagementExternalDbSystemStackMonitoringsManagement,
+		ReadContext:   readDatabaseManagementExternalDbSystemStackMonitoringsManagement,
+		UpdateContext: updateDatabaseManagementExternalDbSystemStackMonitoringsManagement,
+		DeleteContext: deleteDatabaseManagementExternalDbSystemStackMonitoringsManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"external_db_system_id": {
@@ -57,36 +58,36 @@ func DatabaseManagementExternalDbSystemStackMonitoringsManagementResource() *sch
 	}
 }
 
-func createDatabaseManagementExternalDbSystemStackMonitoringsManagement(d *schema.ResourceData, m interface{}) error {
+func createDatabaseManagementExternalDbSystemStackMonitoringsManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalDbSystemStackMonitoringsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementExternalDbSystemStackMonitoringsManagementResponse{}
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseManagementExternalDbSystemStackMonitoringsManagement(d *schema.ResourceData, m interface{}) error {
+func readDatabaseManagementExternalDbSystemStackMonitoringsManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	return nil
 }
 
-func updateDatabaseManagementExternalDbSystemStackMonitoringsManagement(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseManagementExternalDbSystemStackMonitoringsManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalDbSystemStackMonitoringsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementExternalDbSystemStackMonitoringsManagementResponse{}
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseManagementExternalDbSystemStackMonitoringsManagement(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseManagementExternalDbSystemStackMonitoringsManagement(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalDbSystemStackMonitoringsManagementResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 	sync.Res = &DatabaseManagementExternalDbSystemStackMonitoringsManagementResponse{}
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseManagementExternalDbSystemStackMonitoringsManagementResponse struct {
@@ -105,7 +106,7 @@ func (s *DatabaseManagementExternalDbSystemStackMonitoringsManagementResourceCru
 	return tfresource.GenerateDataSourceHashID("DatabaseManagementExternalDbSystemStackMonitoringsManagementResource-", DatabaseManagementExternalDbSystemStackMonitoringsManagementResource(), s.D)
 }
 
-func (s *DatabaseManagementExternalDbSystemStackMonitoringsManagementResourceCrud) Create() error {
+func (s *DatabaseManagementExternalDbSystemStackMonitoringsManagementResourceCrud) CreateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_stack_monitoring"); ok {
 		operation = enableOperation.(bool)
@@ -131,13 +132,13 @@ func (s *DatabaseManagementExternalDbSystemStackMonitoringsManagementResourceCru
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-		response, err := s.Client.EnableExternalDbSystemStackMonitoring(context.Background(), request)
+		response, err := s.Client.EnableExternalDbSystemStackMonitoring(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getExternalDbSystemStackMonitoringsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getExternalDbSystemStackMonitoringsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -154,13 +155,13 @@ func (s *DatabaseManagementExternalDbSystemStackMonitoringsManagementResourceCru
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.DisableExternalDbSystemStackMonitoring(context.Background(), request)
+	response, err := s.Client.DisableExternalDbSystemStackMonitoring(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getExternalDbSystemStackMonitoringsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getExternalDbSystemStackMonitoringsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -168,11 +169,11 @@ func (s *DatabaseManagementExternalDbSystemStackMonitoringsManagementResourceCru
 	return nil
 }
 
-func (s *DatabaseManagementExternalDbSystemStackMonitoringsManagementResourceCrud) getExternalDbSystemStackMonitoringsManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *DatabaseManagementExternalDbSystemStackMonitoringsManagementResourceCrud) getExternalDbSystemStackMonitoringsManagementFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	_, err := externalDbSystemStackMonitoringsManagementWaitForWorkRequest(workId, "database_management",
+	_, err := externalDbSystemStackMonitoringsManagementWaitForWorkRequest(ctx, workId, "database_management",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -205,7 +206,7 @@ func externalDbSystemStackMonitoringsManagementWorkRequestShouldRetryFunc(timeou
 	}
 }
 
-func externalDbSystemStackMonitoringsManagementWaitForWorkRequest(wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
+func externalDbSystemStackMonitoringsManagementWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_management.DbManagementClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_management")
 	retryPolicy.ShouldRetryOperation = externalDbSystemStackMonitoringsManagementWorkRequestShouldRetryFunc(timeout)
@@ -224,7 +225,7 @@ func externalDbSystemStackMonitoringsManagementWaitForWorkRequest(wId *string, e
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_database_management.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -255,14 +256,14 @@ func externalDbSystemStackMonitoringsManagementWaitForWorkRequest(wId *string, e
 	// The work request will not have any resources if the DB system contains only DB
 	// (no connectors were added to other components)
 	if response.Status == oci_database_management.WorkRequestStatusFailed || response.Status == oci_database_management.WorkRequestStatusCanceled {
-		return nil, getErrorFromDatabaseManagementExternalDbSystemStackMonitoringsManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromDatabaseManagementExternalDbSystemStackMonitoringsManagementWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDatabaseManagementExternalDbSystemStackMonitoringsManagementWorkRequest(client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func getErrorFromDatabaseManagementExternalDbSystemStackMonitoringsManagementWorkRequest(ctx context.Context, client *oci_database_management.DbManagementClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_database_management.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_database_management.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -284,7 +285,7 @@ func getErrorFromDatabaseManagementExternalDbSystemStackMonitoringsManagementWor
 	return workRequestErr
 }
 
-func (s *DatabaseManagementExternalDbSystemStackMonitoringsManagementResourceCrud) Update() error {
+func (s *DatabaseManagementExternalDbSystemStackMonitoringsManagementResourceCrud) UpdateWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_stack_monitoring"); ok {
 		operation = enableOperation.(bool)
@@ -310,13 +311,13 @@ func (s *DatabaseManagementExternalDbSystemStackMonitoringsManagementResourceCru
 
 		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-		response, err := s.Client.EnableExternalDbSystemStackMonitoring(context.Background(), request)
+		response, err := s.Client.EnableExternalDbSystemStackMonitoring(ctx, request)
 		if err != nil {
 			return err
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getExternalDbSystemStackMonitoringsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getExternalDbSystemStackMonitoringsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -333,13 +334,13 @@ func (s *DatabaseManagementExternalDbSystemStackMonitoringsManagementResourceCru
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.DisableExternalDbSystemStackMonitoring(context.Background(), request)
+	response, err := s.Client.DisableExternalDbSystemStackMonitoring(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getExternalDbSystemStackMonitoringsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getExternalDbSystemStackMonitoringsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -347,7 +348,7 @@ func (s *DatabaseManagementExternalDbSystemStackMonitoringsManagementResourceCru
 	return nil
 }
 
-func (s *DatabaseManagementExternalDbSystemStackMonitoringsManagementResourceCrud) Delete() error {
+func (s *DatabaseManagementExternalDbSystemStackMonitoringsManagementResourceCrud) DeleteWithContext(ctx context.Context) error {
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_stack_monitoring"); ok {
 		operation = enableOperation.(bool)
@@ -366,13 +367,13 @@ func (s *DatabaseManagementExternalDbSystemStackMonitoringsManagementResourceCru
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
-	response, err := s.Client.DisableExternalDbSystemStackMonitoring(context.Background(), request)
+	response, err := s.Client.DisableExternalDbSystemStackMonitoring(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getExternalDbSystemStackMonitoringsManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getExternalDbSystemStackMonitoringsManagementFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}

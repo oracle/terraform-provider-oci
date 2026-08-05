@@ -6,6 +6,7 @@ package database_management
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 
@@ -19,15 +20,15 @@ func DatabaseManagementExternalMySqlDatabaseConnectorDataSource() *schema.Resour
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchema(DatabaseManagementExternalMySqlDatabaseConnectorResource(), fieldMap, readSingularDatabaseManagementExternalMySqlDatabaseConnector)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(DatabaseManagementExternalMySqlDatabaseConnectorResource(), fieldMap, readSingularDatabaseManagementExternalMySqlDatabaseConnectorWithContext)
 }
 
-func readSingularDatabaseManagementExternalMySqlDatabaseConnector(d *schema.ResourceData, m interface{}) error {
+func readSingularDatabaseManagementExternalMySqlDatabaseConnectorWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseManagementExternalMySqlDatabaseConnectorDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DbManagementClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DatabaseManagementExternalMySqlDatabaseConnectorDataSourceCrud struct {
@@ -40,7 +41,7 @@ func (s *DatabaseManagementExternalMySqlDatabaseConnectorDataSourceCrud) VoidSta
 	s.D.SetId("")
 }
 
-func (s *DatabaseManagementExternalMySqlDatabaseConnectorDataSourceCrud) Get() error {
+func (s *DatabaseManagementExternalMySqlDatabaseConnectorDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database_management.GetExternalMySqlDatabaseConnectorRequest{}
 
 	if externalMySqlDatabaseConnectorId, ok := s.D.GetOkExists("external_my_sql_database_connector_id"); ok {
@@ -50,7 +51,7 @@ func (s *DatabaseManagementExternalMySqlDatabaseConnectorDataSourceCrud) Get() e
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
 
-	response, err := s.Client.GetExternalMySqlDatabaseConnector(context.Background(), request)
+	response, err := s.Client.GetExternalMySqlDatabaseConnector(ctx, request)
 	if err != nil {
 		return err
 	}

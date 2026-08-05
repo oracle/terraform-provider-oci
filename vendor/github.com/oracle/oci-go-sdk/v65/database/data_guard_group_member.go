@@ -57,6 +57,8 @@ type DataGuardGroupMember struct {
 	IsActiveDataGuardEnabled *bool `mandatory:"false" json:"isActiveDataGuardEnabled"`
 
 	// The switchover readiness status of the Data Guard member.
+	// * HEALTHY_AND_NOT_ROLECHANGE_TARGET - Indicates that the respective standby member is healthy
+	// but not currently designated to take switchover, when auto failover is enabled.
 	SwitchoverReadiness DataGuardGroupMemberSwitchoverReadinessEnum `mandatory:"false" json:"switchoverReadiness,omitempty"`
 
 	// The message explaining switchover readiness status.
@@ -64,6 +66,8 @@ type DataGuardGroupMember struct {
 	SwitchoverReadinessMessage *string `mandatory:"false" json:"switchoverReadinessMessage"`
 
 	// The failover readiness status of the Data Guard member.
+	// HEALTHY_AND_NOT_ROLECHANGE_TARGET - Indicates that the respective standby member is healthy
+	// but not currently designated to take failover, when auto failover is enabled.
 	FailoverReadiness DataGuardGroupMemberFailoverReadinessEnum `mandatory:"false" json:"failoverReadiness,omitempty"`
 
 	// The message explaining failover readiness status.
@@ -76,6 +80,12 @@ type DataGuardGroupMember struct {
 
 	// The date and time when the last successful Data Guard refresh occurred.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// The state of managed auto failover.
+	ManagedAutoFailover DataGuardGroupMemberManagedAutoFailoverEnum `mandatory:"false" json:"managedAutoFailover,omitempty"`
+
+	// Specifies the `DB_UNIQUE_NAME` of the data guard group member databases.
+	FailoverTargets []string `mandatory:"false" json:"failoverTargets"`
 }
 
 func (m DataGuardGroupMember) String() string {
@@ -99,6 +109,9 @@ func (m DataGuardGroupMember) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingDataGuardGroupMemberFailoverReadinessEnum(string(m.FailoverReadiness)); !ok && m.FailoverReadiness != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FailoverReadiness: %s. Supported values are: %s.", m.FailoverReadiness, strings.Join(GetDataGuardGroupMemberFailoverReadinessEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDataGuardGroupMemberManagedAutoFailoverEnum(string(m.ManagedAutoFailover)); !ok && m.ManagedAutoFailover != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagedAutoFailover: %s. Supported values are: %s.", m.ManagedAutoFailover, strings.Join(GetDataGuardGroupMemberManagedAutoFailoverEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
@@ -207,21 +220,24 @@ type DataGuardGroupMemberSwitchoverReadinessEnum string
 
 // Set of constants representing the allowable values for DataGuardGroupMemberSwitchoverReadinessEnum
 const (
-	DataGuardGroupMemberSwitchoverReadinessHealthy  DataGuardGroupMemberSwitchoverReadinessEnum = "HEALTHY"
-	DataGuardGroupMemberSwitchoverReadinessWarning  DataGuardGroupMemberSwitchoverReadinessEnum = "WARNING"
-	DataGuardGroupMemberSwitchoverReadinessCritical DataGuardGroupMemberSwitchoverReadinessEnum = "CRITICAL"
+	DataGuardGroupMemberSwitchoverReadinessHealthy                       DataGuardGroupMemberSwitchoverReadinessEnum = "HEALTHY"
+	DataGuardGroupMemberSwitchoverReadinessWarning                       DataGuardGroupMemberSwitchoverReadinessEnum = "WARNING"
+	DataGuardGroupMemberSwitchoverReadinessCritical                      DataGuardGroupMemberSwitchoverReadinessEnum = "CRITICAL"
+	DataGuardGroupMemberSwitchoverReadinessHealthyAndNotRolechangeTarget DataGuardGroupMemberSwitchoverReadinessEnum = "HEALTHY_AND_NOT_ROLECHANGE_TARGET"
 )
 
 var mappingDataGuardGroupMemberSwitchoverReadinessEnum = map[string]DataGuardGroupMemberSwitchoverReadinessEnum{
-	"HEALTHY":  DataGuardGroupMemberSwitchoverReadinessHealthy,
-	"WARNING":  DataGuardGroupMemberSwitchoverReadinessWarning,
-	"CRITICAL": DataGuardGroupMemberSwitchoverReadinessCritical,
+	"HEALTHY":                           DataGuardGroupMemberSwitchoverReadinessHealthy,
+	"WARNING":                           DataGuardGroupMemberSwitchoverReadinessWarning,
+	"CRITICAL":                          DataGuardGroupMemberSwitchoverReadinessCritical,
+	"HEALTHY_AND_NOT_ROLECHANGE_TARGET": DataGuardGroupMemberSwitchoverReadinessHealthyAndNotRolechangeTarget,
 }
 
 var mappingDataGuardGroupMemberSwitchoverReadinessEnumLowerCase = map[string]DataGuardGroupMemberSwitchoverReadinessEnum{
-	"healthy":  DataGuardGroupMemberSwitchoverReadinessHealthy,
-	"warning":  DataGuardGroupMemberSwitchoverReadinessWarning,
-	"critical": DataGuardGroupMemberSwitchoverReadinessCritical,
+	"healthy":                           DataGuardGroupMemberSwitchoverReadinessHealthy,
+	"warning":                           DataGuardGroupMemberSwitchoverReadinessWarning,
+	"critical":                          DataGuardGroupMemberSwitchoverReadinessCritical,
+	"healthy_and_not_rolechange_target": DataGuardGroupMemberSwitchoverReadinessHealthyAndNotRolechangeTarget,
 }
 
 // GetDataGuardGroupMemberSwitchoverReadinessEnumValues Enumerates the set of values for DataGuardGroupMemberSwitchoverReadinessEnum
@@ -239,6 +255,7 @@ func GetDataGuardGroupMemberSwitchoverReadinessEnumStringValues() []string {
 		"HEALTHY",
 		"WARNING",
 		"CRITICAL",
+		"HEALTHY_AND_NOT_ROLECHANGE_TARGET",
 	}
 }
 
@@ -253,21 +270,24 @@ type DataGuardGroupMemberFailoverReadinessEnum string
 
 // Set of constants representing the allowable values for DataGuardGroupMemberFailoverReadinessEnum
 const (
-	DataGuardGroupMemberFailoverReadinessHealthy  DataGuardGroupMemberFailoverReadinessEnum = "HEALTHY"
-	DataGuardGroupMemberFailoverReadinessWarning  DataGuardGroupMemberFailoverReadinessEnum = "WARNING"
-	DataGuardGroupMemberFailoverReadinessCritical DataGuardGroupMemberFailoverReadinessEnum = "CRITICAL"
+	DataGuardGroupMemberFailoverReadinessHealthy                       DataGuardGroupMemberFailoverReadinessEnum = "HEALTHY"
+	DataGuardGroupMemberFailoverReadinessWarning                       DataGuardGroupMemberFailoverReadinessEnum = "WARNING"
+	DataGuardGroupMemberFailoverReadinessCritical                      DataGuardGroupMemberFailoverReadinessEnum = "CRITICAL"
+	DataGuardGroupMemberFailoverReadinessHealthyAndNotRolechangeTarget DataGuardGroupMemberFailoverReadinessEnum = "HEALTHY_AND_NOT_ROLECHANGE_TARGET"
 )
 
 var mappingDataGuardGroupMemberFailoverReadinessEnum = map[string]DataGuardGroupMemberFailoverReadinessEnum{
-	"HEALTHY":  DataGuardGroupMemberFailoverReadinessHealthy,
-	"WARNING":  DataGuardGroupMemberFailoverReadinessWarning,
-	"CRITICAL": DataGuardGroupMemberFailoverReadinessCritical,
+	"HEALTHY":                           DataGuardGroupMemberFailoverReadinessHealthy,
+	"WARNING":                           DataGuardGroupMemberFailoverReadinessWarning,
+	"CRITICAL":                          DataGuardGroupMemberFailoverReadinessCritical,
+	"HEALTHY_AND_NOT_ROLECHANGE_TARGET": DataGuardGroupMemberFailoverReadinessHealthyAndNotRolechangeTarget,
 }
 
 var mappingDataGuardGroupMemberFailoverReadinessEnumLowerCase = map[string]DataGuardGroupMemberFailoverReadinessEnum{
-	"healthy":  DataGuardGroupMemberFailoverReadinessHealthy,
-	"warning":  DataGuardGroupMemberFailoverReadinessWarning,
-	"critical": DataGuardGroupMemberFailoverReadinessCritical,
+	"healthy":                           DataGuardGroupMemberFailoverReadinessHealthy,
+	"warning":                           DataGuardGroupMemberFailoverReadinessWarning,
+	"critical":                          DataGuardGroupMemberFailoverReadinessCritical,
+	"healthy_and_not_rolechange_target": DataGuardGroupMemberFailoverReadinessHealthyAndNotRolechangeTarget,
 }
 
 // GetDataGuardGroupMemberFailoverReadinessEnumValues Enumerates the set of values for DataGuardGroupMemberFailoverReadinessEnum
@@ -285,11 +305,54 @@ func GetDataGuardGroupMemberFailoverReadinessEnumStringValues() []string {
 		"HEALTHY",
 		"WARNING",
 		"CRITICAL",
+		"HEALTHY_AND_NOT_ROLECHANGE_TARGET",
 	}
 }
 
 // GetMappingDataGuardGroupMemberFailoverReadinessEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDataGuardGroupMemberFailoverReadinessEnum(val string) (DataGuardGroupMemberFailoverReadinessEnum, bool) {
 	enum, ok := mappingDataGuardGroupMemberFailoverReadinessEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DataGuardGroupMemberManagedAutoFailoverEnum Enum with underlying type: string
+type DataGuardGroupMemberManagedAutoFailoverEnum string
+
+// Set of constants representing the allowable values for DataGuardGroupMemberManagedAutoFailoverEnum
+const (
+	DataGuardGroupMemberManagedAutoFailoverEnable  DataGuardGroupMemberManagedAutoFailoverEnum = "ENABLE"
+	DataGuardGroupMemberManagedAutoFailoverDisable DataGuardGroupMemberManagedAutoFailoverEnum = "DISABLE"
+)
+
+var mappingDataGuardGroupMemberManagedAutoFailoverEnum = map[string]DataGuardGroupMemberManagedAutoFailoverEnum{
+	"ENABLE":  DataGuardGroupMemberManagedAutoFailoverEnable,
+	"DISABLE": DataGuardGroupMemberManagedAutoFailoverDisable,
+}
+
+var mappingDataGuardGroupMemberManagedAutoFailoverEnumLowerCase = map[string]DataGuardGroupMemberManagedAutoFailoverEnum{
+	"enable":  DataGuardGroupMemberManagedAutoFailoverEnable,
+	"disable": DataGuardGroupMemberManagedAutoFailoverDisable,
+}
+
+// GetDataGuardGroupMemberManagedAutoFailoverEnumValues Enumerates the set of values for DataGuardGroupMemberManagedAutoFailoverEnum
+func GetDataGuardGroupMemberManagedAutoFailoverEnumValues() []DataGuardGroupMemberManagedAutoFailoverEnum {
+	values := make([]DataGuardGroupMemberManagedAutoFailoverEnum, 0)
+	for _, v := range mappingDataGuardGroupMemberManagedAutoFailoverEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDataGuardGroupMemberManagedAutoFailoverEnumStringValues Enumerates the set of values in String for DataGuardGroupMemberManagedAutoFailoverEnum
+func GetDataGuardGroupMemberManagedAutoFailoverEnumStringValues() []string {
+	return []string{
+		"ENABLE",
+		"DISABLE",
+	}
+}
+
+// GetMappingDataGuardGroupMemberManagedAutoFailoverEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDataGuardGroupMemberManagedAutoFailoverEnum(val string) (DataGuardGroupMemberManagedAutoFailoverEnum, bool) {
+	enum, ok := mappingDataGuardGroupMemberManagedAutoFailoverEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

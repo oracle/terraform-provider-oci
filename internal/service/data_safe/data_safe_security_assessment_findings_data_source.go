@@ -9,13 +9,14 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 )
 
 func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDataSafeSecurityAssessmentFindings,
+		ReadContext: readDataSafeSecurityAssessmentFindingsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"access_level": {
@@ -234,12 +235,12 @@ func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
 	}
 }
 
-func readDataSafeSecurityAssessmentFindings(d *schema.ResourceData, m interface{}) error {
+func readDataSafeSecurityAssessmentFindingsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DataSafeSecurityAssessmentFindingsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 type DataSafeSecurityAssessmentFindingsDataSourceCrud struct {
@@ -252,7 +253,7 @@ func (s *DataSafeSecurityAssessmentFindingsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeSecurityAssessmentFindingsDataSourceCrud) Get() error {
+func (s *DataSafeSecurityAssessmentFindingsDataSourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_data_safe.ListFindingsRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
@@ -378,7 +379,7 @@ func (s *DataSafeSecurityAssessmentFindingsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.ListFindings(context.Background(), request)
+	response, err := s.Client.ListFindings(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -387,7 +388,7 @@ func (s *DataSafeSecurityAssessmentFindingsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListFindings(context.Background(), request)
+		listResponse, err := s.Client.ListFindings(ctx, request)
 		if err != nil {
 			return err
 		}

@@ -10,7 +10,6 @@ import (
 	oci_opensearch "github.com/oracle/oci-go-sdk/v65/opensearch"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
-
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
@@ -28,6 +27,11 @@ func OpensearchOpensearchVersionsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,

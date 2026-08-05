@@ -5,6 +5,7 @@ package database
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -47,11 +48,6 @@ func DatabaseAutonomousContainerDatabaseBackupsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -88,10 +84,75 @@ func DatabaseAutonomousContainerDatabaseBackupsDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"state": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"backup_destination_details": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"backup_retention_policy_on_terminate": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"dbrs_policy_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"internet_proxy": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"is_remote": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"is_retention_lock_enabled": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"is_zero_data_loss_enabled": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"remote_region": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"vpc_password": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"vpc_user": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 											},
 										},
 									},
 									"compartment_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"db_version": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -281,8 +342,16 @@ func AutonomousContainerDatabaseBackupSummaryToMap(obj oci_database.AutonomousCo
 	}
 	result["autonomous_databases"] = autonomousDatabases
 
+	if obj.BackupDestinationDetails != nil {
+		result["backup_destination_details"] = []interface{}{BackupDestinationDetailsToMap(*obj.BackupDestinationDetails)}
+	}
+
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.DbVersion != nil {
+		result["db_version"] = string(*obj.DbVersion)
 	}
 
 	if obj.DefinedTags != nil {
@@ -324,11 +393,11 @@ func AutonomousContainerDatabaseBackupSummaryToMap(obj oci_database.AutonomousCo
 	}
 
 	if obj.TimeEnded != nil {
-		result["time_ended"] = obj.TimeEnded.String()
+		result["time_ended"] = obj.TimeEnded.Format(time.RFC3339Nano)
 	}
 
 	if obj.TimeStarted != nil {
-		result["time_started"] = obj.TimeStarted.String()
+		result["time_started"] = obj.TimeStarted.Format(time.RFC3339Nano)
 	}
 
 	result["type"] = string(obj.Type)
@@ -346,6 +415,8 @@ func AutonomousDatabaseInBackupToMap(obj oci_database.AutonomousDatabaseInBackup
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
+
+	result["state"] = string(obj.LifecycleState)
 
 	return result
 }
