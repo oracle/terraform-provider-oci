@@ -27,11 +27,12 @@ resource "oci_generative_ai_hosted_deployment" "test_hosted_deployment" {
 		container_uri = var.hosted_deployment_active_artifact_container_uri
 		hosted_deployment_id = oci_generative_ai_hosted_deployment.test_hosted_deployment.id
 		id = var.hosted_deployment_active_artifact_id
+		is_vulnerability_scan_required = var.hosted_deployment_active_artifact_is_vulnerability_scan_required
 		status = var.hosted_deployment_active_artifact_status
 		tag = var.hosted_deployment_active_artifact_tag
 		time_created = var.hosted_deployment_active_artifact_time_created
 	}
-	hosted_application_id = oci_generative_ai_hosted_application.test_hosted_application.id
+	hosted_application_id = oci_generative_ai_hosted_application_iam.test_hosted_application_iam.id
 
 	#Optional
 	compartment_id = var.compartment_id
@@ -50,6 +51,7 @@ The following arguments are supported:
 	* `container_uri` - (Applicable when artifact_type=SIMPLE_DOCKER_ARTIFACT) (Updatable) image url.
 	* `hosted_deployment_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the application.
 	* `id` - (Optional) (Updatable) if put artifact to a table, the id is needed
+	* `is_vulnerability_scan_required` - (Optional) (Updatable) Optional flag that requires an Oracle Cloud Infrastructure Vulnerability Scanning Service compliance report for this artifact before it can become active. When not provided, the value defaults to false and the artifact is not blocked on a scan result.
 	* `status` - (Optional) (Updatable) The current status of the artifact.
 	* `tag` - (Applicable when artifact_type=SIMPLE_DOCKER_ARTIFACT) (Updatable) image tag.
 	* `time_created` - (Optional) (Updatable) The date and time the artifact was created.
@@ -57,7 +59,7 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}`
 * `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
-* `hosted_application_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the application.
+* `hosted_application_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent Hosted Application. The ID may refer to either an IAM-authenticated or non-IAM Hosted Application.
 
 
 ** IMPORTANT **
@@ -72,6 +74,7 @@ The following attributes are exported:
 	* `container_uri` - image url.
 	* `hosted_deployment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the application.
 	* `id` - if put artifact to a table, the id is needed
+	* `is_vulnerability_scan_required` - Optional flag that requires an Oracle Cloud Infrastructure Vulnerability Scanning Service compliance report for this artifact before it can become active. When not provided, the value defaults to false and the artifact is not blocked on a scan result.
 	* `status` - The current status of the artifact.
 	* `tag` - image tag.
 	* `time_created` - The date and time the artifact was created.
@@ -80,6 +83,7 @@ The following attributes are exported:
 	* `container_uri` - image url.
 	* `hosted_deployment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the application.
 	* `id` - if put artifact to a table, the id is needed
+	* `is_vulnerability_scan_required` - Optional flag that requires an Oracle Cloud Infrastructure Vulnerability Scanning Service compliance report for this artifact before it can become active. When not provided, the value defaults to false and the artifact is not blocked on a scan result.
 	* `status` - The current status of the artifact.
 	* `tag` - image tag.
 	* `time_created` - The date and time the artifact was created.
@@ -87,7 +91,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}`
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
-* `hosted_application_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the application.
+* `hosted_application_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent Hosted Application. The ID may refer to either an IAM-authenticated or non-IAM Hosted Application.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the hosted deployment.
 * `state` - The current state of the hosted deployment.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}`

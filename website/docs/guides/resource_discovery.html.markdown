@@ -953,6 +953,7 @@ generative_ai
 * oci\_generative\_ai\_hosted\_application
 * oci\_generative\_ai\_hosted\_deployment
 * oci\_generative\_ai\_project
+* oci\_generative\_ai\_hosted\_application\_iam
 
 generative_ai_agent
 

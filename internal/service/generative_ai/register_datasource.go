@@ -16,6 +16,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_generative_ai_hosted_application_storage", GenerativeAiHostedApplicationStorageDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_hosted_application_storages", GenerativeAiHostedApplicationStoragesDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_hosted_applications", GenerativeAiHostedApplicationsDataSource())
+	tfresource.RegisterDatasource("oci_generative_ai_hosted_application_iam", GenerativeAiHostedApplicationIamDataSource())
+	tfresource.RegisterDatasource("oci_generative_ai_hosted_application_iams", GenerativeAiHostedApplicationIamsDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_hosted_deployment", GenerativeAiHostedDeploymentDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_hosted_deployments", GenerativeAiHostedDeploymentsDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_imported_model", GenerativeAiImportedModelDataSource())

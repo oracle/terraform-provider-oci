@@ -1,28 +1,23 @@
 ---
 subcategory: "Generative AI"
 layout: "oci"
-page_title: "Oracle Cloud Infrastructure: oci_generative_ai_hosted_applications"
-sidebar_current: "docs-oci-datasource-generative_ai-hosted_applications"
+page_title: "Oracle Cloud Infrastructure: oci_generative_ai_hosted_application_iam"
+sidebar_current: "docs-oci-datasource-generative_ai-hosted_application_iam"
 description: |-
-  Provides the list of Hosted Applications in Oracle Cloud Infrastructure Generative AI service
+  Provides details about a specific Hosted Application IAM resource in Oracle Cloud Infrastructure Generative AI service
 ---
 
-# Data Source: oci_generative_ai_hosted_applications
-This data source provides the list of Hosted Applications in Oracle Cloud Infrastructure Generative AI service.
+# Data Source: oci_generative_ai_hosted_application_iam
+This data source provides details about a specific Hosted Application IAM resource in Oracle Cloud Infrastructure Generative AI service.
 
-Lists the hosted applications in a specific compartment.
+Gets information about a hosted application.
 
 ## Example Usage
 
 ```hcl
-data "oci_generative_ai_hosted_applications" "test_hosted_applications" {
+data "oci_generative_ai_hosted_application_iam" "test_hosted_application_iam" {
 	#Required
-	compartment_id = var.compartment_id
-
-	#Optional
-	display_name = var.hosted_application_display_name
-	id = var.hosted_application_id
-	state = var.hosted_application_state
+	hosted_application_iam_id = oci_generative_ai_hosted_application_iam.test_hosted_application_iam.id
 }
 ```
 
@@ -30,19 +25,10 @@ data "oci_generative_ai_hosted_applications" "test_hosted_applications" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
-* `display_name` - (Optional) A filter to return only resources that match the given display name exactly.
-* `id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the hosted application.
-* `state` - (Optional) A filter to return only the hosted applications that their lifecycle state matches the given lifecycle state.
+* `hosted_application_iam_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the hosted application.
 
 
 ## Attributes Reference
-
-The following attributes are exported:
-
-* `hosted_application_collection` - The list of hosted_application_collection.
-
-### HostedApplication Reference
 
 The following attributes are exported:
 
@@ -50,18 +36,12 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}`
 * `description` - An optional description of the hosted application.
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
-* `environment_variables` - The list of environment variables for the Hosted Application.  Defines a list of environment variables injected at runtime.
+* `environment_variables` - The list of environment variables for the Hosted Application. Defines a list of environment variables injected at runtime.
 	* `name` - Name of the environment variable.
 	* `type` - Type of the environment variable (PLAINTEXT or VAULT, no default value).
 	* `value` - Value of the environment variable.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the hosted application.
-* `inbound_auth_config` - The client-side inbound authentication configuration for the Hosted Application.  Defines the network access rules. When unspecified, the service applies the default inbound authentication configuration type.
-	* `idcs_config` - Oracle Identity Cloud Service (IDCS) configuration used  when inboundAuthConfigType is set to IDCS_AUTH_CONFIG. This object must be specified when inboundAuthConfigType is IDCS_AUTH_CONFIG.
-		* `audience` - Audience for IDCS.
-		* `domain_url` - Domain URL for IDCS.
-		* `scope` - Scope for IDCS.
-	* `inbound_auth_config_type` - Inbound authentication configuration type of network access (IDCS_AUTH_CONFIG).
 * `lifecycle_details` - A message describing the current state of the endpoint in more detail that can provide actionable information.
 * `networking_config` - Networking configuration.
 	* `inbound_networking_config` - Inbound Networking configuration.
@@ -71,7 +51,7 @@ The following attributes are exported:
 		* `custom_subnet_id` - ocid of customer subnet when networkMode=Custom
 		* `network_mode` - outbounding to managed internet or customer network.
 		* `nsg_ids` - A list of the OCIDs of the network security groups that the private endpoint's VNIC belongs to.
-* `scaling_config` - The auto scaling configuration for the Hosted Application.  Defines the minimum and maximum number of replicas. When unspecified, the service applies service-defined default scaling values.
+* `scaling_config` - The auto scaling configuration for the Hosted Application. Defines the minimum and maximum number of replicas. When unspecified, the service applies service-defined default scaling values.
 	* `max_replica` - Maximum number of replicas allowed.
 	* `min_replica` - Minimum number of replicas to keep running.
 	* `scaling_type` - scaling type for application.
