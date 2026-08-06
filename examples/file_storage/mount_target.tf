@@ -80,6 +80,8 @@ resource "oci_file_storage_mount_target" "my_krb_mount_target" {
   #  "Department" = "Accounting"
   # }
   hostname_label = var.krb_mount_target_hostname_label
+  # idmap_type must equal "LDAP" if you wish to enable LDAP on your mount target. Leaving it blank will store your
+  # LDAP configuration but it will not be used when connecting to the mount target.
   idmap_type     = "LDAP"
   kerberos {
     #Required
