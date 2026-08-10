@@ -7,7 +7,7 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
 
-variable "partner_subscription_display_name" {
+variable "self_partner_subscription_display_name" {
   default = "displayName"
 }
 
@@ -21,12 +21,11 @@ provider "oci" {
   region           = var.region
 }
 
-data "oci_self_partner_subscriptions" "test_partner_subscriptions" {
+data "oci_self_self_partner_subscriptions" "test_self_partner_subscriptions" {
   #Required
   listing_id = oci_marketplace_listing.test_listing.id
 
   #Optional
-  display_name = var.partner_subscription_display_name
-
+  display_name = var.self_partner_subscription_display_name
 }
 

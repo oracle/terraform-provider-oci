@@ -1,26 +1,26 @@
 ---
 subcategory: "Self"
 layout: "oci"
-page_title: "Oracle Cloud Infrastructure: oci_self_partner_subscriptions"
-sidebar_current: "docs-oci-datasource-self-partner_subscriptions"
+page_title: "Oracle Cloud Infrastructure: oci_self_self_partner_subscriptions"
+sidebar_current: "docs-oci-datasource-self-self_partner_subscriptions"
 description: |-
-  Provides the list of Partner Subscriptions in Oracle Cloud Infrastructure Self service
+  Provides the list of Self Partner Subscriptions in Oracle Cloud Infrastructure Self service
 ---
 
-# Data Source: oci_self_partner_subscriptions
-This data source provides the list of Partner Subscriptions in Oracle Cloud Infrastructure Self service.
+# Data Source: oci_self_self_partner_subscriptions
+This data source provides the list of Self Partner Subscriptions in Oracle Cloud Infrastructure Self service.
 
-Deprecated. This endpoint has moved permanently to `/partners/subscriptions`.
+Gets information about a Subscription.
 
 ## Example Usage
 
 ```hcl
-data "oci_self_partner_subscriptions" "test_partner_subscriptions" {
+data "oci_self_self_partner_subscriptions" "test_self_partner_subscriptions" {
 	#Required
 	listing_id = oci_marketplace_listing.test_listing.id
 
 	#Optional
-	display_name = var.partner_subscription_display_name
+	display_name = var.self_partner_subscription_display_name
 }
 ```
 
@@ -38,7 +38,7 @@ The following attributes are exported:
 
 * `listing_subscriptions_collection` - The list of listing_subscriptions_collection.
 
-### PartnerSubscription Reference
+### SelfPartnerSubscription Reference
 
 The following attributes are exported:
 

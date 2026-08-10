@@ -14,20 +14,20 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
-func SelfPartnerSubscriptionsDataSource() *schema.Resource {
+func SelfPartnersDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readSelfPartnerSubscriptionsWithContext,
+		ReadContext: readSelfPartnersWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"listing_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"listing_subscriptions_collection": {
+			"partner_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
@@ -47,6 +47,10 @@ func SelfPartnerSubscriptionsDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"compartment_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"defined_tags": {
 										Type:     schema.TypeMap,
 										Computed: true,
@@ -61,11 +65,7 @@ func SelfPartnerSubscriptionsDataSource() *schema.Resource {
 										Computed: true,
 										Elem:     schema.TypeString,
 									},
-									"lifecycle_details": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"product_id": {
+									"id": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -78,14 +78,6 @@ func SelfPartnerSubscriptionsDataSource() *schema.Resource {
 										Computed: true,
 										Elem:     schema.TypeString,
 									},
-									"time_ended": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"time_started": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
 								},
 							},
 						},
@@ -96,40 +88,40 @@ func SelfPartnerSubscriptionsDataSource() *schema.Resource {
 	}
 }
 
-func readSelfPartnerSubscriptionsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	sync := &SelfPartnerSubscriptionsDataSourceCrud{}
+func readSelfPartnersWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	sync := &SelfPartnersDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).PartnerIntegerationClient()
 
 	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-type SelfPartnerSubscriptionsDataSourceCrud struct {
+type SelfPartnersDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_self.PartnerIntegerationClient
-	Res    *oci_self.ListingSubscriptionsDeprecatedResponse
+	Res    *oci_self.ListPartnersResponse
 }
 
-func (s *SelfPartnerSubscriptionsDataSourceCrud) VoidState() {
+func (s *SelfPartnersDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *SelfPartnerSubscriptionsDataSourceCrud) GetWithContext(ctx context.Context) error {
-	request := oci_self.ListingSubscriptionsDeprecatedRequest{}
+func (s *SelfPartnersDataSourceCrud) GetWithContext(ctx context.Context) error {
+	request := oci_self.ListPartnersRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
 	}
 
-	if listingId, ok := s.D.GetOkExists("listing_id"); ok {
-		tmp := listingId.(string)
-		request.ListingId = &tmp
-	}
-
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "self")
 
-	response, err := s.Client.ListingSubscriptionsDeprecated(ctx, request)
+	response, err := s.Client.ListPartners(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -138,7 +130,7 @@ func (s *SelfPartnerSubscriptionsDataSourceCrud) GetWithContext(ctx context.Cont
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListingSubscriptionsDeprecated(ctx, request)
+		listResponse, err := s.Client.ListPartners(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -150,36 +142,40 @@ func (s *SelfPartnerSubscriptionsDataSourceCrud) GetWithContext(ctx context.Cont
 	return nil
 }
 
-func (s *SelfPartnerSubscriptionsDataSourceCrud) SetData() error {
+func (s *SelfPartnersDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
 
-	s.D.SetId(tfresource.GenerateDataSourceHashID("SelfPartnerSubscriptionsDataSource-", SelfPartnerSubscriptionsDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("SelfPartnersDataSource-", SelfPartnersDataSource(), s.D))
 	resources := []map[string]interface{}{}
-	partnerSubscription := map[string]interface{}{}
+	partner := map[string]interface{}{}
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {
-		items = append(items, ListingSubscriptionSummaryToMap(item))
+		items = append(items, PartnerSummaryToMap(item))
 	}
-	partnerSubscription["items"] = items
+	partner["items"] = items
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, SelfPartnerSubscriptionsDataSource().Schema["listing_subscriptions_collection"].Elem.(*schema.Resource).Schema)
-		partnerSubscription["items"] = items
+		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, SelfPartnersDataSource().Schema["partner_collection"].Elem.(*schema.Resource).Schema)
+		partner["items"] = items
 	}
 
-	resources = append(resources, partnerSubscription)
-	if err := s.D.Set("listing_subscriptions_collection", resources); err != nil {
+	resources = append(resources, partner)
+	if err := s.D.Set("partner_collection", resources); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func ListingSubscriptionSummaryToMap(obj oci_self.ListingSubscriptionSummary) map[string]interface{} {
+func PartnerSummaryToMap(obj oci_self.PartnerSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
 
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
@@ -191,24 +187,14 @@ func ListingSubscriptionSummaryToMap(obj oci_self.ListingSubscriptionSummary) ma
 
 	result["freeform_tags"] = obj.FreeformTags
 
-	result["lifecycle_details"] = string(obj.LifecycleDetails)
-
-	if obj.ProductId != nil {
-		result["product_id"] = string(*obj.ProductId)
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
 	}
 
 	result["state"] = string(obj.LifecycleState)
 
 	if obj.SystemTags != nil {
 		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
-	}
-
-	if obj.TimeEnded != nil {
-		result["time_ended"] = obj.TimeEnded.String()
-	}
-
-	if obj.TimeStarted != nil {
-		result["time_started"] = obj.TimeStarted.String()
 	}
 
 	return result

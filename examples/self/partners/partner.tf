@@ -6,8 +6,9 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
+variable "compartment_id" {}
 
-variable "partner_subscription_display_name" {
+variable "partner_display_name" {
   default = "displayName"
 }
 
@@ -21,12 +22,10 @@ provider "oci" {
   region           = var.region
 }
 
-data "oci_self_partner_subscriptions" "test_partner_subscriptions" {
-  #Required
-  listing_id = oci_marketplace_listing.test_listing.id
+data "oci_self_partners" "test_partners" {
 
   #Optional
-  display_name = var.partner_subscription_display_name
-
+  compartment_id = var.compartment_id
+  display_name   = var.partner_display_name
 }
 
