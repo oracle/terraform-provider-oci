@@ -75,5 +75,3 @@ require (
 // replace github.com/oracle/oci-go-sdk/v65 v65.105.0 => ./vendor/github.com/oracle/oci-go-sdk
 
 go 1.26.5
-
-replace github.com/oracle/oci-go-sdk/v65 => /Users/spokale/projects/go/src/github.com/oracle/oci-go-sdk
