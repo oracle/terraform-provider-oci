@@ -1,3 +1,15 @@
+## 8.27.0 (August 11, 2026)
+
+### Added
+- Support for Compute Host Group API - Quick Recycle Settings Enhancement
+- Support for Exadata Live Update for ExaDB-C@C DomU update |ExaDB-D/C@C/XS
+- Support for HDDP Control Plane DEXREQ Oracle Cloud Infrastructure (OCI) Healthcare Device Data Platform (HDDP) Service
+- Support for Local Timezone in Resource Scheduler
+- Support for ADBS: Availability Domain Selection During and Post Provisioning
+
+### Bug Fix
+- DATASEC-11511 Fix ZPR configuration discovery import ID
+
 ## 8.26.0 (August 5, 2026)
 
 ### Added
