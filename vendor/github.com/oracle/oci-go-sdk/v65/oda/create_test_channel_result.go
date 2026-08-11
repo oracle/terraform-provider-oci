@@ -51,7 +51,7 @@ type CreateTestChannelResult struct {
 
 	// The secret key used to verify the authenticity of received messages.
 	// This is only returned this once.  If it is lost the keys will need to be rotated to generate a new key.
-	SecretKey *string `mandatory:"false" json:"secretKey"`
+	SecretKey *string `mandatory:"false" json:"secretKey" sensitive:"true"`
 
 	// The category of the Channel.
 	Category ChannelCategoryEnum `mandatory:"true" json:"category"`

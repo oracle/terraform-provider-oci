@@ -203,7 +203,7 @@ type UserPasswordResetter struct {
 	//  - returned: request
 	//  - type: string
 	//  - uniqueness: none
-	OneTimePassword *string `mandatory:"false" json:"oneTimePassword"`
+	OneTimePassword *string `mandatory:"false" json:"oneTimePassword" sensitive:"true"`
 
 	UrnIetfParamsScimSchemasOracleIdcsExtensionSelfChangeUser *ExtensionSelfChangeUser `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:selfChange:User"`
 }

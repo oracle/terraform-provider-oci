@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
@@ -21,11 +22,11 @@ func CoreComputeHostGroupResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createCoreComputeHostGroup,
-		Read:     readCoreComputeHostGroup,
-		Update:   updateCoreComputeHostGroup,
-		Delete:   deleteCoreComputeHostGroup,
+		Timeouts:      tfresource.DefaultTimeout,
+		CreateContext: createCoreComputeHostGroupWithContext,
+		ReadContext:   readCoreComputeHostGroupWithContext,
+		UpdateContext: updateCoreComputeHostGroupWithContext,
+		DeleteContext: deleteCoreComputeHostGroupWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"availability_domain": {
@@ -61,6 +62,27 @@ func CoreComputeHostGroupResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"quick_recycle_settings": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"nvme_wipe": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
 						},
 						"recycle_level": {
 							Type:     schema.TypeString,
@@ -118,40 +140,40 @@ func CoreComputeHostGroupResource() *schema.Resource {
 	}
 }
 
-func createCoreComputeHostGroup(d *schema.ResourceData, m interface{}) error {
+func createCoreComputeHostGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeHostGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readCoreComputeHostGroup(d *schema.ResourceData, m interface{}) error {
+func readCoreComputeHostGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeHostGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateCoreComputeHostGroup(d *schema.ResourceData, m interface{}) error {
+func updateCoreComputeHostGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeHostGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteCoreComputeHostGroup(d *schema.ResourceData, m interface{}) error {
+func deleteCoreComputeHostGroupWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &CoreComputeHostGroupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ComputeClient()
 	sync.DisableNotFoundRetries = true
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type CoreComputeHostGroupResourceCrud struct {
@@ -186,7 +208,7 @@ func (s *CoreComputeHostGroupResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *CoreComputeHostGroupResourceCrud) Create() error {
+func (s *CoreComputeHostGroupResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_core.CreateComputeHostGroupRequest{}
 
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
@@ -240,7 +262,7 @@ func (s *CoreComputeHostGroupResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.CreateComputeHostGroup(context.Background(), request)
+	response, err := s.Client.CreateComputeHostGroup(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -248,10 +270,10 @@ func (s *CoreComputeHostGroupResourceCrud) Create() error {
 	s.Res = &response.ComputeHostGroup
 	s.D.SetId(*response.Id)
 
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *CoreComputeHostGroupResourceCrud) Get() error {
+func (s *CoreComputeHostGroupResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_core.GetComputeHostGroupRequest{}
 
 	tmp := s.D.Id()
@@ -259,7 +281,7 @@ func (s *CoreComputeHostGroupResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.GetComputeHostGroup(context.Background(), request)
+	response, err := s.Client.GetComputeHostGroup(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -268,11 +290,11 @@ func (s *CoreComputeHostGroupResourceCrud) Get() error {
 	return nil
 }
 
-func (s *CoreComputeHostGroupResourceCrud) Update() error {
+func (s *CoreComputeHostGroupResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -324,22 +346,22 @@ func (s *CoreComputeHostGroupResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.UpdateComputeHostGroup(context.Background(), request)
+	response, err := s.Client.UpdateComputeHostGroup(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "computehostgroup", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "computehostgroup", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
-	return s.Get()
+	return s.GetWithContext(ctx)
 }
 
-func (s *CoreComputeHostGroupResourceCrud) Delete() error {
+func (s *CoreComputeHostGroupResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_core.DeleteComputeHostGroupRequest{}
 
 	tmp := s.D.Id()
@@ -347,7 +369,7 @@ func (s *CoreComputeHostGroupResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	_, err := s.Client.DeleteComputeHostGroup(context.Background(), request)
+	_, err := s.Client.DeleteComputeHostGroup(ctx, request)
 	return err
 }
 
@@ -451,6 +473,17 @@ func (s *CoreComputeHostGroupResourceCrud) mapToHostGroupConfiguration(fieldKeyF
 		result.FirmwareBundleId = &tmp
 	}
 
+	if quickRecycleSettings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "quick_recycle_settings")); ok {
+		if tmpList := quickRecycleSettings.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "quick_recycle_settings"), 0)
+			tmp, err := s.mapToQuickRecycleSettings(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert quick_recycle_settings, encountered error: %v", err)
+			}
+			result.QuickRecycleSettings = &tmp
+		}
+	}
+
 	if recycleLevel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recycle_level")); ok {
 		result.RecycleLevel = oci_core.HostGroupConfigurationRecycleLevelEnum(recycleLevel.(string))
 	}
@@ -474,6 +507,10 @@ func HostGroupConfigurationToMap(obj oci_core.HostGroupConfiguration) map[string
 		result["firmware_bundle_id"] = string(*obj.FirmwareBundleId)
 	}
 
+	if obj.QuickRecycleSettings != nil {
+		result["quick_recycle_settings"] = []interface{}{QuickRecycleSettingsToMap(obj.QuickRecycleSettings)}
+	}
+
 	result["recycle_level"] = string(obj.RecycleLevel)
 
 	result["state"] = string(obj.State)
@@ -485,7 +522,28 @@ func HostGroupConfigurationToMap(obj oci_core.HostGroupConfiguration) map[string
 	return result
 }
 
-func (s *CoreComputeHostGroupResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *CoreComputeHostGroupResourceCrud) mapToQuickRecycleSettings(fieldKeyFormat string) (oci_core.QuickRecycleSettings, error) {
+	result := oci_core.QuickRecycleSettings{}
+
+	if nvmeWipe, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nvme_wipe")); ok {
+		tmp := nvmeWipe.(bool)
+		result.NvmeWipe = &tmp
+	}
+
+	return result, nil
+}
+
+func QuickRecycleSettingsToMap(obj *oci_core.QuickRecycleSettings) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.NvmeWipe != nil {
+		result["nvme_wipe"] = bool(*obj.NvmeWipe)
+	}
+
+	return result
+}
+
+func (s *CoreComputeHostGroupResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_core.ChangeComputeHostGroupCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
@@ -496,14 +554,14 @@ func (s *CoreComputeHostGroupResourceCrud) updateCompartment(compartment interfa
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
-	response, err := s.Client.ChangeComputeHostGroupCompartment(context.Background(), changeCompartmentRequest)
+	response, err := s.Client.ChangeComputeHostGroupCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "computehostgroup", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "computehostgroup", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}

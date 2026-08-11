@@ -40,7 +40,7 @@ type LogicalUnit struct {
 	LunStatus LogicalUnitLunStatusEnum `mandatory:"false" json:"lunStatus,omitempty"`
 
 	// Password of the logical unit.
-	Password *string `mandatory:"false" json:"password"`
+	Password *string `mandatory:"false" json:"password" sensitive:"true"`
 
 	// Paths of the logical unit.
 	Paths *int `mandatory:"false" json:"paths"`

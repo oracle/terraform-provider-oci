@@ -1,16 +1,26 @@
 package zpr
 
 import (
+	"fmt"
+
 	oci_zpr "github.com/oracle/oci-go-sdk/v65/zpr"
 
 	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
 )
 
 func init() {
+	exportZprConfigurationHints.ProcessDiscoveredResourcesFn = processZprConfigurations
 	tf_export.RegisterTenancyGraphs("zpr", zprResourceGraph)
 }
 
 // Custom overrides for generating composite IDs within the resource discovery framework
+func processZprConfigurations(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_export.OCIResource) ([]*tf_export.OCIResource, error) {
+	for _, resource := range resources {
+		resource.ImportId = fmt.Sprintf("%s/%s", resource.CompartmentId, resource.Id)
+	}
+	return resources, nil
+}
+
 // Hints for discovering and exporting this resource to configuration and state files
 var exportZprConfigurationHints = &tf_export.TerraformResourceHints{
 	ResourceClass:        "oci_zpr_configuration",

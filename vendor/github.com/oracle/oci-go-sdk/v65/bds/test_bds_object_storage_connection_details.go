@@ -22,7 +22,7 @@ type TestBdsObjectStorageConnectionDetails struct {
 	ObjectStorageUri *string `mandatory:"true" json:"objectStorageUri"`
 
 	// Base64 passphrase used to secure the private key which will be created on user behalf.
-	Passphrase *string `mandatory:"true" json:"passphrase"`
+	Passphrase *string `mandatory:"true" json:"passphrase" sensitive:"true"`
 
 	// The name of the region to establish the Object Storage endpoint. Example us-phoenix-1 .
 	ObjectStorageRegion *string `mandatory:"false" json:"objectStorageRegion"`

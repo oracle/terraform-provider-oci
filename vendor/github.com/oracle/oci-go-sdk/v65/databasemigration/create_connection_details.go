@@ -71,13 +71,13 @@ type createconnectiondetails struct {
 	SubnetId            *string                           `mandatory:"false" json:"subnetId"`
 	NsgIds              []string                          `mandatory:"false" json:"nsgIds"`
 	ReplicationUsername *string                           `mandatory:"false" json:"replicationUsername"`
-	ReplicationPassword *string                           `mandatory:"false" json:"replicationPassword"`
+	ReplicationPassword *string                           `mandatory:"false" json:"replicationPassword" sensitive:"true"`
 	DisplayName         *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId       *string                           `mandatory:"true" json:"compartmentId"`
 	VaultId             *string                           `mandatory:"true" json:"vaultId"`
 	KeyId               *string                           `mandatory:"true" json:"keyId"`
 	Username            *string                           `mandatory:"true" json:"username"`
-	Password            *string                           `mandatory:"true" json:"password"`
+	Password            *string                           `mandatory:"true" json:"password" sensitive:"true"`
 	ConnectionType      string                            `json:"connectionType"`
 }
 

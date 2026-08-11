@@ -22,7 +22,7 @@ type Credentials struct {
 	UserName *string `mandatory:"true" json:"userName"`
 
 	// The password of the database user.
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 }
 
 func (m Credentials) String() string {

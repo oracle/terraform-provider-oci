@@ -19,7 +19,7 @@ import (
 type PasswordSummary struct {
 
 	// Base-64 encoded new admin password for the requested service after the reset operation.
-	AdminPassword *string `mandatory:"true" json:"adminPassword"`
+	AdminPassword *string `mandatory:"true" json:"adminPassword" sensitive:"true"`
 }
 
 func (m PasswordSummary) String() string {

@@ -26,7 +26,7 @@ type AuthToken struct {
 
 	// The auth token. The value is available only in the response for `CreateAuthToken`, and not
 	// for `ListAuthTokens` or `UpdateAuthToken`.
-	Token *string `mandatory:"false" json:"token"`
+	Token *string `mandatory:"false" json:"token" sensitive:"true"`
 
 	// The OCID of the auth token.
 	Id *string `mandatory:"false" json:"id"`

@@ -25,7 +25,7 @@ type OauthMetadata struct {
 	ClientAppId *string `mandatory:"true" json:"clientAppId"`
 
 	// Secret of the client app created in IDP.
-	ClientAppSecret *string `mandatory:"true" json:"clientAppSecret"`
+	ClientAppSecret *string `mandatory:"true" json:"clientAppSecret" sensitive:"true"`
 }
 
 func (m OauthMetadata) String() string {

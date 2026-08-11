@@ -24,10 +24,10 @@ type CreateStandbyDetails struct {
 
 	// The administrator password of the primary database in this Data Guard association.
 	// **The password MUST be the same as the primary admin password.**
-	DatabaseAdminPassword *string `mandatory:"true" json:"databaseAdminPassword"`
+	DatabaseAdminPassword *string `mandatory:"true" json:"databaseAdminPassword" sensitive:"true"`
 
 	// The TDE wallet password of the source database specified by 'sourceDatabaseId'.
-	SourceTdeWalletPassword *string `mandatory:"true" json:"sourceTdeWalletPassword"`
+	SourceTdeWalletPassword *string `mandatory:"true" json:"sourceTdeWalletPassword" sensitive:"true"`
 
 	// The protection mode of this Data Guard. For more information, see
 	// Oracle Data Guard Protection Modes (http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000)

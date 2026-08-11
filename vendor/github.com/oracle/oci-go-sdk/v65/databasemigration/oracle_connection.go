@@ -76,13 +76,13 @@ type OracleConnection struct {
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// The password (credential) used when creating or updating this resource.
-	Password *string `mandatory:"false" json:"password"`
+	Password *string `mandatory:"false" json:"password" sensitive:"true"`
 
 	// The username (credential) used when creating or updating this resource.
 	ReplicationUsername *string `mandatory:"false" json:"replicationUsername"`
 
 	// The password (credential) used when creating or updating this resource.
-	ReplicationPassword *string `mandatory:"false" json:"replicationPassword"`
+	ReplicationPassword *string `mandatory:"false" json:"replicationPassword" sensitive:"true"`
 
 	// The OCID of the resource being referenced.
 	SecretId *string `mandatory:"false" json:"secretId"`

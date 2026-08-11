@@ -105,7 +105,7 @@ type CreateMicrosoftFabricConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "clientSecretSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	ClientSecret *string `mandatory:"false" json:"clientSecret"`
+	ClientSecret *string `mandatory:"false" json:"clientSecret" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the client secret is stored.
 	// Note: When provided, 'clientSecret' field must not be provided.

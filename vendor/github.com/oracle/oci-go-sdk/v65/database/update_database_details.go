@@ -24,13 +24,13 @@ type UpdateDatabaseDetails struct {
 	DbHomeId *string `mandatory:"false" json:"dbHomeId"`
 
 	// A new strong password for SYS, SYSTEM, and the plugbable database ADMIN user. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numeric, and two special characters. The special characters must be _, \#, or -.
-	NewAdminPassword *string `mandatory:"false" json:"newAdminPassword"`
+	NewAdminPassword *string `mandatory:"false" json:"newAdminPassword" sensitive:"true"`
 
 	// The existing TDE wallet password. You must provide the existing password in order to set a new TDE wallet password.
-	OldTdeWalletPassword *string `mandatory:"false" json:"oldTdeWalletPassword"`
+	OldTdeWalletPassword *string `mandatory:"false" json:"oldTdeWalletPassword" sensitive:"true"`
 
 	// The new password to open the TDE wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numeric, and two special characters. The special characters must be _, \#, or -.
-	NewTdeWalletPassword *string `mandatory:"false" json:"newTdeWalletPassword"`
+	NewTdeWalletPassword *string `mandatory:"false" json:"newTdeWalletPassword" sensitive:"true"`
 
 	StorageSizeDetails *DatabaseStorageSizeDetails `mandatory:"false" json:"storageSizeDetails"`
 

@@ -32,7 +32,7 @@ type CreateChannelSourceFromMysqlDetails struct {
 	// between 8 and 32 characters long, and must contain at least 1
 	// numeric character, 1 lowercase character, 1 uppercase character,
 	// and 1 special (nonalphanumeric) character.
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 
 	// The port the source MySQL instance listens on.
 	Port *int `mandatory:"false" json:"port"`

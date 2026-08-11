@@ -30,7 +30,7 @@ type CreateOperationsInsightsWarehouseUserDetails struct {
 	Name *string `mandatory:"true" json:"name"`
 
 	// User provided connection password for the AWR Data,  Enterprise Manager Data and Ops Insights OPSI Hub.
-	ConnectionPassword *string `mandatory:"true" json:"connectionPassword"`
+	ConnectionPassword *string `mandatory:"true" json:"connectionPassword" sensitive:"true"`
 
 	// Indicate whether user has access to AWR data.
 	IsAwrDataAccess *bool `mandatory:"true" json:"isAwrDataAccess"`

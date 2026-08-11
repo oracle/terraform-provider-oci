@@ -106,9 +106,9 @@ type connection struct {
 	SubnetId            *string                           `mandatory:"false" json:"subnetId"`
 	IngressIps          []IngressIpDetails                `mandatory:"false" json:"ingressIps"`
 	NsgIds              []string                          `mandatory:"false" json:"nsgIds"`
-	Password            *string                           `mandatory:"false" json:"password"`
+	Password            *string                           `mandatory:"false" json:"password" sensitive:"true"`
 	ReplicationUsername *string                           `mandatory:"false" json:"replicationUsername"`
-	ReplicationPassword *string                           `mandatory:"false" json:"replicationPassword"`
+	ReplicationPassword *string                           `mandatory:"false" json:"replicationPassword" sensitive:"true"`
 	SecretId            *string                           `mandatory:"false" json:"secretId"`
 	PrivateEndpointId   *string                           `mandatory:"false" json:"privateEndpointId"`
 	Id                  *string                           `mandatory:"true" json:"id"`

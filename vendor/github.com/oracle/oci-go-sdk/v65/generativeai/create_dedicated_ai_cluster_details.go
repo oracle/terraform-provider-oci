@@ -98,6 +98,9 @@ type CreateDedicatedAiClusterDetails struct {
 	// - OAI_B200_X4
 	// - OAI_B200_X8
 	// - SB_B200_X1
+	// - COHERE_B300_X1
+	// - META_B300_X1
+	// - OAI_B300_X1
 	UnitShape DedicatedAiClusterUnitShapeEnum `mandatory:"true" json:"unitShape"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.

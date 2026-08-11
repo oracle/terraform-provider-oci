@@ -89,7 +89,7 @@ type UpdateMysqlConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "passwordSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	Password *string `mandatory:"false" json:"password"`
+	Password *string `mandatory:"false" json:"password" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored.
 	// The password Oracle GoldenGate uses to connect the associated system of the given technology.
@@ -126,7 +126,7 @@ type UpdateMysqlConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "sslKeySecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	SslKey *string `mandatory:"false" json:"sslKey"`
+	SslKey *string `mandatory:"false" json:"sslKey" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the Client Key
 	// - The content of a .pem or .crt file containing the client private key (for 2-way SSL).

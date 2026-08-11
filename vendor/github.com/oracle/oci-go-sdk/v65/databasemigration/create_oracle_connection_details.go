@@ -36,7 +36,7 @@ type CreateOracleConnectionDetails struct {
 	Username *string `mandatory:"true" json:"username"`
 
 	// The password (credential) used when creating or updating this resource.
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 
 	// A user-friendly description. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
@@ -60,7 +60,7 @@ type CreateOracleConnectionDetails struct {
 	ReplicationUsername *string `mandatory:"false" json:"replicationUsername"`
 
 	// The password (credential) used when creating or updating this resource.
-	ReplicationPassword *string `mandatory:"false" json:"replicationPassword"`
+	ReplicationPassword *string `mandatory:"false" json:"replicationPassword" sensitive:"true"`
 
 	// Connect descriptor or Easy Connect Naming method used to connect to a database.
 	ConnectionString *string `mandatory:"false" json:"connectionString"`

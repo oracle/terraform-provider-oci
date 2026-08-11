@@ -57,6 +57,25 @@ var (
 		"target":        acctest.Representation{RepType: acctest.Optional, Create: `BM.GPU.H100.8`, Update: `BM.Standard3.64`},
 	}
 
+	CoreComputeHostGroupQuickRecycleRepresentation = map[string]interface{}{
+		"availability_domain":            acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"configurations":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreComputeHostGroupQuickRecycleConfigurationsRepresentation},
+		"display_name":                   acctest.Representation{RepType: acctest.Required, Create: `quickRecycleHostGroup`},
+		"is_targeted_placement_required": acctest.Representation{RepType: acctest.Required, Create: `false`},
+	}
+	CoreComputeHostGroupQuickRecycleConfigurationsRepresentation = map[string]interface{}{
+		"quick_recycle_settings": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreComputeHostGroupQuickRecycleSettingsRepresentation},
+		"recycle_level":          acctest.Representation{RepType: acctest.Optional, Create: `SKIP_RECYCLE`},
+		"target":                 acctest.Representation{RepType: acctest.Optional, Create: `BM.DenseIO.E4.128`},
+	}
+	CoreComputeHostGroupQuickRecycleSettingsRepresentation = map[string]interface{}{
+		"nvme_wipe": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+	}
+	CoreComputeHostGroupQuickRecycleSingularDataSourceRepresentation = map[string]interface{}{
+		"compute_host_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_compute_host_group.test_compute_host_group_quick_recycle.id}`},
+	}
+
 	CoreComputeHostGroupResourceDependencies = AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
@@ -229,6 +248,85 @@ func TestCoreComputeHostGroupResource_basic(t *testing.T) {
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
 			ResourceName:            resourceName,
+		},
+	})
+}
+
+func TestCoreComputeHostGroupResource_quickRecycleSettings(t *testing.T) {
+	httpreplay.SetScenario("TestCoreComputeHostGroupResource_quickRecycleSettings")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	resourceName := "oci_core_compute_host_group.test_compute_host_group_quick_recycle"
+	datasourceName := "data.oci_core_compute_host_group.test_compute_host_group_quick_recycle"
+	availabilityDomainConfig := AvailabilityDomainConfig
+	quickRecycleRepresentation := CoreComputeHostGroupQuickRecycleRepresentation
+	if availabilityDomain := utils.GetEnvSettingWithBlankDefault("availability_domain"); availabilityDomain != "" {
+		availabilityDomainConfig = ""
+		quickRecycleRepresentation = acctest.RepresentationCopyWithNewProperties(
+			quickRecycleRepresentation,
+			map[string]interface{}{
+				"availability_domain": acctest.Representation{RepType: acctest.Required, Create: availabilityDomain},
+			})
+	}
+
+	var resourceId string
+	acctest.ResourceTest(t, testAccCheckCoreComputeHostGroupDestroy, []resource.TestStep{
+		{
+			Config: config + compartmentIdVariableStr + availabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_host_group", "test_compute_host_group_quick_recycle", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithRemovedNestedProperties("configurations.quick_recycle_settings", quickRecycleRepresentation)),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "configurations.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configurations.0.quick_recycle_settings.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "configurations.0.recycle_level", "SKIP_RECYCLE"),
+				resource.TestCheckResourceAttr(resourceName, "configurations.0.target", "BM.DenseIO.E4.128"),
+				func(s *terraform.State) (err error) {
+					resourceId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + availabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_host_group", "test_compute_host_group_quick_recycle", acctest.Optional, acctest.Update, quickRecycleRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "configurations.0.quick_recycle_settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configurations.0.quick_recycle_settings.0.nvme_wipe", "true"),
+				resource.TestCheckResourceAttr(resourceName, "configurations.0.recycle_level", "SKIP_RECYCLE"),
+				resource.TestCheckResourceAttr(resourceName, "configurations.0.target", "BM.DenseIO.E4.128"),
+				func(s *terraform.State) error {
+					updatedResourceId, err := acctest.FromInstanceState(s, resourceName, "id")
+					if err != nil {
+						return err
+					}
+					if resourceId != updatedResourceId {
+						return fmt.Errorf("resource recreated when quick recycle settings were updated")
+					}
+					return nil
+				},
+			),
+		},
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_compute_host_group", "test_compute_host_group_quick_recycle", acctest.Required, acctest.Create, CoreComputeHostGroupQuickRecycleSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + availabilityDomainConfig +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_compute_host_group", "test_compute_host_group_quick_recycle", acctest.Optional, acctest.Update, quickRecycleRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "configurations.0.quick_recycle_settings.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "configurations.0.quick_recycle_settings.0.nvme_wipe", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "configurations.0.recycle_level", "SKIP_RECYCLE"),
+				resource.TestCheckResourceAttr(datasourceName, "configurations.0.target", "BM.DenseIO.E4.128"),
+			),
+		},
+		{
+			ImportState:       true,
+			ImportStateVerify: true,
+			ResourceName:      resourceName,
 		},
 	})
 }

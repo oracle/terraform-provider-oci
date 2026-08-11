@@ -29,7 +29,7 @@ type CreateTwilioChannelDetails struct {
 	PhoneNumber *string `mandatory:"true" json:"phoneNumber"`
 
 	// The Auth Token for the Twilio number.
-	AuthToken *string `mandatory:"true" json:"authToken"`
+	AuthToken *string `mandatory:"true" json:"authToken" sensitive:"true"`
 
 	// Whether MMS is enabled for this channel or not.
 	IsMmsEnabled *bool `mandatory:"true" json:"isMmsEnabled"`

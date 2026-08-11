@@ -20,7 +20,7 @@ import (
 type CreateDistributedDatabaseShardWithExadbXsNewVaultAndClusterDetails struct {
 
 	// The admin password for the shard associated with Globally distributed database.
-	AdminPassword *string `mandatory:"true" json:"adminPassword"`
+	AdminPassword *string `mandatory:"true" json:"adminPassword" sensitive:"true"`
 
 	// The name of the availability domain that the distributed database shard will be located in.
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`

@@ -86,6 +86,11 @@ The following attributes are exported:
 * `license_model` - The Oracle license model that applies to the cloud VM cluster. The default is LICENSE_INCLUDED. 
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `listener_port` - The port number configured for the listener on the cloud VM cluster.
+* `live_image_version_details` - Details about the most recent live image version applied on the VM Cluster, if any. If a full OS update was applied, the fields would be blank.
+	* `has_pending_updates` - Indicates whether OS updates that require node reboot are pending after the previous online update was applied.
+	* `time_released` - The release date and time for the applied Live Exadata Image OS version.
+	* `update_mode` - The OS live update mode performed most recently on the VM Cluster.
+	* `version` - Live Exadata Image Version of the Guest OS Update applied.
 * `memory_size_in_gbs` - The memory to be allocated in GBs.
 * `multi_cloud_identity_connector_configs` - Details of the multi cloud identity connectors of the VM cluster.
 	* `cloud_provider` - Cloud provider
@@ -95,6 +100,7 @@ The following attributes are exported:
 	* A network security group (NSG) is optional for Autonomous AI Databases with private access. The nsgIds list can be empty. 
 * `ocpu_count` - The number of OCPU cores to enable on the cloud VM cluster. Only 1 decimal place is allowed for the fractional part.
 * `reco_storage_percentage` - The percentage assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). See [Storage Configuration](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm#Exadata) in the Exadata documentation for details on the impact of the configuration settings on storage. 
+* `oracle_linux_version` - Oracle Linux version for the respective Exadata Image.
 * `scan_dns_name` - The FQDN of the DNS record for the SCAN IP addresses that are associated with the cloud VM cluster. 
 * `scan_dns_record_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DNS record for the SCAN IP addresses that are associated with the cloud VM cluster. 
 * `scan_ip_ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Single Client Access Name (SCAN) IPv4 addresses associated with the cloud VM cluster. SCAN IPv4 addresses are typically used for load balancing and are not assigned to any interface. Oracle Clusterware directs the requests to the appropriate nodes in the cluster.
@@ -134,4 +140,3 @@ The following attributes are exported:
 * `vm_cluster_type` - The vmcluster type for the VM cluster/Cloud VM cluster.
 * `vm_file_system_storage_type` - Specifies the type of file system storage and supported values are LOCAL and EXASCALE. - LOCAL if selected then file system storage will be on DB Servers. - EXASCALE if selected then file system storage will be on Exascale Storage Servers. Default Value is LOCAL
 * `zone_id` - The OCID of the zone the cloud VM cluster is associated with. 
-

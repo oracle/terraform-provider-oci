@@ -27,7 +27,7 @@ type AddCloudSqlDetails struct {
 	BlockVolumeSizeInGBs *int64 `mandatory:"false" json:"blockVolumeSizeInGBs"`
 
 	// Base-64 encoded password for the cluster (and Cloudera Manager) admin user.
-	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword" sensitive:"true"`
 }
 
 func (m AddCloudSqlDetails) String() string {

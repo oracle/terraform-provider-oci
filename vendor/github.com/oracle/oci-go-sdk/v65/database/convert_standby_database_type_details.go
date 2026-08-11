@@ -20,7 +20,7 @@ type ConvertStandbyDatabaseTypeDetails struct {
 
 	// The administrator password of the primary database in this Data Guard association.
 	// **The password MUST be the same as the primary admin password.**
-	DatabaseAdminPassword *string `mandatory:"true" json:"databaseAdminPassword"`
+	DatabaseAdminPassword *string `mandatory:"true" json:"databaseAdminPassword" sensitive:"true"`
 
 	// Defines the conversion type of the standby database. Specify this to convert a physical standby to a snapshot standby and vice versa.
 	// Valid standbyConversionType:

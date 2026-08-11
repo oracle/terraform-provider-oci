@@ -109,13 +109,13 @@ type UpdateOracleAiDataPlatformConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "privateKeyFileSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	PrivateKeyFile *string `mandatory:"false" json:"privateKeyFile"`
+	PrivateKeyFile *string `mandatory:"false" json:"privateKeyFile" sensitive:"true"`
 
 	// The passphrase of the private key.
 	// Deprecated: This field is deprecated and replaced by "privateKeyPassphraseSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	PrivateKeyPassphrase *string `mandatory:"false" json:"privateKeyPassphrase"`
+	PrivateKeyPassphrase *string `mandatory:"false" json:"privateKeyPassphrase" sensitive:"true"`
 
 	// The fingerprint of the API Key of the user specified by the userId.
 	// See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm

@@ -28,10 +28,10 @@ type MigrateVaultKeyDetails struct {
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
 	// The existing TDE wallet password of the database.
-	TdeWalletPassword *string `mandatory:"false" json:"tdeWalletPassword"`
+	TdeWalletPassword *string `mandatory:"false" json:"tdeWalletPassword" sensitive:"true"`
 
 	// The existing admin password of the database.
-	AdminPassword *string `mandatory:"false" json:"adminPassword"`
+	AdminPassword *string `mandatory:"false" json:"adminPassword" sensitive:"true"`
 }
 
 func (m MigrateVaultKeyDetails) String() string {

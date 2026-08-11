@@ -30,6 +30,11 @@ resource "oci_core_compute_host_group" "test_compute_host_group" {
 
 		#Optional
 		firmware_bundle_id = oci_core_firmware_bundle.test_firmware_bundle.id
+		quick_recycle_settings {
+
+			#Optional
+			nvme_wipe = var.compute_host_group_configurations_quick_recycle_settings_nvme_wipe
+		}
 		recycle_level = var.compute_host_group_configurations_recycle_level
 		state = var.compute_host_group_configurations_state
 		target = var.compute_host_group_configurations_target
@@ -47,6 +52,8 @@ The following arguments are supported:
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment that contains host group. 
 * `configurations` - (Optional) (Updatable) A list of HostGroupConfiguration objects
 	* `firmware_bundle_id` - (Optional) (Updatable) The OCID for firmware bundle
+	* `quick_recycle_settings` - (Optional) (Updatable) Additional quick recycle settings.
+		* `nvme_wipe` - (Optional) (Updatable) Whether to wipe NVMe data during quick recycle.
 	* `recycle_level` - (Optional) (Updatable) Preferred recycle level for hosts associated with the reservation config.
 		* `SKIP_RECYCLE` - Skips host wipe.
 		* `FULL_RECYCLE` - Does not skip host wipe. This is the default behavior. 
@@ -69,6 +76,8 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment that contains host group. 
 * `configurations` - A list of HostGroupConfiguration objects
 	* `firmware_bundle_id` - The OCID for firmware bundle
+	* `quick_recycle_settings` - Additional quick recycle settings.
+		* `nvme_wipe` - Whether to wipe NVMe data during quick recycle.
 	* `recycle_level` - Preferred recycle level for hosts associated with the reservation config.
 		* `SKIP_RECYCLE` - Skips host wipe.
 		* `FULL_RECYCLE` - Does not skip host wipe. This is the default behavior. 

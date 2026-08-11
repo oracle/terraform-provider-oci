@@ -174,32 +174,32 @@ locals {
   ]
 }
 
-resource "oci_resource_scheduler_schedule" "rs_body_param_test" {
-  #Required
-  action             = var.schedule_action
-  compartment_id     = var.compartment_id
-  description        = var.schedule_description
-  display_name       = "test-fn-body-1-tf-created"
-  recurrence_details = "FREQ=DAILY;COUNT=1"
-  recurrence_type    = var.schedule_recurrence_type
-  time_starts        = local.start_time
+# resource "oci_resource_scheduler_schedule" "rs_body_param_test" {
+#   #Required
+#   action             = var.schedule_action
+#   compartment_id     = var.compartment_id
+#   description        = var.schedule_description
+#   display_name       = "test-fn-body-1-tf-created"
+#   recurrence_details = "FREQ=DAILY;COUNT=1"
+#   recurrence_type    = var.schedule_recurrence_type
+#   time_starts        = local.start_time
 
-  resources {
-    id = var.resource_id
+#   resources {
+#     id = var.resource_id
 
-    parameters {
-      parameter_type = "BODY"
-      value = [jsonencode(local.schedule_body1)]
-    }
-  }
+#     parameters {
+#       parameter_type = "BODY"
+#       value = [jsonencode(local.schedule_body1)]
+#     }
+#   }
 
-  lifecycle {
-    ignore_changes = [
-      time_starts
-    ]
-  }
-}
+#   lifecycle {
+#     ignore_changes = [
+#       time_starts
+#     ]
+#   }
+# }
 
-output "schedule_id" {
-  value = oci_resource_scheduler_schedule.rs_body_param_test.id
-}
+# output "schedule_id" {
+#   value = oci_resource_scheduler_schedule.rs_body_param_test.id
+# }

@@ -34,13 +34,13 @@ type UpdateOggDeploymentDetails struct {
 	// The password must be 8 to 30 characters long and must contain at least 1 uppercase, 1 lowercase, 1 numeric,
 	// and 1 special character. Special characters such as '$', '^', or '?' are not allowed.
 	// This field will be deprecated and replaced by "passwordSecretId".
-	AdminPassword *string `mandatory:"false" json:"adminPassword"`
+	AdminPassword *string `mandatory:"false" json:"adminPassword" sensitive:"true"`
 
 	// The base64 encoded content of the PEM file containing the SSL certificate.
 	Certificate *string `mandatory:"false" json:"certificate"`
 
 	// The base64 encoded content of the PEM file containing the private key.
-	Key *string `mandatory:"false" json:"key"`
+	Key *string `mandatory:"false" json:"key" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the deployment ssl private key is stored in PEM format.
 	KeySecretId *string `mandatory:"false" json:"keySecretId"`

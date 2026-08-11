@@ -68,6 +68,10 @@ type Ipv6 struct {
 	// Length of cidr range. Optional field to specify flexible cidr.
 	CidrPrefixLength *int `mandatory:"false" json:"cidrPrefixLength"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{ "orcl-cloud": { "free-tier-retained": "true" } }`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC the IPv6 is assigned to.
 	// The VNIC and IPv6 must be in the same subnet.
 	VnicId *string `mandatory:"false" json:"vnicId"`

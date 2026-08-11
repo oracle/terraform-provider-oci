@@ -55,7 +55,7 @@ type Storage struct {
 	IsOverrideLuns *bool `mandatory:"false" json:"isOverrideLuns"`
 
 	// Password of the host storage.
-	Password *string `mandatory:"false" json:"password"`
+	Password *string `mandatory:"false" json:"password" sensitive:"true"`
 
 	// Paths of the host storage.
 	Paths *int `mandatory:"false" json:"paths"`

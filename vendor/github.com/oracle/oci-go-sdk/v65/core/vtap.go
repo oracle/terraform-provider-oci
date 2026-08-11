@@ -61,6 +61,10 @@ type Vtap struct {
 	// The VTAP's current running state.
 	LifecycleStateDetails VtapLifecycleStateDetailsEnum `mandatory:"false" json:"lifecycleStateDetails,omitempty"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{ "orcl-cloud": { "free-tier-retained": "true" } }`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// The date and time the VTAP was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2020-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`

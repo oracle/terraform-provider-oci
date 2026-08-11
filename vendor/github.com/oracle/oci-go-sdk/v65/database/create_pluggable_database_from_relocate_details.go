@@ -25,13 +25,13 @@ type CreatePluggableDatabaseFromRelocateDetails struct {
 	SourcePluggableDatabaseId *string `mandatory:"true" json:"sourcePluggableDatabaseId"`
 
 	// The DB system administrator password of the source Container Database.
-	SourceContainerDatabaseAdminPassword *string `mandatory:"true" json:"sourceContainerDatabaseAdminPassword"`
+	SourceContainerDatabaseAdminPassword *string `mandatory:"true" json:"sourceContainerDatabaseAdminPassword" sensitive:"true"`
 
 	// The name of the DB link user.
 	DblinkUsername *string `mandatory:"false" json:"dblinkUsername"`
 
 	// The DB link user password.
-	DblinkUserPassword *string `mandatory:"false" json:"dblinkUserPassword"`
+	DblinkUserPassword *string `mandatory:"false" json:"dblinkUserPassword" sensitive:"true"`
 }
 
 func (m CreatePluggableDatabaseFromRelocateDetails) String() string {

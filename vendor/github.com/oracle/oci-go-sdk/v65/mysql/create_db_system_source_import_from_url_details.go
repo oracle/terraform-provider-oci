@@ -24,7 +24,7 @@ type CreateDbSystemSourceImportFromUrlDetails struct {
 	// for information related to PAR creation.
 	// Please create PAR with "Permit object reads" access type and "Enable Object Listing" permission when using a bucket/prefix PAR.
 	// Please create PAR with "Permit object reads" access type when using a @.manifest.json object PAR.
-	SourceUrl *string `mandatory:"true" json:"sourceUrl"`
+	SourceUrl *string `mandatory:"true" json:"sourceUrl" sensitive:"true"`
 }
 
 func (m CreateDbSystemSourceImportFromUrlDetails) String() string {

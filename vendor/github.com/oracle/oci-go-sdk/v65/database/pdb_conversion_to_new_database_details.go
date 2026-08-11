@@ -23,16 +23,16 @@ type PdbConversionToNewDatabaseDetails struct {
 	CdbName *string `mandatory:"true" json:"cdbName"`
 
 	// A strong password for SYS, SYSTEM, and the plugbable database ADMIN user of the container database after conversion. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numeric, and two special characters. The special characters must be _, \#, or -.
-	CdbAdminPassword *string `mandatory:"true" json:"cdbAdminPassword"`
+	CdbAdminPassword *string `mandatory:"true" json:"cdbAdminPassword" sensitive:"true"`
 
 	// The existing TDE wallet password of the non-container database.
-	NonCdbTdeWalletPassword *string `mandatory:"true" json:"nonCdbTdeWalletPassword"`
+	NonCdbTdeWalletPassword *string `mandatory:"true" json:"nonCdbTdeWalletPassword" sensitive:"true"`
 
 	// A strong password for plugbable database ADMIN user of the container database after conversion. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numeric, and two special characters. The special characters must be _, \#, or -.
-	PdbAdminPassword *string `mandatory:"false" json:"pdbAdminPassword"`
+	PdbAdminPassword *string `mandatory:"false" json:"pdbAdminPassword" sensitive:"true"`
 
 	// The password to open the TDE wallet of the container database after conversion. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numeric, and two special characters. The special characters must be _, \#, or -.
-	CdbTdeWalletPassword *string `mandatory:"false" json:"cdbTdeWalletPassword"`
+	CdbTdeWalletPassword *string `mandatory:"false" json:"cdbTdeWalletPassword" sensitive:"true"`
 
 	// Additional container database parameters.
 	// Example: "_pdb_name_case_sensitive=true"

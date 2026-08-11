@@ -23,7 +23,7 @@ type DatabaseSslConnectionCredentials struct {
 	Username *string `mandatory:"true" json:"username"`
 
 	// The password that will be used to connect to the database.
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure secret (https://docs.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 	SslSecretId *string `mandatory:"true" json:"sslSecretId"`

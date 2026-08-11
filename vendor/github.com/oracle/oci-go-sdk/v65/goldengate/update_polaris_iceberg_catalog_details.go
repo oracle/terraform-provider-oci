@@ -33,7 +33,7 @@ type UpdatePolarisIcebergCatalogDetails struct {
 	ClientSecretSecretId *string `mandatory:"false" json:"clientSecretSecretId"`
 
 	// Client secret required to connect to Polaris.
-	ClientSecret *string `mandatory:"false" json:"clientSecret"`
+	ClientSecret *string `mandatory:"false" json:"clientSecret" sensitive:"true"`
 
 	// The Snowflake role used to access Polaris.
 	PrincipalRole *string `mandatory:"false" json:"principalRole"`

@@ -30,11 +30,11 @@ type UpdateOracleAwsS3DataTransferMediumDetails struct {
 
 	// AWS access key credentials identifier
 	// Details: https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys
-	AccessKeyId *string `mandatory:"false" json:"accessKeyId"`
+	AccessKeyId *string `mandatory:"false" json:"accessKeyId" sensitive:"true"`
 
 	// AWS secret access key credentials
 	// Details: https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys
-	SecretAccessKey *string `mandatory:"false" json:"secretAccessKey"`
+	SecretAccessKey *string `mandatory:"false" json:"secretAccessKey" sensitive:"true"`
 
 	ObjectStorageBucket *ObjectStoreBucket `mandatory:"false" json:"objectStorageBucket"`
 }

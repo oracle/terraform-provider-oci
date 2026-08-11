@@ -96,18 +96,24 @@ func (client *ObjectStorageClient) ConfigurationProvider() *common.Configuration
 	return client.config
 }
 
+// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
+// Default value is false
+func (client *ObjectStorageClient) EnableDualStackEndpoints(enableDualStack bool) {
+	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
+}
+
 // getEndpointTemplatePerRealm returns the endpoint template for the given region, if not found, returns the default endpoint template
 func (client *ObjectStorageClient) getEndpointTemplatePerRealm(region string) string {
 	if client.IsOciRealmSpecificServiceEndpointTemplateEnabled() {
 		realm, _ := common.StringToRegion(region).RealmID()
 		templatePerRealmDict := map[string]string{
-			"oc1": "https://{namespaceName+Dot}objectstorage.{region}.oci.customer-oci.com",
+			"oc1": "https://{namespaceName+Dot}objectstorage.{region}.{dualStack?ds.:}oci.customer-oci.com",
 		}
 		if template, ok := templatePerRealmDict[realm]; ok {
 			return template
 		}
 	}
-	return "https://objectstorage.{region}.{secondLevelDomain}"
+	return "https://objectstorage.{region}.{dualStack?ds.oci.:}{secondLevelDomain}"
 }
 
 // parseEndpointTemplatePerRealm parses the endpoint template per realm from the service endpoint template
@@ -192,6 +198,7 @@ func (client ObjectStorageClient) abortMultipartUpload(ctx context.Context, requ
 
 	host := client.Host
 	request.(AbortMultipartUploadRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -257,6 +264,7 @@ func (client ObjectStorageClient) batchDeleteObjects(ctx context.Context, reques
 
 	host := client.Host
 	request.(BatchDeleteObjectsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -322,6 +330,7 @@ func (client ObjectStorageClient) cancelWorkRequest(ctx context.Context, request
 
 	host := client.Host
 	request.(CancelWorkRequestRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -387,6 +396,7 @@ func (client ObjectStorageClient) commitMultipartUpload(ctx context.Context, req
 
 	host := client.Host
 	request.(CommitMultipartUploadRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -454,6 +464,7 @@ func (client ObjectStorageClient) copyObject(ctx context.Context, request common
 
 	host := client.Host
 	request.(CopyObjectRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -520,6 +531,7 @@ func (client ObjectStorageClient) createBucket(ctx context.Context, request comm
 
 	host := client.Host
 	request.(CreateBucketRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -587,6 +599,7 @@ func (client ObjectStorageClient) createMultipartUpload(ctx context.Context, req
 
 	host := client.Host
 	request.(CreateMultipartUploadRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -652,6 +665,7 @@ func (client ObjectStorageClient) createPreauthenticatedRequest(ctx context.Cont
 
 	host := client.Host
 	request.(CreatePreauthenticatedRequestRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -717,6 +731,7 @@ func (client ObjectStorageClient) createPrivateEndpoint(ctx context.Context, req
 
 	host := client.Host
 	request.(CreatePrivateEndpointRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -782,6 +797,7 @@ func (client ObjectStorageClient) createReplicationPolicy(ctx context.Context, r
 
 	host := client.Host
 	request.(CreateReplicationPolicyRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -848,6 +864,7 @@ func (client ObjectStorageClient) createRetentionRule(ctx context.Context, reque
 
 	host := client.Host
 	request.(CreateRetentionRuleRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -916,6 +933,7 @@ func (client ObjectStorageClient) deleteBucket(ctx context.Context, request comm
 
 	host := client.Host
 	request.(DeleteBucketRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -981,6 +999,7 @@ func (client ObjectStorageClient) deleteObject(ctx context.Context, request comm
 
 	host := client.Host
 	request.(DeleteObjectRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -1046,6 +1065,7 @@ func (client ObjectStorageClient) deleteObjectLifecyclePolicy(ctx context.Contex
 
 	host := client.Host
 	request.(DeleteObjectLifecyclePolicyRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -1111,6 +1131,7 @@ func (client ObjectStorageClient) deletePreauthenticatedRequest(ctx context.Cont
 
 	host := client.Host
 	request.(DeletePreauthenticatedRequestRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -1176,6 +1197,7 @@ func (client ObjectStorageClient) deletePrivateEndpoint(ctx context.Context, req
 
 	host := client.Host
 	request.(DeletePrivateEndpointRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -1241,6 +1263,7 @@ func (client ObjectStorageClient) deleteReplicationPolicy(ctx context.Context, r
 
 	host := client.Host
 	request.(DeleteReplicationPolicyRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -1306,6 +1329,7 @@ func (client ObjectStorageClient) deleteRetentionRule(ctx context.Context, reque
 
 	host := client.Host
 	request.(DeleteRetentionRuleRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -1371,6 +1395,7 @@ func (client ObjectStorageClient) getBucket(ctx context.Context, request common.
 
 	host := client.Host
 	request.(GetBucketRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -1436,6 +1461,7 @@ func (client ObjectStorageClient) getNamespace(ctx context.Context, request comm
 
 	host := client.Host
 	request.(GetNamespaceRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -1506,6 +1532,7 @@ func (client ObjectStorageClient) getNamespaceMetadata(ctx context.Context, requ
 
 	host := client.Host
 	request.(GetNamespaceMetadataRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -1571,6 +1598,7 @@ func (client ObjectStorageClient) getObject(ctx context.Context, request common.
 
 	host := client.Host
 	request.(GetObjectRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -1635,6 +1663,7 @@ func (client ObjectStorageClient) getObjectLifecyclePolicy(ctx context.Context, 
 
 	host := client.Host
 	request.(GetObjectLifecyclePolicyRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -1700,6 +1729,7 @@ func (client ObjectStorageClient) getPreauthenticatedRequest(ctx context.Context
 
 	host := client.Host
 	request.(GetPreauthenticatedRequestRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -1765,6 +1795,7 @@ func (client ObjectStorageClient) getPrivateEndpoint(ctx context.Context, reques
 
 	host := client.Host
 	request.(GetPrivateEndpointRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -1830,6 +1861,7 @@ func (client ObjectStorageClient) getReplicationPolicy(ctx context.Context, requ
 
 	host := client.Host
 	request.(GetReplicationPolicyRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -1895,6 +1927,7 @@ func (client ObjectStorageClient) getRetentionRule(ctx context.Context, request 
 
 	host := client.Host
 	request.(GetRetentionRuleRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -1960,6 +1993,7 @@ func (client ObjectStorageClient) getWorkRequest(ctx context.Context, request co
 
 	host := client.Host
 	request.(GetWorkRequestRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -2025,6 +2059,7 @@ func (client ObjectStorageClient) headBucket(ctx context.Context, request common
 
 	host := client.Host
 	request.(HeadBucketRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -2090,6 +2125,7 @@ func (client ObjectStorageClient) headObject(ctx context.Context, request common
 
 	host := client.Host
 	request.(HeadObjectRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -2161,6 +2197,7 @@ func (client ObjectStorageClient) listBuckets(ctx context.Context, request commo
 
 	host := client.Host
 	request.(ListBucketsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -2226,6 +2263,7 @@ func (client ObjectStorageClient) listMultipartUploadParts(ctx context.Context, 
 
 	host := client.Host
 	request.(ListMultipartUploadPartsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -2291,6 +2329,7 @@ func (client ObjectStorageClient) listMultipartUploads(ctx context.Context, requ
 
 	host := client.Host
 	request.(ListMultipartUploadsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -2361,6 +2400,7 @@ func (client ObjectStorageClient) listObjectVersions(ctx context.Context, reques
 
 	host := client.Host
 	request.(ListObjectVersionsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -2433,6 +2473,7 @@ func (client ObjectStorageClient) listObjects(ctx context.Context, request commo
 
 	host := client.Host
 	request.(ListObjectsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -2498,6 +2539,7 @@ func (client ObjectStorageClient) listPreauthenticatedRequests(ctx context.Conte
 
 	host := client.Host
 	request.(ListPreauthenticatedRequestsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -2566,6 +2608,7 @@ func (client ObjectStorageClient) listPrivateEndpoints(ctx context.Context, requ
 
 	host := client.Host
 	request.(ListPrivateEndpointsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -2631,6 +2674,7 @@ func (client ObjectStorageClient) listReplicationPolicies(ctx context.Context, r
 
 	host := client.Host
 	request.(ListReplicationPoliciesRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -2696,6 +2740,7 @@ func (client ObjectStorageClient) listReplicationSources(ctx context.Context, re
 
 	host := client.Host
 	request.(ListReplicationSourcesRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -2762,6 +2807,7 @@ func (client ObjectStorageClient) listRetentionRules(ctx context.Context, reques
 
 	host := client.Host
 	request.(ListRetentionRulesRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -2827,6 +2873,7 @@ func (client ObjectStorageClient) listWorkRequestErrors(ctx context.Context, req
 
 	host := client.Host
 	request.(ListWorkRequestErrorsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -2892,6 +2939,7 @@ func (client ObjectStorageClient) listWorkRequestLogs(ctx context.Context, reque
 
 	host := client.Host
 	request.(ListWorkRequestLogsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -2957,6 +3005,7 @@ func (client ObjectStorageClient) listWorkRequests(ctx context.Context, request 
 
 	host := client.Host
 	request.(ListWorkRequestsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -3025,6 +3074,7 @@ func (client ObjectStorageClient) makeBucketWritable(ctx context.Context, reques
 
 	host := client.Host
 	request.(MakeBucketWritableRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -3097,6 +3147,7 @@ func (client ObjectStorageClient) putObject(ctx context.Context, request common.
 
 	host := client.Host
 	request.(PutObjectRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -3172,6 +3223,7 @@ func (client ObjectStorageClient) putObjectLifecyclePolicy(ctx context.Context, 
 
 	host := client.Host
 	request.(PutObjectLifecyclePolicyRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -3252,6 +3304,7 @@ func (client ObjectStorageClient) reencryptBucket(ctx context.Context, request c
 
 	host := client.Host
 	request.(ReencryptBucketRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -3322,6 +3375,7 @@ func (client ObjectStorageClient) reencryptObject(ctx context.Context, request c
 
 	host := client.Host
 	request.(ReencryptObjectRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -3389,6 +3443,7 @@ func (client ObjectStorageClient) renameObject(ctx context.Context, request comm
 
 	host := client.Host
 	request.(RenameObjectRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -3455,6 +3510,7 @@ func (client ObjectStorageClient) restoreObjects(ctx context.Context, request co
 
 	host := client.Host
 	request.(RestoreObjectsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -3523,6 +3579,7 @@ func (client ObjectStorageClient) updateBucket(ctx context.Context, request comm
 
 	host := client.Host
 	request.(UpdateBucketRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -3593,6 +3650,7 @@ func (client ObjectStorageClient) updateNamespaceMetadata(ctx context.Context, r
 
 	host := client.Host
 	request.(UpdateNamespaceMetadataRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -3658,6 +3716,7 @@ func (client ObjectStorageClient) updateObjectStorageTier(ctx context.Context, r
 
 	host := client.Host
 	request.(UpdateObjectStorageTierRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -3728,6 +3787,7 @@ func (client ObjectStorageClient) updatePrivateEndpoint(ctx context.Context, req
 
 	host := client.Host
 	request.(UpdatePrivateEndpointRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -3793,6 +3853,7 @@ func (client ObjectStorageClient) updateRetentionRule(ctx context.Context, reque
 
 	host := client.Host
 	request.(UpdateRetentionRuleRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host
@@ -3860,6 +3921,7 @@ func (client ObjectStorageClient) uploadPart(ctx context.Context, request common
 
 	host := client.Host
 	request.(UploadPartRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
 	common.SetMissingTemplateParams(&client.BaseClient)
 	defer func() {
 		client.Host = host

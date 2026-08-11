@@ -91,6 +91,10 @@ type Vcn struct {
 	// Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{ "orcl-cloud": { "free-tier-retained": "true" } }`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// For an IPv6-enabled VCN, this is the list of IPv6 prefixes for the VCN's IP address space.
 	// The prefixes are provided by Oracle and the sizes are always /56.
 	Ipv6CidrBlocks []string `mandatory:"false" json:"ipv6CidrBlocks"`

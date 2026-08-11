@@ -220,6 +220,12 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 			vmCluster["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		if r.LiveImageVersionDetails != nil {
+			vmCluster["live_image_version_details"] = []interface{}{exadataLiveImageVersionDetailsToMap(r.LiveImageVersionDetails)}
+		} else {
+			vmCluster["live_image_version_details"] = nil
+		}
+
 		if r.MemorySizeInGBs != nil {
 			vmCluster["memory_size_in_gbs"] = *r.MemorySizeInGBs
 		}
@@ -230,6 +236,10 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 
 		if r.RecoStoragePercentage != nil {
 			vmCluster["reco_storage_percentage"] = *r.RecoStoragePercentage
+		}
+
+		if r.OracleLinuxVersion != nil {
+			vmCluster["oracle_linux_version"] = *r.OracleLinuxVersion
 		}
 
 		if r.Shape != nil {
