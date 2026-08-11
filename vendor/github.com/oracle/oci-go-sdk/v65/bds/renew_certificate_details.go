@@ -19,7 +19,7 @@ import (
 type RenewCertificateDetails struct {
 
 	// Base-64 encoded password for the cluster admin user.
-	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword" sensitive:"true"`
 
 	// The secretId for the clusterAdminPassword.
 	SecretId *string `mandatory:"false" json:"secretId"`
@@ -34,7 +34,7 @@ type RenewCertificateDetails struct {
 	HostCertDetails []HostCertDetails `mandatory:"false" json:"hostCertDetails"`
 
 	// Base-64 encoded password for CA certificate's private key. This value can be empty.
-	ServerKeyPassword *string `mandatory:"false" json:"serverKeyPassword"`
+	ServerKeyPassword *string `mandatory:"false" json:"serverKeyPassword" sensitive:"true"`
 }
 
 func (m RenewCertificateDetails) String() string {

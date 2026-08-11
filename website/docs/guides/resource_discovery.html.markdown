@@ -165,6 +165,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `datascience` - Discovers datascience resources within the specified compartment
     * `dblm` - Discovers dblm resources within the specified compartment
     * `dbmulticloud` - Discovers dbmulticloud resources within the specified compartment
+    * `ddfs` - Discovers ddfs resources within the specified compartment
     * `delegate_access_control` - Discovers delegate_access_control resources within the specified compartment
     * `demand_signal` - Discovers demand_signal resources within the specified compartment
     * `desktops` - Discovers desktop pool resources within the specified compartment
@@ -817,6 +818,15 @@ dbmulticloud
 * oci\_dbmulticloud\_oracle\_db\_gcp\_key\_ring
 * oci\_dbmulticloud\_oracle\_db\_aws\_identity\_connector
 * oci\_dbmulticloud\_oracle\_db\_aws\_key
+
+ddfs
+    
+* oci\_ddfs\_instance
+
+delegate_access_control
+    
+* oci\_delegate\_access\_control\_delegation\_subscription
+* oci\_delegate\_access\_control\_delegation\_control
 
 demand_signal
 

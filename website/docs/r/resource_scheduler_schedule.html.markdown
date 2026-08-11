@@ -20,43 +20,49 @@ This API creates a schedule. You must provide either resources or resourceFilter
 
 ```hcl
 resource "oci_resource_scheduler_schedule" "test_schedule" {
-  #Required
-  action             = var.schedule_action
-  compartment_id     = var.compartment_id
-  recurrence_details = var.schedule_recurrence_details
-  recurrence_type    = var.schedule_recurrence_type
+	#Required
+	action = var.schedule_action
+	compartment_id = var.compartment_id
+	recurrence_details = var.schedule_recurrence_details
+	recurrence_type = var.schedule_recurrence_type
 
-  resource_filters {
-    # Required
-    attribute = "DEFINED_TAGS"
-    value {
-      namespace="SampleNamespace"
-      tag_key="SampleTagKey"
-      value="SampleValue"
-    }
-  }
-  resource_filters {
-    # Required
-    attribute = "LIFECYCLE_STATE"
-    value {
-      value="SampleLifecycleState"
-    }
-  }
-  resource_filters {
-    # Required
-    attribute = "COMPARTMENT_ID"
-    value {
-      value=var.compartment_id
-    }
-  }
+	#Optional
+	defined_tags = {"Operations.CostCenter"= "42"}
+	description = var.schedule_description
+	display_name = var.schedule_display_name
+	freeform_tags = {"Department"= "Finance"}
+	local_time_zone = var.schedule_local_time_zone
+	resource_filters {
+		#Required
+		attribute = var.schedule_resource_filters_attribute
 
-  #Optional
-  defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.schedule_defined_tags_value)
-  description   = var.schedule_description
-  display_name  = var.schedule_display_name
-  freeform_tags = var.schedule_freeform_tags
-  time_ends   = var.schedule_time_ends
-  time_starts = var.schedule_time_starts
+		#Optional
+		condition = var.schedule_resource_filters_condition
+		should_include_child_compartments = var.schedule_resource_filters_should_include_child_compartments
+		value {
+
+			#Optional
+			namespace = var.schedule_resource_filters_value_namespace
+			tag_key = var.schedule_resource_filters_value_tag_key
+			value = var.schedule_resource_filters_value_value
+		}
+	}
+	resources {
+		#Required
+		id = var.schedule_resources_id
+
+		#Optional
+		metadata = var.schedule_resources_metadata
+		parameters {
+			#Required
+			parameter_type = var.schedule_resources_parameters_parameter_type
+
+			#Optional
+			value = var.schedule_resources_parameters_value
+		}
+	}
+	time_ends = var.schedule_time_ends
+	time_starts = var.schedule_time_starts
 }
 ```
 
@@ -70,6 +76,7 @@ The following arguments are supported:
 * `description` - (Optional) (Updatable) This is the description of the schedule.
 * `display_name` - (Optional) (Updatable) This is a user-friendly name for the schedule. It does not have to be unique, and it's changeable.
 * `freeform_tags` - (Optional) (Updatable) These are free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `local_time_zone` - (Optional) (Updatable) IANA timezone identifier (e.g., 'America/New_York', 'UTC', 'Europe/London'). This determines the timezone context for evaluating the recurrence expression. 
 * `recurrence_details` - (Required) (Updatable) This is the frequency of recurrence of a schedule. The frequency field can either conform to RFC-5545 formatting or UNIX cron formatting for recurrences, based on the value specified by the recurrenceType field. 
 * `recurrence_type` - (Required) (Updatable) Type of recurrence of a schedule
 * `resource_filters` - (Optional) (Updatable) This is a list of resources filters.  The schedule will be applied to resources matching all of them.
@@ -124,6 +131,7 @@ The following attributes are exported:
 * `freeform_tags` - These are free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the schedule
 * `last_run_status` - This is the status of the last work request.
+* `local_time_zone` - IANA timezone identifier (e.g., 'America/New_York', 'UTC', 'Europe/London'). This determines the timezone context for evaluating the recurrence expression. 
 * `recurrence_details` - This is the frequency of recurrence of a schedule. The frequency field can either conform to RFC-5545 formatting or UNIX cron formatting for recurrences, based on the value specified by the recurrenceType field. 
 * `recurrence_type` - Type of recurrence of a schedule
 * `resource_filters` - This is a list of resources filters.  The schedule will be applied to resources matching all of them.

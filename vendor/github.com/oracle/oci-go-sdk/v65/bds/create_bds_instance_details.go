@@ -40,7 +40,7 @@ type CreateBdsInstanceDetails struct {
 	Nodes []CreateNodeDetails `mandatory:"true" json:"nodes"`
 
 	// Base-64 encoded password for the cluster (and Cloudera Manager) admin user. Not required if the secretId is specified.
-	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword" sensitive:"true"`
 
 	// The secretId for the clusterAdminPassword.
 	SecretId *string `mandatory:"false" json:"secretId"`

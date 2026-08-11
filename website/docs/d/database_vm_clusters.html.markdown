@@ -87,8 +87,14 @@ The following attributes are exported:
 * `last_patch_history_entry_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last patch history. This value is updated as soon as a patch operation starts.
 * `license_model` - The Oracle license model that applies to the VM cluster. The default is LICENSE_INCLUDED. 
 * `lifecycle_details` - Additional information about the current lifecycle state.
+* `live_image_version_details` - Details about the most recent live image version applied on the VM Cluster, if any. If a full OS update was applied, the fields would be blank.
+	* `has_pending_updates` - Indicates whether OS updates that require node reboot are pending after the previous online update was applied.
+	* `time_released` - The release date and time for the applied Live Exadata Image OS version.
+	* `update_mode` - The OS live update mode performed most recently on the VM Cluster.
+	* `version` - Live Exadata Image Version of the Guest OS Update applied.
 * `memory_size_in_gbs` - The memory allocated in GBs.
 * `reco_storage_percentage` - The percentage assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). See [Storage Configuration](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm#Exadata) in the Exadata documentation for details on the impact of the configuration settings on storage.
+* `oracle_linux_version` - Oracle Linux version for the respective Exadata Image.
 * `shape` - The shape of the Exadata infrastructure. The shape determines the amount of CPU, storage, and memory resources allocated to the instance. 
 * `sparse_storage_percentage` - The percentage assigned to SPARSE storage (Exadata snapshots). See [Storage Configuration](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaoverview.htm#Exadata) in the Exadata documentation for details on the impact of the configuration settings on storage. 
 * `ssh_public_keys` - The public key portion of one or more key pairs used for SSH access to the VM cluster.
@@ -102,4 +108,3 @@ The following attributes are exported:
 * `vm_cluster_network_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster network.
 * `vm_cluster_type` - The vmcluster type for the VM cluster/Cloud VM cluster.
 * `vm_file_system_storage_type` - Specifies the type of file system storage and supported values are LOCAL and EXASCALE. - LOCAL if selected then file system storage will be on DB Servers. - EXASCALE if selected then file system storage will be on Exascale Storage Servers. Default Value is LOCAL
-

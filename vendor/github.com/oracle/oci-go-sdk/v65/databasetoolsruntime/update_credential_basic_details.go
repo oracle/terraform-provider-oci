@@ -23,7 +23,7 @@ type UpdateCredentialBasicDetails struct {
 	UserName *string `mandatory:"false" json:"userName"`
 
 	// The password for the new credential.
-	Password *string `mandatory:"false" json:"password"`
+	Password *string `mandatory:"false" json:"password" sensitive:"true"`
 }
 
 func (m UpdateCredentialBasicDetails) String() string {

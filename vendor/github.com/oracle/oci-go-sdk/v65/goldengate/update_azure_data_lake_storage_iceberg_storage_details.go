@@ -33,7 +33,7 @@ type UpdateAzureDataLakeStorageIcebergStorageDetails struct {
 	// Deprecated: This field is deprecated and replaced by "accountKeySecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	AccountKey *string `mandatory:"false" json:"accountKey"`
+	AccountKey *string `mandatory:"false" json:"accountKey" sensitive:"true"`
 
 	// The Azure Blob Storage endpoint where Iceberg data is stored.
 	// e.g.: 'https://my-azure-storage-account.blob.core.windows.net'

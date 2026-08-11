@@ -28,7 +28,7 @@ type CreateIdentityConfigurationDetails struct {
 	ConfidentialApplicationId *string `mandatory:"true" json:"confidentialApplicationId"`
 
 	// Base-64 encoded password for the cluster admin user.
-	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword" sensitive:"true"`
 
 	// The secretId for the clusterAdminPassword.
 	SecretId *string `mandatory:"false" json:"secretId"`

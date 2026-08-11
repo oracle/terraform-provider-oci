@@ -68,6 +68,10 @@ func DatabaseVmClusterUpdateHistoryEntriesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"update_mode": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"update_type": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -170,6 +174,8 @@ func (s *DatabaseVmClusterUpdateHistoryEntriesDataSourceCrud) SetData() error {
 		if r.UpdateId != nil {
 			vmClusterUpdateHistoryEntry["update_id"] = *r.UpdateId
 		}
+
+		vmClusterUpdateHistoryEntry["update_mode"] = r.UpdateMode
 
 		vmClusterUpdateHistoryEntry["update_type"] = r.UpdateType
 

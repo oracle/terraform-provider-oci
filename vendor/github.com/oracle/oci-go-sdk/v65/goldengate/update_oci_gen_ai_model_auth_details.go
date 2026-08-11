@@ -23,7 +23,7 @@ type UpdateOciGenAiModelAuthDetails struct {
 	// Deprecated: This field is deprecated and replaced by "apiKeySecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	ApiKey *string `mandatory:"false" json:"apiKey"`
+	ApiKey *string `mandatory:"false" json:"apiKey" sensitive:"true"`
 
 	// API key secret OCID for the AI model connection.
 	ApiKeySecretId *string `mandatory:"false" json:"apiKeySecretId"`

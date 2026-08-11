@@ -144,6 +144,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"availability_domain": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"backup_retention_period_in_days": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -448,7 +453,17 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"is_disable_ad_update_schedule": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_disable_db_version_upgrade_schedule": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"is_schedule_ad_update_to_earliest": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
@@ -806,6 +821,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeFloat,
 				Computed: true,
 			},
+			"ad_scheduled_for_update": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"additional_attributes": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -835,10 +854,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 						},
 					},
 				},
-			},
-			"availability_domain": {
-				Type:     schema.TypeString,
-				Computed: true,
 			},
 			"key_version_id": {
 				Type:     schema.TypeString,
@@ -1576,7 +1591,15 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_earliest_available_ad_update": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_earliest_available_db_version_upgrade": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_latest_available_ad_update": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -1629,6 +1652,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			"time_reclamation_of_free_autonomous_database": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"time_scheduled_ad_update": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 			},
 			"time_scheduled_db_version_upgrade": {
 				Type:             schema.TypeString,
@@ -2253,6 +2282,27 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) UpdateWithContext(ctx context.C
 		request.DatabaseEdition = oci_database.AutonomousDatabaseSummaryDatabaseEditionEnum(databaseEdition.(string))
 	}
 
+	if timeScheduledAdUpdate, ok := s.D.GetOkExists("time_scheduled_ad_update"); ok && s.D.HasChange("time_scheduled_ad_update") {
+		if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok && s.D.HasChange("availability_domain") {
+			tmpSchTime, err := time.Parse(time.RFC3339, timeScheduledAdUpdate.(string))
+			if err != nil {
+				return err
+			}
+			tmpAd := availabilityDomain.(string)
+			request.TimeScheduledAdUpdate = &oci_common.SDKTime{Time: tmpSchTime}
+			request.AvailabilityDomain = &tmpAd
+		}
+	}
+
+	if isScheduleAdUpdateToEarliest, ok := s.D.GetOkExists("is_schedule_ad_update_to_earliest"); ok && s.D.HasChange("is_schedule_ad_update_to_earliest") {
+		if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok && s.D.HasChange("availability_domain") {
+			tmpSchToEarliest := isScheduleAdUpdateToEarliest.(bool)
+			tmpAd := availabilityDomain.(string)
+			request.IsScheduleAdUpdateToEarliest = &tmpSchToEarliest
+			request.AvailabilityDomain = &tmpAd
+		}
+	}
+
 	if timeScheduledDbVersionUpgrade, ok := s.D.GetOkExists("time_scheduled_db_version_upgrade"); ok && s.D.HasChange("time_scheduled_db_version_upgrade") {
 		if dbVersion, ok := s.D.GetOkExists("db_version"); ok && s.D.HasChange("db_version") {
 			scheduleUgReq := oci_database.UpdateAutonomousDatabaseRequest{}
@@ -2392,6 +2442,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) UpdateWithContext(ctx context.C
 	if isDevTier, ok := s.D.GetOkExists("is_dev_tier"); ok && s.D.HasChange("is_dev_tier") {
 		tmp := isDevTier.(bool)
 		request.IsDevTier = &tmp
+	}
+
+	if isDisableAdUpdateSchedule, ok := s.D.GetOkExists("is_disable_ad_update_schedule"); ok && s.D.HasChange("is_disable_ad_update_schedule") {
+		tmp := isDisableAdUpdateSchedule.(bool)
+		request.IsDisableAdUpdateSchedule = &tmp
 	}
 
 	if isDisableDbVersionUpgradeSchedule, ok := s.D.GetOkExists("is_disable_db_version_upgrade_schedule"); ok && s.D.HasChange("is_disable_db_version_upgrade_schedule") {
@@ -2697,6 +2752,10 @@ func longTermBackupSupressDiff(key string, old string, new string, d *schema.Res
 func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	if s.Res.ActualUsedDataStorageSizeInTBs != nil {
 		s.D.Set("actual_used_data_storage_size_in_tbs", *s.Res.ActualUsedDataStorageSizeInTBs)
+	}
+
+	if s.Res.AdScheduledForUpdate != nil {
+		s.D.Set("ad_scheduled_for_update", *s.Res.AdScheduledForUpdate)
 	}
 
 	s.D.Set("additional_attributes", s.Res.AdditionalAttributes)
@@ -3155,8 +3214,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("time_disaster_recovery_role_changed", s.Res.TimeDisasterRecoveryRoleChanged.String())
 	}
 
+	if s.Res.TimeEarliestAvailableAdUpdate != nil {
+		s.D.Set("time_earliest_available_ad_update", s.Res.TimeEarliestAvailableAdUpdate.String())
+	}
+
 	if s.Res.TimeEarliestAvailableDbVersionUpgrade != nil {
 		s.D.Set("time_earliest_available_db_version_upgrade", s.Res.TimeEarliestAvailableDbVersionUpgrade.String())
+	}
+
+	if s.Res.TimeLatestAvailableAdUpdate != nil {
+		s.D.Set("time_latest_available_ad_update", s.Res.TimeLatestAvailableAdUpdate.String())
 	}
 
 	if s.Res.TimeLatestAvailableDbVersionUpgrade != nil {
@@ -3209,6 +3276,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.TimeReclamationOfFreeAutonomousDatabase != nil {
 		s.D.Set("time_reclamation_of_free_autonomous_database", s.Res.TimeReclamationOfFreeAutonomousDatabase.String())
+	}
+
+	if s.Res.TimeScheduledAdUpdate != nil {
+		s.D.Set("time_scheduled_ad_update", s.Res.TimeScheduledAdUpdate.Format(time.RFC3339))
 	}
 
 	if s.Res.TimeScheduledDbVersionUpgrade != nil {
@@ -4130,6 +4201,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+			tmp := availabilityDomain.(string)
+			details.AvailabilityDomain = &tmp
+		}
 		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
 			tmp := backupRetentionPeriodInDays.(int)
 			details.BackupRetentionPeriodInDays = &tmp
@@ -4474,6 +4549,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+			tmp := availabilityDomain.(string)
+			details.AvailabilityDomain = &tmp
+		}
 		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
 			tmp := backupRetentionPeriodInDays.(int)
 			details.BackupRetentionPeriodInDays = &tmp
@@ -4799,6 +4878,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		}
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
+		}
+		if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+			tmp := availabilityDomain.(string)
+			details.AvailabilityDomain = &tmp
 		}
 		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
 			tmp := backupRetentionPeriodInDays.(int)
@@ -5416,6 +5499,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+			tmp := availabilityDomain.(string)
+			details.AvailabilityDomain = &tmp
+		}
 		if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok {
 			tmp := float32(byolComputeCountLimit.(float64))
 			details.ByolComputeCountLimit = &tmp
@@ -5705,6 +5792,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+			tmp := availabilityDomain.(string)
+			details.AvailabilityDomain = &tmp
+		}
 		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
 			tmp := backupRetentionPeriodInDays.(int)
 			details.BackupRetentionPeriodInDays = &tmp
@@ -5984,6 +6075,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		}
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
+		}
+		if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+			tmp := availabilityDomain.(string)
+			details.AvailabilityDomain = &tmp
 		}
 		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
 			tmp := backupRetentionPeriodInDays.(int)
@@ -6294,6 +6389,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		}
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
+		}
+		if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+			tmp := availabilityDomain.(string)
+			details.AvailabilityDomain = &tmp
 		}
 		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
 			tmp := backupRetentionPeriodInDays.(int)
@@ -6607,6 +6706,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		}
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
+		}
+		if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+			tmp := availabilityDomain.(string)
+			details.AvailabilityDomain = &tmp
 		}
 		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
 			tmp := backupRetentionPeriodInDays.(int)

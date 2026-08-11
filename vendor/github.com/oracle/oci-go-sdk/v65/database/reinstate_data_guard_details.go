@@ -20,7 +20,7 @@ type ReinstateDataGuardDetails struct {
 
 	// The administrator password of the primary database in this Data Guard association.
 	// **The password MUST be the same as the primary admin password.**
-	DatabaseAdminPassword *string `mandatory:"true" json:"databaseAdminPassword"`
+	DatabaseAdminPassword *string `mandatory:"true" json:"databaseAdminPassword" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source (primary) database in the Data Guard group.
 	SourceDatabaseId *string `mandatory:"true" json:"sourceDatabaseId"`

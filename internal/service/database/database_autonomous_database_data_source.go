@@ -74,6 +74,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("actual_used_data_storage_size_in_tbs", *s.Res.ActualUsedDataStorageSizeInTBs)
 	}
 
+	if s.Res.AdScheduledForUpdate != nil {
+		s.D.Set("ad_scheduled_for_update", *s.Res.AdScheduledForUpdate)
+	}
+
 	s.D.Set("additional_attributes", s.Res.AdditionalAttributes)
 
 	if s.Res.AllocatedStorageSizeInTBs != nil {
@@ -510,8 +514,16 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("time_disaster_recovery_role_changed", s.Res.TimeDisasterRecoveryRoleChanged.String())
 	}
 
+	if s.Res.TimeEarliestAvailableAdUpdate != nil {
+		s.D.Set("time_earliest_available_ad_update", s.Res.TimeEarliestAvailableAdUpdate.String())
+	}
+
 	if s.Res.TimeEarliestAvailableDbVersionUpgrade != nil {
 		s.D.Set("time_earliest_available_db_version_upgrade", s.Res.TimeEarliestAvailableDbVersionUpgrade.String())
+	}
+
+	if s.Res.TimeLatestAvailableAdUpdate != nil {
+		s.D.Set("time_latest_available_ad_update", s.Res.TimeLatestAvailableAdUpdate.String())
 	}
 
 	if s.Res.TimeLatestAvailableDbVersionUpgrade != nil {
@@ -564,6 +576,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.TimeReclamationOfFreeAutonomousDatabase != nil {
 		s.D.Set("time_reclamation_of_free_autonomous_database", s.Res.TimeReclamationOfFreeAutonomousDatabase.String())
+	}
+
+	if s.Res.TimeScheduledAdUpdate != nil {
+		s.D.Set("time_scheduled_ad_update", s.Res.TimeScheduledAdUpdate.String())
 	}
 
 	if s.Res.TimeScheduledDbVersionUpgrade != nil {

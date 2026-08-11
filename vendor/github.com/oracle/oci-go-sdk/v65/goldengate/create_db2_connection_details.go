@@ -110,7 +110,7 @@ type CreateDb2ConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "passwordSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	Password *string `mandatory:"false" json:"password"`
+	Password *string `mandatory:"false" json:"password" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored,
 	// that Oracle GoldenGate uses to connect the associated DB2 database.
@@ -126,7 +126,7 @@ type CreateDb2ConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "sslClientKeystoredbSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	SslClientKeystoredb *string `mandatory:"false" json:"sslClientKeystoredb"`
+	SslClientKeystoredb *string `mandatory:"false" json:"sslClientKeystoredb" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the keystore file stored,
 	// which created at the client containing the server certificate / CA root certificate.
@@ -139,7 +139,7 @@ type CreateDb2ConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "sslClientKeystashSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	SslClientKeystash *string `mandatory:"false" json:"sslClientKeystash"`
+	SslClientKeystash *string `mandatory:"false" json:"sslClientKeystash" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the keystash file is stored,
 	// which contains the encrypted password to the key database file.

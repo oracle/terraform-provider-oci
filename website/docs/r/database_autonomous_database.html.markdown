@@ -43,6 +43,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 		maintenance_start_time = var.autonomous_database_autonomous_database_maintenance_window_maintenance_start_time
 	}
 	autonomous_maintenance_schedule_type = var.autonomous_database_autonomous_maintenance_schedule_type
+	availability_domain = var.autonomous_database_availability_domain
 	backup_retention_period_in_days = var.autonomous_database_backup_retention_period_in_days
 	byol_compute_count_limit = var.autonomous_database_byol_compute_count_limit
 	character_set = var.autonomous_database_character_set
@@ -178,6 +179,7 @@ The following arguments are supported:
 		* `name` - (Required) (Updatable) Name of the day of the week.
 	* `maintenance_end_time` - (Optional) (Updatable) The maintenance end time. The value must use the ISO-8601 format "hh:mm".
 	* `maintenance_start_time` - (Optional) (Updatable) The maintenance start time. The value must use the ISO-8601 format "hh:mm".
+* `availability_domain` - (Optional) (Updatable) The Autonomous Database Serverless instance's availability domain.
 * `backup_retention_period_in_days` - (Optional) (Updatable) Retention period, in days, for long-term backups
 * `byol_compute_count_limit` - (Optional) (Updatable) The maximum number of CPUs allowed with a Bring Your Own License (BYOL), including those used for auto-scaling, disaster recovery, tools, etc. Any CPU usage above this limit is considered as License Included and billed.
 * `character_set` - (Optional) The character set for the Autonomous AI Database. The default is AL32UTF8. Allowed values for an Autonomous AI Database Serverless instance as as returned by [List Autonomous AI Database Character Sets](https://docs.oracle.com/iaas/autonomous-database-serverless/doc/autonomous-character-set-selection.html)
@@ -365,6 +367,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `actual_used_data_storage_size_in_tbs` - The current amount of storage in use for user and system data, in terabytes (TB). 
+* `ad_scheduled_for_update` - The Availability Domain which is planned for Scheduled Update
 * `additional_attributes` - Additional attributes for this resource. Each attribute is a simple key-value pair with no predefined name, type, or namespace. Example: `{ "gcpAccountName": "gcpName" }` 
 * `allocated_storage_size_in_tbs` - The amount of storage currently allocated for the database tables and billed for, rounded up. When auto-scaling is not enabled, this value is equal to the `dataStorageSizeInTBs` value. You can compare this value to the `actualUsedDataStorageSizeInTBs` value to determine if a manual shrink operation is appropriate for your allocated storage.
 
@@ -676,7 +679,9 @@ The following attributes are exported:
 * `time_data_guard_role_changed` - The date and time the Autonomous Data Guard role was switched for the Autonomous AI Database. For databases that have standbys in both the primary Data Guard region and a remote Data Guard standby region, this is the latest timestamp of either the database using the "primary" role in the primary Data Guard region, or database located in the remote Data Guard standby region.
 * `time_deletion_of_free_autonomous_database` - The date and time the Always Free database will be automatically deleted because of inactivity. If the database is in the STOPPED state and without activity until this time, it will be deleted. 
 * `time_disaster_recovery_role_changed` - The date and time the Disaster Recovery role was switched for the standby Autonomous AI Database.
+* `time_earliest_available_ad_update` - The earliest date and time to which you can schedule an Autonomous Database availability domain update.
 * `time_earliest_available_db_version_upgrade` - The earliest(min) date and time the Autonomous AI Database can be scheduled to upgrade to 26ai. 
+* `time_latest_available_ad_update` - The latest date and time to which you can schedule an Autonomous Database availability domain update.
 * `time_latest_available_db_version_upgrade` - The max date and time the Autonomous AI Database can be scheduled to upgrade to 26ai. 
 * `time_local_data_guard_enabled` - The date and time that Autonomous Data Guard was enabled for an Autonomous AI Database where the standby was provisioned in the same region as the primary database.
 * `time_maintenance_begin` - The date and time when maintenance will begin.
@@ -689,7 +694,8 @@ The following attributes are exported:
 * `time_of_last_refresh_point` - The refresh point timestamp (UTC). The refresh point is the time to which the database was most recently refreshed. Data created after the refresh point is not included in the refresh.
 * `time_of_last_switchover` - The timestamp of the last switchover operation for the Autonomous AI Database.
 * `time_of_next_refresh` - The date and time of next refresh.
-* `time_reclamation_of_free_autonomous_database` - The date and time the Always Free database will be stopped because of inactivity. If this time is reached without any database activity, the database will automatically be put into the STOPPED state.
+* `time_reclamation_of_free_autonomous_database` - The date and time the Always Free database will be stopped because of inactivity. If this time is reached without any database activity, the database will automatically be put into the STOPPED state. 
+* `time_scheduled_ad_update` - The date and time to which the Autonomous Database availability domain update is scheduled.
 * `time_scheduled_db_version_upgrade` - The date and time the Autonomous AI Database scheduled to upgrade to 26ai. 
 * `time_undeleted` - The date and time the Autonomous AI Database was most recently undeleted.
 * `time_until_reconnect_clone_enabled` - The time and date as an RFC3339 formatted string, e.g., 2022-01-01T12:00:00.000Z, to set the limit for a refreshable clone to be reconnected to its source database.

@@ -22,7 +22,7 @@ type CreateAdminCredentials struct {
 	Username *string `mandatory:"true" json:"username"`
 
 	// Administrator password
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 }
 
 func (m CreateAdminCredentials) String() string {

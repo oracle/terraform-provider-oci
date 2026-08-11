@@ -109,7 +109,7 @@ type CreateRedisConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "passwordSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	Password *string `mandatory:"false" json:"password"`
+	Password *string `mandatory:"false" json:"password" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored.
 	// The password Oracle GoldenGate uses to connect the associated system of the given technology.
@@ -122,7 +122,7 @@ type CreateRedisConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "trustStoreSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	TrustStore *string `mandatory:"false" json:"trustStore"`
+	TrustStore *string `mandatory:"false" json:"trustStore" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the TrustStore file.
 	// Note: When provided, 'trustStore' field must not be provided.
@@ -132,7 +132,7 @@ type CreateRedisConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "trustStorePasswordSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	TrustStorePassword *string `mandatory:"false" json:"trustStorePassword"`
+	TrustStorePassword *string `mandatory:"false" json:"trustStorePassword" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the Redis TrustStore password is stored.
 	// Note: When provided, 'trustStorePassword' field must not be provided.
@@ -142,7 +142,7 @@ type CreateRedisConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "keyStoreSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	KeyStore *string `mandatory:"false" json:"keyStore"`
+	KeyStore *string `mandatory:"false" json:"keyStore" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the KeyStore file.
 	// Note: When provided, 'keyStore' field must not be provided.
@@ -152,7 +152,7 @@ type CreateRedisConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "keyStorePasswordSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	KeyStorePassword *string `mandatory:"false" json:"keyStorePassword"`
+	KeyStorePassword *string `mandatory:"false" json:"keyStorePassword" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the Redis KeyStore password is stored.
 	// Note: When provided, 'keyStorePassword' field must not be provided.

@@ -47,7 +47,7 @@ type CreateOssChannelDetails struct {
 	StreamPoolId *string `mandatory:"true" json:"streamPoolId"`
 
 	// The authentication token to use when connecting to the Oracle Streaming Service.
-	AuthToken *string `mandatory:"true" json:"authToken"`
+	AuthToken *string `mandatory:"true" json:"authToken" sensitive:"true"`
 
 	// A short description of the Channel.
 	Description *string `mandatory:"false" json:"description"`

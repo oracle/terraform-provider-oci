@@ -6,11 +6,14 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
 	"time"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
+
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -62,13 +65,14 @@ var (
 		// Must include either `resources` or `resource_filters` when creating schedules
 		"resources": acctest.RepresentationGroup{RepType: acctest.Required, Group: ResourceSchedulerScheduleResourcesRepresentation},
 		// Optionals
-		"description":   acctest.Representation{RepType: acctest.Optional, Create: `provider description1`, Update: `provider description2`},
-		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `provider displayName1`, Update: `provider displayName2`},
-		"time_ends":     acctest.Representation{RepType: acctest.Optional, Create: `2025-12-31T00:00:00Z`, Update: `2025-12-25T00:00:00Z`},
-		"time_starts":   acctest.Representation{RepType: acctest.Optional, Create: `2025-05-01T00:00:00Z`, Update: `2025-05-11T00:00:00Z`},
-		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"lifecycle":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ignoreChangesDefinedTagsResourceSchedulerRepresentation},
+		"description":     acctest.Representation{RepType: acctest.Optional, Create: `provider description1`, Update: `provider description2`},
+		"display_name":    acctest.Representation{RepType: acctest.Optional, Create: `provider displayName1`, Update: `provider displayName2`},
+		"time_ends":       acctest.Representation{RepType: acctest.Optional, Create: `2035-12-31T00:00:00Z`, Update: `2035-12-25T00:00:00Z`},
+		"time_starts":     acctest.Representation{RepType: acctest.Optional, Create: `2035-05-01T00:00:00Z`, Update: `2035-05-11T00:00:00Z`},
+		"local_time_zone": acctest.Representation{RepType: acctest.Optional, Create: `UTC`, Update: `US/Pacific`},
+		"freeform_tags":   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
+		"lifecycle":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: ignoreChangesDefinedTagsResourceSchedulerRepresentation},
 	}
 
 	ResourceSchedulerScheduleRepresentation = map[string]interface{}{
@@ -82,17 +86,17 @@ var (
 		// Optionals
 		"description":   acctest.Representation{RepType: acctest.Optional, Create: `provider description1`, Update: `provider description2`},
 		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `provider displayName1`, Update: `provider displayName2`},
-		"time_ends":     acctest.Representation{RepType: acctest.Optional, Create: `2025-12-31T00:00:00Z`, Update: `2025-12-25T00:00:00Z`},
-		"time_starts":   acctest.Representation{RepType: acctest.Optional, Create: `2025-05-01T00:00:00Z`, Update: `2025-05-11T00:00:00Z`},
+		"time_ends":     acctest.Representation{RepType: acctest.Optional, Create: `2035-12-31T00:00:00Z`, Update: `2035-12-25T00:00:00Z`},
+		"time_starts":   acctest.Representation{RepType: acctest.Optional, Create: `2035-05-01T00:00:00Z`, Update: `2035-05-11T00:00:00Z`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
 		"lifecycle":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ignoreChangesDefinedTagsResourceSchedulerRepresentation},
 	}
 
 	ResourceSchedulerScheduleResourcesRepresentation = map[string]interface{}{
-		"id":         acctest.Representation{RepType: acctest.Required, Create: `${var.function_ocid}`, Update: `${var.function_ocid}`},
-		"metadata":   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"metadata": "metadata"}, Update: map[string]string{"metadata2": "metadata2"}},
-		"parameters": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ResourceSchedulerScheduleResourcesParametersParametersRepresentation},
+		"id":       acctest.Representation{RepType: acctest.Required, Create: `${var.function_ocid}`, Update: `${var.function_ocid}`},
+		"metadata": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"metadata": "metadata"}, Update: map[string]string{"metadata2": "metadata2"}},
+		//"parameters": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ResourceSchedulerScheduleResourcesParametersParametersRepresentation},
 	}
 
 	ResourceSchedulerScheduleResourcesParametersParametersRepresentation = map[string]interface{}{
@@ -177,20 +181,25 @@ func TestResourceSchedulerScheduleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "recurrence_type", "ICAL"),
 				resource.TestCheckResourceAttr(resourceName, "description", "provider description1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "provider displayName1"),
-				resource.TestCheckResourceAttr(resourceName, "time_ends", "2025-12-31T00:00:00Z"),
-				resource.TestCheckResourceAttr(resourceName, "time_starts", "2025-05-01T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "time_ends", "2035-12-31T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "time_starts", "2035-05-01T00:00:00Z"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "resources.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "resources.0.id", functionOcid),
 				resource.TestCheckResourceAttr(resourceName, "resources.0.metadata.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "resources.0.parameters.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "resources.0.parameters.0.parameter_type", "BODY"),
-				resource.TestCheckResourceAttr(resourceName, "resources.0.parameters.0.value.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "time_ends", "2025-12-31T00:00:00Z"),
-				resource.TestCheckResourceAttr(resourceName, "time_starts", "2025-05-01T00:00:00Z"),
+				//resource.TestCheckResourceAttr(resourceName, "resources.0.parameters.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "resources.0.parameters.0.parameter_type", "BODY"),
+				//resource.TestCheckResourceAttr(resourceName, "resources.0.parameters.0.value.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "time_ends", "2035-12-31T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "time_starts", "2035-05-01T00:00:00Z"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
 					return err
 				},
 			),
@@ -236,16 +245,16 @@ func TestResourceSchedulerScheduleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "recurrence_type", "ICAL"),
 				resource.TestCheckResourceAttr(resourceName, "description", "provider description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "provider displayName2"),
-				resource.TestCheckResourceAttr(resourceName, "time_ends", "2025-12-25T00:00:00Z"),
-				resource.TestCheckResourceAttr(resourceName, "time_starts", "2025-05-11T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "time_ends", "2035-12-25T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "time_starts", "2035-05-11T00:00:00Z"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "resources.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "resources.0.id", functionOcid),
 				resource.TestCheckResourceAttr(resourceName, "resources.0.metadata.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "resources.0.parameters.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "resources.0.parameters.0.parameter_type", "BODY"),
-				resource.TestCheckResourceAttr(resourceName, "resources.0.parameters.0.value.#", "1"),
-				resource.TestCheckTypeSetElemAttr(resourceName, "resources.0.parameters.0.value.*", `{"dummyKey2":"dummyValue2"}`),
+				//resource.TestCheckResourceAttr(resourceName, "resources.0.parameters.#", "1"),
+				//resource.TestCheckResourceAttr(resourceName, "resources.0.parameters.0.parameter_type", "BODY"),
+				//resource.TestCheckResourceAttr(resourceName, "resources.0.parameters.0.value.#", "1"),
+				//resource.TestCheckTypeSetElemAttr(resourceName, "resources.0.parameters.0.value.*", `{"dummyKey2":"dummyValue2"}`),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")

@@ -22,7 +22,7 @@ type EnableAiFeatureDetails struct {
 	VectorDbId *string `mandatory:"false" json:"vectorDbId"`
 
 	// The Vector DB Lakehouse 26ai ADMIN user password.
-	VectorDbAdminCred *string `mandatory:"false" json:"vectorDbAdminCred"`
+	VectorDbAdminCred *string `mandatory:"false" json:"vectorDbAdminCred" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OCI Vault secret holding the vector db Lakehouse 26ai Admin user password.
 	VectorDbAdminSecretId *string `mandatory:"false" json:"vectorDbAdminSecretId"`

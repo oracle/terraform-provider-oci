@@ -15,6 +15,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -33,10 +34,10 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("12h"),
 			Delete: tfresource.GetTimeoutDuration("12h"),
 		},
-		Create: createDatabaseCloudVmCluster,
-		Read:   readDatabaseCloudVmCluster,
-		Update: updateDatabaseCloudVmCluster,
-		Delete: deleteDatabaseCloudVmCluster,
+		CreateContext: createDatabaseCloudVmClusterWithContext,
+		ReadContext:   readDatabaseCloudVmClusterWithContext,
+		UpdateContext: updateDatabaseCloudVmClusterWithContext,
+		DeleteContext: deleteDatabaseCloudVmClusterWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"backup_subnet_id": {
@@ -176,6 +177,28 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 						},
 
 						// Computed
+					},
+				},
+			},
+			"update_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"update_action": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"update_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"update_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
 					},
 				},
 			},
@@ -479,6 +502,35 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"live_image_version_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"has_pending_updates": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"time_released": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"update_mode": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"multi_cloud_identity_connector_configs": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -503,6 +555,10 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 			"node_count": {
 				Type:     schema.TypeInt,
 				Optional: true,
+				Computed: true,
+			},
+			"oracle_linux_version": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"scan_dns_name": {
@@ -574,41 +630,41 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 	}
 }
 
-func createDatabaseCloudVmCluster(d *schema.ResourceData, m interface{}) error {
+func createDatabaseCloudVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readDatabaseCloudVmCluster(d *schema.ResourceData, m interface{}) error {
+func readDatabaseCloudVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateDatabaseCloudVmCluster(d *schema.ResourceData, m interface{}) error {
+func updateDatabaseCloudVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteDatabaseCloudVmCluster(d *schema.ResourceData, m interface{}) error {
+func deleteDatabaseCloudVmClusterWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &DatabaseCloudVmClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type DatabaseCloudVmClusterResourceCrud struct {
@@ -670,7 +726,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) UpdatedTarget() []string {
 	}
 }
 
-func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
+func (s *DatabaseCloudVmClusterResourceCrud) CreateWithContext(ctx context.Context) error {
 
 	if _, ok := s.D.GetOkExists("tde_key_store_type"); ok {
 		return fmt.Errorf("[ERROR] Unable to specify tde_key_store_type during create")
@@ -935,7 +991,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.CreateCloudVmCluster(context.Background(), request)
+	response, err := s.Client.CreateCloudVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -948,7 +1004,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -958,7 +1014,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 	return nil
 }
 
-func (s *DatabaseCloudVmClusterResourceCrud) Get() error {
+func (s *DatabaseCloudVmClusterResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_database.GetCloudVmClusterRequest{}
 
 	tmp := s.D.Id()
@@ -966,7 +1022,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.GetCloudVmCluster(context.Background(), request)
+	response, err := s.Client.GetCloudVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -975,11 +1031,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
+func (s *DatabaseCloudVmClusterResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
-			err := s.updateCompartment(compartment)
+			err := s.updateCompartment(ctx, compartment)
 			if err != nil {
 				return err
 			}
@@ -1012,12 +1068,46 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 		}
 	}
 
+	if updateDetails, ok := s.D.GetOkExists("update_details"); ok && s.D.HasChange("update_details") {
+		if tmpList := updateDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "update_details", 0)
+			tmp, err := s.mapToUpdateDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.UpdateDetails = &tmp
+		}
+	}
+
 	tmp := s.D.Id()
 	request.CloudVmClusterId = &tmp
 
+	if request.UpdateDetails != nil {
+		updateDetails := request.UpdateDetails
+		request = oci_database.UpdateCloudVmClusterRequest{CloudVmClusterId: request.CloudVmClusterId}
+		request.UpdateDetails = updateDetails
+		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+		response, err := s.Client.UpdateCloudVmCluster(context.Background(), request)
+		if err != nil {
+			return err
+		}
+
+		workId := response.OpcWorkRequestId
+		if workId != nil {
+			_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+			if err != nil {
+				return err
+			}
+		}
+
+		s.Res = &response.CloudVmCluster
+		return nil
+	}
+
 	if cloudExadataInfrastructureId, ok := s.D.GetOkExists("cloud_exadata_infrastructure_id"); ok {
 		if s.Infra == nil || s.Infra.Id == nil {
-			err := s.getInfraInfo(cloudExadataInfrastructureId.(string))
+			err := s.getInfraInfo(ctx, cloudExadataInfrastructureId.(string))
 			if err != nil {
 				log.Printf("[ERROR] Could not get Cloud Exadata Infrastructure info for the : %v", err)
 			}
@@ -1037,7 +1127,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 						flexShape := shape.(string) + ".StorageServer"
 
 						if compartmentId, compOk := s.D.GetOkExists("compartment_id"); compOk {
-							flex, err := s.flexAvailableDbStorageInGBs(compartmentId.(string), flexShape)
+							flex, err := s.flexAvailableDbStorageInGBs(ctx, compartmentId.(string), flexShape)
 
 							if err == nil {
 								if storageSizeInGBs, ok := s.D.GetOkExists("storage_size_in_gbs"); ok && s.D.HasChange("storage_size_in_gbs") {
@@ -1188,14 +1278,14 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateCloudVmCluster(context.Background(), request)
+	response, err := s.Client.UpdateCloudVmCluster(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -1209,28 +1299,28 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 		switch strings.ToLower(tdeKeyStoreType) {
 		case strings.ToLower("NONE"):
 			if oldRaw != "" {
-				err := s.UnregisterCloudVmClusterPkcs(oldRaw.(string))
+				err := s.UnregisterCloudVmClusterPkcs(ctx, oldRaw.(string))
 				if err != nil {
 					return err
 				}
 			}
 		case strings.ToLower("AWS"):
-			err := s.RegisterCloudVmClusterPkcs(newRaw.(string))
+			err := s.RegisterCloudVmClusterPkcs(ctx, newRaw.(string))
 			if err != nil {
 				return err
 			}
 		case strings.ToLower("AZURE"):
-			err := s.RegisterCloudVmClusterPkcs(newRaw.(string))
+			err := s.RegisterCloudVmClusterPkcs(ctx, newRaw.(string))
 			if err != nil {
 				return err
 			}
 		case strings.ToLower("GCP"):
-			err := s.RegisterCloudVmClusterPkcs(newRaw.(string))
+			err := s.RegisterCloudVmClusterPkcs(ctx, newRaw.(string))
 			if err != nil {
 				return err
 			}
 		case strings.ToLower("OCI"):
-			err := s.RegisterCloudVmClusterPkcs(newRaw.(string))
+			err := s.RegisterCloudVmClusterPkcs(ctx, newRaw.(string))
 			if err != nil {
 				return err
 			}
@@ -1242,7 +1332,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 	return nil
 }
 
-func (s *DatabaseCloudVmClusterResourceCrud) Delete() error {
+func (s *DatabaseCloudVmClusterResourceCrud) DeleteWithContext(ctx context.Context) error {
 	request := oci_database.DeleteCloudVmClusterRequest{}
 
 	tmp := s.D.Id()
@@ -1250,7 +1340,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Delete() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.DeleteCloudVmCluster(context.Background(), request)
+	_, err := s.Client.DeleteCloudVmCluster(ctx, request)
 	return err
 }
 
@@ -1387,6 +1477,12 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 		s.D.Set("listener_port", strconv.FormatInt(*s.Res.ListenerPort, 10))
 	}
 
+	if s.Res.LiveImageVersionDetails != nil {
+		s.D.Set("live_image_version_details", []interface{}{exadataLiveImageVersionDetailsToMap(s.Res.LiveImageVersionDetails)})
+	} else {
+		s.D.Set("live_image_version_details", nil)
+	}
+
 	if s.Res.MemorySizeInGBs != nil {
 		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
 	}
@@ -1411,6 +1507,9 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 		s.D.Set("reco_storage_percentage", *s.Res.RecoStoragePercentage)
 	}
 
+	if s.Res.OracleLinuxVersion != nil {
+		s.D.Set("oracle_linux_version", *s.Res.OracleLinuxVersion)
+	}
 	if s.Res.ScanDnsName != nil {
 		s.D.Set("scan_dns_name", *s.Res.ScanDnsName)
 	}
@@ -1498,7 +1597,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *DatabaseCloudVmClusterResourceCrud) RegisterCloudVmClusterPkcs(tdeKeyStoreType string) error {
+func (s *DatabaseCloudVmClusterResourceCrud) RegisterCloudVmClusterPkcs(ctx context.Context, tdeKeyStoreType string) error {
 	request := oci_database.RegisterCloudVmClusterPkcsRequest{}
 
 	idTmp := s.D.Id()
@@ -1508,27 +1607,27 @@ func (s *DatabaseCloudVmClusterResourceCrud) RegisterCloudVmClusterPkcs(tdeKeySt
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.RegisterCloudVmClusterPkcs(context.Background(), request)
+	response, err := s.Client.RegisterCloudVmClusterPkcs(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
-	err = s.Get()
+	err = s.GetWithContext(ctx)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (s *DatabaseCloudVmClusterResourceCrud) UnregisterCloudVmClusterPkcs(tdeKeyStoreType string) error {
+func (s *DatabaseCloudVmClusterResourceCrud) UnregisterCloudVmClusterPkcs(ctx context.Context, tdeKeyStoreType string) error {
 	request := oci_database.UnregisterCloudVmClusterPkcsRequest{}
 
 	idTmp := s.D.Id()
@@ -1538,20 +1637,20 @@ func (s *DatabaseCloudVmClusterResourceCrud) UnregisterCloudVmClusterPkcs(tdeKey
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UnregisterCloudVmClusterPkcs(context.Background(), request)
+	response, err := s.Client.UnregisterCloudVmClusterPkcs(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "cloudVmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
 	}
 
-	err = s.Get()
+	err = s.GetWithContext(ctx)
 	if err != nil {
 		return err
 	}
@@ -1656,6 +1755,25 @@ func (s *DatabaseCloudVmClusterResourceCrud) mapToCloudAutomationUpdateDetails(f
 	return result, nil
 }
 
+func (s *DatabaseCloudVmClusterResourceCrud) mapToUpdateDetails(fieldKeyFormat string) (oci_database.UpdateDetails, error) {
+	result := oci_database.UpdateDetails{}
+
+	if updateAction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "update_action")); ok {
+		result.UpdateAction = oci_database.UpdateDetailsUpdateActionEnum(updateAction.(string))
+	}
+
+	if updateId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "update_id")); ok {
+		tmp := updateId.(string)
+		result.UpdateId = &tmp
+	}
+
+	if updateMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "update_mode")); ok {
+		result.UpdateMode = oci_database.UpdateDetailsUpdateModeEnum(updateMode.(string))
+	}
+
+	return result, nil
+}
+
 func CloudAutomationUpdateDetailsToMap(obj *oci_database.CloudAutomationUpdateDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -1699,7 +1817,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) mapToDataCollectionOptions(fieldKey
 	return result, nil
 }
 
-func (s *DatabaseCloudVmClusterResourceCrud) updateCompartment(compartment interface{}) error {
+func (s *DatabaseCloudVmClusterResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
 	changeCompartmentRequest := oci_database.ChangeCloudVmClusterCompartmentRequest{}
 
 	idTmp := s.D.Id()
@@ -1710,12 +1828,12 @@ func (s *DatabaseCloudVmClusterResourceCrud) updateCompartment(compartment inter
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.ChangeCloudVmClusterCompartment(context.Background(), changeCompartmentRequest)
+	_, err := s.Client.ChangeCloudVmClusterCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+	if waitErr := tfresource.WaitForUpdatedStateWithContext(ctx, s.D, s); waitErr != nil {
 		return waitErr
 	}
 
@@ -1764,13 +1882,13 @@ func IdentityConnectorDetailsToMap(obj oci_database.IdentityConnectorDetails) ma
 	return result
 }
 
-func (s *DatabaseCloudVmClusterResourceCrud) flexAvailableDbStorageInGBs(compartmentId string, shapeName string) (int, error) {
+func (s *DatabaseCloudVmClusterResourceCrud) flexAvailableDbStorageInGBs(ctx context.Context, compartmentId string, shapeName string) (int, error) {
 	request := oci_database.ListFlexComponentsRequest{}
 	request.CompartmentId = &compartmentId
 	request.Name = &shapeName
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListFlexComponents(context.Background(), request)
+	response, err := s.Client.ListFlexComponents(ctx, request)
 	if err != nil {
 		return 0, err
 	}
@@ -1781,12 +1899,32 @@ func (s *DatabaseCloudVmClusterResourceCrud) flexAvailableDbStorageInGBs(compart
 	return 0, fmt.Errorf("No flex component found for compartment")
 }
 
-func (s *DatabaseCloudVmClusterResourceCrud) getInfraInfo(ceiId string) error {
+func exadataLiveImageVersionDetailsToMap(obj *oci_database.ExadataLiveImageVersionDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.HasPendingUpdates != nil {
+		result["has_pending_updates"] = bool(*obj.HasPendingUpdates)
+	}
+
+	if obj.TimeReleased != nil {
+		result["time_released"] = obj.TimeReleased.String()
+	}
+
+	result["update_mode"] = string(obj.UpdateMode)
+
+	if obj.Version != nil {
+		result["version"] = string(*obj.Version)
+	}
+
+	return result
+}
+
+func (s *DatabaseCloudVmClusterResourceCrud) getInfraInfo(ctx context.Context, ceiId string) error {
 	request := oci_database.GetCloudExadataInfrastructureRequest{}
 
 	request.CloudExadataInfrastructureId = &ceiId
 
-	response, err := s.Client.GetCloudExadataInfrastructure(context.Background(), request)
+	response, err := s.Client.GetCloudExadataInfrastructure(ctx, request)
 	if err != nil {
 		return err
 	}

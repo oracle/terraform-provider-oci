@@ -22,7 +22,7 @@ type ExtractDetailsSummary struct {
 	ParUrl *string `mandatory:"true" json:"parUrl"`
 
 	// The password to decrypt data extract.
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 
 	// The time when the data extract was requested. An RFC3339 formatted datetime string
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`

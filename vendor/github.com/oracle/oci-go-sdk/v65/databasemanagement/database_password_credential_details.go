@@ -22,7 +22,7 @@ import (
 type DatabasePasswordCredentialDetails struct {
 
 	// The database user's password encoded using BASE64 scheme.
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 
 	// The user to connect to the database.
 	Username *string `mandatory:"false" json:"username"`

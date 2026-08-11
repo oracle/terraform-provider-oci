@@ -50,10 +50,10 @@ type MaskDataDetails struct {
 	IsIgnoreErrorsEnabled *bool `mandatory:"false" json:"isIgnoreErrorsEnabled"`
 
 	// The seed value to be used in case of Deterministic Encryption and Deterministic Substitution masking formats.
-	Seed *string `mandatory:"false" json:"seed"`
+	Seed *string `mandatory:"false" json:"seed" sensitive:"true"`
 
 	// The seed value to be used in case of User Defined Function masking format. This is an optional parameter and needs to be passed only if any User Defined Function uses seed.
-	UserDefinedFunctionSeed *string `mandatory:"false" json:"userDefinedFunctionSeed"`
+	UserDefinedFunctionSeed *string `mandatory:"false" json:"userDefinedFunctionSeed" sensitive:"true"`
 
 	// Indicates if the interim DMASK tables should be moved to the user-specified tablespace. As interim tables can be large in size,
 	// set it to false if moving them causes performance overhead during masking.

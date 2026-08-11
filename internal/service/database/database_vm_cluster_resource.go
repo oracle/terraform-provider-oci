@@ -151,6 +151,28 @@ func DatabaseVmClusterResource() *schema.Resource {
 					},
 				},
 			},
+			"update_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"update_action": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"update_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"update_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+					},
+				},
+			},
 			"data_collection_options": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -340,8 +362,41 @@ func DatabaseVmClusterResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"live_image_version_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"has_pending_updates": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"time_released": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"update_mode": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"ocpus_enabled": {
 				Type:     schema.TypeFloat,
+				Computed: true,
+			},
+			"oracle_linux_version": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"shape": {
@@ -698,6 +753,17 @@ func (s *DatabaseVmClusterResourceCrud) UpdateWithContext(ctx context.Context) e
 		}
 	}
 
+	if updateDetails, ok := s.D.GetOkExists("update_details"); ok && s.D.HasChange("update_details") {
+		if tmpList := updateDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "update_details", 0)
+			tmp, err := s.mapToVmClusterUpdateDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.UpdateDetails = &tmp
+		}
+	}
+
 	if cpuCoreCount, ok := s.D.GetOkExists("cpu_core_count"); ok && s.D.HasChange("cpu_core_count") {
 		tmp := cpuCoreCount.(int)
 		request.CpuCoreCount = &tmp
@@ -817,6 +883,29 @@ func (s *DatabaseVmClusterResourceCrud) UpdateWithContext(ctx context.Context) e
 	tmp := s.D.Id()
 	request.VmClusterId = &tmp
 
+	if request.UpdateDetails != nil {
+		updateDetails := request.UpdateDetails
+		request = oci_database.UpdateVmClusterRequest{VmClusterId: request.VmClusterId}
+		request.UpdateDetails = updateDetails
+		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+		response, err := s.Client.UpdateVmCluster(ctx, request)
+		if err != nil {
+			return err
+		}
+
+		workId := response.OpcWorkRequestId
+		if workId != nil {
+			_, err = tfresource.WaitForWorkRequestWithErrorHandlingAndContext(ctx, s.WorkRequestClient, workId, "vmCluster", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+			if err != nil {
+				return err
+			}
+		}
+
+		s.Res = &response.VmCluster
+		return nil
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.UpdateVmCluster(ctx, request)
@@ -932,6 +1021,12 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.LiveImageVersionDetails != nil {
+		s.D.Set("live_image_version_details", []interface{}{exadataLiveImageVersionDetailsToMap(s.Res.LiveImageVersionDetails)})
+	} else {
+		s.D.Set("live_image_version_details", nil)
+	}
+
 	if s.Res.MemorySizeInGBs != nil {
 		s.D.Set("memory_size_in_gbs", *s.Res.MemorySizeInGBs)
 	}
@@ -942,6 +1037,10 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 
 	if s.Res.RecoStoragePercentage != nil {
 		s.D.Set("reco_storage_percentage", *s.Res.RecoStoragePercentage)
+	}
+
+	if s.Res.OracleLinuxVersion != nil {
+		s.D.Set("oracle_linux_version", *s.Res.OracleLinuxVersion)
 	}
 
 	if s.Res.Shape != nil {
@@ -1084,6 +1183,25 @@ func (s *DatabaseVmClusterResourceCrud) mapToCloudAutomationUpdateDetails(fieldK
 	if isFreezePeriodEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_freeze_period_enabled")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "is_freeze_period_enabled")) {
 		tmp := isFreezePeriodEnabled.(bool)
 		result.IsFreezePeriodEnabled = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseVmClusterResourceCrud) mapToVmClusterUpdateDetails(fieldKeyFormat string) (oci_database.VmClusterUpdateDetails, error) {
+	result := oci_database.VmClusterUpdateDetails{}
+
+	if updateAction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "update_action")); ok {
+		result.UpdateAction = oci_database.VmClusterUpdateDetailsUpdateActionEnum(updateAction.(string))
+	}
+
+	if updateId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "update_id")); ok {
+		tmp := updateId.(string)
+		result.UpdateId = &tmp
+	}
+
+	if updateMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "update_mode")); ok {
+		result.UpdateMode = oci_database.VmClusterUpdateDetailsUpdateModeEnum(updateMode.(string))
 	}
 
 	return result, nil

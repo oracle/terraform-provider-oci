@@ -24,7 +24,7 @@ type RestCredential struct {
 	Username *string `mandatory:"true" json:"username"`
 
 	// The password of the user.
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 
 	// The SSL truststore type.
 	SslTrustStoreType RestCredentialSslTrustStoreTypeEnum `mandatory:"false" json:"sslTrustStoreType,omitempty"`
@@ -33,7 +33,7 @@ type RestCredential struct {
 	SslTrustStoreLocation *string `mandatory:"false" json:"sslTrustStoreLocation"`
 
 	// The password of the SSL truststore location in the agent.
-	SslTrustStorePassword *string `mandatory:"false" json:"sslTrustStorePassword"`
+	SslTrustStorePassword *string `mandatory:"false" json:"sslTrustStorePassword" sensitive:"true"`
 }
 
 func (m RestCredential) String() string {

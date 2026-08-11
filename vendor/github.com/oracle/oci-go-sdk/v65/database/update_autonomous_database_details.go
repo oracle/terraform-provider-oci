@@ -79,6 +79,18 @@ type UpdateAutonomousDatabaseDetails struct {
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isLocalDataGuardEnabled
 	IsFreeTier *bool `mandatory:"false" json:"isFreeTier"`
 
+	// The Autonomous Database Serverless instance's availability domain.
+	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
+
+	// The date and time when the Autonomous Database availability domain is to be updated.
+	TimeScheduledAdUpdate *common.SDKTime `mandatory:"false" json:"timeScheduledAdUpdate"`
+
+	// True, if you want to disable Autonomous Database availability domain scheduled update.
+	IsDisableAdUpdateSchedule *bool `mandatory:"false" json:"isDisableAdUpdateSchedule"`
+
+	// True, if you want to schedule Autonomous Database availability domain update to the earliest available time.
+	IsScheduleAdUpdateToEarliest *bool `mandatory:"false" json:"isScheduleAdUpdateToEarliest"`
+
 	// The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing. It must be different from the last four passwords and it must not be a password used within the last 24 hours.
 	// This cannot be used in conjunction with with OCI vault secrets (secretId).
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, whitelistedIps, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, or isFreeTier.
@@ -374,6 +386,10 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		DataStorageSizeInGBs                 *int                                                                 `json:"dataStorageSizeInGBs"`
 		DisplayName                          *string                                                              `json:"displayName"`
 		IsFreeTier                           *bool                                                                `json:"isFreeTier"`
+		AvailabilityDomain                   *string                                                              `json:"availabilityDomain"`
+		TimeScheduledAdUpdate                *common.SDKTime                                                      `json:"timeScheduledAdUpdate"`
+		IsDisableAdUpdateSchedule            *bool                                                                `json:"isDisableAdUpdateSchedule"`
+		IsScheduleAdUpdateToEarliest         *bool                                                                `json:"isScheduleAdUpdateToEarliest"`
 		AdminPassword                        *string                                                              `json:"adminPassword"`
 		DbName                               *string                                                              `json:"dbName"`
 		FreeformTags                         map[string]string                                                    `json:"freeformTags"`
@@ -455,6 +471,14 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.IsFreeTier = model.IsFreeTier
+
+	m.AvailabilityDomain = model.AvailabilityDomain
+
+	m.TimeScheduledAdUpdate = model.TimeScheduledAdUpdate
+
+	m.IsDisableAdUpdateSchedule = model.IsDisableAdUpdateSchedule
+
+	m.IsScheduleAdUpdateToEarliest = model.IsScheduleAdUpdateToEarliest
 
 	m.AdminPassword = model.AdminPassword
 

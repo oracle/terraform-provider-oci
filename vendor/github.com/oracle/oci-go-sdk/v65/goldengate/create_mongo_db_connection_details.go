@@ -105,7 +105,7 @@ type CreateMongoDbConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "passwordSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	Password *string `mandatory:"false" json:"password"`
+	Password *string `mandatory:"false" json:"password" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the password Oracle GoldenGate uses to connect the associated database.
 	// Note: When provided, 'password' field must not be provided.
@@ -122,7 +122,7 @@ type CreateMongoDbConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "tlsCertificateKeyFileSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	TlsCertificateKeyFile *string `mandatory:"false" json:"tlsCertificateKeyFile"`
+	TlsCertificateKeyFile *string `mandatory:"false" json:"tlsCertificateKeyFile" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the certificate key file of the mtls connection.
 	// - The content of a .pem file containing the client private key (for 2-way SSL).
@@ -133,7 +133,7 @@ type CreateMongoDbConnectionDetails struct {
 	// Deprecated: This field is deprecated and replaced by "tlsCertificateKeyFilePasswordSecretId".
 	// This change follows the GoldenGate "Plain Text Fields in Connections" deprecation:
 	// https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#servicechanges_topic-GoldenGate
-	TlsCertificateKeyFilePassword *string `mandatory:"false" json:"tlsCertificateKeyFilePassword"`
+	TlsCertificateKeyFilePassword *string `mandatory:"false" json:"tlsCertificateKeyFilePassword" sensitive:"true"`
 
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret that stores the password of the tls certificate key file.
 	// Note: When provided, 'tlsCertificateKeyFilePassword' field must not be provided.

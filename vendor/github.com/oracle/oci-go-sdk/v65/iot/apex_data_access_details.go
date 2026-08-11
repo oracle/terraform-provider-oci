@@ -21,7 +21,7 @@ import (
 type ApexDataAccessDetails struct {
 
 	// Initial admin password for APEX workspace associated with the IoT domain.
-	DbWorkspaceAdminInitialPassword *string `mandatory:"true" json:"dbWorkspaceAdminInitialPassword"`
+	DbWorkspaceAdminInitialPassword *string `mandatory:"true" json:"dbWorkspaceAdminInitialPassword" sensitive:"true"`
 }
 
 func (m ApexDataAccessDetails) String() string {

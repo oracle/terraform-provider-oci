@@ -75,6 +75,11 @@ func ResourceSchedulerScheduleResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"local_time_zone": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"resource_filters": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -403,6 +408,11 @@ func (s *ResourceSchedulerScheduleResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if localTimeZone, ok := s.D.GetOkExists("local_time_zone"); ok {
+		tmp := localTimeZone.(string)
+		request.LocalTimeZone = &tmp
+	}
+
 	if recurrenceDetails, ok := s.D.GetOkExists("recurrence_details"); ok {
 		tmp := recurrenceDetails.(string)
 		request.RecurrenceDetails = &tmp
@@ -672,6 +682,11 @@ func (s *ResourceSchedulerScheduleResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if localTimeZone, ok := s.D.GetOkExists("local_time_zone"); ok {
+		tmp := localTimeZone.(string)
+		request.LocalTimeZone = &tmp
+	}
+
 	if recurrenceDetails, ok := s.D.GetOkExists("recurrence_details"); ok {
 		tmp := recurrenceDetails.(string)
 		request.RecurrenceDetails = &tmp
@@ -779,6 +794,10 @@ func (s *ResourceSchedulerScheduleResourceCrud) SetData() error {
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("last_run_status", s.Res.LastRunStatus)
+
+	if s.Res.LocalTimeZone != nil {
+		s.D.Set("local_time_zone", *s.Res.LocalTimeZone)
+	}
 
 	if s.Res.RecurrenceDetails != nil {
 		s.D.Set("recurrence_details", *s.Res.RecurrenceDetails)
@@ -1258,6 +1277,10 @@ func ScheduleSummaryToMap(obj oci_resource_scheduler.ScheduleSummary) map[string
 	}
 
 	//result["last_run_status"] = string(obj.LastRunStatus)
+
+	if obj.LocalTimeZone != nil {
+		result["local_time_zone"] = string(*obj.LocalTimeZone)
+	}
 
 	if obj.RecurrenceDetails != nil {
 		result["recurrence_details"] = string(*obj.RecurrenceDetails)

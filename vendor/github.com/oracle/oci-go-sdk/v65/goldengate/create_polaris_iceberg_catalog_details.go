@@ -36,7 +36,7 @@ type CreatePolarisIcebergCatalogDetails struct {
 	ClientSecretSecretId *string `mandatory:"false" json:"clientSecretSecretId"`
 
 	// Client secret required to connect to Polaris.
-	ClientSecret *string `mandatory:"false" json:"clientSecret"`
+	ClientSecret *string `mandatory:"false" json:"clientSecret" sensitive:"true"`
 }
 
 func (m CreatePolarisIcebergCatalogDetails) String() string {

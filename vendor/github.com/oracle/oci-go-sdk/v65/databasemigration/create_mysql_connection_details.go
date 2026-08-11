@@ -36,7 +36,7 @@ type CreateMysqlConnectionDetails struct {
 	Username *string `mandatory:"true" json:"username"`
 
 	// The password (credential) used when creating or updating this resource.
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 
 	// The name of the database being referenced.
 	DatabaseName *string `mandatory:"true" json:"databaseName"`
@@ -63,7 +63,7 @@ type CreateMysqlConnectionDetails struct {
 	ReplicationUsername *string `mandatory:"false" json:"replicationUsername"`
 
 	// The password (credential) used when creating or updating this resource.
-	ReplicationPassword *string `mandatory:"false" json:"replicationPassword"`
+	ReplicationPassword *string `mandatory:"false" json:"replicationPassword" sensitive:"true"`
 
 	// The IP Address of the host.
 	Host *string `mandatory:"false" json:"host"`

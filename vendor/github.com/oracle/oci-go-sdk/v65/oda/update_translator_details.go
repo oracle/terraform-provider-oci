@@ -22,7 +22,7 @@ type UpdateTranslatorDetails struct {
 	BaseUrl *string `mandatory:"false" json:"baseUrl"`
 
 	// The authentication token to use when invoking the Translation Service
-	AuthToken *string `mandatory:"false" json:"authToken"`
+	AuthToken *string `mandatory:"false" json:"authToken" sensitive:"true"`
 
 	// Properties used when invoking the translation service.
 	// Each property is a simple key-value pair.

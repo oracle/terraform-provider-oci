@@ -25,7 +25,7 @@ type HostCertDetails struct {
 	Certificate *string `mandatory:"true" json:"certificate"`
 
 	// Private key of the provided certificate
-	PrivateKey *string `mandatory:"true" json:"privateKey"`
+	PrivateKey *string `mandatory:"true" json:"privateKey" sensitive:"true"`
 }
 
 func (m HostCertDetails) String() string {

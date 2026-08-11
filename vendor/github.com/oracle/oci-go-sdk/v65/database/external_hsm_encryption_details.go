@@ -20,7 +20,7 @@ import (
 type ExternalHsmEncryptionDetails struct {
 
 	// Provide the HSM password as you would in RDBMS for External HSM.
-	HsmPassword *string `mandatory:"true" json:"hsmPassword"`
+	HsmPassword *string `mandatory:"true" json:"hsmPassword" sensitive:"true"`
 }
 
 func (m ExternalHsmEncryptionDetails) String() string {

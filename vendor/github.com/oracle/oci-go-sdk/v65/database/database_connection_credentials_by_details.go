@@ -24,7 +24,7 @@ type DatabaseConnectionCredentialsByDetails struct {
 	Username *string `mandatory:"true" json:"username"`
 
 	// The password that will be used to connect to the database.
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 
 	// The name of the credential information that used to connect to the database. The name should be in "x.y" format, where
 	// the length of "x" has a maximum of 64 characters, and length of "y" has a maximum of 199 characters.

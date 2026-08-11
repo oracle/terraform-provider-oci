@@ -36,6 +36,8 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment that contains host group. 
 * `configurations` - A list of HostGroupConfiguration objects
 	* `firmware_bundle_id` - The OCID for firmware bundle
+	* `quick_recycle_settings` - Additional quick recycle settings.
+		* `nvme_wipe` - Whether to wipe NVMe data during quick recycle.
 	* `recycle_level` - Preferred recycle level for hosts associated with the reservation config.
 		* `SKIP_RECYCLE` - Skips host wipe.
 		* `FULL_RECYCLE` - Does not skip host wipe. This is the default behavior. 

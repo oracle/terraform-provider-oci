@@ -22,7 +22,7 @@ type Variable struct {
 	Name *string `mandatory:"false" json:"name"`
 
 	// The value corresponding to the variable name.
-	Value *string `mandatory:"false" json:"value"`
+	Value *string `mandatory:"false" json:"value" sensitive:"true"`
 }
 
 func (m Variable) String() string {

@@ -38,7 +38,7 @@ type CreatePluggableDatabaseDetails struct {
 	ShouldPdbAdminAccountBeLocked *bool `mandatory:"false" json:"shouldPdbAdminAccountBeLocked"`
 
 	// The DB system administrator password of the Container Database.
-	ContainerDatabaseAdminPassword *string `mandatory:"false" json:"containerDatabaseAdminPassword"`
+	ContainerDatabaseAdminPassword *string `mandatory:"false" json:"containerDatabaseAdminPassword" sensitive:"true"`
 
 	// Indicates whether to take Pluggable Database Backup after the operation.
 	ShouldCreatePdbBackup *bool `mandatory:"false" json:"shouldCreatePdbBackup"`

@@ -39,7 +39,7 @@ type CreateOsvcChannelDetails struct {
 	UserName *string `mandatory:"true" json:"userName"`
 
 	// The password for the digital-assistant agent.
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 
 	// The total session count.
 	TotalSessionCount *int `mandatory:"true" json:"totalSessionCount"`

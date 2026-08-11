@@ -1453,6 +1453,98 @@ func TestDatabaseAutonomousDatabaseResource_adbs_lh(t *testing.T) {
 	})
 }
 
+// issue-routing-tag: database/dbaas-adb
+func TestDatabaseAutonomousDatabaseResource_schedule_update_ad(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseResource_schedule_update_ad")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_autonomous_database.test_autonomous_database"
+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseAutonomousDatabaseResourceDependenciesLockBckRetention+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseRepresentationLockBckRetention), "database", "autonomousDatabase", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
+		//0. Verify Create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseRepresentationLockBckRetention),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+			),
+		},
+		//1. schedule update ad to earliest available time
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentationLockBckRetention, map[string]interface{}{
+						"is_schedule_ad_update_to_earliest": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: `true`},
+						"availability_domain":               acctest.Representation{RepType: acctest.Optional, Create: nil, Update: `yGwe:US-ASHBURN-AD-3`},
+					}), []string{"admin_password", "customer_contacts", "freeform_tags", "display_name"})),
+			ExpectNonEmptyPlan: true,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "ad_scheduled_for_update", "yGwe:US-ASHBURN-AD-3"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+			),
+		},
+		//2. update schedule time for ad update
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentationLockBckRetention, map[string]interface{}{
+						"time_scheduled_ad_update": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: timeOfAutoRefreshCreate.Truncate(10 * time.Minute).Add(10 * time.Minute).Format(time.RFC3339)},
+						"availability_domain":      acctest.Representation{RepType: acctest.Optional, Create: nil, Update: `yGwe:US-ASHBURN-AD-2`},
+					}), []string{"admin_password", "customer_contacts", "freeform_tags", "display_name"})),
+			ExpectNonEmptyPlan: true,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttr(resourceName, "ad_scheduled_for_update", "yGwe:US-ASHBURN-AD-2"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_scheduled_ad_update"),
+			),
+		},
+		//3. cancel scheduled time for ad update
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentationLockBckRetention, map[string]interface{}{
+						"is_disable_ad_update_schedule": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: `true`},
+					}), []string{"admin_password", "customer_contacts", "freeform_tags", "display_name"})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+			),
+		},
+		//4. schedule ad update time again
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentationLockBckRetention, map[string]interface{}{
+						"time_scheduled_ad_update": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: timeOfAutoRefreshUpdate.Truncate(10 * time.Minute).Add(10 * time.Minute).Format(time.RFC3339)},
+						"availability_domain":      acctest.Representation{RepType: acctest.Optional, Create: nil, Update: `yGwe:US-ASHBURN-AD-1`},
+					}), []string{"admin_password", "customer_contacts", "freeform_tags", "display_name"})),
+			ExpectNonEmptyPlan: true,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttr(resourceName, "ad_scheduled_for_update", "yGwe:US-ASHBURN-AD-1"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_scheduled_ad_update"),
+			),
+		},
+	})
+}
+
 func TestDatabaseAutonomousDatabaseResource_schedule_upgrade(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseResource_schedule_upgrade")
 	defer httpreplay.SaveScenario()

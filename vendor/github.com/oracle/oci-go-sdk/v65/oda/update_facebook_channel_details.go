@@ -37,10 +37,10 @@ type UpdateFacebookChannelDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// The app secret for your Facebook app.
-	AppSecret *string `mandatory:"false" json:"appSecret"`
+	AppSecret *string `mandatory:"false" json:"appSecret" sensitive:"true"`
 
 	// The page access token that you generated for your Facebook page.
-	PageAccessToken *string `mandatory:"false" json:"pageAccessToken"`
+	PageAccessToken *string `mandatory:"false" json:"pageAccessToken" sensitive:"true"`
 
 	// The ID of the Skill or Digital Assistant that the Channel is routed to.
 	BotId *string `mandatory:"false" json:"botId"`

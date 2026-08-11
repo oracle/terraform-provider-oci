@@ -19,10 +19,10 @@ import (
 type ActivateBdsMetastoreConfigurationDetails struct {
 
 	// Base-64 encoded passphrase of the BDS Api Key. Set only if metastore's type is EXTERNAL.
-	BdsApiKeyPassphrase *string `mandatory:"false" json:"bdsApiKeyPassphrase"`
+	BdsApiKeyPassphrase *string `mandatory:"false" json:"bdsApiKeyPassphrase" sensitive:"true"`
 
 	// Base-64 encoded password for the cluster admin user.
-	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword" sensitive:"true"`
 
 	// The secretId for the clusterAdminPassword.
 	SecretId *string `mandatory:"false" json:"secretId"`

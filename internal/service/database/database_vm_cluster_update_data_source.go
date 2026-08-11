@@ -33,6 +33,13 @@ func DatabaseVmClusterUpdateDataSource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"available_update_modes": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"description": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -41,7 +48,15 @@ func DatabaseVmClusterUpdateDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"last_update_mode": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"oracle_linux_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -116,14 +131,22 @@ func (s *DatabaseVmClusterUpdateDataSourceCrud) SetData() error {
 
 	s.D.Set("available_actions", s.Res.AvailableActions)
 
+	s.D.Set("available_update_modes", s.Res.AvailableUpdateModes)
+
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
 	}
 
 	s.D.Set("last_action", s.Res.LastAction)
 
+	s.D.Set("last_update_mode", s.Res.LastUpdateMode)
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.OracleLinuxVersion != nil {
+		s.D.Set("oracle_linux_version", *s.Res.OracleLinuxVersion)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

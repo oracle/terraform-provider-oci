@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+	"strings"
 	"testing"
 	"time"
 
@@ -211,6 +212,60 @@ var (
 
 	DatabaseVmClusterResourceDependencies = VmClusterNetworkValidatedResourceConfig
 )
+
+func checkVmClusterLiveUpdateImageFields(resourceName string) resource.TestCheckFunc {
+	return acctest.ComposeAggregateTestCheckFuncWrapper(
+		resource.TestCheckResourceAttrSet(resourceName, "system_version"),
+		resource.TestCheckResourceAttr(resourceName, "live_image_version_details.#", "1"),
+		resource.TestCheckResourceAttrSet(resourceName, "live_image_version_details.0.time_released"),
+		resource.TestCheckResourceAttrSet(resourceName, "live_image_version_details.0.update_mode"),
+		resource.TestCheckResourceAttrSet(resourceName, "live_image_version_details.0.version"),
+		resource.TestCheckResourceAttrSet(resourceName, "oracle_linux_version"),
+	)
+}
+
+func checkVmClusterOnlineAllUpdatesImageFields(resourceName string) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		rm := s.RootModule()
+		rs, ok := rm.Resources[resourceName]
+		if !ok {
+			return fmt.Errorf("Not found: %s", resourceName)
+		}
+		if rs.Primary == nil {
+			return fmt.Errorf("No primary instance: %s", resourceName)
+		}
+
+		liveImageCount := rs.Primary.Attributes["live_image_version_details.#"]
+		switch liveImageCount {
+		case "1":
+			for _, field := range []string{
+				"live_image_version_details.0.time_released",
+				"live_image_version_details.0.update_mode",
+				"live_image_version_details.0.version",
+				"oracle_linux_version",
+			} {
+				if rs.Primary.Attributes[field] == "" {
+					return fmt.Errorf("%s expected to be set when live_image_version_details is present", field)
+				}
+			}
+		case "", "0":
+			if rs.Primary.Attributes["system_version"] == "" {
+				return fmt.Errorf("system_version expected to be set when live_image_version_details is absent after ONLINE_ALL_UPDATES apply")
+			}
+		default:
+			return fmt.Errorf("live_image_version_details.# expected to be 0 or 1, got %q", liveImageCount)
+		}
+
+		return nil
+	}
+}
+
+func checkVmClusterFullUpdateImageFields(resourceName string) resource.TestCheckFunc {
+	return acctest.ComposeAggregateTestCheckFuncWrapper(
+		resource.TestCheckResourceAttrSet(resourceName, "system_version"),
+		resource.TestCheckResourceAttr(resourceName, "live_image_version_details.#", "0"),
+	)
+}
 
 // issue-routing-tag: database/ExaCC
 func TestDatabaseVmClusterResource_basic(t *testing.T) {
@@ -529,6 +584,155 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				"cpu_core_count",
 			},
 			ResourceName: resourceName,
+		},
+	})
+}
+
+// issue-routing-tag: database/ExaCC
+func TestDatabaseVmClusterResource_updateDetails(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseVmClusterResource_updateDetails")
+	defer httpreplay.SaveScenario()
+	runDatabaseVmClusterUpdateDetailsTest(t, "TestDatabaseVmClusterResource_updateDetails", "ONLINE_HIGHCVSS", true, checkVmClusterLiveUpdateImageFields)
+}
+
+// issue-routing-tag: database/default
+func TestDatabaseVmClusterResource_updateDetailsOnlineAllUpdates(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseVmClusterResource_updateDetailsOnlineAllUpdates")
+	defer httpreplay.SaveScenario()
+	runDatabaseVmClusterUpdateDetailsTest(t, "TestDatabaseVmClusterResource_updateDetailsOnlineAllUpdates", "ONLINE_ALL_UPDATES", true, checkVmClusterOnlineAllUpdatesImageFields)
+}
+
+// issue-routing-tag: database/default
+func TestDatabaseVmClusterResource_updateDetailsFullUpdate(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseVmClusterResource_updateDetailsFullUpdate")
+	defer httpreplay.SaveScenario()
+	runDatabaseVmClusterUpdateDetailsTest(t, "TestDatabaseVmClusterResource_updateDetailsFullUpdate", "FULL_UPDATE", true, checkVmClusterFullUpdateImageFields)
+}
+
+// issue-routing-tag: database/default
+func TestDatabaseVmClusterResource_updateDetailsDefaultFullUpdate(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseVmClusterResource_updateDetailsDefaultFullUpdate")
+	defer httpreplay.SaveScenario()
+	runDatabaseVmClusterUpdateDetailsTest(t, "TestDatabaseVmClusterResource_updateDetailsDefaultFullUpdate", "", false, checkVmClusterFullUpdateImageFields)
+}
+
+func runDatabaseVmClusterUpdateDetailsTest(t *testing.T, testName, updateMode string, includeUpdateMode bool, applyImageCheck func(string) resource.TestCheckFunc) {
+	saveConfigs := strings.EqualFold(utils.GetEnvSettingWithBlankDefault("save_configs"), "true")
+	if !saveConfigs && !strings.Contains(utils.GetEnvSettingWithBlankDefault("enabled_tests"), testName) {
+		t.Skip("test requires an available VM cluster OS update")
+	}
+	updateId := utils.GetEnvSettingWithBlankDefault("vm_cluster_update_id")
+	if !saveConfigs && updateId == "" {
+		t.Skip("test requires vm_cluster_update_id")
+	}
+
+	config := acctest.ProviderTestConfig()
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	updateIdVariableStr := fmt.Sprintf("variable \"vm_cluster_update_id\" { default = \"%s\" }\n", updateId)
+	resourceName := "oci_database_vm_cluster.test_vm_cluster"
+	vmClusterRepresentationForUpdateDetails := acctest.RepresentationCopyWithRemovedProperties(DatabaseVmClusterRepresentation, []string{"cloud_automation_update_details", "defined_tags"})
+	exadataInfrastructureRepresentationWithoutDefinedTags := acctest.RepresentationCopyWithRemovedProperties(exadataInfrastructureActivateRepresentation, []string{"defined_tags"})
+	vmClusterNetworkRepresentationWithoutDefinedTags := acctest.RepresentationCopyWithRemovedProperties(vmClusterNetworkValidateRepresentation, []string{"defined_tags"})
+	vmClusterResourceDependenciesWithoutDefinedTags :=
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, DatabaseDatabaseDbServerDataSourceRepresentation) +
+			acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Update,
+				acctest.RepresentationCopyWithNewProperties(exadataInfrastructureRepresentationWithoutDefinedTags, map[string]interface{}{
+					"activation_file":    acctest.Representation{RepType: acctest.Optional, Update: activationFilePath},
+					"maintenance_window": acctest.RepresentationGroup{RepType: acctest.Optional, Group: exadataInfrastructureMaintenanceWindowRepresentationComplete},
+				})) +
+			acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Update, vmClusterNetworkRepresentationWithoutDefinedTags)
+
+	precheckUpdateDetails := map[string]interface{}{
+		"update_action": acctest.Representation{RepType: acctest.Optional, Create: `PRECHECK`},
+		"update_id":     acctest.Representation{RepType: acctest.Optional, Create: `${var.vm_cluster_update_id}`},
+	}
+	applyUpdateDetails := map[string]interface{}{
+		"update_action": acctest.Representation{RepType: acctest.Optional, Create: `ROLLING_APPLY`},
+		"update_id":     acctest.Representation{RepType: acctest.Optional, Create: `${var.vm_cluster_update_id}`},
+	}
+	vmClusterUpdateHistoryEntriesRepresentation := map[string]interface{}{
+		"vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
+		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
+			"name":   acctest.Representation{RepType: acctest.Required, Create: `update_action`},
+			"values": acctest.Representation{RepType: acctest.Required, Create: []string{`ROLLING_APPLY`}},
+		}},
+	}
+	vmClusterUpdateHistoryEntryRepresentation := map[string]interface{}{
+		"update_history_entry_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_vm_cluster_update_history_entries.test_vm_cluster_update_history_entries.vm_cluster_update_history_entries[0].id}`},
+		"vm_cluster_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
+	}
+	if includeUpdateMode {
+		precheckUpdateDetails["update_mode"] = acctest.Representation{RepType: acctest.Optional, Create: updateMode}
+		applyUpdateDetails["update_mode"] = acctest.Representation{RepType: acctest.Optional, Create: updateMode}
+	}
+
+	withPrecheckUpdateDetails := acctest.RepresentationCopyWithNewProperties(vmClusterRepresentationForUpdateDetails, map[string]interface{}{
+		"update_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: precheckUpdateDetails},
+	})
+	withApplyUpdateDetails := acctest.RepresentationCopyWithNewProperties(vmClusterRepresentationForUpdateDetails, map[string]interface{}{
+		"update_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: applyUpdateDetails},
+	})
+
+	// Save the baseline create configuration for the resource-discovery workflow.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+vmClusterResourceDependenciesWithoutDefinedTags+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Optional, acctest.Create, vmClusterRepresentationForUpdateDetails), "database", "vmCluster", t)
+
+	precheckChecks := []resource.TestCheckFunc{
+		resource.TestCheckResourceAttr(resourceName, "update_details.#", "1"),
+		resource.TestCheckResourceAttr(resourceName, "update_details.0.update_action", "PRECHECK"),
+		resource.TestCheckResourceAttr(resourceName, "update_details.0.update_id", updateId),
+	}
+	applyChecks := []resource.TestCheckFunc{
+		resource.TestCheckResourceAttr(resourceName, "update_details.#", "1"),
+		resource.TestCheckResourceAttr(resourceName, "update_details.0.update_action", "ROLLING_APPLY"),
+		resource.TestCheckResourceAttr(resourceName, "update_details.0.update_id", updateId),
+		applyImageCheck(resourceName),
+	}
+	updateHistoryEntriesDataSourceName := "data.oci_database_vm_cluster_update_history_entries.test_vm_cluster_update_history_entries"
+	updateHistoryEntryDataSourceName := "data.oci_database_vm_cluster_update_history_entry.test_vm_cluster_update_history_entry"
+	updateHistoryChecks := []resource.TestCheckFunc{
+		resource.TestCheckResourceAttrSet(updateHistoryEntriesDataSourceName, "vm_cluster_update_history_entries.#"),
+		resource.TestCheckResourceAttrSet(updateHistoryEntriesDataSourceName, "vm_cluster_update_history_entries.0.id"),
+		resource.TestCheckResourceAttr(updateHistoryEntriesDataSourceName, "vm_cluster_update_history_entries.0.update_id", updateId),
+		resource.TestCheckResourceAttr(updateHistoryEntriesDataSourceName, "vm_cluster_update_history_entries.0.update_action", "ROLLING_APPLY"),
+		resource.TestCheckResourceAttrSet(updateHistoryEntriesDataSourceName, "vm_cluster_update_history_entries.0.update_mode"),
+		resource.TestCheckResourceAttrSet(updateHistoryEntriesDataSourceName, "vm_cluster_update_history_entries.0.update_type"),
+		resource.TestCheckResourceAttrSet(updateHistoryEntryDataSourceName, "update_history_entry_id"),
+		resource.TestCheckResourceAttr(updateHistoryEntryDataSourceName, "update_id", updateId),
+		resource.TestCheckResourceAttr(updateHistoryEntryDataSourceName, "update_action", "ROLLING_APPLY"),
+		resource.TestCheckResourceAttrSet(updateHistoryEntryDataSourceName, "update_mode"),
+		resource.TestCheckResourceAttrSet(updateHistoryEntryDataSourceName, "update_type"),
+	}
+	if includeUpdateMode {
+		precheckChecks = append(precheckChecks, resource.TestCheckResourceAttr(resourceName, "update_details.0.update_mode", updateMode))
+		applyChecks = append(applyChecks, resource.TestCheckResourceAttr(resourceName, "update_details.0.update_mode", updateMode))
+	} else {
+		precheckChecks = append(precheckChecks, resource.TestCheckResourceAttr(resourceName, "update_details.0.update_mode", ""))
+		applyChecks = append(applyChecks, resource.TestCheckResourceAttr(resourceName, "update_details.0.update_mode", ""))
+	}
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		{
+			Config: config + compartmentIdVariableStr + vmClusterResourceDependenciesWithoutDefinedTags +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Optional, acctest.Create, vmClusterRepresentationForUpdateDetails),
+		},
+		{
+			Config: config + compartmentIdVariableStr + updateIdVariableStr + vmClusterResourceDependenciesWithoutDefinedTags +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Optional, acctest.Create, withPrecheckUpdateDetails),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(precheckChecks...),
+		},
+		{
+			Config: config + compartmentIdVariableStr + updateIdVariableStr + vmClusterResourceDependenciesWithoutDefinedTags +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Optional, acctest.Create, withApplyUpdateDetails),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(applyChecks...),
+		},
+		{
+			Config: config + compartmentIdVariableStr + updateIdVariableStr + vmClusterResourceDependenciesWithoutDefinedTags +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Optional, acctest.Create, withApplyUpdateDetails) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_update_history_entries", "test_vm_cluster_update_history_entries", acctest.Required, acctest.Create, vmClusterUpdateHistoryEntriesRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_vm_cluster_update_history_entry", "test_vm_cluster_update_history_entry", acctest.Required, acctest.Create, vmClusterUpdateHistoryEntryRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(updateHistoryChecks...),
 		},
 	})
 }

@@ -39,7 +39,7 @@ type CreateDatabaseForStandbyDbSystemDetails struct {
 	TransportType CreateDatabaseForStandbyDbSystemDetailsTransportTypeEnum `mandatory:"true" json:"transportType"`
 
 	// For TDE Wallet, enter the same password as the primary wallet password.
-	TdeWalletPassword *string `mandatory:"false" json:"tdeWalletPassword"`
+	TdeWalletPassword *string `mandatory:"false" json:"tdeWalletPassword" sensitive:"true"`
 
 	// The database software image OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`

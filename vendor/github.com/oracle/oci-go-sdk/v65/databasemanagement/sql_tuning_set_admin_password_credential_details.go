@@ -25,7 +25,7 @@ type SqlTuningSetAdminPasswordCredentialDetails struct {
 	Username *string `mandatory:"true" json:"username"`
 
 	// The database user's password encoded using BASE64 scheme.
-	Password *string `mandatory:"true" json:"password"`
+	Password *string `mandatory:"true" json:"password" sensitive:"true"`
 
 	// The role of the database user.
 	Role SqlTuningSetAdminCredentialDetailsRoleEnum `mandatory:"true" json:"role"`

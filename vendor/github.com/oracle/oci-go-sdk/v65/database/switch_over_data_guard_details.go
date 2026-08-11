@@ -20,7 +20,7 @@ type SwitchOverDataGuardDetails struct {
 
 	// The administrator password of the primary database in this Data Guard association.
 	// **The password MUST be the same as the primary admin password.**
-	DatabaseAdminPassword *string `mandatory:"true" json:"databaseAdminPassword"`
+	DatabaseAdminPassword *string `mandatory:"true" json:"databaseAdminPassword" sensitive:"true"`
 }
 
 func (m SwitchOverDataGuardDetails) String() string {

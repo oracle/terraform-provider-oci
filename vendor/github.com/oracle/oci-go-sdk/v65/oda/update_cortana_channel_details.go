@@ -40,7 +40,7 @@ type UpdateCortanaChannelDetails struct {
 	MsaAppId *string `mandatory:"false" json:"msaAppId"`
 
 	// The client secret that you obtained from your bot registration.
-	MsaAppPassword *string `mandatory:"false" json:"msaAppPassword"`
+	MsaAppPassword *string `mandatory:"false" json:"msaAppPassword" sensitive:"true"`
 
 	// The ID of the Skill or Digital Assistant that the Channel is routed to.
 	BotId *string `mandatory:"false" json:"botId"`

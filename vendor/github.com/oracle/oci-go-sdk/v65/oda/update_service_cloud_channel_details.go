@@ -60,7 +60,7 @@ type UpdateServiceCloudChannelDetails struct {
 	UserName *string `mandatory:"false" json:"userName"`
 
 	// The password for the Oracle B2C Service staff member who has the necessary profile permissions.
-	Password *string `mandatory:"false" json:"password"`
+	Password *string `mandatory:"false" json:"password" sensitive:"true"`
 
 	// The type of Service Cloud client.
 	ClientType ServiceCloudClientTypeEnum `mandatory:"false" json:"clientType,omitempty"`

@@ -25,7 +25,7 @@ type TlsConfig struct {
 	CertificateStoreType TlsConfigCertificateStoreTypeEnum `mandatory:"false" json:"certificateStoreType,omitempty"`
 
 	// The password to read the trust store and key store files, if they are password protected.
-	StorePassword *string `mandatory:"false" json:"storePassword"`
+	StorePassword *string `mandatory:"false" json:"storePassword" sensitive:"true"`
 
 	// Base64 encoded string of trust store file content.
 	TrustStoreContent *string `mandatory:"false" json:"trustStoreContent"`

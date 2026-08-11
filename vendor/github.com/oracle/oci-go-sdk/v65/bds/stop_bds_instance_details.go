@@ -22,7 +22,7 @@ type StopBdsInstanceDetails struct {
 	IsForceStopJobs *bool `mandatory:"false" json:"isForceStopJobs"`
 
 	// Base-64 encoded password for the cluster admin user.
-	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword"`
+	ClusterAdminPassword *string `mandatory:"false" json:"clusterAdminPassword" sensitive:"true"`
 
 	// The secretId for the clusterAdminPassword.
 	SecretId *string `mandatory:"false" json:"secretId"`

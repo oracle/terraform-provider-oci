@@ -35,7 +35,7 @@ type UpdateChannelSourceFromMysqlDetails struct {
 	// between 8 and 32 characters long, and must contain at least 1
 	// numeric character, 1 lowercase character, 1 uppercase character,
 	// and 1 special (nonalphanumeric) character.
-	Password *string `mandatory:"false" json:"password"`
+	Password *string `mandatory:"false" json:"password" sensitive:"true"`
 
 	SslCaCertificate CaCertificate `mandatory:"false" json:"sslCaCertificate"`
 
