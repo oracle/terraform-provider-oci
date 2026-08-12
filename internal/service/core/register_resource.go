@@ -36,6 +36,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_core_drg_attachment", CoreDrgAttachmentResource())
 	tfresource.RegisterResource("oci_core_drg_attachments_list", CoreDrgAttachmentsListResource())
 	tfresource.RegisterResource("oci_core_drg_attachment_management", CoreDrgAttachmentManagementResource())
+	tfresource.RegisterResource("oci_core_drg_default_route_table_management", CoreDrgDefaultRouteTableManagementResource())
 	tfresource.RegisterResource("oci_core_drg_route_distribution", CoreDrgRouteDistributionResource())
 	tfresource.RegisterResource("oci_core_drg_route_distribution_statement", CoreDrgRouteDistributionStatementResource())
 	tfresource.RegisterResource("oci_core_drg_route_table", CoreDrgRouteTableResource())
