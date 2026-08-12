@@ -54,36 +54,45 @@ func CoreDrgResource() *schema.Resource {
 				Elem:     schema.TypeString,
 			},
 
-			// Computed
+			// Optional
 			"default_drg_route_tables": {
 				Type:     schema.TypeList,
+				Optional: true,
 				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
 
 						// Optional
-
-						// Computed
 						"ipsec_tunnel": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
 						},
 						"remote_peering_connection": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
 						},
 						"vcn": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
 						},
 						"virtual_circuit": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
 						},
+
+						// Computed
 					},
 				},
 			},
+
+			// Computed
 			"default_export_drg_route_distribution_id": {
 				Type:     schema.TypeString,
 				Computed: true,

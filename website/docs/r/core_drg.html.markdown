@@ -35,6 +35,13 @@ resource "oci_core_drg" "test_drg" {
 	compartment_id = var.compartment_id
 
 	#Optional
+	default_drg_route_tables {
+		#Optional
+		ipsec_tunnel               = oci_core_drg_route_table.test_drg_route_table.id
+		remote_peering_connection  = oci_core_drg_route_table.test_drg_route_table.id
+		vcn                        = oci_core_drg_route_table.test_drg_route_table.id
+		virtual_circuit            = oci_core_drg_route_table.test_drg_route_table.id
+	}
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.drg_display_name
 	freeform_tags = {"Department"= "Finance"}
@@ -46,7 +53,16 @@ resource "oci_core_drg" "test_drg" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the DRG.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+* `default_drg_route_tables` - (Optional) (Updatable) The default DRG route table for this DRG. Each network type has a default DRG route table.
+
+	You can update a network type to use a different DRG route table, but each network type must have a default DRG route table. You cannot delete a default DRG route table.
+
+	Reassigning a network type's default route table only affects attachments of that type created *after* the change; it does not retroactively move existing attachments off whatever route table they already resolved to (their own `drg_route_table` field, if set, still wins). Any field left unset here keeps its current default assignment unchanged.
+	* `ipsec_tunnel` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the default DRG route table assigned to DRG attachments of type IPSEC_TUNNEL on creation.
+	* `remote_peering_connection` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the default DRG route table to be assigned to DRG attachments of type REMOTE_PEERING_CONNECTION on creation.
+	* `vcn` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the default DRG route table to be assigned to DRG attachments of type VCN on creation.
+	* `virtual_circuit` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the default DRG route table to be assigned to DRG attachments of type VIRTUAL_CIRCUIT on creation.
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}`
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 
