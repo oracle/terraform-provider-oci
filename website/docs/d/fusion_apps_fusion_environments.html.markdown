@@ -47,7 +47,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `additional_egress_rules` - Additional egress rules that should be applied to the environment. Some standard ports are open for general use; see [Securing Network Access to a Fusion Applications Environment][iaas/Content/fusion-applications/plan-environment.htm#internet-cache]. If access to a non-standard port is required, however, they can be listed here.
+* `additional_egress_rules` - Additional egress rules that should be applied to the environment. Some standard ports are open for general use; see [Securing Network Access to a Fusion Applications Environment](https://docs.cloud.oracle.com/iaas/Content/fusion-applications/plan-environment.htm#internet-cache). If access to a non-standard port is required, however, they can be listed here.
 	* `description` - Rule description.
 	* `destination_cidr` - Specifies the destination CIDR block the port should be opened for. Must be IPv4 only, and cannot be part of any private range from [RFC 1918](https://datatracker.ietf.org/doc/html/rfc1918).
 	* `max_destination_port` - The maximum port number, which must not be less than the minimum port number. To specify a single port number, set both the min and max to the same value.

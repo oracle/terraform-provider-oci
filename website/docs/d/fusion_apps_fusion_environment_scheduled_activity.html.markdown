@@ -36,12 +36,16 @@ The following attributes are exported:
 
 * `actions` - List of actions
 	* `action_type` - Type of action.
+	* `application_type` - Name of SaaS Application being migrated.
 	* `artifact` - Patch that delivered the Vertex update prerequisite.
 	* `category` - Patch artifact category.
 	* `description` - A string that describes the details of the action. It does not have to be unique, and you can change it. Avoid entering confidential information.
 	* `mode` - A string that describes whether the change is applied hot or cold.
 	* `qualifier` - Month qualifier.
 	* `reference_key` - Unique identifier of the object that represents the action.
+	* `source_environment_id` - Source environment id derived from appman instance id
+	* `source_environment_name` - Source environment name derived from source pod name
+	* `source_environment_url` - Source environment url derived from source url
 	* `state` - A string that describes whether the change is applied hot or cold.
 	* `version` - Name of the repo.
 * `delay_in_hours` - Cumulative delay hours
