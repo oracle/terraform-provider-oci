@@ -673,6 +673,10 @@ data_safe
 * oci\_data\_safe\_unified\_audit\_policy
 * oci\_data\_safe\_target\_database\_group
 * oci\_data\_safe\_crypto\_assessment
+* oci\_data\_safe\_subsetting\_policy\_subsetting\_rule\_processing\_chain\_object
+* oci\_data\_safe\_subsetting\_policy\_subsetting\_rule
+* oci\_data\_safe\_subsetting\_policy
+* oci\_data\_safe\_subsetting\_policy\_subsetting\_schema\_relation
 
 database
 

@@ -63,6 +63,10 @@ func DataSafeMaskingReportDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"subsetting_report_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"target_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -190,6 +194,10 @@ func (s *DataSafeMaskingReportDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SubsettingReportId != nil {
+		s.D.Set("subsetting_report_id", *s.Res.SubsettingReportId)
+	}
 
 	if s.Res.TargetId != nil {
 		s.D.Set("target_id", *s.Res.TargetId)

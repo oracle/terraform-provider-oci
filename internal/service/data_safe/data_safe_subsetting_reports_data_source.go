@@ -7,6 +7,7 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -14,9 +15,9 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
-func DataSafeMaskingReportsDataSource() *schema.Resource {
+func DataSafeSubsettingReportsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDataSafeMaskingReports,
+		ReadContext: readDataSafeSubsettingReportsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"access_level": {
@@ -31,7 +32,7 @@ func DataSafeMaskingReportsDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
-			"masking_policy_id": {
+			"subsetting_policy_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -43,7 +44,7 @@ func DataSafeMaskingReportsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"masking_report_collection": {
+			"subsetting_report_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
@@ -62,12 +63,16 @@ func DataSafeMaskingReportsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"id": {
+									"database_size_after_subsetting_in_kbs": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"is_drop_temp_tables_enabled": {
-										Type:     schema.TypeBool,
+									"database_size_before_subsetting_in_kbs": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"id": {
+										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"is_redo_logging_enabled": {
@@ -82,7 +87,7 @@ func DataSafeMaskingReportsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"masking_status": {
+									"masking_report_id": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -102,7 +107,15 @@ func DataSafeMaskingReportsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"subsetting_report_id": {
+									"subsetting_policy_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"subsetting_status": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"subsetting_work_request_id": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -114,39 +127,31 @@ func DataSafeMaskingReportsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"time_masking_finished": {
+									"time_subsetting_finished": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"time_masking_started": {
+									"time_subsetting_started": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"total_masked_columns": {
+									"total_post_subsetting_script_errors": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"total_masked_objects": {
+									"total_pre_subsetting_script_errors": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"total_masked_schemas": {
+									"total_subsetted_objects": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"total_masked_sensitive_types": {
+									"total_subsetted_rows": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"total_masked_values": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"total_post_masking_script_errors": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"total_pre_masking_script_errors": {
+									"total_subsetted_schemas": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -160,29 +165,29 @@ func DataSafeMaskingReportsDataSource() *schema.Resource {
 	}
 }
 
-func readDataSafeMaskingReports(d *schema.ResourceData, m interface{}) error {
-	sync := &DataSafeMaskingReportsDataSourceCrud{}
+func readDataSafeSubsettingReportsWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	sync := &DataSafeSubsettingReportsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-type DataSafeMaskingReportsDataSourceCrud struct {
+type DataSafeSubsettingReportsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_data_safe.DataSafeClient
-	Res    *oci_data_safe.ListMaskingReportsResponse
+	Res    *oci_data_safe.ListSubsettingReportsResponse
 }
 
-func (s *DataSafeMaskingReportsDataSourceCrud) VoidState() {
+func (s *DataSafeSubsettingReportsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DataSafeMaskingReportsDataSourceCrud) Get() error {
-	request := oci_data_safe.ListMaskingReportsRequest{}
+func (s *DataSafeSubsettingReportsDataSourceCrud) GetWithContext(ctx context.Context) error {
+	request := oci_data_safe.ListSubsettingReportsRequest{}
 
 	if accessLevel, ok := s.D.GetOkExists("access_level"); ok {
-		request.AccessLevel = oci_data_safe.ListMaskingReportsAccessLevelEnum(accessLevel.(string))
+		request.AccessLevel = oci_data_safe.ListSubsettingReportsAccessLevelEnum(accessLevel.(string))
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -195,9 +200,9 @@ func (s *DataSafeMaskingReportsDataSourceCrud) Get() error {
 		request.CompartmentIdInSubtree = &tmp
 	}
 
-	if maskingPolicyId, ok := s.D.GetOkExists("masking_policy_id"); ok {
-		tmp := maskingPolicyId.(string)
-		request.MaskingPolicyId = &tmp
+	if subsettingPolicyId, ok := s.D.GetOkExists("subsetting_policy_id"); ok {
+		tmp := subsettingPolicyId.(string)
+		request.SubsettingPolicyId = &tmp
 	}
 
 	if targetDatabaseGroupId, ok := s.D.GetOkExists("target_database_group_id"); ok {
@@ -212,7 +217,7 @@ func (s *DataSafeMaskingReportsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.ListMaskingReports(context.Background(), request)
+	response, err := s.Client.ListSubsettingReports(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -221,7 +226,7 @@ func (s *DataSafeMaskingReportsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListMaskingReports(context.Background(), request)
+		listResponse, err := s.Client.ListSubsettingReports(ctx, request)
 		if err != nil {
 			return err
 		}
@@ -233,101 +238,51 @@ func (s *DataSafeMaskingReportsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DataSafeMaskingReportsDataSourceCrud) SetData() error {
+func (s *DataSafeSubsettingReportsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
 
-	s.D.SetId(tfresource.GenerateDataSourceHashID("DataSafeMaskingReportsDataSource-", DataSafeMaskingReportsDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("DataSafeSubsettingReportsDataSource-", DataSafeSubsettingReportsDataSource(), s.D))
 	resources := []map[string]interface{}{}
-	maskingReport := map[string]interface{}{}
+	subsettingReport := map[string]interface{}{}
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {
-		items = append(items, MaskingReportSummaryToMap(item))
+		items = append(items, SubsettingReportSummaryToMap(item))
 	}
-	maskingReport["items"] = items
+	subsettingReport["items"] = items
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, DataSafeMaskingReportsDataSource().Schema["masking_report_collection"].Elem.(*schema.Resource).Schema)
-		maskingReport["items"] = items
+		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, DataSafeSubsettingReportsDataSource().Schema["subsetting_report_collection"].Elem.(*schema.Resource).Schema)
+		subsettingReport["items"] = items
 	}
 
-	resources = append(resources, maskingReport)
-	if err := s.D.Set("masking_report_collection", resources); err != nil {
+	resources = append(resources, subsettingReport)
+	if err := s.D.Set("subsetting_report_collection", resources); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func DataSafeMaskingReportSummaryToMap(obj oci_data_safe.MaskingReportSummary) map[string]interface{} {
+func SubsettingReportSummaryToMap(obj oci_data_safe.SubsettingReportSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
 
-	if obj.Id != nil {
-		result["id"] = string(*obj.Id)
+	if obj.DatabaseSizeAfterSubsettingInKBs != nil {
+		result["database_size_after_subsetting_in_kbs"] = string(*obj.DatabaseSizeAfterSubsettingInKBs)
 	}
 
-	if obj.MaskingPolicyId != nil {
-		result["masking_policy_id"] = string(*obj.MaskingPolicyId)
-	}
-
-	if obj.MaskingWorkRequestId != nil {
-		result["masking_work_request_id"] = string(*obj.MaskingWorkRequestId)
-	}
-
-	if obj.TargetId != nil {
-		result["target_id"] = string(*obj.TargetId)
-	}
-
-	if obj.TimeMaskingFinished != nil {
-		result["time_masking_finished"] = obj.TimeMaskingFinished.String()
-	}
-
-	if obj.TimeMaskingStarted != nil {
-		result["time_masking_started"] = obj.TimeMaskingStarted.String()
-	}
-
-	if obj.TotalMaskedColumns != nil {
-		result["total_masked_columns"] = strconv.FormatInt(*obj.TotalMaskedColumns, 10)
-	}
-
-	if obj.TotalMaskedObjects != nil {
-		result["total_masked_objects"] = strconv.FormatInt(*obj.TotalMaskedObjects, 10)
-	}
-
-	if obj.TotalMaskedSchemas != nil {
-		result["total_masked_schemas"] = strconv.FormatInt(*obj.TotalMaskedSchemas, 10)
-	}
-
-	if obj.TotalMaskedSensitiveTypes != nil {
-		result["total_masked_sensitive_types"] = strconv.FormatInt(*obj.TotalMaskedSensitiveTypes, 10)
-	}
-
-	if obj.TotalMaskedValues != nil {
-		result["total_masked_values"] = strconv.FormatInt(*obj.TotalMaskedValues, 10)
-	}
-
-	return result
-}
-
-func MaskingReportSummaryToMap(obj oci_data_safe.MaskingReportSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.CompartmentId != nil {
-		result["compartment_id"] = string(*obj.CompartmentId)
+	if obj.DatabaseSizeBeforeSubsettingInKBs != nil {
+		result["database_size_before_subsetting_in_kbs"] = string(*obj.DatabaseSizeBeforeSubsettingInKBs)
 	}
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
-	}
-
-	if obj.IsDropTempTablesEnabled != nil {
-		result["is_drop_temp_tables_enabled"] = bool(*obj.IsDropTempTablesEnabled)
 	}
 
 	if obj.IsRedoLoggingEnabled != nil {
@@ -342,7 +297,9 @@ func MaskingReportSummaryToMap(obj oci_data_safe.MaskingReportSummary) map[strin
 		result["masking_policy_id"] = string(*obj.MaskingPolicyId)
 	}
 
-	result["masking_status"] = string(obj.MaskingStatus)
+	if obj.MaskingReportId != nil {
+		result["masking_report_id"] = string(*obj.MaskingReportId)
+	}
 
 	if obj.MaskingWorkRequestId != nil {
 		result["masking_work_request_id"] = string(*obj.MaskingWorkRequestId)
@@ -358,8 +315,14 @@ func MaskingReportSummaryToMap(obj oci_data_safe.MaskingReportSummary) map[strin
 
 	result["state"] = string(obj.LifecycleState)
 
-	if obj.SubsettingReportId != nil {
-		result["subsetting_report_id"] = string(*obj.SubsettingReportId)
+	if obj.SubsettingPolicyId != nil {
+		result["subsetting_policy_id"] = string(*obj.SubsettingPolicyId)
+	}
+
+	result["subsetting_status"] = string(obj.SubsettingStatus)
+
+	if obj.SubsettingWorkRequestId != nil {
+		result["subsetting_work_request_id"] = string(*obj.SubsettingWorkRequestId)
 	}
 
 	if obj.TargetId != nil {
@@ -370,40 +333,32 @@ func MaskingReportSummaryToMap(obj oci_data_safe.MaskingReportSummary) map[strin
 		result["time_created"] = obj.TimeCreated.String()
 	}
 
-	if obj.TimeMaskingFinished != nil {
-		result["time_masking_finished"] = obj.TimeMaskingFinished.String()
+	if obj.TimeSubsettingFinished != nil {
+		result["time_subsetting_finished"] = obj.TimeSubsettingFinished.String()
 	}
 
-	if obj.TimeMaskingStarted != nil {
-		result["time_masking_started"] = obj.TimeMaskingStarted.String()
+	if obj.TimeSubsettingStarted != nil {
+		result["time_subsetting_started"] = obj.TimeSubsettingStarted.String()
 	}
 
-	if obj.TotalMaskedColumns != nil {
-		result["total_masked_columns"] = strconv.FormatInt(*obj.TotalMaskedColumns, 10)
+	if obj.TotalPostSubsettingScriptErrors != nil {
+		result["total_post_subsetting_script_errors"] = strconv.FormatInt(*obj.TotalPostSubsettingScriptErrors, 10)
 	}
 
-	if obj.TotalMaskedObjects != nil {
-		result["total_masked_objects"] = strconv.FormatInt(*obj.TotalMaskedObjects, 10)
+	if obj.TotalPreSubsettingScriptErrors != nil {
+		result["total_pre_subsetting_script_errors"] = strconv.FormatInt(*obj.TotalPreSubsettingScriptErrors, 10)
 	}
 
-	if obj.TotalMaskedSchemas != nil {
-		result["total_masked_schemas"] = strconv.FormatInt(*obj.TotalMaskedSchemas, 10)
+	if obj.TotalSubsettedObjects != nil {
+		result["total_subsetted_objects"] = strconv.FormatInt(*obj.TotalSubsettedObjects, 10)
 	}
 
-	if obj.TotalMaskedSensitiveTypes != nil {
-		result["total_masked_sensitive_types"] = strconv.FormatInt(*obj.TotalMaskedSensitiveTypes, 10)
+	if obj.TotalSubsettedRows != nil {
+		result["total_subsetted_rows"] = strconv.FormatInt(*obj.TotalSubsettedRows, 10)
 	}
 
-	if obj.TotalMaskedValues != nil {
-		result["total_masked_values"] = strconv.FormatInt(*obj.TotalMaskedValues, 10)
-	}
-
-	if obj.TotalPostMaskingScriptErrors != nil {
-		result["total_post_masking_script_errors"] = strconv.FormatInt(*obj.TotalPostMaskingScriptErrors, 10)
-	}
-
-	if obj.TotalPreMaskingScriptErrors != nil {
-		result["total_pre_masking_script_errors"] = strconv.FormatInt(*obj.TotalPreMaskingScriptErrors, 10)
+	if obj.TotalSubsettedSchemas != nil {
+		result["total_subsetted_schemas"] = strconv.FormatInt(*obj.TotalSubsettedSchemas, 10)
 	}
 
 	return result
