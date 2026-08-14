@@ -20,7 +20,9 @@ func DistributedDatabaseDistributedDatabasePrivateEndpointDataSource() *schema.R
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(DistributedDatabaseDistributedDatabasePrivateEndpointResource(), fieldMap, readSingularDistributedDatabaseDistributedDatabasePrivateEndpointWithContext)
+	r := tfresource.GetSingularDataSourceItemSchemaWithContext(DistributedDatabaseDistributedDatabasePrivateEndpointResource(), fieldMap, readSingularDistributedDatabaseDistributedDatabasePrivateEndpointWithContext)
+	r.DeprecationMessage = "The distributed_database service is deprecated and will be removed in a future major version."
+	return r
 }
 
 func readSingularDistributedDatabaseDistributedDatabasePrivateEndpointWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {

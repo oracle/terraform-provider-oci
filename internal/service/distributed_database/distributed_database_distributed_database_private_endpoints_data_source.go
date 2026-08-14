@@ -16,7 +16,8 @@ import (
 
 func DistributedDatabaseDistributedDatabasePrivateEndpointsDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readDistributedDatabaseDistributedDatabasePrivateEndpointsWithContext,
+		DeprecationMessage: "The distributed_database service is deprecated and will be removed in a future major version.",
+		ReadContext:        readDistributedDatabaseDistributedDatabasePrivateEndpointsWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
