@@ -261,6 +261,15 @@ var (
 		"name":       acctest.Representation{RepType: acctest.Required, Create: `SPATIAL_STUDIO`, Update: `SPATIAL_STUDIO`},
 		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
 	}
+	DatabaseAutonomousDatabaseDbToolsDetailsRepresentationEssbase = map[string]interface{}{
+		"name":       acctest.Representation{RepType: acctest.Required, Create: `ESSBASE`, Update: `ESSBASE`},
+		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: `true`},
+	}
+
+	DatabaseAutonomousDatabaseDbToolsDetailsRepresentationEssbaseDisable = map[string]interface{}{
+		"name":       acctest.Representation{RepType: acctest.Required, Create: `ESSBASE`, Update: `ESSBASE`},
+		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: `false`},
+	}
 	DatabaseAutonomousDatabaseDbToolsDetailsRepresentationEcpuGraphStudio = map[string]interface{}{
 		"name":                     acctest.Representation{RepType: acctest.Required, Create: `GRAPH_STUDIO`, Update: `GRAPH_STUDIO`},
 		"is_enabled":               acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
@@ -269,6 +278,12 @@ var (
 	}
 	DatabaseAutonomousDatabaseDbToolsDetailsRepresentationEcpuSpatialStudio = map[string]interface{}{
 		"name":                     acctest.Representation{RepType: acctest.Required, Create: `SPATIAL_STUDIO`, Update: `SPATIAL_STUDIO`},
+		"is_enabled":               acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+		"compute_count":            acctest.Representation{RepType: acctest.Optional, Create: `8.0`, Update: nil},
+		"max_idle_time_in_minutes": acctest.Representation{RepType: acctest.Optional, Create: `240.0`, Update: nil},
+	}
+	DatabaseAutonomousDatabaseDbToolsDetailsRepresentationEcpuEssbase = map[string]interface{}{
+		"name":                     acctest.Representation{RepType: acctest.Required, Create: `ESSBASE`, Update: `ESSBASE`},
 		"is_enabled":               acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
 		"compute_count":            acctest.Representation{RepType: acctest.Optional, Create: `8.0`, Update: nil},
 		"max_idle_time_in_minutes": acctest.Representation{RepType: acctest.Optional, Create: `240.0`, Update: nil},
