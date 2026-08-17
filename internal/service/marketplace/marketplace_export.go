@@ -3,6 +3,7 @@ package marketplace
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	oci_marketplace "github.com/oracle/oci-go-sdk/v65/marketplace"
 	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
@@ -78,8 +79,16 @@ func findPublications(ctx *tf_export.ResourceDiscoveryContext, tfMeta *tf_export
 		d := publicationResource.TestResourceData()
 		d.SetId(*publication.Id)
 
-		if err := publicationResource.Read(d, ctx.Clients); err != nil {
-			rdError := &tf_export.ResourceDiscoveryError{ResourceType: tfMeta.ResourceClass, ParentResource: parent.TerraformName, Error: err, ResourceGraph: resourceGraph}
+		var readErr error
+		if publicationResource.ReadContext != nil {
+			if diags := publicationResource.ReadContext(context.Background(), d, ctx.Clients); diags.HasError() {
+				readErr = fmt.Errorf("%s", strings.Join(tf_export.ParseDiagToError(diags), " | "))
+			}
+		} else {
+			readErr = publicationResource.Read(d, ctx.Clients)
+		}
+		if readErr != nil {
+			rdError := &tf_export.ResourceDiscoveryError{ResourceType: tfMeta.ResourceClass, ParentResource: parent.TerraformName, Error: readErr, ResourceGraph: resourceGraph}
 			ctx.AddErrorToList(rdError)
 			continue
 		}
