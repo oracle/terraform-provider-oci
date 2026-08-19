@@ -68,7 +68,7 @@ func newPluginClientFromBaseClient(baseClient common.BaseClient, configProvider 
 
 // SetRegion overrides the region of this client.
 func (client *PluginClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("computeinstanceagent", "https://iaas.{region}.{secondLevelDomain}")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("computeinstanceagent", "https://iaas.{region}.{dualStack?ds.:}oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -90,6 +90,12 @@ func (client *PluginClient) setConfigurationProvider(configProvider common.Confi
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *PluginClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
+// Default value is false
+func (client *PluginClient) EnableDualStackEndpoints(enableDualStack bool) {
+	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
 }
 
 // GetInstanceAgentPlugin Gets information about a specific Oracle Cloud Agent plugin on a compute instance.
@@ -133,6 +139,13 @@ func (client PluginClient) getInstanceAgentPlugin(ctx context.Context, request c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetInstanceAgentPluginResponse
 	var httpResponse *http.Response
@@ -191,6 +204,13 @@ func (client PluginClient) listInstanceAgentPlugins(ctx context.Context, request
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListInstanceAgentPluginsResponse
 	var httpResponse *http.Response
