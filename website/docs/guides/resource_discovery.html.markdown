@@ -953,6 +953,7 @@ generative_ai
 * oci\_generative\_ai\_hosted\_application
 * oci\_generative\_ai\_hosted\_deployment
 * oci\_generative\_ai\_project
+* oci\_generative\_ai\_hosted\_application\_iam
 
 generative_ai_agent
 
@@ -1152,6 +1153,11 @@ managed_kafka
 * oci\_managed\_kafka\_kafka\_cluster\_config
 * oci\_managed\_kafka\_kafka\_cluster
 * oci\_managed\_kafka\_kafka\_cluster\_addon
+
+managed_kafka
+    
+* oci\_managed\_kafka\_kafka\_cluster\_config
+* oci\_managed\_kafka\_kafka\_cluster
 
 management_agent
 

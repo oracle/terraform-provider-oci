@@ -14,44 +14,44 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
-func GenerativeAiHostedApplicationDataSource() *schema.Resource {
+func GenerativeAiHostedApplicationIamDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
-	fieldMap["hosted_application_id"] = &schema.Schema{
+	fieldMap["hosted_application_iam_id"] = &schema.Schema{
 		Type:     schema.TypeString,
 		Required: true,
 	}
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(GenerativeAiHostedApplicationResource(), fieldMap, readSingularGenerativeAiHostedApplicationWithContext)
+	return tfresource.GetSingularDataSourceItemSchemaWithContext(GenerativeAiHostedApplicationIamResource(), fieldMap, readSingularGenerativeAiHostedApplicationIamWithContext)
 }
 
-func readSingularGenerativeAiHostedApplicationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	sync := &GenerativeAiHostedApplicationDataSourceCrud{}
+func readSingularGenerativeAiHostedApplicationIamWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	sync := &GenerativeAiHostedApplicationIamDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 
 	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-type GenerativeAiHostedApplicationDataSourceCrud struct {
+type GenerativeAiHostedApplicationIamDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_generative_ai.GenerativeAiClient
-	Res    *oci_generative_ai.GetHostedApplicationResponse
+	Res    *oci_generative_ai.GetHostedApplicationIamResponse
 }
 
-func (s *GenerativeAiHostedApplicationDataSourceCrud) VoidState() {
+func (s *GenerativeAiHostedApplicationIamDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *GenerativeAiHostedApplicationDataSourceCrud) GetWithContext(ctx context.Context) error {
-	request := oci_generative_ai.GetHostedApplicationRequest{}
+func (s *GenerativeAiHostedApplicationIamDataSourceCrud) GetWithContext(ctx context.Context) error {
+	request := oci_generative_ai.GetHostedApplicationIamRequest{}
 
-	if hostedApplicationId, ok := s.D.GetOkExists("hosted_application_id"); ok {
-		tmp := hostedApplicationId.(string)
-		request.HostedApplicationId = &tmp
+	if hostedApplicationIamId, ok := s.D.GetOkExists("hosted_application_iam_id"); ok {
+		tmp := hostedApplicationIamId.(string)
+		request.HostedApplicationIamId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "generative_ai")
 
-	response, err := s.Client.GetHostedApplication(ctx, request)
+	response, err := s.Client.GetHostedApplicationIam(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -60,7 +60,7 @@ func (s *GenerativeAiHostedApplicationDataSourceCrud) GetWithContext(ctx context
 	return nil
 }
 
-func (s *GenerativeAiHostedApplicationDataSourceCrud) SetData() error {
+func (s *GenerativeAiHostedApplicationIamDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
@@ -90,12 +90,6 @@ func (s *GenerativeAiHostedApplicationDataSourceCrud) SetData() error {
 	s.D.Set("environment_variables", environmentVariables)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-
-	if s.Res.InboundAuthConfig != nil {
-		s.D.Set("inbound_auth_config", []interface{}{InboundAuthConfigToMap(s.Res.InboundAuthConfig)})
-	} else {
-		s.D.Set("inbound_auth_config", nil)
-	}
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)

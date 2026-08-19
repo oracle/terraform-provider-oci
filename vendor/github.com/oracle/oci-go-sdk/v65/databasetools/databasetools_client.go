@@ -139,7 +139,7 @@ func (client DatabaseToolsClient) addDatabaseToolsConnectionLock(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsConnection/AddDatabaseToolsConnectionLock"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "AddDatabaseToolsConnectionLock", apiReferenceLink)
 		return response, err
 	}
@@ -196,7 +196,7 @@ func (client DatabaseToolsClient) addDatabaseToolsDatabaseApiGatewayConfigLock(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsDatabaseApiGatewayConfig/AddDatabaseToolsDatabaseApiGatewayConfigLock"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "AddDatabaseToolsDatabaseApiGatewayConfigLock", apiReferenceLink)
 		return response, err
 	}
@@ -253,7 +253,7 @@ func (client DatabaseToolsClient) addDatabaseToolsIdentityLock(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsIdentity/AddDatabaseToolsIdentityLock"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "AddDatabaseToolsIdentityLock", apiReferenceLink)
 		return response, err
 	}
@@ -310,7 +310,7 @@ func (client DatabaseToolsClient) addDatabaseToolsMcpServerLock(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpServer/AddDatabaseToolsMcpServerLock"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "AddDatabaseToolsMcpServerLock", apiReferenceLink)
 		return response, err
 	}
@@ -367,7 +367,7 @@ func (client DatabaseToolsClient) addDatabaseToolsMcpToolsetLock(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpToolset/AddDatabaseToolsMcpToolsetLock"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "AddDatabaseToolsMcpToolsetLock", apiReferenceLink)
 		return response, err
 	}
@@ -424,7 +424,7 @@ func (client DatabaseToolsClient) addDatabaseToolsPrivateEndpointLock(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsPrivateEndpoint/AddDatabaseToolsPrivateEndpointLock"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "AddDatabaseToolsPrivateEndpointLock", apiReferenceLink)
 		return response, err
 	}
@@ -481,7 +481,7 @@ func (client DatabaseToolsClient) addDatabaseToolsSqlReportLock(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsSqlReport/AddDatabaseToolsSqlReportLock"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "AddDatabaseToolsSqlReportLock", apiReferenceLink)
 		return response, err
 	}
@@ -538,7 +538,7 @@ func (client DatabaseToolsClient) cascadingDeleteDatabaseToolsMcpServer(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpServer/CascadingDeleteDatabaseToolsMcpServer"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "CascadingDeleteDatabaseToolsMcpServer", apiReferenceLink)
 		return response, err
 	}
@@ -597,7 +597,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsConnectionCompartment(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsConnection/ChangeDatabaseToolsConnectionCompartment"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ChangeDatabaseToolsConnectionCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -656,7 +656,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsDatabaseApiGatewayConfigCom
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsDatabaseApiGatewayConfig/ChangeDatabaseToolsDatabaseApiGatewayConfigCompartment"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ChangeDatabaseToolsDatabaseApiGatewayConfigCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -715,7 +715,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsIdentityCompartment(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsIdentity/ChangeDatabaseToolsIdentityCompartment"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ChangeDatabaseToolsIdentityCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -772,7 +772,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsMcpServerCompartment(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpServer/ChangeDatabaseToolsMcpServerCompartment"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ChangeDatabaseToolsMcpServerCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -829,7 +829,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsMcpToolsetCompartment(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpToolset/ChangeDatabaseToolsMcpToolsetCompartment"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ChangeDatabaseToolsMcpToolsetCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -888,7 +888,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsPrivateEndpointCompartment(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsPrivateEndpoint/ChangeDatabaseToolsPrivateEndpointCompartment"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ChangeDatabaseToolsPrivateEndpointCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -945,7 +945,7 @@ func (client DatabaseToolsClient) changeDatabaseToolsSqlReportCompartment(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsSqlReport/ChangeDatabaseToolsSqlReportCompartment"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ChangeDatabaseToolsSqlReportCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -1071,7 +1071,7 @@ func (client DatabaseToolsClient) createDatabaseToolsDatabaseApiGatewayConfig(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsDatabaseApiGatewayConfig/CreateDatabaseToolsDatabaseApiGatewayConfig"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "CreateDatabaseToolsDatabaseApiGatewayConfig", apiReferenceLink)
 		return response, err
 	}
@@ -1386,7 +1386,7 @@ func (client DatabaseToolsClient) createDatabaseToolsSqlReport(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsSqlReport/CreateDatabaseToolsSqlReport"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "CreateDatabaseToolsSqlReport", apiReferenceLink)
 		return response, err
 	}
@@ -1443,7 +1443,7 @@ func (client DatabaseToolsClient) deleteDatabaseToolsConnection(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsConnection/DeleteDatabaseToolsConnection"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "DeleteDatabaseToolsConnection", apiReferenceLink)
 		return response, err
 	}
@@ -1500,7 +1500,7 @@ func (client DatabaseToolsClient) deleteDatabaseToolsDatabaseApiGatewayConfig(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsDatabaseApiGatewayConfig/DeleteDatabaseToolsDatabaseApiGatewayConfig"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "DeleteDatabaseToolsDatabaseApiGatewayConfig", apiReferenceLink)
 		return response, err
 	}
@@ -1557,7 +1557,7 @@ func (client DatabaseToolsClient) deleteDatabaseToolsIdentity(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsIdentity/DeleteDatabaseToolsIdentity"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "DeleteDatabaseToolsIdentity", apiReferenceLink)
 		return response, err
 	}
@@ -1614,7 +1614,7 @@ func (client DatabaseToolsClient) deleteDatabaseToolsMcpServer(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpServer/DeleteDatabaseToolsMcpServer"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "DeleteDatabaseToolsMcpServer", apiReferenceLink)
 		return response, err
 	}
@@ -1671,7 +1671,7 @@ func (client DatabaseToolsClient) deleteDatabaseToolsMcpToolset(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpToolset/DeleteDatabaseToolsMcpToolset"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "DeleteDatabaseToolsMcpToolset", apiReferenceLink)
 		return response, err
 	}
@@ -1728,7 +1728,7 @@ func (client DatabaseToolsClient) deleteDatabaseToolsPrivateEndpoint(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsPrivateEndpoint/DeleteDatabaseToolsPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "DeleteDatabaseToolsPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -1785,7 +1785,7 @@ func (client DatabaseToolsClient) deleteDatabaseToolsSqlReport(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsSqlReport/DeleteDatabaseToolsSqlReport"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "DeleteDatabaseToolsSqlReport", apiReferenceLink)
 		return response, err
 	}
@@ -1843,7 +1843,7 @@ func (client DatabaseToolsClient) getDatabaseToolsConnection(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsConnection/GetDatabaseToolsConnection"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "GetDatabaseToolsConnection", apiReferenceLink)
 		return response, err
 	}
@@ -1901,7 +1901,7 @@ func (client DatabaseToolsClient) getDatabaseToolsDatabaseApiGatewayConfig(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsDatabaseApiGatewayConfig/GetDatabaseToolsDatabaseApiGatewayConfig"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "GetDatabaseToolsDatabaseApiGatewayConfig", apiReferenceLink)
 		return response, err
 	}
@@ -1959,7 +1959,7 @@ func (client DatabaseToolsClient) getDatabaseToolsEndpointService(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsEndpointService/GetDatabaseToolsEndpointService"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "GetDatabaseToolsEndpointService", apiReferenceLink)
 		return response, err
 	}
@@ -2017,7 +2017,7 @@ func (client DatabaseToolsClient) getDatabaseToolsIdentity(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsIdentity/GetDatabaseToolsIdentity"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "GetDatabaseToolsIdentity", apiReferenceLink)
 		return response, err
 	}
@@ -2075,7 +2075,7 @@ func (client DatabaseToolsClient) getDatabaseToolsMcpServer(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpServer/GetDatabaseToolsMcpServer"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "GetDatabaseToolsMcpServer", apiReferenceLink)
 		return response, err
 	}
@@ -2133,7 +2133,7 @@ func (client DatabaseToolsClient) getDatabaseToolsMcpToolset(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpToolset/GetDatabaseToolsMcpToolset"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "GetDatabaseToolsMcpToolset", apiReferenceLink)
 		return response, err
 	}
@@ -2191,7 +2191,7 @@ func (client DatabaseToolsClient) getDatabaseToolsPrivateEndpoint(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsPrivateEndpoint/GetDatabaseToolsPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "GetDatabaseToolsPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -2249,7 +2249,7 @@ func (client DatabaseToolsClient) getDatabaseToolsSqlReport(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsSqlReport/GetDatabaseToolsSqlReport"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "GetDatabaseToolsSqlReport", apiReferenceLink)
 		return response, err
 	}
@@ -2307,7 +2307,7 @@ func (client DatabaseToolsClient) getWorkRequest(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -2365,7 +2365,7 @@ func (client DatabaseToolsClient) listDatabaseToolsConnections(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsConnection/ListDatabaseToolsConnections"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ListDatabaseToolsConnections", apiReferenceLink)
 		return response, err
 	}
@@ -2423,7 +2423,7 @@ func (client DatabaseToolsClient) listDatabaseToolsDatabaseApiGatewayConfigs(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsDatabaseApiGatewayConfig/ListDatabaseToolsDatabaseApiGatewayConfigs"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ListDatabaseToolsDatabaseApiGatewayConfigs", apiReferenceLink)
 		return response, err
 	}
@@ -2481,7 +2481,7 @@ func (client DatabaseToolsClient) listDatabaseToolsEndpointServices(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsEndpointService/ListDatabaseToolsEndpointServices"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ListDatabaseToolsEndpointServices", apiReferenceLink)
 		return response, err
 	}
@@ -2539,7 +2539,7 @@ func (client DatabaseToolsClient) listDatabaseToolsIdentities(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsIdentity/ListDatabaseToolsIdentities"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ListDatabaseToolsIdentities", apiReferenceLink)
 		return response, err
 	}
@@ -2597,7 +2597,7 @@ func (client DatabaseToolsClient) listDatabaseToolsMcpServers(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpServer/ListDatabaseToolsMcpServers"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ListDatabaseToolsMcpServers", apiReferenceLink)
 		return response, err
 	}
@@ -2655,7 +2655,7 @@ func (client DatabaseToolsClient) listDatabaseToolsMcpToolsetVersions(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpToolsetVersionCollection/ListDatabaseToolsMcpToolsetVersions"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ListDatabaseToolsMcpToolsetVersions", apiReferenceLink)
 		return response, err
 	}
@@ -2713,7 +2713,7 @@ func (client DatabaseToolsClient) listDatabaseToolsMcpToolsets(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpToolset/ListDatabaseToolsMcpToolsets"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ListDatabaseToolsMcpToolsets", apiReferenceLink)
 		return response, err
 	}
@@ -2771,7 +2771,7 @@ func (client DatabaseToolsClient) listDatabaseToolsPrivateEndpoints(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsPrivateEndpoint/ListDatabaseToolsPrivateEndpoints"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ListDatabaseToolsPrivateEndpoints", apiReferenceLink)
 		return response, err
 	}
@@ -2829,7 +2829,7 @@ func (client DatabaseToolsClient) listDatabaseToolsSqlReports(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsSqlReport/ListDatabaseToolsSqlReports"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ListDatabaseToolsSqlReports", apiReferenceLink)
 		return response, err
 	}
@@ -2887,7 +2887,7 @@ func (client DatabaseToolsClient) listWorkRequestErrors(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -2945,7 +2945,7 @@ func (client DatabaseToolsClient) listWorkRequestLogs(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -3003,7 +3003,7 @@ func (client DatabaseToolsClient) listWorkRequests(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -3060,7 +3060,7 @@ func (client DatabaseToolsClient) refreshDatabaseToolsIdentityCredential(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsIdentity/RefreshDatabaseToolsIdentityCredential"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "RefreshDatabaseToolsIdentityCredential", apiReferenceLink)
 		return response, err
 	}
@@ -3117,7 +3117,7 @@ func (client DatabaseToolsClient) removeDatabaseToolsConnectionLock(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsConnection/RemoveDatabaseToolsConnectionLock"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "RemoveDatabaseToolsConnectionLock", apiReferenceLink)
 		return response, err
 	}
@@ -3174,7 +3174,7 @@ func (client DatabaseToolsClient) removeDatabaseToolsDatabaseApiGatewayConfigLoc
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsDatabaseApiGatewayConfig/RemoveDatabaseToolsDatabaseApiGatewayConfigLock"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "RemoveDatabaseToolsDatabaseApiGatewayConfigLock", apiReferenceLink)
 		return response, err
 	}
@@ -3231,7 +3231,7 @@ func (client DatabaseToolsClient) removeDatabaseToolsIdentityLock(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsIdentity/RemoveDatabaseToolsIdentityLock"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "RemoveDatabaseToolsIdentityLock", apiReferenceLink)
 		return response, err
 	}
@@ -3288,7 +3288,7 @@ func (client DatabaseToolsClient) removeDatabaseToolsMcpServerLock(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpServer/RemoveDatabaseToolsMcpServerLock"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "RemoveDatabaseToolsMcpServerLock", apiReferenceLink)
 		return response, err
 	}
@@ -3345,7 +3345,7 @@ func (client DatabaseToolsClient) removeDatabaseToolsMcpToolsetLock(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpToolset/RemoveDatabaseToolsMcpToolsetLock"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "RemoveDatabaseToolsMcpToolsetLock", apiReferenceLink)
 		return response, err
 	}
@@ -3402,7 +3402,7 @@ func (client DatabaseToolsClient) removeDatabaseToolsPrivateEndpointLock(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsPrivateEndpoint/RemoveDatabaseToolsPrivateEndpointLock"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "RemoveDatabaseToolsPrivateEndpointLock", apiReferenceLink)
 		return response, err
 	}
@@ -3459,7 +3459,7 @@ func (client DatabaseToolsClient) removeDatabaseToolsSqlReportLock(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsSqlReport/RemoveDatabaseToolsSqlReportLock"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "RemoveDatabaseToolsSqlReportLock", apiReferenceLink)
 		return response, err
 	}
@@ -3516,7 +3516,7 @@ func (client DatabaseToolsClient) updateDatabaseToolsConnection(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsConnection/UpdateDatabaseToolsConnection"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "UpdateDatabaseToolsConnection", apiReferenceLink)
 		return response, err
 	}
@@ -3573,7 +3573,7 @@ func (client DatabaseToolsClient) updateDatabaseToolsDatabaseApiGatewayConfig(ct
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsDatabaseApiGatewayConfig/UpdateDatabaseToolsDatabaseApiGatewayConfig"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "UpdateDatabaseToolsDatabaseApiGatewayConfig", apiReferenceLink)
 		return response, err
 	}
@@ -3630,7 +3630,7 @@ func (client DatabaseToolsClient) updateDatabaseToolsIdentity(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsIdentity/UpdateDatabaseToolsIdentity"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "UpdateDatabaseToolsIdentity", apiReferenceLink)
 		return response, err
 	}
@@ -3687,7 +3687,7 @@ func (client DatabaseToolsClient) updateDatabaseToolsMcpServer(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpServer/UpdateDatabaseToolsMcpServer"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "UpdateDatabaseToolsMcpServer", apiReferenceLink)
 		return response, err
 	}
@@ -3744,7 +3744,7 @@ func (client DatabaseToolsClient) updateDatabaseToolsMcpToolset(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsMcpToolset/UpdateDatabaseToolsMcpToolset"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "UpdateDatabaseToolsMcpToolset", apiReferenceLink)
 		return response, err
 	}
@@ -3801,7 +3801,7 @@ func (client DatabaseToolsClient) updateDatabaseToolsPrivateEndpoint(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsPrivateEndpoint/UpdateDatabaseToolsPrivateEndpoint"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "UpdateDatabaseToolsPrivateEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -3858,7 +3858,7 @@ func (client DatabaseToolsClient) updateDatabaseToolsSqlReport(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsSqlReport/UpdateDatabaseToolsSqlReport"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "UpdateDatabaseToolsSqlReport", apiReferenceLink)
 		return response, err
 	}
@@ -3915,7 +3915,7 @@ func (client DatabaseToolsClient) validateDatabaseToolsConnection(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsConnection/ValidateDatabaseToolsConnection"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ValidateDatabaseToolsConnection", apiReferenceLink)
 		return response, err
 	}
@@ -3973,7 +3973,7 @@ func (client DatabaseToolsClient) validateDatabaseToolsIdentityCredential(ctx co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsIdentity/ValidateDatabaseToolsIdentityCredential"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ValidateDatabaseToolsIdentityCredential", apiReferenceLink)
 		return response, err
 	}

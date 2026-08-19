@@ -102,7 +102,7 @@ func findLogAnalyticsObjectCollectionRules(ctx *tf_export.ResourceDiscoveryConte
 		d := logAnalyticsObjectCollectionRuleResource.TestResourceData()
 		d.SetId(GetLogAnalyticsObjectCollectionRuleCompositeId(*logAnalyticsObjectCollectionRule.Id, *namespace))
 
-		if err := logAnalyticsObjectCollectionRuleResource.Read(d, ctx.Clients); err != nil {
+		if err := readLogAnalyticsResourceForExport(logAnalyticsObjectCollectionRuleResource, d, ctx.Clients); err != nil {
 			rdError := &tf_export.ResourceDiscoveryError{ResourceType: tfMeta.ResourceClass, ParentResource: parent.TerraformName, Error: err, ResourceGraph: resourceGraph}
 			ctx.AddErrorToList(rdError)
 			continue

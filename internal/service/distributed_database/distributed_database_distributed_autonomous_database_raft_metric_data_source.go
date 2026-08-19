@@ -17,7 +17,8 @@ import (
 
 func DistributedDatabaseDistributedAutonomousDatabaseRaftMetricDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readSingularDistributedDatabaseDistributedAutonomousDatabaseRaftMetricWithContext,
+		DeprecationMessage: "The distributed_database service is deprecated and will be removed in a future major version.",
+		ReadContext:        readSingularDistributedDatabaseDistributedAutonomousDatabaseRaftMetricWithContext,
 		Schema: map[string]*schema.Schema{
 			"distributed_autonomous_database_id": {
 				Type:     schema.TypeString,

@@ -21,6 +21,7 @@ import (
 
 func DistributedDatabaseDistributedDatabasePrivateEndpointResource() *schema.Resource {
 	return &schema.Resource{
+		DeprecationMessage: "The distributed_database service is deprecated and will be removed in a future major version.",
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},

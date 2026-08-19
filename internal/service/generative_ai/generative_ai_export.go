@@ -25,8 +25,6 @@ func processExcludingBaseModels(ctx *tf_export.ResourceDiscoveryContext, resourc
 	return results, nil
 }
 
-// Custom overrides for generating composite IDs within the resource discovery framework
-
 // Hints for discovering and exporting this resource to configuration and state files
 var exportGenerativeAiDedicatedAiClusterHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_generative_ai_dedicated_ai_cluster",
@@ -121,6 +119,7 @@ var exportGenerativeAiHostedDeploymentHints = &tf_export.TerraformResourceHints{
 	ResourceAbbreviation:   "hosted_deployment",
 	RequireResourceRefresh: true,
 	DiscoverableLifecycleStates: []string{
+		string(oci_generative_ai.HostedDeploymentLifecycleStateNeedsAttention),
 		string(oci_generative_ai.HostedDeploymentLifecycleStateActive),
 	},
 }
@@ -149,6 +148,18 @@ var exportGenerativeAiProjectHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportGenerativeAiHostedApplicationIamHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_generative_ai_hosted_application_iam",
+	DatasourceClass:        "oci_generative_ai_hosted_application_iams",
+	DatasourceItemsAttr:    "hosted_application_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "hosted_application_iam",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_generative_ai.HostedApplicationIamLifecycleStateActive),
+	},
+}
+
 var generativeAiResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportGenerativeAiDedicatedAiClusterHints},
@@ -161,5 +172,6 @@ var generativeAiResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportGenerativeAiHostedDeploymentHints},
 		{TerraformResourceHints: exportGenerativeAiSemanticStoreHints},
 		{TerraformResourceHints: exportGenerativeAiProjectHints},
+		{TerraformResourceHints: exportGenerativeAiHostedApplicationIamHints},
 	},
 }

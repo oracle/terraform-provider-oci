@@ -712,8 +712,16 @@ func findAlertPolicies(ctx *tf_export.ResourceDiscoveryContext, tfMeta *tf_expor
 		d := alertPolicyResource.TestResourceData()
 		d.SetId(*alertPolicy.Id)
 
-		if err := alertPolicyResource.Read(d, ctx.Clients); err != nil {
-			rdError := &tf_export.ResourceDiscoveryError{ResourceType: tfMeta.ResourceClass, ParentResource: parent.TerraformName, Error: err, ResourceGraph: resourceGraph}
+		var readErr error
+		if alertPolicyResource.ReadContext != nil {
+			if diags := alertPolicyResource.ReadContext(context.Background(), d, ctx.Clients); diags.HasError() {
+				readErr = fmt.Errorf("%s", strings.Join(tf_export.ParseDiagToError(diags), " | "))
+			}
+		} else {
+			readErr = alertPolicyResource.Read(d, ctx.Clients)
+		}
+		if readErr != nil {
+			rdError := &tf_export.ResourceDiscoveryError{ResourceType: tfMeta.ResourceClass, ParentResource: parent.TerraformName, Error: readErr, ResourceGraph: resourceGraph}
 			ctx.AddErrorToList(rdError)
 			continue
 		}

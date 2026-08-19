@@ -42,15 +42,15 @@ var tfPlanVar = func(tf *tfexec.Terraform, planArgs []tfexec.PlanOption) (bool, 
 func TestExportCompartmentWithResourceName(id *string, compartmentId *string, resourceName string) error {
 
 	// add logs for notifying execution
-	log.Println()
-	log.Printf("-------------------------------- Executing Resource Discovery Sub-Step --------------------------------")
-	log.Println()
+	utils.Logln()
+	utils.Log("-------------------------------- Executing Resource Discovery Sub-Step --------------------------------")
+	utils.Logln()
 
 	defer func() {
 		// add logs for notifying execution
-		log.Println()
-		log.Printf("-------------------------------- Exiting Resource Discovery Sub-Step --------------------------------")
-		log.Println()
+		utils.Logln()
+		utils.Log("-------------------------------- Exiting Resource Discovery Sub-Step --------------------------------")
+		utils.Logln()
 	}()
 
 	var exportCommandArgs tf_export.ExportCommandArgs

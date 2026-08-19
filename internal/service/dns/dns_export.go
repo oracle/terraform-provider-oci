@@ -105,8 +105,16 @@ func findDnsRrset(ctx *tf_export.ResourceDiscoveryContext, tfMeta *tf_export.Ter
 			d := recordResource.TestResourceData()
 			zoneId := parent.Id
 			d.SetId(getRrsetCompositeId(domain, rtype, zoneId))
-			if err := recordResource.Read(d, ctx.Clients); err != nil {
-				rdError := &tf_export.ResourceDiscoveryError{ResourceType: tfMeta.ResourceClass, ParentResource: parent.TerraformName, Error: err, ResourceGraph: resourceGraph}
+			var readErr error
+			if recordResource.ReadContext != nil {
+				if diags := recordResource.ReadContext(context.Background(), d, ctx.Clients); diags.HasError() {
+					readErr = fmt.Errorf("%s", strings.Join(tf_export.ParseDiagToError(diags), " | "))
+				}
+			} else {
+				readErr = recordResource.Read(d, ctx.Clients)
+			}
+			if readErr != nil {
+				rdError := &tf_export.ResourceDiscoveryError{ResourceType: tfMeta.ResourceClass, ParentResource: parent.TerraformName, Error: readErr, ResourceGraph: resourceGraph}
 				ctx.AddErrorToList(rdError)
 				continue
 			}
