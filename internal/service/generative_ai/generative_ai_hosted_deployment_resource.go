@@ -32,6 +32,14 @@ func GenerativeAiHostedDeploymentResource() *schema.Resource {
 		UpdateContext: updateGenerativeAiHostedDeploymentWithContext,
 		DeleteContext: deleteGenerativeAiHostedDeploymentWithContext,
 		Schema: map[string]*schema.Schema{
+			// Optional
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+
 			// Required
 			"active_artifact": {
 				Type:     schema.TypeList,
@@ -67,6 +75,11 @@ func GenerativeAiHostedDeploymentResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"is_vulnerability_scan_required": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"status": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -88,19 +101,8 @@ func GenerativeAiHostedDeploymentResource() *schema.Resource {
 					},
 				},
 			},
-			"hosted_application_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 
 			// Optional
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
-			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -119,6 +121,11 @@ func GenerativeAiHostedDeploymentResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"hosted_application_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
 			},
 
 			// Computed
@@ -146,6 +153,10 @@ func GenerativeAiHostedDeploymentResource() *schema.Resource {
 						},
 						"id": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_vulnerability_scan_required": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"status": {
@@ -236,6 +247,7 @@ func (s *GenerativeAiHostedDeploymentResourceCrud) CreatedPending() []string {
 
 func (s *GenerativeAiHostedDeploymentResourceCrud) CreatedTarget() []string {
 	return []string{
+		string(oci_generative_ai.HostedDeploymentLifecycleStateNeedsAttention),
 		string(oci_generative_ai.HostedDeploymentLifecycleStateActive),
 	}
 }
@@ -311,6 +323,12 @@ func (s *GenerativeAiHostedDeploymentResourceCrud) CreateWithContext(ctx context
 
 func (s *GenerativeAiHostedDeploymentResourceCrud) getHostedDeploymentFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_generative_ai.ActionTypeEnum, timeout time.Duration) error {
+	if workId == nil || *workId == "" {
+		// Some create and update operations complete synchronously without an
+		// opc-work-request-id. Refresh the deployment already stored in state
+		// instead of issuing an invalid GetWorkRequest call with a nil ID.
+		return s.GetWithContext(ctx)
+	}
 
 	// Wait until it finishes
 	hostedDeploymentId, err := hostedDeploymentWaitForWorkRequest(ctx, workId, "hosteddeployment",
@@ -383,9 +401,14 @@ func hostedDeploymentWaitForWorkRequest(ctx context.Context, wId *string, entity
 	}
 
 	var identifier *string
+	normalizedExpectedEntityType := strings.ReplaceAll(strings.ToLower(entityType), "_", "")
 	// The work request response contains an array of objects that finished the operation
 	for _, res := range response.Resources {
-		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
+		if res.EntityType == nil {
+			continue
+		}
+		normalizedEntityType := strings.ReplaceAll(strings.ToLower(*res.EntityType), "_", "")
+		if strings.Contains(normalizedEntityType, normalizedExpectedEntityType) {
 			if res.ActionType == action {
 				identifier = res.Identifier
 				break
@@ -463,9 +486,28 @@ func (s *GenerativeAiHostedDeploymentResourceCrud) UpdateWithContext(ctx context
 				addArtifactRequest.Artifact = artifact
 				addArtifactRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-				if _, err := s.Client.AddArtifact(ctx, addArtifactRequest); err != nil {
+				addArtifactResponse, err := s.Client.AddArtifact(ctx, addArtifactRequest)
+				if err != nil {
 					return err
 				}
+
+				// AddArtifact is asynchronous. Wait until the new artifact is available before
+				// selecting it as active with UpdateHostedDeployment.
+				if err := s.getHostedDeploymentFromWorkRequest(
+					ctx,
+					addArtifactResponse.OpcWorkRequestId,
+					tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai"),
+					oci_generative_ai.ActionTypeCreated,
+					s.D.Timeout(schema.TimeoutUpdate),
+				); err != nil {
+					return err
+				}
+
+				// These fields identify the previously active artifact in Terraform state. The
+				// update API resolves the newly added artifact by container URI and tag.
+				tmp.Id = nil
+				tmp.HostedDeploymentId = nil
+				tmp.Status = ""
 			}
 			request.ActiveArtifact = tmp
 		}
@@ -490,6 +532,21 @@ func (s *GenerativeAiHostedDeploymentResourceCrud) UpdateWithContext(ctx context
 
 	response, err := s.Client.UpdateHostedDeployment(ctx, request)
 	if err != nil {
+		if response.RawResponse != nil && response.RawResponse.StatusCode >= 200 && response.RawResponse.StatusCode < 300 && err.Error() == "unexpected end of JSON input" {
+			// The service currently completes this update successfully with an empty
+			// response body, while the preview SDK expects a HostedDeployment body.
+			// Preserve asynchronous polling when the response includes a work request.
+			if headerWorkId := response.RawResponse.Header.Get("opc-work-request-id"); headerWorkId != "" {
+				return s.getHostedDeploymentFromWorkRequest(
+					ctx,
+					&headerWorkId,
+					tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai"),
+					oci_generative_ai.ActionTypeUpdated,
+					s.D.Timeout(schema.TimeoutUpdate),
+				)
+			}
+			return s.GetWithContext(ctx)
+		}
 		return err
 	}
 
@@ -507,6 +564,9 @@ func (s *GenerativeAiHostedDeploymentResourceCrud) DeleteWithContext(ctx context
 
 	response, err := s.Client.DeleteHostedDeployment(ctx, request)
 	if err != nil {
+		if s.isActiveIamDeploymentDeleteError(err) {
+			return s.deleteIamApplicationAndDeployment(ctx)
+		}
 		return err
 	}
 
@@ -515,6 +575,47 @@ func (s *GenerativeAiHostedDeploymentResourceCrud) DeleteWithContext(ctx context
 	_, delWorkRequestErr := hostedDeploymentWaitForWorkRequest(ctx, workId, "hosteddeployment",
 		oci_generative_ai.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
+}
+
+func (s *GenerativeAiHostedDeploymentResourceCrud) isActiveIamDeploymentDeleteError(err error) bool {
+	hostedApplicationId, ok := s.D.GetOkExists("hosted_application_id")
+	if !ok || !strings.HasPrefix(hostedApplicationId.(string), "ocid1.generativeaihostedapplicationiam.") {
+		return false
+	}
+
+	serviceErr, ok := oci_common.IsServiceError(err)
+	return ok && serviceErr.GetHTTPStatusCode() == 403 && serviceErr.GetCode() == "NotAllowed" &&
+		strings.Contains(serviceErr.GetMessage(), "activeDeployment")
+}
+
+func (s *GenerativeAiHostedDeploymentResourceCrud) deleteIamApplicationAndDeployment(ctx context.Context) error {
+	hostedApplicationId := s.D.Get("hosted_application_id").(string)
+	request := oci_generative_ai.DeleteHostedApplicationIamRequest{
+		HostedApplicationIamId: &hostedApplicationId,
+	}
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
+
+	response, err := s.Client.DeleteHostedApplicationIam(ctx, request)
+	if err != nil {
+		if serviceErr, ok := oci_common.IsServiceError(err); ok && serviceErr.GetHTTPStatusCode() == 404 {
+			return nil
+		}
+		return err
+	}
+	if response.OpcWorkRequestId == nil || *response.OpcWorkRequestId == "" {
+		return fmt.Errorf("delete IAM application response did not include opc-work-request-id")
+	}
+
+	_, err = hostedApplicationIamWaitForWorkRequest(
+		ctx,
+		response.OpcWorkRequestId,
+		"hostedapplication",
+		oci_generative_ai.ActionTypeDeleted,
+		s.D.Timeout(schema.TimeoutDelete),
+		s.DisableNotFoundRetries,
+		s.Client,
+	)
+	return err
 }
 
 func (s *GenerativeAiHostedDeploymentResourceCrud) SetData() error {
@@ -587,6 +688,11 @@ func (s *GenerativeAiHostedDeploymentResourceCrud) mapToSingleDockerArtifact(fie
 		result.Id = &tmp
 	}
 
+	if isVulnerabilityScanRequired, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_vulnerability_scan_required")); ok {
+		tmp := isVulnerabilityScanRequired.(bool)
+		result.IsVulnerabilityScanRequired = &tmp
+	}
+
 	if status, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "status")); ok {
 		result.Status = oci_generative_ai.ArtifactStatusEnum(status.(string))
 	}
@@ -605,6 +711,11 @@ func (s *GenerativeAiHostedDeploymentResourceCrud) mapToCreateArtifactDetails(fi
 	if containerUri, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "container_uri")); ok {
 		tmp := containerUri.(string)
 		result.ContainerUri = &tmp
+	}
+
+	if isVulnerabilityScanRequired, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_vulnerability_scan_required")); ok {
+		tmp := isVulnerabilityScanRequired.(bool)
+		result.IsVulnerabilityScanRequired = &tmp
 	}
 
 	if tag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tag")); ok {
@@ -635,6 +746,10 @@ func ArtifactToMap(obj oci_generative_ai.Artifact) map[string]interface{} {
 
 		if v.Id != nil {
 			result["id"] = string(*v.Id)
+		}
+
+		if v.IsVulnerabilityScanRequired != nil {
+			result["is_vulnerability_scan_required"] = bool(*v.IsVulnerabilityScanRequired)
 		}
 
 		result["status"] = string(v.Status)

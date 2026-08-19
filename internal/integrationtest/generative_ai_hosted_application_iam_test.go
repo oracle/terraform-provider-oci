@@ -25,53 +25,46 @@ import (
 )
 
 var (
-	GenerativeAiHostedApplicationRequiredOnlyResource = GenerativeAiHostedApplicationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_hosted_application", "test_hosted_application", acctest.Required, acctest.Create, GenerativeAiHostedApplicationRepresentation)
+	GenerativeAiHostedApplicationIamRequiredOnlyResource = GenerativeAiHostedApplicationIamResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_hosted_application_iam", "test_hosted_application_iam", acctest.Required, acctest.Create, GenerativeAiHostedApplicationIamRepresentation)
 
-	GenerativeAiHostedApplicationResourceConfig = GenerativeAiHostedApplicationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_hosted_application", "test_hosted_application", acctest.Optional, acctest.Update, GenerativeAiHostedApplicationRepresentation)
+	GenerativeAiHostedApplicationIamResourceConfig = GenerativeAiHostedApplicationIamResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_hosted_application_iam", "test_hosted_application_iam", acctest.Optional, acctest.Update, GenerativeAiHostedApplicationIamRepresentation)
 
-	GenerativeAiHostedApplicationSingularDataSourceRepresentation = map[string]interface{}{
-		"hosted_application_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_generative_ai_hosted_application.test_hosted_application.id}`},
+	GenerativeAiHostedApplicationIamSingularDataSourceRepresentation = map[string]interface{}{
+		"hosted_application_iam_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_generative_ai_hosted_application_iam.test_hosted_application_iam.id}`},
 	}
 
-	GenerativeAiHostedApplicationDataSourceRepresentation = map[string]interface{}{
+	GenerativeAiHostedApplicationIamDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `qa_plus_agent_test_hosted_application`, Update: `qa_plus_agent_test_hosted_application_updated`},
-		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_generative_ai_hosted_application.test_hosted_application.id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `qa_plus_agent_test_hosted_application_iam`, Update: `qa_plus_agent_test_hosted_application_iam_updated`},
+		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_generative_ai_hosted_application_iam.test_hosted_application_iam.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiHostedApplicationDataSourceFilterRepresentation}}
-	GenerativeAiHostedApplicationDataSourceFilterRepresentation = map[string]interface{}{
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiHostedApplicationIamDataSourceFilterRepresentation}}
+	GenerativeAiHostedApplicationIamDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
-		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_generative_ai_hosted_application.test_hosted_application.id}`}},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_generative_ai_hosted_application_iam.test_hosted_application_iam.id}`}},
 	}
 
-	GenerativeAiHostedApplicationRepresentation = map[string]interface{}{
+	GenerativeAiHostedApplicationIamRepresentation = map[string]interface{}{
 		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":          acctest.Representation{RepType: acctest.Required, Create: `qa_plus_agent_test_hosted_application`, Update: `qa_plus_agent_test_hosted_application_updated`},
-		"inbound_auth_config":   acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiHostedApplicationInboundAuthConfigRepresentation},
-		"defined_tags":          acctest.Representation{RepType: acctest.Optional},
+		"display_name":          acctest.Representation{RepType: acctest.Required, Create: `qa_plus_agent_test_hosted_application_iam`, Update: `qa_plus_agent_test_hosted_application_iam_updated`},
 		"description":           acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"environment_variables": acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiHostedApplicationEnvironmentVariablesRepresentation},
+		"environment_variables": acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiHostedApplicationIamEnvironmentVariablesRepresentation},
 		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Finance"}},
-		"networking_config":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiHostedApplicationNetworkingConfigRepresentation},
-		"scaling_config":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiHostedApplicationScalingConfigRepresentation},
-		"storage_configs":       acctest.Representation{RepType: acctest.Optional},
+		"networking_config":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiHostedApplicationIamNetworkingConfigRepresentation},
+		"scaling_config":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiHostedApplicationIamScalingConfigRepresentation},
 	}
-	GenerativeAiHostedApplicationInboundAuthConfigRepresentation = map[string]interface{}{
-		"inbound_auth_config_type": acctest.Representation{RepType: acctest.Required, Create: `IDCS_AUTH_CONFIG`},
-		"idcs_config":              acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiHostedApplicationInboundAuthConfigIdcsConfigRepresentation},
-	}
-	GenerativeAiHostedApplicationEnvironmentVariablesRepresentation = map[string]interface{}{
+	GenerativeAiHostedApplicationIamEnvironmentVariablesRepresentation = map[string]interface{}{
 		"name":  acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"type":  acctest.Representation{RepType: acctest.Required, Create: `PLAINTEXT`, Update: `PLAINTEXT`},
 		"value": acctest.Representation{RepType: acctest.Required, Create: `{\"dummyKey\":\"dummyValue\"}`},
 	}
-	GenerativeAiHostedApplicationNetworkingConfigRepresentation = map[string]interface{}{
-		"inbound_networking_config":  acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiHostedApplicationNetworkingConfigInboundNetworkingConfigRepresentation},
-		"outbound_networking_config": acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiHostedApplicationNetworkingConfigOutboundNetworkingConfigRepresentation},
+	GenerativeAiHostedApplicationIamNetworkingConfigRepresentation = map[string]interface{}{
+		"inbound_networking_config":  acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiHostedApplicationIamNetworkingConfigInboundNetworkingConfigRepresentation},
+		"outbound_networking_config": acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiHostedApplicationIamNetworkingConfigOutboundNetworkingConfigRepresentation},
 	}
-	GenerativeAiHostedApplicationScalingConfigRepresentation = map[string]interface{}{
+	GenerativeAiHostedApplicationIamScalingConfigRepresentation = map[string]interface{}{
 		"scaling_type":                 acctest.Representation{RepType: acctest.Required, Create: `CPU`, Update: `CPU`},
 		"max_replica":                  acctest.Representation{RepType: acctest.Optional, Create: `3`, Update: `3`},
 		"min_replica":                  acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `1`},
@@ -80,31 +73,19 @@ var (
 		"target_memory_threshold":      acctest.Representation{RepType: acctest.Optional},
 		"target_rps_threshold":         acctest.Representation{RepType: acctest.Optional},
 	}
-	GenerativeAiHostedApplicationStorageConfigsRepresentation = map[string]interface{}{
-		"environment_variable_key": acctest.Representation{RepType: acctest.Required, Create: `environmentVariableKey`},
-		"storage_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_generative_ai_storage.test_storage.id}`},
+	GenerativeAiHostedApplicationIamNetworkingConfigInboundNetworkingConfigRepresentation = map[string]interface{}{
+		"endpoint_mode": acctest.Representation{RepType: acctest.Required, Create: `PUBLIC`},
 	}
-	GenerativeAiHostedApplicationInboundAuthConfigIdcsConfigRepresentation = map[string]interface{}{
-		"domain_url": acctest.Representation{RepType: acctest.Required, Create: `domainUrl`, Update: `domainUrl2`},
-		"scope":      acctest.Representation{RepType: acctest.Required, Create: `scope`, Update: `scope2`},
-		"audience":   acctest.Representation{RepType: acctest.Optional, Create: `audience`, Update: `audience2`},
-	}
-	GenerativeAiHostedApplicationNetworkingConfigInboundNetworkingConfigRepresentation = map[string]interface{}{
-		"endpoint_mode":       acctest.Representation{RepType: acctest.Required, Create: `PUBLIC`},
-		"private_endpoint_id": acctest.Representation{RepType: acctest.Optional},
-	}
-	GenerativeAiHostedApplicationNetworkingConfigOutboundNetworkingConfigRepresentation = map[string]interface{}{
-		"network_mode":     acctest.Representation{RepType: acctest.Required, Create: `MANAGED`},
-		"custom_subnet_id": acctest.Representation{RepType: acctest.Optional},
-		"nsg_ids":          acctest.Representation{RepType: acctest.Optional},
+	GenerativeAiHostedApplicationIamNetworkingConfigOutboundNetworkingConfigRepresentation = map[string]interface{}{
+		"network_mode": acctest.Representation{RepType: acctest.Required, Create: `MANAGED`},
 	}
 
-	GenerativeAiHostedApplicationResourceDependencies = ""
+	GenerativeAiHostedApplicationIamResourceDependencies = ""
 )
 
 // issue-routing-tag: generative_ai/default
-func TestGenerativeAiHostedApplicationResource_basic(t *testing.T) {
-	httpreplay.SetScenario("TestGenerativeAiHostedApplicationResource_basic")
+func TestGenerativeAiHostedApplicationIamResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestGenerativeAiHostedApplicationIamResource_basic")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
@@ -115,23 +96,24 @@ func TestGenerativeAiHostedApplicationResource_basic(t *testing.T) {
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
-	resourceName := "oci_generative_ai_hosted_application.test_hosted_application"
-	datasourceName := "data.oci_generative_ai_hosted_applications.test_hosted_applications"
-	singularDatasourceName := "data.oci_generative_ai_hosted_application.test_hosted_application"
+	resourceName := "oci_generative_ai_hosted_application_iam.test_hosted_application_iam"
+	datasourceName := "data.oci_generative_ai_hosted_application_iams.test_hosted_application_iams"
+	singularDatasourceName := "data.oci_generative_ai_hosted_application_iam.test_hosted_application_iam"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+GenerativeAiHostedApplicationResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_hosted_application", "test_hosted_application", acctest.Optional, acctest.Create, GenerativeAiHostedApplicationRepresentation), "generativeai", "hostedApplication", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+GenerativeAiHostedApplicationIamResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_hosted_application_iam", "test_hosted_application_iam", acctest.Optional, acctest.Create, GenerativeAiHostedApplicationIamRepresentation), "generativeai", "hostedApplicationIam", t)
 
-	acctest.ResourceTest(t, testAccCheckGenerativeAiHostedApplicationDestroy, []resource.TestStep{
+	acctest.ResourceTest(t, testAccCheckGenerativeAiHostedApplicationIamDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + GenerativeAiHostedApplicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_hosted_application", "test_hosted_application", acctest.Required, acctest.Create, GenerativeAiHostedApplicationRepresentation),
+			Config: config + compartmentIdVariableStr + GenerativeAiHostedApplicationIamResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_hosted_application_iam", "test_hosted_application_iam", acctest.Required, acctest.Create, GenerativeAiHostedApplicationIamRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "qa_plus_agent_test_hosted_application"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "qa_plus_agent_test_hosted_application_iam"),
+
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
@@ -141,28 +123,22 @@ func TestGenerativeAiHostedApplicationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + GenerativeAiHostedApplicationResourceDependencies,
+			Config: config + compartmentIdVariableStr + GenerativeAiHostedApplicationIamResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + GenerativeAiHostedApplicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_hosted_application", "test_hosted_application", acctest.Optional, acctest.Create, GenerativeAiHostedApplicationRepresentation),
+			Config: config + compartmentIdVariableStr + GenerativeAiHostedApplicationIamResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_hosted_application_iam", "test_hosted_application_iam", acctest.Optional, acctest.Create, GenerativeAiHostedApplicationIamRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "qa_plus_agent_test_hosted_application"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "qa_plus_agent_test_hosted_application_iam"),
 				resource.TestCheckResourceAttr(resourceName, "environment_variables.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "environment_variables.0.name", "name"),
 				resource.TestCheckResourceAttr(resourceName, "environment_variables.0.type", "PLAINTEXT"),
 				resource.TestCheckResourceAttr(resourceName, "environment_variables.0.value", "{\"dummyKey\":\"dummyValue\"}"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "inbound_auth_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "inbound_auth_config.0.idcs_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "inbound_auth_config.0.idcs_config.0.audience", "audience"),
-				resource.TestCheckResourceAttr(resourceName, "inbound_auth_config.0.idcs_config.0.domain_url", "domainUrl"),
-				resource.TestCheckResourceAttr(resourceName, "inbound_auth_config.0.idcs_config.0.scope", "scope"),
-				resource.TestCheckResourceAttr(resourceName, "inbound_auth_config.0.inbound_auth_config_type", "IDCS_AUTH_CONFIG"),
 				resource.TestCheckResourceAttr(resourceName, "networking_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "networking_config.0.inbound_networking_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "networking_config.0.inbound_networking_config.0.endpoint_mode", "PUBLIC"),
@@ -177,7 +153,6 @@ func TestGenerativeAiHostedApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "scaling_config.0.target_memory_threshold", "0"),
 				resource.TestCheckResourceAttr(resourceName, "scaling_config.0.target_rps_threshold", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
-
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
@@ -192,27 +167,21 @@ func TestGenerativeAiHostedApplicationResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + GenerativeAiHostedApplicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_hosted_application", "test_hosted_application", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(GenerativeAiHostedApplicationRepresentation, map[string]interface{}{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + GenerativeAiHostedApplicationIamResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_hosted_application_iam", "test_hosted_application_iam", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(GenerativeAiHostedApplicationIamRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "qa_plus_agent_test_hosted_application"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "qa_plus_agent_test_hosted_application_iam"),
 				resource.TestCheckResourceAttr(resourceName, "environment_variables.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "environment_variables.0.name", "name"),
 				resource.TestCheckResourceAttr(resourceName, "environment_variables.0.type", "PLAINTEXT"),
 				resource.TestCheckResourceAttr(resourceName, "environment_variables.0.value", "{\"dummyKey\":\"dummyValue\"}"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "inbound_auth_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "inbound_auth_config.0.idcs_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "inbound_auth_config.0.idcs_config.0.audience", "audience"),
-				resource.TestCheckResourceAttr(resourceName, "inbound_auth_config.0.idcs_config.0.domain_url", "domainUrl"),
-				resource.TestCheckResourceAttr(resourceName, "inbound_auth_config.0.idcs_config.0.scope", "scope"),
-				resource.TestCheckResourceAttr(resourceName, "inbound_auth_config.0.inbound_auth_config_type", "IDCS_AUTH_CONFIG"),
 				resource.TestCheckResourceAttr(resourceName, "networking_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "networking_config.0.inbound_networking_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "networking_config.0.inbound_networking_config.0.endpoint_mode", "PUBLIC"),
@@ -227,7 +196,6 @@ func TestGenerativeAiHostedApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "scaling_config.0.target_memory_threshold", "0"),
 				resource.TestCheckResourceAttr(resourceName, "scaling_config.0.target_rps_threshold", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
-
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
@@ -240,24 +208,18 @@ func TestGenerativeAiHostedApplicationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + GenerativeAiHostedApplicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_hosted_application", "test_hosted_application", acctest.Optional, acctest.Update, GenerativeAiHostedApplicationRepresentation),
+			Config: config + compartmentIdVariableStr + GenerativeAiHostedApplicationIamResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_hosted_application_iam", "test_hosted_application_iam", acctest.Optional, acctest.Update, GenerativeAiHostedApplicationIamRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "qa_plus_agent_test_hosted_application_updated"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "qa_plus_agent_test_hosted_application_iam_updated"),
 				resource.TestCheckResourceAttr(resourceName, "environment_variables.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "environment_variables.0.name", "name2"),
 				resource.TestCheckResourceAttr(resourceName, "environment_variables.0.type", "PLAINTEXT"),
 				resource.TestCheckResourceAttr(resourceName, "environment_variables.0.value", "{\"dummyKey\":\"dummyValue\"}"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "inbound_auth_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "inbound_auth_config.0.idcs_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "inbound_auth_config.0.idcs_config.0.audience", "audience2"),
-				resource.TestCheckResourceAttr(resourceName, "inbound_auth_config.0.idcs_config.0.domain_url", "domainUrl2"),
-				resource.TestCheckResourceAttr(resourceName, "inbound_auth_config.0.idcs_config.0.scope", "scope2"),
-				resource.TestCheckResourceAttr(resourceName, "inbound_auth_config.0.inbound_auth_config_type", "IDCS_AUTH_CONFIG"),
 				resource.TestCheckResourceAttr(resourceName, "networking_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "networking_config.0.inbound_networking_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "networking_config.0.inbound_networking_config.0.endpoint_mode", "PUBLIC"),
@@ -272,7 +234,6 @@ func TestGenerativeAiHostedApplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "scaling_config.0.target_memory_threshold", "0"),
 				resource.TestCheckResourceAttr(resourceName, "scaling_config.0.target_rps_threshold", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
-
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
@@ -285,12 +246,12 @@ func TestGenerativeAiHostedApplicationResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_generative_ai_hosted_applications", "test_hosted_applications", acctest.Optional, acctest.Update, GenerativeAiHostedApplicationDataSourceRepresentation) +
-				compartmentIdVariableStr + GenerativeAiHostedApplicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_hosted_application", "test_hosted_application", acctest.Optional, acctest.Update, GenerativeAiHostedApplicationRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_generative_ai_hosted_application_iams", "test_hosted_application_iams", acctest.Optional, acctest.Update, GenerativeAiHostedApplicationIamDataSourceRepresentation) +
+				compartmentIdVariableStr + GenerativeAiHostedApplicationIamResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_hosted_application_iam", "test_hosted_application_iam", acctest.Optional, acctest.Update, GenerativeAiHostedApplicationIamRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "qa_plus_agent_test_hosted_application_updated"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "qa_plus_agent_test_hosted_application_iam_updated"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
@@ -301,26 +262,20 @@ func TestGenerativeAiHostedApplicationResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_generative_ai_hosted_application", "test_hosted_application", acctest.Required, acctest.Create, GenerativeAiHostedApplicationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + GenerativeAiHostedApplicationResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_generative_ai_hosted_application_iam", "test_hosted_application_iam", acctest.Required, acctest.Create, GenerativeAiHostedApplicationIamSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + GenerativeAiHostedApplicationIamResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "hosted_application_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "hosted_application_iam_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "qa_plus_agent_test_hosted_application_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "qa_plus_agent_test_hosted_application_iam_updated"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "environment_variables.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "environment_variables.0.name", "name2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "environment_variables.0.type", "PLAINTEXT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "environment_variables.0.value", "{\"dummyKey\":\"dummyValue\"}"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "inbound_auth_config.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "inbound_auth_config.0.idcs_config.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "inbound_auth_config.0.idcs_config.0.audience", "audience2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "inbound_auth_config.0.idcs_config.0.domain_url", "domainUrl2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "inbound_auth_config.0.idcs_config.0.scope", "scope2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "inbound_auth_config.0.inbound_auth_config_type", "IDCS_AUTH_CONFIG"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "networking_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "networking_config.0.inbound_networking_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "networking_config.0.inbound_networking_config.0.endpoint_mode", "PUBLIC"),
@@ -341,7 +296,7 @@ func TestGenerativeAiHostedApplicationResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + GenerativeAiHostedApplicationRequiredOnlyResource,
+			Config:                  config + GenerativeAiHostedApplicationIamRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -350,24 +305,24 @@ func TestGenerativeAiHostedApplicationResource_basic(t *testing.T) {
 	})
 }
 
-func testAccCheckGenerativeAiHostedApplicationDestroy(s *terraform.State) error {
+func testAccCheckGenerativeAiHostedApplicationIamDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).GenerativeAiClient()
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type == "oci_generative_ai_hosted_application" {
+		if rs.Type == "oci_generative_ai_hosted_application_iam" {
 			noResourceFound = false
-			request := oci_generative_ai.GetHostedApplicationRequest{}
+			request := oci_generative_ai.GetHostedApplicationIamRequest{}
 
 			tmp := rs.Primary.ID
-			request.HostedApplicationId = &tmp
+			request.HostedApplicationIamId = &tmp
 
 			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "generative_ai")
 
-			response, err := client.GetHostedApplication(context.Background(), request)
+			response, err := client.GetHostedApplicationIam(context.Background(), request)
 
 			if err == nil {
 				deletedLifecycleStates := map[string]bool{
-					string(oci_generative_ai.HostedApplicationLifecycleStateDeleted): true,
+					string(oci_generative_ai.HostedApplicationIamLifecycleStateDeleted): true,
 				}
 				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
 					//resource lifecycle state is not in expected deleted lifecycle states.
@@ -394,42 +349,42 @@ func init() {
 	if acctest.DependencyGraph == nil {
 		acctest.InitDependencyGraph()
 	}
-	if !acctest.InSweeperExcludeList("GenerativeAiHostedApplication") {
-		resource.AddTestSweepers("GenerativeAiHostedApplication", &resource.Sweeper{
-			Name:         "GenerativeAiHostedApplication",
-			Dependencies: acctest.DependencyGraph["hostedApplication"],
-			F:            sweepGenerativeAiHostedApplicationResource,
+	if !acctest.InSweeperExcludeList("GenerativeAiHostedApplicationIam") {
+		resource.AddTestSweepers("GenerativeAiHostedApplicationIam", &resource.Sweeper{
+			Name:         "GenerativeAiHostedApplicationIam",
+			Dependencies: acctest.DependencyGraph["hostedApplicationIam"],
+			F:            sweepGenerativeAiHostedApplicationIamResource,
 		})
 	}
 }
 
-func sweepGenerativeAiHostedApplicationResource(compartment string) error {
+func sweepGenerativeAiHostedApplicationIamResource(compartment string) error {
 	generativeAiClient := acctest.GetTestClients(&schema.ResourceData{}).GenerativeAiClient()
-	hostedApplicationIds, err := getGenerativeAiHostedApplicationIds(compartment)
+	hostedApplicationIamIds, err := getGenerativeAiHostedApplicationIamIds(compartment)
 	if err != nil {
 		return err
 	}
-	for _, hostedApplicationId := range hostedApplicationIds {
-		if ok := acctest.SweeperDefaultResourceId[hostedApplicationId]; !ok {
-			deleteHostedApplicationRequest := oci_generative_ai.DeleteHostedApplicationRequest{}
+	for _, hostedApplicationIamId := range hostedApplicationIamIds {
+		if ok := acctest.SweeperDefaultResourceId[hostedApplicationIamId]; !ok {
+			deleteHostedApplicationIamRequest := oci_generative_ai.DeleteHostedApplicationIamRequest{}
 
-			deleteHostedApplicationRequest.HostedApplicationId = &hostedApplicationId
+			deleteHostedApplicationIamRequest.HostedApplicationIamId = &hostedApplicationIamId
 
-			deleteHostedApplicationRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "generative_ai")
-			_, error := generativeAiClient.DeleteHostedApplication(context.Background(), deleteHostedApplicationRequest)
+			deleteHostedApplicationIamRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "generative_ai")
+			_, error := generativeAiClient.DeleteHostedApplicationIam(context.Background(), deleteHostedApplicationIamRequest)
 			if error != nil {
-				fmt.Printf("Error deleting HostedApplication %s %s, It is possible that the resource is already deleted. Please verify manually \n", hostedApplicationId, error)
+				fmt.Printf("Error deleting HostedApplicationIam %s %s, It is possible that the resource is already deleted. Please verify manually \n", hostedApplicationIamId, error)
 				continue
 			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &hostedApplicationId, GenerativeAiHostedApplicationSweepWaitCondition, time.Duration(3*time.Minute),
-				GenerativeAiHostedApplicationSweepResponseFetchOperation, "generative_ai", true)
+			acctest.WaitTillCondition(acctest.TestAccProvider, &hostedApplicationIamId, GenerativeAiHostedApplicationIamSweepWaitCondition, time.Duration(3*time.Minute),
+				GenerativeAiHostedApplicationIamSweepResponseFetchOperation, "generative_ai", true)
 		}
 	}
 	return nil
 }
 
-func getGenerativeAiHostedApplicationIds(compartment string) ([]string, error) {
-	ids := acctest.GetResourceIdsToSweep(compartment, "HostedApplicationId")
+func getGenerativeAiHostedApplicationIamIds(compartment string) ([]string, error) {
+	ids := acctest.GetResourceIdsToSweep(compartment, "HostedApplicationIamId")
 	if ids != nil {
 		return ids, nil
 	}
@@ -437,33 +392,33 @@ func getGenerativeAiHostedApplicationIds(compartment string) ([]string, error) {
 	compartmentId := compartment
 	generativeAiClient := acctest.GetTestClients(&schema.ResourceData{}).GenerativeAiClient()
 
-	listHostedApplicationsRequest := oci_generative_ai.ListHostedApplicationsRequest{}
-	listHostedApplicationsRequest.CompartmentId = &compartmentId
-	listHostedApplicationsRequest.LifecycleState = oci_generative_ai.HostedApplicationBaseLifecycleStateActive
-	listHostedApplicationsResponse, err := generativeAiClient.ListHostedApplications(context.Background(), listHostedApplicationsRequest)
+	listHostedApplicationsIamRequest := oci_generative_ai.ListHostedApplicationsIamRequest{}
+	listHostedApplicationsIamRequest.CompartmentId = &compartmentId
+	listHostedApplicationsIamRequest.LifecycleState = oci_generative_ai.HostedApplicationBaseLifecycleStateActive
+	listHostedApplicationsIamResponse, err := generativeAiClient.ListHostedApplicationsIam(context.Background(), listHostedApplicationsIamRequest)
 
 	if err != nil {
-		return resourceIds, fmt.Errorf("Error getting HostedApplication list for compartment id : %s , %s \n", compartmentId, err)
+		return resourceIds, fmt.Errorf("Error getting HostedApplicationIam list for compartment id : %s , %s \n", compartmentId, err)
 	}
-	for _, hostedApplication := range listHostedApplicationsResponse.Items {
-		id := *hostedApplication.Id
+	for _, hostedApplicationIam := range listHostedApplicationsIamResponse.Items {
+		id := *hostedApplicationIam.Id
 		resourceIds = append(resourceIds, id)
-		acctest.AddResourceIdToSweeperResourceIdMap(compartmentId, "HostedApplicationId", id)
+		acctest.AddResourceIdToSweeperResourceIdMap(compartmentId, "HostedApplicationIamId", id)
 	}
 	return resourceIds, nil
 }
 
-func GenerativeAiHostedApplicationSweepWaitCondition(response common.OCIOperationResponse) bool {
+func GenerativeAiHostedApplicationIamSweepWaitCondition(response common.OCIOperationResponse) bool {
 	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
-	if hostedApplicationResponse, ok := response.Response.(oci_generative_ai.GetHostedApplicationResponse); ok {
-		return hostedApplicationResponse.LifecycleState != oci_generative_ai.HostedApplicationLifecycleStateDeleted
+	if hostedApplicationIamResponse, ok := response.Response.(oci_generative_ai.GetHostedApplicationIamResponse); ok {
+		return hostedApplicationIamResponse.LifecycleState != oci_generative_ai.HostedApplicationIamLifecycleStateDeleted
 	}
 	return false
 }
 
-func GenerativeAiHostedApplicationSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.GenerativeAiClient().GetHostedApplication(context.Background(), oci_generative_ai.GetHostedApplicationRequest{
-		HostedApplicationId: resourceId,
+func GenerativeAiHostedApplicationIamSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
+	_, err := client.GenerativeAiClient().GetHostedApplicationIam(context.Background(), oci_generative_ai.GetHostedApplicationIamRequest{
+		HostedApplicationIamId: resourceId,
 		RequestMetadata: common.RequestMetadata{
 			RetryPolicy: retryPolicy,
 		},

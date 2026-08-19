@@ -1,3 +1,15 @@
+## 8.28.0 (August 19, 2026)
+
+### Added
+- Support for Support out-of-place restore (iRestore) - ZDRLA | ExaDB-C@C
+- IPv4-IPv6 dualStack support for computeinstanceagent Data sources
+
+### Bug Fix
+- support Hosted Deployment IAM application
+- Tolerate released private IP during mount target read (GetPrivateIp 404 wedges refresh) 
+- Notice to Deprecate 2025 Terraform Support for distributed_database
+- remove hardcoded local path
+
 ## 8.27.0 (August 11, 2026)
 
 ### Added

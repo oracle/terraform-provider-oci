@@ -37,8 +37,7 @@ var (
 
 	GenerativeAiHostedDeploymentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"application_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_generative_ai_hosted_application.test_hosted_application.id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"application_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_generative_ai_hosted_application_iam.test_hosted_application_iam.id}`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_generative_ai_hosted_deployment.test_hosted_deployment.id}`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiHostedDeploymentDataSourceFilterRepresentation}}
@@ -49,18 +48,18 @@ var (
 
 	GenerativeAiHostedDeploymentRepresentation = map[string]interface{}{
 		"active_artifact":       acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiHostedDeploymentActiveArtifactRepresentation},
-		"hosted_application_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_generative_ai_hosted_application.test_hosted_application.id}`},
-		"compartment_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
-		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Finance"}},
+		"hosted_application_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_generative_ai_hosted_application_iam.test_hosted_application_iam.id}`},
 	}
 	GenerativeAiHostedDeploymentActiveArtifactRepresentation = map[string]interface{}{
-		"artifact_type": acctest.Representation{RepType: acctest.Optional, Create: `SIMPLE_DOCKER_ARTIFACT`},
-		"container_uri": acctest.Representation{RepType: acctest.Optional, Create: `${var.region}.ocir.io/axk4z7krhqfx/cost-service`, Update: `${var.region}.ocir.io/axk4z7krhqfx/cost-service`},
-		"tag":           acctest.Representation{RepType: acctest.Optional, Create: `latest`, Update: `latest`},
+		"artifact_type":                  acctest.Representation{RepType: acctest.Optional, Create: `SIMPLE_DOCKER_ARTIFACT`},
+		"container_uri":                  acctest.Representation{RepType: acctest.Required, Create: `${var.region}.ocir.io/axk4z7krhqfx/cost-service`, Update: `${var.region}.ocir.io/axk4z7krhqfx/cost-service`},
+		"is_vulnerability_scan_required": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"tag":                            acctest.Representation{RepType: acctest.Required, Create: `latest`, Update: `better-logging`},
 	}
 
-	GenerativeAiHostedDeploymentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_hosted_application", "test_hosted_application", acctest.Required, acctest.Create, GenerativeAiHostedApplicationRepresentation)
+	GenerativeAiHostedDeploymentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_hosted_application_iam", "test_hosted_application_iam", acctest.Required, acctest.Create, GenerativeAiHostedApplicationIamRepresentation)
 )
 
 // issue-routing-tag: generative_ai/default
@@ -83,25 +82,6 @@ func TestGenerativeAiHostedDeploymentResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_hosted_deployment", "test_hosted_deployment", acctest.Optional, acctest.Create, GenerativeAiHostedDeploymentRepresentation), "generativeai", "hostedDeployment", t)
 
 	acctest.ResourceTest(t, testAccCheckGenerativeAiHostedDeploymentDestroy, []resource.TestStep{
-		// verify Create
-		{
-			Config: config + compartmentIdVariableStr + GenerativeAiHostedDeploymentResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_hosted_deployment", "test_hosted_deployment", acctest.Required, acctest.Create, GenerativeAiHostedDeploymentRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "active_artifact.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "hosted_application_id"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					return err
-				},
-			),
-		},
-
-		// delete before next Create
-		{
-			Config: config + compartmentIdVariableStr + GenerativeAiHostedDeploymentResourceDependencies,
-		},
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + GenerativeAiHostedDeploymentResourceDependencies +
@@ -112,12 +92,13 @@ func TestGenerativeAiHostedDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "active_artifact.0.container_uri", fmt.Sprintf("%s.ocir.io/axk4z7krhqfx/cost-service", utils.GetEnvSettingWithBlankDefault("region"))),
 				resource.TestCheckResourceAttrSet(resourceName, "active_artifact.0.hosted_deployment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "active_artifact.0.id"),
+				resource.TestCheckResourceAttr(resourceName, "active_artifact.0.is_vulnerability_scan_required", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "active_artifact.0.status"),
 				resource.TestCheckResourceAttr(resourceName, "active_artifact.0.tag", "latest"),
 				resource.TestCheckResourceAttrSet(resourceName, "active_artifact.0.time_created"),
 				resource.TestCheckResourceAttr(resourceName, "artifacts.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "hosted_application_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -145,12 +126,13 @@ func TestGenerativeAiHostedDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "active_artifact.0.container_uri", fmt.Sprintf("%s.ocir.io/axk4z7krhqfx/cost-service", utils.GetEnvSettingWithBlankDefault("region"))),
 				resource.TestCheckResourceAttrSet(resourceName, "active_artifact.0.hosted_deployment_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "active_artifact.0.id"),
+				resource.TestCheckResourceAttr(resourceName, "active_artifact.0.is_vulnerability_scan_required", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "active_artifact.0.status"),
-				resource.TestCheckResourceAttr(resourceName, "active_artifact.0.tag", "latest"),
+				resource.TestCheckResourceAttr(resourceName, "active_artifact.0.tag", "better-logging"),
 				resource.TestCheckResourceAttrSet(resourceName, "active_artifact.0.time_created"),
-				resource.TestCheckResourceAttr(resourceName, "artifacts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "artifacts.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "hosted_application_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -174,7 +156,6 @@ func TestGenerativeAiHostedDeploymentResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "application_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
@@ -194,12 +175,13 @@ func TestGenerativeAiHostedDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "active_artifact.0.artifact_type", "SIMPLE_DOCKER_ARTIFACT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "active_artifact.0.container_uri", fmt.Sprintf("%s.ocir.io/axk4z7krhqfx/cost-service", utils.GetEnvSettingWithBlankDefault("region"))),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "active_artifact.0.id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "active_artifact.0.is_vulnerability_scan_required", "true"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "active_artifact.0.status"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "active_artifact.0.tag", "latest"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "active_artifact.0.tag", "better-logging"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "active_artifact.0.time_created"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "artifacts.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "artifacts.#", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
@@ -214,6 +196,10 @@ func TestGenerativeAiHostedDeploymentResource_basic(t *testing.T) {
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
 			ResourceName:            resourceName,
+		},
+		// verify IAM application and active deployment cascade delete
+		{
+			Config: config + compartmentIdVariableStr,
 		},
 	})
 }
@@ -305,18 +291,23 @@ func getGenerativeAiHostedDeploymentIds(compartment string) ([]string, error) {
 	compartmentId := compartment
 	generativeAiClient := acctest.GetTestClients(&schema.ResourceData{}).GenerativeAiClient()
 
-	listHostedDeploymentsRequest := oci_generative_ai.ListHostedDeploymentsRequest{}
-	listHostedDeploymentsRequest.CompartmentId = &compartmentId
-	listHostedDeploymentsRequest.LifecycleState = oci_generative_ai.HostedDeploymentLifecycleStateActive
-	listHostedDeploymentsResponse, err := generativeAiClient.ListHostedDeployments(context.Background(), listHostedDeploymentsRequest)
+	for _, lifecycleState := range []oci_generative_ai.HostedDeploymentLifecycleStateEnum{
+		oci_generative_ai.HostedDeploymentLifecycleStateActive,
+		oci_generative_ai.HostedDeploymentLifecycleStateNeedsAttention,
+	} {
+		listHostedDeploymentsRequest := oci_generative_ai.ListHostedDeploymentsRequest{}
+		listHostedDeploymentsRequest.CompartmentId = &compartmentId
+		listHostedDeploymentsRequest.LifecycleState = lifecycleState
+		listHostedDeploymentsResponse, err := generativeAiClient.ListHostedDeployments(context.Background(), listHostedDeploymentsRequest)
 
-	if err != nil {
-		return resourceIds, fmt.Errorf("Error getting HostedDeployment list for compartment id : %s , %s \n", compartmentId, err)
-	}
-	for _, hostedDeployment := range listHostedDeploymentsResponse.Items {
-		id := *hostedDeployment.Id
-		resourceIds = append(resourceIds, id)
-		acctest.AddResourceIdToSweeperResourceIdMap(compartmentId, "HostedDeploymentId", id)
+		if err != nil {
+			return resourceIds, fmt.Errorf("Error getting HostedDeployment list for compartment id : %s , %s \n", compartmentId, err)
+		}
+		for _, hostedDeployment := range listHostedDeploymentsResponse.Items {
+			id := *hostedDeployment.Id
+			resourceIds = append(resourceIds, id)
+			acctest.AddResourceIdToSweeperResourceIdMap(compartmentId, "HostedDeploymentId", id)
+		}
 	}
 	return resourceIds, nil
 }

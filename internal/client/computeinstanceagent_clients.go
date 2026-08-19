@@ -19,11 +19,14 @@ func initComputeinstanceagentPluginClient(configProvider oci_common.Configuratio
 	if err != nil {
 		return nil, err
 	}
+	err = SetDualStackEndpointEnabled(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
 	}
-
 	if serviceClientOverrides.HostUrlOverride != "" {
 		client.Host = serviceClientOverrides.HostUrlOverride
 	}
@@ -39,11 +42,14 @@ func initComputeinstanceagentPluginconfigClient(configProvider oci_common.Config
 	if err != nil {
 		return nil, err
 	}
+	err = SetDualStackEndpointEnabled(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
 	err = configureClient(&client.BaseClient)
 	if err != nil {
 		return nil, err
 	}
-
 	if serviceClientOverrides.HostUrlOverride != "" {
 		client.Host = serviceClientOverrides.HostUrlOverride
 	}

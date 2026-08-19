@@ -16,7 +16,8 @@ import (
 
 func DistributedDatabaseDistributedDatabasesDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readDistributedDatabaseDistributedDatabasesWithContext,
+		DeprecationMessage: "The distributed_database service is deprecated and will be removed in a future major version.",
+		ReadContext:        readDistributedDatabaseDistributedDatabasesWithContext,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {

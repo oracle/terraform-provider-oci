@@ -24,7 +24,7 @@ variable "ssh_public_key" {
 }
 
 provider "oci" {
-#   version = "7.4.0"
+#   version = "8.0.0"
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint

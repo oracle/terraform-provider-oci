@@ -18,7 +18,8 @@ import (
 
 func DistributedDatabaseDistributedDatabaseRaftMetricDataSource() *schema.Resource {
 	return &schema.Resource{
-		ReadContext: readSingularDistributedDatabaseDistributedDatabaseRaftMetricWithContext,
+		DeprecationMessage: "The distributed_database service is deprecated and will be removed in a future major version.",
+		ReadContext:        readSingularDistributedDatabaseDistributedDatabaseRaftMetricWithContext,
 		Schema: map[string]*schema.Schema{
 			"distributed_database_id": {
 				Type:     schema.TypeString,

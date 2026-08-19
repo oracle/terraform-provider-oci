@@ -688,22 +688,11 @@ var (
 		"encryption_key_location_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDatabaseDatabaseEncryptionKeyLocationDetailsRepresentation},
 	})
 
-	DatabaseDatabaseZdlraRepresenation = map[string]interface{}{
-		"database":   acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseZdlraDatabaseRepresentation},
-		"db_home_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_hsm_db_home.id}`},
-		"source":     acctest.Representation{RepType: acctest.Required, Create: `NONE`},
-		"lifecycle":  acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseIgnoreDefinedTagsRepresentation},
-	}
-
-	databaseZdlraDatabaseRepresentation = acctest.RepresentationCopyWithNewProperties(databaseDatabaseNoHsmRepresentation2, map[string]interface{}{
-		"db_backup_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseZdlraDbBackupConfigRepresentation},
-	})
-
 	databaseDatabaseNoHsmRepresentation2 = map[string]interface{}{
 		"admin_password": acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"db_name":        acctest.Representation{RepType: acctest.Required, Create: `myHsmDb2`, Update: `myHsmDb5`},
 		"character_set":  acctest.Representation{RepType: acctest.Optional, Create: `AL32UTF8`},
-		"db_unique_name": acctest.Representation{RepType: acctest.Optional, Create: `myHsmDb_47`},
+		"db_unique_name": acctest.Representation{RepType: acctest.Optional, Create: `myHsmDb_48`},
 		"db_workload":    acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
 		//"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
@@ -755,12 +744,7 @@ var (
 		"type": acctest.Representation{RepType: acctest.Optional, Update: `OBJECT_STORE`},
 	}
 
-	DbBackupConfigZdlraBackupDestinationDetailsRepresentation = map[string]interface{}{
-		"type":         acctest.Representation{RepType: acctest.Optional, Create: `RECOVERY_APPLIANCE`},
-		"id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_backup_destination.test_zdlra_backup_destination.id}`},
-		"vpc_user":     acctest.Representation{RepType: acctest.Optional, Create: `bkupUser1`},
-		"vpc_password": acctest.Representation{RepType: acctest.Optional, Create: `testPassword`},
-	}
+	// Removed unused legacy ZDLRA backup destination details (superseded by WithTdeWallet variant)
 
 	databaseDatabaseDbBackupConfigRepresentation = map[string]interface{}{
 		"auto_backup_enabled":       acctest.Representation{RepType: acctest.Optional, Create: `true`},
@@ -809,13 +793,46 @@ var (
 		"id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_backup_destination.test_backup_destination.id}`},
 	}
 
-	databaseZdlraDbBackupConfigRepresentation = map[string]interface{}{
+	// Representation for ZDLRA backup destination with TDE wallet backup destination set to OSS
+	DbBackupConfigZdlraBackupDestinationDetailsWithTdeWalletRepresentation = map[string]interface{}{
+		"type":         acctest.Representation{RepType: acctest.Optional, Create: `RECOVERY_APPLIANCE`},
+		"id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_backup_destination.test_zdlra_backup_destination.id}`},
+		"vpc_user":     acctest.Representation{RepType: acctest.Optional, Create: `bkupUser1`},
+		"vpc_password": acctest.Representation{RepType: acctest.Optional, Create: `testPassword`},
+		"tde_wallet_backup_destination": acctest.RepresentationGroup{RepType: acctest.Optional, Group: map[string]interface{}{
+			"backup_destination_type": acctest.Representation{RepType: acctest.Optional, Create: `OSS`},
+		}},
+	}
+
+	databaseZdlraDbBackupConfigWithTdeWalletRepresentation = map[string]interface{}{
 		"auto_backup_enabled":        acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DbBackupConfigZdlraBackupDestinationDetailsRepresentation},
+		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DbBackupConfigZdlraBackupDestinationDetailsWithTdeWalletRepresentation},
+	}
+
+	databaseZdlraDatabaseWithTdeWalletRepresentation = map[string]interface{}{
+		"admin_password":   acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"db_name":          acctest.Representation{RepType: acctest.Required, Create: `zdlraDb`},
+		"character_set":    acctest.Representation{RepType: acctest.Optional, Create: `AL32UTF8`},
+		"db_workload":      acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
+		"ncharacter_set":   acctest.Representation{RepType: acctest.Optional, Create: `AL16UTF16`},
+		"sid_prefix":       acctest.Representation{RepType: acctest.Optional, Create: `zdlraDb`},
+		"db_backup_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseZdlraDbBackupConfigWithTdeWalletRepresentation},
+	}
+
+	DatabaseDatabaseZdlraWithTdeWalletRepresenation = map[string]interface{}{
+		"database":   acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseZdlraDatabaseWithTdeWalletRepresentation},
+		"db_home_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_db_home.id}`},
+		"source":     acctest.Representation{RepType: acctest.Required, Create: `NONE`},
+		"lifecycle":  acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseIgnoreDefinedTagsRepresentation},
 	}
 
 	DatabaseDbHomeRepresentationBase2 = map[string]interface{}{
 		"db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
+	}
+
+	// ExaCC: DB Home base referencing oci_database_vm_cluster (not Cloud VM Cluster)
+	DatabaseDbHomeRepresentationBaseExacc = map[string]interface{}{
+		"vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
 	}
 
 	DatabaseDbHomeRepresentationBase3 = map[string]interface{}{
@@ -829,6 +846,13 @@ var (
 	dbHomeRepresentationSourceNone2 = acctest.RepresentationCopyWithNewProperties(DatabaseDbHomeRepresentationBase2, map[string]interface{}{
 		"db_version":   acctest.Representation{RepType: acctest.Required, Create: `${var.db_version}`},
 		"source":       acctest.Representation{RepType: acctest.Optional, Create: `NONE`},
+		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `createdDbHomeNone`},
+	})
+
+	// ExaCC: DB Home representation using VM Cluster (VM_CLUSTER_NEW)
+	dbHomeRepresentationSourceVmClusterNewExacc = acctest.RepresentationCopyWithNewProperties(DatabaseDbHomeRepresentationBaseExacc, map[string]interface{}{
+		"db_version":   acctest.Representation{RepType: acctest.Required, Create: `19.30.0.0`},
+		"source":       acctest.Representation{RepType: acctest.Required, Create: `VM_CLUSTER_NEW`},
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `createdDbHomeNone`},
 	})
 
@@ -1620,11 +1644,13 @@ func TestDatabaseDatabaseResource_multipleStandby(t *testing.T) {
 				resource.TestCheckResourceAttr(primaryDatabase, "source", "NONE"),
 				//resource.TestCheckResourceAttrSet(primaryDatabase, "defined_tags.#"),
 				//resource.TestCheckResourceAttrSet(primaryDatabase, "freeform_tags.#"),
+				resource.TestCheckResourceAttr(primaryDatabase, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(standbyDatabase, "database.#", "1"),
 				resource.TestCheckResourceAttr(standbyDatabase, "database.0.db_name", "myTestDb"),
 				resource.TestCheckResourceAttrSet(standbyDatabase, "db_home_id"),
 				//resource.TestCheckResourceAttrSet(standbyDatabase, "defined_tags.#"),
 				//resource.TestCheckResourceAttrSet(standbyDatabase, "freeform_tags.#"),
+				resource.TestCheckResourceAttr(standbyDatabase, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(standbyDatabase, "source", "DATAGUARD"),
 				resource.TestCheckResourceAttrSet(standbyDatabase, "data_guard_group.#"),
 				resource.TestCheckResourceAttr(standbyDatabase, "data_guard_group.0.protection_mode", "MAXIMUM_PERFORMANCE"),
@@ -1829,26 +1855,25 @@ func TestExaccDatabaseBackupDestination_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	dbHomeResourceName := "oci_database_db_home.test_hsm_db_home"
 	databaseResourceName := "oci_database_database.test_database"
 
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseExaccHsmDbHomeResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_zdlra_backup_destination", acctest.Optional, acctest.Create, DatabaseBackupDestinationRepresentation)+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_hsm_db_home", acctest.Optional, acctest.Create, dbHomeNoHsmRepresentation)+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseZdlraRepresenation), "database", "database", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Optional, acctest.Create, dbHomeNoHsmRepresentation)+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseZdlraWithTdeWalletRepresenation), "database", "database", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseDatabaseDestroy, []resource.TestStep{
 		// verify create database with ZDLRA backup config
 		{
 			Config: config + compartmentIdVariableStr + DatabaseExaccHsmDbHomeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_zdlra_backup_destination", acctest.Optional, acctest.Create, DatabaseBackupDestinationRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_hsm_db_home", acctest.Optional, acctest.Create, dbHomeHsmRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseZdlraRepresenation),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Optional, acctest.Create, dbHomeHsmRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseZdlraWithTdeWalletRepresenation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(databaseResourceName, "database.#", "1"),
 				resource.TestCheckResourceAttr(databaseResourceName, "database.0.admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_name", "myHsmDb2"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_name", "zdlraDb"),
 				resource.TestCheckResourceAttrSet(databaseResourceName, "db_home_id"),
 				resource.TestCheckResourceAttr(databaseResourceName, "source", "NONE"),
 				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_backup_config.#", "1"),
@@ -1856,20 +1881,18 @@ func TestExaccDatabaseBackupDestination_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_backup_config.0.backup_destination_details.#", "1"),
 				resource.TestCheckResourceAttrSet(databaseResourceName, "database.0.db_backup_config.0.backup_destination_details.0.id"),
 				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_backup_config.0.backup_destination_details.0.type", "RECOVERY_APPLIANCE"),
-
-				resource.TestCheckResourceAttr(dbHomeResourceName, "database.0.db_name", "myHsmDb"),
 			),
 		},
 		// Update EXACC database
 		{
 			Config: config + compartmentIdVariableStr + DatabaseExaccHsmDbHomeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_zdlra_backup_destination", acctest.Optional, acctest.Update, DatabaseBackupDestinationRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_hsm_db_home", acctest.Optional, acctest.Update, dbHomeHsmRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update, DatabaseDatabaseZdlraRepresenation),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Optional, acctest.Update, dbHomeHsmRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update, DatabaseDatabaseZdlraWithTdeWalletRepresenation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(databaseResourceName, "database.#", "1"),
 				resource.TestCheckResourceAttr(databaseResourceName, "database.0.admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_name", "myHsmDb5"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_name", "zdlraDb"),
 				resource.TestCheckResourceAttrSet(databaseResourceName, "db_home_id"),
 				resource.TestCheckResourceAttr(databaseResourceName, "source", "NONE"),
 				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_backup_config.#", "1"),
@@ -1877,7 +1900,6 @@ func TestExaccDatabaseBackupDestination_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_backup_config.0.backup_destination_details.#", "1"),
 				resource.TestCheckResourceAttrSet(databaseResourceName, "database.0.db_backup_config.0.backup_destination_details.0.id"),
 				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_backup_config.0.backup_destination_details.0.type", "RECOVERY_APPLIANCE"),
-				resource.TestCheckResourceAttr(dbHomeResourceName, "database.0.db_name", "myHsmDb"),
 			),
 		},
 		// verify resource import
@@ -1896,6 +1918,115 @@ func TestExaccDatabaseBackupDestination_basic(t *testing.T) {
 				"source",
 			},
 			ResourceName: databaseResourceName,
+		},
+	})
+}
+
+// issue-routing-tag: database/default
+func TestExaccIRestore_basic(t *testing.T) {
+	httpreplay.SetScenario("TestExaccIRestore_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	dbHomeResourceName := "oci_database_db_home.test_db_home"
+	databaseResourceName := "oci_database_database.test_database"
+
+	// Save TF content for reproducibility
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseExaccHsmDbHomeResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_zdlra_backup_destination", acctest.Optional, acctest.Create, DatabaseBackupDestinationRepresentation)+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Optional, acctest.Create, dbHomeNoHsmRepresentation)+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseZdlraWithTdeWalletRepresenation), "database", "database", t)
+
+	// NOTE: This test refers to pre-existing backups of a database in the tenancy.
+	// It will only pass if the database OCID below exists and has at least
+	// two backups available; we select the second backup by index (1).
+	// DB OCID is provided via TF var: exacc_zdlraDb_withBackups (export TF_VAR_exacc_zdlraDb_withBackups)
+
+	// Data source alias for existing backups
+	backupsDs := "data.oci_database_backups.existing_backups"
+	dbHomeRestore1 := "oci_database_db_home.restore_home1"
+	dbHomeRestore2 := "oci_database_db_home.restore_home2"
+	restoredFromBackup := "oci_database_database.restored_from_backup"
+	restoredFromTimestamp := "oci_database_database.restored_from_timestamp"
+
+	acctest.ResourceTest(t, testAccCheckDatabaseDatabaseDestroy, []resource.TestStep{
+		// 1) Create ZDLRA database with OSS TDE wallet backup destination
+		{
+			Config: config + compartmentIdVariableStr + fmt.Sprintf("variable \"exacc_zdlraDb_withBackups\" { default = \"%s\" }\n", utils.GetEnvSettingWithBlankDefault("exacc_zdlraDb_withBackups")) + DatabaseExaccHsmDbHomeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_zdlra_backup_destination", acctest.Optional, acctest.Create, DatabaseBackupDestinationRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home", acctest.Optional, acctest.Create, dbHomeHsmRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseZdlraWithTdeWalletRepresenation) +
+				// 2) Read existing backups for the known database OCID in this tenancy
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_backups", "existing_backups", acctest.Optional, acctest.Create, map[string]interface{}{
+					"database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.exacc_zdlraDb_withBackups}`},
+				}) +
+				// 3) Out-of-place restore using backup id on a new DB Home
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "restore_home1", acctest.Required, acctest.Create, dbHomeRepresentationSourceVmClusterNewExacc) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "restored_from_backup", acctest.Optional, acctest.Create, map[string]interface{}{
+					"db_home_id": acctest.Representation{RepType: acctest.Required, Create: `${` + dbHomeRestore1 + `.id}`},
+					"source":     acctest.Representation{RepType: acctest.Required, Create: `DB_BACKUP`},
+					"database": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
+						"admin_password": acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+						"db_name":        acctest.Representation{RepType: acctest.Required, Create: `iresbu`},
+						// Choose the 2nd backup (index 1) from the data source
+						"backup_id":                       acctest.Representation{RepType: acctest.Required, Create: `${` + backupsDs + `.backups.1.id}`},
+						"backup_tde_password":             acctest.Representation{RepType: acctest.Optional, Create: `BEstrO0ng_#11`},
+						"recovery_appliance_vpc_password": acctest.Representation{RepType: acctest.Optional, Create: `testPassword`},
+					}},
+				}) +
+				// 4) Out-of-place restore using timestamp on another new DB Home
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "restore_home2", acctest.Required, acctest.Create, dbHomeRepresentationSourceVmClusterNewExacc) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "restored_from_timestamp", acctest.Optional, acctest.Create, map[string]interface{}{
+					"db_home_id": acctest.Representation{RepType: acctest.Required, Create: `${` + dbHomeRestore2 + `.id}`},
+					// For PITR on database resource, source must be DATABASE
+					"source": acctest.Representation{RepType: acctest.Required, Create: `DATABASE`},
+					"database": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
+						"admin_password": acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+						"db_name":        acctest.Representation{RepType: acctest.Required, Create: `irests`},
+						// Use the existing source database OCID for PITR flow (from TF var)
+						"database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.exacc_zdlraDb_withBackups}`},
+						// Choose the 2nd backup's start time from the data source
+						"time_stamp_for_point_in_time_recovery": acctest.Representation{RepType: acctest.Required, Create: `${` + backupsDs + `.backups.1.time_started}`},
+						"backup_tde_password":                   acctest.Representation{RepType: acctest.Optional, Create: `BEstrO0ng_#11`},
+						"recovery_appliance_vpc_password":       acctest.Representation{RepType: acctest.Optional, Create: `testPassword`},
+					}},
+				}),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				// Created DB with RA + OSS wallet destination
+				resource.TestCheckResourceAttr(databaseResourceName, "database.#", "1"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_backup_config.0.backup_destination_details.0.type", "RECOVERY_APPLIANCE"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_backup_config.0.backup_destination_details.0.tde_wallet_backup_destination.0.backup_destination_type", "OSS"),
+
+				// Out-of-place restore via backup id
+				resource.TestCheckResourceAttr(restoredFromBackup, "source", "DB_BACKUP"),
+				resource.TestCheckResourceAttr(restoredFromBackup, "database.0.db_name", "iresbu"),
+				resource.TestCheckResourceAttrSet(restoredFromBackup, "db_home_id"),
+				resource.TestCheckResourceAttrSet(restoredFromBackup, "db_unique_name"),
+				resource.TestCheckResourceAttrSet(restoredFromBackup, "id"),
+				resource.TestCheckResourceAttrSet(restoredFromBackup, "state"),
+
+				// Out-of-place restore via timestamp
+				resource.TestCheckResourceAttr(restoredFromTimestamp, "source", "DATABASE"),
+				resource.TestCheckResourceAttr(restoredFromTimestamp, "database.0.db_name", "irests"),
+				resource.TestCheckResourceAttrSet(restoredFromTimestamp, "database.0.time_stamp_for_point_in_time_recovery"),
+				resource.TestCheckResourceAttrSet(restoredFromTimestamp, "db_home_id"),
+				resource.TestCheckResourceAttrSet(restoredFromTimestamp, "db_unique_name"),
+				resource.TestCheckResourceAttrSet(restoredFromTimestamp, "id"),
+				resource.TestCheckResourceAttrSet(restoredFromTimestamp, "state"),
+
+				// Backups data source sanity checks
+				resource.TestCheckResourceAttrSet(backupsDs, "backups.1.id"),
+				resource.TestCheckResourceAttrSet(backupsDs, "backups.1.time_started"),
+
+				// DB home linkages exist
+				resource.TestCheckResourceAttrSet(dbHomeResourceName, "id"),
+				resource.TestCheckResourceAttrSet(dbHomeRestore1, "id"),
+				resource.TestCheckResourceAttrSet(dbHomeRestore2, "id"),
+			),
 		},
 	})
 }

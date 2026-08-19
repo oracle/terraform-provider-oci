@@ -86,7 +86,9 @@ func DistributedDatabaseDistributedAutonomousDatabaseDataSource() *schema.Resour
 		},
 	}
 
-	return tfresource.GetSingularDataSourceItemSchemaWithContext(DistributedDatabaseDistributedAutonomousDatabaseResource(), fieldMap, readSingularDistributedDatabaseDistributedAutonomousDatabaseWithContext)
+	r := tfresource.GetSingularDataSourceItemSchemaWithContext(DistributedDatabaseDistributedAutonomousDatabaseResource(), fieldMap, readSingularDistributedDatabaseDistributedAutonomousDatabaseWithContext)
+	r.DeprecationMessage = "The distributed_database service is deprecated and will be removed in a future major version."
+	return r
 }
 
 func readSingularDistributedDatabaseDistributedAutonomousDatabaseWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {

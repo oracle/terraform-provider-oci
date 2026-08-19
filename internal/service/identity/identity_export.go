@@ -92,8 +92,16 @@ func findIdentityTags(ctx *tf_export.ResourceDiscoveryContext, tfMeta *tf_export
 		d := tagResource.TestResourceData()
 		d.SetId(GetIdentityTagCompositeId(*tag.Name, parent.Id))
 
-		if err := tagResource.Read(d, ctx.Clients); err != nil {
-			rdError := &tf_export.ResourceDiscoveryError{ResourceType: tfMeta.ResourceClass, ParentResource: parent.TerraformName, Error: err, ResourceGraph: resourceGraph}
+		var readErr error
+		if tagResource.ReadContext != nil {
+			if diags := tagResource.ReadContext(context.Background(), d, ctx.Clients); diags.HasError() {
+				readErr = fmt.Errorf("%s", strings.Join(tf_export.ParseDiagToError(diags), " | "))
+			}
+		} else {
+			readErr = tagResource.Read(d, ctx.Clients)
+		}
+		if readErr != nil {
+			rdError := &tf_export.ResourceDiscoveryError{ResourceType: tfMeta.ResourceClass, ParentResource: parent.TerraformName, Error: readErr, ResourceGraph: resourceGraph}
 			ctx.AddErrorToList(rdError)
 			continue
 		}

@@ -21,16 +21,16 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
-func GenerativeAiHostedApplicationResource() *schema.Resource {
+func GenerativeAiHostedApplicationIamResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts:      tfresource.DefaultTimeout,
-		CreateContext: createGenerativeAiHostedApplicationWithContext,
-		ReadContext:   readGenerativeAiHostedApplicationWithContext,
-		UpdateContext: updateGenerativeAiHostedApplicationWithContext,
-		DeleteContext: deleteGenerativeAiHostedApplicationWithContext,
+		CreateContext: createGenerativeAiHostedApplicationIamWithContext,
+		ReadContext:   readGenerativeAiHostedApplicationIamWithContext,
+		UpdateContext: updateGenerativeAiHostedApplicationIamWithContext,
+		DeleteContext: deleteGenerativeAiHostedApplicationIamWithContext,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
@@ -40,57 +40,6 @@ func GenerativeAiHostedApplicationResource() *schema.Resource {
 			"display_name": {
 				Type:     schema.TypeString,
 				Required: true,
-			},
-
-			// Optional
-			"inbound_auth_config": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-						"inbound_auth_config_type": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-
-						// Optional
-						"idcs_config": {
-							Type:     schema.TypeList,
-							Optional: true,
-							Computed: true,
-							MaxItems: 1,
-							MinItems: 1,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									// Required
-									"domain_url": {
-										Type:     schema.TypeString,
-										Required: true,
-									},
-									"scope": {
-										Type:     schema.TypeString,
-										Required: true,
-									},
-
-									// Optional
-									"audience": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-
-									// Computed
-								},
-							},
-						},
-
-						// Computed
-					},
-				},
 			},
 
 			// Optional
@@ -323,32 +272,32 @@ func GenerativeAiHostedApplicationResource() *schema.Resource {
 	}
 }
 
-func createGenerativeAiHostedApplicationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	sync := &GenerativeAiHostedApplicationResourceCrud{}
+func createGenerativeAiHostedApplicationIamWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	sync := &GenerativeAiHostedApplicationIamResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 
 	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readGenerativeAiHostedApplicationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	sync := &GenerativeAiHostedApplicationResourceCrud{}
+func readGenerativeAiHostedApplicationIamWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	sync := &GenerativeAiHostedApplicationIamResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 
 	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateGenerativeAiHostedApplicationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	sync := &GenerativeAiHostedApplicationResourceCrud{}
+func updateGenerativeAiHostedApplicationIamWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	sync := &GenerativeAiHostedApplicationIamResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 
 	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteGenerativeAiHostedApplicationWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	sync := &GenerativeAiHostedApplicationResourceCrud{}
+func deleteGenerativeAiHostedApplicationIamWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+	sync := &GenerativeAiHostedApplicationIamResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).GenerativeAiClient()
 	sync.DisableNotFoundRetries = true
@@ -356,43 +305,43 @@ func deleteGenerativeAiHostedApplicationWithContext(ctx context.Context, d *sche
 	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
-type GenerativeAiHostedApplicationResourceCrud struct {
+type GenerativeAiHostedApplicationIamResourceCrud struct {
 	tfresource.BaseCrud
 	Client                 *oci_generative_ai.GenerativeAiClient
-	Res                    *oci_generative_ai.HostedApplication
+	Res                    *oci_generative_ai.HostedApplicationIam
 	DisableNotFoundRetries bool
 }
 
-func (s *GenerativeAiHostedApplicationResourceCrud) ID() string {
+func (s *GenerativeAiHostedApplicationIamResourceCrud) ID() string {
 	return *s.Res.Id
 }
 
-func (s *GenerativeAiHostedApplicationResourceCrud) CreatedPending() []string {
+func (s *GenerativeAiHostedApplicationIamResourceCrud) CreatedPending() []string {
 	return []string{
-		string(oci_generative_ai.HostedApplicationLifecycleStateCreating),
+		string(oci_generative_ai.HostedApplicationIamLifecycleStateCreating),
 	}
 }
 
-func (s *GenerativeAiHostedApplicationResourceCrud) CreatedTarget() []string {
+func (s *GenerativeAiHostedApplicationIamResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_generative_ai.HostedApplicationLifecycleStateActive),
+		string(oci_generative_ai.HostedApplicationIamLifecycleStateActive),
 	}
 }
 
-func (s *GenerativeAiHostedApplicationResourceCrud) DeletedPending() []string {
+func (s *GenerativeAiHostedApplicationIamResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_generative_ai.HostedApplicationLifecycleStateDeleting),
+		string(oci_generative_ai.HostedApplicationIamLifecycleStateDeleting),
 	}
 }
 
-func (s *GenerativeAiHostedApplicationResourceCrud) DeletedTarget() []string {
+func (s *GenerativeAiHostedApplicationIamResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_generative_ai.HostedApplicationLifecycleStateDeleted),
+		string(oci_generative_ai.HostedApplicationIamLifecycleStateDeleted),
 	}
 }
 
-func (s *GenerativeAiHostedApplicationResourceCrud) CreateWithContext(ctx context.Context) error {
-	request := oci_generative_ai.CreateHostedApplicationRequest{}
+func (s *GenerativeAiHostedApplicationIamResourceCrud) CreateWithContext(ctx context.Context) error {
+	request := oci_generative_ai.CreateHostedApplicationIamRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -438,17 +387,6 @@ func (s *GenerativeAiHostedApplicationResourceCrud) CreateWithContext(ctx contex
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if inboundAuthConfig, ok := s.D.GetOkExists("inbound_auth_config"); ok {
-		if tmpList := inboundAuthConfig.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "inbound_auth_config", 0)
-			tmp, err := s.mapToInboundAuthConfig(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.InboundAuthConfig = &tmp
-		}
-	}
-
 	if networkingConfig, ok := s.D.GetOkExists("networking_config"); ok {
 		if tmpList := networkingConfig.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "networking_config", 0)
@@ -490,7 +428,7 @@ func (s *GenerativeAiHostedApplicationResourceCrud) CreateWithContext(ctx contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-	response, err := s.Client.CreateHostedApplication(ctx, request)
+	response, err := s.Client.CreateHostedApplicationIam(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -501,25 +439,25 @@ func (s *GenerativeAiHostedApplicationResourceCrud) CreateWithContext(ctx contex
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getHostedApplicationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai"), oci_generative_ai.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getHostedApplicationIamFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai"), oci_generative_ai.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
-func (s *GenerativeAiHostedApplicationResourceCrud) getHostedApplicationFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
+func (s *GenerativeAiHostedApplicationIamResourceCrud) getHostedApplicationIamFromWorkRequest(ctx context.Context, workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_generative_ai.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	hostedApplicationId, err := hostedApplicationWaitForWorkRequest(ctx, workId, "hostedapplication",
+	hostedApplicationIamId, err := hostedApplicationIamWaitForWorkRequest(ctx, workId, "hostedapplication",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		return err
 	}
-	s.D.SetId(*hostedApplicationId)
+	s.D.SetId(*hostedApplicationIamId)
 
 	return s.GetWithContext(ctx)
 }
 
-func hostedApplicationWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
+func hostedApplicationIamWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
 	startTime := time.Now()
 	stopTime := startTime.Add(timeout)
 	return func(response oci_common.OCIOperationResponse) bool {
@@ -542,10 +480,10 @@ func hostedApplicationWorkRequestShouldRetryFunc(timeout time.Duration) func(res
 	}
 }
 
-func hostedApplicationWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_generative_ai.ActionTypeEnum,
+func hostedApplicationIamWaitForWorkRequest(ctx context.Context, wId *string, entityType string, action oci_generative_ai.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_generative_ai.GenerativeAiClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "generative_ai")
-	retryPolicy.ShouldRetryOperation = hostedApplicationWorkRequestShouldRetryFunc(timeout)
+	retryPolicy.ShouldRetryOperation = hostedApplicationIamWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_generative_ai.GetWorkRequestResponse{}
 	stateConf := &retry.StateChangeConf{
@@ -595,13 +533,13 @@ func hostedApplicationWaitForWorkRequest(ctx context.Context, wId *string, entit
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_generative_ai.OperationStatusFailed || response.Status == oci_generative_ai.OperationStatusCanceled {
-		return nil, getErrorFromGenerativeAiHostedApplicationWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromGenerativeAiHostedApplicationIamWorkRequest(ctx, client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromGenerativeAiHostedApplicationWorkRequest(ctx context.Context, client *oci_generative_ai.GenerativeAiClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_generative_ai.ActionTypeEnum) error {
+func getErrorFromGenerativeAiHostedApplicationIamWorkRequest(ctx context.Context, client *oci_generative_ai.GenerativeAiClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_generative_ai.ActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(ctx,
 		oci_generative_ai.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
@@ -624,24 +562,24 @@ func getErrorFromGenerativeAiHostedApplicationWorkRequest(ctx context.Context, c
 	return workRequestErr
 }
 
-func (s *GenerativeAiHostedApplicationResourceCrud) GetWithContext(ctx context.Context) error {
-	request := oci_generative_ai.GetHostedApplicationRequest{}
+func (s *GenerativeAiHostedApplicationIamResourceCrud) GetWithContext(ctx context.Context) error {
+	request := oci_generative_ai.GetHostedApplicationIamRequest{}
 
 	tmp := s.D.Id()
-	request.HostedApplicationId = &tmp
+	request.HostedApplicationIamId = &tmp
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-	response, err := s.Client.GetHostedApplication(ctx, request)
+	response, err := s.Client.GetHostedApplicationIam(ctx, request)
 	if err != nil {
 		return err
 	}
 
-	s.Res = &response.HostedApplication
+	s.Res = &response.HostedApplicationIam
 	return nil
 }
 
-func (s *GenerativeAiHostedApplicationResourceCrud) UpdateWithContext(ctx context.Context) error {
+func (s *GenerativeAiHostedApplicationIamResourceCrud) UpdateWithContext(ctx context.Context) error {
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -651,7 +589,7 @@ func (s *GenerativeAiHostedApplicationResourceCrud) UpdateWithContext(ctx contex
 			}
 		}
 	}
-	request := oci_generative_ai.UpdateHostedApplicationRequest{}
+	request := oci_generative_ai.UpdateHostedApplicationIamRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
@@ -693,18 +631,7 @@ func (s *GenerativeAiHostedApplicationResourceCrud) UpdateWithContext(ctx contex
 	}
 
 	tmp := s.D.Id()
-	request.HostedApplicationId = &tmp
-
-	if inboundAuthConfig, ok := s.D.GetOkExists("inbound_auth_config"); ok {
-		if tmpList := inboundAuthConfig.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "inbound_auth_config", 0)
-			tmp, err := s.mapToInboundAuthConfig(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.InboundAuthConfig = &tmp
-		}
-	}
+	request.HostedApplicationIamId = &tmp
 
 	if scalingConfig, ok := s.D.GetOkExists("scaling_config"); ok {
 		if tmpList := scalingConfig.([]interface{}); len(tmpList) > 0 {
@@ -719,36 +646,36 @@ func (s *GenerativeAiHostedApplicationResourceCrud) UpdateWithContext(ctx contex
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-	response, err := s.Client.UpdateHostedApplication(ctx, request)
+	response, err := s.Client.UpdateHostedApplicationIam(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getHostedApplicationFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai"), oci_generative_ai.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getHostedApplicationIamFromWorkRequest(ctx, workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai"), oci_generative_ai.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *GenerativeAiHostedApplicationResourceCrud) DeleteWithContext(ctx context.Context) error {
-	request := oci_generative_ai.DeleteHostedApplicationRequest{}
+func (s *GenerativeAiHostedApplicationIamResourceCrud) DeleteWithContext(ctx context.Context) error {
+	request := oci_generative_ai.DeleteHostedApplicationIamRequest{}
 
 	tmp := s.D.Id()
-	request.HostedApplicationId = &tmp
+	request.HostedApplicationIamId = &tmp
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-	response, err := s.Client.DeleteHostedApplication(ctx, request)
+	response, err := s.Client.DeleteHostedApplicationIam(ctx, request)
 	if err != nil {
 		return err
 	}
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := hostedApplicationWaitForWorkRequest(ctx, workId, "hostedapplication",
+	_, delWorkRequestErr := hostedApplicationIamWaitForWorkRequest(ctx, workId, "hostedapplication",
 		oci_generative_ai.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
 
-func (s *GenerativeAiHostedApplicationResourceCrud) SetData() error {
+func (s *GenerativeAiHostedApplicationIamResourceCrud) SetData() error {
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -772,12 +699,6 @@ func (s *GenerativeAiHostedApplicationResourceCrud) SetData() error {
 	s.D.Set("environment_variables", environmentVariables)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-
-	if s.Res.InboundAuthConfig != nil {
-		s.D.Set("inbound_auth_config", []interface{}{InboundAuthConfigToMap(s.Res.InboundAuthConfig)})
-	} else {
-		s.D.Set("inbound_auth_config", nil)
-	}
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
@@ -818,7 +739,7 @@ func (s *GenerativeAiHostedApplicationResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *GenerativeAiHostedApplicationResourceCrud) mapToEnvironmentVariable(fieldKeyFormat string) (oci_generative_ai.EnvironmentVariable, error) {
+func (s *GenerativeAiHostedApplicationIamResourceCrud) mapToEnvironmentVariable(fieldKeyFormat string) (oci_generative_ai.EnvironmentVariable, error) {
 	result := oci_generative_ai.EnvironmentVariable{}
 
 	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
@@ -841,139 +762,7 @@ func (s *GenerativeAiHostedApplicationResourceCrud) mapToEnvironmentVariable(fie
 	return result, nil
 }
 
-func EnvironmentVariableToMap(obj oci_generative_ai.EnvironmentVariable) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	result["type"] = string(obj.Type)
-
-	if obj.Value != nil {
-		if value, err := json.Marshal(obj.Value); err == nil {
-			result["value"] = string(value)
-		}
-	}
-
-	return result
-}
-
-func HostedApplicationSummaryToMap(obj oci_generative_ai.HostedApplicationSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.CompartmentId != nil {
-		result["compartment_id"] = string(*obj.CompartmentId)
-	}
-
-	if obj.DefinedTags != nil {
-		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
-	}
-
-	if obj.Description != nil {
-		result["description"] = string(*obj.Description)
-	}
-
-	if obj.DisplayName != nil {
-		result["display_name"] = string(*obj.DisplayName)
-	}
-
-	result["freeform_tags"] = obj.FreeformTags
-
-	if obj.Id != nil {
-		result["id"] = string(*obj.Id)
-	}
-
-	result["state"] = string(obj.LifecycleState)
-
-	if obj.SystemTags != nil {
-		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
-	}
-
-	if obj.TimeCreated != nil {
-		result["time_created"] = obj.TimeCreated.String()
-	}
-
-	if obj.TimeUpdated != nil {
-		result["time_updated"] = obj.TimeUpdated.String()
-	}
-
-	return result
-}
-
-func (s *GenerativeAiHostedApplicationResourceCrud) mapToIdcsAuthConfig(fieldKeyFormat string) (oci_generative_ai.IdcsAuthConfig, error) {
-	result := oci_generative_ai.IdcsAuthConfig{}
-
-	if audience, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "audience")); ok {
-		tmp := audience.(string)
-		result.Audience = &tmp
-	}
-
-	if domainUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "domain_url")); ok {
-		tmp := domainUrl.(string)
-		result.DomainUrl = &tmp
-	}
-
-	if scope, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scope")); ok {
-		tmp := scope.(string)
-		result.Scope = &tmp
-	}
-
-	return result, nil
-}
-
-func IdcsAuthConfigToMap(obj *oci_generative_ai.IdcsAuthConfig) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Audience != nil {
-		result["audience"] = string(*obj.Audience)
-	}
-
-	if obj.DomainUrl != nil {
-		result["domain_url"] = string(*obj.DomainUrl)
-	}
-
-	if obj.Scope != nil {
-		result["scope"] = string(*obj.Scope)
-	}
-
-	return result
-}
-
-func (s *GenerativeAiHostedApplicationResourceCrud) mapToInboundAuthConfig(fieldKeyFormat string) (oci_generative_ai.InboundAuthConfig, error) {
-	result := oci_generative_ai.InboundAuthConfig{}
-
-	if idcsConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "idcs_config")); ok {
-		if tmpList := idcsConfig.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "idcs_config"), 0)
-			tmp, err := s.mapToIdcsAuthConfig(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, fmt.Errorf("unable to convert idcs_config, encountered error: %v", err)
-			}
-			result.IdcsConfig = &tmp
-		}
-	}
-
-	if inboundAuthConfigType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "inbound_auth_config_type")); ok {
-		result.InboundAuthConfigType = oci_generative_ai.InboundAuthConfigInboundAuthConfigTypeEnum(inboundAuthConfigType.(string))
-	}
-
-	return result, nil
-}
-
-func InboundAuthConfigToMap(obj *oci_generative_ai.InboundAuthConfig) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.IdcsConfig != nil {
-		result["idcs_config"] = []interface{}{IdcsAuthConfigToMap(obj.IdcsConfig)}
-	}
-
-	result["inbound_auth_config_type"] = string(obj.InboundAuthConfigType)
-
-	return result
-}
-
-func (s *GenerativeAiHostedApplicationResourceCrud) mapToInboundNetworkingConfig(fieldKeyFormat string) (oci_generative_ai.InboundNetworkingConfig, error) {
+func (s *GenerativeAiHostedApplicationIamResourceCrud) mapToInboundNetworkingConfig(fieldKeyFormat string) (oci_generative_ai.InboundNetworkingConfig, error) {
 	result := oci_generative_ai.InboundNetworkingConfig{}
 
 	if endpointMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "endpoint_mode")); ok {
@@ -988,19 +777,7 @@ func (s *GenerativeAiHostedApplicationResourceCrud) mapToInboundNetworkingConfig
 	return result, nil
 }
 
-func InboundNetworkingConfigToMap(obj *oci_generative_ai.InboundNetworkingConfig) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["endpoint_mode"] = string(obj.EndpointMode)
-
-	if obj.PrivateEndpointId != nil {
-		result["private_endpoint_id"] = string(*obj.PrivateEndpointId)
-	}
-
-	return result
-}
-
-func (s *GenerativeAiHostedApplicationResourceCrud) mapToNetworkingConfig(fieldKeyFormat string) (oci_generative_ai.NetworkingConfig, error) {
+func (s *GenerativeAiHostedApplicationIamResourceCrud) mapToNetworkingConfig(fieldKeyFormat string) (oci_generative_ai.NetworkingConfig, error) {
 	result := oci_generative_ai.NetworkingConfig{}
 
 	if inboundNetworkingConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "inbound_networking_config")); ok {
@@ -1028,21 +805,7 @@ func (s *GenerativeAiHostedApplicationResourceCrud) mapToNetworkingConfig(fieldK
 	return result, nil
 }
 
-func NetworkingConfigToMap(obj *oci_generative_ai.NetworkingConfig, datasource bool) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.InboundNetworkingConfig != nil {
-		result["inbound_networking_config"] = []interface{}{InboundNetworkingConfigToMap(obj.InboundNetworkingConfig)}
-	}
-
-	if obj.OutboundNetworkingConfig != nil {
-		result["outbound_networking_config"] = []interface{}{OutboundNetworkingConfigToMap(obj.OutboundNetworkingConfig, datasource)}
-	}
-
-	return result
-}
-
-func (s *GenerativeAiHostedApplicationResourceCrud) mapToOutboundNetworkingConfig(fieldKeyFormat string) (oci_generative_ai.OutboundNetworkingConfig, error) {
+func (s *GenerativeAiHostedApplicationIamResourceCrud) mapToOutboundNetworkingConfig(fieldKeyFormat string) (oci_generative_ai.OutboundNetworkingConfig, error) {
 	result := oci_generative_ai.OutboundNetworkingConfig{}
 
 	if customSubnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_subnet_id")); ok {
@@ -1071,29 +834,7 @@ func (s *GenerativeAiHostedApplicationResourceCrud) mapToOutboundNetworkingConfi
 	return result, nil
 }
 
-func OutboundNetworkingConfigToMap(obj *oci_generative_ai.OutboundNetworkingConfig, datasource bool) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.CustomSubnetId != nil {
-		result["custom_subnet_id"] = string(*obj.CustomSubnetId)
-	}
-
-	result["network_mode"] = string(obj.NetworkMode)
-
-	nsgIds := []interface{}{}
-	for _, item := range obj.NsgIds {
-		nsgIds = append(nsgIds, item)
-	}
-	if datasource {
-		result["nsg_ids"] = nsgIds
-	} else {
-		result["nsg_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds)
-	}
-
-	return result
-}
-
-func (s *GenerativeAiHostedApplicationResourceCrud) mapToScalingConfig(fieldKeyFormat string) (oci_generative_ai.ScalingConfig, error) {
+func (s *GenerativeAiHostedApplicationIamResourceCrud) mapToScalingConfig(fieldKeyFormat string) (oci_generative_ai.ScalingConfig, error) {
 	result := oci_generative_ai.ScalingConfig{}
 
 	if maxReplica, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_replica")); ok {
@@ -1141,39 +882,7 @@ func (s *GenerativeAiHostedApplicationResourceCrud) mapToScalingConfig(fieldKeyF
 	return result, nil
 }
 
-func ScalingConfigToMap(obj *oci_generative_ai.ScalingConfig) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.MaxReplica != nil {
-		result["max_replica"] = int(*obj.MaxReplica)
-	}
-
-	if obj.MinReplica != nil {
-		result["min_replica"] = int(*obj.MinReplica)
-	}
-
-	result["scaling_type"] = string(obj.ScalingType)
-
-	if obj.TargetConcurrencyThreshold != nil {
-		result["target_concurrency_threshold"] = int(*obj.TargetConcurrencyThreshold)
-	}
-
-	if obj.TargetCpuThreshold != nil {
-		result["target_cpu_threshold"] = int(*obj.TargetCpuThreshold)
-	}
-
-	if obj.TargetMemoryThreshold != nil {
-		result["target_memory_threshold"] = int(*obj.TargetMemoryThreshold)
-	}
-
-	if obj.TargetRpsThreshold != nil {
-		result["target_rps_threshold"] = int(*obj.TargetRpsThreshold)
-	}
-
-	return result
-}
-
-func (s *GenerativeAiHostedApplicationResourceCrud) mapToStorageConfig(fieldKeyFormat string) (oci_generative_ai.StorageConfig, error) {
+func (s *GenerativeAiHostedApplicationIamResourceCrud) mapToStorageConfig(fieldKeyFormat string) (oci_generative_ai.StorageConfig, error) {
 	result := oci_generative_ai.StorageConfig{}
 
 	if environmentVariableKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "environment_variable_key")); ok {
@@ -1189,32 +898,18 @@ func (s *GenerativeAiHostedApplicationResourceCrud) mapToStorageConfig(fieldKeyF
 	return result, nil
 }
 
-func StorageConfigToMap(obj oci_generative_ai.StorageConfig) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.EnvironmentVariableKey != nil {
-		result["environment_variable_key"] = string(*obj.EnvironmentVariableKey)
-	}
-
-	if obj.StorageId != nil {
-		result["storage_id"] = string(*obj.StorageId)
-	}
-
-	return result
-}
-
-func (s *GenerativeAiHostedApplicationResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
-	changeCompartmentRequest := oci_generative_ai.ChangeHostedApplicationCompartmentRequest{}
+func (s *GenerativeAiHostedApplicationIamResourceCrud) updateCompartment(ctx context.Context, compartment interface{}) error {
+	changeCompartmentRequest := oci_generative_ai.ChangeHostedApplicationIamCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
 	idTmp := s.D.Id()
-	changeCompartmentRequest.HostedApplicationId = &idTmp
+	changeCompartmentRequest.HostedApplicationIamId = &idTmp
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
 
-	_, err := s.Client.ChangeHostedApplicationCompartment(ctx, changeCompartmentRequest)
+	_, err := s.Client.ChangeHostedApplicationIamCompartment(ctx, changeCompartmentRequest)
 	if err != nil {
 		return err
 	}

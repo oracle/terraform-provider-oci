@@ -48,6 +48,12 @@ resource "oci_database_db_home" "test_db_home" {
 				is_remote = var.db_home_database_db_backup_config_backup_destination_details_is_remote
 				is_retention_lock_enabled = var.db_home_database_db_backup_config_backup_destination_details_is_retention_lock_enabled
 				remote_region = var.db_home_database_db_backup_config_backup_destination_details_remote_region
+				tde_wallet_backup_destination {
+
+					#Optional
+					backup_destination_id = oci_database_backup_destination.test_backup_destination.id
+					backup_destination_type = var.db_home_database_db_backup_config_backup_destination_details_tde_wallet_backup_destination_backup_destination_type
+				}
 				type = var.db_home_database_db_backup_config_backup_destination_details_type
 			}
 			recovery_window_in_days = var.db_home_database_db_backup_config_recovery_window_in_days
@@ -89,6 +95,7 @@ resource "oci_database_db_home" "test_db_home" {
 		ncharacter_set = var.db_home_database_ncharacter_set
 		pdb_name = var.db_home_database_pdb_name
 		pluggable_databases = var.db_home_database_pluggable_databases
+		recovery_appliance_vpc_password = var.db_home_database_recovery_appliance_vpc_password
 		sid_prefix = var.db_home_database_sid_prefix
 		source_encryption_key_location_details {
 			#Required
@@ -155,6 +162,11 @@ The following arguments are supported:
 			* `is_remote` - (Applicable when source=NONE | VM_CLUSTER_NEW) Indicates whether the backup destination is cross-region or local.
 			* `is_retention_lock_enabled` - (Applicable when source=NONE | VM_CLUSTER_NEW) Indicates if backup retention is locked for all the database backups in the Autonomous Container Database (ACD). The retention window cannot be decreased if the backup retention lock is enabled. Once applied on the Autonomous Container Database, the retention lock cannot be removed, or the retention period cannot be decreased after a 14-day period. If the backup is a Long Term Backup and retention lock is enabled, the backup cannot be deleted and must expire. The retention lock set on the Autonomous Container Database is not applicable for cross region remote backups and backups hosted on recovery Appliance backup destination.
 			* `remote_region` - (Applicable when source=NONE | VM_CLUSTER_NEW) The name of the remote region where the remote automatic incremental backups will be stored.           For information about valid region names, see [Regions and Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm).
+			* `is_retention_lock_enabled` - (Applicable when source=NONE | VM_CLUSTER_NEW) Indicates if backup retention is locked for all the database backups in the Autonomous Container Database (ACD). The retention window cannot be decreased if the backup retention lock is enabled. Once applied on the Autonomous Container Database, the retention lock cannot be removed, or the retention period cannot be decreased after a 14-day period. If the backup is a Long Term Backup and retention lock is enabled, the backup cannot be deleted and must expire. The retention lock set on the Autonomous Container Database is not applicable for cross region remote backups and backups hosted on recovery Appliance backup destination. 
+			* `remote_region` - (Applicable when source=NONE | VM_CLUSTER_NEW) The name of the remote region where the remote automatic incremental backups will be stored.           For information about valid region names, see [Regions and Availability Domains](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/regions.htm). 
+			* `tde_wallet_backup_destination` - (Applicable when source=NONE | VM_CLUSTER_NEW) Backup destination for the TDE wallet backups.
+				* `backup_destination_id` - (Applicable when source=NONE | VM_CLUSTER_NEW) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
+				* `backup_destination_type` - (Required when source=NONE | VM_CLUSTER_NEW) Destination where TDE Wallet backups are to be placed.
 			* `type` - (Applicable when source=NONE | VM_CLUSTER_NEW) Type of the database backup destination. Supported values: `NFS`.
 		* `recovery_window_in_days` - (Applicable when source=NONE | VM_CLUSTER_NEW) (Updatable) Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups only. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups.
 		* `run_immediate_full_backup` - (Applicable when source=NONE | VM_CLUSTER_NEW) If set to true, configures automatic full backups in the local region (the region of the DB system) for the first backup run immediately.
@@ -187,6 +199,11 @@ The following arguments are supported:
 					For Ex: The current latest version is 23.7.0.0.0, If versionPreference selects option as ORACLE_DB_N then oracle applies the db update with LATEST version (i.e. 23.7.0.0.0) If versionPreference selects option as ORACLE_DB_N_1 then oracle applies the db update with LATEST-1 version (i.e. 23.6.0.0.0) If versionPreference selects option as ORACLE_DB_N_2 then oracle applies the db update with LATEST-2 version (i.e. 23.5.0.0.0)
 	* `ncharacter_set` - (Applicable when source=NONE | VM_CLUSTER_NEW) The national character set for the database.  The default is AL16UTF16. Allowed values are: AL16UTF16 or UTF8.
 	* `pdb_name` - (Applicable when source=NONE | VM_CLUSTER_NEW) The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
+	* `pluggable_databases` - (Applicable when source=DATABASE | DB_BACKUP | VM_CLUSTER_BACKUP | VM_CLUSTER_DATABASE) The list of pluggable databases that needs to be restored into new database.
+	* `recovery_appliance_vpc_password` - (Applicable when source=DATABASE | DB_BACKUP | VM_CLUSTER_BACKUP | VM_CLUSTER_DATABASE) The password for the VPC user that is used to access the Recovery Appliance, if the given backup is from a backup destination of type RECOVERY_APPLIANCE.
+	* `sid_prefix` - (Optional) Specifies a prefix for the `Oracle SID` of the database to be created. 
+	* `source_encryption_key_location_details` - (Applicable when source=DATABASE | DB_BACKUP | VM_CLUSTER_BACKUP | VM_CLUSTER_DATABASE) Types of providers supported for managing database encryption keys
+		* `aws_encryption_key_id` - (Required when provider_type=AWS) Provide the key OCID of a registered AWS key.
 	* `pluggable_databases` - (Applicable when source=DATABASE | DB_BACKUP | VM_CLUSTER_BACKUP) The list of pluggable databases that needs to be restored into new database.
 	* `sid_prefix` - (Applicable when source=DB_BACKUP | NONE | VM_CLUSTER_BACKUP | VM_CLUSTER_NEW) Specifies a prefix for the `Oracle SID` of the database to be created.
 	* `source_encryption_key_location_details` - (Applicable when source=DB_BACKUP | VM_CLUSTER_BACKUP) Types of providers supported for managing database encryption keys

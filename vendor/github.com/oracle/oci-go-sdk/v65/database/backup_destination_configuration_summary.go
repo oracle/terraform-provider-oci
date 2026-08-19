@@ -58,6 +58,8 @@ type BackupDestinationConfigurationSummary struct {
 	// Regions and Availability Domains (https://docs.oracle.com/iaas/Content/General/Concepts/regions.htm).
 	RemoteRegion *string `mandatory:"false" json:"remoteRegion"`
 
+	TdeWalletBackupDestination *TdeWalletBackupDestination `mandatory:"false" json:"tdeWalletBackupDestination"`
+
 	// The timestamps at which this backup destination is used as the preferred destination to host the Autonomous Container Database backups.
 	BackupDestinationAttachHistory []common.SDKTime `mandatory:"false" json:"backupDestinationAttachHistory"`
 

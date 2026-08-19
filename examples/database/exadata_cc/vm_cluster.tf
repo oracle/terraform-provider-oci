@@ -267,61 +267,7 @@ data "oci_database_vm_cluster_recommended_network" "test_vm_cluster_recommended_
   }
 }
 
-resource "oci_database_db_home" "test_db_home_vm_cluster" {
-  vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
-  source       = "VM_CLUSTER_NEW"
-  db_version   = "19.0.0.0"
-  display_name = "createdDbHome"
-}
 
-resource "oci_database_database" "test_exacc_database"{
-  database {
-    admin_password = "BEstrO0ng_#11"
-    db_name        = "dbVMClus"
-    character_set  = "AL32UTF8"
-    ncharacter_set = "AL16UTF16"
-    db_workload    = "OLTP"
-    pdb_name       = "pdbName"
-
-    freeform_tags = {
-      "Department" = "Finance"
-    }
-
-    db_backup_config {
-      auto_backup_enabled = true
-      auto_backup_window  = "SLOT_TWO"
-
-      backup_destination_details {
-        id   = oci_database_backup_destination.test_backup_destination_nfs.id
-        type = "NFS"
-      }
-    }
-    encryption_key_location_details {
-        #Required
-        hsm_password  = "hsmPassword"
-        provider_type = "EXTERNAL"
-    }
-  }
-  db_home_id = oci_database_db_home.test_db_home_vm_cluster.id
-  source     = "NONE"
-}
-
-resource "oci_database_backup_destination" "test_backup_destination_nfs" {
-  #Required
-  compartment_id = var.compartment_ocid
-  display_name   = "testBackupDestination"
-  type           = "NFS"
-
-  #Optional
-
-  freeform_tags = {
-    "Department" = "Finance"
-  }
-  mount_type_details {
-    local_mount_point_path = "localMountPointPath"
-    mount_type             = "SELF_MOUNT"
-  }
-}
 
 data "oci_database_vm_cluster_network_download_config_file" "test_vm_cluster_network_download_config_file" {
   #Required
@@ -476,6 +422,7 @@ resource "oci_database_vm_cluster" "test_exascale_vm_cluster" {
   is_local_backup_enabled     = "false"
   is_sparse_diskgroup_enabled = "false"
   license_model               = "LICENSE_INCLUDED"
+#   data_storage_size_in_tbs    = "26"
   db_node_storage_size_in_gbs = "120"
   memory_size_in_gbs          = "60"
 }
@@ -486,19 +433,6 @@ variable "exadata_infrastructure_configure_exascale_management_total_storage_in_
 
 variable "exadata_infrastructure_configure_exascale_management_vm_storage_in_gbs" {
   default = 2048
-}
-
-data "oci_database_backup_destinations" "test_database_backup_destinations" {
-  #Required
-  compartment_id = var.compartment_ocid
-
-  #Optional
-  type = "NFS"
-}
-
-data "oci_database_backup_destination" "test_database_backup_destination" {
-  #Required
-  backup_destination_id = oci_database_backup_destination.test_backup_destination_nfs.id
 }
 
 variable "advanced_cluster_file_system_name" {
@@ -516,7 +450,7 @@ data "oci_database_advanced_cluster_file_systems" "test_advanced_cluster_file_sy
   #Optional
   name          = var.advanced_cluster_file_system_name
 
-  vm_cluster_id = oci_database_vm_cluster.test_exascale_vm_cluster_id
+  vm_cluster_id = oci_database_vm_cluster.test_exascale_vm_cluster.id
 }
 
 resource "oci_database_advanced_cluster_file_system" "test_advanced_cluster_file_system" {
@@ -524,7 +458,7 @@ resource "oci_database_advanced_cluster_file_system" "test_advanced_cluster_file
   #Required
   name           = var.advanced_cluster_file_system_name
   storage_in_gbs = var.advanced_cluster_file_system_storage_in_gbs
-  vm_cluster_id  = oci_database_vm_cluster.test_exascale_vm_cluster_id
+  vm_cluster_id  = oci_database_vm_cluster.test_exascale_vm_cluster.id
 
   #Optional
   compartment_id = var.compartment_ocid

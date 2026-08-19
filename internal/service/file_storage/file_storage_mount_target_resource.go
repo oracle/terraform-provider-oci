@@ -737,8 +737,14 @@ func (s *FileStorageMountTargetResourceCrud) SetData() error {
 		s.D.Set("reserved_storage_capacity", strconv.FormatInt(*s.Res.ReservedStorageCapacity, 10))
 	}
 
-	// Service returns only 1 item in this field
-	if len(s.Res.PrivateIpIds) > 0 {
+	// Service returns only 1 item in this field.
+	// Skip hydration while the mount target is DELETING/DELETED: the service
+	// releases the private IP early in the deletion flow but keeps returning
+	// the mount target record (with the now-stale privateIpIds reference)
+	// until the deletion completes, so GetPrivateIp is guaranteed to 404.
+	if len(s.Res.PrivateIpIds) > 0 &&
+		s.Res.LifecycleState != oci_file_storage.MountTargetLifecycleStateDeleting &&
+		s.Res.LifecycleState != oci_file_storage.MountTargetLifecycleStateDeleted {
 		err := s.setPrivateIpDetails(s.Res.PrivateIpIds[0])
 		if err != nil {
 			return err
@@ -1147,6 +1153,15 @@ func (s *FileStorageMountTargetResourceCrud) setPrivateIpDetails(privateIpOcid s
 
 	response, err := s.VirtualNetworkClient.GetPrivateIp(context.Background(), request)
 	if err != nil {
+		// The mount target releases its private IP early in the deletion
+		// flow, before the mount target record itself stops being returned.
+		// A refresh racing that window must not fail the whole read - treat
+		// the vanished private IP as absent details, not as an error, so the
+		// resource can converge (e.g. a destroy retry can proceed) instead
+		// of wedging every subsequent plan/apply/destroy on a 404.
+		if serviceErr, ok := oci_common.IsServiceError(err); ok && serviceErr.GetHTTPStatusCode() == 404 {
+			return nil
+		}
 		return err
 	}
 	if response.HostnameLabel != nil {

@@ -38,7 +38,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
 * `environment_variables` - The list of environment variables for the Hosted Application.  Defines a list of environment variables injected at runtime.
 	* `name` - Name of the environment variable.
-	* `type` - Type of the environment variable (PLAINTEXT or HASHED, no default value).
+	* `type` - Type of the environment variable (PLAINTEXT or VAULT, no default value).
 	* `value` - Value of the environment variable.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the hosted application.
