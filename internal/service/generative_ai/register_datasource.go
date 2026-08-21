@@ -22,10 +22,13 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_generative_ai_hosted_deployments", GenerativeAiHostedDeploymentsDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_imported_model", GenerativeAiImportedModelDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_imported_models", GenerativeAiImportedModelsDataSource())
+	tfresource.RegisterDatasource("oci_generative_ai_model_discoveries", GenerativeAiModelDiscoveriesDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_model", GenerativeAiModelDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_models", GenerativeAiModelsDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_project", GenerativeAiProjectDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_projects", GenerativeAiProjectsDataSource())
+	tfresource.RegisterDatasource("oci_generative_ai_routing_profile", GenerativeAiRoutingProfileDataSource())
+	tfresource.RegisterDatasource("oci_generative_ai_routing_profiles", GenerativeAiRoutingProfilesDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_semantic_store", GenerativeAiSemanticStoreDataSource())
 	tfresource.RegisterDatasource("oci_generative_ai_semantic_stores", GenerativeAiSemanticStoresDataSource())
 }

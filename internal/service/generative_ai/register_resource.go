@@ -16,5 +16,6 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_generative_ai_imported_model", GenerativeAiImportedModelResource())
 	tfresource.RegisterResource("oci_generative_ai_model", GenerativeAiModelResource())
 	tfresource.RegisterResource("oci_generative_ai_project", GenerativeAiProjectResource())
+	tfresource.RegisterResource("oci_generative_ai_routing_profile", GenerativeAiRoutingProfileResource())
 	tfresource.RegisterResource("oci_generative_ai_semantic_store", GenerativeAiSemanticStoreResource())
 }
