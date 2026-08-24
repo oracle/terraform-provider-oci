@@ -12,14 +12,13 @@ variable "assessment_object_type_connection_type" {
 }
 
 
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
-  auth             = "SecurityToken"
   region           = var.region
-
 }
 
 data "oci_database_migration_assessment_object_types" "test_assessment_object_types" {

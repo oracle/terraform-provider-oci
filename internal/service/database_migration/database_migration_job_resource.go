@@ -165,6 +165,10 @@ func DatabaseMigrationJobResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"job_progress": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"phases": {
 							Type:     schema.TypeList,
 							Computed: true,
