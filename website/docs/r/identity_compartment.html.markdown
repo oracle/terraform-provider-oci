@@ -24,7 +24,7 @@ is simply the root compartment. For information about OCIDs, see
 [Resource Identifiers](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 You must also specify a *name* for the compartment, which must be unique across all compartments in
-your tenancy. You can use this name or the OCID when writing policies that apply
+the parent compartment. You can use this name or the OCID when writing policies that apply
 to the compartment. For more information about policies, see
 [How Policies Work](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policies.htm).
 
