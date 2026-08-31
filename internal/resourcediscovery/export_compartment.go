@@ -377,11 +377,10 @@ func getExportConfig(d *schema.ResourceData) (interface{}, error) {
 	}
 	exportConfigProvider = sdkConfigProvider
 
-	// Note: In case of Instance Principal auth, the TenancyOCID will return
-	// the ocid for the tenancy for the compute instance and not the one for the customer
 	clients.Configuration["tenancy_ocid"], err = sdkConfigProviderTenancyOCIDVar(sdkConfigProvider)
 	if err != nil {
-		return nil, err
+		auth := clients.Configuration[globalvar.AuthAttrName]
+		return nil, fmt.Errorf("unable to configure resource discovery using auth=%s. Note: Resource Discovery reads authentication settings from environment variables and OCI configuration profiles; it does not read provider.tf. See https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/resource_discovery#authentication: %w", auth, err)
 	}
 
 	// beware: global variable `configureClient` set here--used elsewhere outside this execution path
