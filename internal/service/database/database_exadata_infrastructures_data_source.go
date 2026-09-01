@@ -297,6 +297,12 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 			exadataInfrastructure["shape"] = *r.Shape
 		}
 
+		if r.SslInspectionConfiguration != nil {
+			exadataInfrastructure["ssl_inspection_configuration"] = []interface{}{SslInspectionConfigurationToMap(r.SslInspectionConfiguration)}
+		} else {
+			exadataInfrastructure["ssl_inspection_configuration"] = nil
+		}
+
 		exadataInfrastructure["state"] = r.LifecycleState
 
 		if r.StorageCount != nil {

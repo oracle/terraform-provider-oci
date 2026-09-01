@@ -72,6 +72,7 @@ var (
 		"storage_server_type":             acctest.Representation{RepType: acctest.Required, Create: `X11M-HC`},
 		"storage_count":                   acctest.Representation{RepType: acctest.Required, Create: `3`},
 		"lifecycle":                       acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseExadataInfrastructureIgnoreChangesRepresentation},
+		"ssl_inspection_configuration":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseExadataInfrastructureSslInspectionConfigurationRepresentation},
 	}
 
 	DatabaseExadataInfrastructureRepresentation2 = map[string]interface{}{
@@ -126,6 +127,10 @@ var (
 		"backup_network_bonding_mode": acctest.Representation{RepType: acctest.Optional, Create: `LACP`, Update: `ACTIVE_BACKUP`},
 		"client_network_bonding_mode": acctest.Representation{RepType: acctest.Optional, Create: `LACP`, Update: `ACTIVE_BACKUP`},
 	}
+	DatabaseExadataInfrastructureSslInspectionConfigurationRepresentation = map[string]interface{}{
+		"is_enabled":               acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"certificate_authority_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.test_certificate_authority_ocid}`},
+	}
 
 	exadataInfrastructureMaintenanceWindowRepresentationComplete = acctest.RepresentationCopyWithNewProperties(DatabaseExadataInfrastructureMaintenanceWindowRepresentation, map[string]interface{}{
 		"days_of_week": []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: DatabaseExadataInfrastructureMaintenanceWindowDaysOfWeekRepresentation}},
@@ -167,6 +172,11 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	certificateAuthorityId := utils.GetEnvSettingWithBlankDefault("test_certificate_authority_ocid")
+	if certificateAuthorityId == "" {
+		t.Skip("set TF_VAR_test_certificate_authority_ocid to run SSL inspection acceptance coverage")
+	}
+	certificateAuthorityIdVariableStr := fmt.Sprintf("variable \"test_certificate_authority_ocid\" { default = \"%s\" }\n", certificateAuthorityId)
 
 	//compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	//compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
@@ -177,13 +187,13 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseExadataInfrastructureResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+certificateAuthorityIdVariableStr+DatabaseExadataInfrastructureResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Create, DatabaseExadataInfrastructureRepresentation), "database", "exadataInfrastructure", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseExadataInfrastructureDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DatabaseExadataInfrastructureResourceDependencies +
+			Config: config + compartmentIdVariableStr + certificateAuthorityIdVariableStr + DatabaseExadataInfrastructureResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseExadataInfrastructureRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_network_cidr", "192.168.0.0/16"),
@@ -208,11 +218,11 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DatabaseExadataInfrastructureResourceDependencies,
+			Config: config + compartmentIdVariableStr + certificateAuthorityIdVariableStr + DatabaseExadataInfrastructureResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DatabaseExadataInfrastructureResourceDependencies +
+			Config: config + compartmentIdVariableStr + certificateAuthorityIdVariableStr + DatabaseExadataInfrastructureResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Create, DatabaseExadataInfrastructureRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure2", acctest.Optional, acctest.Create, DatabaseExadataInfrastructureRepresentation2),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -256,6 +266,9 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "network_bonding_mode_details.0.client_network_bonding_mode", "ACTIVE_BACKUP"),
 				resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.X11M"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_inspection_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "ssl_inspection_configuration.0.certificate_authority_id"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_inspection_configuration.0.is_enabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "storage_server_type", "X11M-HC"),
@@ -340,7 +353,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DatabaseExadataInfrastructureResourceDependencies +
+			Config: config + compartmentIdVariableStr + certificateAuthorityIdVariableStr + DatabaseExadataInfrastructureResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(DatabaseExadataInfrastructureRepresentation, map[string]interface{}{
 						"maintenance_window": acctest.RepresentationGroup{RepType: acctest.Optional, Group: exadataInfrastructureMaintenanceWindowRepresentationComplete},
@@ -386,6 +399,9 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "netmask", "255.255.254.0"),
 				resource.TestCheckResourceAttr(resourceName, "ntp_server.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "ExadataCC.X11M"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_inspection_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "ssl_inspection_configuration.0.certificate_authority_id"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_inspection_configuration.0.is_enabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "storage_server_type", "X11M-HC"),
@@ -403,7 +419,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 		},
 		// verify updates to updatable parameters bonding mode
 		{
-			Config: config + compartmentIdVariableStr + DatabaseExadataInfrastructureResourceDependencies +
+			Config: config + compartmentIdVariableStr + certificateAuthorityIdVariableStr + DatabaseExadataInfrastructureResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(DatabaseExadataInfrastructureRepresentation2, map[string]interface{}{
 						"maintenance_window": acctest.RepresentationGroup{RepType: acctest.Optional, Group: exadataInfrastructureMaintenanceWindowRepresentationComplete},
@@ -426,7 +442,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_exadata_infrastructures", "test_exadata_infrastructures", acctest.Optional, acctest.Update, DatabaseDatabaseExadataInfrastructureDataSourceRepresentation) +
-				compartmentIdVariableStr + DatabaseExadataInfrastructureResourceDependencies +
+				compartmentIdVariableStr + certificateAuthorityIdVariableStr + DatabaseExadataInfrastructureResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(DatabaseExadataInfrastructureRepresentation, map[string]interface{}{
 						"maintenance_window": acctest.RepresentationGroup{RepType: acctest.Optional, Group: exadataInfrastructureMaintenanceWindowRepresentationComplete},
@@ -436,7 +452,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "tstExaInfra"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "REQUIRES_ACTIVATION"),
-				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.#", "2"),
+				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.activated_storage_count"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.additional_compute_count"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.additional_storage_count"),
@@ -498,6 +514,9 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				//rack_serial_number is not available immediately in the response as it will be set by ops command
 				//resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.rack_serial_number"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.shape", "ExadataCC.X11M"),
+				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.ssl_inspection_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.ssl_inspection_configuration.0.certificate_authority_id"),
+				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.ssl_inspection_configuration.0.is_enabled", "true"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.state"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.storage_count", "3"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.storage_server_type", "X11M-HC"),
@@ -510,7 +529,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseDatabaseExadataInfrastructureSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DatabaseExadataInfrastructureResourceConfig +
+				compartmentIdVariableStr + certificateAuthorityIdVariableStr + DatabaseExadataInfrastructureResourceConfig +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure2", acctest.Optional, acctest.Create, DatabaseExadataInfrastructureRepresentation2),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
@@ -573,6 +592,9 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				//rack_serial_number is not available immediately in the response as it will be set by ops command
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "rack_serial_number"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "shape", "ExadataCC.X11M"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ssl_inspection_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "ssl_inspection_configuration.0.certificate_authority_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ssl_inspection_configuration.0.is_enabled", "true"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "storage_count", "3"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "storage_server_type", "X11M-HC"),

@@ -305,6 +305,10 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 					},
 				},
 			},
+			"multi_rack_configuration_file": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"network_bonding_mode_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -336,9 +340,33 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 					},
 				},
 			},
-			"multi_rack_configuration_file": {
-				Type:     schema.TypeString,
+			"ssl_inspection_configuration": {
+				Type:     schema.TypeList,
 				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"is_enabled": {
+							Type:     schema.TypeBool,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+						"certificate_authority_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
 			},
 			"storage_count": {
 				Type:     schema.TypeInt,
@@ -496,11 +524,11 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
-			"rack_serial_number": {
+			"monthly_db_server_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"monthly_db_server_version": {
+			"rack_serial_number": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -801,6 +829,17 @@ func (s *DatabaseExadataInfrastructureResourceCrud) Create() error {
 	if shape, ok := s.D.GetOkExists("shape"); ok {
 		tmp := shape.(string)
 		request.Shape = &tmp
+	}
+
+	if sslInspectionConfiguration, ok := s.D.GetOkExists("ssl_inspection_configuration"); ok {
+		if tmpList := sslInspectionConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ssl_inspection_configuration", 0)
+			tmp, err := s.mapToSslInspectionConfiguration(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.SslInspectionConfiguration = &tmp
+		}
 	}
 
 	if storageCount, ok := s.D.GetOkExists("storage_count"); ok {
@@ -1263,6 +1302,12 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 		s.D.Set("shape", *s.Res.Shape)
 	}
 
+	if s.Res.SslInspectionConfiguration != nil {
+		s.D.Set("ssl_inspection_configuration", []interface{}{SslInspectionConfigurationToMap(s.Res.SslInspectionConfiguration)})
+	} else {
+		s.D.Set("ssl_inspection_configuration", nil)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.StorageCount != nil {
@@ -1612,6 +1657,36 @@ func NetworkBondingModeDetailsToMap(obj *oci_database.NetworkBondingModeDetails)
 	result["client_network_bonding_mode"] = string(obj.ClientNetworkBondingMode)
 
 	result["dr_network_bonding_mode"] = string(obj.DrNetworkBondingMode)
+
+	return result
+}
+
+func (s *DatabaseExadataInfrastructureResourceCrud) mapToSslInspectionConfiguration(fieldKeyFormat string) (oci_database.SslInspectionConfiguration, error) {
+	result := oci_database.SslInspectionConfiguration{}
+
+	if certificateAuthorityId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_authority_id")); ok {
+		tmp := certificateAuthorityId.(string)
+		result.CertificateAuthorityId = &tmp
+	}
+
+	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
+		tmp := isEnabled.(bool)
+		result.IsEnabled = &tmp
+	}
+
+	return result, nil
+}
+
+func SslInspectionConfigurationToMap(obj *oci_database.SslInspectionConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CertificateAuthorityId != nil {
+		result["certificate_authority_id"] = string(*obj.CertificateAuthorityId)
+	}
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
 
 	return result
 }
