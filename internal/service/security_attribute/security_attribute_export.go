@@ -10,7 +10,7 @@ import (
 
 func init() {
 	exportSecurityAttributeSecurityAttributeHints.GetIdFn = getSecurityAttributeSecurityAttributeId
-	tf_export.RegisterTenancyGraphs("security_attribute", securityAttributeResourceGraph)
+	tf_export.RegisterCompartmentGraphs("security_attribute", securityAttributeResourceGraph)
 }
 
 // Custom overrides for generating composite IDs within the resource discovery framework
