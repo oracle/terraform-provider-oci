@@ -442,7 +442,6 @@ github.com/oracle/oci-go-sdk/v65/vulnerabilityscanning
 github.com/oracle/oci-go-sdk/v65/waa
 github.com/oracle/oci-go-sdk/v65/waas
 github.com/oracle/oci-go-sdk/v65/waf
-github.com/oracle/oci-go-sdk/v65/wlms
 github.com/oracle/oci-go-sdk/v65/workrequests
 github.com/oracle/oci-go-sdk/v65/zpr
 # github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
