@@ -199,7 +199,12 @@ func createDatabasePluggableDatabasePluggabledatabasemanagementsManagementWithCo
 }
 
 func readDatabasePluggableDatabasePluggabledatabasemanagementsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
-	return nil
+	sync := &DatabasePluggableDatabasePluggabledatabasemanagementsManagementResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).DatabaseClient()
+	sync.Res = &DatabasePluggableDatabasePluggabledatabasemanagementsManagementResponse{}
+
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
 func updateDatabasePluggableDatabasePluggabledatabasemanagementsManagementWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -227,6 +232,7 @@ type DatabasePluggableDatabasePluggabledatabasemanagementsManagementResponse str
 	enableResponse  *oci_database.EnablePluggableDatabaseManagementResponse
 	disableResponse *oci_database.DisablePluggableDatabaseManagementResponse
 	modifyResponse  *oci_database.ModifyPluggableDatabaseManagementResponse
+	pluggableDatabase *oci_database.PluggableDatabase
 }
 
 type DatabasePluggableDatabasePluggabledatabasemanagementsManagementResourceCrud struct {
@@ -478,6 +484,79 @@ func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResource
 }
 
 func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResourceCrud) SetData() error {
+	if s.Res == nil || s.Res.pluggableDatabase == nil {
+		return nil
+	}
+
+	pluggableDatabase := s.Res.pluggableDatabase
+
+	if pluggableDatabase.CompartmentId != nil {
+		s.D.Set("compartment_id", *pluggableDatabase.CompartmentId)
+	}
+
+	if pluggableDatabase.ConnectionStrings != nil {
+		s.D.Set("connection_strings", []interface{}{PluggableDatabaseConnectionStringsToMap(pluggableDatabase.ConnectionStrings)})
+	} else {
+		s.D.Set("connection_strings", nil)
+	}
+
+	if pluggableDatabase.ContainerDatabaseId != nil {
+		s.D.Set("container_database_id", *pluggableDatabase.ContainerDatabaseId)
+	}
+
+	if pluggableDatabase.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(pluggableDatabase.DefinedTags))
+	} else {
+		s.D.Set("defined_tags", nil)
+	}
+
+	s.D.Set("freeform_tags", pluggableDatabase.FreeformTags)
+
+	if pluggableDatabase.IsRestricted != nil {
+		s.D.Set("is_restricted", *pluggableDatabase.IsRestricted)
+	}
+
+	if pluggableDatabase.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *pluggableDatabase.LifecycleDetails)
+	}
+
+	s.D.Set("open_mode", pluggableDatabase.OpenMode)
+
+	if pluggableDatabase.PdbName != nil {
+		s.D.Set("pdb_name", *pluggableDatabase.PdbName)
+	}
+
+	if pluggableDatabase.PluggableDatabaseManagementConfig != nil {
+		s.D.Set("pluggable_database_management_config", []interface{}{PluggableDatabaseManagementConfigToMap(pluggableDatabase.PluggableDatabaseManagementConfig)})
+	} else {
+		s.D.Set("pluggable_database_management_config", nil)
+	}
+
+	s.D.Set("state", pluggableDatabase.LifecycleState)
+
+	if pluggableDatabase.TimeCreated != nil {
+		s.D.Set("time_created", pluggableDatabase.TimeCreated.String())
+	}
+
+	return nil
+}
+
+func (s *DatabasePluggableDatabasePluggabledatabasemanagementsManagementResourceCrud) GetWithContext(ctx context.Context) error {
+	request := oci_database.GetPluggableDatabaseRequest{}
+
+	if pluggableDatabaseId, ok := s.D.GetOkExists("pluggable_database_id"); ok {
+		tmp := pluggableDatabaseId.(string)
+		request.PluggableDatabaseId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.GetPluggableDatabase(ctx, request)
+	if err != nil {
+		return err
+	}
+
+	s.Res.pluggableDatabase = &response.PluggableDatabase
 	return nil
 }
 
