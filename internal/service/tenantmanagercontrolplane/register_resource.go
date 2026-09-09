@@ -6,5 +6,6 @@ package tenantmanagercontrolplane
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterResource() {
+	tfresource.RegisterResource("oci_tenantmanagercontrolplane_organization_tenancy", TenantmanagercontrolplaneOrganizationTenancyResource())
 	tfresource.RegisterResource("oci_tenantmanagercontrolplane_subscription_mapping", TenantmanagercontrolplaneSubscriptionMappingResource())
 }
