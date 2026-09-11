@@ -581,6 +581,18 @@ var exportDataSafeUnifiedAuditPolicyHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDataSafeCryptoAssessmentHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_crypto_assessment",
+	DatasourceClass:        "oci_data_safe_crypto_assessments",
+	DatasourceItemsAttr:    "crypto_assessment_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "crypto_assessment",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_data_safe.CryptoAssessmentLifecycleStateActive),
+	},
+}
+
 var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDataSafeDataSafePrivateEndpointHints},
@@ -610,6 +622,7 @@ var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDataSafeAttributeSetHints},
 		{TerraformResourceHints: exportDataSafeSecurityPolicyConfigHints},
 		{TerraformResourceHints: exportDataSafeUnifiedAuditPolicyHints},
+		{TerraformResourceHints: exportDataSafeCryptoAssessmentHints},
 	},
 	"oci_data_safe_alert_policy": {
 		{

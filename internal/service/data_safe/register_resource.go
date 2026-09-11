@@ -21,6 +21,8 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_data_safe_calculate_audit_volume_collected", DataSafeCalculateAuditVolumeCollectedResource())
 	tfresource.RegisterResource("oci_data_safe_compare_security_assessment", DataSafeCompareSecurityAssessmentResource())
 	tfresource.RegisterResource("oci_data_safe_compare_user_assessment", DataSafeCompareUserAssessmentResource())
+	tfresource.RegisterResource("oci_data_safe_crypto_assessment", DataSafeCryptoAssessmentResource())
+	tfresource.RegisterResource("oci_data_safe_crypto_assessment_management", DataSafeCryptoAssessmentManagementResource())
 	tfresource.RegisterResource("oci_data_safe_data_safe_configuration", DataSafeDataSafeConfigurationResource())
 	tfresource.RegisterResource("oci_data_safe_data_safe_private_endpoint", DataSafeDataSafePrivateEndpointResource())
 	tfresource.RegisterResource("oci_data_safe_database_security_config", DataSafeDatabaseSecurityConfigResource())
