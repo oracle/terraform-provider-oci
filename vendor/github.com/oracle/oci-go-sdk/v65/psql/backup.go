@@ -86,6 +86,9 @@ type Backup struct {
 	// List of status for Backup Copy
 	CopyStatus []BackupCopyStatusDetails `mandatory:"false" json:"copyStatus"`
 
+	// The OCID of the master encryption key for the backup.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`

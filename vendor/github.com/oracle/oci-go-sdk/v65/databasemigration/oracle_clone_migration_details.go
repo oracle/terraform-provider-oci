@@ -16,7 +16,9 @@ import (
 	"strings"
 )
 
-// OracleCloneMigrationDetails Oracle Clone Migration Summary
+// OracleCloneMigrationDetails Oracle Clone Migration details.
+// Deprecated: The parent-level Oracle clone configuration properties on this model are deprecated.
+// Use `migrationSettings` instead.
 type OracleCloneMigrationDetails struct {
 
 	// The OCID of the resource being referenced.
@@ -42,6 +44,8 @@ type OracleCloneMigrationDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	MigrationSettings CloneOracleMigrationSettings `mandatory:"false" json:"migrationSettings"`
 
 	// The OCID of the resource being referenced.
 	SourceContainerDatabaseConnectionId *string `mandatory:"false" json:"sourceContainerDatabaseConnectionId"`
@@ -113,4 +117,55 @@ func (m OracleCloneMigrationDetails) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *OracleCloneMigrationDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName                         *string                           `json:"displayName"`
+		CompartmentId                       *string                           `json:"compartmentId"`
+		AssessmentId                        *string                           `json:"assessmentId"`
+		FreeformTags                        map[string]string                 `json:"freeformTags"`
+		DefinedTags                         map[string]map[string]interface{} `json:"definedTags"`
+		MigrationSettings                   cloneoraclemigrationsettings      `json:"migrationSettings"`
+		SourceContainerDatabaseConnectionId *string                           `json:"sourceContainerDatabaseConnectionId"`
+		SourceStandbyDatabaseConnectionId   *string                           `json:"sourceStandbyDatabaseConnectionId"`
+		SourceDatabaseConnectionId          *string                           `json:"sourceDatabaseConnectionId"`
+		TargetDatabaseConnectionId          *string                           `json:"targetDatabaseConnectionId"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.CompartmentId = model.CompartmentId
+
+	m.AssessmentId = model.AssessmentId
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	nn, e = model.MigrationSettings.UnmarshalPolymorphicJSON(model.MigrationSettings.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.MigrationSettings = nn.(CloneOracleMigrationSettings)
+	} else {
+		m.MigrationSettings = nil
+	}
+
+	m.SourceContainerDatabaseConnectionId = model.SourceContainerDatabaseConnectionId
+
+	m.SourceStandbyDatabaseConnectionId = model.SourceStandbyDatabaseConnectionId
+
+	m.SourceDatabaseConnectionId = model.SourceDatabaseConnectionId
+
+	m.TargetDatabaseConnectionId = model.TargetDatabaseConnectionId
+
+	return
 }

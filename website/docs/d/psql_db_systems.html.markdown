@@ -85,6 +85,7 @@ The following attributes are exported:
 		* `backup_start` - Hour of the day when the backup starts.
 		* `copy_policy` - Backup copy details
 			* `compartment_id` - target compartment to place a new backup
+			* `kms_key_ids` - List of key ids of the remote regions
 			* `regions` - List of region names of the remote region
 			* `retention_period` - Retention period in days of the backup copy.
 		* `days_of_the_month` - Day of the month when the backup should start. To ensure that the backup runs monthly, the latest day of the month that you can use to schedule a backup is the the 28th day.
@@ -124,7 +125,8 @@ The following attributes are exported:
 * `storage_details` - Storage details of the database system.
 	* `availability_domain` - Specifies the availability domain of AD-local storage. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified.
 	* `iops` - Guaranteed input/output storage requests per second (IOPS) available to the database system.
-	* `is_regionally_durable` - Specifies if the block volume used for the database system is regional or AD-local. If not specified, it will be set to false. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified.
+	* `is_regionally_durable` - Specifies if the block volume used for the database system is regional or AD-local. If not specified, it will be set to false. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified. 
+	* `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the database system.
 	* `system_type` - Type of the database system.
 * `system_role` - Type of the database system.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}`
