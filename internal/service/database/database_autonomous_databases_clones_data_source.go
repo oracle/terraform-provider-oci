@@ -320,6 +320,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"a2a_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"apex_url": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -341,6 +345,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"machine_learning_user_management_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"mcp_url": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -993,6 +1001,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"a2a_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"apex_url": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -1014,6 +1026,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"machine_learning_user_management_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"mcp_url": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -1435,6 +1451,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"a2a_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"apex_url": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -1456,6 +1476,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"machine_learning_user_management_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"mcp_url": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},

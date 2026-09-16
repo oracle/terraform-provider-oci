@@ -116,6 +116,8 @@ AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8
 		* `tls_authentication` - Specifies whether the TLS handshake is using one-way (`SERVER`) or mutual (`MUTUAL`) authentication.
 		* `value` - Connection string value.
 * `connection_urls` - The URLs for accessing Oracle Application Express (APEX) and SQL Developer Web with a browser from a Compute instance within your VCN or that has a direct connection to your VCN. Note that these URLs are provided by the console only for databases on [dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).  Example: `{"sqlDevWebUrl": "https://<hostname>/ords...", "apexUrl", "https://<hostname>/ords..."}`
+	* `a2a_url` - The URL of the Agent-to-Agent (A2A) server for the Autonomous AI Database. Applicable to Autonomous AI Database Serverless only.
+	* `mcp_url` - The URL of the Model Context Protocol (MCP) server for the Autonomous AI Database. Applicable to Autonomous AI Database Serverless only.
 	* `apex_url` - Oracle Application Express (APEX) URL.
 	* `database_transforms_url` - The URL of the Database Transforms for the Autonomous AI Database.
 	* `essbase_url` - Essbase URL for the Autonomous AI Database.
@@ -318,6 +320,8 @@ AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8
 * `private_endpoint_label` - The private endpoint label for the resource.
 * `provisionable_cpus` - An array of CPU values that an Autonomous AI Database can be scaled to.
 * `public_connection_urls` - The Public URLs of Private Endpoint database for accessing Oracle Application Express (APEX) and SQL Developer Web with a browser from a Compute instance within your VCN or that has a direct connection to your VCN.
+	* `a2a_url` - The URL of the Agent-to-Agent (A2A) server for the Autonomous AI Database. Applicable to Autonomous AI Database Serverless only.
+	* `mcp_url` - The URL of the Model Context Protocol (MCP) server for the Autonomous AI Database. Applicable to Autonomous AI Database Serverless only.
 	* `apex_url` - Oracle Application Express (APEX) URL.
 	* `database_transforms_url` - The URL of the Database Transforms for the Autonomous AI Database.
 	* `essbase_url` - Essbase URL for the Autonomous AI Database.
@@ -422,6 +426,8 @@ AL32UTF8, AR8ADOS710, AR8ADOS720, AR8APTEC715, AR8ARABICMACS, AR8ASMO8X, AR8ISO8
 * `used_data_storage_size_in_gbs` - The storage space consumed by Autonomous Database in GBs.
 * `used_data_storage_size_in_tbs` - The amount of storage that has been used for Autonomous Databases in dedicated infrastructure, in terabytes.
 * `vanity_connection_urls` - The URLs for accessing Oracle Application Express (APEX) and SQL Developer Web with a browser from a Compute instance within your VCN or that has a direct connection to your VCN. Note that these URLs are provided by the console only for databases on [dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).  Example: `{"sqlDevWebUrl": "https://<hostname>/ords...", "apexUrl", "https://<hostname>/ords..."}` 
+	* `a2a_url` - The URL of the Agent-to-Agent (A2A) server for the Autonomous AI Database. Applicable to Autonomous AI Database Serverless only.
+	* `mcp_url` - The URL of the Model Context Protocol (MCP) server for the Autonomous AI Database. Applicable to Autonomous AI Database Serverless only.
 	* `apex_url` - Oracle Application Express (APEX) URL.
 	* `database_transforms_url` - The URL of the Database Transforms for the Autonomous Database.
 	* `essbase_url` - Essbase URL for the Autonomous AI Database.

@@ -48,11 +48,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"db_name": {
-				Type:     schema.TypeString,
-				Required: true,
-				//ForceNew: true, /* Expectation: This should be false. This is coming from Spec - needs to be checked.*/
-			},
 
 			// Optional
 			"admin_password": {
@@ -248,6 +243,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"db_name": {
+				Type:     schema.TypeString,
+				Required: true,
+				//ForceNew: true, /* Expectation: This should be false. This is coming from Spec - needs to be checked.*/
 			},
 			"db_tools_details": {
 				Type:     schema.TypeSet,
@@ -525,15 +525,15 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_replicate_automatic_backups": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"kms_key_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-			},
-			"is_refreshable_clone": {
-				Type:     schema.TypeBool,
-				Computed: true,
-				Optional: true,
 			},
 			"license_model": {
 				Type:     schema.TypeString,
@@ -565,6 +565,17 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"open_mode": {
+				Type:     schema.TypeString,
+				Computed: true,
+				Optional: true,
+			},
+			"operations_insights_status": {
+				Type:             schema.TypeString,
+				Computed:         true,
+				Optional:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+			},
 			"private_endpoint_ip": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -592,11 +603,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
-			},
-			"is_replicate_automatic_backups": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Computed: true,
 			},
 			"resource_pool_leader_id": {
 				Type:     schema.TypeString,
@@ -999,6 +1005,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"a2a_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"apex_url": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1020,6 +1030,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Computed: true,
 						},
 						"machine_learning_user_management_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"mcp_url": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -1211,6 +1225,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"is_refreshable_clone": {
+				Type:     schema.TypeBool,
+				Computed: true,
+				Optional: true,
+			},
 			"is_remote_data_guard_enabled": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -1386,17 +1405,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"open_mode": {
-				Type:     schema.TypeString,
-				Computed: true,
-				Optional: true,
-			},
-			"operations_insights_status": {
-				Type:             schema.TypeString,
-				Computed:         true,
-				Optional:         true,
-				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
-			},
 			"peer_db_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -1435,6 +1443,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"a2a_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"apex_url": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1456,6 +1468,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Computed: true,
 						},
 						"machine_learning_user_management_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"mcp_url": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -1530,6 +1546,13 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 						// Required
 
 						// Optional
+
+						// Computed
+						"availability_domain": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"day_of_week": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -1537,21 +1560,16 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
-									"name": {
-										Type:     schema.TypeString,
-										Required: true,
-									},
 
 									// Optional
 
 									// Computed
+									"name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
 								},
 							},
-						},
-						"availability_domain": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
 						},
 						"is_maintenance_window_change_scheduled": {
 							Type:     schema.TypeBool,
@@ -1568,8 +1586,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -1778,6 +1794,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"a2a_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"apex_url": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1802,11 +1822,19 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"mcp_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"mongo_db_url": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"ords_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"spatial_studio_url": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -3535,6 +3563,10 @@ func AutonomousDatabaseConnectionStringsToMap(obj *oci_database.AutonomousDataba
 func AutonomousDatabaseConnectionUrlsToMap(obj *oci_database.AutonomousDatabaseConnectionUrls) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.A2aUrl != nil {
+		result["a2a_url"] = string(*obj.A2aUrl)
+	}
+
 	if obj.ApexUrl != nil {
 		result["apex_url"] = string(*obj.ApexUrl)
 	}
@@ -3557,6 +3589,10 @@ func AutonomousDatabaseConnectionUrlsToMap(obj *oci_database.AutonomousDatabaseC
 
 	if obj.MachineLearningUserManagementUrl != nil {
 		result["machine_learning_user_management_url"] = string(*obj.MachineLearningUserManagementUrl)
+	}
+
+	if obj.McpUrl != nil {
+		result["mcp_url"] = string(*obj.McpUrl)
 	}
 
 	if obj.MongoDbUrl != nil {
