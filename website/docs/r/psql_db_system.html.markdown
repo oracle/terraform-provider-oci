@@ -42,6 +42,7 @@ resource "oci_psql_db_system" "test_db_system" {
 		#Optional
 		availability_domain = var.db_system_storage_details_availability_domain
 		iops = var.db_system_storage_details_iops
+		kms_key_id = oci_kms_key.test_key.id
 	}
 
 	#Optional
@@ -85,6 +86,7 @@ resource "oci_psql_db_system" "test_db_system" {
 				compartment_id = var.compartment_id
 
 				#Optional
+				kms_key_ids = var.db_system_management_policy_backup_policy_copy_policy_kms_key_ids
 				regions = var.db_system_management_policy_backup_policy_copy_policy_regions
 				retention_period = var.db_system_management_policy_backup_policy_copy_policy_retention_period
 			}
@@ -175,6 +177,7 @@ The following arguments are supported:
 		* `backup_start` - (Required when kind=DAILY | MONTHLY | WEEKLY) (Updatable) Hour of the day when the backup starts.
 		* `copy_policy` - (Optional) (Updatable) Backup copy details
 			* `compartment_id` - (Required) (Updatable) target compartment to place a new backup
+			* `kms_key_ids` - (Optional) (Updatable) List of key ids of the remote regions
 			* `regions` - (Optional) (Updatable) List of region names of the remote region
 			* `retention_period` - (Optional) (Updatable) Retention period in days of the backup copy.
 		* `days_of_the_month` - (Required when kind=MONTHLY) (Updatable) Day of the month when the backup should start. To ensure that the backup runs monthly, the latest day of the month that you can use to schedule a backup is the the 28th day.
@@ -220,7 +223,8 @@ The following arguments are supported:
 * `storage_details` - (Required) (Updatable) Storage details of the database system.
 	* `availability_domain` - (Optional) Specifies the availability domain of AD-local storage. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified.
 	* `iops` - (Applicable when system_type=OCI_OPTIMIZED_STORAGE) (Updatable) Guaranteed input/output storage requests per second (IOPS) available to the database system. Find more about the supported Peformance Tiers [here](https://docs.oracle.com/en-us/iaas/Content/postgresql/performance-tiers.htm).
-	* `is_regionally_durable` - (Required) Specifies if the block volume used for the database system is regional or AD-local. If not specified, it will be set to false. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified.
+	* `is_regionally_durable` - (Required) Specifies if the block volume used for the database system is regional or AD-local. If not specified, it will be set to false. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified. 
+	* `kms_key_id` - (Optional) (Updatable) The OCID of the Vault service key to assign as the master encryption key for the database system.
 	* `system_type` - (Required) Type of the database system.
 * `system_type` - (Optional) Type of the database system.
 * `state` - (Optional) (Updatable) The target state for the Db System. Could be set to `ACTIVE` or `INACTIVE`.
@@ -270,6 +274,7 @@ The following attributes are exported:
 		* `backup_start` - Hour of the day when the backup starts.
 		* `copy_policy` - Backup copy details
 			* `compartment_id` - target compartment to place a new backup
+			* `kms_key_ids` - List of key ids of the remote regions
 			* `regions` - List of region names of the remote region
 			* `retention_period` - Retention period in days of the backup copy.
 		* `days_of_the_month` - Day of the month when the backup should start. To ensure that the backup runs monthly, the latest day of the month that you can use to schedule a backup is the the 28th day.
@@ -309,7 +314,8 @@ The following attributes are exported:
 * `storage_details` - Storage details of the database system.
 	* `availability_domain` - Specifies the availability domain of AD-local storage. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified.
 	* `iops` - Guaranteed input/output storage requests per second (IOPS) available to the database system.
-	* `is_regionally_durable` - Specifies if the block volume used for the database system is regional or AD-local. If not specified, it will be set to false. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified.
+	* `is_regionally_durable` - Specifies if the block volume used for the database system is regional or AD-local. If not specified, it will be set to false. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified. 
+	* `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the database system.
 	* `system_type` - Type of the database system.
 * `system_role` - Type of the database system.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}`

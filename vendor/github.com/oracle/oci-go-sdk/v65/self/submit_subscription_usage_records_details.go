@@ -18,7 +18,7 @@ import (
 // SubmitSubscriptionUsageRecordsDetails Request payload to submit one or more usage records for marketplace offers.
 type SubmitSubscriptionUsageRecordsDetails struct {
 
-	// The usage records to submit. The array must contain at least one record and no more than 100 records.
+	// The usage records to submit. The array must contain at least one record and no more than 1,000 records.
 	SubscriptionUsageRecords []CreateSubscriptionUsageRecordDetails `mandatory:"true" json:"subscriptionUsageRecords"`
 }
 
