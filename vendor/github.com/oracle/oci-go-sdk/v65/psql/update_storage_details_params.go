@@ -22,6 +22,9 @@ type UpdateStorageDetailsParams struct {
 	// Guaranteed input/output storage requests per second (IOPS) available to the database system.
 	// Only valid for `OCI_OPTIMIZED_STORAGE` database system type.
 	Iops *int64 `mandatory:"false" json:"iops"`
+
+	// The OCID of the Vault service key to assign as the master encryption key for the database system.
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 }
 
 func (m UpdateStorageDetailsParams) String() string {

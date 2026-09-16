@@ -154,6 +154,70 @@ func (client PartnerIntegerationClient) activateSubscription(ctx context.Context
 	return response, err
 }
 
+// ActivateSubscriptionDeprecated Deprecated. This endpoint has moved permanently to
+// `/partners/subscriptions/{subscriptionId}/actions/activate`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/ActivateSubscriptionDeprecated.go.html to see an example of how to use ActivateSubscriptionDeprecated API.
+// A default retry strategy applies to this operation ActivateSubscriptionDeprecated()
+func (client PartnerIntegerationClient) ActivateSubscriptionDeprecated(ctx context.Context, request ActivateSubscriptionDeprecatedRequest) (response ActivateSubscriptionDeprecatedResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.activateSubscriptionDeprecated, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ActivateSubscriptionDeprecatedResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ActivateSubscriptionDeprecatedResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ActivateSubscriptionDeprecatedResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ActivateSubscriptionDeprecatedResponse")
+	}
+	return
+}
+
+// activateSubscriptionDeprecated implements the OCIOperation interface (enables retrying operations)
+func (client PartnerIntegerationClient) activateSubscriptionDeprecated(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/partner/subscriptions/{subscriptionId}/actions/activate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ActivateSubscriptionDeprecatedResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "partnerIntegeration", "ActivateSubscriptionDeprecated")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/PartnerSubscription/ActivateSubscriptionDeprecated"
+		err = common.PostProcessServiceError(err, "PartnerIntegeration", "ActivateSubscriptionDeprecated", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListPartners Lists marketplace publisher partner info for a compartment.
 //
 // # See also
@@ -270,6 +334,64 @@ func (client PartnerIntegerationClient) listingSubscriptions(ctx context.Context
 	return response, err
 }
 
+// ListingSubscriptionsDeprecated Deprecated. This endpoint has moved permanently to `/partners/subscriptions`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/ListingSubscriptionsDeprecated.go.html to see an example of how to use ListingSubscriptionsDeprecated API.
+// A default retry strategy applies to this operation ListingSubscriptionsDeprecated()
+func (client PartnerIntegerationClient) ListingSubscriptionsDeprecated(ctx context.Context, request ListingSubscriptionsDeprecatedRequest) (response ListingSubscriptionsDeprecatedResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listingSubscriptionsDeprecated, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListingSubscriptionsDeprecatedResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListingSubscriptionsDeprecatedResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListingSubscriptionsDeprecatedResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListingSubscriptionsDeprecatedResponse")
+	}
+	return
+}
+
+// listingSubscriptionsDeprecated implements the OCIOperation interface (enables retrying operations)
+func (client PartnerIntegerationClient) listingSubscriptionsDeprecated(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/partner/subscriptions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListingSubscriptionsDeprecatedResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "partnerIntegeration", "ListingSubscriptionsDeprecated")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/ListingSubscriptionsCollection/ListingSubscriptionsDeprecated"
+		err = common.PostProcessServiceError(err, "PartnerIntegeration", "ListingSubscriptionsDeprecated", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ResolveSubscription This API returns the subscription details by resolving JWT token to corresponding subscription and move its state to Pending Activation state.
 //
 // # See also
@@ -333,8 +455,72 @@ func (client PartnerIntegerationClient) resolveSubscription(ctx context.Context,
 	return response, err
 }
 
+// ResolveSubscriptionDeprecated Deprecated. This endpoint has moved permanently to `/partners/subscriptions/actions/resolve`.
+// It returns a 301 response and does not resolve a subscription.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/self/ResolveSubscriptionDeprecated.go.html to see an example of how to use ResolveSubscriptionDeprecated API.
+// A default retry strategy applies to this operation ResolveSubscriptionDeprecated()
+func (client PartnerIntegerationClient) ResolveSubscriptionDeprecated(ctx context.Context, request ResolveSubscriptionDeprecatedRequest) (response ResolveSubscriptionDeprecatedResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.resolveSubscriptionDeprecated, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ResolveSubscriptionDeprecatedResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ResolveSubscriptionDeprecatedResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ResolveSubscriptionDeprecatedResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ResolveSubscriptionDeprecatedResponse")
+	}
+	return
+}
+
+// resolveSubscriptionDeprecated implements the OCIOperation interface (enables retrying operations)
+func (client PartnerIntegerationClient) resolveSubscriptionDeprecated(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/partner/subscriptions/actions/resolve", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ResolveSubscriptionDeprecatedResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "partnerIntegeration", "ResolveSubscriptionDeprecated")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/self/20260129/PartnerSubscription/ResolveSubscriptionDeprecated"
+		err = common.PostProcessServiceError(err, "PartnerIntegeration", "ResolveSubscriptionDeprecated", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SubmitSubscriptionUsageBatch Asynchronously submits a UTF-8 CSV usage file for marketplace offers. The file
-// must not exceed 50 MB or 10,000 rows and must include required usage columns.
+// must not exceed 50 MB or 30,000 rows and must include required usage columns.
 //
 // # See also
 //

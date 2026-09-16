@@ -30,11 +30,15 @@ type StorageDetails interface {
 	// If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified.
 	// If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified.
 	GetAvailabilityDomain() *string
+
+	// The OCID of the Vault service key to assign as the master encryption key for the database system.
+	GetKmsKeyId() *string
 }
 
 type storagedetails struct {
 	JsonData            []byte
 	AvailabilityDomain  *string `mandatory:"false" json:"availabilityDomain"`
+	KmsKeyId            *string `mandatory:"false" json:"kmsKeyId"`
 	IsRegionallyDurable *bool   `mandatory:"true" json:"isRegionallyDurable"`
 	SystemType          string  `json:"systemType"`
 }
@@ -52,6 +56,7 @@ func (m *storagedetails) UnmarshalJSON(data []byte) error {
 	}
 	m.IsRegionallyDurable = s.Model.IsRegionallyDurable
 	m.AvailabilityDomain = s.Model.AvailabilityDomain
+	m.KmsKeyId = s.Model.KmsKeyId
 	m.SystemType = s.Model.SystemType
 
 	return err
@@ -79,6 +84,11 @@ func (m *storagedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 // GetAvailabilityDomain returns AvailabilityDomain
 func (m storagedetails) GetAvailabilityDomain() *string {
 	return m.AvailabilityDomain
+}
+
+// GetKmsKeyId returns KmsKeyId
+func (m storagedetails) GetKmsKeyId() *string {
+	return m.KmsKeyId
 }
 
 // GetIsRegionallyDurable returns IsRegionallyDurable
