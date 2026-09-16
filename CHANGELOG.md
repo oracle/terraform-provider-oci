@@ -1,3 +1,10 @@
+## 9.2.0 (September 16, 2026)
+
+### Added
+- Support OCVP VMware binary action data sources
+- Support for BYOK - Bring Your Own Keys for PSQL.
+
+
 ## 9.1.0 (September 9, 2026)
 
 ### Added
