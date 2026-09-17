@@ -12,18 +12,20 @@ import (
 	"strings"
 	"time"
 
+	"github.com/oracle/terraform-provider-oci/httpreplay"
+
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	"github.com/oracle/terraform-provider-oci/httpreplay"
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func IdentityTagResource() *schema.Resource {
@@ -36,10 +38,11 @@ func IdentityTagResource() *schema.Resource {
 			Update: tfresource.GetTimeoutDuration("15m"),
 			Delete: tfresource.GetTimeoutDuration("12h"),
 		},
-		Create: createIdentityTag,
-		Read:   readIdentityTag,
-		Update: updateIdentityTag,
-		Delete: deleteIdentityTag,
+		CreateContext: createIdentityTagWithContext,
+		ReadContext:   readIdentityTagWithContext,
+		UpdateContext: updateIdentityTagWithContext,
+		DeleteContext: deleteIdentityTagWithContext,
+		CustomizeDiff: validateIdentityTagValidatorValues,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"description": {
@@ -95,13 +98,14 @@ func IdentityTagResource() *schema.Resource {
 							Required:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"DEFAULT",
 								"ENUM",
 							}, true),
 						},
 
 						"values": {
 							Type:     schema.TypeList,
-							Required: true,
+							Optional: true,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -125,31 +129,60 @@ func IdentityTagResource() *schema.Resource {
 	}
 }
 
-func createIdentityTag(d *schema.ResourceData, m interface{}) error {
+func validateIdentityTagValidatorValues(_ context.Context, diff *schema.ResourceDiff, _ interface{}) error {
+	validatorRaw, ok := diff.GetOk("validator")
+	if !ok {
+		return nil
+	}
+
+	validators, ok := validatorRaw.([]interface{})
+	if !ok || len(validators) == 0 || validators[0] == nil {
+		return nil
+	}
+
+	validator, ok := validators[0].(map[string]interface{})
+	if !ok {
+		return nil
+	}
+
+	validatorType, _ := validator["validator_type"].(string)
+	values, _ := validator["values"].([]interface{})
+
+	switch {
+	case strings.EqualFold(validatorType, "ENUM") && len(values) == 0:
+		return fmt.Errorf("validator.0.values must contain at least one value when validator.0.validator_type is ENUM")
+	case strings.EqualFold(validatorType, "DEFAULT") && len(values) > 0:
+		return fmt.Errorf("validator.0.values must be omitted when validator.0.validator_type is DEFAULT")
+	}
+
+	return nil
+}
+
+func createIdentityTagWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).IdentityClient()
 
-	return tfresource.CreateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.CreateResourceWithContext(ctx, d, sync))
 }
 
-func readIdentityTag(d *schema.ResourceData, m interface{}) error {
+func readIdentityTagWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).IdentityClient()
 
-	return tfresource.ReadResource(sync)
+	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
 
-func updateIdentityTag(d *schema.ResourceData, m interface{}) error {
+func updateIdentityTagWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &IdentityTagResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).IdentityClient()
 
-	return tfresource.UpdateResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.UpdateResourceWithContext(ctx, d, sync))
 }
 
-func deleteIdentityTag(d *schema.ResourceData, m interface{}) error {
+func deleteIdentityTagWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	// prevent tag deletion when testing, as its a time consuming and sequential operation permitted one per tenancy.
 	importIfExists, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("tags_import_if_exists", "false"))
 	if importIfExists {
@@ -161,7 +194,7 @@ func deleteIdentityTag(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*client.OracleClients).IdentityClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	return tfresource.HandleDiagError(m, tfresource.DeleteResourceWithContext(ctx, d, sync))
 }
 
 type IdentityTagResourceCrud struct {
@@ -197,7 +230,7 @@ func (s *IdentityTagResourceCrud) DeletedTarget() []string {
 	}
 }
 
-func (s *IdentityTagResourceCrud) Create() error {
+func (s *IdentityTagResourceCrud) CreateWithContext(ctx context.Context) error {
 	request := oci_identity.CreateTagRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -245,13 +278,12 @@ func (s *IdentityTagResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
-	contextToUse := context.Background()
-	response, err := s.Client.CreateTag(contextToUse, request)
+	response, err := s.Client.CreateTag(ctx, request)
 	if err == nil {
 		s.Res = &response.Tag
 		s.D.SetId(*s.Res.Id)
 		//is_retired field is currently not supported in Create so Update to make server state same as config
-		if updateError := s.Update(); updateError != nil {
+		if updateError := s.UpdateWithContext(ctx); updateError != nil {
 			return updateError
 		}
 		return nil
@@ -275,9 +307,9 @@ func (s *IdentityTagResourceCrud) Create() error {
 		for _, tag := range dsCrud.Res.Items {
 			if strings.EqualFold(*tag.Name, *request.Name) {
 				s.D.SetId(*tag.Id)
-				if updateError := s.Update(); updateError != nil {
+				if updateError := s.UpdateWithContext(ctx); updateError != nil {
 					//Update to tags can only be done from home region, so do get in that case
-					if getError := s.Get(); getError != nil {
+					if getError := s.GetWithContext(ctx); getError != nil {
 						return getError
 					}
 				}
@@ -290,7 +322,7 @@ func (s *IdentityTagResourceCrud) Create() error {
 
 }
 
-func (s *IdentityTagResourceCrud) Get() error {
+func (s *IdentityTagResourceCrud) GetWithContext(ctx context.Context) error {
 	request := oci_identity.GetTagRequest{}
 
 	tagName, tagNamespaceId, parseTagCompositeIdErr := parseTagCompositeId(s.D.Id())
@@ -311,7 +343,7 @@ func (s *IdentityTagResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
-	response, err := s.Client.GetTag(context.Background(), request)
+	response, err := s.Client.GetTag(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -328,7 +360,7 @@ func (s *IdentityTagResourceCrud) Get() error {
 	return nil
 }
 
-func (s *IdentityTagResourceCrud) Update() error {
+func (s *IdentityTagResourceCrud) UpdateWithContext(ctx context.Context) error {
 	request := oci_identity.UpdateTagRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -397,7 +429,7 @@ func (s *IdentityTagResourceCrud) Update() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
 
-	response, err := s.Client.UpdateTag(context.Background(), request)
+	response, err := s.Client.UpdateTag(ctx, request)
 	if err != nil {
 		return err
 	}
@@ -406,14 +438,14 @@ func (s *IdentityTagResourceCrud) Update() error {
 	return nil
 }
 
-func (s *IdentityTagResourceCrud) Delete() error {
+func (s *IdentityTagResourceCrud) DeleteWithContext(ctx context.Context) error {
 	// retire the tag if not already retired.
 	if isRetired, ok := s.D.GetOkExists("is_retired"); ok && (!isRetired.(bool) || s.D.HasChange("is_retired")) {
 
 		tmp := true
 		s.D.Set("is_retired", &tmp)
 
-		if err := s.Update(); err != nil {
+		if err := s.UpdateWithContext(ctx); err != nil {
 			return err
 		}
 	}
@@ -431,7 +463,7 @@ func (s *IdentityTagResourceCrud) Delete() error {
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "identity")
-	response, err := s.Client.DeleteTag(context.Background(), request)
+	response, err := s.Client.DeleteTag(ctx, request)
 
 	if err != nil {
 		return err
@@ -439,12 +471,12 @@ func (s *IdentityTagResourceCrud) Delete() error {
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := IdentityTaggingWaitForWorkRequest(workId, "identity",
+	_, delWorkRequestErr := IdentityTaggingWaitForWorkRequest(ctx, workId, "identity",
 		oci_identity.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
 
-func IdentityTaggingWaitForWorkRequest(workRequestId *string, entityType string, action oci_identity.WorkRequestResourceActionTypeEnum,
+func IdentityTaggingWaitForWorkRequest(ctx context.Context, workRequestId *string, entityType string, action oci_identity.WorkRequestResourceActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_identity.IdentityClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "identity")
 	retryPolicy.ShouldRetryOperation = identityTagWorkRequestShouldRetryFunc(timeout)
@@ -462,7 +494,7 @@ func IdentityTaggingWaitForWorkRequest(workRequestId *string, entityType string,
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetTaggingWorkRequest(context.Background(), oci_identity.GetTaggingWorkRequestRequest{
+			response, err = client.GetTaggingWorkRequest(ctx, oci_identity.GetTaggingWorkRequestRequest{
 				WorkRequestId: workRequestId,
 				RequestMetadata: oci_common.RequestMetadata{
 					RetryPolicy: retryPolicy,
@@ -479,7 +511,7 @@ func IdentityTaggingWaitForWorkRequest(workRequestId *string, entityType string,
 		stateConf.PollInterval = 1
 	}
 
-	if _, e := stateConf.WaitForState(); e != nil {
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
 		return nil, e
 	}
 
@@ -494,13 +526,13 @@ func IdentityTaggingWaitForWorkRequest(workRequestId *string, entityType string,
 	}
 
 	if response.Status == oci_identity.TaggingWorkRequestStatusFailed || response.Status == oci_identity.TaggingWorkRequestStatusCanceled {
-		return nil, getIdentityTaggingWorkRequestErrors(client, workRequestId, retryPolicy, entityType, action)
+		return nil, getIdentityTaggingWorkRequestErrors(ctx, client, workRequestId, retryPolicy, entityType, action)
 	}
 	return identifier, nil
 }
 
-func getIdentityTaggingWorkRequestErrors(client *oci_identity.IdentityClient, workRequestId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_identity.WorkRequestResourceActionTypeEnum) error {
-	response, err := client.ListTaggingWorkRequestErrors(context.Background(), oci_identity.ListTaggingWorkRequestErrorsRequest{
+func getIdentityTaggingWorkRequestErrors(ctx context.Context, client *oci_identity.IdentityClient, workRequestId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_identity.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListTaggingWorkRequestErrors(ctx, oci_identity.ListTaggingWorkRequestErrorsRequest{
 		WorkRequestId: workRequestId,
 		RequestMetadata: oci_common.RequestMetadata{
 			RetryPolicy: retryPolicy,
@@ -560,6 +592,19 @@ func (s *IdentityTagResourceCrud) SetData() error {
 			validatorArray = append(validatorArray, validatorMap)
 		}
 		s.D.Set("validator", validatorArray)
+	} else if validator, ok := s.D.GetOkExists("validator"); ok {
+		validatorList := validator.([]interface{})
+		if len(validatorList) > 0 {
+			if validatorMap, ok := validatorList[0].(map[string]interface{}); ok {
+				if validatorType, ok := validatorMap["validator_type"].(string); ok && strings.EqualFold(validatorType, "DEFAULT") {
+					// The Identity API represents the default validator by omitting it from the response.
+					// Preserve the explicit DEFAULT configuration in state to avoid a perpetual diff.
+					s.D.Set("validator", []interface{}{map[string]interface{}{"validator_type": "DEFAULT"}})
+					return nil
+				}
+			}
+		}
+		s.D.Set("validator", nil)
 	} else {
 		s.D.Set("validator", nil)
 	}
