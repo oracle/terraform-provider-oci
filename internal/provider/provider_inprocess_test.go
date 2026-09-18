@@ -403,6 +403,39 @@ func TestFrameworkInProcessProviderRejectsRetryOptions(t *testing.T) {
 	}
 }
 
+func TestSetAvoidWaitingForDeleteTargetFromEnv(t *testing.T) {
+	original := AvoidWaitingForDeleteTarget
+	t.Cleanup(func() {
+		AvoidWaitingForDeleteTarget = original
+	})
+
+	tests := []struct {
+		name      string
+		inProcess bool
+		want      bool
+	}{
+		{
+			name: "Terraform CLI",
+			want: true,
+		},
+		{
+			name:      "in-process",
+			inProcess: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Setenv("avoid_waiting_for_delete_target", "true")
+			AvoidWaitingForDeleteTarget = false
+			setAvoidWaitingForDeleteTargetFromEnv(tt.inProcess)
+			if AvoidWaitingForDeleteTarget != tt.want {
+				t.Fatalf("AvoidWaitingForDeleteTarget = %t, want %t", AvoidWaitingForDeleteTarget, tt.want)
+			}
+		})
+	}
+}
+
 func TestInternalAndEmbeddedSDKv2SchemasRemainCompatible(t *testing.T) {
 	cli := Provider()
 	embedded := NewSDKv2ProviderForInProcess()

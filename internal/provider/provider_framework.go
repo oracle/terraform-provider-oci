@@ -433,6 +433,7 @@ func (p *ociPluginProvider) SetProviderConfig() (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
+	setAvoidWaitingForDeleteTargetFromEnv(p.inProcess)
 
 	return clients, nil
 }
