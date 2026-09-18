@@ -91,7 +91,7 @@ The following arguments are supported:
 * `fusion_environment_family_id` - (Required) The unique identifier (OCID) of the Fusion Environment Family that the Fusion Environment belongs to.
 * `fusion_environment_type` - (Required) The type of environment. Valid values are Production, Test, or Development.
 * `is_ipv6dual_stack_enabled` - (Optional) (Updatable) Enable IPv4/IPv6 dual stack support for the environment (where available). Setting to true will assign an IPv6 address to the environment in addition to an IPv4 address. The default value is false.
-* `kms_key_id` - (Optional) (Updatable) byok kms keyId
+* `kms_key_id` - (Optional) (Deprecated) The BYOK KMS key OCID. Starting November 23, 2026, `kmsKeyId` will no longer be supported when updating a Fusion Application environment. Use the Oracle Cloud Console to add customer-managed keys to existing environments. It remains supported for initial BYOK enablement when creating a Fusion Environment.
 * `maintenance_policy` - (Optional) (Updatable) The policy that specifies the maintenance and upgrade preferences for an environment. For more information about the options, see [Understanding Environment Maintenance](https://docs.cloud.oracle.com/iaas/Content/fusion-applications/plan-environment-family.htm#about-env-maintenance).
 	* `environment_maintenance_override` - (Optional) (Updatable) User choice to upgrade both test and prod pods at the same time. Overrides fusion environment families'.
 	* `monthly_patching_override` - (Optional) (Updatable) When "ENABLED", the Fusion environment is patched monthly. When "DISABLED", the Fusion environment is not patched monthly. This setting overrides the environment family setting. When not set, the environment follows the environment family policy.
@@ -173,4 +173,3 @@ FusionEnvironments can be imported using the `id`, e.g.
 ```
 $ terraform import oci_fusion_apps_fusion_environment.test_fusion_environment "id"
 ```
-

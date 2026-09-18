@@ -159,9 +159,10 @@ func FusionAppsFusionEnvironmentResource() *schema.Resource {
 			},
 
 			"kms_key_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Computed:   true,
+				Deprecated: "Starting November 23, 2026, kmsKeyId will no longer be supported when updating a Fusion Application environment. Use the Oracle Cloud Console to add customer-managed keys to existing environments. It remains supported for initial BYOK enablement when creating a Fusion Environment.",
 			},
 			"maintenance_policy": {
 				Type:     schema.TypeList,
