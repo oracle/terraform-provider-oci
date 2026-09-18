@@ -158,21 +158,33 @@ func TestUnitBuildClientConfigureFn_withCustomCert(t *testing.T) {
 	}
 
 	t.Setenv(globalvar.CustomCertLocationEnv, tempCert.Name())
+	t.Setenv(globalvar.AcceptLocalCerts, "false")
 	assert.Equal(t, tempCert.Name(), utils.GetEnvSettingWithBlankDefault(globalvar.CustomCertLocationEnv))
 	configProvider := oci_common.DefaultConfigProvider()
 	httpClient := BuildHttpClient()
 	configureClientFn, err := BuildConfigureClientFn(configProvider, httpClient)
 	assert.NoError(t, err)
+	transport := httpClient.Transport.(*http.Transport)
+	tlsConfig := transport.TLSClientConfig
+	rootCAs := tlsConfig.RootCAs
+	assert.NotNil(t, rootCAs)
+
+	// Changing the environment after provider configuration must not mutate the
+	// transport when a lazy SDK client is initialized.
+	t.Setenv(globalvar.CustomCertLocationEnv, tempCert.Name()+".missing")
+	t.Setenv(globalvar.AcceptLocalCerts, "true")
 
 	baseClient := &oci_common.BaseClient{}
 	err = configureClientFn(baseClient)
 	assert.NoError(t, err)
+	err = configureClientFn(&oci_common.BaseClient{})
+	assert.NoError(t, err)
 
-	tr := httpClient.Transport.(*http.Transport)
-	assert.NotNil(t, tr.TLSClientConfig)
-	assert.Equal(t, uint16(tls.VersionTLS12), tr.TLSClientConfig.MinVersion, "expected min tls 1.2")
-	assert.NotNil(t, tr.Proxy, "expected http.ProxyFromEnvironment fn")
-	assert.NotNil(t, tr.TLSClientConfig.RootCAs)
+	assert.Same(t, tlsConfig, transport.TLSClientConfig)
+	assert.Same(t, rootCAs, transport.TLSClientConfig.RootCAs)
+	assert.False(t, transport.TLSClientConfig.InsecureSkipVerify)
+	assert.Equal(t, uint16(tls.VersionTLS12), transport.TLSClientConfig.MinVersion, "expected min tls 1.2")
+	assert.NotNil(t, transport.Proxy, "expected http.ProxyFromEnvironment fn")
 }
 
 // ensure local certs can be admitted

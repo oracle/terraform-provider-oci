@@ -350,9 +350,9 @@ func ResourcesMap() map[string]*schema.Resource {
 }
 
 func registerProviderAliases() {
-	// Registration is idempotent and synchronized by tfresource. Re-evaluate
-	// enabled services for each provider construction because the OCI SDK allows
-	// callers to enable additional services after process initialization.
+	// Alias registration is idempotent and synchronized by tfresource. Check the
+	// currently enabled services each time because generated service registration
+	// does not include these legacy aliases.
 	if oci_common.CheckForEnabledServices(globalvar.CoreService) {
 		tf_resource.RegisterDatasource("oci_core_listing_resource_version", tf_core.CoreAppCatalogListingResourceVersionDataSource)
 		tf_resource.RegisterDatasource("oci_core_listing_resource_versions", tf_core.CoreAppCatalogListingResourceVersionsDataSource)
@@ -410,6 +410,7 @@ func providerConfig(d *schema.ResourceData, terraformVersion string, inProcess b
 	if err != nil {
 		return nil, err
 	}
+	setAvoidWaitingForDeleteTargetFromEnv(inProcess)
 
 	return clients, nil
 }
@@ -441,6 +442,13 @@ func setSDKv2TerraformCLIProcessGlobals(d *schema.ResourceData) error {
 	}
 
 	return nil
+}
+
+func setAvoidWaitingForDeleteTargetFromEnv(inProcess bool) {
+	if inProcess {
+		return
+	}
+	AvoidWaitingForDeleteTarget, _ = strconv.ParseBool(utils.GetEnvSettingWithDefault("avoid_waiting_for_delete_target", "false"))
 }
 
 func validateInProcessProviderConfig(d *schema.ResourceData) error {
@@ -827,6 +835,10 @@ func buildConfigureClientFn(configProvider oci_common.ConfigurationProvider, htt
 
 	OpcDryRun, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("opc_dry_run", "false"))
 
+	if err := prepareHTTPClient(httpClient); err != nil {
+		return nil, err
+	}
+
 	requestSigner := oci_common.DefaultRequestSigner(configProvider)
 	var oboTokenProvider OboTokenProvider
 	oboTokenProvider = emptyOboTokenProvider{}
@@ -906,37 +918,53 @@ func buildConfigureClientFn(configProvider oci_common.ConfigurationProvider, htt
 			}
 		}
 
-		customCertLoc := utils.GetEnvSettingWithBlankDefault(globalvar.CustomCertLocationEnv)
-
-		if customCertLoc != "" {
-			cert, err := ioutil.ReadFile(customCertLoc)
-			if err != nil {
-				return err
-			}
-			pool := x509.NewCertPool()
-			if ok := pool.AppendCertsFromPEM(cert); !ok {
-				return fmt.Errorf("failed to append custom cert to the pool")
-			}
-			// install the certificates in the client
-			httpClient.Transport.(*http.Transport).TLSClientConfig.RootCAs = pool
-		}
-
-		if acceptLocalCerts := utils.GetEnvSettingWithBlankDefault(globalvar.AcceptLocalCerts); acceptLocalCerts != "" {
-			if bool, err := strconv.ParseBool(acceptLocalCerts); err == nil {
-				httpClient.Transport.(*http.Transport).TLSClientConfig.InsecureSkipVerify = bool
-			}
-		}
-
-		// install the hook for HTTP replaying
-		if h, ok := client.HTTPClient.(*http.Client); ok {
-			_, err := httpreplay.InstallRecorder(h)
-			if err != nil {
-				return err
-			}
-		}
-
 		return nil
 	}
 
 	return configureClientFn, nil
+}
+
+// prepareHTTPClient applies provider-wide transport settings before the client
+// is shared by eager and lazy SDK clients. A tls.Config must not be modified
+// after it has been used for a TLS connection.
+func prepareHTTPClient(httpClient *http.Client) error {
+	if customCertLoc := utils.GetEnvSettingWithBlankDefault(globalvar.CustomCertLocationEnv); customCertLoc != "" {
+		cert, err := ioutil.ReadFile(customCertLoc)
+		if err != nil {
+			return err
+		}
+		pool := x509.NewCertPool()
+		if ok := pool.AppendCertsFromPEM(cert); !ok {
+			return fmt.Errorf("failed to append custom cert to the pool")
+		}
+		tlsConfig, err := httpClientTLSConfig(httpClient)
+		if err != nil {
+			return err
+		}
+		tlsConfig.RootCAs = pool
+	}
+
+	if acceptLocalCerts := utils.GetEnvSettingWithBlankDefault(globalvar.AcceptLocalCerts); acceptLocalCerts != "" {
+		if allowLocalCerts, err := strconv.ParseBool(acceptLocalCerts); err == nil {
+			tlsConfig, err := httpClientTLSConfig(httpClient)
+			if err != nil {
+				return err
+			}
+			tlsConfig.InsecureSkipVerify = allowLocalCerts
+		}
+	}
+
+	_, err := httpreplay.InstallRecorder(httpClient)
+	return err
+}
+
+func httpClientTLSConfig(httpClient *http.Client) (*tls.Config, error) {
+	if httpClient == nil {
+		return nil, fmt.Errorf("cannot configure TLS on a nil HTTP client")
+	}
+	transport, ok := httpClient.Transport.(*http.Transport)
+	if !ok || transport.TLSClientConfig == nil {
+		return nil, fmt.Errorf("cannot configure TLS on HTTP transport %T", httpClient.Transport)
+	}
+	return transport.TLSClientConfig, nil
 }

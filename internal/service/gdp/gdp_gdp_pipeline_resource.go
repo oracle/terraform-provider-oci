@@ -16,7 +16,6 @@ import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_gdp "github.com/oracle/oci-go-sdk/v65/gdp"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
@@ -198,13 +197,8 @@ func GdpGdpPipelineResource() *schema.Resource {
 func createGdpGdpPipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GdpGdpPipelineResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GuardedDataPipelineClient()
-
-	if env, ok := sync.D.GetOk("env"); !ok || env.(string) != gdpUSGovCode {
-		currentHost := sync.Client.Host
-		newHost := strings.Replace(currentHost, "gdp", commercialSubdomain, 1)
-		sync.Client.Host = newHost
-	}
+	env, _ := sync.D.GetOk("env")
+	sync.Client = getGdpClient(m, env == nil || env.(string) != gdpUSGovCode)
 
 	if e := tfresource.CreateResourceWithContext(ctx, d, sync); e != nil {
 		return tfresource.HandleDiagError(m, e)
@@ -217,13 +211,8 @@ func createGdpGdpPipelineWithContext(ctx context.Context, d *schema.ResourceData
 func readGdpGdpPipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GdpGdpPipelineResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GuardedDataPipelineClient()
-
-	if env, ok := sync.D.GetOk("env"); !ok || env.(string) != gdpUSGovCode {
-		currentHost := sync.Client.Host
-		newHost := strings.Replace(currentHost, "gdp", commercialSubdomain, 1)
-		sync.Client.Host = newHost
-	}
+	env, _ := sync.D.GetOk("env")
+	sync.Client = getGdpClient(m, env == nil || env.(string) != gdpUSGovCode)
 
 	return tfresource.HandleDiagError(m, tfresource.ReadResourceWithContext(ctx, sync))
 }
@@ -231,13 +220,8 @@ func readGdpGdpPipelineWithContext(ctx context.Context, d *schema.ResourceData, 
 func updateGdpGdpPipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GdpGdpPipelineResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GuardedDataPipelineClient()
-
-	if env, ok := sync.D.GetOk("env"); !ok || env.(string) != gdpUSGovCode {
-		currentHost := sync.Client.Host
-		newHost := strings.Replace(currentHost, "gdp", commercialSubdomain, 1)
-		sync.Client.Host = newHost
-	}
+	env, _ := sync.D.GetOk("env")
+	sync.Client = getGdpClient(m, env == nil || env.(string) != gdpUSGovCode)
 
 	//powerOn, powerOff := false, false
 
@@ -275,12 +259,8 @@ func updateGdpGdpPipelineWithContext(ctx context.Context, d *schema.ResourceData
 func deleteGdpGdpPipelineWithContext(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	sync := &GdpGdpPipelineResourceCrud{}
 	sync.D = d
-	sync.Client = m.(*client.OracleClients).GuardedDataPipelineClient()
-	if env, ok := sync.D.GetOk("env"); !ok || env.(string) != gdpUSGovCode {
-		currentHost := sync.Client.Host
-		newHost := strings.Replace(currentHost, "gdp", commercialSubdomain, 1)
-		sync.Client.Host = newHost
-	}
+	env, _ := sync.D.GetOk("env")
+	sync.Client = getGdpClient(m, env == nil || env.(string) != gdpUSGovCode)
 
 	sync.DisableNotFoundRetries = true
 
