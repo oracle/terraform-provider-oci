@@ -282,6 +282,12 @@ func DatabaseDbHomeResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"aws_encryption_key_pool_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"azure_encryption_key_id": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -1616,6 +1622,10 @@ func (s *DatabaseDbHomeResourceCrud) mapToEncryptionKeyLocationDetails(fieldKeyF
 		if awsEncryptionKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "aws_encryption_key_id")); ok {
 			tmp := awsEncryptionKeyId.(string)
 			details.AwsEncryptionKeyId = &tmp
+		}
+		if awsEncryptionKeyPoolId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "aws_encryption_key_pool_id")); ok {
+			tmp := awsEncryptionKeyPoolId.(string)
+			details.AwsEncryptionKeyPoolId = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("AZURE"):

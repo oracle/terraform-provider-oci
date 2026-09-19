@@ -27,7 +27,8 @@ resource "oci_database_database" "test_database_create" {
 
     encryption_key_location_details {
         #Required
-        azure_encryption_key_id  =  var.aws_encryption_key
+        aws_encryption_key_id  =  var.aws_encryption_key
+        aws_encryption_key_pool_id = var.aws_encryption_key_pool
         provider_type = "AWS"
     }
   }
@@ -53,6 +54,7 @@ resource "oci_database_database" "test_database_migrate" {
     encryption_key_location_details {
         #Required
         aws_encryption_key_id  = var.aws_encryption_key
+        aws_encryption_key_pool_id = var.aws_encryption_key_pool
         provider_type = "AWS"
     }
 */

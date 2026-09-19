@@ -342,6 +342,12 @@ func DatabaseDatabaseResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"aws_encryption_key_pool_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"azure_encryption_key_id": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -559,6 +565,30 @@ func DatabaseDatabaseResource() *schema.Resource {
 									},
 
 									// Optional
+									"aws_encryption_key_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"aws_encryption_key_pool_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"azure_encryption_key_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"google_cloud_provider_encryption_key_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"hsm_password": {
 										Type:      schema.TypeString,
 										Optional:  true,
@@ -2632,6 +2662,10 @@ func (s *DatabaseDatabaseResourceCrud) mapToEncryptionKeyLocationDetails(fieldKe
 			tmp := awsEncryptionKeyId.(string)
 			details.AwsEncryptionKeyId = &tmp
 		}
+		if awsEncryptionKeyPoolId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "aws_encryption_key_pool_id")); ok {
+			tmp := awsEncryptionKeyPoolId.(string)
+			details.AwsEncryptionKeyPoolId = &tmp
+		}
 		baseObject = details
 	case strings.ToLower("AZURE"):
 		details := oci_database.AzureEncryptionKeyDetails{}
@@ -2668,6 +2702,9 @@ func EncryptionKeyLocationDetailsToMap(obj *oci_database.EncryptionKeyLocationDe
 
 		if v.AwsEncryptionKeyId != nil {
 			result["aws_encryption_key_id"] = string(*v.AwsEncryptionKeyId)
+		}
+		if v.AwsEncryptionKeyPoolId != nil {
+			result["aws_encryption_key_pool_id"] = string(*v.AwsEncryptionKeyPoolId)
 		}
 	case oci_database.AzureEncryptionKeyDetails:
 		result["provider_type"] = "AZURE"
