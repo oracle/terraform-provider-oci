@@ -52,7 +52,7 @@ var (
 		"exadata_infrastructure_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
 		"vm_cluster_network_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster_network.test_vm_cluster_network.id}`},
 		"compute_model":                         acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
-		"sga_percentage":                        acctest.Representation{RepType: acctest.Optional, Create: `65.0`},
+		"sga_percentage":                        acctest.Representation{RepType: acctest.Optional, Create: `65.0`, Update: `40.0`},
 		"distribution_algorithm":                acctest.Representation{RepType: acctest.Optional, Create: `RESOURCE_OPTIMIZED`, Update: `DISTRIBUTION_OPTIMIZED`},
 		"autonomous_data_storage_size_in_tbs":   acctest.Representation{RepType: acctest.Required, Create: `5.0`, Update: `7.0`},
 		"cpu_core_count_per_node":               acctest.Representation{RepType: acctest.Required, Create: `44`, Update: `48`},
@@ -65,7 +65,7 @@ var (
 		"scan_listener_port_non_tls":            acctest.Representation{RepType: acctest.Optional, Create: `1600`, Update: `1620`},
 		"scan_listener_port_tls":                acctest.Representation{RepType: acctest.Optional, Create: `3600`, Update: `3620`},
 		"maintenance_window_details":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousVmClusterMaintenanceWindowDetailsRepresentation},
-		"memory_per_oracle_compute_unit_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `6`},
+		"memory_per_oracle_compute_unit_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `6`, Update: `3`},
 		"time_zone":                             acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`, Update: `UTC`},
 		"total_container_databases":             acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
 		"lifecycle":                             acctest.RepresentationGroup{RepType: acctest.Required, Group: DbaasIgnoreDefinedTagsRepresentation},
@@ -406,7 +406,28 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 					},
 				),
 			},
-			// verify to updatable parameter
+			// Verify the SGA percentage update independently. The service does not allow it to be combined with capacity scaling updates.
+			{
+				Config: config + compartmentIdVariableStr + dependencyConfig + getExaccTagDependency() +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", acctest.Optional, acctest.Create,
+						acctest.RepresentationCopyWithNewProperties(representation, map[string]interface{}{
+							"sga_percentage": acctest.Representation{RepType: acctest.Optional, Create: `40.0`},
+						})),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(resourceName, "sga_percentage", "40"),
+					exaccMainResourceLog(t, "update autonomous VM cluster SGA percentage", resourceName, &resId, &resId2,
+						"sga_percentage"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			// Verify the remaining updatable parameters, including capacity and memory per compute unit.
 			{
 				Config: config + compartmentIdVariableStr + dependencyConfig + getExaccTagDependency() +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", acctest.Optional, acctest.Update, representation),
@@ -436,7 +457,9 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "total_container_databases", "2"),
 					resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
 					resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
-					exaccMainResourceLog(t, "update autonomous VM cluster capacity, tags, and maintenance settings", resourceName, &resId, &resId2,
+					resource.TestCheckResourceAttr(resourceName, "sga_percentage", "40"),
+					resource.TestCheckResourceAttr(resourceName, "memory_per_oracle_compute_unit_in_gbs", "3"),
+					exaccMainResourceLog(t, "update autonomous VM cluster capacity, memory, tags, and maintenance settings", resourceName, &resId, &resId2,
 						"display_name",
 						"autonomous_data_storage_size_in_tbs",
 						"cpu_core_count_per_node",
