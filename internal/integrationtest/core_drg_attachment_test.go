@@ -34,6 +34,7 @@ var (
 		"attachment_type":    acctest.Representation{RepType: acctest.Optional, Create: `VCN`},
 		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"drg_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_drg.test_drg.id}`},
+		"drg_nat_policy_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_drg_nat_policy.test_drg_nat_policy.id}`, Update: `${oci_core_drg_nat_policy.test_drg_nat_policy_2.id}`},
 		"drg_route_table_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_drg_route_table.test_drg_route_table.id}`, Update: `${oci_core_drg_route_table.test_drg_route_table_2.id}`},
 		"network_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.id}`},
 		"state":              acctest.Representation{RepType: acctest.Optional, Create: `ATTACHED`},
@@ -52,6 +53,8 @@ var (
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"network_details":    acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreDrgAttachmentNetworkDetailsRepresentation},
 		"lifecycle":          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesLBRepresentation},
+		//"does_preserve_original_routes_with_nat": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"drg_nat_policy_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_drg_nat_policy.test_drg_nat_policy.id}`, Update: `${oci_core_drg_nat_policy.test_drg_nat_policy_2.id}`},
 	}
 	CoreDrgAttachmentNetworkDetailsRepresentation = map[string]interface{}{
 		"id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
@@ -79,6 +82,15 @@ var (
 		"lifecycle":       acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesLBRepresentation},
 		"display_name":    acctest.Representation{RepType: acctest.Optional, Create: `displayName3`, Update: `displayName4`},
 		"remove_export_drg_route_distribution_trigger": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"remove_drg_nat_policy_trigger":                acctest.Representation{RepType: acctest.Optional, Create: `true`},
+	}
+
+	CoreDrgAttachmentRemovePolicyTriggerRepresentation = map[string]interface{}{
+		"drg_id":                        acctest.Representation{RepType: acctest.Required, Create: `${oci_core_drg.test_drg.id}`},
+		"network_details":               acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreDrgAttachmentNetworkDetailsRepresentation},
+		"lifecycle":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesLBRepresentation},
+		"remove_drg_nat_policy_trigger": acctest.Representation{RepType: acctest.Optional, Update: `true`},
+		"drg_nat_policy_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_drg_nat_policy.test_drg_nat_policy.id}`},
 	}
 
 	CoreDrgAttachmentExportDistributionUpdateRepresentation = map[string]interface{}{
@@ -90,7 +102,9 @@ var (
 		"export_drg_route_distribution_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_drg.test_drg.default_export_drg_route_distribution_id}`, Update: `${oci_core_drg.test_drg.default_export_drg_route_distribution_id}`},
 	}
 
-	CoreDrgAttachmentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Required, acctest.Create, CoreDrgRouteTableRepresentation) +
+	CoreDrgAttachmentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_drg_nat_policy", "test_drg_nat_policy", acctest.Required, acctest.Create, CoreDrgNatPolicyRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_nat_policy", "test_drg_nat_policy_2", acctest.Required, acctest.Create, CoreDrgNatPolicyRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table", acctest.Required, acctest.Create, CoreDrgRouteTableRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_drg_route_table", "test_drg_route_table_2", acctest.Required, acctest.Create, CoreDrgRouteTableRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_drg", "test_drg", acctest.Required, acctest.Create, CoreDrgRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, CoreInternetGatewayRepresentation) +
@@ -144,7 +158,9 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "does_preserve_original_routes_with_nat"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "drg_nat_policy_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_route_table_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -176,7 +192,9 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceName, "does_preserve_original_routes_with_nat"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "drg_nat_policy_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_route_table_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -210,7 +228,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify updates with export trigger
+		// verify updates with export trigger and remove policy trigger
 		{
 			Config: config + compartmentIdVariableStr + CoreDrgAttachmentResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_drg_attachment", "test_drg_attachment", acctest.Optional, acctest.Create, CoreDrgAttachmentTriggerRepresentation),
@@ -276,6 +294,7 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "drg_nat_policy_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_route_table_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "network_id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ATTACHED"),
@@ -284,7 +303,9 @@ func TestCoreDrgAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "drg_attachments.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.compartment_id"),
 				resource.TestCheckResourceAttr(datasourceName, "drg_attachments.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "drg_attachments.0.does_preserve_original_routes_with_nat", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.drg_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.drg_nat_policy_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.drg_route_table_id"),
 				resource.TestCheckResourceAttr(datasourceName, "drg_attachments.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "drg_attachments.0.id"),

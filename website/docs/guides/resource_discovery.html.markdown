@@ -619,6 +619,8 @@ core
 * oci\_core\_compute\_gpu\_memory\_fabric
 * oci\_core\_compute\_host
 * oci\_core\_compute\_host\_group
+* oci\_core\_drg\_nat\_policy
+* oci\_core\_drg\_nat\_policy\_drg\_nat\_rule
 
 data_labeling_service
 
