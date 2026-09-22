@@ -31,8 +31,10 @@ type fileCredentialSnapshot struct {
 	region         string
 	fingerprint    string
 	privateKey     []byte
+	privateKeyErr  error
 	privateKeyPass string
 	securityToken  string
+	sessionToken   bool
 }
 
 func (p *fileCredentialSnapshot) TenancyOCID() (string, error) {
@@ -43,7 +45,10 @@ func (p *fileCredentialSnapshot) TenancyOCID() (string, error) {
 }
 
 func (p *fileCredentialSnapshot) UserOCID() (string, error) {
-	if p.securityToken != "" {
+	// The SDK's ordinary file provider prefers a configured user even when
+	// security_token_file is also present. The dedicated session-token provider
+	// always omits the user. Preserve that distinction for CLI parity.
+	if p.sessionToken || (p.user == "" && p.securityToken != "") {
 		return "", nil
 	}
 	if p.user == "" {
@@ -67,11 +72,17 @@ func (p *fileCredentialSnapshot) Region() (string, error) {
 }
 
 func (p *fileCredentialSnapshot) PrivateRSAKey() (*rsa.PrivateKey, error) {
+	if p.privateKeyErr != nil {
+		return nil, p.privateKeyErr
+	}
 	return oci_common.PrivateKeyFromBytesWithPassword(p.privateKey, []byte(p.privateKeyPass))
 }
 
 func (p *fileCredentialSnapshot) KeyID() (string, error) {
-	if p.securityToken != "" {
+	// Match the OCI SDK providers: an explicit session-token provider always
+	// uses the token, while an ordinary file provider uses it only when the
+	// profile does not define a user.
+	if p.sessionToken || (p.user == "" && p.securityToken != "") {
 		token, err := os.ReadFile(p.securityToken)
 		if err != nil {
 			return "", fmt.Errorf("cannot read security token file %q: %w", p.securityToken, err)
@@ -98,7 +109,7 @@ func (p *fileCredentialSnapshot) AuthType() (oci_common.AuthConfig, error) {
 }
 
 func (p *fileCredentialSnapshot) Refreshable() bool {
-	return p.securityToken != ""
+	return p.sessionToken
 }
 
 func inProcessFileConfigurationProviders(profile string) ([]oci_common.ConfigurationProvider, error) {
@@ -111,6 +122,8 @@ func inProcessFileConfigurationProviders(profile string) ([]oci_common.Configura
 		}
 		providers = append(providers, selected)
 		if profile != defaultOCIConfigProfile {
+			// OCI SDK CustomProfileConfigProvider composes the selected profile,
+			// DEFAULT, then TF_VAR values. Keep the same fallback order here.
 			if fallback, err := loadFileCredentialSnapshot(configPath, defaultOCIConfigProfile, ""); err == nil {
 				providers = append(providers, fallback)
 			}
@@ -127,7 +140,19 @@ func inProcessFileConfigurationProviders(profile string) ([]oci_common.Configura
 	return providers, nil
 }
 
+func usesInProcessFileConfiguration(auth string) bool {
+	return strings.EqualFold(auth, globalvar.AuthAPIKeySetting)
+}
+
 func loadFileCredentialSnapshot(configPath, profile, password string) (*fileCredentialSnapshot, error) {
+	return loadFileCredentialSnapshotForMode(configPath, profile, password, false)
+}
+
+func loadSessionTokenCredentialSnapshot(configPath, profile, password string) (*fileCredentialSnapshot, error) {
+	return loadFileCredentialSnapshotForMode(configPath, profile, password, true)
+}
+
+func loadFileCredentialSnapshotForMode(configPath, profile, password string, sessionToken bool) (*fileCredentialSnapshot, error) {
 	data, err := os.ReadFile(configPath)
 	if err != nil {
 		return nil, fmt.Errorf("cannot read OCI config file %q: %w", configPath, err)
@@ -137,12 +162,15 @@ func loadFileCredentialSnapshot(configPath, profile, password string) (*fileCred
 		return nil, fmt.Errorf("cannot read OCI config profile %q from %q: %w", profile, configPath, err)
 	}
 	keyPath := expandOCIPath(values["key_file"])
+	var privateKey []byte
+	var privateKeyErr error
 	if keyPath == "" {
-		return nil, fmt.Errorf("OCI config profile %q in %q does not define key_file", profile, configPath)
-	}
-	privateKey, err := os.ReadFile(keyPath)
-	if err != nil {
-		return nil, fmt.Errorf("cannot read OCI private key file %q: %w", keyPath, err)
+		privateKeyErr = fmt.Errorf("OCI config profile %q in %q does not define key_file", profile, configPath)
+	} else {
+		privateKey, err = os.ReadFile(keyPath)
+		if err != nil {
+			privateKeyErr = fmt.Errorf("cannot read OCI private key file %q: %w", keyPath, err)
+		}
 	}
 	if password == "" {
 		password = firstNonEmpty(values["passphrase"], values["pass_phrase"])
@@ -153,8 +181,10 @@ func loadFileCredentialSnapshot(configPath, profile, password string) (*fileCred
 		region:         values["region"],
 		fingerprint:    values["fingerprint"],
 		privateKey:     privateKey,
+		privateKeyErr:  privateKeyErr,
 		privateKeyPass: password,
 		securityToken:  expandOCIPath(values["security_token_file"]),
+		sessionToken:   sessionToken,
 	}, nil
 }
 
@@ -234,20 +264,39 @@ func firstNonEmpty(values ...string) string {
 	return ""
 }
 
+// effectiveInProcessConfigString resolves a provider value using the same
+// precedence as the provider schemas: explicit configuration, TF_VAR_*,
+// OCI_*, then the schema default. The fingerprint is computed before the
+// provider schema applies its defaults, so it must resolve these values itself
+// to describe the credentials the configured provider will actually use.
+func effectiveInProcessConfigString(config map[string]any, attrName, defaultValue string) string {
+	if value, _ := config[attrName].(string); value != "" {
+		return value
+	}
+	return MultiEnvDefaultFunc([]string{tfVarName(attrName), ociVarName(attrName)}, defaultValue)
+}
+
 // InProcessFileCredentialFingerprint returns a stable digest of file contents
 // that can affect an in-process provider configuration. It intentionally omits
 // security-token contents because those are refreshed for every signed request.
 func InProcessFileCredentialFingerprint(config map[string]any) (string, error) {
 	files := map[string][]byte{}
-	if inlineKey, _ := config[globalvar.PrivateKeyAttrName].(string); inlineKey == "" {
-		if keyPath, _ := config[globalvar.PrivateKeyPathAttrName].(string); keyPath != "" {
+	auth := effectiveInProcessConfigString(config, globalvar.AuthAttrName, globalvar.AuthAPIKeySetting)
+	isAPIKey := auth == "" || strings.EqualFold(auth, globalvar.AuthAPIKeySetting)
+	isSecurityToken := strings.EqualFold(auth, globalvar.AuthSecurityToken)
+	if !isAPIKey && !isSecurityToken {
+		return hashCredentialFiles(files), nil
+	}
+
+	if inlineKey := effectiveInProcessConfigString(config, globalvar.PrivateKeyAttrName, ""); isAPIKey && inlineKey == "" {
+		if keyPath := effectiveInProcessConfigString(config, globalvar.PrivateKeyPathAttrName, ""); keyPath != "" {
 			if err := addFingerprintFile(files, expandOCIPath(keyPath), true); err != nil {
 				return "", err
 			}
 		}
 	}
 
-	profile, _ := config[globalvar.ConfigFileProfileAttrName].(string)
+	profile := effectiveInProcessConfigString(config, globalvar.ConfigFileProfileAttrName, "")
 	if profile == "" && !configurationUsesDefaultFile(config) {
 		return hashCredentialFiles(files), nil
 	}
@@ -277,7 +326,7 @@ func InProcessFileCredentialFingerprint(config map[string]any) (string, error) {
 				continue
 			}
 			if keyPath := expandOCIPath(values["key_file"]); keyPath != "" {
-				if err := addFingerprintFile(files, keyPath, true); err != nil {
+				if err := addFingerprintFile(files, keyPath, false); err != nil {
 					return "", err
 				}
 			}
@@ -288,7 +337,7 @@ func InProcessFileCredentialFingerprint(config map[string]any) (string, error) {
 }
 
 func configurationUsesDefaultFile(config map[string]any) bool {
-	auth, _ := config[globalvar.AuthAttrName].(string)
+	auth := effectiveInProcessConfigString(config, globalvar.AuthAttrName, globalvar.AuthAPIKeySetting)
 	if auth != "" && !strings.EqualFold(auth, globalvar.AuthAPIKeySetting) {
 		return strings.EqualFold(auth, globalvar.AuthSecurityToken)
 	}
@@ -298,12 +347,12 @@ func configurationUsesDefaultFile(config map[string]any) bool {
 		globalvar.FingerprintAttrName,
 		globalvar.RegionAttrName,
 	} {
-		if value, _ := config[key].(string); value == "" {
+		if effectiveInProcessConfigString(config, key, "") == "" {
 			return true
 		}
 	}
-	privateKey, _ := config[globalvar.PrivateKeyAttrName].(string)
-	privateKeyPath, _ := config[globalvar.PrivateKeyPathAttrName].(string)
+	privateKey := effectiveInProcessConfigString(config, globalvar.PrivateKeyAttrName, "")
+	privateKeyPath := effectiveInProcessConfigString(config, globalvar.PrivateKeyPathAttrName, "")
 	return privateKey == "" && privateKeyPath == ""
 }
 
@@ -326,7 +375,12 @@ func hashCredentialFiles(files map[string][]byte) string {
 func addFingerprintFile(files map[string][]byte, path string, required bool) error {
 	data, err := os.ReadFile(path)
 	if err != nil {
-		if !required && os.IsNotExist(err) {
+		if !required {
+			// Preserve the path in the digest so a later transition to a
+			// readable file invalidates the host's configured metadata. A
+			// lower-precedence profile key may legitimately be unavailable
+			// when another configuration provider supplies the private key.
+			files[path] = nil
 			return nil
 		}
 		return fmt.Errorf("cannot read OCI credential file %q: %w", path, err)
