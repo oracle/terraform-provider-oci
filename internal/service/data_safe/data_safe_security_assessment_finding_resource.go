@@ -497,17 +497,6 @@ func (s *DataSafeSecurityAssessmentFindingResourceCrud) GetWithContext(ctx conte
 		request.IsTopFinding = &tmp
 	}
 
-	if references, ok := s.D.GetOkExists("references"); ok {
-		if tmpList := references.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "references", 0)
-			tmp, err := s.mapToReferences(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.References = tmp
-		}
-	}
-
 	if scimQuery, ok := s.D.GetOkExists("scim_query"); ok {
 		tmp := scimQuery.(string)
 		request.ScimQuery = &tmp
@@ -562,10 +551,6 @@ func (s *DataSafeSecurityAssessmentFindingResourceCrud) GetWithContext(ctx conte
 		s.Res = &finding
 	}
 	return err
-}
-
-func (s *DataSafeSecurityAssessmentFindingResourceCrud) mapToReferences(fieldKeyFormat string) (oci_data_safe.ListFindingsReferencesEnum, error) {
-	panic("unimplemented")
 }
 
 func (s *DataSafeSecurityAssessmentFindingResourceCrud) UpdateWithContext(ctx context.Context) error {

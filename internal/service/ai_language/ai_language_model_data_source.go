@@ -85,7 +85,11 @@ func (s *AiLanguageModelDataSourceCrud) SetData() error {
 
 	if s.Res.EvaluationResults != nil {
 		evaluationResultsArray := []interface{}{}
-		if evaluationResultsMap := EvaluationResultsToMap(&s.Res.EvaluationResults); evaluationResultsMap != nil {
+		evaluationResultsMap, err := EvaluationResultsToMap(&s.Res.EvaluationResults)
+		if err != nil {
+			return err
+		}
+		if evaluationResultsMap != nil {
 			evaluationResultsArray = append(evaluationResultsArray, evaluationResultsMap)
 		}
 		s.D.Set("evaluation_results", evaluationResultsArray)

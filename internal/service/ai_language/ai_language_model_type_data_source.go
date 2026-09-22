@@ -7,7 +7,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ai_language "github.com/oracle/oci-go-sdk/v65/ailanguage"
@@ -85,9 +84,8 @@ func (s *AiLanguageModelTypeDataSourceCrud) SetData() error {
 
 	buf, err := json.Marshal(s.Res.Capabilities)
 	if err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("cannot marshal AI Language model capabilities: %w", err)
 	}
-	fmt.Printf("Capabilities%s\n", string(buf))
 	s.D.Set("capabilities", string(buf))
 
 	s.D.Set("versions", s.Res.Versions)

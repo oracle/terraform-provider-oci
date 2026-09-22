@@ -35,3 +35,11 @@ func ProviderForConfiguration() *schema.Provider {
 func New() frameworkprovider.Provider {
 	return internalprovider.NewFrameworkProviderForInProcess()
 }
+
+// InProcessFileCredentialFingerprint returns a stable digest of the contents
+// of files that can affect an embedded provider configuration. Hosts that cache
+// configured provider metadata can include this value in their cache identity
+// so replacing a mounted credential file invalidates the cached metadata.
+func InProcessFileCredentialFingerprint(config map[string]any) (string, error) {
+	return internalprovider.InProcessFileCredentialFingerprint(config)
+}

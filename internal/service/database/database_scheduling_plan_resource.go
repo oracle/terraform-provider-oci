@@ -153,7 +153,23 @@ type DatabaseSchedulingPlanResourceCrud struct {
 }
 
 func (s *DatabaseSchedulingPlanResourceCrud) Update() error {
-	panic("No update required")
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			return s.updateCompartmentAndRefresh(compartment)
+		}
+	}
+	return nil
+}
+
+func (s *DatabaseSchedulingPlanResourceCrud) updateCompartmentAndRefresh(compartment interface{}) error {
+	if err := s.updateCompartment(compartment); err != nil {
+		return err
+	}
+	// UpdateResource calls SetData after Update returns. Refresh the resource
+	// so SetData observes the moved scheduling plan rather than dereferencing an
+	// uninitialized response.
+	return s.Get()
 }
 
 func (s *DatabaseSchedulingPlanResourceCrud) ID() string {
