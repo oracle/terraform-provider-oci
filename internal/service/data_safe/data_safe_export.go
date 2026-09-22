@@ -669,6 +669,19 @@ var exportDataSafeSubsettingPolicySubsettingSchemaRelationHints = &tf_export.Ter
 	RequireResourceRefresh: true,
 }
 
+var exportDataSafeRegistrationPolicyHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_registration_policy",
+	DatasourceClass:        "oci_data_safe_registration_policies",
+	DatasourceItemsAttr:    "registration_policy_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "registration_policy",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_data_safe.RegistrationPolicyLifecycleStateActive),
+		string(oci_data_safe.RegistrationPolicyLifecycleStateNeedsAttention),
+	},
+}
+
 var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDataSafeDataSafePrivateEndpointHints},
@@ -700,6 +713,7 @@ var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDataSafeUnifiedAuditPolicyHints},
 		{TerraformResourceHints: exportDataSafeCryptoAssessmentHints},
 		{TerraformResourceHints: exportDataSafeSubsettingPolicyHints},
+		{TerraformResourceHints: exportDataSafeRegistrationPolicyHints},
 	},
 	"oci_data_safe_alert_policy": {
 		{

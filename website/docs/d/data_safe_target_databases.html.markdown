@@ -26,6 +26,7 @@ data "oci_data_safe_target_databases" "test_target_databases" {
 	compartment_id_in_subtree = var.target_database_compartment_id_in_subtree
 	database_type = var.target_database_database_type
 	display_name = var.target_database_display_name
+	enablement_resource_ocid = var.target_database_enablement_resource_ocid
 	infrastructure_type = var.target_database_infrastructure_type
 	state = var.target_database_state
 	target_database_id = oci_data_safe_target_database.test_target_database.id
@@ -42,6 +43,7 @@ The following arguments are supported:
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
 * `database_type` - (Optional) A filter to return only target databases that match the specified database type.
 * `display_name` - (Optional) A filter to return only resources that match the specified display name. 
+* `enablement_resource_ocid` - (Optional) A filter to return target databases filtered by the enablementResourceOcid column (always a DbaasDatabase OCID).
 * `infrastructure_type` - (Optional) A filter to return only target databases that match the specified infrastructure type.
 * `state` - (Optional) A filter to return only target databases that match the specified lifecycle state.
 * `target_database_id` - (Optional) A filter to return the target database that matches the specified OCID.
@@ -82,6 +84,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the target database in Data Safe.
 * `display_name` - The display name of the target database in Data Safe.
+* `features` - List of enabled features based on granted ORA_DSCS_* roles in target database
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the Data Safe target database.
 * `lifecycle_details` - Details about the current state of the target database in Data Safe.

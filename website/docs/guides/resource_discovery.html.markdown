@@ -679,6 +679,7 @@ data_safe
 * oci\_data\_safe\_subsetting\_policy\_subsetting\_rule
 * oci\_data\_safe\_subsetting\_policy
 * oci\_data\_safe\_subsetting\_policy\_subsetting\_schema\_relation
+* oci\_data\_safe\_registration\_policy
 
 database
 
