@@ -15,8 +15,7 @@ import (
 	"strings"
 )
 
-// ImagePolicyConfig Note: Deprecated. Use the new resource model APIs instead.
-// Define the image signature verification policy for an application.
+// ImagePolicyConfig Define the image signature verification policy for an application.
 type ImagePolicyConfig struct {
 
 	// Define if image signature verification policy is enabled for the application.

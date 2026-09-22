@@ -1,0 +1,72 @@
+// Copyright (c) 2016, 2018, 2026, Oracle and/or its affiliates.  All rights reserved.
+// This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
+// Code generated. DO NOT EDIT.
+
+// Data Safe API
+//
+// APIs for using Oracle Data Safe.
+//
+
+package datasafe
+
+import (
+	"strings"
+)
+
+// CryptoFindingCategoryEnum Enum with underlying type: string
+type CryptoFindingCategoryEnum string
+
+// Set of constants representing the allowable values for CryptoFindingCategoryEnum
+const (
+	CryptoFindingCategoryNetworkEncryption            CryptoFindingCategoryEnum = "NETWORK_ENCRYPTION"
+	CryptoFindingCategoryDataEncryption               CryptoFindingCategoryEnum = "DATA_ENCRYPTION"
+	CryptoFindingCategoryCertificatesAndKeyManagement CryptoFindingCategoryEnum = "CERTIFICATES_AND_KEY_MANAGEMENT"
+	CryptoFindingCategoryBackupAndExportEncryption    CryptoFindingCategoryEnum = "BACKUP_AND_EXPORT_ENCRYPTION"
+	CryptoFindingCategoryPostQuantumReadiness         CryptoFindingCategoryEnum = "POST_QUANTUM_READINESS"
+	CryptoFindingCategoryNotSupported                 CryptoFindingCategoryEnum = "NOT_SUPPORTED"
+)
+
+var mappingCryptoFindingCategoryEnum = map[string]CryptoFindingCategoryEnum{
+	"NETWORK_ENCRYPTION":              CryptoFindingCategoryNetworkEncryption,
+	"DATA_ENCRYPTION":                 CryptoFindingCategoryDataEncryption,
+	"CERTIFICATES_AND_KEY_MANAGEMENT": CryptoFindingCategoryCertificatesAndKeyManagement,
+	"BACKUP_AND_EXPORT_ENCRYPTION":    CryptoFindingCategoryBackupAndExportEncryption,
+	"POST_QUANTUM_READINESS":          CryptoFindingCategoryPostQuantumReadiness,
+	"NOT_SUPPORTED":                   CryptoFindingCategoryNotSupported,
+}
+
+var mappingCryptoFindingCategoryEnumLowerCase = map[string]CryptoFindingCategoryEnum{
+	"network_encryption":              CryptoFindingCategoryNetworkEncryption,
+	"data_encryption":                 CryptoFindingCategoryDataEncryption,
+	"certificates_and_key_management": CryptoFindingCategoryCertificatesAndKeyManagement,
+	"backup_and_export_encryption":    CryptoFindingCategoryBackupAndExportEncryption,
+	"post_quantum_readiness":          CryptoFindingCategoryPostQuantumReadiness,
+	"not_supported":                   CryptoFindingCategoryNotSupported,
+}
+
+// GetCryptoFindingCategoryEnumValues Enumerates the set of values for CryptoFindingCategoryEnum
+func GetCryptoFindingCategoryEnumValues() []CryptoFindingCategoryEnum {
+	values := make([]CryptoFindingCategoryEnum, 0)
+	for _, v := range mappingCryptoFindingCategoryEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCryptoFindingCategoryEnumStringValues Enumerates the set of values in String for CryptoFindingCategoryEnum
+func GetCryptoFindingCategoryEnumStringValues() []string {
+	return []string{
+		"NETWORK_ENCRYPTION",
+		"DATA_ENCRYPTION",
+		"CERTIFICATES_AND_KEY_MANAGEMENT",
+		"BACKUP_AND_EXPORT_ENCRYPTION",
+		"POST_QUANTUM_READINESS",
+		"NOT_SUPPORTED",
+	}
+}
+
+// GetMappingCryptoFindingCategoryEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCryptoFindingCategoryEnum(val string) (CryptoFindingCategoryEnum, bool) {
+	enum, ok := mappingCryptoFindingCategoryEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}

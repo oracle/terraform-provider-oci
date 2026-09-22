@@ -30,6 +30,9 @@ type NotebookSessionConfigDetails struct {
 	// The OCID of a Data Science private endpoint.
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
 
+	// This specifies the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer-managed compute capacity reservation to be used for launching notebook sessions.
+	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
+
 	NotebookSessionShapeConfigDetails *NotebookSessionShapeConfigDetails `mandatory:"false" json:"notebookSessionShapeConfigDetails"`
 }
 

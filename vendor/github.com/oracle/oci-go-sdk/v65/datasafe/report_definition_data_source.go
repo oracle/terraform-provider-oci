@@ -21,6 +21,7 @@ const (
 	ReportDefinitionDataSourceEvents             ReportDefinitionDataSourceEnum = "EVENTS"
 	ReportDefinitionDataSourceAlerts             ReportDefinitionDataSourceEnum = "ALERTS"
 	ReportDefinitionDataSourceSecurityAssessment ReportDefinitionDataSourceEnum = "SECURITY_ASSESSMENT"
+	ReportDefinitionDataSourceCryptoAssessment   ReportDefinitionDataSourceEnum = "CRYPTO_ASSESSMENT"
 	ReportDefinitionDataSourceViolations         ReportDefinitionDataSourceEnum = "VIOLATIONS"
 	ReportDefinitionDataSourceAllowedSql         ReportDefinitionDataSourceEnum = "ALLOWED_SQL"
 )
@@ -29,6 +30,7 @@ var mappingReportDefinitionDataSourceEnum = map[string]ReportDefinitionDataSourc
 	"EVENTS":              ReportDefinitionDataSourceEvents,
 	"ALERTS":              ReportDefinitionDataSourceAlerts,
 	"SECURITY_ASSESSMENT": ReportDefinitionDataSourceSecurityAssessment,
+	"CRYPTO_ASSESSMENT":   ReportDefinitionDataSourceCryptoAssessment,
 	"VIOLATIONS":          ReportDefinitionDataSourceViolations,
 	"ALLOWED_SQL":         ReportDefinitionDataSourceAllowedSql,
 }
@@ -37,6 +39,7 @@ var mappingReportDefinitionDataSourceEnumLowerCase = map[string]ReportDefinition
 	"events":              ReportDefinitionDataSourceEvents,
 	"alerts":              ReportDefinitionDataSourceAlerts,
 	"security_assessment": ReportDefinitionDataSourceSecurityAssessment,
+	"crypto_assessment":   ReportDefinitionDataSourceCryptoAssessment,
 	"violations":          ReportDefinitionDataSourceViolations,
 	"allowed_sql":         ReportDefinitionDataSourceAllowedSql,
 }
@@ -56,6 +59,7 @@ func GetReportDefinitionDataSourceEnumStringValues() []string {
 		"EVENTS",
 		"ALERTS",
 		"SECURITY_ASSESSMENT",
+		"CRYPTO_ASSESSMENT",
 		"VIOLATIONS",
 		"ALLOWED_SQL",
 	}

@@ -191,6 +191,8 @@ github.com/oracle/oci-go-sdk/v65 v65.124.2 h1:F5nP6V5Aam1aTep4J72UoP4yvQq2f7TUm0
 github.com/oracle/oci-go-sdk/v65 v65.124.2/go.mod h1:Pzy+BpgkDesvGZXEHgslwhIYobHCPHg6wRta1mWnlqQ=
 github.com/oracle/oci-go-sdk/v65 v65.125.0 h1:xkG/gL4yx4nS2M57nvzNndLLtmIxYkdcaPOF7BSBYEo=
 github.com/oracle/oci-go-sdk/v65 v65.125.0/go.mod h1:Pzy+BpgkDesvGZXEHgslwhIYobHCPHg6wRta1mWnlqQ=
+github.com/oracle/oci-go-sdk/v65 v65.126.0 h1:RuV0MEcLOOgNOBadYbbkUQriCK4Gm5348F/GdWvYPcI=
+github.com/oracle/oci-go-sdk/v65 v65.126.0/go.mod h1:Pzy+BpgkDesvGZXEHgslwhIYobHCPHg6wRta1mWnlqQ=
 github.com/pjbgf/sha1cd v0.3.2 h1:a9wb0bp1oC2TGwStyn0Umc/IGKQnEgF0vVaZ8QF8eo4=
 github.com/pjbgf/sha1cd v0.3.2/go.mod h1:zQWigSxVmsHEZow5qaLtPYxpcKMMQpa09ixqBxuCS6A=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=

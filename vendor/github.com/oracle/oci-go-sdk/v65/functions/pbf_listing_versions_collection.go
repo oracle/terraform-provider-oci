@@ -15,8 +15,7 @@ import (
 	"strings"
 )
 
-// PbfListingVersionsCollection Note: Deprecated. Use the new resource model APIs instead.
-// Results of a PbfListingVersion search. Contains both PbfListingVersionSummary
+// PbfListingVersionsCollection Results of a PbfListingVersion search. Contains both PbfListingVersionSummary
 // items and other information, such as metadata.
 type PbfListingVersionsCollection struct {
 
