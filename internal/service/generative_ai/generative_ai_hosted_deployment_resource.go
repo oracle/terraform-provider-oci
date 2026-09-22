@@ -32,14 +32,6 @@ func GenerativeAiHostedDeploymentResource() *schema.Resource {
 		UpdateContext: updateGenerativeAiHostedDeploymentWithContext,
 		DeleteContext: deleteGenerativeAiHostedDeploymentWithContext,
 		Schema: map[string]*schema.Schema{
-			// Optional
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
-			},
-
 			// Required
 			"active_artifact": {
 				Type:     schema.TypeList,
@@ -103,6 +95,12 @@ func GenerativeAiHostedDeploymentResource() *schema.Resource {
 			},
 
 			// Optional
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -564,8 +562,16 @@ func (s *GenerativeAiHostedDeploymentResourceCrud) DeleteWithContext(ctx context
 
 	response, err := s.Client.DeleteHostedDeployment(ctx, request)
 	if err != nil {
-		if s.isActiveIamDeploymentDeleteError(err) {
-			return s.deleteIamApplicationAndDeployment(ctx)
+		if s.isActiveDeploymentDeleteError(err) {
+			if hostedApplication, ok := s.D.GetOk("hosted_application_id"); ok {
+				hostedApplicationId := hostedApplication.(string)
+				switch {
+				case strings.HasPrefix(hostedApplicationId, "ocid1.generativeaihostedapplicationiam."):
+					return s.deleteIamApplicationAndDeployment(ctx)
+				case strings.HasPrefix(hostedApplicationId, "ocid1.generativeaihostedapplication."):
+					return s.deleteApplicationAndDeployment(ctx)
+				}
+			}
 		}
 		return err
 	}
@@ -577,15 +583,40 @@ func (s *GenerativeAiHostedDeploymentResourceCrud) DeleteWithContext(ctx context
 	return delWorkRequestErr
 }
 
-func (s *GenerativeAiHostedDeploymentResourceCrud) isActiveIamDeploymentDeleteError(err error) bool {
-	hostedApplicationId, ok := s.D.GetOkExists("hosted_application_id")
-	if !ok || !strings.HasPrefix(hostedApplicationId.(string), "ocid1.generativeaihostedapplicationiam.") {
-		return false
-	}
-
+func (s *GenerativeAiHostedDeploymentResourceCrud) isActiveDeploymentDeleteError(err error) bool {
 	serviceErr, ok := oci_common.IsServiceError(err)
 	return ok && serviceErr.GetHTTPStatusCode() == 403 && serviceErr.GetCode() == "NotAllowed" &&
 		strings.Contains(serviceErr.GetMessage(), "activeDeployment")
+}
+
+func (s *GenerativeAiHostedDeploymentResourceCrud) deleteApplicationAndDeployment(ctx context.Context) error {
+	hostedApplicationId := s.D.Get("hosted_application_id").(string)
+	request := oci_generative_ai.DeleteHostedApplicationRequest{
+		HostedApplicationId: &hostedApplicationId,
+	}
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "generative_ai")
+
+	response, err := s.Client.DeleteHostedApplication(ctx, request)
+	if err != nil {
+		if serviceErr, ok := oci_common.IsServiceError(err); ok && serviceErr.GetHTTPStatusCode() == 404 {
+			return nil
+		}
+		return err
+	}
+	if response.OpcWorkRequestId == nil || *response.OpcWorkRequestId == "" {
+		return fmt.Errorf("delete application response did not include opc-work-request-id")
+	}
+
+	_, err = hostedApplicationWaitForWorkRequest(
+		ctx,
+		response.OpcWorkRequestId,
+		"hostedapplication",
+		oci_generative_ai.ActionTypeDeleted,
+		s.D.Timeout(schema.TimeoutDelete),
+		s.DisableNotFoundRetries,
+		s.Client,
+	)
+	return err
 }
 
 func (s *GenerativeAiHostedDeploymentResourceCrud) deleteIamApplicationAndDeployment(ctx context.Context) error {
