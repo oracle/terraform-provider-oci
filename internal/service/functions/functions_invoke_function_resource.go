@@ -110,7 +110,11 @@ func createFunctionsInvokeFunction(d *schema.ResourceData, m interface{}) error 
 		d.Set("invoke_endpoint", endPoint)
 	}
 
-	sync.Client, _ = m.(*client.OracleClients).FunctionsInvokeClientWithEndpoint(endPoint.(string))
+	invokeClient, err := m.(*client.OracleClients).FunctionsInvokeClientWithEndpoint(endPoint.(string))
+	if err != nil {
+		return fmt.Errorf("cannot initialize Functions invoke client: %w", err)
+	}
+	sync.Client = invokeClient
 	return tfresource.CreateResource(d, sync)
 }
 
@@ -202,9 +206,6 @@ func (s *FunctionsInvokeFunctionResourceCrud) Create() error {
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "functions")
-	if endPoint, ok := s.D.GetOkExists("invoke_endpoint"); !ok {
-		s.Client.Host = endPoint.(string)
-	}
 
 	response, err := s.Client.InvokeFunction(context.Background(), request)
 	if err != nil {

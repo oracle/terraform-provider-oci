@@ -208,14 +208,12 @@ func (s *KmsVaultReplicaResourceCrud) Get() error {
 	// If the Vault ID or Replica Region String didn't get updated from state/config, use ID
 	if vaultIdStr == "vault_id" || replicaRegionStr == "replica_region" {
 		log.Printf("[INFO] Get() Vault ID or Replica Region String didn't get updated from state/config, using Resource ID")
-		parts := strings.Split(s.D.Id(), ":")
-		if len(parts) > 1 {
-			vaultId := parts[0]
-			request.VaultId = &vaultId
-			replicaRegionStr = parts[1]
-		} else {
-			log.Fatalf("[ERROR] Get() unable to parse current ID: %s. The expected format of the ID is \"{vault_id}:{replica_region}\"", s.D.Id())
+		vaultId, replicaRegion, err := parseVaultReplicationId(s.D.Id())
+		if err != nil {
+			return err
 		}
+		request.VaultId = &vaultId
+		replicaRegionStr = replicaRegion
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "kms")
@@ -241,6 +239,14 @@ func (s *KmsVaultReplicaResourceCrud) Get() error {
 	}
 
 	return nil
+}
+
+func parseVaultReplicationId(id string) (string, string, error) {
+	vaultId, replicaRegion, found := strings.Cut(id, ":")
+	if !found || vaultId == "" || replicaRegion == "" || strings.Contains(replicaRegion, ":") {
+		return "", "", fmt.Errorf("unable to parse current ID %q: expected format {vault_id}:{replica_region}", id)
+	}
+	return vaultId, replicaRegion, nil
 }
 
 func (s *KmsVaultReplicaResourceCrud) Delete() error {

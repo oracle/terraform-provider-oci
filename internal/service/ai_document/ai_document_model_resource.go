@@ -5,6 +5,7 @@ package ai_document
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"strings"
@@ -1811,15 +1812,9 @@ func (s *AiDocumentModelResourceCrud) updateCompartment(ctx context.Context, com
 }
 
 func (s *AiDocumentModelResourceCrud) AddModelLock() error {
-
-	log.Panicln("addModelLock should be unreachable and handled by Splat")
-
-	return nil
+	return errors.New("addModelLock should be unreachable and handled by Splat")
 }
 
 func (s *AiDocumentModelResourceCrud) RemoveModelLock() error {
-
-	log.Panicln("removeModelLock should be unreachable and handled by Splat")
-
-	return nil
+	return errors.New("removeModelLock should be unreachable and handled by Splat")
 }

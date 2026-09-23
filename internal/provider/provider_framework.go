@@ -513,7 +513,13 @@ func (p *ociPluginProvider) _GetSdkConfigProvider(clients *tf_client.OracleClien
 	//Then SDK will based on the AuthType to Create the actual provider if it's a valid value.
 	//If not, then SDK will base on the order in the composite provider list to check for necessary info (tenancyid, userID, fingerprint, region, keyID).
 	configProviders = append(configProviders, configProvider)
-	if profile == "" {
+	if p.inProcess && usesInProcessFileConfiguration(auth) {
+		fileProviders, err := inProcessFileConfigurationProviders(profile)
+		if err != nil && profile != "" {
+			return nil, err
+		}
+		configProviders = append(configProviders, fileProviders...)
+	} else if profile == "" {
 		configProviders = append(configProviders, oci_common.DefaultConfigProvider())
 	} else {
 		defaultPath := gopath.Join(utils.GetHomeFolder(), globalvar.DefaultConfigDirName, globalvar.DefaultConfigFileName)
@@ -650,9 +656,15 @@ func (p *ociPluginProvider) _getConfigProviders() ([]oci_common.ConfigurationPro
 		if err := utils.CheckProfile(profileString, defaultPath); err != nil {
 			return nil, err
 		}
-		securityTokenBasedAuthConfigProvider, err := oci_common.ConfigurationProviderForSessionTokenWithProfile(defaultPath, profileString, privateKeyPasswordString)
+		var securityTokenBasedAuthConfigProvider oci_common.ConfigurationProvider
+		var err error
+		if p.inProcess {
+			securityTokenBasedAuthConfigProvider, err = loadSessionTokenCredentialSnapshot(defaultPath, profileString, privateKeyPasswordString)
+		} else {
+			securityTokenBasedAuthConfigProvider, err = oci_common.ConfigurationProviderForSessionTokenWithProfile(defaultPath, profileString, privateKeyPasswordString)
+		}
 		if err != nil {
-			return nil, fmt.Errorf("could not create security token based auth config provider %v", err)
+			return nil, fmt.Errorf("could not create security token based auth config provider: %w", err)
 		}
 		configProviders = append(configProviders, securityTokenBasedAuthConfigProvider)
 	case strings.ToLower(globalvar.ResourcePrincipal):

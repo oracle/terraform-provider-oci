@@ -969,7 +969,11 @@ func (s *AiLanguageModelResourceCrud) SetData() error {
 
 	if s.Res.EvaluationResults != nil {
 		evaluationResultsArray := []interface{}{}
-		if evaluationResultsMap := EvaluationResultsToMap(&s.Res.EvaluationResults); evaluationResultsMap != nil {
+		evaluationResultsMap, err := EvaluationResultsToMap(&s.Res.EvaluationResults)
+		if err != nil {
+			return err
+		}
+		if evaluationResultsMap != nil {
 			evaluationResultsArray = append(evaluationResultsArray, evaluationResultsMap)
 		}
 		s.D.Set("evaluation_results", evaluationResultsArray)
@@ -1266,7 +1270,7 @@ func EntityMetricsToMap(obj oci_ai_language.EntityMetrics) map[string]interface{
 	return result
 }
 
-func EvaluationResultsToMap(obj *oci_ai_language.EvaluationResults) map[string]interface{} {
+func EvaluationResultsToMap(obj *oci_ai_language.EvaluationResults) (map[string]interface{}, error) {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
 	case oci_ai_language.NamedEntityRecognitionEvaluationResults:
@@ -1274,19 +1278,9 @@ func EvaluationResultsToMap(obj *oci_ai_language.EvaluationResults) map[string]i
 
 		buf, err := json.Marshal(v.ConfusionMatrix)
 		if err != nil {
-			log.Fatal(err)
+			return nil, fmt.Errorf("cannot marshal named-entity recognition confusion matrix: %w", err)
 		}
-		fmt.Printf("ConfusionMatrix%s\n", string(buf))
 		result["confusion_matrix"] = string(buf)
-
-		// buf, err := json.Marshal(v.ConfusionMatrix)
-		// if err != nil {
-		// 	log.Fatal(err)
-		// }
-		// fmt.Printf("ConfusionMatrix%s\n", buf)
-
-		// result["confusion_matrix"] = v.ConfusionMatrix
-		// result["confusion_matrix"] = v.ConfusionMatrix
 
 		entityMetrics := []interface{}{}
 		for _, item := range v.EntityMetrics {
@@ -1311,9 +1305,8 @@ func EvaluationResultsToMap(obj *oci_ai_language.EvaluationResults) map[string]i
 
 		buf, err := json.Marshal(v.ConfusionMatrix)
 		if err != nil {
-			log.Fatal(err)
+			return nil, fmt.Errorf("cannot marshal text-classification confusion matrix: %w", err)
 		}
-		fmt.Printf("ConfusionMatrix%s\n", string(buf))
 		result["confusion_matrix"] = string(buf)
 
 		// result["confusion_matrix"] = v.ConfusionMatrix
@@ -1327,10 +1320,10 @@ func EvaluationResultsToMap(obj *oci_ai_language.EvaluationResults) map[string]i
 		}
 	default:
 		log.Printf("[WARN] Received 'model_type' of unknown type %v", *obj)
-		return nil
+		return nil, nil
 	}
 
-	return result
+	return result, nil
 }
 
 func (s *AiLanguageModelResourceCrud) mapToLocationDetails(fieldKeyFormat string) (oci_ai_language.LocationDetails, error) {

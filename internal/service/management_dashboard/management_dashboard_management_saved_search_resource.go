@@ -222,14 +222,12 @@ type ManagementDashboardManagementSavedSearchResourceCrud struct {
 }
 
 func (s *ManagementDashboardManagementSavedSearchResourceCrud) ID() string {
-	log.Printf("[DEBUG] Resource ID set 2: %s", s.D.Id())
-	// log.Printf("[DEBUG] Res: %s", s.Res)
-	// log.Printf("[DEBUG] Res.id: %s", *s.Res.Id)
-
-	if s.D != nil {
-		return s.D.Id()
+	if s.D == nil {
+		log.Printf("[WARN] Management saved search resource data is unavailable while reading the resource ID")
+		return ""
 	}
-	panic("resource ID not found")
+	log.Printf("[DEBUG] Resource ID set 2: %s", s.D.Id())
+	return s.D.Id()
 }
 
 func (s *ManagementDashboardManagementSavedSearchResourceCrud) CreatedPending() []string {

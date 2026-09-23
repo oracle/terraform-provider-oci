@@ -390,7 +390,7 @@ func providerConfig(d *schema.ResourceData, terraformVersion string, inProcess b
 		Configuration: make(map[string]string),
 	}
 
-	sdkConfigProvider, err := GetSdkConfigProvider(d, clients)
+	sdkConfigProvider, err := getSdkConfigProvider(d, clients, inProcess)
 	if err != nil {
 		return nil, err
 	}
@@ -478,12 +478,16 @@ func validateInProcessProviderConfig(d *schema.ResourceData) error {
 }
 
 func GetSdkConfigProvider(d *schema.ResourceData, clients *tf_client.OracleClients) (oci_common.ConfigurationProvider, error) {
+	return getSdkConfigProvider(d, clients, false)
+}
+
+func getSdkConfigProvider(d *schema.ResourceData, clients *tf_client.OracleClients, inProcess bool) (oci_common.ConfigurationProvider, error) {
 
 	auth := strings.ToLower(d.Get(globalvar.AuthAttrName).(string))
 	profile := d.Get(globalvar.ConfigFileProfileAttrName).(string)
 	clients.Configuration[globalvar.AuthAttrName] = auth
 
-	configProviders, err := getConfigProviders(d, auth)
+	configProviders, err := getConfigProvidersForMode(d, auth, inProcess)
 	if err != nil {
 		return nil, err
 	}
@@ -497,7 +501,13 @@ func GetSdkConfigProvider(d *schema.ResourceData, clients *tf_client.OracleClien
 	//Then SDK will based on the AuthType to Create the actual provider if it's a valid value.
 	//If not, then SDK will base on the order in the composite provider list to check for necessary info (tenancyid, userID, fingerprint, region, keyID).
 	configProviders = append(configProviders, resourceDataConfigProvider)
-	if profile == "" {
+	if inProcess && usesInProcessFileConfiguration(auth) {
+		fileProviders, err := inProcessFileConfigurationProviders(profile)
+		if err != nil && profile != "" {
+			return nil, err
+		}
+		configProviders = append(configProviders, fileProviders...)
+	} else if profile == "" {
 		configProviders = append(configProviders, oci_common.DefaultConfigProvider())
 	} else {
 		defaultPath := path.Join(utils.GetHomeFolder(), globalvar.DefaultConfigDirName, globalvar.DefaultConfigFileName)
@@ -516,6 +526,10 @@ func GetSdkConfigProvider(d *schema.ResourceData, clients *tf_client.OracleClien
 }
 
 func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.ConfigurationProvider, error) {
+	return getConfigProvidersForMode(d, auth, false)
+}
+
+func getConfigProvidersForMode(d *schema.ResourceData, auth string, inProcess bool) ([]oci_common.ConfigurationProvider, error) {
 	var configProviders []oci_common.ConfigurationProvider
 
 	switch auth {
@@ -610,9 +624,15 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 		if err := utils.CheckProfile(profileString, defaultPath); err != nil {
 			return nil, err
 		}
-		securityTokenBasedAuthConfigProvider, err := oci_common.ConfigurationProviderForSessionTokenWithProfile(defaultPath, profileString, privateKeyPasswordString)
+		var securityTokenBasedAuthConfigProvider oci_common.ConfigurationProvider
+		var err error
+		if inProcess {
+			securityTokenBasedAuthConfigProvider, err = loadSessionTokenCredentialSnapshot(defaultPath, profileString, privateKeyPasswordString)
+		} else {
+			securityTokenBasedAuthConfigProvider, err = oci_common.ConfigurationProviderForSessionTokenWithProfile(defaultPath, profileString, privateKeyPasswordString)
+		}
 		if err != nil {
-			return nil, fmt.Errorf("could not create security token based auth config provider %v", err)
+			return nil, fmt.Errorf("could not create security token based auth config provider: %w", err)
 		}
 		configProviders = append(configProviders, securityTokenBasedAuthConfigProvider)
 	case strings.ToLower(globalvar.ResourcePrincipal):

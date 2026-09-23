@@ -5,6 +5,7 @@ package ai_document
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"strings"
@@ -210,17 +211,11 @@ func (s *AiDocumentProjectResourceCrud) DeletedTarget() []string {
 }
 
 func (s *AiDocumentProjectResourceCrud) AddProjectLock() error {
-
-	log.Panicln("addProjectLock should be unreachable and handled by Splat")
-
-	return nil
+	return errors.New("addProjectLock should be unreachable and handled by Splat")
 }
 
 func (s *AiDocumentProjectResourceCrud) RemoveProjectLock() error {
-
-	log.Panicln("removeProjectLock should be unreachable and handled by Splat")
-
-	return nil
+	return errors.New("removeProjectLock should be unreachable and handled by Splat")
 }
 
 func (s *AiDocumentProjectResourceCrud) CreateWithContext(ctx context.Context) error {
