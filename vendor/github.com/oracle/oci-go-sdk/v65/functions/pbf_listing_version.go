@@ -15,8 +15,7 @@ import (
 	"strings"
 )
 
-// PbfListingVersion Note: Deprecated. Use the new resource model APIs instead.
-// This represents a version of a PbfListing. Each new update from the publisher or the change in the image will
+// PbfListingVersion This represents a version of a PbfListing. Each new update from the publisher or the change in the image will
 // result in the creation of new PbfListingVersion resource creation. This is a sub-resource of a PbfListing.
 type PbfListingVersion struct {
 

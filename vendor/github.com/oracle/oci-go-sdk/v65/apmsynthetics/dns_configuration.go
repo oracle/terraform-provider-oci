@@ -21,7 +21,7 @@ type DnsConfiguration struct {
 	// If isOverrideDns is true, then DNS settings will be overridden.
 	IsOverrideDns *bool `mandatory:"false" json:"isOverrideDns"`
 
-	// Attribute to override the DNS IP value. This value will be honored only if isOverrideDns is set to true.
+	// Attribute to override the DNS IP value. This value is required only if isOverrideDns is set to true.
 	OverrideDnsIp *string `mandatory:"false" json:"overrideDnsIp"`
 }
 

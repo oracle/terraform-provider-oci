@@ -1274,6 +1274,70 @@ func (client DataSafeClient) changeAuditProfileCompartment(ctx context.Context, 
 	return response, err
 }
 
+// ChangeCryptoAssessmentCompartment Moves the specified saved crypto assessment into a different compartment.
+// Only `SAVED` crypto assessments are supported.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeCryptoAssessmentCompartment.go.html to see an example of how to use ChangeCryptoAssessmentCompartment API.
+// A default retry strategy applies to this operation ChangeCryptoAssessmentCompartment()
+func (client DataSafeClient) ChangeCryptoAssessmentCompartment(ctx context.Context, request ChangeCryptoAssessmentCompartmentRequest) (response ChangeCryptoAssessmentCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeCryptoAssessmentCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeCryptoAssessmentCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeCryptoAssessmentCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeCryptoAssessmentCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeCryptoAssessmentCompartmentResponse")
+	}
+	return
+}
+
+// changeCryptoAssessmentCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) changeCryptoAssessmentCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cryptoAssessments/{cryptoAssessmentId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeCryptoAssessmentCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ChangeCryptoAssessmentCompartment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/CryptoAssessment/ChangeCryptoAssessmentCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeCryptoAssessmentCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeDataSafePrivateEndpointCompartment Moves the Data Safe private endpoint and its dependent resources to the specified compartment.
 //
 // # See also
@@ -5524,6 +5588,65 @@ func (client DataSafeClient) deleteAuditTrail(ctx context.Context, request commo
 	return response, err
 }
 
+// DeleteCryptoAssessment Deletes the specified saved crypto assessment.
+// Only assessments of type `SAVED` can be deleted. Attempts to delete a `LATEST` assessment return `400 InvalidParameter`.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteCryptoAssessment.go.html to see an example of how to use DeleteCryptoAssessment API.
+// A default retry strategy applies to this operation DeleteCryptoAssessment()
+func (client DataSafeClient) DeleteCryptoAssessment(ctx context.Context, request DeleteCryptoAssessmentRequest) (response DeleteCryptoAssessmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteCryptoAssessment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteCryptoAssessmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteCryptoAssessmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteCryptoAssessmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteCryptoAssessmentResponse")
+	}
+	return
+}
+
+// deleteCryptoAssessment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteCryptoAssessment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/cryptoAssessments/{cryptoAssessmentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteCryptoAssessmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DeleteCryptoAssessment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/CryptoAssessment/DeleteCryptoAssessment"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteCryptoAssessment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteDataSafePrivateEndpoint Deletes the specified Data Safe private endpoint.
 //
 // # See also
@@ -7457,6 +7580,69 @@ func (client DataSafeClient) discoverAuditTrails(ctx context.Context, request co
 	return response, err
 }
 
+// DownloadCryptoAssessmentReport Downloads the report of the specified crypto assessment. To download the crypto assessment report, it needs to be generated first.
+// Please use GenerateCryptoAssessmentReport to generate a downloadable report in the preferred format (PDF, XLS).
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DownloadCryptoAssessmentReport.go.html to see an example of how to use DownloadCryptoAssessmentReport API.
+// A default retry strategy applies to this operation DownloadCryptoAssessmentReport()
+func (client DataSafeClient) DownloadCryptoAssessmentReport(ctx context.Context, request DownloadCryptoAssessmentReportRequest) (response DownloadCryptoAssessmentReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.downloadCryptoAssessmentReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DownloadCryptoAssessmentReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DownloadCryptoAssessmentReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DownloadCryptoAssessmentReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DownloadCryptoAssessmentReportResponse")
+	}
+	return
+}
+
+// downloadCryptoAssessmentReport implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) downloadCryptoAssessmentReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cryptoAssessments/{cryptoAssessmentId}/actions/downloadReport", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DownloadCryptoAssessmentReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "DownloadCryptoAssessmentReport")
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/CryptoAssessment/DownloadCryptoAssessmentReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "DownloadCryptoAssessmentReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DownloadDiscoveryReport Downloads an already-generated discovery report. Note that the GenerateDiscoveryReportForDownload operation is a
 // prerequisite for the DownloadDiscoveryReport operation. Use GenerateDiscoveryReportForDownload to generate a discovery
 // report file and then use DownloadDiscoveryReport to download the generated file. By default, it downloads report for
@@ -8051,6 +8237,70 @@ func (client DataSafeClient) enableDataSafeConfiguration(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DataSafeConfiguration/EnableDataSafeConfiguration"
 		err = common.PostProcessServiceError(err, "DataSafe", "EnableDataSafeConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GenerateCryptoAssessmentReport Generates the report of the specified crypto assessment.
+// Supported output formats are PDF and XLS.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateCryptoAssessmentReport.go.html to see an example of how to use GenerateCryptoAssessmentReport API.
+// A default retry strategy applies to this operation GenerateCryptoAssessmentReport()
+func (client DataSafeClient) GenerateCryptoAssessmentReport(ctx context.Context, request GenerateCryptoAssessmentReportRequest) (response GenerateCryptoAssessmentReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.generateCryptoAssessmentReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GenerateCryptoAssessmentReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GenerateCryptoAssessmentReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateCryptoAssessmentReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateCryptoAssessmentReportResponse")
+	}
+	return
+}
+
+// generateCryptoAssessmentReport implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) generateCryptoAssessmentReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cryptoAssessments/{cryptoAssessmentId}/actions/generateReport", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateCryptoAssessmentReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GenerateCryptoAssessmentReport")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/CryptoAssessment/GenerateCryptoAssessmentReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "GenerateCryptoAssessmentReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -9264,6 +9514,122 @@ func (client DataSafeClient) getCompatibleFormatsForSensitiveTypes(ctx context.C
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingColumn/GetCompatibleFormatsForSensitiveTypes"
 		err = common.PostProcessServiceError(err, "DataSafe", "GetCompatibleFormatsForSensitiveTypes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCryptoAssessment Gets the details of the specified crypto assessment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetCryptoAssessment.go.html to see an example of how to use GetCryptoAssessment API.
+// A default retry strategy applies to this operation GetCryptoAssessment()
+func (client DataSafeClient) GetCryptoAssessment(ctx context.Context, request GetCryptoAssessmentRequest) (response GetCryptoAssessmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCryptoAssessment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCryptoAssessmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCryptoAssessmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCryptoAssessmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCryptoAssessmentResponse")
+	}
+	return
+}
+
+// getCryptoAssessment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getCryptoAssessment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cryptoAssessments/{cryptoAssessmentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCryptoAssessmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetCryptoAssessment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/CryptoAssessment/GetCryptoAssessment"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetCryptoAssessment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetCryptoAssessmentSqlnetParameters Gets SQLNET.ORA parameter values and quantum-readiness evaluation for the specified crypto assessment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetCryptoAssessmentSqlnetParameters.go.html to see an example of how to use GetCryptoAssessmentSqlnetParameters API.
+// A default retry strategy applies to this operation GetCryptoAssessmentSqlnetParameters()
+func (client DataSafeClient) GetCryptoAssessmentSqlnetParameters(ctx context.Context, request GetCryptoAssessmentSqlnetParametersRequest) (response GetCryptoAssessmentSqlnetParametersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getCryptoAssessmentSqlnetParameters, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetCryptoAssessmentSqlnetParametersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetCryptoAssessmentSqlnetParametersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetCryptoAssessmentSqlnetParametersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetCryptoAssessmentSqlnetParametersResponse")
+	}
+	return
+}
+
+// getCryptoAssessmentSqlnetParameters implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getCryptoAssessmentSqlnetParameters(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cryptoAssessments/{cryptoAssessmentId}/sqlnetParameters", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetCryptoAssessmentSqlnetParametersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "GetCryptoAssessmentSqlnetParameters")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/CryptoAssessment/GetCryptoAssessmentSqlnetParameters"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetCryptoAssessmentSqlnetParameters", apiReferenceLink)
 		return response, err
 	}
 
@@ -13145,6 +13511,586 @@ func (client DataSafeClient) listColumns(ctx context.Context, request common.OCI
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/TargetDatabase/ListColumns"
 		err = common.PostProcessServiceError(err, "DataSafe", "ListColumns", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCryptoAssessmentBackupSets Gets backup set summaries across targets in a compartment. Use assessmentId to narrow results to one crypto assessment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListCryptoAssessmentBackupSets.go.html to see an example of how to use ListCryptoAssessmentBackupSets API.
+// A default retry strategy applies to this operation ListCryptoAssessmentBackupSets()
+func (client DataSafeClient) ListCryptoAssessmentBackupSets(ctx context.Context, request ListCryptoAssessmentBackupSetsRequest) (response ListCryptoAssessmentBackupSetsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCryptoAssessmentBackupSets, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCryptoAssessmentBackupSetsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCryptoAssessmentBackupSetsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCryptoAssessmentBackupSetsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCryptoAssessmentBackupSetsResponse")
+	}
+	return
+}
+
+// listCryptoAssessmentBackupSets implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listCryptoAssessmentBackupSets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cryptoAssessments/backupSets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCryptoAssessmentBackupSetsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListCryptoAssessmentBackupSets")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/CryptoAssessment/ListCryptoAssessmentBackupSets"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListCryptoAssessmentBackupSets", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCryptoAssessmentCbomItems Lists the CBOM items for the specified crypto assessment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListCryptoAssessmentCbomItems.go.html to see an example of how to use ListCryptoAssessmentCbomItems API.
+// A default retry strategy applies to this operation ListCryptoAssessmentCbomItems()
+func (client DataSafeClient) ListCryptoAssessmentCbomItems(ctx context.Context, request ListCryptoAssessmentCbomItemsRequest) (response ListCryptoAssessmentCbomItemsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCryptoAssessmentCbomItems, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCryptoAssessmentCbomItemsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCryptoAssessmentCbomItemsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCryptoAssessmentCbomItemsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCryptoAssessmentCbomItemsResponse")
+	}
+	return
+}
+
+// listCryptoAssessmentCbomItems implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listCryptoAssessmentCbomItems(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cryptoAssessments/{cryptoAssessmentId}/cbomItems", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCryptoAssessmentCbomItemsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListCryptoAssessmentCbomItems")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/CryptoAssessment/ListCryptoAssessmentCbomItems"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListCryptoAssessmentCbomItems", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCryptoAssessmentCertificates Lists certificates discovered across targets in a compartment, including target, wallet location, issuer, subject, validity window, expiry bucket, public key type, and status so expiring or weak certificates can be identified and prioritized.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListCryptoAssessmentCertificates.go.html to see an example of how to use ListCryptoAssessmentCertificates API.
+// A default retry strategy applies to this operation ListCryptoAssessmentCertificates()
+func (client DataSafeClient) ListCryptoAssessmentCertificates(ctx context.Context, request ListCryptoAssessmentCertificatesRequest) (response ListCryptoAssessmentCertificatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCryptoAssessmentCertificates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCryptoAssessmentCertificatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCryptoAssessmentCertificatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCryptoAssessmentCertificatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCryptoAssessmentCertificatesResponse")
+	}
+	return
+}
+
+// listCryptoAssessmentCertificates implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listCryptoAssessmentCertificates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cryptoAssessments/certificates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCryptoAssessmentCertificatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListCryptoAssessmentCertificates")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/CryptoAssessment/ListCryptoAssessmentCertificates"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListCryptoAssessmentCertificates", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCryptoAssessmentFindingAnalytics Lists findings in a compartment with the number of affected targets.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListCryptoAssessmentFindingAnalytics.go.html to see an example of how to use ListCryptoAssessmentFindingAnalytics API.
+// A default retry strategy applies to this operation ListCryptoAssessmentFindingAnalytics()
+func (client DataSafeClient) ListCryptoAssessmentFindingAnalytics(ctx context.Context, request ListCryptoAssessmentFindingAnalyticsRequest) (response ListCryptoAssessmentFindingAnalyticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCryptoAssessmentFindingAnalytics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCryptoAssessmentFindingAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCryptoAssessmentFindingAnalyticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCryptoAssessmentFindingAnalyticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCryptoAssessmentFindingAnalyticsResponse")
+	}
+	return
+}
+
+// listCryptoAssessmentFindingAnalytics implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listCryptoAssessmentFindingAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cryptoAssessments/findingAnalytics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCryptoAssessmentFindingAnalyticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListCryptoAssessmentFindingAnalytics")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/CryptoAssessment/ListCryptoAssessmentFindingAnalytics"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListCryptoAssessmentFindingAnalytics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCryptoAssessmentFindingTargets For a selected finding, lists targets where it occurs in assessments.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListCryptoAssessmentFindingTargets.go.html to see an example of how to use ListCryptoAssessmentFindingTargets API.
+// A default retry strategy applies to this operation ListCryptoAssessmentFindingTargets()
+func (client DataSafeClient) ListCryptoAssessmentFindingTargets(ctx context.Context, request ListCryptoAssessmentFindingTargetsRequest) (response ListCryptoAssessmentFindingTargetsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCryptoAssessmentFindingTargets, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCryptoAssessmentFindingTargetsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCryptoAssessmentFindingTargetsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCryptoAssessmentFindingTargetsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCryptoAssessmentFindingTargetsResponse")
+	}
+	return
+}
+
+// listCryptoAssessmentFindingTargets implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listCryptoAssessmentFindingTargets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cryptoAssessments/findingTargets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCryptoAssessmentFindingTargetsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListCryptoAssessmentFindingTargets")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/CryptoAssessment/ListCryptoAssessmentFindingTargets"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListCryptoAssessmentFindingTargets", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCryptoAssessmentFindings Lists crypto deviation findings for the specified crypto assessment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListCryptoAssessmentFindings.go.html to see an example of how to use ListCryptoAssessmentFindings API.
+// A default retry strategy applies to this operation ListCryptoAssessmentFindings()
+func (client DataSafeClient) ListCryptoAssessmentFindings(ctx context.Context, request ListCryptoAssessmentFindingsRequest) (response ListCryptoAssessmentFindingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCryptoAssessmentFindings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCryptoAssessmentFindingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCryptoAssessmentFindingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCryptoAssessmentFindingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCryptoAssessmentFindingsResponse")
+	}
+	return
+}
+
+// listCryptoAssessmentFindings implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listCryptoAssessmentFindings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cryptoAssessments/{cryptoAssessmentId}/findings", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCryptoAssessmentFindingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListCryptoAssessmentFindings")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/CryptoAssessment/ListCryptoAssessmentFindings"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListCryptoAssessmentFindings", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCryptoAssessmentKeys Gets a paginated list of cryptographic keys across targets in a compartment. Use assessmentId to narrow results to one crypto assessment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListCryptoAssessmentKeys.go.html to see an example of how to use ListCryptoAssessmentKeys API.
+// A default retry strategy applies to this operation ListCryptoAssessmentKeys()
+func (client DataSafeClient) ListCryptoAssessmentKeys(ctx context.Context, request ListCryptoAssessmentKeysRequest) (response ListCryptoAssessmentKeysResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCryptoAssessmentKeys, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCryptoAssessmentKeysResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCryptoAssessmentKeysResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCryptoAssessmentKeysResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCryptoAssessmentKeysResponse")
+	}
+	return
+}
+
+// listCryptoAssessmentKeys implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listCryptoAssessmentKeys(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cryptoAssessments/keys", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCryptoAssessmentKeysResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListCryptoAssessmentKeys")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/CryptoAssessment/ListCryptoAssessmentKeys"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListCryptoAssessmentKeys", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCryptoAssessmentTdeObjects Lists TDE object encryption summaries across targets in a compartment. Use assessmentId to narrow results to one crypto assessment, and objectType to return either tablespace-level or column-level TDE observations.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListCryptoAssessmentTdeObjects.go.html to see an example of how to use ListCryptoAssessmentTdeObjects API.
+// A default retry strategy applies to this operation ListCryptoAssessmentTdeObjects()
+func (client DataSafeClient) ListCryptoAssessmentTdeObjects(ctx context.Context, request ListCryptoAssessmentTdeObjectsRequest) (response ListCryptoAssessmentTdeObjectsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCryptoAssessmentTdeObjects, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCryptoAssessmentTdeObjectsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCryptoAssessmentTdeObjectsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCryptoAssessmentTdeObjectsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCryptoAssessmentTdeObjectsResponse")
+	}
+	return
+}
+
+// listCryptoAssessmentTdeObjects implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listCryptoAssessmentTdeObjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cryptoAssessments/tdeObjects", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCryptoAssessmentTdeObjectsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListCryptoAssessmentTdeObjects")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/CryptoAssessment/ListCryptoAssessmentTdeObjects"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListCryptoAssessmentTdeObjects", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCryptoAssessmentWallets Gets wallet details across targets in a compartment. Use assessmentId to narrow results to one crypto assessment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListCryptoAssessmentWallets.go.html to see an example of how to use ListCryptoAssessmentWallets API.
+// A default retry strategy applies to this operation ListCryptoAssessmentWallets()
+func (client DataSafeClient) ListCryptoAssessmentWallets(ctx context.Context, request ListCryptoAssessmentWalletsRequest) (response ListCryptoAssessmentWalletsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCryptoAssessmentWallets, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCryptoAssessmentWalletsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCryptoAssessmentWalletsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCryptoAssessmentWalletsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCryptoAssessmentWalletsResponse")
+	}
+	return
+}
+
+// listCryptoAssessmentWallets implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listCryptoAssessmentWallets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cryptoAssessments/wallets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCryptoAssessmentWalletsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListCryptoAssessmentWallets")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/CryptoAssessment/ListCryptoAssessmentWallets"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListCryptoAssessmentWallets", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListCryptoAssessments Gets a list of crypto assessments with filtering and pagination support.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListCryptoAssessments.go.html to see an example of how to use ListCryptoAssessments API.
+// A default retry strategy applies to this operation ListCryptoAssessments()
+func (client DataSafeClient) ListCryptoAssessments(ctx context.Context, request ListCryptoAssessmentsRequest) (response ListCryptoAssessmentsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listCryptoAssessments, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListCryptoAssessmentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListCryptoAssessmentsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListCryptoAssessmentsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListCryptoAssessmentsResponse")
+	}
+	return
+}
+
+// listCryptoAssessments implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listCryptoAssessments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cryptoAssessments", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListCryptoAssessmentsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "ListCryptoAssessments")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/CryptoAssessment/ListCryptoAssessments"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListCryptoAssessments", apiReferenceLink)
 		return response, err
 	}
 
@@ -18897,6 +19843,71 @@ func (client DataSafeClient) purgeSqlCollectionLogs(ctx context.Context, request
 	return response, err
 }
 
+// RefreshCryptoAssessment Runs a crypto assessment, refreshes the latest assessment, and saves it for future reference.
+// This operation runs with a cryptoAssessmentId of type LATEST.
+// Before you start, first call the ListCryptoAssessments operation with filter "type = latest" to get the crypto assessment ID for the target's latest assessment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/RefreshCryptoAssessment.go.html to see an example of how to use RefreshCryptoAssessment API.
+// A default retry strategy applies to this operation RefreshCryptoAssessment()
+func (client DataSafeClient) RefreshCryptoAssessment(ctx context.Context, request RefreshCryptoAssessmentRequest) (response RefreshCryptoAssessmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.refreshCryptoAssessment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RefreshCryptoAssessmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RefreshCryptoAssessmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RefreshCryptoAssessmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RefreshCryptoAssessmentResponse")
+	}
+	return
+}
+
+// refreshCryptoAssessment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) refreshCryptoAssessment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cryptoAssessments/{cryptoAssessmentId}/actions/refresh", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RefreshCryptoAssessmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "RefreshCryptoAssessment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/CryptoAssessment/RefreshCryptoAssessment"
+		err = common.PostProcessServiceError(err, "DataSafe", "RefreshCryptoAssessment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RefreshDatabaseSecurityConfiguration Refreshes the specified database security configuration.
 //
 // # See also
@@ -20674,6 +21685,64 @@ func (client DataSafeClient) updateAuditTrail(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditTrail/UpdateAuditTrail"
 		err = common.PostProcessServiceError(err, "DataSafe", "UpdateAuditTrail", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateCryptoAssessment Updates one or more attributes of the specified crypto assessment.
+//
+// # See also
+//
+// Click https://docs.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateCryptoAssessment.go.html to see an example of how to use UpdateCryptoAssessment API.
+// A default retry strategy applies to this operation UpdateCryptoAssessment()
+func (client DataSafeClient) UpdateCryptoAssessment(ctx context.Context, request UpdateCryptoAssessmentRequest) (response UpdateCryptoAssessmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateCryptoAssessment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateCryptoAssessmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateCryptoAssessmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateCryptoAssessmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateCryptoAssessmentResponse")
+	}
+	return
+}
+
+// updateCryptoAssessment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updateCryptoAssessment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/cryptoAssessments/{cryptoAssessmentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateCryptoAssessmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.CallWithServiceAndOperationName(ctx, &httpRequest, "dataSafe", "UpdateCryptoAssessment")
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/CryptoAssessment/UpdateCryptoAssessment"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateCryptoAssessment", apiReferenceLink)
 		return response, err
 	}
 

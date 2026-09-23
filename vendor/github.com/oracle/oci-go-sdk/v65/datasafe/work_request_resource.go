@@ -22,9 +22,9 @@ type WorkRequestResource struct {
 	EntityType *string `mandatory:"true" json:"entityType"`
 
 	// The way in which this resource was affected by the operation that spawned the work request.
-	// A resource being created, updated, or deleted will remain in the IN_PROGRESS state until
-	// work is complete for that resource at which point it will transition to CREATED, UPDATED,
-	// or DELETED, respectively.
+	// A resource being created, updated, deleted, or tracked by a nested operation will remain in
+	// the IN_PROGRESS state until work is complete for that resource at which point it will
+	// transition to CREATED, UPDATED, DELETED, SUCCEEDED, FAILED, or CANCELED as appropriate.
 	ActionType WorkRequestResourceActionTypeEnum `mandatory:"true" json:"actionType"`
 
 	// An OCID or other unique identifier for the resource.
@@ -62,7 +62,9 @@ const (
 	WorkRequestResourceActionTypeUpdated    WorkRequestResourceActionTypeEnum = "UPDATED"
 	WorkRequestResourceActionTypeDeleted    WorkRequestResourceActionTypeEnum = "DELETED"
 	WorkRequestResourceActionTypeInProgress WorkRequestResourceActionTypeEnum = "IN_PROGRESS"
+	WorkRequestResourceActionTypeSucceeded  WorkRequestResourceActionTypeEnum = "SUCCEEDED"
 	WorkRequestResourceActionTypeFailed     WorkRequestResourceActionTypeEnum = "FAILED"
+	WorkRequestResourceActionTypeCanceled   WorkRequestResourceActionTypeEnum = "CANCELED"
 )
 
 var mappingWorkRequestResourceActionTypeEnum = map[string]WorkRequestResourceActionTypeEnum{
@@ -70,7 +72,9 @@ var mappingWorkRequestResourceActionTypeEnum = map[string]WorkRequestResourceAct
 	"UPDATED":     WorkRequestResourceActionTypeUpdated,
 	"DELETED":     WorkRequestResourceActionTypeDeleted,
 	"IN_PROGRESS": WorkRequestResourceActionTypeInProgress,
+	"SUCCEEDED":   WorkRequestResourceActionTypeSucceeded,
 	"FAILED":      WorkRequestResourceActionTypeFailed,
+	"CANCELED":    WorkRequestResourceActionTypeCanceled,
 }
 
 var mappingWorkRequestResourceActionTypeEnumLowerCase = map[string]WorkRequestResourceActionTypeEnum{
@@ -78,7 +82,9 @@ var mappingWorkRequestResourceActionTypeEnumLowerCase = map[string]WorkRequestRe
 	"updated":     WorkRequestResourceActionTypeUpdated,
 	"deleted":     WorkRequestResourceActionTypeDeleted,
 	"in_progress": WorkRequestResourceActionTypeInProgress,
+	"succeeded":   WorkRequestResourceActionTypeSucceeded,
 	"failed":      WorkRequestResourceActionTypeFailed,
+	"canceled":    WorkRequestResourceActionTypeCanceled,
 }
 
 // GetWorkRequestResourceActionTypeEnumValues Enumerates the set of values for WorkRequestResourceActionTypeEnum
@@ -97,7 +103,9 @@ func GetWorkRequestResourceActionTypeEnumStringValues() []string {
 		"UPDATED",
 		"DELETED",
 		"IN_PROGRESS",
+		"SUCCEEDED",
 		"FAILED",
+		"CANCELED",
 	}
 }
 

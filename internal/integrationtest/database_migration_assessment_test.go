@@ -6,6 +6,7 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
 	"time"
 
@@ -18,6 +19,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
@@ -46,6 +48,7 @@ var (
 		"database_combination":             acctest.Representation{RepType: acctest.Required, Create: `ORACLE`},
 		"database_data_size":               acctest.Representation{RepType: acctest.Required, Create: `LESS_THAN_1GB`, Update: `GB_1_10`},
 		"ddl_expectation":                  acctest.Representation{RepType: acctest.Required, Create: `DDL_EXPECTED`, Update: `DDL_NOT_EXPECTED`},
+		"migration_scope":                  acctest.Representation{RepType: acctest.Optional, Create: `SCHEMA`, Update: `FULL`},
 		"network_speed_megabit_per_second": acctest.Representation{RepType: acctest.Required, Create: `MBPS_10`, Update: `MBPS_100`},
 		"source_database_connection":       acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseMigrationAssessmentSourceDatabaseConnectionRepresentation},
 		"target_database_connection":       acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseMigrationAssessmentTargetDatabaseConnectionRepresentation},
@@ -60,7 +63,7 @@ var (
 	DatabaseMigrationAssessmentTargetDatabaseConnectionRepresentation = map[string]interface{}{
 		"connection_type":     acctest.Representation{RepType: acctest.Optional, Create: `ORACLE`},
 		"database_version":    acctest.Representation{RepType: acctest.Optional, Create: `databaseVersion`},
-		"id":                  acctest.Representation{RepType: acctest.Optional, Create: `${var.target_connection_oracle_id}`},
+		"id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.target_connection_oracle_id}`},
 		"technology_sub_type": acctest.Representation{RepType: acctest.Optional, Create: `technologySubType`},
 		"technology_type":     acctest.Representation{RepType: acctest.Optional, Create: `OCI_AUTONOMOUS_DATABASE`},
 	}
@@ -119,6 +122,7 @@ func TestDatabaseMigrationAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "database_combination", "ORACLE"),
 				resource.TestCheckResourceAttr(resourceName, "database_data_size", "LESS_THAN_1GB"),
 				resource.TestCheckResourceAttr(resourceName, "ddl_expectation", "DDL_EXPECTED"),
+				resource.TestCheckResourceAttr(resourceName, "migration_scope", "SCHEMA"),
 				resource.TestCheckResourceAttr(resourceName, "network_speed_megabit_per_second", "MBPS_10"),
 				resource.TestCheckResourceAttr(resourceName, "source_database_connection.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection.0.id"),
@@ -155,6 +159,7 @@ func TestDatabaseMigrationAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.schema", "schema"),
 				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.type", "ALL"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "migration_scope", "SCHEMA"),
 				resource.TestCheckResourceAttr(resourceName, "network_speed_megabit_per_second", "MBPS_10"),
 				resource.TestCheckResourceAttr(resourceName, "source_database_connection.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection.0.id"),
@@ -170,6 +175,11 @@ func TestDatabaseMigrationAssessmentResource_basic(t *testing.T) {
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					time.Sleep(1 * time.Minute)
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
 					return err
 				},
 			),
@@ -197,6 +207,7 @@ func TestDatabaseMigrationAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.schema", "schema"),
 				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.type", "ALL"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "migration_scope", "SCHEMA"),
 				resource.TestCheckResourceAttr(resourceName, "network_speed_megabit_per_second", "MBPS_10"),
 				resource.TestCheckResourceAttr(resourceName, "source_database_connection.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection.0.id"),
@@ -238,6 +249,7 @@ func TestDatabaseMigrationAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.schema", "schema"),
 				resource.TestCheckResourceAttr(resourceName, "exclude_objects.0.type", "ALL"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "migration_scope", "FULL"),
 				resource.TestCheckResourceAttr(resourceName, "network_speed_megabit_per_second", "MBPS_100"),
 				resource.TestCheckResourceAttr(resourceName, "source_database_connection.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection.0.id"),
@@ -289,6 +301,7 @@ func TestDatabaseMigrationAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "migration_scope", "FULL"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "network_speed_megabit_per_second", "MBPS_100"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source_database_connection.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "source_database_connection.0.id"),

@@ -16,8 +16,7 @@ import (
 	"strings"
 )
 
-// FunctionSourceDetails Note: Deprecated. Use the new resource model APIs instead.
-// The source details for the Function. The function can be created from various sources.
+// FunctionSourceDetails The source details for the Function. The function can be created from various sources.
 type FunctionSourceDetails interface {
 }
 
@@ -51,6 +50,14 @@ func (m *functionsourcedetails) UnmarshalPolymorphicJSON(data []byte) (interface
 
 	var err error
 	switch m.SourceType {
+	case "CONTAINER_IMAGE":
+		mm := ContainerImageFunctionSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ARCHIVE":
+		mm := ArchiveFunctionSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "PRE_BUILT_FUNCTIONS":
 		mm := PreBuiltFunctionSourceDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -83,14 +90,20 @@ type FunctionSourceDetailsSourceTypeEnum string
 // Set of constants representing the allowable values for FunctionSourceDetailsSourceTypeEnum
 const (
 	FunctionSourceDetailsSourceTypePreBuiltFunctions FunctionSourceDetailsSourceTypeEnum = "PRE_BUILT_FUNCTIONS"
+	FunctionSourceDetailsSourceTypeArchive           FunctionSourceDetailsSourceTypeEnum = "ARCHIVE"
+	FunctionSourceDetailsSourceTypeContainerImage    FunctionSourceDetailsSourceTypeEnum = "CONTAINER_IMAGE"
 )
 
 var mappingFunctionSourceDetailsSourceTypeEnum = map[string]FunctionSourceDetailsSourceTypeEnum{
 	"PRE_BUILT_FUNCTIONS": FunctionSourceDetailsSourceTypePreBuiltFunctions,
+	"ARCHIVE":             FunctionSourceDetailsSourceTypeArchive,
+	"CONTAINER_IMAGE":     FunctionSourceDetailsSourceTypeContainerImage,
 }
 
 var mappingFunctionSourceDetailsSourceTypeEnumLowerCase = map[string]FunctionSourceDetailsSourceTypeEnum{
 	"pre_built_functions": FunctionSourceDetailsSourceTypePreBuiltFunctions,
+	"archive":             FunctionSourceDetailsSourceTypeArchive,
+	"container_image":     FunctionSourceDetailsSourceTypeContainerImage,
 }
 
 // GetFunctionSourceDetailsSourceTypeEnumValues Enumerates the set of values for FunctionSourceDetailsSourceTypeEnum
@@ -106,6 +119,8 @@ func GetFunctionSourceDetailsSourceTypeEnumValues() []FunctionSourceDetailsSourc
 func GetFunctionSourceDetailsSourceTypeEnumStringValues() []string {
 	return []string{
 		"PRE_BUILT_FUNCTIONS",
+		"ARCHIVE",
+		"CONTAINER_IMAGE",
 	}
 }
 

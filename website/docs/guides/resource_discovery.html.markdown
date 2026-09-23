@@ -166,7 +166,6 @@ Make sure the `output_path` is empty before running resource discovery
     * `datascience` - Discovers datascience resources within the specified compartment
     * `dblm` - Discovers dblm resources within the specified compartment
     * `dbmulticloud` - Discovers dbmulticloud resources within the specified compartment
-    * `ddfs` - Discovers ddfs resources within the specified compartment
     * `delegate_access_control` - Discovers delegate_access_control resources within the specified compartment
     * `demand_signal` - Discovers demand_signal resources within the specified compartment
     * `desktops` - Discovers desktop pool resources within the specified compartment
@@ -673,6 +672,7 @@ data_safe
 * oci\_data\_safe\_unified\_audit\_policy\_definition
 * oci\_data\_safe\_unified\_audit\_policy
 * oci\_data\_safe\_target\_database\_group
+* oci\_data\_safe\_crypto\_assessment
 
 database
 
@@ -825,15 +825,6 @@ dbmulticloud
 * oci\_dbmulticloud\_oracle\_db\_aws\_identity\_connector
 * oci\_dbmulticloud\_oracle\_db\_aws\_key
 
-ddfs
-    
-* oci\_ddfs\_instance
-
-delegate_access_control
-    
-* oci\_delegate\_access\_control\_delegation\_subscription
-* oci\_delegate\_access\_control\_delegation\_control
-
 demand_signal
 
 * oci\_demand\_signal\_occ\_demand\_signal
@@ -954,6 +945,7 @@ generative_ai
 * oci\_generative\_ai\_hosted\_deployment
 * oci\_generative\_ai\_project
 * oci\_generative\_ai\_hosted\_application\_iam
+* oci\_generative\_ai\_routing\_profile
 
 generative_ai_agent
 

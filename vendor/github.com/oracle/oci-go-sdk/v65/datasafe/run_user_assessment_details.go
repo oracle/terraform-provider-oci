@@ -18,7 +18,7 @@ import (
 // RunUserAssessmentDetails The details required to create an on-demand saved user assessment.
 type RunUserAssessmentDetails struct {
 
-	// The OCID of the compartment that contains the user assessment.
+	// This field is ignored when refreshing a user assessment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// The description of the user assessment.

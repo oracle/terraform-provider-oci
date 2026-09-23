@@ -1,3 +1,20 @@
+## 9.3.0 (September 22, 2026)
+
+### Added
+- DEXREQ-8552: fix generated Assessment conflicts
+- Support for Generative AI model discovery and routing profiles
+- support for Data Safe Crypto Posture Assessment
+- Support for Usage Based SaaS listings on Marketplace [SELF v2]
+- OCI Functions source_details support for container images, archives, pre-built sources, runtime configuration, runtime data sources, validation, work-request waits, tests, examples, deprecation message and documentations
+- Support for Recurring Maintenance Window
+- Support for Data Science: Bring Your Own Reservations
+
+### Deprecation
+- WLMS EOL - deprecating terraform resources
+
+### Bug Fix
+- Retire security attribute before delete
+
 ## 9.2.0 (September 16, 2026)
 
 ### Added

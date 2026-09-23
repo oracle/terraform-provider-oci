@@ -21,6 +21,9 @@ type ManagedComputeClusterInstanceConfigurationDetails struct {
 	// The shape used to launch the instances in compute target. Supported shapes can be retrieved using compute target shapes api.
 	InstanceShape *string `mandatory:"true" json:"instanceShape"`
 
+	// The list of OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute capacity reservation.
+	CapacityReservationIds []string `mandatory:"false" json:"capacityReservationIds"`
+
 	// The size of the boot volume to attach to the instance.
 	BootVolumeSizeInGBs *int `mandatory:"false" json:"bootVolumeSizeInGBs"`
 
