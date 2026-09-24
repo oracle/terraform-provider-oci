@@ -10,7 +10,7 @@ import (
 	"net/url"
 	"regexp"
 	"strings"
-
+    "golang.org/x/sync/singleflight"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -378,8 +378,9 @@ func (s *CoreSecurityRuleResourceCrud) Create() error {
 	return nil
 }
 
-func (s *CoreSecurityRuleResourceCrud) Get() error {
+var nsgRulesGroup singleflight.Group
 
+func (s *CoreSecurityRuleResourceCrud) Get() error {
 	request := oci_core.ListNetworkSecurityGroupSecurityRulesRequest{}
 
 	if networkSecurityGroupId, ok := s.D.GetOkExists("network_security_group_id"); ok {
@@ -398,23 +399,38 @@ func (s *CoreSecurityRuleResourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
 
-	response, err := s.Client.ListNetworkSecurityGroupSecurityRules(context.Background(), request)
+	// Coalesce concurrent calls for the same NSG to collapse O(N^2) API traffic into O(1)
+	v, err, _ := nsgRulesGroup.Do(*request.NetworkSecurityGroupId, func() (interface{}, error) {
+		var aggregatedRules []oci_core.SecurityRule
+
+		req := request
+		req.Limit = common.Int(100)
+
+		response, err := s.Client.ListNetworkSecurityGroupSecurityRules(context.Background(), req)
+		if err != nil {
+			return nil, err
+		}
+		aggregatedRules = append(aggregatedRules, response.Items...)
+		req.Page = response.OpcNextPage
+
+		for req.Page != nil {
+			listResponse, err := s.Client.ListNetworkSecurityGroupSecurityRules(context.Background(), req)
+			if err != nil {
+				return nil, err
+			}
+
+			aggregatedRules = append(aggregatedRules, listResponse.Items...)
+			req.Page = listResponse.OpcNextPage
+		}
+
+		return aggregatedRules, nil
+	})
+
 	if err != nil {
 		return err
 	}
-	var rules []oci_core.SecurityRule
-	rules = response.Items
-	request.Page = response.OpcNextPage
 
-	for request.Page != nil {
-		listResponse, err := s.Client.ListNetworkSecurityGroupSecurityRules(context.Background(), request)
-		if err != nil {
-			return err
-		}
-
-		rules = append(rules, listResponse.Items...)
-		request.Page = listResponse.OpcNextPage
-	}
+	rules := v.([]oci_core.SecurityRule)
 
 	for _, r := range rules {
 		if *r.Id == s.D.Id() {
