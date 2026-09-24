@@ -6,8 +6,9 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
+variable "compartment_id" {}
 
-variable "is_repository_created_on_first_push" {
+variable "container_configuration_is_repository_created_on_first_push" {
   default = true
 }
 
@@ -24,10 +25,11 @@ provider "oci" {
 resource "oci_artifacts_container_configuration" "test_container_configuration" {
   #Required
   compartment_id                      = var.tenancy_ocid
-  is_repository_created_on_first_push = var.is_repository_created_on_first_push
+  is_repository_created_on_first_push = var.container_configuration_is_repository_created_on_first_push
 }
 
 data "oci_artifacts_container_configuration" "test_container_configuration" {
   #Required
   compartment_id = var.tenancy_ocid
 }
+

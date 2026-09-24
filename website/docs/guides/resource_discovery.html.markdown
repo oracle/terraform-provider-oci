@@ -840,6 +840,10 @@ dblm
 
 * oci\_dblm\_vulnerability\_scan
 
+dblm
+
+* oci\_dblm\_vulnerability\_scan
+
 dbmulticloud
 
 * oci\_dbmulticloud\_oracle\_db\_azure\_vault\_association
