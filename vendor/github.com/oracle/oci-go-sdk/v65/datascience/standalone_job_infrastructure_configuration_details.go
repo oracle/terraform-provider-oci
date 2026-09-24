@@ -28,6 +28,9 @@ type StandaloneJobInfrastructureConfigurationDetails struct {
 	// The size of the block storage volume to attach to the instance running the job
 	BlockStorageSizeInGBs *int `mandatory:"true" json:"blockStorageSizeInGBs"`
 
+	// This specifies the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer-managed compute capacity reservation to be used for launching jobs.
+	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
+
 	JobShapeConfigDetails *JobShapeConfigDetails `mandatory:"false" json:"jobShapeConfigDetails"`
 }
 

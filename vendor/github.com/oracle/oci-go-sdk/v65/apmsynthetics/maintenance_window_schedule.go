@@ -18,6 +18,9 @@ import (
 // MaintenanceWindowSchedule Details required to schedule maintenance window.
 type MaintenanceWindowSchedule struct {
 
+	// Type of maintenance window schedule. If not provided, a schedule with timeStarted and timeEnded is treated as ONE_TIME.
+	ScheduleType MaintenanceWindowScheduleTypeEnum `mandatory:"false" json:"scheduleType,omitempty"`
+
 	// Start time of the maintenance window, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	// Example: `2020-02-12T22:47:12.613Z`
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
@@ -25,6 +28,9 @@ type MaintenanceWindowSchedule struct {
 	// End time of the maintenance window, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	// Example: `2020-02-12T22:47:12.613Z`
 	TimeEnded *common.SDKTime `mandatory:"false" json:"timeEnded"`
+
+	// Type of recurrence for a recurring maintenance window.
+	RecurrenceType MaintenanceWindowRecurrenceTypeEnum `mandatory:"false" json:"recurrenceType,omitempty"`
 }
 
 func (m MaintenanceWindowSchedule) String() string {
@@ -37,6 +43,12 @@ func (m MaintenanceWindowSchedule) String() string {
 func (m MaintenanceWindowSchedule) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingMaintenanceWindowScheduleTypeEnum(string(m.ScheduleType)); !ok && m.ScheduleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ScheduleType: %s. Supported values are: %s.", m.ScheduleType, strings.Join(GetMaintenanceWindowScheduleTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingMaintenanceWindowRecurrenceTypeEnum(string(m.RecurrenceType)); !ok && m.RecurrenceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RecurrenceType: %s. Supported values are: %s.", m.RecurrenceType, strings.Join(GetMaintenanceWindowRecurrenceTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf("%s", strings.Join(errMessage, "\n"))
 	}

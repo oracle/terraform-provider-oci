@@ -171,6 +171,8 @@ resource "oci_apm_synthetics_monitor" "test_monitor" {
 	maintenance_window_schedule {
 
 		#Optional
+		recurrence_type = var.monitor_maintenance_window_schedule_recurrence_type
+		schedule_type = "RECURRING"
 		time_ended = var.monitor_maintenance_window_schedule_time_ended
 		time_started = var.monitor_maintenance_window_schedule_time_started
 	}
@@ -227,7 +229,7 @@ The following arguments are supported:
 		* `service_name` - (Required when config_type=SQL_CONFIG) (Updatable) Service name of the database.
 	* `dns_configuration` - (Optional) (Updatable) Information about the DNS settings.
 		* `is_override_dns` - (Optional) (Updatable) If isOverrideDns is true, then DNS settings will be overridden.
-		* `override_dns_ip` - (Optional) (Updatable) Attribute to override the DNS IP value. This value will be honored only if isOverrideDns is set to true.
+		* `override_dns_ip` - (Optional) (Updatable) Attribute to override the DNS IP value. This value is required only if isOverrideDns is set to true.
 	* `download_size_limit_in_bytes` - (Applicable when config_type=FTP_CONFIG) (Updatable) Download size limit in Bytes, at which to stop the transfer. Maximum download size limit is 5 MiB.
 	* `ftp_basic_authentication_details` - (Applicable when config_type=FTP_CONFIG) (Updatable) Details for basic authentication.
 		* `password` - (Required when config_type=FTP_CONFIG) (Updatable) Password.
@@ -284,6 +286,8 @@ The following arguments are supported:
 * `is_run_now` - (Optional) (Updatable) If isRunNow is enabled, then the monitor will run immediately.
 * `is_run_once` - (Optional) (Updatable) If runOnce is enabled, then the monitor will run once.
 * `maintenance_window_schedule` - (Optional) (Updatable) Details required to schedule maintenance window.
+	* `recurrence_type` - (Optional) (Updatable) Type of recurrence for a recurring maintenance window.
+	* `schedule_type` - (Optional) (Updatable) Type of maintenance window schedule. If not provided, a schedule with timeStarted and timeEnded is treated as ONE_TIME.
 	* `time_ended` - (Optional) (Updatable) End time of the maintenance window, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-12T22:47:12.613Z` 
 	* `time_started` - (Optional) (Updatable) Start time of the maintenance window, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-12T22:47:12.613Z` 
 * `monitor_type` - (Required) Type of monitor.
@@ -334,7 +338,7 @@ The following attributes are exported:
 		* `service_name` - Service name of the database.
 	* `dns_configuration` - Information about the DNS settings.
 		* `is_override_dns` - If isOverrideDns is true, then DNS settings will be overridden.
-		* `override_dns_ip` - Attribute to override the DNS IP value. This value will be honored only if isOverrideDns is set to true.
+		* `override_dns_ip` - Attribute to override the DNS IP value. This value is required only if isOverrideDns is set to true.
 	* `download_size_limit_in_bytes` - Download size limit in Bytes, at which to stop the transfer. Maximum download size limit is 5 MiB.
 	* `ftp_basic_authentication_details` - Details for basic authentication.
 		* `password` - Password.
@@ -396,6 +400,8 @@ The following attributes are exported:
 * `is_run_once` - If runOnce is enabled, then the monitor will run once.
 * `last_updated_by` - Name of the user that recently updated the monitor.
 * `maintenance_window_schedule` - Details required to schedule maintenance window.
+	* `recurrence_type` - Type of recurrence for a recurring maintenance window.
+	* `schedule_type` - Type of maintenance window schedule. If not provided, a schedule with timeStarted and timeEnded is treated as ONE_TIME.
 	* `time_ended` - End time of the maintenance window, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-12T22:47:12.613Z` 
 	* `time_started` - Start time of the maintenance window, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-12T22:47:12.613Z` 
 * `monitor_type` - Type of monitor.

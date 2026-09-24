@@ -96,7 +96,7 @@ func (s *FunctionsApplicationDataSourceCrud) SetData() error {
 		s.D.Set("logging", nil)
 	}
 
-	s.D.Set("security_attributes", s.Res.SecurityAttributes)
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 
 	s.D.Set("shape", s.Res.Shape)
 

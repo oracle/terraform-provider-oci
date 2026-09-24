@@ -286,6 +286,7 @@ const (
 	ListReportDefinitionsDataSourceEvents             ListReportDefinitionsDataSourceEnum = "EVENTS"
 	ListReportDefinitionsDataSourceAlerts             ListReportDefinitionsDataSourceEnum = "ALERTS"
 	ListReportDefinitionsDataSourceSecurityAssessment ListReportDefinitionsDataSourceEnum = "SECURITY_ASSESSMENT"
+	ListReportDefinitionsDataSourceCryptoAssessment   ListReportDefinitionsDataSourceEnum = "CRYPTO_ASSESSMENT"
 	ListReportDefinitionsDataSourceViolations         ListReportDefinitionsDataSourceEnum = "VIOLATIONS"
 	ListReportDefinitionsDataSourceAllowedSql         ListReportDefinitionsDataSourceEnum = "ALLOWED_SQL"
 )
@@ -294,6 +295,7 @@ var mappingListReportDefinitionsDataSourceEnum = map[string]ListReportDefinition
 	"EVENTS":              ListReportDefinitionsDataSourceEvents,
 	"ALERTS":              ListReportDefinitionsDataSourceAlerts,
 	"SECURITY_ASSESSMENT": ListReportDefinitionsDataSourceSecurityAssessment,
+	"CRYPTO_ASSESSMENT":   ListReportDefinitionsDataSourceCryptoAssessment,
 	"VIOLATIONS":          ListReportDefinitionsDataSourceViolations,
 	"ALLOWED_SQL":         ListReportDefinitionsDataSourceAllowedSql,
 }
@@ -302,6 +304,7 @@ var mappingListReportDefinitionsDataSourceEnumLowerCase = map[string]ListReportD
 	"events":              ListReportDefinitionsDataSourceEvents,
 	"alerts":              ListReportDefinitionsDataSourceAlerts,
 	"security_assessment": ListReportDefinitionsDataSourceSecurityAssessment,
+	"crypto_assessment":   ListReportDefinitionsDataSourceCryptoAssessment,
 	"violations":          ListReportDefinitionsDataSourceViolations,
 	"allowed_sql":         ListReportDefinitionsDataSourceAllowedSql,
 }
@@ -321,6 +324,7 @@ func GetListReportDefinitionsDataSourceEnumStringValues() []string {
 		"EVENTS",
 		"ALERTS",
 		"SECURITY_ASSESSMENT",
+		"CRYPTO_ASSESSMENT",
 		"VIOLATIONS",
 		"ALLOWED_SQL",
 	}
@@ -398,18 +402,21 @@ const (
 	ListReportDefinitionsCategoryCustomReports    ListReportDefinitionsCategoryEnum = "CUSTOM_REPORTS"
 	ListReportDefinitionsCategorySummary          ListReportDefinitionsCategoryEnum = "SUMMARY"
 	ListReportDefinitionsCategoryActivityAuditing ListReportDefinitionsCategoryEnum = "ACTIVITY_AUDITING"
+	ListReportDefinitionsCategoryCryptoAssessment ListReportDefinitionsCategoryEnum = "CRYPTO_ASSESSMENT"
 )
 
 var mappingListReportDefinitionsCategoryEnum = map[string]ListReportDefinitionsCategoryEnum{
 	"CUSTOM_REPORTS":    ListReportDefinitionsCategoryCustomReports,
 	"SUMMARY":           ListReportDefinitionsCategorySummary,
 	"ACTIVITY_AUDITING": ListReportDefinitionsCategoryActivityAuditing,
+	"CRYPTO_ASSESSMENT": ListReportDefinitionsCategoryCryptoAssessment,
 }
 
 var mappingListReportDefinitionsCategoryEnumLowerCase = map[string]ListReportDefinitionsCategoryEnum{
 	"custom_reports":    ListReportDefinitionsCategoryCustomReports,
 	"summary":           ListReportDefinitionsCategorySummary,
 	"activity_auditing": ListReportDefinitionsCategoryActivityAuditing,
+	"crypto_assessment": ListReportDefinitionsCategoryCryptoAssessment,
 }
 
 // GetListReportDefinitionsCategoryEnumValues Enumerates the set of values for ListReportDefinitionsCategoryEnum
@@ -427,6 +434,7 @@ func GetListReportDefinitionsCategoryEnumStringValues() []string {
 		"CUSTOM_REPORTS",
 		"SUMMARY",
 		"ACTIVITY_AUDITING",
+		"CRYPTO_ASSESSMENT",
 	}
 }
 

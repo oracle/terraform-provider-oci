@@ -91,6 +91,7 @@ const (
 	WorkRequestSummaryOperationTypeUpdateTargetDatabase                          WorkRequestSummaryOperationTypeEnum = "UPDATE_TARGET_DATABASE"
 	WorkRequestSummaryOperationTypeActivateTargetDatabase                        WorkRequestSummaryOperationTypeEnum = "ACTIVATE_TARGET_DATABASE"
 	WorkRequestSummaryOperationTypeDeactivateTargetDatabase                      WorkRequestSummaryOperationTypeEnum = "DEACTIVATE_TARGET_DATABASE"
+	WorkRequestSummaryOperationTypeUpdateTargetDatabasePrivilege                 WorkRequestSummaryOperationTypeEnum = "UPDATE_TARGET_DATABASE_PRIVILEGE"
 	WorkRequestSummaryOperationTypeDeleteTargetDatabase                          WorkRequestSummaryOperationTypeEnum = "DELETE_TARGET_DATABASE"
 	WorkRequestSummaryOperationTypeChangeTargetDatabaseCompartment               WorkRequestSummaryOperationTypeEnum = "CHANGE_TARGET_DATABASE_COMPARTMENT"
 	WorkRequestSummaryOperationTypeCreatePeerTargetDatabase                      WorkRequestSummaryOperationTypeEnum = "CREATE_PEER_TARGET_DATABASE"
@@ -124,6 +125,13 @@ const (
 	WorkRequestSummaryOperationTypePatchChecks                                   WorkRequestSummaryOperationTypeEnum = "PATCH_CHECKS"
 	WorkRequestSummaryOperationTypeUpdateFindingSeverity                         WorkRequestSummaryOperationTypeEnum = "UPDATE_FINDING_SEVERITY"
 	WorkRequestSummaryOperationTypeApplyTemplate                                 WorkRequestSummaryOperationTypeEnum = "APPLY_TEMPLATE"
+	WorkRequestSummaryOperationTypeUpdateCryptoAssessment                        WorkRequestSummaryOperationTypeEnum = "UPDATE_CRYPTO_ASSESSMENT"
+	WorkRequestSummaryOperationTypeCreateCryptoAssessment                        WorkRequestSummaryOperationTypeEnum = "CREATE_CRYPTO_ASSESSMENT"
+	WorkRequestSummaryOperationTypeRefreshCryptoAssessment                       WorkRequestSummaryOperationTypeEnum = "REFRESH_CRYPTO_ASSESSMENT"
+	WorkRequestSummaryOperationTypeGenerateCryptoAssessmentReport                WorkRequestSummaryOperationTypeEnum = "GENERATE_CRYPTO_ASSESSMENT_REPORT"
+	WorkRequestSummaryOperationTypeDownloadCryptoAssessmentReport                WorkRequestSummaryOperationTypeEnum = "DOWNLOAD_CRYPTO_ASSESSMENT_REPORT"
+	WorkRequestSummaryOperationTypeChangeCryptoAssessmentCompartment             WorkRequestSummaryOperationTypeEnum = "CHANGE_CRYPTO_ASSESSMENT_COMPARTMENT"
+	WorkRequestSummaryOperationTypeDeleteCryptoAssessment                        WorkRequestSummaryOperationTypeEnum = "DELETE_CRYPTO_ASSESSMENT"
 	WorkRequestSummaryOperationTypeDeleteSqlFirewallAllowedSql                   WorkRequestSummaryOperationTypeEnum = "DELETE_SQL_FIREWALL_ALLOWED_SQL"
 	WorkRequestSummaryOperationTypeBulkCreateSqlFirewallAllowedSql               WorkRequestSummaryOperationTypeEnum = "BULK_CREATE_SQL_FIREWALL_ALLOWED_SQL"
 	WorkRequestSummaryOperationTypeBulkDeleteSqlFirewallAllowedSql               WorkRequestSummaryOperationTypeEnum = "BULK_DELETE_SQL_FIREWALL_ALLOWED_SQL"
@@ -281,6 +289,7 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"UPDATE_TARGET_DATABASE":                             WorkRequestSummaryOperationTypeUpdateTargetDatabase,
 	"ACTIVATE_TARGET_DATABASE":                           WorkRequestSummaryOperationTypeActivateTargetDatabase,
 	"DEACTIVATE_TARGET_DATABASE":                         WorkRequestSummaryOperationTypeDeactivateTargetDatabase,
+	"UPDATE_TARGET_DATABASE_PRIVILEGE":                   WorkRequestSummaryOperationTypeUpdateTargetDatabasePrivilege,
 	"DELETE_TARGET_DATABASE":                             WorkRequestSummaryOperationTypeDeleteTargetDatabase,
 	"CHANGE_TARGET_DATABASE_COMPARTMENT":                 WorkRequestSummaryOperationTypeChangeTargetDatabaseCompartment,
 	"CREATE_PEER_TARGET_DATABASE":                        WorkRequestSummaryOperationTypeCreatePeerTargetDatabase,
@@ -314,6 +323,13 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"PATCH_CHECKS":                                       WorkRequestSummaryOperationTypePatchChecks,
 	"UPDATE_FINDING_SEVERITY":                            WorkRequestSummaryOperationTypeUpdateFindingSeverity,
 	"APPLY_TEMPLATE":                                     WorkRequestSummaryOperationTypeApplyTemplate,
+	"UPDATE_CRYPTO_ASSESSMENT":                           WorkRequestSummaryOperationTypeUpdateCryptoAssessment,
+	"CREATE_CRYPTO_ASSESSMENT":                           WorkRequestSummaryOperationTypeCreateCryptoAssessment,
+	"REFRESH_CRYPTO_ASSESSMENT":                          WorkRequestSummaryOperationTypeRefreshCryptoAssessment,
+	"GENERATE_CRYPTO_ASSESSMENT_REPORT":                  WorkRequestSummaryOperationTypeGenerateCryptoAssessmentReport,
+	"DOWNLOAD_CRYPTO_ASSESSMENT_REPORT":                  WorkRequestSummaryOperationTypeDownloadCryptoAssessmentReport,
+	"CHANGE_CRYPTO_ASSESSMENT_COMPARTMENT":               WorkRequestSummaryOperationTypeChangeCryptoAssessmentCompartment,
+	"DELETE_CRYPTO_ASSESSMENT":                           WorkRequestSummaryOperationTypeDeleteCryptoAssessment,
 	"DELETE_SQL_FIREWALL_ALLOWED_SQL":                    WorkRequestSummaryOperationTypeDeleteSqlFirewallAllowedSql,
 	"BULK_CREATE_SQL_FIREWALL_ALLOWED_SQL":               WorkRequestSummaryOperationTypeBulkCreateSqlFirewallAllowedSql,
 	"BULK_DELETE_SQL_FIREWALL_ALLOWED_SQL":               WorkRequestSummaryOperationTypeBulkDeleteSqlFirewallAllowedSql,
@@ -471,6 +487,7 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"update_target_database":                             WorkRequestSummaryOperationTypeUpdateTargetDatabase,
 	"activate_target_database":                           WorkRequestSummaryOperationTypeActivateTargetDatabase,
 	"deactivate_target_database":                         WorkRequestSummaryOperationTypeDeactivateTargetDatabase,
+	"update_target_database_privilege":                   WorkRequestSummaryOperationTypeUpdateTargetDatabasePrivilege,
 	"delete_target_database":                             WorkRequestSummaryOperationTypeDeleteTargetDatabase,
 	"change_target_database_compartment":                 WorkRequestSummaryOperationTypeChangeTargetDatabaseCompartment,
 	"create_peer_target_database":                        WorkRequestSummaryOperationTypeCreatePeerTargetDatabase,
@@ -504,6 +521,13 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"patch_checks":                                       WorkRequestSummaryOperationTypePatchChecks,
 	"update_finding_severity":                            WorkRequestSummaryOperationTypeUpdateFindingSeverity,
 	"apply_template":                                     WorkRequestSummaryOperationTypeApplyTemplate,
+	"update_crypto_assessment":                           WorkRequestSummaryOperationTypeUpdateCryptoAssessment,
+	"create_crypto_assessment":                           WorkRequestSummaryOperationTypeCreateCryptoAssessment,
+	"refresh_crypto_assessment":                          WorkRequestSummaryOperationTypeRefreshCryptoAssessment,
+	"generate_crypto_assessment_report":                  WorkRequestSummaryOperationTypeGenerateCryptoAssessmentReport,
+	"download_crypto_assessment_report":                  WorkRequestSummaryOperationTypeDownloadCryptoAssessmentReport,
+	"change_crypto_assessment_compartment":               WorkRequestSummaryOperationTypeChangeCryptoAssessmentCompartment,
+	"delete_crypto_assessment":                           WorkRequestSummaryOperationTypeDeleteCryptoAssessment,
 	"delete_sql_firewall_allowed_sql":                    WorkRequestSummaryOperationTypeDeleteSqlFirewallAllowedSql,
 	"bulk_create_sql_firewall_allowed_sql":               WorkRequestSummaryOperationTypeBulkCreateSqlFirewallAllowedSql,
 	"bulk_delete_sql_firewall_allowed_sql":               WorkRequestSummaryOperationTypeBulkDeleteSqlFirewallAllowedSql,
@@ -672,6 +696,7 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"UPDATE_TARGET_DATABASE",
 		"ACTIVATE_TARGET_DATABASE",
 		"DEACTIVATE_TARGET_DATABASE",
+		"UPDATE_TARGET_DATABASE_PRIVILEGE",
 		"DELETE_TARGET_DATABASE",
 		"CHANGE_TARGET_DATABASE_COMPARTMENT",
 		"CREATE_PEER_TARGET_DATABASE",
@@ -705,6 +730,13 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"PATCH_CHECKS",
 		"UPDATE_FINDING_SEVERITY",
 		"APPLY_TEMPLATE",
+		"UPDATE_CRYPTO_ASSESSMENT",
+		"CREATE_CRYPTO_ASSESSMENT",
+		"REFRESH_CRYPTO_ASSESSMENT",
+		"GENERATE_CRYPTO_ASSESSMENT_REPORT",
+		"DOWNLOAD_CRYPTO_ASSESSMENT_REPORT",
+		"CHANGE_CRYPTO_ASSESSMENT_COMPARTMENT",
+		"DELETE_CRYPTO_ASSESSMENT",
 		"DELETE_SQL_FIREWALL_ALLOWED_SQL",
 		"BULK_CREATE_SQL_FIREWALL_ALLOWED_SQL",
 		"BULK_DELETE_SQL_FIREWALL_ALLOWED_SQL",

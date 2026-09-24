@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ChangeAuditProfileCompartmentDetails Moves the specified audit profile and its assoicated resources into a different compartment.
+// ChangeAuditProfileCompartmentDetails Moves the specified audit profile and its associated resources into a different compartment.
 type ChangeAuditProfileCompartmentDetails struct {
 
 	// The OCID of the compartment where you want to move the audit profile.
