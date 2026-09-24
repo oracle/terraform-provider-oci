@@ -91,12 +91,14 @@ The following attributes are exported:
 		* `SCSI` - Emulated SCSI disk.
 		* `IDE` - Emulated IDE disk.
 		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
-		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
+		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images.
+		* `NVME` - NVMe attached remote block storage device. 
 	* `firmware` - Firmware used to boot VM. Select the option that matches your operating system.
 		* `BIOS` - Boot VM using BIOS style firmware. This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
 		* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems. This is the default for platform images. 
 	* `is_consistent_volume_naming_enabled` - Whether to enable consistent volume naming feature. Defaults to false.
-	* `is_pv_encryption_in_transit_enabled` - Deprecated. Instead use `isPvEncryptionInTransitEnabled` in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/datatypes/LaunchInstanceDetails). 
+	* `is_encryption_in_transit_enabled` - Specifies whether in-transit encryption is enabled for the data volume's attachment.
+	* `is_pv_encryption_in_transit_enabled` - Deprecated. Use `isEncryptionInTransitEnabled` instead. 
 	* `network_type` - Emulation type for the physical network interface card (NIC).
 		* `E1000` - Emulated Gigabit ethernet controller. Compatible with Linux e1000 network driver.
 		* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
@@ -107,7 +109,8 @@ The following attributes are exported:
 		* `SCSI` - Emulated SCSI disk.
 		* `IDE` - Emulated IDE disk.
 		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
-		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
+		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images.
+		* `NVME` - NVMe attached remote block storage device. 
 * `listing_type` - The listing type of the image. The default value is "NONE".
 * `operating_system` - The image's operating system.  Example: `Oracle Linux` 
 * `operating_system_version` - The image's operating system version.  Example: `7.2` 

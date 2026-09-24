@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/http"
 	"regexp"
 	"strconv"
 	"strings"
@@ -134,9 +135,10 @@ var (
 		"metadata":                            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"user_data": "abcd"}, Update: map[string]string{"user_data": "abcd", "volatile_data": "stringE"}},
 		"security_attributes":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"test-namespace-20240722.test-attribute-20240822.value": "blue", "test-namespace-20240722.test-attribute-20240822.mode": "enforce"}},
 		"shape_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceShapeConfigRepresentation},
-		"source_details":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceSourceDetailsRepresentation},
-		"subnet_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"state":                               acctest.Representation{RepType: acctest.Optional, Create: `STOPPED`, Update: `RUNNING`},
+		"source_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.GetRepresentationCopyWithMultipleRemovedProperties(
+			[]string{"kms_key_id", "instance_source_image_filter_details"}, CoreInstanceSourceDetailsRepresentation)},
+		"subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"state":     acctest.Representation{RepType: acctest.Optional, Create: `STOPPED`, Update: `RUNNING`},
 	}
 	// Instance representation for creating and attaching volumes on instance launch
 	CoreInstanceCreateAndAttachVolumesOnLaunchRepresentation = map[string]interface{}{
@@ -170,9 +172,10 @@ var (
 		"metadata":                            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"user_data": "abcd"}, Update: map[string]string{"user_data": "abcd", "volatile_data": "stringE"}},
 		"security_attributes":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"test-namespace-20240722.test-attribute-20240822.value": "blue", "test-namespace-20240722.test-attribute-20240822.mode": "enforce"}},
 		"shape_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceShapeConfigRepresentation},
-		"source_details":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceSourceDetailsRepresentation},
-		"subnet_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"state":                               acctest.Representation{RepType: acctest.Optional, Create: `STOPPED`, Update: `RUNNING`},
+		"source_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: acctest.GetRepresentationCopyWithMultipleRemovedProperties(
+			[]string{"kms_key_id", "instance_source_image_filter_details"}, CoreInstanceSourceDetailsRepresentation)},
+		"subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"state":     acctest.Representation{RepType: acctest.Optional, Create: `STOPPED`, Update: `RUNNING`},
 		// Since preserve_data_volumes_created_at_launch is a required parameter for instances launched with volumes, defaulting it to false.
 		"preserve_data_volumes_created_at_launch": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
@@ -281,6 +284,38 @@ var (
 	CoreInstanceInstanceOptionsRepresentation = map[string]interface{}{
 		"are_legacy_imds_endpoints_disabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 	}
+	CoreInstanceNvmeRepresentation = map[string]interface{}{
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"shape":               acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.A4.Ax.Flex`},
+		"image":               acctest.Representation{RepType: acctest.Required, Create: `${var.nvme_image_id}`},
+		"instance_options":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceInstanceOptionsRepresentation},
+		"shape_config": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
+			"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `1`},
+			"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `7`},
+		}},
+		"create_vnic_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: map[string]interface{}{
+			"assign_public_ip": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+			"subnet_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		}},
+	}
+	CoreInstanceCreateAndAttachVolumesOnLaunchNvmeRepresentation = acctest.RepresentationCopyWithNewProperties(
+		CoreInstanceNvmeRepresentation,
+		map[string]interface{}{
+			"launch_volume_attachments":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceLaunchWithCreateVolumeAttachmentsNvmeRepresentation},
+			"preserve_data_volumes_created_at_launch": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		},
+	)
+	CoreInstanceRepresentationWithRequiredInstanceOptions = acctest.GetUpdatedRepresentationCopy(
+		"instance_options",
+		acctest.RepresentationGroup{
+			RepType: acctest.Required,
+			Group: map[string]interface{}{
+				"are_legacy_imds_endpoints_disabled": acctest.Representation{RepType: acctest.Required, Create: `true`},
+			},
+		},
+		CoreInstanceRepresentation,
+	)
 	CoreInstanceLaunchOptionsRepresentation = map[string]interface{}{
 		"boot_volume_type":                    acctest.Representation{RepType: acctest.Optional, Create: `ISCSI`},
 		"firmware":                            acctest.Representation{RepType: acctest.Optional, Create: `UEFI_64`},
@@ -325,6 +360,15 @@ var (
 		"launch_create_volume_details": acctest.RepresentationGroup{RepType: acctest.Optional,
 			Group: CoreInstanceLaunchVolumeAttachmentsLaunchCreateVolumeDetailsRepresentation},
 		"use_chap": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+	CoreInstanceLaunchWithCreateVolumeAttachmentsNvmeRepresentation = map[string]interface{}{
+		"type":         acctest.Representation{RepType: acctest.Required, Create: `nvme`},
+		"device":       acctest.Representation{RepType: acctest.Optional, Create: `/dev/oracleoci/oraclevdb`},
+		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"is_read_only": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_shareable": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"launch_create_volume_details": acctest.RepresentationGroup{RepType: acctest.Optional,
+			Group: acctest.RepresentationCopyWithRemovedProperties(CoreInstanceLaunchVolumeAttachmentsLaunchCreateVolumeDetailsRepresentation, []string{"kms_key_id"})},
 	}
 	CoreInstanceLaunchVolumeAttachmentsLaunchCreateVolumeDetailsRepresentation = map[string]interface{}{
 		"size_in_gbs":          acctest.Representation{RepType: acctest.Required, Create: `50`},
@@ -483,6 +527,9 @@ data "oci_kms_keys" "test_keys_dependency_RSA" {
 
 	CoreInstanceResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Update, CoreDedicatedVmHostRepresentation) +
 		CoreInstanceResourceDependenciesWithoutDHV
+	CoreInstanceNvmeResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		AvailabilityDomainConfig
 
 	// Create an instance and clone the instance's boot volume to have a boot volume ready for testing BVR (Boot Volume Replacement)
 	CoreInstanceBootVolumeSwapResourceDependencies = CoreInstanceResourceDependenciesWithoutDHV +
@@ -1055,6 +1102,10 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	availabilityDomain := utils.GetEnvSettingWithBlankDefault("availability_domain")
+	availabilityDomainVariableStr := fmt.Sprintf("variable \"availability_domain\" { default = \"%s\" }\n", availabilityDomain)
+	config += availabilityDomainVariableStr
+
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
@@ -1073,8 +1124,8 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckCoreInstanceDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: acctest.ProviderTestConfig() + compartmentIdVariableStr + managementEndpointStr + CoreInstanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation),
+			Config: acctest.ProviderTestConfig() + availabilityDomainVariableStr + compartmentIdVariableStr + managementEndpointStr + CoreInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentationWithRequiredInstanceOptions),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -1092,8 +1143,8 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 
 		// verify Update to shape within the same family is not force new. Resizing can only be done to intances not using dedicated_vm_host_id
 		{
-			Config: acctest.ProviderTestConfig() + compartmentIdVariableStr + managementEndpointStr + CoreInstanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, acctest.GetUpdatedRepresentationCopy("shape", acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.2`}, CoreInstanceRepresentation)),
+			Config: acctest.ProviderTestConfig() + availabilityDomainVariableStr + compartmentIdVariableStr + managementEndpointStr + CoreInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, acctest.GetUpdatedRepresentationCopy("shape", acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.2`}, CoreInstanceRepresentationWithRequiredInstanceOptions)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -1154,7 +1205,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "instance_options.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "image"),
 				resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
 				resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
@@ -1270,7 +1321,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "instance_options.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "image"),
 				resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
 				resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
@@ -1394,7 +1445,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "instance_options.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "image"),
 				resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
 				resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
@@ -1509,7 +1560,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "instance_options.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "image"),
 				resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
 				resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
@@ -1585,7 +1636,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "instance_options.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "image"),
 				resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
 				resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
@@ -1933,6 +1984,122 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 			ResourceName: resourceName,
 		},
 	})
+}
+
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
+func TestCoreInstanceResource_nvme(t *testing.T) {
+	nvmeImageVariableStr := remoteNvmeTestImageVariable(t)
+
+	httpreplay.SetScenario("TestCoreInstanceResource_nvme")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_instance.test_instance"
+	resourceConfig := config + compartmentIdVariableStr + nvmeImageVariableStr + CoreInstanceNvmeResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create, CoreInstanceCreateAndAttachVolumesOnLaunchNvmeRepresentation)
+	resourceConfig = remoteNvmeTestLaunchConfig(t, resourceConfig)
+
+	acctest.SaveConfigContent(resourceConfig, "core", "instance", t)
+
+	acctest.ResourceTest(t, testAccCheckCoreInstanceDestroy, []resource.TestStep{
+		{
+			Config: resourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard.A4.Ax.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+				resource.TestCheckResourceAttr(resourceName, "shape_config.0.memory_in_gbs", "7"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_public_ip", "false"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.device", "/dev/oracleoci/oraclevdb"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.type", "nvme"),
+				resource.TestCheckResourceAttr(resourceName, "preserve_data_volumes_created_at_launch", "false"),
+				func(s *terraform.State) error {
+					resId, err := acctest.FromInstanceState(s, resourceName, "id")
+					if err != nil {
+						return err
+					}
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						exportId := "oci_core_instance:" + resId
+						return resourcediscovery.TestExportCompartmentWithResourceName(&exportId, &compartmentId, resourceName)
+					}
+					return nil
+				},
+			),
+		},
+	})
+}
+
+func remoteNvmeTestImageVariable(t *testing.T) string {
+	t.Helper()
+
+	nvmeImageId := utils.GetEnvSettingWithBlankDefault("nvme_image_id")
+	if nvmeImageId == "" {
+		t.Skip("remote NVMe acceptance tests require nvme_image_id (or TF_VAR_nvme_image_id) for a VM.Standard.A4.Ax.Flex-compatible Arm image whose Storage.RemoteDataVolumeType capability includes NVME")
+	}
+
+	return fmt.Sprintf("variable \"nvme_image_id\" { default = \"%s\" }\n", nvmeImageId)
+}
+
+func remoteNvmeTestLaunchConfig(t *testing.T, config string) string {
+	t.Helper()
+
+	// Filter the shared AD lookup so the instance and its volumes use the same AD.
+	if availabilityDomain := utils.GetEnvSettingWithBlankDefault("availability_domain"); availabilityDomain != "" {
+		config = strings.ReplaceAll(config, AvailabilityDomainConfig, fmt.Sprintf(`
+data "oci_identity_availability_domains" "test_availability_domains" {
+  compartment_id = var.tenancy_ocid
+  filter {
+    name   = "name"
+    values = [%q]
+  }
+}
+`, availabilityDomain))
+	}
+
+	// opc-host-serial expects the SmartNIC serial, not the host's sk- ID or serial.
+	hostSerial := utils.GetEnvSettingWithBlankDefault("nvme_host_serial")
+	poolName := utils.GetEnvSettingWithBlankDefault("nvme_pool_name")
+	if hostSerial == "" && poolName == "" {
+		return config
+	}
+
+	// These tests run serially; restore the shared provider after each test.
+	baseConfigure := acctest.TestAccProvider.ConfigureFunc
+	t.Cleanup(func() {
+		acctest.TestAccProvider.ConfigureFunc = baseConfigure
+	})
+	acctest.TestAccProvider.ConfigureFunc = func(d *schema.ResourceData) (interface{}, error) {
+		clients, err := baseConfigure(d)
+		if err != nil {
+			return nil, err
+		}
+		computeClient := clients.(*tf_client.OracleClients).ComputeClient()
+		baseInterceptor := computeClient.Interceptor
+		computeClient.Interceptor = func(r *http.Request) error {
+			if baseInterceptor != nil {
+				if err := baseInterceptor(r); err != nil {
+					return err
+				}
+			}
+			if r.Method == http.MethodPost && r.URL.Path == "/20160918/instances" {
+				query := r.URL.Query()
+				if hostSerial != "" {
+					query.Set("opc-host-serial", hostSerial)
+				}
+				if poolName != "" {
+					query.Set("opc-pool-name", poolName)
+				}
+				r.URL.RawQuery = query.Encode()
+			}
+			return nil
+		}
+		return clients, nil
+	}
+	return config
 }
 
 // issue-routing-tag: core/computeSharedOwnershipVmAndBm

@@ -51,13 +51,25 @@ var (
 		"is_read_only":                        acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_shareable":                        acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
+	CoreVolumeAttachmentNvmeRepresentation = map[string]interface{}{
+		"attachment_type": acctest.Representation{RepType: acctest.Required, Create: `nvme`},
+		"instance_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.id}`},
+		"volume_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_core_volume.test_volume.id}`},
+		"device":          acctest.Representation{RepType: acctest.Optional, Create: `/dev/oracleoci/oraclevdc`},
+		"display_name":    acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"is_read_only":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_shareable":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
 
-	CoreVolumeAttachmentResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+	CoreVolumeAttachmentResourceBaseDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", acctest.Required, acctest.Create, CoreVolumeRepresentation) +
 		AvailabilityDomainConfig
+	CoreVolumeAttachmentResourceDependencies = CoreVolumeAttachmentResourceBaseDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentationWithRequiredInstanceOptions)
+	CoreVolumeAttachmentNvmeResourceDependencies = CoreVolumeAttachmentResourceBaseDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create, CoreInstanceCreateAndAttachVolumesOnLaunchNvmeRepresentation)
 
 	ipv6SubnetId                                = utils.GetEnvSettingWithBlankDefault("ipv6_subnet_id")
 	ipv6InstanceCreateVnicDetailsRepresentation = map[string]interface{}{
@@ -160,7 +172,6 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "ipv4"),
 				resource.TestCheckResourceAttrSet(resourceName, "iqn"),
 				resource.TestCheckResourceAttr(resourceName, "is_agent_auto_iscsi_login_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_read_only", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_shareable", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -203,6 +214,7 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.ipv4"),
 				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.iqn"),
 				resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.is_agent_auto_iscsi_login_enabled", "false"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.is_encryption_in_transit_enabled"),
 				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.is_multipath"),
 				resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.is_pv_encryption_in_transit_enabled", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.is_read_only", "false"),
@@ -219,9 +231,71 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
+				"is_shareable",
 				"use_chap",
 			},
 			ResourceName: resourceName,
+		},
+	})
+}
+
+// issue-routing-tag: core/computeSharedOwnershipVmAndBm
+func TestCoreVolumeAttachmentResource_nvme(t *testing.T) {
+	nvmeImageVariableStr := remoteNvmeTestImageVariable(t)
+
+	httpreplay.SetScenario("TestCoreVolumeAttachmentResource_nvme")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_volume_attachment.test_volume_attachment"
+	datasourceName := "data.oci_core_volume_attachments.test_volume_attachments"
+	resourceConfig := config +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_core_volume_attachments", "test_volume_attachments", acctest.Optional, acctest.Update, CoreCoreVolumeAttachmentDataSourceRepresentation) +
+		compartmentIdVariableStr + nvmeImageVariableStr + CoreVolumeAttachmentNvmeResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_volume_attachment", "test_volume_attachment", acctest.Optional, acctest.Create, CoreVolumeAttachmentNvmeRepresentation)
+	resourceConfig = remoteNvmeTestLaunchConfig(t, resourceConfig)
+
+	acctest.SaveConfigContent(resourceConfig, "core", "volumeAttachmentNvme", t)
+
+	acctest.ResourceTest(t, testAccCheckCoreVolumeAttachmentDestroy, []resource.TestStep{
+		{
+			Config: resourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr("oci_core_instance.test_instance", "shape", "VM.Standard.A4.Ax.Flex"),
+				resource.TestCheckResourceAttr("oci_core_instance.test_instance", "shape_config.0.ocpus", "1"),
+				resource.TestCheckResourceAttr("oci_core_instance.test_instance", "shape_config.0.memory_in_gbs", "7"),
+				resource.TestCheckResourceAttr("oci_core_instance.test_instance", "launch_volume_attachments.0.device", "/dev/oracleoci/oraclevdb"),
+				resource.TestCheckResourceAttr("oci_core_instance.test_instance", "launch_volume_attachments.0.type", "nvme"),
+				resource.TestCheckResourceAttr("oci_core_instance.test_instance", "create_vnic_details.0.assign_public_ip", "false"),
+				resource.TestCheckResourceAttr(resourceName, "attachment_type", "nvme"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(resourceName, "device", "/dev/oracleoci/oraclevdc"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_id"),
+				resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_read_only", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_shareable", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "volume_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "volume_attachments.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.attachment_type", "nvme"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.compartment_id"),
+				resource.TestCheckResourceAttrPair(datasourceName, "volume_attachments.0.device", resourceName, "device"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.instance_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.volume_id"),
+			),
 		},
 	})
 }

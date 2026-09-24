@@ -183,6 +183,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 				boot_volume_type = var.instance_configuration_instance_details_launch_details_launch_options_boot_volume_type
 				firmware = var.instance_configuration_instance_details_launch_details_launch_options_firmware
 				is_consistent_volume_naming_enabled = var.instance_configuration_instance_details_launch_details_launch_options_is_consistent_volume_naming_enabled
+				is_encryption_in_transit_enabled = var.instance_configuration_instance_details_launch_details_launch_options_is_encryption_in_transit_enabled
 				is_pv_encryption_in_transit_enabled = var.instance_configuration_instance_details_launch_details_launch_options_is_pv_encryption_in_transit_enabled
 				network_type = var.instance_configuration_instance_details_launch_details_launch_options_network_type
 				remote_data_volume_type = var.instance_configuration_instance_details_launch_details_launch_options_remote_data_volume_type
@@ -385,6 +386,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 					boot_volume_type = var.instance_configuration_instance_details_options_launch_details_launch_options_boot_volume_type
 					firmware = var.instance_configuration_instance_details_options_launch_details_launch_options_firmware
 					is_consistent_volume_naming_enabled = var.instance_configuration_instance_details_options_launch_details_launch_options_is_consistent_volume_naming_enabled
+					is_encryption_in_transit_enabled = var.instance_configuration_instance_details_options_launch_details_launch_options_is_encryption_in_transit_enabled
 					is_pv_encryption_in_transit_enabled = var.instance_configuration_instance_details_options_launch_details_launch_options_is_pv_encryption_in_transit_enabled
 					network_type = var.instance_configuration_instance_details_options_launch_details_launch_options_network_type
 					remote_data_volume_type = var.instance_configuration_instance_details_options_launch_details_launch_options_remote_data_volume_type
@@ -557,8 +559,8 @@ The following arguments are supported:
 			* `display_name` - (Applicable when instance_type=compute) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 			* `is_pv_encryption_in_transit_enabled` - (Applicable when type=paravirtualized) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
 			* `is_read_only` - (Applicable when instance_type=compute) Whether the attachment should be created in read-only mode.
-			* `is_shareable` - (Applicable when instance_type=compute) Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified.
-			* `type` - (Required) The type of volume. The only supported values are "iscsi" and "paravirtualized"
+			* `is_shareable` - (Applicable when instance_type=compute) Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified. 
+			* `type` - (Required) The type of volume. The only supported values are "iscsi", "paravirtualized", and "nvme". 
 			* `use_chap` - (Applicable when type=iscsi) Whether to use CHAP authentication for the volume attachment. Defaults to false. 
 		* `create_details` - (Applicable when instance_type=compute) Creates a new block volume. Please see [CreateVolumeDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVolumeDetails/) 
 			* `autotune_policies` - (Applicable when instance_type=compute) The list of autotune policies enabled for this volume.
@@ -691,12 +693,14 @@ The following arguments are supported:
 				* `SCSI` - Emulated SCSI disk.
 				* `IDE` - Emulated IDE disk.
 				* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
-				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
+				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images.
+				* `NVME` - NVMe attached remote block storage device. 
 			* `firmware` - (Applicable when instance_type=compute) Firmware used to boot VM. Select the option that matches your operating system.
 				* `BIOS` - Boot VM using BIOS style firmware. This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
 				* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems. This is the default for platform images. 
 			* `is_consistent_volume_naming_enabled` - (Applicable when instance_type=compute) Whether to enable consistent volume naming feature. Defaults to false.
-			* `is_pv_encryption_in_transit_enabled` - (Applicable when instance_type=compute) Deprecated. Instead use `isPvEncryptionInTransitEnabled` in [InstanceConfigurationLaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/datatypes/InstanceConfigurationLaunchInstanceDetails). 
+			* `is_encryption_in_transit_enabled` - (Applicable when instance_type=compute) Whether in-transit encryption for the data volume's attachment is enabled or not.
+			* `is_pv_encryption_in_transit_enabled` - (Applicable when instance_type=compute) Deprecated. Use `isEncryptionInTransitEnabled` instead. 
 			* `network_type` - (Applicable when instance_type=compute) Emulation type for the physical network interface card (NIC).
 				* `E1000` - Emulated Gigabit ethernet controller. Compatible with Linux e1000 network driver.
 				* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
@@ -707,6 +711,7 @@ The following arguments are supported:
 				* `IDE` - Emulated IDE disk.
 				* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
 				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images.
+				* `NVME` - NVMe attached remote block storage device. 
 		* `licensing_configs` - (Applicable when instance_type=compute) List of licensing configurations associated with target launch values.
 			* `license_type` - (Optional) License Type for the OS license.
 				* `OCI_PROVIDED` - Oracle Cloud Infrastructure provided license (e.g. metered $/OCPU-hour).
@@ -816,7 +821,7 @@ The following arguments are supported:
 				* `is_pv_encryption_in_transit_enabled` - (Applicable when type=paravirtualized) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
 				* `is_read_only` - (Applicable when instance_type=instance_options) Whether the attachment should be created in read-only mode.
 				* `is_shareable` - (Applicable when instance_type=instance_options) Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified. 
-				* `type` - (Required) The type of volume. The only supported values are "iscsi" and "paravirtualized". 
+				* `type` - (Required) The type of volume. The only supported values are "iscsi", "paravirtualized", and "nvme". 
 				* `use_chap` - (Applicable when type=iscsi) Whether to use CHAP authentication for the volume attachment. Defaults to false. 
 			* `create_details` - (Applicable when instance_type=instance_options) Creates a new block volume. Please see [CreateVolumeDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVolumeDetails/) 
 				* `autotune_policies` - (Applicable when instance_type=instance_options) The list of autotune policies enabled for this volume.
@@ -947,11 +952,13 @@ The following arguments are supported:
 					* `IDE` - Emulated IDE disk.
 					* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
 					* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images.
+					* `NVME` - NVMe attached remote block storage device. 
 				* `firmware` - (Applicable when instance_type=instance_options) Firmware used to boot VM. Select the option that matches your operating system.
 					* `BIOS` - Boot VM using BIOS style firmware. This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
 					* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems. This is the default for platform images.
 				* `is_consistent_volume_naming_enabled` - (Applicable when instance_type=instance_options) Whether to enable consistent volume naming feature. Defaults to false.
-				* `is_pv_encryption_in_transit_enabled` - (Applicable when instance_type=instance_options) Deprecated. Instead use `isPvEncryptionInTransitEnabled` in [InstanceConfigurationLaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/datatypes/InstanceConfigurationLaunchInstanceDetails).
+				* `is_encryption_in_transit_enabled` - (Applicable when instance_type=instance_options) Whether in-transit encryption for the data volume's attachment is enabled or not.
+				* `is_pv_encryption_in_transit_enabled` - (Applicable when instance_type=instance_options) Deprecated. Use `isEncryptionInTransitEnabled` instead. 
 				* `network_type` - (Applicable when instance_type=instance_options) Emulation type for the physical network interface card (NIC).
 					* `E1000` - Emulated Gigabit ethernet controller. Compatible with Linux e1000 network driver.
 					* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
@@ -961,7 +968,8 @@ The following arguments are supported:
 					* `SCSI` - Emulated SCSI disk.
 					* `IDE` - Emulated IDE disk.
 					* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
-					* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
+					* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images.
+					* `NVME` - NVMe attached remote block storage device. 
 			* `licensing_configs` - (Applicable when instance_type=instance_options) List of licensing configurations associated with target launch values.
 				* `license_type` - (Optional) License Type for the OS license.
 					* `OCI_PROVIDED` - Oracle Cloud Infrastructure provided license (e.g. metered $/OCPU-hour).
@@ -1152,7 +1160,7 @@ The following attributes are exported:
 			* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
 			* `is_read_only` - Whether the attachment should be created in read-only mode.
 			* `is_shareable` - Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified. 
-			* `type` - The type of volume. The only supported values are "iscsi" and "paravirtualized". 
+			* `type` - The type of volume. The only supported values are "iscsi", "paravirtualized", and "nvme". 
 			* `use_chap` - Whether to use CHAP authentication for the volume attachment. Defaults to false. 
 		* `create_details` - Creates a new block volume. Please see [CreateVolumeDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVolumeDetails/) 
 			* `autotune_policies` - The list of autotune policies enabled for this volume.
@@ -1282,12 +1290,14 @@ The following attributes are exported:
 				* `SCSI` - Emulated SCSI disk.
 				* `IDE` - Emulated IDE disk.
 				* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
-				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
+				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images.
+				* `NVME` - NVMe attached remote block storage device. 
 			* `firmware` - Firmware used to boot VM. Select the option that matches your operating system.
 				* `BIOS` - Boot VM using BIOS style firmware. This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
 				* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems. This is the default for platform images. 
 			* `is_consistent_volume_naming_enabled` - Whether to enable consistent volume naming feature. Defaults to false.
-			* `is_pv_encryption_in_transit_enabled` - Deprecated. Instead use `isPvEncryptionInTransitEnabled` in [InstanceConfigurationLaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/datatypes/InstanceConfigurationLaunchInstanceDetails). 
+			* `is_encryption_in_transit_enabled` - Whether in-transit encryption for the data volume's attachment is enabled or not.
+			* `is_pv_encryption_in_transit_enabled` - Deprecated. Use `isEncryptionInTransitEnabled` instead. 
 			* `network_type` - Emulation type for the physical network interface card (NIC).
 				* `E1000` - Emulated Gigabit ethernet controller. Compatible with Linux e1000 network driver.
 				* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
@@ -1298,6 +1308,7 @@ The following attributes are exported:
 				* `IDE` - Emulated IDE disk.
 				* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
 				* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images.
+				* `NVME` - NVMe attached remote block storage device. 
 		* `licensing_configs` - List of licensing configurations associated with target launch values.
 			* `license_type` - License Type for the OS license.
 				* `OCI_PROVIDED` - Oracle Cloud Infrastructure provided license (e.g. metered $/OCPU-hour).
@@ -1405,7 +1416,7 @@ The following attributes are exported:
 				* `is_pv_encryption_in_transit_enabled` - Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
 				* `is_read_only` - Whether the attachment should be created in read-only mode.
 				* `is_shareable` - Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified. 
-				* `type` - The type of volume. The only supported values are "iscsi" and "paravirtualized". 
+				* `type` - The type of volume. The only supported values are "iscsi", "paravirtualized", and "nvme". 
 				* `use_chap` - Whether to use CHAP authentication for the volume attachment. Defaults to false. 
 			* `create_details` - Creates a new block volume. Please see [CreateVolumeDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVolumeDetails/) 
 				* `autotune_policies` - The list of autotune policies enabled for this volume.
@@ -1532,11 +1543,13 @@ The following attributes are exported:
 					* `IDE` - Emulated IDE disk.
 					* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
 					* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images.
+					* `NVME` - NVMe attached remote block storage device. 
 				* `firmware` - Firmware used to boot VM. Select the option that matches your operating system.
 					* `BIOS` - Boot VM using BIOS style firmware. This is compatible with both 32 bit and 64 bit operating systems that boot using MBR style bootloaders.
 					* `UEFI_64` - Boot VM using UEFI style firmware compatible with 64 bit operating systems. This is the default for platform images.
 				* `is_consistent_volume_naming_enabled` - Whether to enable consistent volume naming feature. Defaults to false.
-				* `is_pv_encryption_in_transit_enabled` - Deprecated. Instead use `isPvEncryptionInTransitEnabled` in [InstanceConfigurationLaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/datatypes/InstanceConfigurationLaunchInstanceDetails).
+				* `is_encryption_in_transit_enabled` - Whether in-transit encryption for the data volume's attachment is enabled or not.
+				* `is_pv_encryption_in_transit_enabled` - Deprecated. Use `isEncryptionInTransitEnabled` instead. 
 				* `network_type` - Emulation type for the physical network interface card (NIC).
 					* `E1000` - Emulated Gigabit ethernet controller. Compatible with Linux e1000 network driver.
 					* `VFIO` - Direct attached Virtual Function network controller. This is the networking type when you launch an instance using hardware-assisted (SR-IOV) networking.
@@ -1546,7 +1559,8 @@ The following attributes are exported:
 					* `SCSI` - Emulated SCSI disk.
 					* `IDE` - Emulated IDE disk.
 					* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
-					* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
+					* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images.
+					* `NVME` - NVMe attached remote block storage device. 
 			* `licensing_configs` - List of licensing configurations associated with target launch values.
 				* `license_type` - License Type for the OS license.
 					* `OCI_PROVIDED` - Oracle Cloud Infrastructure provided license (e.g. metered $/OCPU-hour).
