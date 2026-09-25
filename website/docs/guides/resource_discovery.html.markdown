@@ -1472,6 +1472,7 @@ streaming
 tenantmanagercontrolplane
 
 * oci\_tenantmanagercontrolplane\_subscription\_mapping
+* oci\_tenantmanagercontrolplane\_child\_tenancy
 
 usage_proxy
 
