@@ -1532,14 +1532,12 @@ func TestCoreInstanceConfigurationResourceIpv6_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.hostname_label", "hostnameLabel"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6address", "ipv6Address"),
-				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6id"),
-				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6subnet_cidr", "ipv6SubnetCidr"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6id", ""),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6address", "2607:f590:0000:1600:3000:0000:0000:0000"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6subnet_cidr", "2607:f590:0000:1600:0000:0000:0000:0000/64"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.nsg_ids.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.private_ip", "privateIp"),
-				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.private_ip_id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.private_ip", ""),
+				resource.TestCheckResourceAttrPair(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.private_ip_id", "oci_core_private_ip.test_private_ip", "id"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.skip_source_dest_check", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.display_name", "backend-servers"),
@@ -1585,7 +1583,8 @@ func TestCoreInstanceConfigurationResourceIpv6_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6address", "2607:f590:0000:1600:3000:0000:0000:0000"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6subnet_cidr", "2607:f590:0000:1600:0000:0000:0000:0000/64"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.nsg_ids.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.private_ip", "privateIp"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.private_ip", ""),
+				resource.TestCheckResourceAttrPair(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.private_ip_id", "oci_core_private_ip.test_private_ip", "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.skip_source_dest_check", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.display_name", "backend-servers"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.nic_index", "0"),
@@ -1619,9 +1618,19 @@ func TestCoreInstanceConfigurationResource_PrivateIpIdAndIpv6Id_basic(t *testing
 				resource.TestCheckResourceAttr(resourceName, "instance_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.#", "1"),
-				// In current API/provider round-trip these IDs come back empty for this path.
-				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.private_ip_id", ""),
+				resource.TestCheckResourceAttrPair(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.private_ip_id", "oci_core_private_ip.test_private_ip", "id"),
+				// Preserve the existing IPv6 expectation; only privateIpId preservation changed.
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6id", ""),
+				func(s *terraform.State) error {
+					resId, err := acctest.FromInstanceState(s, resourceName, "id")
+					if err != nil {
+						return err
+					}
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						return resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName)
+					}
+					return nil
+				},
 			),
 		},
 	})
