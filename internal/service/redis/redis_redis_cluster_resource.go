@@ -716,7 +716,8 @@ func (s *RedisRedisClusterResourceCrud) UpdateWithContext(ctx context.Context) e
 		}
 	}
 
-	if ociCacheConfigSetId, ok := s.D.GetOkExists("oci_cache_config_set_id"); ok && s.D.HasChange("oci_cache_config_set_id") {
+	// A version upgrade and its compatible config set must be sent together below.
+	if ociCacheConfigSetId, ok := s.D.GetOkExists("oci_cache_config_set_id"); ok && s.D.HasChange("oci_cache_config_set_id") && !s.D.HasChange("software_version") {
 		tmp := ociCacheConfigSetId.(string)
 		request := oci_redis.UpdateRedisClusterRequest{}
 		request.OciCacheConfigSetId = &tmp
@@ -762,6 +763,10 @@ func (s *RedisRedisClusterResourceCrud) UpdateWithContext(ctx context.Context) e
 	if softwareVersion, ok := s.D.GetOkExists("software_version"); ok && s.D.HasChange("software_version") {
 		request := oci_redis.UpdateRedisClusterRequest{}
 		request.SoftwareVersion = oci_redis.RedisClusterSoftwareVersionEnum(softwareVersion.(string))
+		if ociCacheConfigSetId, ok := s.D.GetOkExists("oci_cache_config_set_id"); ok && s.D.HasChange("oci_cache_config_set_id") {
+			tmp := ociCacheConfigSetId.(string)
+			request.OciCacheConfigSetId = &tmp
+		}
 		err := s.updateRedisCluster(ctx, request)
 		if err != nil {
 			return err
