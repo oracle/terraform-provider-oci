@@ -1264,7 +1264,7 @@ func (s *DatabaseDbSystemResourceCrud) CreateWithContext(ctx context.Context) er
 		}
 	}
 
-	err = s.getDbHomeInfo()
+	err = s.getDbHomeInfo(ctx)
 	if err != nil {
 		log.Printf("[WARN] Could not get info about the first DbHome in the dbSystem: %v", err)
 	}
@@ -1287,7 +1287,7 @@ func (s *DatabaseDbSystemResourceCrud) GetWithContext(ctx context.Context) error
 
 	s.Res = &response.DbSystem
 
-	err = s.getDbHomeInfo()
+	err = s.getDbHomeInfo(ctx)
 	if err != nil {
 		log.Printf("[WARN] Could not get info about the first DbHome in the dbSystem: %v", err)
 	}
@@ -4067,7 +4067,7 @@ func (s *DatabaseDbSystemResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat 
 	return result, nil
 }
 
-func (s *DatabaseDbSystemResourceCrud) getDbHomeInfo() error {
+func (s *DatabaseDbSystemResourceCrud) getDbHomeInfo(ctx context.Context) error {
 	if s.DbHome == nil {
 		s.DbHome = &oci_database.DbHome{}
 	}
@@ -4143,7 +4143,7 @@ func (s *DatabaseDbSystemResourceCrud) getDbHomeInfo() error {
 			listDbHomeRequest.SortBy = oci_database.ListDbHomesSortByTimecreated
 			listDbHomeRequest.SortOrder = oci_database.ListDbHomesSortOrderAsc
 			listDbHomeRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
-			listDbHomeResponse, err := s.Client.ListDbHomes(context.Background(), listDbHomeRequest)
+			listDbHomeResponse, err := s.Client.ListDbHomes(ctx, listDbHomeRequest)
 			if err != nil {
 				return err
 			}
@@ -4175,7 +4175,7 @@ func (s *DatabaseDbSystemResourceCrud) getDbHomeInfo() error {
 			listDatabasesRequest.SortBy = oci_database.ListDatabasesSortByTimecreated
 			listDatabasesRequest.SortOrder = oci_database.ListDatabasesSortOrderAsc
 			listDatabasesRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
-			listDatabasesResponse, err := s.Client.ListDatabases(context.Background(), listDatabasesRequest)
+			listDatabasesResponse, err := s.Client.ListDatabases(ctx, listDatabasesRequest)
 			if err != nil {
 				return err
 			}
@@ -4240,7 +4240,7 @@ func (s *DatabaseDbSystemResourceCrud) UpdateDatabaseOperation(ctx context.Conte
 		return nil
 	}
 
-	err := s.getDbHomeInfo()
+	err := s.getDbHomeInfo(ctx)
 	if err != nil {
 		return err
 	}
