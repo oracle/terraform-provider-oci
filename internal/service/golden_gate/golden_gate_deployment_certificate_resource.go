@@ -250,13 +250,18 @@ func (s *GoldenGateDeploymentCertificateResourceCrud) getDeploymentCertificateFr
 	actionTypeEnum oci_golden_gate.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	certificateKey, deploymentId, err := deploymentCertificateWaitForWorkRequest(ctx, workId,
+	certificateKey, err := deploymentCertificateWaitForWorkRequest(ctx, workId,
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		return err
 	}
-	s.D.SetId(GetDeploymentCertificateCompositeId(*certificateKey, *deploymentId))
+	// The deployment ID is part of the create request. Work request entity types can
+	// include both "deployment" and "certificate" (for example, "deploymentCertificate"),
+	// so derive the composite ID from the configured deployment instead of parsing it
+	// from the work request resources.
+	deploymentId := s.D.Get("deployment_id").(string)
+	s.D.SetId(GetDeploymentCertificateCompositeId(*certificateKey, deploymentId))
 
 	return s.GetWithContext(ctx)
 }
@@ -285,7 +290,7 @@ func deploymentCertificateWorkRequestShouldRetryFunc(timeout time.Duration) func
 }
 
 func deploymentCertificateWaitForWorkRequest(ctx context.Context, wId *string, action oci_golden_gate.ActionTypeEnum,
-	timeout time.Duration, disableFoundRetries bool, client *oci_golden_gate.GoldenGateClient) (*string, *string, error) {
+	timeout time.Duration, disableFoundRetries bool, client *oci_golden_gate.GoldenGateClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "golden_gate")
 	retryPolicy.ShouldRetryOperation = deploymentCertificateWorkRequestShouldRetryFunc(timeout)
 
@@ -302,7 +307,7 @@ func deploymentCertificateWaitForWorkRequest(ctx context.Context, wId *string, a
 		},
 		Refresh: func() (interface{}, string, error) {
 			var err error
-			response, err = client.GetWorkRequest(context.Background(),
+			response, err = client.GetWorkRequest(ctx,
 				oci_golden_gate.GetWorkRequestRequest{
 					WorkRequestId: wId,
 					RequestMetadata: oci_common.RequestMetadata{
@@ -314,36 +319,34 @@ func deploymentCertificateWaitForWorkRequest(ctx context.Context, wId *string, a
 		},
 		Timeout: timeout,
 	}
-	if _, e := stateConf.WaitForState(); e != nil {
-		return nil, nil, e
+	if _, e := stateConf.WaitForStateContext(ctx); e != nil {
+		return nil, e
 	}
 
-	var certificateKey *string
-	var deploymentId *string
-	// The work request response contains an array of objects that finished the operation
-	for _, res := range response.Resources {
-		if strings.Contains(strings.ToLower(*res.EntityType), "certificate") {
-			if res.ActionType == action {
-				certificateKey = res.Identifier
-			}
-		}
-		if strings.Contains(strings.ToLower(*res.EntityType), "deployment") {
-			if res.ActionType == action {
-				deploymentId = res.Identifier
-			}
-		}
-	}
+	certificateKey := deploymentCertificateKeyFromWorkRequestResources(response.Resources, action)
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if certificateKey == nil || response.Status == oci_golden_gate.OperationStatusFailed || response.Status == oci_golden_gate.OperationStatusCanceled {
-		return nil, nil, getErrorFromGoldenGateDeploymentCertificateWorkRequest(client, wId, retryPolicy, "certificate", action)
+		return nil, getErrorFromGoldenGateDeploymentCertificateWorkRequest(ctx, client, wId, retryPolicy, "certificate", action)
 	}
 
-	return certificateKey, deploymentId, nil
+	return certificateKey, nil
 }
 
-func getErrorFromGoldenGateDeploymentCertificateWorkRequest(client *oci_golden_gate.GoldenGateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_golden_gate.ActionTypeEnum) error {
-	response, err := client.ListWorkRequestErrors(context.Background(),
+func deploymentCertificateKeyFromWorkRequestResources(resources []oci_golden_gate.WorkRequestResource, action oci_golden_gate.ActionTypeEnum) *string {
+	for _, resource := range resources {
+		if resource.EntityType == nil || resource.Identifier == nil || resource.ActionType != action {
+			continue
+		}
+		if strings.Contains(strings.ToLower(*resource.EntityType), "certificate") {
+			return resource.Identifier
+		}
+	}
+	return nil
+}
+
+func getErrorFromGoldenGateDeploymentCertificateWorkRequest(ctx context.Context, client *oci_golden_gate.GoldenGateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_golden_gate.ActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(ctx,
 		oci_golden_gate.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -414,7 +417,7 @@ func (s *GoldenGateDeploymentCertificateResourceCrud) DeleteWithContext(ctx cont
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, _, delWorkRequestErr := deploymentCertificateWaitForWorkRequest(ctx, workId,
+	_, delWorkRequestErr := deploymentCertificateWaitForWorkRequest(ctx, workId,
 		oci_golden_gate.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
