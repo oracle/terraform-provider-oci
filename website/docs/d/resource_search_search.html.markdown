@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_resource_search"
 sidebar_current: "docs-oci-datasource-resource_search"
 description: |-
-	Data source which can be used to search for resources across the tenancy using the OCI Search service. The search query is specified using the OCI Search query syntax, and the results include a list of resources that match the query criteria, along with their attributes.
+  Data source which can be used to search for resources across the tenancy using the OCI Search service. The search query is specified using the OCI Search query syntax, and the results include a list of resources that match the query criteria, along with their attributes.
 ---
 
 # Data Source: oci_resource_search
