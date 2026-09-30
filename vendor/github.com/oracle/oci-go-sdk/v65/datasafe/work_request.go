@@ -269,6 +269,28 @@ const (
 	WorkRequestOperationTypeUpdateAttributeSet                            WorkRequestOperationTypeEnum = "UPDATE_ATTRIBUTE_SET"
 	WorkRequestOperationTypeDeleteAttributeSet                            WorkRequestOperationTypeEnum = "DELETE_ATTRIBUTE_SET"
 	WorkRequestOperationTypeChangeAttributeSetCompartment                 WorkRequestOperationTypeEnum = "CHANGE_ATTRIBUTE_SET_COMPARTMENT"
+	WorkRequestOperationTypeCreateRegistrationPolicy                      WorkRequestOperationTypeEnum = "CREATE_REGISTRATION_POLICY"
+	WorkRequestOperationTypeUpdateRegistrationPolicy                      WorkRequestOperationTypeEnum = "UPDATE_REGISTRATION_POLICY"
+	WorkRequestOperationTypeDeleteRegistrationPolicy                      WorkRequestOperationTypeEnum = "DELETE_REGISTRATION_POLICY"
+	WorkRequestOperationTypeChangeRegistrationPolicyCompartment           WorkRequestOperationTypeEnum = "CHANGE_REGISTRATION_POLICY_COMPARTMENT"
+	WorkRequestOperationTypeCreateSubsettingPolicy                        WorkRequestOperationTypeEnum = "CREATE_SUBSETTING_POLICY"
+	WorkRequestOperationTypeUpdateSubsettingPolicy                        WorkRequestOperationTypeEnum = "UPDATE_SUBSETTING_POLICY"
+	WorkRequestOperationTypeDeleteSubsettingPolicy                        WorkRequestOperationTypeEnum = "DELETE_SUBSETTING_POLICY"
+	WorkRequestOperationTypeCreateSubsettingRule                          WorkRequestOperationTypeEnum = "CREATE_SUBSETTING_RULE"
+	WorkRequestOperationTypeUpdateSubsettingRule                          WorkRequestOperationTypeEnum = "UPDATE_SUBSETTING_RULE"
+	WorkRequestOperationTypePatchSubsettingRules                          WorkRequestOperationTypeEnum = "PATCH_SUBSETTING_RULES"
+	WorkRequestOperationTypeDeleteSubsettingRule                          WorkRequestOperationTypeEnum = "DELETE_SUBSETTING_RULE"
+	WorkRequestOperationTypeSubsettingJob                                 WorkRequestOperationTypeEnum = "SUBSETTING_JOB"
+	WorkRequestOperationTypeDeleteSubsettingReport                        WorkRequestOperationTypeEnum = "DELETE_SUBSETTING_REPORT"
+	WorkRequestOperationTypeSubsettingPolicyGenerateHealthReport          WorkRequestOperationTypeEnum = "SUBSETTING_POLICY_GENERATE_HEALTH_REPORT"
+	WorkRequestOperationTypeSubsettingPolicyDeleteHealthReport            WorkRequestOperationTypeEnum = "SUBSETTING_POLICY_DELETE_HEALTH_REPORT"
+	WorkRequestOperationTypeUploadSubsettingPolicy                        WorkRequestOperationTypeEnum = "UPLOAD_SUBSETTING_POLICY"
+	WorkRequestOperationTypeExportSubsettingPolicy                        WorkRequestOperationTypeEnum = "EXPORT_SUBSETTING_POLICY"
+	WorkRequestOperationTypeGenerateSubsettingReport                      WorkRequestOperationTypeEnum = "GENERATE_SUBSETTING_REPORT"
+	WorkRequestOperationTypeCreateSubsettingSchemaRelation                WorkRequestOperationTypeEnum = "CREATE_SUBSETTING_SCHEMA_RELATION"
+	WorkRequestOperationTypeDeleteSubsettingSchemaRelation                WorkRequestOperationTypeEnum = "DELETE_SUBSETTING_SCHEMA_RELATION"
+	WorkRequestOperationTypeUpdateProcChainObj                            WorkRequestOperationTypeEnum = "UPDATE_PROC_CHAIN_OBJ"
+	WorkRequestOperationTypeEstimateSubsettingTableSizes                  WorkRequestOperationTypeEnum = "ESTIMATE_SUBSETTING_TABLE_SIZES"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -468,6 +490,28 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"UPDATE_ATTRIBUTE_SET":                               WorkRequestOperationTypeUpdateAttributeSet,
 	"DELETE_ATTRIBUTE_SET":                               WorkRequestOperationTypeDeleteAttributeSet,
 	"CHANGE_ATTRIBUTE_SET_COMPARTMENT":                   WorkRequestOperationTypeChangeAttributeSetCompartment,
+	"CREATE_REGISTRATION_POLICY":                         WorkRequestOperationTypeCreateRegistrationPolicy,
+	"UPDATE_REGISTRATION_POLICY":                         WorkRequestOperationTypeUpdateRegistrationPolicy,
+	"DELETE_REGISTRATION_POLICY":                         WorkRequestOperationTypeDeleteRegistrationPolicy,
+	"CHANGE_REGISTRATION_POLICY_COMPARTMENT":             WorkRequestOperationTypeChangeRegistrationPolicyCompartment,
+	"CREATE_SUBSETTING_POLICY":                           WorkRequestOperationTypeCreateSubsettingPolicy,
+	"UPDATE_SUBSETTING_POLICY":                           WorkRequestOperationTypeUpdateSubsettingPolicy,
+	"DELETE_SUBSETTING_POLICY":                           WorkRequestOperationTypeDeleteSubsettingPolicy,
+	"CREATE_SUBSETTING_RULE":                             WorkRequestOperationTypeCreateSubsettingRule,
+	"UPDATE_SUBSETTING_RULE":                             WorkRequestOperationTypeUpdateSubsettingRule,
+	"PATCH_SUBSETTING_RULES":                             WorkRequestOperationTypePatchSubsettingRules,
+	"DELETE_SUBSETTING_RULE":                             WorkRequestOperationTypeDeleteSubsettingRule,
+	"SUBSETTING_JOB":                                     WorkRequestOperationTypeSubsettingJob,
+	"DELETE_SUBSETTING_REPORT":                           WorkRequestOperationTypeDeleteSubsettingReport,
+	"SUBSETTING_POLICY_GENERATE_HEALTH_REPORT":           WorkRequestOperationTypeSubsettingPolicyGenerateHealthReport,
+	"SUBSETTING_POLICY_DELETE_HEALTH_REPORT":             WorkRequestOperationTypeSubsettingPolicyDeleteHealthReport,
+	"UPLOAD_SUBSETTING_POLICY":                           WorkRequestOperationTypeUploadSubsettingPolicy,
+	"EXPORT_SUBSETTING_POLICY":                           WorkRequestOperationTypeExportSubsettingPolicy,
+	"GENERATE_SUBSETTING_REPORT":                         WorkRequestOperationTypeGenerateSubsettingReport,
+	"CREATE_SUBSETTING_SCHEMA_RELATION":                  WorkRequestOperationTypeCreateSubsettingSchemaRelation,
+	"DELETE_SUBSETTING_SCHEMA_RELATION":                  WorkRequestOperationTypeDeleteSubsettingSchemaRelation,
+	"UPDATE_PROC_CHAIN_OBJ":                              WorkRequestOperationTypeUpdateProcChainObj,
+	"ESTIMATE_SUBSETTING_TABLE_SIZES":                    WorkRequestOperationTypeEstimateSubsettingTableSizes,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -667,6 +711,28 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"update_attribute_set":                               WorkRequestOperationTypeUpdateAttributeSet,
 	"delete_attribute_set":                               WorkRequestOperationTypeDeleteAttributeSet,
 	"change_attribute_set_compartment":                   WorkRequestOperationTypeChangeAttributeSetCompartment,
+	"create_registration_policy":                         WorkRequestOperationTypeCreateRegistrationPolicy,
+	"update_registration_policy":                         WorkRequestOperationTypeUpdateRegistrationPolicy,
+	"delete_registration_policy":                         WorkRequestOperationTypeDeleteRegistrationPolicy,
+	"change_registration_policy_compartment":             WorkRequestOperationTypeChangeRegistrationPolicyCompartment,
+	"create_subsetting_policy":                           WorkRequestOperationTypeCreateSubsettingPolicy,
+	"update_subsetting_policy":                           WorkRequestOperationTypeUpdateSubsettingPolicy,
+	"delete_subsetting_policy":                           WorkRequestOperationTypeDeleteSubsettingPolicy,
+	"create_subsetting_rule":                             WorkRequestOperationTypeCreateSubsettingRule,
+	"update_subsetting_rule":                             WorkRequestOperationTypeUpdateSubsettingRule,
+	"patch_subsetting_rules":                             WorkRequestOperationTypePatchSubsettingRules,
+	"delete_subsetting_rule":                             WorkRequestOperationTypeDeleteSubsettingRule,
+	"subsetting_job":                                     WorkRequestOperationTypeSubsettingJob,
+	"delete_subsetting_report":                           WorkRequestOperationTypeDeleteSubsettingReport,
+	"subsetting_policy_generate_health_report":           WorkRequestOperationTypeSubsettingPolicyGenerateHealthReport,
+	"subsetting_policy_delete_health_report":             WorkRequestOperationTypeSubsettingPolicyDeleteHealthReport,
+	"upload_subsetting_policy":                           WorkRequestOperationTypeUploadSubsettingPolicy,
+	"export_subsetting_policy":                           WorkRequestOperationTypeExportSubsettingPolicy,
+	"generate_subsetting_report":                         WorkRequestOperationTypeGenerateSubsettingReport,
+	"create_subsetting_schema_relation":                  WorkRequestOperationTypeCreateSubsettingSchemaRelation,
+	"delete_subsetting_schema_relation":                  WorkRequestOperationTypeDeleteSubsettingSchemaRelation,
+	"update_proc_chain_obj":                              WorkRequestOperationTypeUpdateProcChainObj,
+	"estimate_subsetting_table_sizes":                    WorkRequestOperationTypeEstimateSubsettingTableSizes,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -877,6 +943,28 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"UPDATE_ATTRIBUTE_SET",
 		"DELETE_ATTRIBUTE_SET",
 		"CHANGE_ATTRIBUTE_SET_COMPARTMENT",
+		"CREATE_REGISTRATION_POLICY",
+		"UPDATE_REGISTRATION_POLICY",
+		"DELETE_REGISTRATION_POLICY",
+		"CHANGE_REGISTRATION_POLICY_COMPARTMENT",
+		"CREATE_SUBSETTING_POLICY",
+		"UPDATE_SUBSETTING_POLICY",
+		"DELETE_SUBSETTING_POLICY",
+		"CREATE_SUBSETTING_RULE",
+		"UPDATE_SUBSETTING_RULE",
+		"PATCH_SUBSETTING_RULES",
+		"DELETE_SUBSETTING_RULE",
+		"SUBSETTING_JOB",
+		"DELETE_SUBSETTING_REPORT",
+		"SUBSETTING_POLICY_GENERATE_HEALTH_REPORT",
+		"SUBSETTING_POLICY_DELETE_HEALTH_REPORT",
+		"UPLOAD_SUBSETTING_POLICY",
+		"EXPORT_SUBSETTING_POLICY",
+		"GENERATE_SUBSETTING_REPORT",
+		"CREATE_SUBSETTING_SCHEMA_RELATION",
+		"DELETE_SUBSETTING_SCHEMA_RELATION",
+		"UPDATE_PROC_CHAIN_OBJ",
+		"ESTIMATE_SUBSETTING_TABLE_SIZES",
 	}
 }
 

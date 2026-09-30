@@ -61,6 +61,14 @@ type CreateDrgAttachmentDetails struct {
 	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 	// This field is deprecated. Instead, use the `networkDetails` field to specify the OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the attached resource.
 	VcnId *string `mandatory:"false" json:"vcnId"`
+
+	// The OCID (https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment's DRG NAT policy.
+	DrgNatPolicyId *string `mandatory:"false" json:"drgNatPolicyId"`
+
+	// By default, only translated DrgNatRule CIDRs are imported into the DrgRouteTable to prevent
+	// routing complications. Enable this option to also preserve original CIDRs. The original source CIDRs is not advertised if this value is set to false, else it is advertised.
+	// default: `false`
+	DoesPreserveOriginalRoutesWithNat *bool `mandatory:"false" json:"doesPreserveOriginalRoutesWithNat"`
 }
 
 func (m CreateDrgAttachmentDetails) String() string {
@@ -82,14 +90,16 @@ func (m CreateDrgAttachmentDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateDrgAttachmentDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName     *string                           `json:"displayName"`
-		DrgRouteTableId *string                           `json:"drgRouteTableId"`
-		NetworkDetails  drgattachmentnetworkcreatedetails `json:"networkDetails"`
-		DefinedTags     map[string]map[string]interface{} `json:"definedTags"`
-		FreeformTags    map[string]string                 `json:"freeformTags"`
-		RouteTableId    *string                           `json:"routeTableId"`
-		VcnId           *string                           `json:"vcnId"`
-		DrgId           *string                           `json:"drgId"`
+		DisplayName                       *string                           `json:"displayName"`
+		DrgRouteTableId                   *string                           `json:"drgRouteTableId"`
+		NetworkDetails                    drgattachmentnetworkcreatedetails `json:"networkDetails"`
+		DefinedTags                       map[string]map[string]interface{} `json:"definedTags"`
+		FreeformTags                      map[string]string                 `json:"freeformTags"`
+		RouteTableId                      *string                           `json:"routeTableId"`
+		VcnId                             *string                           `json:"vcnId"`
+		DrgNatPolicyId                    *string                           `json:"drgNatPolicyId"`
+		DoesPreserveOriginalRoutesWithNat *bool                             `json:"doesPreserveOriginalRoutesWithNat"`
+		DrgId                             *string                           `json:"drgId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -118,6 +128,10 @@ func (m *CreateDrgAttachmentDetails) UnmarshalJSON(data []byte) (e error) {
 	m.RouteTableId = model.RouteTableId
 
 	m.VcnId = model.VcnId
+
+	m.DrgNatPolicyId = model.DrgNatPolicyId
+
+	m.DoesPreserveOriginalRoutesWithNat = model.DoesPreserveOriginalRoutesWithNat
 
 	m.DrgId = model.DrgId
 
